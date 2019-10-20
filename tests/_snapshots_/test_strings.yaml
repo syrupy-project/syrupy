@@ -1,0 +1,12 @@
+test_multiple_snapshots:
+  data: First.
+test_multiple_snapshots.1:
+  data: Second.
+test_parametrized_with_special_char[Backslash \\u U]:
+  data: Backslash \u U
+test_parametrized_with_special_char[Escaped \\n]:
+  data: Escaped \n
+test_raw_string:
+  data: Raw string
+test_simple_string:
+  data: Lorem ipsum.

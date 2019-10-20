@@ -1,4 +1,18 @@
-# New Project Kit
+# th_snapshot
+
+```
+. script/bootstrap
+inv test
+inv test --update-snapshots
+```
+
+## TODO
+
+- [ ] Command line option to remove obsolete snapshots.
+- [ ] Finish SVG plugin, define plugin interface
+- [ ] Setup tox?
+- [ ] Support rich diffs for large snapshots
+
 
 ## How to use this repository
 
