@@ -1,0 +1,68 @@
+#
+# This basic CircleCI config is just a starting point with some common structures that you might need to get started.
+#
+# Make it your own and go nuts!
+#
+# When in doubt, look up the CircleCI documentation, it has everything you need to know: https://circleci.com/docs/
+#
+
+version: 2.1
+
+# Jobs: tasks that your CI pipeline can do
+
+jobs:
+    lint:
+        working_directory: ~/repo
+        # Pick a Docker image here: https://circleci.com/docs/2.0/circleci-images/
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: echo "Lint everything and make it pretty!"
+
+    test:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: echo "Full coverage or bust!"
+
+    build:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: echo "Will it build?"
+
+    deploy:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: echo "Ship it!"
+
+# Workflows: stringing jobs together into a pipeline
+
+workflows:
+    version: 2
+    build_test_lint:
+        jobs:
+            - lint
+            - test
+            - build
+            - deploy:
+                requires:
+                    - lint
+                    - test
+                    - build
+                filters:
+                    branches:
+                        only:
+                            - master
+
+
+
+
