@@ -16,6 +16,20 @@ def pytest_addoption(parser):
     )
 
 
+def pytest_assertrepr_compare(config, op, left, right):
+    if op != "==":
+        return None
+
+    if isinstance(left, SnapshotAssertion):
+        snap = left
+        assert_msg = f"snapshot {op} {right}"
+        return [assert_msg] + snap.get_assert_diff(right)
+    elif isinstance(right, SnapshotAssertion):
+        snap = right
+        assert_msg = f"{left} {op} snapshot"
+        return [assert_msg] + snap.get_assert_diff(left)
+    return None
+
 @pytest.fixture
 def snapshot(request):
     return SnapshotAssertion(

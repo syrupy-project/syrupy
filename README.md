@@ -12,6 +12,7 @@ inv test --update-snapshots
 - [ ] Finish SVG plugin, define plugin interface
 - [ ] Setup tox?
 - [ ] Support rich diffs for large snapshots
+- Should comparison happen on serialized or deserialized?
 
 
 ## How to use this repository

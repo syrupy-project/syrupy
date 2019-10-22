@@ -9,4 +9,4 @@ test_parametrized_with_special_char[Escaped \\n]:
 test_raw_string:
   data: Raw string
 test_simple_string:
-  data: Lorem ipsum.
+  data: Loreeeeeem ipsum.

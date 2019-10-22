@@ -27,45 +27,11 @@ class SnapshotAssertion:
     def __repr__(self):
         return f"<SnapshotAssertion ({self._executions})>"
 
-    def _get_assertion(self):
-        for fn, lineno, func, text in reversed(traceback.extract_stack()):
-            if fn == self._test_filename:
-                return dict(
-                    filename=os.path.relpath(fn, os.getcwd()),
-                    lineno=lineno,
-                    function_name=func,
-                    text=text,
-                )
-        return None
-
-    def _fail(self, msg):
-        indent = " " * 4
-        lines = [""]
-
-        assertion = self._get_assertion()
-        if assertion:
-            lines.extend(
-                [
-                    bold(f" {indent}def {self._test_name}(..."),
-                    f">{indent * 2}{bold(assertion['text'])}",
-                ]
-            )
-
-        lines.extend(f"{error_style('E')}{indent * 2}{m}" for m in msg)
-
-        if assertion:
-            lines.extend(
-                [
-                    "",
-                    f"{error_style(assertion['filename'])}:{assertion['lineno']}: SnapshotError",
-                ]
-            )
-
-        pytest.fail("\n".join(lines), False)
-        return False
-
     def __call__(self, data):
         return self._assert(data)
+
+    def __eq__(self, other):
+        return self._assert(other)
 
     def _assert(self, data):
         executions = self._executions
@@ -77,19 +43,8 @@ class SnapshotAssertion:
             return True
 
         deserialized = self._recall_data(index=executions)
-        if deserialized is None:
-            return self._fail(
-                f"{error_style('SnapshotError:')} Snapshot does not exist."
-            )
-
-        if not self._is_equal(data, deserialized):
-            return self._fail(
-                [
-                    error_style("SnapshotError: Snapshot does not match."),
-                    error_style(f"  - {data}"),
-                    error_style(f"  + {deserialized}"),
-                ]
-            )
+        if deserialized is None or not self._is_equal(data, deserialized):
+            return False
         return True
 
     def _recall_data(self, index):
@@ -104,3 +59,16 @@ class SnapshotAssertion:
 
     def assert_match(self, data):
         return self._assert(data)
+
+    def get_assert_diff(self, data):
+        deserialized = self._recall_data(index=self._executions - 1)
+        if deserialized is None:
+            return ["Snapshot does not exist!"]
+
+        if not self._is_equal(data, deserialized):
+            return [
+                f"- {data}",
+                f"+ {deserialized}",
+            ]
+
+        return "Assert diff!"
