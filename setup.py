@@ -10,6 +10,7 @@ test_requires = [
     "black",
     "invoke",
     "pyyaml",
+    "mypy"
 ]
 
 if sys.version_info[0] == 2:

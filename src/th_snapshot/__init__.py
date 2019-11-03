@@ -3,9 +3,11 @@ import pytest
 from .assertion import SnapshotAssertion
 from .io import SnapshotIO
 from .serializer import SnapshotSerializer
+from .location import TestLocation
 
 
 def pytest_addoption(parser):
+    """Exposes snapshot plugin configuration to pytest."""
     group = parser.getgroup("th_snapshot")
     group.addoption(
         "--update-snapshots",
@@ -16,29 +18,30 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_assertrepr_compare(config, op, left, right):
-    if op != "==":
-        return None
-
+def pytest_assertrepr_compare(op, left, right):
     if isinstance(left, SnapshotAssertion):
-        snap = left
         assert_msg = f"snapshot {op} {right}"
-        return [assert_msg] + snap.get_assert_diff(right)
+        return [assert_msg] + left.get_assert_diff(right)
     elif isinstance(right, SnapshotAssertion):
-        snap = right
         assert_msg = f"{left} {op} snapshot"
-        return [assert_msg] + snap.get_assert_diff(left)
+        return [assert_msg] + right.get_assert_diff(left)
     return None
+
 
 @pytest.fixture
 def snapshot(request):
+    test_location = TestLocation(
+        filename=request.fspath,
+        modulename=request.module.__name__,
+        classname=request.cls.__name__ if request.cls else None,
+        methodname=request.function.__name__ if request.function else None,
+        nodename=getattr(request.node, "name", ""),
+        testname=getattr(request.node, "name", "")
+        or (request.function.__name__ if request.function else None),
+    )
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
         io_class=SnapshotIO,
         serializer_class=SnapshotSerializer,
-        test_filename=request.fspath,
-        test_modulename=request.module.__name__,
-        test_classname=request.cls.__name__ if request.cls else None,
-        test_methodname=request.function.__name__ if request.function else None,
-        test_nodename=getattr(request.node, "name", ""),
+        test_location=test_location,
     )

@@ -1,7 +1,18 @@
+test_dict:
+  data:
+    a:
+      e: false
+    b: true
+    c: Some text.
+    d:
+    - '1'
+    - 2
 test_multiple_snapshots:
   data: First.
 test_multiple_snapshots.1:
   data: Second.
+test_multiple_snapshots.2:
+  data: Third.
 test_parametrized_with_special_char[Backslash \\u U]:
   data: Backslash \u U
 test_parametrized_with_special_char[Escaped \\n]:
