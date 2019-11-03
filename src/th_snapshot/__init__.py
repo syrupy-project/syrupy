@@ -4,6 +4,7 @@ from .assertion import SnapshotAssertion
 from .io import SnapshotIO
 from .serializer import SnapshotSerializer
 from .location import TestLocation
+from .session import SnapshotSession
 
 
 def pytest_addoption(parser):
@@ -28,6 +29,21 @@ def pytest_assertrepr_compare(op, left, right):
     return None
 
 
+def pytest_sessionstart(session):
+    config = session.config
+    session._th_snapshot = SnapshotSession(
+        update_snapshots=config.option.update_snapshots,
+        base_dir=config.rootdir
+    )
+    session._th_snapshot.start()
+
+def pytest_sessionfinish(session):
+    reporter = session.config.pluginmanager.get_plugin('terminalreporter')
+    session._th_snapshot.finish()
+    for line in session._th_snapshot.report:
+        reporter.write_line(line)
+
+
 @pytest.fixture
 def snapshot(request):
     test_location = TestLocation(
@@ -44,4 +60,5 @@ def snapshot(request):
         io_class=SnapshotIO,
         serializer_class=SnapshotSerializer,
         test_location=test_location,
+        session=request.session._th_snapshot
     )

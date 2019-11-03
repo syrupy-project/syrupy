@@ -4,7 +4,6 @@ import os
 from typing import List, Optional, Any
 
 from .exceptions import SnapshotDoesNotExist
-from .terminal import error_style, bold
 
 from .io import SnapshotIO
 from .serializer import SnapshotSerializer
@@ -19,17 +18,19 @@ class SnapshotAssertion:
         io_class: SnapshotIO,
         serializer_class: SnapshotSerializer,
         test_location: TestLocation,
+        session
     ):
         self._update_snapshots = update_snapshots
         self._io_class = io_class
         self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
+        self._session = session
 
     @property
     def io(self):
         if not getattr(self, "_io", None):
-            self._io = self._io_class(test_location=self._test_location)
+            self._io = self._io_class(test_location=self._test_location, file_hook=self._file_hook)
         return self._io
 
     @property
@@ -46,6 +47,7 @@ class SnapshotAssertion:
             test_location=self._test_location,
             io_class=io_class or self._io_class,
             serializer_class=serializer_class or self._serializer_class,
+            session=self._session
         )
 
     def assert_match(self, data) -> bool:
@@ -59,7 +61,10 @@ class SnapshotAssertion:
         if data != deserialized:
             return [f"- {data}", f"+ {deserialized}"]
 
-        return ["Assert diff!"]
+        return []
+
+    def _file_hook(self, filepath):
+        self._session.add_visited_file(filepath)
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self._executions})>"
@@ -76,7 +81,9 @@ class SnapshotAssertion:
 
         if self._update_snapshots:
             serialized_data = self.serializer.encode(data)
-            self.io.write(serialized_data, index=executions)
+            self.io.pre_write(serialized_data, index=executions)
+            filepath = self.io.write(serialized_data, index=executions)
+            self.io.post_write(serialized_data, index=executions)
             return True
 
         deserialized = self._recall_data(index=executions)
@@ -86,7 +93,9 @@ class SnapshotAssertion:
 
     def _recall_data(self, index: int) -> Optional[Any]:
         try:
+            self.io.pre_read(index=index)
             saved_data = self.io.read(index=index)
+            self.io.post_read(index=index)
             return self.serializer.decode(saved_data)
         except SnapshotDoesNotExist:
             return None

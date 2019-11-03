@@ -10,7 +10,6 @@ from th_snapshot.exceptions import SnapshotDoesNotExist
 
 class AbstractImageSnapshotIO(ABC, SnapshotIO):
     def write(self, data, index: int = 0):
-        self.ensure_snapshot_dir(index)
         with open(self.get_filepath(index), "wb") as f:
             f.write(data)
 
@@ -22,10 +21,7 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
             raise SnapshotDoesNotExist()
 
     def get_snapshot_dirname(self) -> str:
-        return os.path.join(
-            super().get_snapshot_dirname(),
-            os.path.basename(str(self.test_location.filename)[: -len(".py")]),
-        )
+        return os.path.basename(str(self.test_location.filename)[: -len(".py")])
 
     def get_file_basename(self, index: int) -> str:
         ext = f".{self.extension}"
