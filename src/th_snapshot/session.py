@@ -1,7 +1,7 @@
 import os
 
 from .constants import SNAPSHOT_DIRNAME
-from .terminal import yellow
+from .terminal import yellow, bold
 
 
 class SnapshotSession:
@@ -19,28 +19,61 @@ class SnapshotSession:
             filepath for filepath in self._walk_dir(self.base_dir)
         )
 
-    def add_visited_file(self, filepath):
-        dirname = os.path.dirname(filepath)
-        if os.path.basename(dirname) == SNAPSHOT_DIRNAME:
+    @property
+    def unused_snapshots(self):
+        return self.discovered_snapshots - self.visited_snapshots
+
+    @property
+    def written_snapshots(self):
+        return self.visited_snapshots - self.discovered_snapshots
+
+    def add_visited_file(self, filepath: str):
+        if self._in_snapshot_dir(filepath):
             self.visited_snapshots.add(filepath)
 
     def add_report_line(self, line: str = ""):
         self.report += [line]
 
     def finish(self):
-        unused_snapshots = self.discovered_snapshots - self.visited_snapshots
-        n_unused = len(unused_snapshots)
+        n_unused = len(self.unused_snapshots)
+        n_written = len(self.written_snapshots)
 
         self.add_report_line()
-        summary_line = f"There are {n_unused} snapshot files unused."
-        self.add_report_line(yellow(summary_line) if n_unused else summary_line)
-        for filepath in unused_snapshots:
-            self.add_report_line(f"  {filepath}")
+
+        summary_lines = []
+        if self.update_snapshots and n_written:
+            summary_lines += [f"{bold(n_written)} snapshot files generated."]
+        summary_lines += [f"{bold(n_unused)} snapshot files unused."]
+        summary_line = " ".join(summary_lines)
+        self.add_report_line(
+            yellow(summary_line)
+            if n_unused or (self.update_snapshots and n_written)
+            else summary_line
+        )
+
+        for filepath in self.unused_snapshots:
+            self.add_report_line(f"  {os.path.relpath(filepath, self.base_dir)}")
+
+        if n_unused:
+            if self.update_snapshots:
+                self.remove_unused_snapshots()
+                self.add_report_line("\nThese files have been deleted.")
+            else:
+                self.add_report_line(
+                    "\nRe-run pytest with --update-snapshots to delete these files."
+                )
+
+    def remove_unused_snapshots(self):
+        for snapshot_file in self.unused_snapshots:
+            os.remove(snapshot_file)
+
+    def _in_snapshot_dir(self, path: str) -> bool:
+        parts = path.split(os.path.sep)
+        return SNAPSHOT_DIRNAME in parts
 
     def _walk_dir(self, root: str):
         for (dirpath, dirnames, filenames) in os.walk(root):
-            dirname = os.path.basename(dirpath)
-            if dirname != SNAPSHOT_DIRNAME:
+            if not self._in_snapshot_dir(dirpath):
                 continue
             for filename in filenames:
                 if not filename.startswith("."):
