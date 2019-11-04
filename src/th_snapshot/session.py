@@ -42,7 +42,6 @@ class SnapshotSession:
             dirname = os.path.basename(dirpath)
             if dirname != SNAPSHOT_DIRNAME:
                 continue
-            dirnames[:] = []
             for filename in filenames:
                 if not filename.startswith("."):
                     yield os.path.join(dirpath, filename)
