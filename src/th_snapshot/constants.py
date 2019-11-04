@@ -1,1 +1,1 @@
-SNAPSHOT_DIRNAME = '_snapshots_'
+SNAPSHOT_DIRNAME = "_snapshots_"

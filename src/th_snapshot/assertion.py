@@ -18,7 +18,7 @@ class SnapshotAssertion:
         io_class: SnapshotIO,
         serializer_class: SnapshotSerializer,
         test_location: TestLocation,
-        session
+        session,
     ):
         self._update_snapshots = update_snapshots
         self._io_class = io_class
@@ -30,7 +30,9 @@ class SnapshotAssertion:
     @property
     def io(self):
         if not getattr(self, "_io", None):
-            self._io = self._io_class(test_location=self._test_location, file_hook=self._file_hook)
+            self._io = self._io_class(
+                test_location=self._test_location, file_hook=self._file_hook
+            )
         return self._io
 
     @property
@@ -47,7 +49,7 @@ class SnapshotAssertion:
             test_location=self._test_location,
             io_class=io_class or self._io_class,
             serializer_class=serializer_class or self._serializer_class,
-            session=self._session
+            session=self._session,
         )
 
     def assert_match(self, data) -> bool:

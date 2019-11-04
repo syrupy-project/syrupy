@@ -1,6 +1,8 @@
 import os
 
 from .constants import SNAPSHOT_DIRNAME
+from .terminal import yellow
+
 
 class SnapshotSession:
     def __init__(self, *, update_snapshots: bool, base_dir: str):
@@ -27,12 +29,13 @@ class SnapshotSession:
 
     def finish(self):
         unused_snapshots = self.discovered_snapshots - self.visited_snapshots
+        n_unused = len(unused_snapshots)
+
         self.add_report_line()
-        self.add_report_line(f"There are {len(unused_snapshots)} snapshot files unused.")
+        summary_line = f"There are {n_unused} snapshot files unused."
+        self.add_report_line(yellow(summary_line) if n_unused else summary_line)
         for filepath in unused_snapshots:
             self.add_report_line(f"  {filepath}")
-        self.add_report_line()
-
 
     def _walk_dir(self, root: str):
         for (dirpath, dirnames, filenames) in os.walk(root):

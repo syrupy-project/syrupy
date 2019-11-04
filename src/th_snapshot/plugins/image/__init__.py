@@ -1,8 +1,10 @@
 from .io import AbstractImageSnapshotIO
 from .serializer import ImageSnapshotSerializer
 
+
 class PNGImageSnapshotIO(AbstractImageSnapshotIO):
-    extension = 'png'
+    extension = "png"
+
 
 class SVGImageSnapshotIO(AbstractImageSnapshotIO):
-    extension = 'svg'
+    extension = "svg"
