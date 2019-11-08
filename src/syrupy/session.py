@@ -42,8 +42,12 @@ class SnapshotSession:
 
         summary_lines = []
         if self.update_snapshots and n_written:
-            summary_lines += [f"{bold(n_written)} snapshot files generated."]
-        summary_lines += [f"{bold(n_unused)} snapshot files unused."]
+            summary_lines += [
+                f"{bold(n_written)} snapshot file{'s' if n_written > 0 else ''} generated."
+            ]
+        summary_lines += [
+            f"{bold(n_unused)} snapshot file{'s' if n_unused > 0 or n_unused == 0 else ''} unused."
+        ]
         summary_line = " ".join(summary_lines)
         self.add_report_line(
             yellow(summary_line)
@@ -57,7 +61,9 @@ class SnapshotSession:
         if n_unused:
             if self.update_snapshots:
                 self.remove_unused_snapshots()
-                self.add_report_line("\nThese files have been deleted.")
+                self.add_report_line(
+                    f"\nThese file{'s' if n_unused > 0 else ''} have been deleted."
+                )
             else:
                 self.add_report_line(
                     "\nRe-run pytest with --update-snapshots to delete these files."

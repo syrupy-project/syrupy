@@ -4,8 +4,8 @@ import re
 
 import os
 
-from th_snapshot.io import SnapshotIO
-from th_snapshot.exceptions import SnapshotDoesNotExist
+from syrupy.io import SnapshotIO
+from syrupy.exceptions import SnapshotDoesNotExist
 
 
 class AbstractImageSnapshotIO(ABC, SnapshotIO):

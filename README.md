@@ -1,4 +1,6 @@
-# th_snapshot
+# syrupy
+
+IPA: syrupy
 
 ```
 . script/bootstrap
@@ -8,11 +10,10 @@ inv test --update-snapshots
 
 ## TODO
 
-- [ ] Command line option to remove obsolete snapshots.
-- [ ] Finish SVG plugin, define plugin interface
+- [ ] Command line option to remove obsolete snapshots from inside snapshot.
 - [ ] Setup tox?
 - [ ] Support rich diffs for large snapshots
-- Should comparison happen on serialized or deserialized?
+-
 
 
 ## How to use this repository

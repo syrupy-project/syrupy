@@ -18,13 +18,13 @@ if sys.version_info[0] == 2:
 
 if __name__ == "__main__":
     setup(
-        name="th_snapshot",
-        description="Top Hat Snapshot Test Utility",
+        name="syrupy",
+        description="PyTest Snapshot Test Utility",
         author="Top Hat Open Source",
         use_scm_version=True,
         package_dir={"": "src"},
-        packages=["th_snapshot"],
-        py_modules=["th_snapshot"],
+        packages=["syrupy"],
+        py_modules=["syrupy"],
         zip_safe=False,
         install_requires=[],
         setup_requires=[],
@@ -32,7 +32,7 @@ if __name__ == "__main__":
             "test": test_requires,
         },
         entry_points={
-            "pytest11": ["th_snapshot = th_snapshot"],
+            "pytest11": ["syrupy = syrupy"],
         },
         python_requires=python_requires,
         classifiers=["Framework :: Pytest"]

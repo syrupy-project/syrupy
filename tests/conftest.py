@@ -1,1 +1,1 @@
-pytest_plugins = ["th_snapshot", "pytester"]
+pytest_plugins = ["syrupy", "pytester"]

@@ -7,6 +7,15 @@ test_dict:
     d:
     - '1'
     - 2
+test_dict_1:
+  data:
+    a:
+      e: false
+    b: true
+    c: Some ttext.
+    d:
+    - '1'
+    - 2
 test_multiple_snapshots:
   data: First.
 test_multiple_snapshots.1:

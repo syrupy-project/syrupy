@@ -9,7 +9,7 @@ from .session import SnapshotSession
 
 def pytest_addoption(parser):
     """Exposes snapshot plugin configuration to pytest."""
-    group = parser.getgroup("th_snapshot")
+    group = parser.getgroup("syrupy")
     group.addoption(
         "--update-snapshots",
         action="store_true",
@@ -31,16 +31,16 @@ def pytest_assertrepr_compare(op, left, right):
 
 def pytest_sessionstart(session):
     config = session.config
-    session._th_snapshot = SnapshotSession(
+    session._syrupy = SnapshotSession(
         update_snapshots=config.option.update_snapshots, base_dir=config.rootdir
     )
-    session._th_snapshot.start()
+    session._syrupy.start()
 
 
 def pytest_sessionfinish(session):
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
-    session._th_snapshot.finish()
-    for line in session._th_snapshot.report:
+    session._syrupy.finish()
+    for line in session._syrupy.report:
         reporter.write_line(line)
 
 
@@ -60,5 +60,5 @@ def snapshot(request):
         io_class=SnapshotIO,
         serializer_class=SnapshotSerializer,
         test_location=test_location,
-        session=request.session._th_snapshot,
+        session=request.session._syrupy,
     )

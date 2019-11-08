@@ -1,4 +1,4 @@
-from th_snapshot.serializer import SnapshotSerializer
+from syrupy.serializer import SnapshotSerializer
 
 
 class ImageSnapshotSerializer(SnapshotSerializer):
