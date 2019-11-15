@@ -1,4 +1,5 @@
 import os
+from gettext import ngettext, gettext
 
 from .constants import SNAPSHOT_DIRNAME
 from .terminal import yellow, bold
@@ -43,10 +44,16 @@ class SnapshotSession:
         summary_lines = []
         if self.update_snapshots and n_written:
             summary_lines += [
-                f"{bold(n_written)} snapshot file{'s' if n_written > 0 else ''} generated."
+                ngettext(
+                    "{} snapshot file generated.",
+                    "{} snapshot files generated.",
+                    n_written,
+                ).format(bold(n_written))
             ]
         summary_lines += [
-            f"{bold(n_unused)} snapshot file{'s' if n_unused > 0 or n_unused == 0 else ''} unused."
+            ngettext(
+                "{} snapshot file unused.", "{} snapshot files unused.", n_unused,
+            ).format(bold(n_unused))
         ]
         summary_line = " ".join(summary_lines)
         self.add_report_line(
@@ -59,14 +66,21 @@ class SnapshotSession:
             self.add_report_line(f"  {os.path.relpath(filepath, self.base_dir)}")
 
         if n_unused:
+            self.add_report_line()
             if self.update_snapshots:
                 self.remove_unused_snapshots()
                 self.add_report_line(
-                    f"\nThese file{'s' if n_unused > 0 else ''} have been deleted."
+                    ngettext(
+                        "This file has been deleted.",
+                        "These files have been deleted.",
+                        n_unused,
+                    )
                 )
             else:
                 self.add_report_line(
-                    "\nRe-run pytest with --update-snapshots to delete these files."
+                    gettext(
+                        "Re-run pytest with --update-snapshots to delete these files."
+                    )
                 )
 
     def remove_unused_snapshots(self):

@@ -1,6 +1,6 @@
 # syrupy
 
-> /ˈsirəpē/
+> _/ˈsirəpē/_
 
 ## Overview
 
