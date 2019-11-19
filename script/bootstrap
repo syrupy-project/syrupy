@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Based on conventions from https://github.com/github/scripts-to-rule-them-all
+# script/bootstrap: Resolve all dependencies that the application requires to
+# run.
+
+# If not in CI, we have to install the correct python versions
+if [[ -z $CI ]]; then
+    # pyenv update
+    pyenv install --skip-existing || return
+else
+    if [[ ! -f `pwd`/.python-version ]]; then
+        echo "You are missing a .python-version file."
+        echo "pyenv will give you bizarre errors without this!"
+        echo "You need to create this file to continue."
+        return
+    fi
+fi
+
+VENV="${PWD##*/}.venv"
+test -d $VENV || python3 -m venv $VENV || return
+$VENV/bin/pip install -U pip --no-cache-dir
+$VENV/bin/pip install -e .[test]
+
+. $VENV/bin/activate
