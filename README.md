@@ -1,15 +1,19 @@
-# syrupy
+# 🥞 syrupy
+
+[![Maturity badge - level 1](https://img.shields.io/badge/Maturity-Level%201%20--%20New%20Project-yellow.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md)
 
 > _/ˈsirəpē/_
 
 ## Overview
 
-TODO
+Syrupy is a pytest snapshot plugin. It enables developers to write tests which assert immutability of computed results.
 
 ## Motivation
 
-The python package `snapshottest` has some core limitations which this package attempts to address:
-- TODO
+The most popular snapshot test plugin compatible with pytest has some core limitations which this package attempts to address by upholding some keys values:
+- Extensible: If a particular data type is not supported, users should be able to easily and quickly add support.
+- Idiomatic: Snapshot testing should fit naturally among other tests cases in pytest, e.g. `assert x == snapshot` vs. `snapshot.assert_match(x)`.
+- Soundness: Snapshot tests should uncover even the most minute issues. Unlike other snapshot libraries, Syrupy will fail a test suite if a snapshot does not exist, not just on snapshot differences.
 
 ## Installation
 
