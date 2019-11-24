@@ -30,6 +30,6 @@ jobs:
     - name: Test
       run: |
         invoke test
-    - name: Build Distribution
+    - name: Release
       run: |
-        python setup.py sdist bdist_wheel
+        invoke release dry-run=False
