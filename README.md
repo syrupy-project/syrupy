@@ -1,9 +1,12 @@
-# 🥞 syrupy
+# syrupy
+
+<span><img align="right" width="200" height="200" src="https://user-images.githubusercontent.com/2528959/69500147-85d71400-0ec6-11ea-867a-277881278e57.png" alt="Logo"></span>
+
+> _/ˈsirəpē/_
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![Maturity badge - level 1](https://img.shields.io/badge/Maturity-Level%201%20--%20New%20Project-yellow.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md)
-
-> _/ˈsirəpē/_
 
 ## Overview
 
@@ -12,6 +15,7 @@ Syrupy is a pytest snapshot plugin. It enables developers to write tests which a
 ## Motivation
 
 The most popular snapshot test plugin compatible with pytest has some core limitations which this package attempts to address by upholding some keys values:
+
 - Extensible: If a particular data type is not supported, users should be able to easily and quickly add support.
 - Idiomatic: Snapshot testing should fit naturally among other tests cases in pytest, e.g. `assert x == snapshot` vs. `snapshot.assert_match(x)`.
 - Soundness: Snapshot tests should uncover even the most minute issues. Unlike other snapshot libraries, Syrupy will fail a test suite if a snapshot does not exist, not just on snapshot differences.
@@ -86,6 +90,6 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 This section is automatically generated via tagging the all-contributors bot in a PR:
 
-```
+```text
 @all-contributors please add <username> for <contribution type>
 ```
