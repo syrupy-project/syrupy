@@ -1,5 +1,6 @@
 import os
 from gettext import ngettext, gettext
+from typing import List, Set
 
 from .constants import SNAPSHOT_DIRNAME
 from .terminal import yellow, bold
@@ -9,9 +10,9 @@ class SnapshotSession:
     def __init__(self, *, update_snapshots: bool, base_dir: str):
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
-        self.discovered_snapshots = None
-        self.visited_snapshots = None
-        self.report = []
+        self.discovered_snapshots: Set[str] = set()
+        self.visited_snapshots: Set[str] = set()
+        self.report: List[str] = []
 
     def start(self):
         self.report = []
@@ -52,7 +53,7 @@ class SnapshotSession:
             ]
         summary_lines += [
             ngettext(
-                "{} snapshot file unused.", "{} snapshot files unused.", n_unused,
+                "{} snapshot file unused.", "{} snapshot files unused.", n_unused
             ).format(bold(n_unused))
         ]
         summary_line = " ".join(summary_lines)
