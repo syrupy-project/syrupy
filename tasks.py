@@ -1,5 +1,13 @@
 from invoke import task
 
+@task
+def clean(ctx):
+    pass
+
+@task
+def requirements(ctx):
+    ctx.run(f"python -m piptools compile requirements.in", pty=True)
+    ctx.run(f"python -m piptools compile dev-requirements.in", pty=True)
 
 @task
 def lint(ctx, fix=False):
