@@ -44,8 +44,8 @@ def publish(ctx, dry_run=True):
 @task(pre=[clean, build])
 def release(ctx, dry_run=True):
     if not dry_run and not os.environ.get("CI"):
-        ctx.run("This is a CI only command")
-        return
+        print("This is a CI only command")
+        exit(1)
 
     # get version
     with open("version.txt", "r") as f:
