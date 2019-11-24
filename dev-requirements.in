@@ -7,3 +7,4 @@ mypy
 pip-tools
 semver
 twine
+wheel
