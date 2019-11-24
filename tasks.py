@@ -35,8 +35,9 @@ def build(ctx):
 
 @task
 def publish(ctx, dry_run=True):
-    # ctx.run(f"twine upload {'--repository-url https://test.pypi.org/legacy/' if dry_run else ''} dist/*")
-    pass
+    print(
+        f"twine upload {'--repository-url https://test.pypi.org/legacy/' if dry_run else ''} dist/*"
+    )
 
 
 @task(pre=[clean, build])
@@ -49,10 +50,7 @@ def release(ctx, dry_run=True):
     with open("version.txt", "r") as f:
         version = str(f.read())
 
-    should_release_to_prod = (
-        not dry_run
-        and semver.parse_version_info(version)
-    )
+    should_release_to_prod = not dry_run and semver.parse_version_info(version)
 
     # publish to test for dry run
     publish(ctx, dry_run=True)
