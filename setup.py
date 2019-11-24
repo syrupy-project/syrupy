@@ -13,6 +13,8 @@ if __name__ == "__main__":
         name="syrupy",
         description="PyTest Snapshot Test Utility",
         author="Top Hat Open Source",
+        author_email="opensource@tophat.com",
+        url="git@github.com:tophat/syrupy.git",
         use_scm_version={"write_to": "version.txt"},
         package_dir={"": "src"},
         packages=["syrupy"],
