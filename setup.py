@@ -20,9 +20,7 @@ if __name__ == "__main__":
         zip_safe=False,
         install_requires=[],
         setup_requires=[],
-        entry_points={
-            "pytest11": ["syrupy = syrupy"],
-        },
+        entry_points={"pytest11": ["syrupy = syrupy"],},
         python_requires=python_requires,
-        classifiers=["Framework :: Pytest"]
+        classifiers=["Framework :: Pytest"],
     )
