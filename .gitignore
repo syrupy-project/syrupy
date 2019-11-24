@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.tox
 build/
 develop-eggs/
 dist/

@@ -1,0 +1,6 @@
+-c requirements.in
+pytest
+black
+invoke
+pyyaml
+mypy
