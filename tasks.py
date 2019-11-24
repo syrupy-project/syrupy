@@ -14,8 +14,15 @@ def requirements(ctx):
 @task
 def lint(ctx, fix=False):
     ctx.run(
-        f"python -m black --target-version py36 {'--check' if not fix else ''} ./*.py ./src ./tests"
+        f"python -m black --target-version py36 {'--check' if not fix else ''} ./*.py ./src ./tests",
+        pty=True,
     )
+
+    if fix:
+        print("\nSkipping type check as there is no fixer")
+    else:
+        print("\nRunning type check")
+        ctx.run("python -m mypy src", pty=True)
 
 
 @task
