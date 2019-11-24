@@ -32,4 +32,4 @@ jobs:
         invoke test
     - name: Release
       run: |
-        invoke release dry-run=False
+        invoke release --no-dry-run

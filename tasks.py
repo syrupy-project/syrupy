@@ -1,5 +1,6 @@
 import os
 
+import semver
 from invoke import task
 
 
@@ -50,7 +51,10 @@ def release(ctx, dry_run=True):
     with open("version.txt", "r") as f:
         version = str(f.read())
 
-    should_release_to_prod = not dry_run and semver.parse_version_info(version)
+    try:
+        should_release_to_prod = not dry_run and semver.parse_version_info(version)
+    except ValueError:
+        should_release_to_prod = False
 
     # publish to test for dry run
     publish(ctx, dry_run=True)
