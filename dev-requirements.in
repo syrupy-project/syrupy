@@ -4,3 +4,6 @@ black
 invoke
 pyyaml
 mypy
+pip-tools
+semver
+twine
