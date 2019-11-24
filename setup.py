@@ -13,16 +13,14 @@ if __name__ == "__main__":
         name="syrupy",
         description="PyTest Snapshot Test Utility",
         author="Top Hat Open Source",
-        use_scm_version=True,
+        use_scm_version={"write_to": "version.txt"},
         package_dir={"": "src"},
         packages=["syrupy"],
         py_modules=["syrupy"],
         zip_safe=False,
         install_requires=[],
-        setup_requires=[],
-        entry_points={
-            "pytest11": ["syrupy = syrupy"],
-        },
+        setup_requires=["setuptools_scm"],
+        entry_points={"pytest11": ["syrupy = syrupy"]},
         python_requires=python_requires,
-        classifiers=["Framework :: Pytest"]
+        classifiers=["Framework :: Pytest"],
     )
