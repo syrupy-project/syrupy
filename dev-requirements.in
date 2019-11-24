@@ -4,3 +4,5 @@ black
 invoke
 pyyaml
 mypy
+pip-tools
+wheel
