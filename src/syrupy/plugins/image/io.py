@@ -1,5 +1,5 @@
 from typing import Any
-from abc import ABC
+from abc import ABC, abstractmethod
 import re
 
 import os
@@ -9,6 +9,11 @@ from syrupy.exceptions import SnapshotDoesNotExist
 
 
 class AbstractImageSnapshotIO(ABC, SnapshotIO):
+    @property
+    @abstractmethod
+    def extension(self):
+        return None
+
     def write(self, data, index: int = 0):
         with open(self.get_filepath(index), "wb") as f:
             f.write(data)

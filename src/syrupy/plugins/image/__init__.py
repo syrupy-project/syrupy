@@ -3,8 +3,12 @@ from .serializer import ImageSnapshotSerializer
 
 
 class PNGImageSnapshotIO(AbstractImageSnapshotIO):
-    extension = "png"
+    @property
+    def extension(self):
+        return "png"
 
 
 class SVGImageSnapshotIO(AbstractImageSnapshotIO):
-    extension = "svg"
+    @property
+    def extension(self):
+        return "svg"

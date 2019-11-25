@@ -11,6 +11,7 @@ atomicwrites==1.3.0       # via pytest
 attrs==19.3.0             # via black, pytest
 black==19.10b0
 click==7.0                # via black, pip-tools
+configparser==4.0.2       # via py-githooks
 importlib-metadata==0.23  # via pluggy, pytest
 invoke==1.3.0
 more-itertools==7.2.0     # via pytest, zipp
@@ -20,6 +21,7 @@ packaging==19.2           # via pytest
 pathspec==0.6.0           # via black
 pip-tools==4.2.0
 pluggy==0.13.0            # via pytest
+py-githooks==1.1.0
 py==1.8.0                 # via pytest
 pyparsing==2.4.5          # via packaging
 pytest==5.2.4

@@ -6,3 +6,4 @@ pyyaml
 mypy
 pip-tools
 wheel
+py-githooks
