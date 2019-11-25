@@ -14,6 +14,7 @@ bleach==3.1.0             # via readme-renderer
 certifi==2019.9.11        # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via black, pip-tools
+configparser==4.0.2       # via py-githooks
 docutils==0.15.2          # via readme-renderer
 entrypoints==0.3          # via keyring
 idna==2.8                 # via requests
@@ -28,6 +29,7 @@ pathspec==0.6.0           # via black
 pip-tools==4.2.0
 pkginfo==1.5.0.1          # via twine
 pluggy==0.13.0            # via pytest
+py-githooks==1.1.0
 py==1.8.0                 # via pytest
 pygments==2.4.2           # via readme-renderer
 pyparsing==2.4.5          # via packaging

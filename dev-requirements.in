@@ -8,3 +8,4 @@ pip-tools
 semver
 twine
 wheel
+py-githooks
