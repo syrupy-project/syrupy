@@ -36,7 +36,7 @@ def test(ctx, update_snapshots=False):
     )
 
 
-@task
+@task(pre=[clean])
 def build(ctx):
     ctx.run("python setup.py sdist bdist_wheel")
 
@@ -48,7 +48,7 @@ def publish(ctx, dry_run=True):
     )
 
 
-@task(pre=[clean, build])
+@task(pre=[build])
 def release(ctx, dry_run=True):
     if not dry_run and not os.environ.get("CI"):
         print("This is a CI only command")
