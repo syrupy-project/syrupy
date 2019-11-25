@@ -16,6 +16,17 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "iamogbz",
+      "name": "Emmanuel Ogbizi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2528959?v=4",
+      "profile": "http://emmanuel.ogbizi.com",
+      "contributions": [
+        "code",
+        "design",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
