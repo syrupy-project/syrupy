@@ -54,18 +54,18 @@ def release(ctx, dry_run=True):
         print("This is a CI only command")
         exit(1)
 
-    # get version
+    # get version created in build
     with open("version.txt", "r") as f:
         version = str(f.read())
 
     try:
-        should_release_to_prod = not dry_run and semver.parse_version_info(version)
+        should_publish_to_pypi = not dry_run and semver.parse_version_info(version)
     except ValueError:
-        should_release_to_prod = False
+        should_publish_to_pypi = False
 
-    # publish to test for dry run
+    # publish to test to verify builds
     publish(ctx, dry_run=True)
 
-    # publish to prod if test succeeds
-    if should_release_to_prod:
+    # publish to pypi if test succeeds
+    if should_publish_to_pypi:
         publish(ctx, dry_run=False)
