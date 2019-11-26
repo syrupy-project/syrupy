@@ -5,5 +5,7 @@ invoke
 pyyaml
 mypy
 pip-tools
+semver
+twine
 wheel
 py-githooks

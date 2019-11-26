@@ -25,11 +25,12 @@ jobs:
         python -m pip install pip-tools wheel
         python -m pip install -e . -r requirements.txt -r dev-requirements.txt
     - name: Lint
-      run: |
-        invoke lint
+      run: invoke lint
     - name: Test
-      run: |
-        invoke test
-    - name: Build Distribution
-      run: |
-        python setup.py sdist bdist_wheel
+      run: invoke test
+    - name: Build Python 3.x
+      if: matrix.python-version != '3.7'
+      run: invoke build
+    - name: Release Python 3.7
+      if: matrix.python-version == '3.7'
+      run: invoke release --no-dry-run
