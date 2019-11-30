@@ -6,7 +6,7 @@ import yaml
 from .constants import SNAPSHOT_DIRNAME
 from .exceptions import SnapshotDoesNotExist
 from .location import TestLocation
-from .types import Albums
+from .types import SnapshotFiles
 
 
 class SnapshotIO:
@@ -69,7 +69,7 @@ class SnapshotIO:
     def delete_snapshot(self, snapshot_file: str, snapshot_name: str):
         self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
 
-    def discover_snapshots(self, index: int = 0) -> Albums:
+    def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
         filepath = self.get_filepath(index)
         snapshots = self._read_file(filepath)
         return {filepath: set(snapshots.keys())}

@@ -6,7 +6,7 @@ import os
 
 from syrupy.io import SnapshotIO
 from syrupy.exceptions import SnapshotDoesNotExist
-from syrupy.types import Albums
+from syrupy.types import SnapshotFiles
 
 
 class AbstractImageSnapshotIO(ABC, SnapshotIO):
@@ -15,7 +15,7 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
     def extension(self):
         return None
 
-    def discover_snapshots(self, index: int = 0) -> Albums:
+    def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
         return {self.get_filepath(index): {self.get_snapshot_name(index)}}
 
     def get_file_basename(self, index: int) -> str:

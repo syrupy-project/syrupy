@@ -6,25 +6,29 @@ from typing import Dict, List, Set, Tuple
 from .assertion import SnapshotAssertion
 from .constants import SNAPSHOT_DIRNAME
 from .terminal import yellow, bold
-from .types import Albums
+from .types import SnapshotFiles
 
 
 class SnapshotSession:
     def __init__(self, *, update_snapshots: bool, base_dir: str):
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
-        self.discovered_albums: Albums = dict()
-        self.visited_albums: Albums = dict()
+        self.discovered_snapshots: SnapshotFiles = dict()
+        self.visited_snapshots: SnapshotFiles = dict()
         self.report: List[str] = []
         self._assertions: Dict[str, Dict[str, SnapshotAssertion]] = dict()
 
     @property
-    def unused_snapshots(self) -> Albums:
-        return self._subtract_albums(self.discovered_albums, self.visited_albums)
+    def unused_snapshots(self) -> SnapshotFiles:
+        return self._diff_snapshot_files(
+            self.discovered_snapshots, self.visited_snapshots
+        )
 
     @property
-    def written_snapshots(self) -> Albums:
-        return self._subtract_albums(self.visited_albums, self.discovered_albums)
+    def written_snapshots(self) -> SnapshotFiles:
+        return self._diff_snapshot_files(
+            self.visited_snapshots, self.discovered_snapshots
+        )
 
     @property
     def num_unused_snapshots(self):
@@ -36,8 +40,8 @@ class SnapshotSession:
 
     def start(self):
         self.report = []
-        self.visited_albums = dict()
-        self.discovered_albums = dict()
+        self.visited_snapshots = dict()
+        self.discovered_snapshots = dict()
 
     def finish(self):
         n_unused = self.num_unused_snapshots
@@ -112,16 +116,16 @@ class SnapshotSession:
             self._assertions[filepath] = dict()
         self._assertions[filepath][snapshot] = assertion
 
-    def add_discovered_snapshots(self, albums: Albums):
-        self._merge_albums(self.discovered_albums, albums)
+    def add_discovered_snapshots(self, snapshots: SnapshotFiles):
+        self._merge_snapshot_files_into(self.discovered_snapshots, snapshots)
 
-    def add_visited_snapshots(self, albums: Albums):
-        self._merge_albums(self.visited_albums, albums)
+    def add_visited_snapshots(self, snapshots: SnapshotFiles):
+        self._merge_snapshot_files_into(self.visited_snapshots, snapshots)
 
     def remove_unused_snapshots(self):
         for snapshot_file, snapshots in self.unused_snapshots.items():
             # All discovered snapshots in the file are unused
-            if self.discovered_albums[snapshot_file] == snapshots:
+            if self.discovered_snapshots[snapshot_file] == snapshots:
                 os.remove(snapshot_file)
                 continue
             # The snapshot file should have at least one registered assertion
@@ -129,33 +133,36 @@ class SnapshotSession:
             for snapshot_name in snapshots:
                 snapshot_file_assertion.io.delete_snapshot(snapshot_file, snapshot_name)
 
-    def _merge_albums(self, *albums_to_merge: Albums):
+    def _merge_snapshot_files_into(
+        self, snapshot_files: SnapshotFiles, *snapshot_files_to_merge: SnapshotFiles,
+    ):
         """
-        Add snapshots from other albums into the first one
+        Add snapshots from other files into the first one
         """
-        merged_albums = albums_to_merge[0]
-        for albums in albums_to_merge[1:]:
-            for filepath, snapshots in albums.items():
+        for snapshot_file in snapshot_files_to_merge:
+            for filepath, snapshots in snapshot_file.items():
                 if self._in_snapshot_dir(filepath):
-                    if filepath not in merged_albums:
-                        merged_albums[filepath] = set()
-                    merged_albums[filepath].update(snapshots)
+                    if filepath not in snapshot_files:
+                        snapshot_files[filepath] = set()
+                    snapshot_files[filepath].update(snapshots)
 
-    def _subtract_albums(self, album1: Albums, album2: Albums) -> Albums:
-        diff_albums = dict()
-        for filename, snapshots1 in album1.items():
-            snapshots2 = album2.get(filename)
+    def _diff_snapshot_files(
+        self, snapshot_files_1: SnapshotFiles, snapshot_files_2: SnapshotFiles,
+    ) -> SnapshotFiles:
+        diffed = dict()
+        for filename, snapshots1 in snapshot_files_1.items():
+            snapshots2 = snapshot_files_2.get(filename)
             if snapshots2 is None:
-                diff_albums[filename] = snapshots1
+                diffed[filename] = snapshots1
             else:
                 result = snapshots1 - snapshots2
                 if result:
-                    diff_albums[filename] = result
-        return diff_albums
+                    diffed[filename] = result
+        return diffed
 
-    def _count_snapshots(self, albums: Albums) -> int:
+    def _count_snapshots(self, snapshot_files: SnapshotFiles) -> int:
         count = 0
-        for _, snapshots in albums.items():
+        for _, snapshots in snapshot_files.items():
             count += max(1, len(snapshots))
         return count
 
