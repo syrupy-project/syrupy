@@ -46,7 +46,7 @@ class SnapshotAssertion:
         return self._serializer
 
     @property
-    def count(self) -> int:
+    def num_executions(self) -> int:
         return int(self._executions)
 
     def with_class(
@@ -88,10 +88,10 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data) -> bool:
-        executions = self.count
+        executions = self.num_executions
         self._executions += 1
 
-        self._session.register_assertion(self)
+        self._session.register_assertion(self, executions)
 
         if self._update_snapshots:
             serialized_data = self.serializer.encode(data)

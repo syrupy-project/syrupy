@@ -101,7 +101,7 @@ class SnapshotSession:
             {filepath: set() for filepath in self._walk_dir(assertion.io.dirname)}
         )
 
-    def register_assertion(self, assertion: SnapshotAssertion, executions: int = 0):
+    def register_assertion(self, assertion: SnapshotAssertion, executions: int):
         self.add_discovered_snapshots(assertion.io.discover_snapshots(executions))
 
         filepath = assertion.io.get_filepath(executions)
