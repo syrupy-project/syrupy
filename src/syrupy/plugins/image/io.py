@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Set
 from abc import ABC, abstractmethod
 import re
 
@@ -17,6 +17,9 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
 
     def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
         return {self.get_filepath(index): {self.get_snapshot_name(index)}}
+
+    def discover_snapshots_in_file(self, filepath: str) -> Set[str]:
+        return set()
 
     def get_file_basename(self, index: int) -> str:
         ext = f".{self.extension}"

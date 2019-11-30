@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+from functools import lru_cache
 from gettext import ngettext, gettext
 from typing import Dict, List, Set, Tuple
 
@@ -102,7 +103,10 @@ class SnapshotSession:
 
     def register_request(self, assertion: SnapshotAssertion):
         self.add_discovered_snapshots(
-            {filepath: set() for filepath in self._walk_dir(assertion.io.dirname)}
+            {
+                filepath: assertion.io.discover_snapshots_in_file(filepath)
+                for filepath in self._walk_dir(assertion.io.dirname)
+            }
         )
 
     def register_assertion(self, assertion: SnapshotAssertion, executions: int):
@@ -170,6 +174,7 @@ class SnapshotSession:
         parts = path.split(os.path.sep)
         return SNAPSHOT_DIRNAME in parts
 
+    @lru_cache(maxsize=32)
     def _walk_dir(self, root: str):
         for (dirpath, _, filenames) in os.walk(root):
             if not self._in_snapshot_dir(dirpath):

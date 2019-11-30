@@ -1,4 +1,4 @@
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Set
 
 import os
 import yaml
@@ -71,8 +71,13 @@ class SnapshotIO:
 
     def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
         filepath = self.get_filepath(index)
-        snapshots = self._read_file(filepath)
-        return {filepath: set(snapshots.keys())}
+        return {filepath: self.discover_snapshots_in_file(filepath)}
+
+    def discover_snapshots_in_file(self, filepath: str) -> Set[str]:
+        try:
+            return set(self._read_file(filepath).keys())
+        except:
+            return set()
 
     def get_snapshot_name(self, index: int = 0) -> str:
         index_suffix = f".{index}" if index > 0 else ""
