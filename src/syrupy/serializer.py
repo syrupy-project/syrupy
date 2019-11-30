@@ -1,3 +1,6 @@
+from typing import Callable
+
+
 class SnapshotSerializer:
     def __init__(self):
         pass
@@ -7,3 +10,6 @@ class SnapshotSerializer:
 
     def decode(self, data):
         return data
+
+
+SnapshotSerializerClass = Callable[..., SnapshotSerializer]

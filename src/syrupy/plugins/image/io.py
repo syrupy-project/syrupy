@@ -6,6 +6,7 @@ import os
 
 from syrupy.io import SnapshotIO
 from syrupy.exceptions import SnapshotDoesNotExist
+from syrupy.types import Albums
 
 
 class AbstractImageSnapshotIO(ABC, SnapshotIO):
@@ -14,27 +15,39 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
     def extension(self):
         return None
 
-    def write(self, data, index: int = 0):
-        with open(self.get_filepath(index), "wb") as f:
-            f.write(data)
-
-    def read(self, index: int = 0) -> Any:
-        try:
-            with open(self.get_filepath(index), "rb") as f:
-                return f.read()
-        except FileNotFoundError:
-            raise SnapshotDoesNotExist()
-
-    def get_snapshot_dirname(self) -> str:
-        return os.path.basename(str(self.test_location.filename)[: -len(".py")])
+    def discover_snapshots(self, index: int = 0) -> Albums:
+        return {self.get_filepath(index): {self.get_snapshot_name(index)}}
 
     def get_file_basename(self, index: int) -> str:
         ext = f".{self.extension}"
-        sanitized_name = self.get_valid_filename(self.get_snapshot_name(index=index))[
+        sanitized_name = self._clean_filename(self.get_snapshot_name(index=index))[
             : 255 - len(ext)
         ]
         return f"{sanitized_name}{ext}"
 
-    def get_valid_filename(self, filename: str) -> str:
+    def _get_snapshot_dirname(self):
+        return os.path.basename(str(self.test_location.filename)[: -len(".py")])
+
+    def _read_snapshot_from_file(self, snapshot_file: str, _):
+        return self._read_file(snapshot_file)
+
+    def _read_file(self, filepath: str) -> Any:
+        try:
+            with open(filepath, "rb") as f:
+                return f.read()
+        except FileNotFoundError:
+            return None
+
+    def _write_snapshot_or_remove_file(self, snapshot_file: str, _: str, data: Any):
+        if data:
+            self._write_file(snapshot_file, data)
+        else:
+            os.remove(snapshot_file)
+
+    def _write_file(self, filepath: str, data: Any):
+        with open(filepath, "wb") as f:
+            f.write(data)
+
+    def _clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
         return re.sub(r"(?u)[^-\w.]", "", filename)

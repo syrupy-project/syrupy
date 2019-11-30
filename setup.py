@@ -26,7 +26,6 @@ if __name__ == "__main__":
         use_scm_version={"write_to": "version.txt"},
         package_dir={"": "src"},
         packages=["syrupy"],
-        py_modules=["syrupy"],
         zip_safe=False,
         install_requires=[],
         setup_requires=["setuptools_scm"],

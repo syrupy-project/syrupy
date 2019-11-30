@@ -7,6 +7,24 @@ test_dict:
     d:
     - '1'
     - 2
+test_dict[actual0]:
+  data:
+    a:
+      e: false
+    b: true
+    c: Some text.
+    d:
+    - '1'
+    - 2
+test_dict[actual1]:
+  data:
+    a:
+      e: false
+    b: true
+    c: Some ttext.
+    d:
+    - '1'
+    - 2
 test_dict_1:
   data:
     a:

@@ -1,12 +1,12 @@
 import traceback
 import pytest
 import os
-from typing import List, Optional, Any
+from typing import Callable, List, Optional, Any
 
 from .exceptions import SnapshotDoesNotExist
 
-from .io import SnapshotIO
-from .serializer import SnapshotSerializer
+from .io import SnapshotIO, SnapshotIOClass
+from .serializer import SnapshotSerializer, SnapshotSerializerClass
 from .location import TestLocation
 
 
@@ -15,8 +15,8 @@ class SnapshotAssertion:
         self,
         *,
         update_snapshots: bool,
-        io_class: SnapshotIO,
-        serializer_class: SnapshotSerializer,
+        io_class: SnapshotIOClass,
+        serializer_class: SnapshotSerializerClass,
         test_location: TestLocation,
         session,
     ):
@@ -25,10 +25,14 @@ class SnapshotAssertion:
         self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
-        self._session = session
+
+        from .session import SnapshotSession
+
+        self._session: SnapshotSession = session
+        self._session.register_request(self)
 
     @property
-    def io(self):
+    def io(self) -> SnapshotIO:
         if not getattr(self, "_io", None):
             self._io = self._io_class(
                 test_location=self._test_location, file_hook=self._file_hook
@@ -36,13 +40,19 @@ class SnapshotAssertion:
         return self._io
 
     @property
-    def serializer(self):
+    def serializer(self) -> SnapshotSerializer:
         if not getattr(self, "_serializer", None):
             self._serializer = self._serializer_class()
         return self._serializer
 
+    @property
+    def count(self) -> int:
+        return int(self._executions)
+
     def with_class(
-        self, io_class: SnapshotIO = None, serializer_class: SnapshotSerializer = None
+        self,
+        io_class: SnapshotIOClass = None,
+        serializer_class: SnapshotSerializerClass = None,
     ):
         return self.__class__(
             update_snapshots=self._update_snapshots,
@@ -66,7 +76,7 @@ class SnapshotAssertion:
         return []
 
     def _file_hook(self, filepath):
-        self._session.add_visited_file(filepath)
+        self._session.add_visited_snapshots({filepath: {}})
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self._executions})>"
@@ -78,14 +88,14 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data) -> bool:
-        executions = self._executions
+        executions = self.count
         self._executions += 1
+
+        self._session.register_assertion(self)
 
         if self._update_snapshots:
             serialized_data = self.serializer.encode(data)
-            self.io.pre_write(serialized_data, index=executions)
-            filepath = self.io.write(serialized_data, index=executions)
-            self.io.post_write(serialized_data, index=executions)
+            self.io.create_or_update_snapshot(serialized_data, index=executions)
             return True
 
         deserialized = self._recall_data(index=executions)
@@ -95,9 +105,7 @@ class SnapshotAssertion:
 
     def _recall_data(self, index: int) -> Optional[Any]:
         try:
-            self.io.pre_read(index=index)
-            saved_data = self.io.read(index=index)
-            self.io.post_read(index=index)
+            saved_data = self.io.read_snapshot(index=index)
             return self.serializer.decode(saved_data)
         except SnapshotDoesNotExist:
             return None

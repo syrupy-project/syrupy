@@ -52,8 +52,11 @@ def snapshot(request):
         classname=request.cls.__name__ if request.cls else None,
         methodname=request.function.__name__ if request.function else None,
         nodename=getattr(request.node, "name", ""),
-        testname=getattr(request.node, "name", "")
-        or (request.function.__name__ if request.function else None),
+        testname=getattr(
+            request.node,
+            "name",
+            request.function.__name__ if request.function else None,
+        ),
     )
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
