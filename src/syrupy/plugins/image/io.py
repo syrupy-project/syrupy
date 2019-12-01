@@ -19,17 +19,15 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
         return {self.get_filepath(index): {self.get_snapshot_name(index)}}
 
     def discover_snapshots_in_file(self, filepath: str) -> Set[str]:
-        return set()
+        return {os.path.splitext(os.path.basename(filepath))[0]}
 
     def get_file_basename(self, index: int) -> str:
         ext = f".{self.extension}"
-        sanitized_name = self._clean_filename(self.get_snapshot_name(index=index))[
-            : 255 - len(ext)
-        ]
-        return f"{sanitized_name}{ext}"
+        sanitized_name = self._clean_filename(self.get_snapshot_name(index=index))
+        return f"{sanitized_name[:255 - len(ext)]}{ext}"
 
     def _get_snapshot_dirname(self):
-        return os.path.basename(str(self.test_location.filename)[: -len(".py")])
+        return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
     def _read_snapshot_from_file(self, snapshot_file: str, _):
         return self._read_file(snapshot_file)

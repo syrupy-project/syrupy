@@ -152,17 +152,13 @@ class SnapshotSession:
                     snapshot_files[filepath].update(snapshots)
 
     def _diff_snapshot_files(
-        self, snapshot_files_1: SnapshotFiles, snapshot_files_2: SnapshotFiles,
+        self, snapshot_files1: SnapshotFiles, snapshot_files2: SnapshotFiles,
     ) -> SnapshotFiles:
-        diffed = dict()
-        for filename, snapshots1 in snapshot_files_1.items():
-            snapshots2 = snapshot_files_2.get(filename)
-            if snapshots2 is None:
-                diffed[filename] = snapshots1
-            else:
-                result = snapshots1 - snapshots2
-                if result:
-                    diffed[filename] = result
+        diffed: SnapshotFiles = dict()
+        for filename, snapshots1 in snapshot_files1.items():
+            result = snapshots1 - snapshot_files2.get(filename, set())
+            if result:
+                diffed[filename] = result
         return diffed
 
     def _count_snapshots(self, snapshot_files: SnapshotFiles) -> int:
