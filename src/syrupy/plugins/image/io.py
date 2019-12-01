@@ -1,4 +1,4 @@
-from typing import Any, Set
+from typing import Any, Set, Optional
 from abc import ABC, abstractmethod
 import re
 
@@ -12,8 +12,8 @@ from syrupy.types import SnapshotFiles
 class AbstractImageSnapshotIO(ABC, SnapshotIO):
     @property
     @abstractmethod
-    def extension(self):
-        return None
+    def extension(self) -> str:
+        pass
 
     def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
         return {self.get_filepath(index): {self.get_snapshot_name(index)}}
