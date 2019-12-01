@@ -71,6 +71,8 @@ class SnapshotSession:
 
         for filepath, snapshots in self.unused_snapshots.items():
             count = self._count_snapshots({filepath: snapshots})
+            if not count:
+                continue
             path_to_file = os.path.relpath(filepath, self.base_dir)
             self.add_report_line(
                 ngettext(
@@ -154,18 +156,13 @@ class SnapshotSession:
     def _diff_snapshot_files(
         self, snapshot_files1: SnapshotFiles, snapshot_files2: SnapshotFiles,
     ) -> SnapshotFiles:
-        diffed: SnapshotFiles = dict()
-        for filename, snapshots1 in snapshot_files1.items():
-            result = snapshots1 - snapshot_files2.get(filename, set())
-            if result:
-                diffed[filename] = result
-        return diffed
+        return {
+            filename: snapshots1 - snapshot_files2.get(filename, set())
+            for filename, snapshots1 in snapshot_files1.items()
+        }
 
     def _count_snapshots(self, snapshot_files: SnapshotFiles) -> int:
-        count = 0
-        for _, snapshots in snapshot_files.items():
-            count += max(1, len(snapshots))
-        return count
+        return sum([len(snapshots) for _, snapshots in snapshot_files.items()])
 
     def _in_snapshot_dir(self, path: str) -> bool:
         parts = path.split(os.path.sep)
