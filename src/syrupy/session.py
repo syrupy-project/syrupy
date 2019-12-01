@@ -130,15 +130,13 @@ class SnapshotSession:
         self._merge_snapshot_files_into(self.visited_snapshots, snapshots)
 
     def remove_unused_snapshots(self):
-        for snapshot_file, snapshots in self.unused_snapshots.items():
-            # All discovered snapshots in the file are unused
-            if self.discovered_snapshots[snapshot_file] == snapshots:
+        for snapshot_file, unused_snapshots in self.unused_snapshots.items():
+            if self.discovered_snapshots[snapshot_file] == unused_snapshots:
                 os.remove(snapshot_file)
                 continue
-            # The snapshot file should have at least one registered assertion
-            snapshot_file_assertion, *_ = self._assertions[snapshot_file].values()
-            for snapshot_name in snapshots:
-                snapshot_file_assertion.io.delete_snapshot(snapshot_file, snapshot_name)
+            snapshot_assertion, *_ = self._assertions[snapshot_file].values()
+            for snapshot_name in unused_snapshots:
+                snapshot_assertion.io.delete_snapshot(snapshot_file, snapshot_name)
 
     def _merge_snapshot_files_into(
         self, snapshot_files: SnapshotFiles, *snapshot_files_to_merge: SnapshotFiles,
