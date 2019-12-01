@@ -149,11 +149,11 @@ class SnapshotIO:
         If the snapshot file will be empty remove the entire file.
         """
         snapshots = self._read_file(snapshot_file)
-        if data is None:
+        if data is None and snapshot_name in snapshots:
+            del snapshots[snapshot_name]
+        else:
             snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
             snapshots[snapshot_name]["data"] = data
-        elif snapshot_name in snapshots:
-            del snapshots[snapshot_name]
 
         if snapshots:
             self._write_file(snapshot_file, snapshots)
