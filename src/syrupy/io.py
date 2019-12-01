@@ -26,14 +26,7 @@ class SnapshotIO:
             return os.path.join(test_dirname, SNAPSHOT_DIRNAME, snapshot_dir)
         return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
 
-    def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
-        """
-        Utility method for getting all the snapshots from an assertion.
-        """
-        filepath = self.get_filepath(index)
-        return {filepath: self.discover_snapshots_in_file(filepath)}
-
-    def discover_snapshots_in_file(self, filepath: str) -> Set[str]:
+    def discover_snapshots(self, filepath: str) -> Set[str]:
         """
         Utility method for getting all the snapshots from a file.
         Returns an empty set if the file cannot be read.
@@ -82,7 +75,7 @@ class SnapshotIO:
         return snapshot
 
     def post_read(self, index: int = 0):
-        self._file_hook(self.get_filepath(index))
+        self._snap_file_hook(index)
 
     def pre_write(self, data: Any, index: int = 0):
         self._ensure_snapshot_dir(index)
@@ -93,7 +86,7 @@ class SnapshotIO:
         self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: Any, index: int = 0):
-        self._file_hook(self.get_filepath(index))
+        self._snap_file_hook(index)
 
     def get_snapshot_name(self, index: int = 0) -> str:
         index_suffix = f".{index}" if index > 0 else ""
@@ -166,6 +159,14 @@ class SnapshotIO:
         """
         with open(filepath, "w") as f:
             yaml.safe_dump(data, f)
+
+    def _snap_file_hook(self, index: int):
+        """
+        Notify the assertion of an access to a snapshot in a file
+        """
+        snapshot_file = self.get_filepath(index)
+        snapshot_name = self.get_snapshot_name(index)
+        self._file_hook(snapshot_file, snapshot_name)
 
 
 SnapshotIOClass = Callable[..., SnapshotIO]

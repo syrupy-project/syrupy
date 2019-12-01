@@ -75,8 +75,8 @@ class SnapshotAssertion:
 
         return []
 
-    def _file_hook(self, filepath):
-        self._session.add_visited_snapshots({filepath: {}})
+    def _file_hook(self, filepath, snapshot_name):
+        self._session.add_visited_snapshots({filepath: {snapshot_name}})
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"

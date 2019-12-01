@@ -104,19 +104,15 @@ class SnapshotSession:
         self.report += [line]
 
     def register_request(self, assertion: SnapshotAssertion):
-        self.add_discovered_snapshots(
-            {
-                filepath: assertion.io.discover_snapshots_in_file(filepath)
-                for filepath in self._walk_dir(assertion.io.dirname)
-            }
-        )
+        discovered = {
+            filepath: assertion.io.discover_snapshots(filepath)
+            for filepath in self._walk_dir(assertion.io.dirname)
+        }
+        self.add_discovered_snapshots(discovered)
 
     def register_assertion(self, assertion: SnapshotAssertion):
-        executions = assertion.num_executions
-        self.add_discovered_snapshots(assertion.io.discover_snapshots(executions))
-
-        filepath = assertion.io.get_filepath(executions)
-        snapshot = assertion.io.get_snapshot_name(executions)
+        filepath = assertion.io.get_filepath(assertion.num_executions)
+        snapshot = assertion.io.get_snapshot_name(assertion.num_executions)
         self.add_visited_snapshots({filepath: {snapshot}})
 
         if filepath not in self._assertions:

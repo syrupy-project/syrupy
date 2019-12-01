@@ -15,10 +15,7 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
     def extension(self) -> str:
         pass
 
-    def discover_snapshots(self, index: int = 0) -> SnapshotFiles:
-        return {self.get_filepath(index): {self.get_snapshot_name(index)}}
-
-    def discover_snapshots_in_file(self, filepath: str) -> Set[str]:
+    def discover_snapshots(self, filepath: str) -> Set[str]:
         return {os.path.splitext(os.path.basename(filepath))[0]}
 
     def get_file_basename(self, index: int) -> str:
