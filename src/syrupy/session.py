@@ -109,7 +109,8 @@ class SnapshotSession:
             }
         )
 
-    def register_assertion(self, assertion: SnapshotAssertion, executions: int):
+    def register_assertion(self, assertion: SnapshotAssertion):
+        executions = assertion.num_executions
         self.add_discovered_snapshots(assertion.io.discover_snapshots(executions))
 
         filepath = assertion.io.get_filepath(executions)
