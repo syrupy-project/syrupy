@@ -29,9 +29,12 @@ def lint(ctx, fix=False):
 
 
 @task
-def test(ctx, update_snapshots=False):
+def test(ctx, update_snapshots=False, verbose=False):
     ctx.run(
-        f"python -m pytest . {'--update-snapshots' if update_snapshots else ''}",
+        "python -m pytest ."
+        f"{' -s' if verbose else ''}"
+        f"{' --update-snapshots' if update_snapshots else ''}",
+        env={"PYTHONPATH": "./src"},
         pty=True,
     )
 

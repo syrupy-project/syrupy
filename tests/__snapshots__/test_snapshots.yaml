@@ -1,4 +1,4 @@
-test_dict:
+test_dict[actual0]:
   data:
     a:
       e: false
@@ -7,7 +7,7 @@ test_dict:
     d:
     - '1'
     - 2
-test_dict_1:
+test_dict[actual1]:
   data:
     a:
       e: false

@@ -20,11 +20,12 @@ def test_parametrized_with_special_char(snapshot, expected):
     assert expected == snapshot
 
 
-def test_dict(snapshot):
-    actual = {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}}
-    assert actual == snapshot
-
-
-def test_dict_1(snapshot):
-    actual = {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}}
+@pytest.mark.parametrize(
+    "actual",
+    [
+        {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}},
+        {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}},
+    ],
+)
+def test_dict(snapshot, actual):
     assert actual == snapshot
