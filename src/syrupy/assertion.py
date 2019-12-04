@@ -1,12 +1,12 @@
 import traceback
 import pytest
 import os
-from typing import Callable, List, Optional, Any
+from typing import Any, Callable, List, Optional, Type
 
 from .exceptions import SnapshotDoesNotExist
 
-from .io import SnapshotIO, SnapshotIOClass
-from .serializer import SnapshotSerializer, SnapshotSerializerClass
+from .io import SnapshotIO
+from .serializer import SnapshotSerializer
 from .location import TestLocation
 
 
@@ -15,8 +15,8 @@ class SnapshotAssertion:
         self,
         *,
         update_snapshots: bool,
-        io_class: SnapshotIOClass,
-        serializer_class: SnapshotSerializerClass,
+        io_class: Type[SnapshotIO],
+        serializer_class: Type[SnapshotSerializer],
         test_location: TestLocation,
         session,
     ):
@@ -51,8 +51,8 @@ class SnapshotAssertion:
 
     def with_class(
         self,
-        io_class: SnapshotIOClass = None,
-        serializer_class: SnapshotSerializerClass = None,
+        io_class: Type[SnapshotIO] = None,
+        serializer_class: Type[SnapshotSerializer] = None,
     ):
         return self.__class__(
             update_snapshots=self._update_snapshots,

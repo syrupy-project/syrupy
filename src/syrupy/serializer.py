@@ -10,6 +10,3 @@ class SnapshotSerializer:
 
     def decode(self, data):
         return data
-
-
-SnapshotSerializerClass = Callable[..., SnapshotSerializer]

@@ -167,6 +167,3 @@ class SnapshotIO:
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         self._file_hook(snapshot_file, snapshot_name)
-
-
-SnapshotIOClass = Callable[..., SnapshotIO]
