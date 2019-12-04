@@ -19,9 +19,9 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
         return {os.path.splitext(os.path.basename(filepath))[0]}
 
     def get_file_basename(self, index: int) -> str:
-        ext = f".{self.extension}"
+        maybe_extension = f".{self.extension}" if self.extension else ""
         sanitized_name = self._clean_filename(self.get_snapshot_name(index=index))
-        return f"{sanitized_name[:255 - len(ext)]}{ext}"
+        return f"{sanitized_name}{maybe_extension}"
 
     def _get_snapshot_dirname(self):
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
@@ -48,4 +48,5 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
 
     def _clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
-        return re.sub(r"(?u)[^-\w.]", "", filename)
+        max_filename_length = 255 - (len(self.extension) if self.extension else 0)
+        return re.sub(r"(?u)[^-\w.]", "", filename)[:max_filename_length]
