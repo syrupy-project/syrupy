@@ -156,7 +156,7 @@ class SnapshotSession:
         }
 
     def _count_snapshots(self, snapshot_files: SnapshotFiles) -> int:
-        return sum(map(len, snapshot_files.values()))
+        return sum(len(snaps) for snaps in snapshot_files.values())
 
     def _in_snapshot_dir(self, path: str) -> bool:
         parts = path.split(os.path.sep)

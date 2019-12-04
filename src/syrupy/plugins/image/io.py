@@ -48,5 +48,5 @@ class AbstractImageSnapshotIO(ABC, SnapshotIO):
 
     def _clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
-        max_filename_length = 255 - (len(self.extension) if self.extension else 0)
+        max_filename_length = 255 - len(self.extension or "")
         return re.sub(r"(?u)[^-\w.]", "", filename)[:max_filename_length]
