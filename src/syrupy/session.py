@@ -6,7 +6,7 @@ from typing import Dict, List, Set, Tuple
 
 from .assertion import SnapshotAssertion
 from .constants import SNAPSHOT_DIRNAME
-from .terminal import yellow, bold
+from .terminal import bold, error_style, green, yellow
 from .types import SnapshotFiles
 
 
@@ -16,6 +16,7 @@ class SnapshotSession:
         self.base_dir = base_dir
         self.discovered_snapshots: SnapshotFiles = dict()
         self.visited_snapshots: SnapshotFiles = dict()
+        self.failed_snapshots: SnapshotFiles = dict()
         self.report: List[str] = []
         self._assertions: Dict[str, Dict[str, SnapshotAssertion]] = dict()
 
@@ -47,40 +48,45 @@ class SnapshotSession:
     def finish(self):
         n_unused = self.num_unused_snapshots
         n_written = self.num_written_snapshots
+        n_updated = 0  # TODO: self._count_snapshots(self.updated_snapshots)
+        n_failed = self._count_snapshots(self.failed_snapshots)
+        n_found = self._count_snapshots(self.discovered_snapshots)
+        n_passed = n_found - n_unused - n_failed - n_updated
 
         self.add_report_line()
 
         summary_lines = []
+        if n_failed:
+            summary_lines += [
+                ngettext(
+                    "{} snapshot failed.", "{} snapshots failed.", n_failed,
+                ).format(error_style(n_failed))
+            ]
+        if n_passed:
+            summary_lines += [
+                ngettext(
+                    "{} snapshot passed.", "{} snapshots passed.", n_passed,
+                ).format(green(bold(n_passed)))
+            ]
+        if n_updated:
+            summary_lines += [
+                ngettext(
+                    "{} snapshot updated.", "{} snapshots updated.", n_passed,
+                ).format(bold(n_passed))
+            ]
         if self.update_snapshots and n_written:
             summary_lines += [
                 ngettext(
                     "{} snapshot generated.", "{} snapshots generated.", n_written,
                 ).format(bold(n_written))
             ]
-        summary_lines += [
-            ngettext("{} snapshot unused.", "{} snapshots unused.", n_unused).format(
-                bold(n_unused)
-            )
-        ]
-        summary_line = " ".join(summary_lines)
-        self.add_report_line(
-            yellow(summary_line)
-            if n_unused or (self.update_snapshots and n_written)
-            else summary_line
-        )
-
-        for filepath, snapshots in self.unused_snapshots.items():
-            count = self._count_snapshots({filepath: snapshots})
-            if not count:
-                continue
-            path_to_file = os.path.relpath(filepath, self.base_dir)
-            self.add_report_line(
+        if not self.update_snapshots and n_unused:
+            summary_lines += [
                 ngettext(
-                    f"{{}} at {path_to_file}",
-                    f"{{}} in {path_to_file} → {', '.join(snapshots)}",
-                    count,
-                ).format(bold(count))
-            )
+                    "{} snapshot unused.", "{} snapshots unused.", n_unused
+                ).format(yellow(bold(n_unused)))
+            ]
+        self.add_report_line(" ".join(summary_lines))
 
         if n_unused:
             self.add_report_line()
@@ -93,6 +99,14 @@ class SnapshotSession:
                         n_unused,
                     )
                 )
+                for filepath, snapshots in self.unused_snapshots.items():
+                    count = self._count_snapshots({filepath: snapshots})
+                    if not count:
+                        continue
+                    path_to_file = os.path.relpath(filepath, self.base_dir)
+                    self.add_report_line(
+                        f"{', '.join(sorted(snapshots))} → {path_to_file}"
+                    )
             else:
                 self.add_report_line(
                     gettext(
@@ -113,7 +127,10 @@ class SnapshotSession:
     def register_assertion(self, assertion: SnapshotAssertion):
         filepath = assertion.io.get_filepath(assertion.num_executions)
         snapshot = assertion.io.get_snapshot_name(assertion.num_executions)
-        self.add_visited_snapshots({filepath: {snapshot}})
+        snapshotFile = {filepath: {snapshot}}
+        self.add_visited_snapshots(snapshotFile)
+        if not assertion.get_assert_result(assertion.num_executions):
+            self._merge_snapshot_files_into(self.failed_snapshots, snapshotFile)
 
         if filepath not in self._assertions:
             self._assertions[filepath] = dict()

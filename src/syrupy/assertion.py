@@ -1,7 +1,7 @@
 import traceback
 import pytest
 import os
-from typing import Any, Callable, List, Optional, Type
+from typing import Any, Callable, Dict, List, Optional, Type
 
 from .exceptions import SnapshotDoesNotExist
 
@@ -25,6 +25,7 @@ class SnapshotAssertion:
         self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
+        self._execution_results: Dict[int, bool] = {}
 
         from .session import SnapshotSession
 
@@ -75,6 +76,9 @@ class SnapshotAssertion:
 
         return []
 
+    def get_assert_result(self, index: int) -> bool:
+        return self._execution_results.get(index, False)
+
     def _file_hook(self, filepath, snapshot_name):
         self._session.add_visited_snapshots({filepath: {snapshot_name}})
 
@@ -88,19 +92,20 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data) -> bool:
-        self._session.register_assertion(self)
         try:
             if self._update_snapshots:
                 serialized_data = self.serializer.encode(data)
                 self.io.create_or_update_snapshot(
                     serialized_data, index=self.num_executions
                 )
-                return True
+                result = True
+            else:
+                deserialized = self._recall_data(index=self.num_executions)
+                result = deserialized is not None and data == deserialized
 
-            deserialized = self._recall_data(index=self.num_executions)
-            if deserialized is None or data != deserialized:
-                return False
-            return True
+            self._execution_results[self.num_executions] = result
+            self._session.register_assertion(self)
+            return result
         finally:
             self._executions += 1
 
