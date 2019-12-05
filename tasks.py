@@ -46,7 +46,7 @@ def build(ctx):
 
 @task
 def publish(ctx, dry_run=True):
-    print(
+    ctx.run(
         f"twine upload {'--repository-url https://test.pypi.org/legacy/' if dry_run else ''} dist/*"
     )
 

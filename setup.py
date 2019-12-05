@@ -1,6 +1,6 @@
 import os
 import sys
-
+from datetime import datetime
 from setuptools import setup
 
 python_requires = "~=3.6"
@@ -20,10 +20,16 @@ if __name__ == "__main__":
         description="PyTest Snapshot Test Utility",
         author="Top Hat Open Source",
         author_email="opensource@tophat.com",
-        url="git@github.com:tophat/syrupy.git",
+        url="https://github.com/tophat/syrupy",
         long_description=readme(),
         long_description_content_type="text/markdown",
-        use_scm_version={"write_to": "version.txt"},
+        use_scm_version={
+            "local_scheme": lambda _: "",
+            "version_scheme": lambda v: v.format_with("{tag}")
+            if v.exact
+            else datetime.now().strftime("%Y.%m.%d.%H%M%S%f"),
+            "write_to": "version.txt",
+        },
         package_dir={"": "src"},
         packages=["syrupy"],
         zip_safe=False,

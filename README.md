@@ -5,8 +5,12 @@
 > _/ˈsirəpē/_
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
-
 [![Maturity badge - level 1](https://img.shields.io/badge/Maturity-Level%201%20--%20New%20Project-yellow.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md)
+![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg)
+[![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/)
+![Stage](https://img.shields.io/pypi/status/syrupy)
+![Wheel](https://img.shields.io/pypi/wheel/syrupy)
+
 
 ## Overview
 
@@ -75,7 +79,7 @@ pip uninstall syrupy
 
 Feel free to open a PR. This project is still in a very early stage, and we're still figuring out what direction we want to move towards.
 
-To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --help` to see a list of commands.
+To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --list` to see available commands.
 
 ## Contributors
 
