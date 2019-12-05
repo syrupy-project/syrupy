@@ -37,5 +37,12 @@ if __name__ == "__main__":
         setup_requires=["setuptools_scm"],
         entry_points={"pytest11": ["syrupy = syrupy"]},
         python_requires=python_requires,
-        classifiers=["Framework :: Pytest"],
+        classifiers=[
+            "Development Status :: 1 - Planning",
+            "Framework :: Pytest",
+            "Intended Audience :: Developers",
+            "Operating System :: OS Independent",
+            "Programming Language :: Python :: 3",
+            "Topic :: Software Development :: Libraries",
+        ],
     )
