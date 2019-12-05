@@ -11,7 +11,7 @@ def test_raw_string(snapshot):
 
 def test_multiple_snapshots(snapshot):
     assert "First." == snapshot
-    assert "Second." == snapshot
+    snapshot.assert_match("Second.")
     assert "Third." == snapshot
 
 
