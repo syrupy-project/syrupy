@@ -1,6 +1,6 @@
 name: Syrupy CICD
 
-on: [push, pull_request]
+on: [push]
 
 env:
   CI: 1
