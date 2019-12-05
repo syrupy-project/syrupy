@@ -20,7 +20,7 @@ if __name__ == "__main__":
         description="PyTest Snapshot Test Utility",
         author="Top Hat Open Source",
         author_email="opensource@tophat.com",
-        url="git@github.com:tophat/syrupy.git",
+        url="https://github.com/tophat/syrupy",
         long_description=readme(),
         long_description_content_type="text/markdown",
         use_scm_version={
