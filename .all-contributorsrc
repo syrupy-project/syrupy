@@ -25,7 +25,8 @@
       "contributions": [
         "code",
         "design",
-        "infra"
+        "infra",
+        "doc"
       ]
     }
   ],
@@ -33,5 +34,6 @@
   "projectName": "syrupy",
   "projectOwner": "tophat",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
