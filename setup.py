@@ -1,7 +1,7 @@
 import os
 import sys
 from datetime import datetime
-from setuptools import setup
+from setuptools import setup, find_packages
 
 python_requires = "~=3.6"
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             "write_to": "version.txt",
         },
         package_dir={"": "src"},
-        py_modules=["syrupy"],
+        packages=find_packages("./src"),
         zip_safe=False,
         install_requires=["pyyaml"],
         setup_requires=["setuptools_scm"],
