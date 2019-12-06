@@ -28,7 +28,7 @@ jobs:
     - name: Test
       env:
         CODECOV_TOKEN: 282b0064-e377-478b-834c-b8de1a3ee4c4
-      run: invoke test --ci --coverage
+      run: invoke test --coverage
     - name: Build Python 3.x
       if: matrix.python-version != '3.7'
       run: invoke build

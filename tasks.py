@@ -47,17 +47,17 @@ def install(ctx):
 
 @task(
     help={
-        "ci": "Setup syrupy for CI integration tests",
         "coverage": "Build and report on test coverage",
+        "install": "Reinstall syrupy development version",
         "update-snapshots": "Create, update or delete snapshot files",
         "verbose": "Verbose output e.g. non captured logs etc.",
     }
 )
-def test(ctx, ci=False, coverage=False, update_snapshots=False, verbose=False):
+def test(ctx, install=False, coverage=False, update_snapshots=False, verbose=False):
     """
     Run entire test suite
     """
-    if ci:
+    if install:
         install(ctx)
     flags = {
         "-s": verbose,
