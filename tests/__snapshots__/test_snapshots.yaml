@@ -36,9 +36,9 @@ test_set:
     this: null
 test_set.1:
   data: !!set
+    this: null
     is: null
     a: null
-    this: null
     ? !!python/object/apply:builtins.frozenset
     - - nested, set
     : null
@@ -59,3 +59,5 @@ test_tuples.1:
   - !!set
     named: null
     tuple: null
+test_unicode_string:
+  data: 🥞🐍🍯

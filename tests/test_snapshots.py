@@ -10,6 +10,10 @@ def test_raw_string(snapshot):
     assert r"Raw string" == snapshot
 
 
+def test_unicode_string(snapshot):
+    assert "🥞🐍🍯" == snapshot
+
+
 def test_multiple_snapshots(snapshot):
     assert "First." == snapshot
     snapshot.assert_match("Second.")
