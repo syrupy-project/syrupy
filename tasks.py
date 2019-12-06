@@ -62,7 +62,7 @@ def test(ctx, install=False, coverage=False, update_snapshots=False, verbose=Fal
     flags = {
         "-s": verbose,
         "--cov=./src": coverage,
-        "--update-snapshots": not ci and update_snapshots,
+        "--update-snapshots": update_snapshots,
     }
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
     ctx.run(f"python -m pytest {test_flags} .", pty=True)
