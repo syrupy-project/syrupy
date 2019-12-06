@@ -15,6 +15,11 @@ def test_multiple_snapshots(snapshot):
     assert "Third." == snapshot
 
 
+def test_missing_snapshots(snapshot):
+    with pytest.raises(AssertionError, match="Snapshot does not exist"):
+        assert "This snapshot should not be written" == snapshot
+
+
 @pytest.mark.parametrize("expected", [r"Escaped \n", r"Backslash \u U"])
 def test_parametrized_with_special_char(snapshot, expected):
     assert expected == snapshot
