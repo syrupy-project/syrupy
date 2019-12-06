@@ -48,16 +48,16 @@ def install(ctx):
 @task(
     help={
         "coverage": "Build and report on test coverage",
-        "install": "Reinstall syrupy development version",
+        "setup": "Reinstall syrupy development version",
         "update-snapshots": "Create, update or delete snapshot files",
         "verbose": "Verbose output e.g. non captured logs etc.",
     }
 )
-def test(ctx, install=False, coverage=False, update_snapshots=False, verbose=False):
+def test(ctx, coverage=False, setup=False, update_snapshots=False, verbose=False):
     """
     Run entire test suite
     """
-    if install:
+    if setup:
         install(ctx)
     flags = {
         "-s": verbose,
