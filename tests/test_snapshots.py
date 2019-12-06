@@ -21,19 +21,25 @@ def test_parametrized_with_special_char(snapshot, expected):
     assert expected == snapshot
 
 
-ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
-
-
 @pytest.mark.parametrize(
     "actual",
     [
         {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}},
         {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}},
         {"this", "is", "a", "set"},
-        {"this", "is", "a", frozenset({"nested, set"})},
-        ("this", "is", "a", "tuple"),
-        ExampleTuple(a="this", b="is", c="a", d="namedtuple"),
     ],
 )
-def test_objects(snapshot, actual):
+def test_dict(snapshot, actual):
     assert actual == snapshot
+
+
+def test_set(snapshot):
+    assert snapshot == {"this", "is", "a", frozenset({"nested, set"})}
+
+
+ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
+
+
+def test_tuples(snapshot):
+    assert snapshot == ("this", "is", "a", "tuple")
+    assert snapshot == ExampleTuple(a="this", b="is", c="a", d="namedtuple")

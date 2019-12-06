@@ -1,10 +1,4 @@
-test_multiple_snapshots:
-  data: First.
-test_multiple_snapshots.1:
-  data: Second.
-test_multiple_snapshots.2:
-  data: Third.
-test_objects[actual0]:
+test_dict[actual0]:
   data:
     a:
       e: false
@@ -13,7 +7,7 @@ test_objects[actual0]:
     d:
     - '1'
     - 2
-test_objects[actual1]:
+test_dict[actual1]:
   data:
     a:
       e: false
@@ -22,37 +16,43 @@ test_objects[actual1]:
     d:
     - '1'
     - 2
-test_objects[actual2]:
+test_dict[actual2]:
   data: !!set
     a: null
     is: null
     set: null
     this: null
-test_objects[actual3]:
-  data: !!set
-    this: null
-    is: null
-    a: null
-    ? !!python/object/apply:builtins.frozenset
-    - - nested, set
-    : null
-test_objects[actual4]:
-  data: !!python/tuple
-  - this
-  - is
-  - a
-  - tuple
-test_objects[actual5]:
-  data: !!python/object/new:tests.test_snapshots.ExampleTuple
-  - this
-  - is
-  - a
-  - namedtuple
+test_multiple_snapshots:
+  data: First.
+test_multiple_snapshots.1:
+  data: Second.
+test_multiple_snapshots.2:
+  data: Third.
 test_parametrized_with_special_char[Backslash \\u U]:
   data: Backslash \u U
 test_parametrized_with_special_char[Escaped \\n]:
   data: Escaped \n
 test_raw_string:
   data: Raw string
+test_set:
+  data: !!set
+    is: null
+    a: null
+    ? !!python/object/apply:builtins.frozenset
+    - - nested, set
+    : null
+    this: null
 test_simple_string:
   data: Loreeeeeem ipsum.
+test_tuples:
+  data: !!python/tuple
+  - this
+  - is
+  - a
+  - tuple
+test_tuples.1:
+  data: !!python/object/new:tests.test_snapshots.ExampleTuple
+  - this
+  - is
+  - a
+  - namedtuple
