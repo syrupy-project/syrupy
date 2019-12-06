@@ -16,12 +16,6 @@ test_dict[actual1]:
     d:
     - '1'
     - 2
-test_dict[actual2]:
-  data: !!set
-    a: null
-    is: null
-    set: null
-    this: null
 test_multiple_snapshots:
   data: First.
 test_multiple_snapshots.1:
@@ -36,23 +30,32 @@ test_raw_string:
   data: Raw string
 test_set:
   data: !!set
+    a: null
+    is: null
+    set: null
+    this: null
+test_set.1:
+  data: !!set
     is: null
     a: null
+    this: null
     ? !!python/object/apply:builtins.frozenset
     - - nested, set
     : null
-    this: null
 test_simple_string:
   data: Loreeeeeem ipsum.
 test_tuples:
   data: !!python/tuple
   - this
   - is
-  - a
-  - tuple
+  - !!python/tuple
+    - a
+    - tuple
 test_tuples.1:
   data: !!python/object/new:tests.test_snapshots.ExampleTuple
   - this
   - is
   - a
-  - namedtuple
+  - !!set
+    named: null
+    tuple: null
