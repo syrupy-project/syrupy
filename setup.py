@@ -31,7 +31,7 @@ if __name__ == "__main__":
             "write_to": "version.txt",
         },
         package_dir={"": "src"},
-        packages=["syrupy"],
+        packages=["syrupy", "syrupy.plugins"],
         zip_safe=False,
         install_requires=["pyyaml"],
         setup_requires=["setuptools_scm"],
