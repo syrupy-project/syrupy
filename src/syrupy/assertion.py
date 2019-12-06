@@ -91,15 +91,15 @@ class SnapshotAssertion:
     def _assert(self, data) -> bool:
         self._session.register_assertion(self)
         try:
+            serialized_data = self.serializer.encode(data)
             if self._update_snapshots:
-                serialized_data = self.serializer.encode(data)
                 self.io.create_or_update_snapshot(
                     serialized_data, index=self.num_executions
                 )
                 return True
 
-            deserialized = self._recall_data(index=self.num_executions)
-            if deserialized is None or data != deserialized:
+            snapshot_data = self._recall_data(index=self.num_executions)
+            if snapshot_data is None or serialized_data != snapshot_data:
                 return False
             return True
         finally:
