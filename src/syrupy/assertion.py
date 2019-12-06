@@ -66,12 +66,13 @@ class SnapshotAssertion:
         assert self == data
 
     def get_assert_diff(self, data) -> List[str]:
-        deserialized = self._recall_data(index=self.num_executions - 1)
-        if deserialized is None:
+        serialized_data = self.serializer.encode(data)
+        snapshot_data = self._recall_data(index=self.num_executions - 1)
+        if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
-        if data != deserialized:
-            return [f"- {data}", f"+ {deserialized}"]
+        if serialized_data != snapshot_data:
+            return [f"- {serialized_data}", f"+ {snapshot_data}"]
 
         return []
 
@@ -106,7 +107,6 @@ class SnapshotAssertion:
 
     def _recall_data(self, index: int) -> Optional[Any]:
         try:
-            saved_data = self.io.read_snapshot(index=index)
-            return self.serializer.decode(saved_data)
+            return self.io.read_snapshot(index=index)
         except SnapshotDoesNotExist:
             return None
