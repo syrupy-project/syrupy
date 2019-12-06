@@ -63,8 +63,8 @@ class SnapshotAssertion:
             session=self._session,
         )
 
-    def assert_match(self, data) -> bool:
-        return self._assert(data)
+    def assert_match(self, data):
+        assert self == data
 
     def get_assert_diff(self, data) -> List[str]:
         deserialized = self._recall_data(index=self.num_executions - 1)
