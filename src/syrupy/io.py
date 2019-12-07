@@ -128,7 +128,7 @@ class SnapshotIO:
         """
         try:
             with open(filepath, "r") as f:
-                return yaml.safe_load(f) or {}
+                return yaml.load(f, Loader=yaml.FullLoader) or {}
         except FileNotFoundError:
             pass
         return {}
@@ -158,7 +158,7 @@ class SnapshotIO:
         Writes the snapshot data into the snapshot file that be read later.
         """
         with open(filepath, "w") as f:
-            yaml.safe_dump(data, f)
+            yaml.dump(data, f, allow_unicode=True)
 
     def _snap_file_hook(self, index: int):
         """
