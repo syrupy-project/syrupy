@@ -127,7 +127,11 @@ class SnapshotSession:
 
     def remove_unused_snapshots(self):
         for snapshot_file, unused_snapshots in self.unused_snapshots.items():
-            if self.discovered_snapshots[snapshot_file] == unused_snapshots:
+            all_discovered_unused = (
+                unused_snapshots == self.discovered_snapshots[snapshot_file]
+            )
+            no_snapshot_written = not self.written_snapshots.get(snapshot_file)
+            if all_discovered_unused and no_snapshot_written:
                 os.remove(snapshot_file)
                 continue
             snapshot_assertion, *_ = self._assertions[snapshot_file].values()
