@@ -36,12 +36,12 @@ test_set:
     this: null
 test_set.1:
   data: !!set
-    this: null
-    is: null
     a: null
     ? !!python/object/apply:builtins.frozenset
     - - nested, set
     : null
+    is: null
+    this: null
 test_simple_string:
   data: Loreeeeeem ipsum.
 test_tuples:
