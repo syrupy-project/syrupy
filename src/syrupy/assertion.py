@@ -94,14 +94,12 @@ class SnapshotAssertion:
             serialized_data = self.serializer.encode(data)
             snapshot_data = self._recall_data(index=self.num_executions)
             matches = snapshot_data is not None and serialized_data == snapshot_data
-            if matches:
-                return True
             if not matches and self._update_snapshots:
                 self.io.create_or_update_snapshot(
                     serialized_data, index=self.num_executions
                 )
                 return True
-            return False
+            return matches
         finally:
             self._executions += 1
 
