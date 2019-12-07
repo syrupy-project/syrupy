@@ -66,12 +66,13 @@ class SnapshotAssertion:
         assert self == data
 
     def get_assert_diff(self, data) -> List[str]:
-        deserialized = self._recall_data(index=self.num_executions - 1)
-        if deserialized is None:
+        serialized_data = self.serializer.encode(data)
+        snapshot_data = self._recall_data(index=self.num_executions - 1)
+        if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
-        if data != deserialized:
-            return [f"- {data}", f"+ {deserialized}"]
+        if serialized_data != snapshot_data:
+            return [f"- {serialized_data}", f"+ {snapshot_data}"]
 
         return []
 
@@ -90,23 +91,20 @@ class SnapshotAssertion:
     def _assert(self, data) -> bool:
         self._session.register_assertion(self)
         try:
-            if self._update_snapshots:
-                serialized_data = self.serializer.encode(data)
+            serialized_data = self.serializer.encode(data)
+            snapshot_data = self._recall_data(index=self.num_executions)
+            matches = snapshot_data is not None and serialized_data == snapshot_data
+            if not matches and self._update_snapshots:
                 self.io.create_or_update_snapshot(
                     serialized_data, index=self.num_executions
                 )
                 return True
-
-            deserialized = self._recall_data(index=self.num_executions)
-            if deserialized is None or data != deserialized:
-                return False
-            return True
+            return matches
         finally:
             self._executions += 1
 
     def _recall_data(self, index: int) -> Optional[Any]:
         try:
-            saved_data = self.io.read_snapshot(index=index)
-            return self.serializer.decode(saved_data)
+            return self.io.read_snapshot(index=index)
         except SnapshotDoesNotExist:
             return None
