@@ -1,14 +1,13 @@
-from .io import AbstractImageSnapshotIO
-from .serializer import ImageSnapshotSerializer
+from .serializer import AbstractImageSnapshotSerializer
 
 
-class PNGImageSnapshotIO(AbstractImageSnapshotIO):
+class PNGImageSnapshotSerializer(AbstractImageSnapshotSerializer):
     @property
     def extension(self) -> str:
         return "png"
 
 
-class SVGImageSnapshotIO(AbstractImageSnapshotIO):
+class SVGImageSnapshotSerializer(AbstractImageSnapshotSerializer):
     @property
     def extension(self) -> str:
         return "svg"

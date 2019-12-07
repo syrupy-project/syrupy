@@ -105,14 +105,14 @@ class SnapshotSession:
 
     def register_request(self, assertion: SnapshotAssertion):
         discovered = {
-            filepath: assertion.io.discover_snapshots(filepath)
-            for filepath in self._walk_dir(assertion.io.dirname)
+            filepath: assertion.serializer.discover_snapshots(filepath)
+            for filepath in self._walk_dir(assertion.serializer.dirname)
         }
         self.add_discovered_snapshots(discovered)
 
     def register_assertion(self, assertion: SnapshotAssertion):
-        filepath = assertion.io.get_filepath(assertion.num_executions)
-        snapshot = assertion.io.get_snapshot_name(assertion.num_executions)
+        filepath = assertion.serializer.get_filepath(assertion.num_executions)
+        snapshot = assertion.serializer.get_snapshot_name(assertion.num_executions)
         self.add_visited_snapshots({filepath: {snapshot}})
 
         if filepath not in self._assertions:
@@ -136,7 +136,9 @@ class SnapshotSession:
                 continue
             snapshot_assertion, *_ = self._assertions[snapshot_file].values()
             for snapshot_name in unused_snapshots:
-                snapshot_assertion.io.delete_snapshot(snapshot_file, snapshot_name)
+                snapshot_assertion.serializer.delete_snapshot(
+                    snapshot_file, snapshot_name
+                )
 
     def _merge_snapshot_files_into(
         self, snapshot_files: SnapshotFiles, *snapshot_files_to_merge: SnapshotFiles,
