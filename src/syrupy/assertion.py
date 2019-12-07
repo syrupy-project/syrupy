@@ -19,7 +19,7 @@ class SnapshotAssertion:
         session,
     ):
         self._update_snapshots = update_snapshots
-        self._io_class = serializer_class
+        self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
 
@@ -30,11 +30,11 @@ class SnapshotAssertion:
 
     @property
     def serializer(self) -> SnapshotSerializer:
-        if not getattr(self, "_io", None):
-            self._io = self._io_class(
+        if not getattr(self, "_serializer", None):
+            self._serializer = self._serializer_class(
                 test_location=self._test_location, file_hook=self._file_hook
             )
-        return self._io
+        return self._serializer
 
     @property
     def num_executions(self) -> int:
@@ -46,7 +46,7 @@ class SnapshotAssertion:
         return self.__class__(
             update_snapshots=self._update_snapshots,
             test_location=self._test_location,
-            serializer_class=serializer_class or self._io_class,
+            serializer_class=serializer_class or self._serializer_class,
             session=self._session,
         )
 

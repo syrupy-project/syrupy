@@ -58,7 +58,7 @@ import pytest
 @pytest.fixture
 def snapshot_custom(snapshot):
     return snapshot.with_class(
-        serializer_class=CustomIOClass,
+        serializer_class=CustomSerializerClass,
     )
 
 def test_image(snapshot_custom):
@@ -66,7 +66,7 @@ def test_image(snapshot_custom):
     assert actual == snapshot_custom
 ```
 
-`CustomIOClass` should extend `syrupy.serializer.SnapshotSerializer`.
+`CustomSerializerClass` should extend `syrupy.serializer.SnapshotSerializer`.
 
 ## Uninstalling
 
