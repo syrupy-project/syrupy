@@ -1,4 +1,5 @@
 import pytest
+from typing import Any, Optional, List
 
 from .assertion import SnapshotAssertion
 from .serializer import SnapshotSerializer
@@ -6,7 +7,7 @@ from .location import TestLocation
 from .session import SnapshotSession
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: Any) -> None:
     """Exposes snapshot plugin configuration to pytest."""
     group = parser.getgroup("syrupy")
     group.addoption(
@@ -18,7 +19,7 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_assertrepr_compare(op, left, right):
+def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
     if isinstance(left, SnapshotAssertion):
         assert_msg = f"snapshot {op} {right}"
         return [assert_msg] + left.get_assert_diff(right)
@@ -28,7 +29,7 @@ def pytest_assertrepr_compare(op, left, right):
     return None
 
 
-def pytest_sessionstart(session):
+def pytest_sessionstart(session: Any) -> None:
     config = session.config
     session._syrupy = SnapshotSession(
         update_snapshots=config.option.update_snapshots, base_dir=config.rootdir
@@ -36,7 +37,7 @@ def pytest_sessionstart(session):
     session._syrupy.start()
 
 
-def pytest_sessionfinish(session):
+def pytest_sessionfinish(session: Any) -> None:
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
     session._syrupy.finish()
     for line in session._syrupy.report:
@@ -44,7 +45,7 @@ def pytest_sessionfinish(session):
 
 
 @pytest.fixture
-def snapshot(request):
+def snapshot(request: Any) -> "SnapshotAssertion":
     test_location = TestLocation(
         filename=request.fspath,
         modulename=request.module.__name__,

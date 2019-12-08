@@ -25,7 +25,7 @@ def lint(ctx, fix=False):
         print("\nSkipping type check as there is no fixer")
     else:
         print("\nRunning type check")
-        ctx.run("python -m mypy --ignore-missing-imports src", pty=True)
+        ctx.run("python -m mypy --strict src", pty=True)
 
 
 @task
