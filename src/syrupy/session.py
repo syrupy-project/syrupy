@@ -143,7 +143,9 @@ class SnapshotSession:
                 )
 
     def _merge_snapshot_files_into(
-        self, snapshot_files: "SnapshotFiles", *snapshot_files_to_merge: SnapshotFiles,
+        self,
+        snapshot_files: "SnapshotFiles",
+        *snapshot_files_to_merge: "SnapshotFiles",
     ) -> None:
         """
         Add snapshots from other files into the first one
