@@ -18,7 +18,7 @@ def requirements(ctx):
 def lint(ctx, fix=False):
     skip_command = "echo 'Skipping'"
     lint_commands = {
-        "isort": f"python -m isort {'' if fix else '--check-only'} -y",
+        "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
         "mypy": None if fix else f"python -m mypy --strict src",
     }
