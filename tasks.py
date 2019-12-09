@@ -19,10 +19,10 @@ def lint(ctx, fix=False):
     py_glob = "./*.py ./src ./tests"
     skip_command = "echo 'Skipping'"
     lint_commands = {
-        "import sort order": f"python -m isort {'' if fix else '--check-only'}",
-        "source formatting": f"python -m black {'' if fix else '--check'} .",
-        "source code style": None if fix else f"python -m pylint {py_glob}",
-        "typed annotations": None if fix else f"python -m mypy --strict {py_glob}",
+        "isort": f"python -m isort {'' if fix else '--check-only'}",
+        "black": f"python -m black {'' if fix else '--check'} .",
+        "pylint": None if fix else f"python -m pylint {py_glob}",
+        "mypy": None if fix else f"python -m mypy --strict {py_glob}",
     }
 
     for section, command in lint_commands.items():

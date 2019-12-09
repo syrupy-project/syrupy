@@ -1,6 +1,17 @@
+[tool.pylint]
+
+
 [tool.isort]
 line_length = 88
-skip = '.eggs, .mypy_cache, .venv, syrupy.venv, build, dist'
+skip = '''
+.eggs,
+.mypy_cache,
+.venv,
+syrupy.venv,
+build,
+dist, 
+stubs/pytest.pyi,
+'''
 
 [tool.black]
 line-length = 88
