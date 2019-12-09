@@ -25,6 +25,7 @@ exclude = '''
 
 [tool.isort]
 line_length = 88
+known_first_party = 'syrupy'
 skip = '''
 .eggs,
 .mypy_cache,

@@ -1,6 +1,7 @@
 import base64
 
 import pytest
+
 from syrupy.serializers.image import PNGImageSnapshotSerializer
 
 
