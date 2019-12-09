@@ -25,15 +25,15 @@ def lint(ctx, fix=False):
         print("\nSkipping type check as there is no fixer")
     else:
         print("\nRunning type check")
-        ctx.run("python -m mypy --ignore-missing-imports src", pty=True)
+        ctx.run("python -m mypy --strict src", pty=True)
 
 
 @task
-def test(ctx, update_snapshots=False, verbose=False):
+def test(ctx, snapshot_update=False, verbose=False):
     ctx.run(
         "python -m pytest ."
         f"{' -s' if verbose else ''}"
-        f"{' --update-snapshots' if update_snapshots else ''}",
+        f"{' --snapshot-update' if snapshot_update else ''}",
         env={"PYTHONPATH": "./src"},
         pty=True,
     )

@@ -28,5 +28,36 @@ test_parametrized_with_special_char[Escaped \\n]:
   data: Escaped \n
 test_raw_string:
   data: Raw string
+test_set:
+  data: !!set
+    a: null
+    is: null
+    set: null
+    this: null
+test_set.1:
+  data: !!set
+    a: null
+    ? !!python/object/apply:builtins.frozenset
+    - - nested, set
+    : null
+    is: null
+    this: null
 test_simple_string:
   data: Loreeeeeem ipsum.
+test_tuples:
+  data: !!python/tuple
+  - this
+  - is
+  - !!python/tuple
+    - a
+    - tuple
+test_tuples.1:
+  data: !!python/object/new:tests.test_snapshots.ExampleTuple
+  - this
+  - is
+  - a
+  - !!set
+    named: null
+    tuple: null
+test_unicode_string:
+  data: 🥞🐍🍯

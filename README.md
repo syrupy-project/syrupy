@@ -45,7 +45,7 @@ def test_foo(snapshot):
 when you run `pytest`, the above test should fail due to a missing snapshot. Re-run pytest with the update snapshots flag like so:
 
 ```shell
-pytest --update-snapshots
+pytest --snapshot-update
 ```
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
@@ -58,7 +58,6 @@ import pytest
 @pytest.fixture
 def snapshot_custom(snapshot):
     return snapshot.with_class(
-        io_class=CustomIOClass,
         serializer_class=CustomSerializerClass,
     )
 
@@ -67,7 +66,7 @@ def test_image(snapshot_custom):
     assert actual == snapshot_custom
 ```
 
-Both `CustomIOClass` and `CustomSerializerClass` should extend `syrupy.io.SnapshotIO` and `syrupy.io.SnapshotSerializer` respectively.
+`CustomSerializerClass` should extend `syrupy.serializers.base.AbstractSnapshotSerializer`.
 
 ## Uninstalling
 

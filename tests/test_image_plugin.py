@@ -1,14 +1,12 @@
 import base64
 import pytest
 
-from syrupy.plugins.image import PNGImageSnapshotIO, ImageSnapshotSerializer
+from syrupy.serializers.image import PNGImageSnapshotSerializer
 
 
 @pytest.fixture
 def snapshot_png(snapshot):
-    return snapshot.with_class(
-        io_class=PNGImageSnapshotIO, serializer_class=ImageSnapshotSerializer
-    )
+    return snapshot.with_class(serializer_class=PNGImageSnapshotSerializer)
 
 
 def test_image(snapshot_png):
