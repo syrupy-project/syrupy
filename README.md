@@ -45,7 +45,7 @@ def test_foo(snapshot):
 when you run `pytest`, the above test should fail due to a missing snapshot. Re-run pytest with the update snapshots flag like so:
 
 ```shell
-pytest --update-snapshots
+pytest --snapshot-update
 ```
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
