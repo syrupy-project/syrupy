@@ -4,7 +4,7 @@ from .types import SerializableData
 from .exceptions import SnapshotDoesNotExist
 
 if TYPE_CHECKING:
-    from .serializer import SnapshotSerializer
+    from .serializers.base import AbstractSnapshotSerializer
     from .location import TestLocation
     from .session import SnapshotSession
 
@@ -14,7 +14,7 @@ class SnapshotAssertion:
         self,
         *,
         update_snapshots: bool,
-        serializer_class: Type["SnapshotSerializer"],
+        serializer_class: Type["AbstractSnapshotSerializer"],
         test_location: "TestLocation",
         session: "SnapshotSession",
     ):
@@ -27,9 +27,9 @@ class SnapshotAssertion:
         self._session.register_request(self)
 
     @property
-    def serializer(self) -> "SnapshotSerializer":
+    def serializer(self) -> "AbstractSnapshotSerializer":
         if not getattr(self, "_serializer", None):
-            self._serializer: "SnapshotSerializer" = self._serializer_class(
+            self._serializer: "AbstractSnapshotSerializer" = self._serializer_class(
                 test_location=self._test_location, file_hook=self._file_hook
             )
         return self._serializer
@@ -39,7 +39,7 @@ class SnapshotAssertion:
         return int(self._executions)
 
     def with_class(
-        self, serializer_class: Optional[Type["SnapshotSerializer"]] = None,
+        self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
     ) -> "SnapshotAssertion":
         return self.__class__(
             update_snapshots=self._update_snapshots,

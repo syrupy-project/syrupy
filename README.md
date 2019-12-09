@@ -66,7 +66,7 @@ def test_image(snapshot_custom):
     assert actual == snapshot_custom
 ```
 
-`CustomSerializerClass` should extend `syrupy.serializer.SnapshotSerializer`.
+`CustomSerializerClass` should extend `syrupy.serializers.base.AbstractSnapshotSerializer`.
 
 ## Uninstalling
 

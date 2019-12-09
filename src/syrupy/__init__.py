@@ -2,7 +2,7 @@ import pytest
 from typing import Any, Optional, List
 
 from .assertion import SnapshotAssertion
-from .serializer import SnapshotSerializer
+from .serializers import DEFAULT_SERIALIZER
 from .location import TestLocation
 from .session import SnapshotSession
 
@@ -60,7 +60,7 @@ def snapshot(request: Any) -> "SnapshotAssertion":
     )
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        serializer_class=SnapshotSerializer,
+        serializer_class=DEFAULT_SERIALIZER,
         test_location=test_location,
         session=request.session._syrupy,
     )

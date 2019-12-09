@@ -1,22 +1,28 @@
-from typing import Any, Callable, Optional, Set, TYPE_CHECKING
+from typing import Callable, Optional, Set, TYPE_CHECKING
 
 import os
-import yaml
 
-from .constants import SNAPSHOT_DIRNAME
-from .exceptions import SnapshotDoesNotExist
+from abc import ABC, abstractmethod
+
+from syrupy.constants import SNAPSHOT_DIRNAME
+from syrupy.exceptions import SnapshotDoesNotExist
 
 if TYPE_CHECKING:
-    from .types import SerializableData
-    from .location import TestLocation
+    from syrupy.types import SerializableData
+    from syrupy.location import TestLocation
 
 
-class SnapshotSerializer:
+class AbstractSnapshotSerializer(ABC):
     def __init__(
         self, test_location: "TestLocation", file_hook: Callable[[str, str], None]
     ):
         self._test_location = test_location
         self._file_hook = file_hook
+
+    @property
+    @abstractmethod
+    def file_extension(self) -> str:
+        pass
 
     @property
     def test_location(self) -> "TestLocation":
@@ -25,20 +31,19 @@ class SnapshotSerializer:
     @property
     def dirname(self) -> str:
         test_dirname = os.path.dirname(self.test_location.filename)
-        snapshot_dir = self._get_snapshot_dirname()
-        if snapshot_dir is not None:
-            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, snapshot_dir)
+        subdir_name = self.snapshot_subdirectory_name
+        if subdir_name is not None:
+            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
         return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
 
+    @abstractmethod
     def discover_snapshots(self, filepath: str) -> Set[str]:
         """
-        Utility method for getting all the snapshots from a file.
-        Returns an empty set if the file cannot be read.
+        Given a snapshot file, returns a Set of all snapshots
+        within the file. Snapshot name is dependent on serializer
+        implementation.
         """
-        try:
-            return set(self._read_file(filepath).keys())
-        except:
-            return set()
+        pass
 
     def read_snapshot(self, index: int) -> "SerializableData":
         """
@@ -56,7 +61,7 @@ class SnapshotSerializer:
         self, serialized_data: "SerializableData", index: int
     ) -> None:
         """
-        Utility method for reading the contents of a snapshot assertion.
+        Utility method for writing the contents of a snapshot assertion.
         Will call `pre_write`, then `write` and finally `post_write`.
         """
         self.pre_write(serialized_data, index=index)
@@ -67,7 +72,7 @@ class SnapshotSerializer:
         """
         Utility method for removing a snapshot from a snapshot file.
         """
-        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
+        self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
 
     def pre_read(self, index: int = 0) -> None:
         pass
@@ -75,7 +80,7 @@ class SnapshotSerializer:
     def read(self, index: int = 0) -> "SerializableData":
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
-        snapshot = self._read_snapshot_from_file(snapshot_file, snapshot_name)
+        snapshot = self.read_snapshot_from_file(snapshot_file, snapshot_name)
         if snapshot is None:
             raise SnapshotDoesNotExist()
         return snapshot
@@ -89,7 +94,7 @@ class SnapshotSerializer:
     def write(self, data: "SerializableData", index: int = 0) -> None:
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
-        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
+        self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
         self._snap_file_hook(index)
@@ -103,13 +108,17 @@ class SnapshotSerializer:
         return f"{methodname}{index_suffix}"
 
     def get_filepath(self, index: int) -> str:
+        """Returns full filepath where snapshot data is stored."""
         basename = self.get_file_basename(index=index)
-        return os.path.join(self.dirname, basename)
+        return os.path.join(self.dirname, f"{basename}.{self.file_extension}")
 
     def get_file_basename(self, index: int) -> str:
-        return f"{os.path.splitext(os.path.basename(self._test_location.filename))[0]}.yaml"
+        """Returns file basename without extension. Used to create full filepath."""
+        return f"{os.path.splitext(os.path.basename(self._test_location.filename))[0]}"
 
-    def _get_snapshot_dirname(self) -> Optional[str]:
+    @property
+    def snapshot_subdirectory_name(self) -> Optional[str]:
+        """Optional subdirectory in which to store snapshots."""
         return None
 
     def _ensure_snapshot_dir(self, index: int) -> None:
@@ -121,27 +130,17 @@ class SnapshotSerializer:
         except FileExistsError:
             pass
 
-    def _read_snapshot_from_file(
+    @abstractmethod
+    def read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
         """
         Read the snapshot file and get only the snapshot data for assertion
         """
-        snapshots = self._read_file(snapshot_file)
-        return snapshots.get(snapshot_name, {}).get("data", None)
+        pass
 
-    def _read_file(self, filepath: str) -> Any:
-        """
-        Read the snapshot data from the snapshot file into a python instance.
-        """
-        try:
-            with open(filepath, "r") as f:
-                return yaml.load(f, Loader=yaml.FullLoader) or {}
-        except FileNotFoundError:
-            pass
-        return {}
-
-    def _write_snapshot_or_remove_file(
+    @abstractmethod
+    def write_snapshot_or_remove_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         """
@@ -149,24 +148,7 @@ class SnapshotSerializer:
         or removes the snapshot entry if data is `None`.
         If the snapshot file will be empty remove the entire file.
         """
-        snapshots = self._read_file(snapshot_file)
-        if data is None and snapshot_name in snapshots:
-            del snapshots[snapshot_name]
-        else:
-            snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
-            snapshots[snapshot_name]["data"] = data
-
-        if snapshots:
-            self._write_file(snapshot_file, snapshots)
-        else:
-            os.remove(snapshot_file)
-
-    def _write_file(self, filepath: str, data: "SerializableData") -> None:
-        """
-        Writes the snapshot data into the snapshot file that be read later.
-        """
-        with open(filepath, "w") as f:
-            yaml.dump(data, f, allow_unicode=True)
+        pass
 
     def _snap_file_hook(self, index: int) -> None:
         """
