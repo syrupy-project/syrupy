@@ -98,7 +98,7 @@ class SnapshotSession:
             else:
                 self.add_report_line(
                     gettext(
-                        "Re-run pytest with --update-snapshots to delete the snapshots."
+                        "Re-run pytest with --snapshot-update to delete the snapshots."
                     )
                 )
 
