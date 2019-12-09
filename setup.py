@@ -18,15 +18,15 @@ def readme() -> str:
         return f.read()
 
 
-def local_scheme(_: "ScmVersion") -> str:
+def local_scheme(v) -> str:
     return ""
 
 
-def version_scheme(v: "ScmVersion") -> str:
+def version_scheme(v) -> str:
     return (
         v.format_with("{tag}")
         if v.exact
-        else datetime.now().strftime("%Y.%m.%d.%H%M%S%f"),
+        else datetime.now().strftime("%Y.%m.%d.%H%M%S%f")
     )
 
 
