@@ -1,7 +1,7 @@
 import base64
 import pytest
 
-from syrupy.plugins.image import PNGImageSnapshotSerializer
+from syrupy.serializers.image import PNGImageSnapshotSerializer
 
 
 @pytest.fixture
