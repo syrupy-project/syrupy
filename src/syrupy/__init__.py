@@ -11,7 +11,7 @@ def pytest_addoption(parser: Any) -> None:
     """Exposes snapshot plugin configuration to pytest."""
     group = parser.getgroup("syrupy")
     group.addoption(
-        "--update-snapshots",
+        "--snapshot-update",
         action="store_true",
         default=False,
         dest="update_snapshots",
