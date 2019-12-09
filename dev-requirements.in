@@ -10,4 +10,3 @@ twine
 wheel
 py-githooks
 isort
-pylint

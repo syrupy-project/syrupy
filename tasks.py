@@ -19,9 +19,8 @@ def lint(ctx, fix=False):
     py_glob = "./*.py ./src ./tests"
     skip_command = "echo 'Skipping'"
     lint_commands = {
-        "isort": f"python -m isort {'' if fix else '--check-only'}",
+        "isort": f"python -m isort {'' if fix else '--check-only'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
-        "pylint": None if fix else f"python -m pylint {py_glob}",
         "mypy": None if fix else f"python -m mypy --strict {py_glob}",
     }
 
