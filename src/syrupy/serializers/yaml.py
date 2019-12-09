@@ -1,9 +1,14 @@
-from typing import Any, Set, TYPE_CHECKING
-
 import os
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Set,
+)
+
 import yaml
 
 from .base import AbstractSnapshotSerializer
+
 
 if TYPE_CHECKING:
     from syrupy.types import SerializableData

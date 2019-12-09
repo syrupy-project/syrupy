@@ -16,16 +16,20 @@ def requirements(ctx):
 
 @task
 def lint(ctx, fix=False):
-    ctx.run(
-        f"python -m black --target-version py36 {'--check' if not fix else ''} ./*.py ./src ./tests",
-        pty=True,
-    )
+    py_glob = "./*.py ./src ./tests"
+    skip_command = "echo 'Skipping'"
+    lint_commands = {
+        "import sort order": f"python -m isort {'' if fix else '--check-only'}",
+        "source formatting": f"python -m black {'' if fix else '--check'} .",
+        "source code style": None if fix else f"python -m pylint {py_glob}",
+        "typed annotations": None if fix else f"python -m mypy --strict {py_glob}",
+    }
 
-    if fix:
-        print("\nSkipping type check as there is no fixer")
-    else:
-        print("\nRunning type check")
-        ctx.run("python -m mypy --strict src", pty=True)
+    for section, command in lint_commands.items():
+        section_border = "-" * 8
+        print(f"{section_border}\n{section.capitalize()}\n{section_border}")
+        ctx.run(command or skip_command, pty=True)
+        print()
 
 
 @task

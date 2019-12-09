@@ -1,6 +1,6 @@
 [tool.isort]
 line_length = 88
-skip= '.eggs, .mypy_cache, .venv, syrupy.venv, build, dist'
+skip = '.eggs, .mypy_cache, .venv, syrupy.venv, build, dist'
 
 [tool.black]
 line-length = 88
@@ -14,6 +14,7 @@ exclude = '''
     | \.hg
     | \.mypy_cache
     | \.tox
+    | \.vscode
     | \.venv
     | \syrupy.venv
     | _build

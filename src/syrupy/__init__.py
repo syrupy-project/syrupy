@@ -1,9 +1,14 @@
+from typing import (
+    Any,
+    List,
+    Optional,
+)
+
 import pytest
-from typing import Any, Optional, List
 
 from .assertion import SnapshotAssertion
-from .serializers import DEFAULT_SERIALIZER
 from .location import TestLocation
+from .serializers import DEFAULT_SERIALIZER
 from .session import SnapshotSession
 
 
