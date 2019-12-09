@@ -1,21 +1,25 @@
-from typing import Any, Callable, Optional, Set
+from typing import Any, Callable, Optional, Set, TYPE_CHECKING
 
 import os
 import yaml
 
 from .constants import SNAPSHOT_DIRNAME
 from .exceptions import SnapshotDoesNotExist
-from .location import TestLocation
-from .types import SnapshotFiles
+
+if TYPE_CHECKING:
+    from .types import SerializableData
+    from .location import TestLocation
 
 
 class SnapshotSerializer:
-    def __init__(self, test_location: TestLocation, file_hook):
+    def __init__(
+        self, test_location: "TestLocation", file_hook: Callable[[str, str], None]
+    ):
         self._test_location = test_location
         self._file_hook = file_hook
 
     @property
-    def test_location(self):
+    def test_location(self) -> "TestLocation":
         return self._test_location
 
     @property
@@ -36,7 +40,7 @@ class SnapshotSerializer:
         except:
             return set()
 
-    def read_snapshot(self, index: int) -> Any:
+    def read_snapshot(self, index: int) -> "SerializableData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `pre_read`, then `read` and finally `post_read`,
@@ -48,7 +52,9 @@ class SnapshotSerializer:
         finally:
             self.post_read(index=index)
 
-    def create_or_update_snapshot(self, serialized_data: Any, index: int):
+    def create_or_update_snapshot(
+        self, serialized_data: "SerializableData", index: int
+    ) -> None:
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `pre_write`, then `write` and finally `post_write`.
@@ -57,16 +63,16 @@ class SnapshotSerializer:
         self.write(serialized_data, index=index)
         self.post_write(serialized_data, index=index)
 
-    def delete_snapshot(self, snapshot_file: str, snapshot_name: str):
+    def delete_snapshot(self, snapshot_file: str, snapshot_name: str) -> None:
         """
         Utility method for removing a snapshot from a snapshot file.
         """
         self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
 
-    def pre_read(self, index: int = 0):
+    def pre_read(self, index: int = 0) -> None:
         pass
 
-    def read(self, index: int = 0) -> Any:
+    def read(self, index: int = 0) -> "SerializableData":
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         snapshot = self._read_snapshot_from_file(snapshot_file, snapshot_name)
@@ -74,18 +80,18 @@ class SnapshotSerializer:
             raise SnapshotDoesNotExist()
         return snapshot
 
-    def post_read(self, index: int = 0):
+    def post_read(self, index: int = 0) -> None:
         self._snap_file_hook(index)
 
-    def pre_write(self, data: Any, index: int = 0):
+    def pre_write(self, data: "SerializableData", index: int = 0) -> None:
         self._ensure_snapshot_dir(index)
 
-    def write(self, data: Any, index: int = 0):
+    def write(self, data: "SerializableData", index: int = 0) -> None:
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
-    def post_write(self, data: Any, index: int = 0):
+    def post_write(self, data: "SerializableData", index: int = 0) -> None:
         self._snap_file_hook(index)
 
     def get_snapshot_name(self, index: int = 0) -> str:
@@ -106,7 +112,7 @@ class SnapshotSerializer:
     def _get_snapshot_dirname(self) -> Optional[str]:
         return None
 
-    def _ensure_snapshot_dir(self, index: int):
+    def _ensure_snapshot_dir(self, index: int) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """
@@ -115,7 +121,9 @@ class SnapshotSerializer:
         except FileExistsError:
             pass
 
-    def _read_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> Any:
+    def _read_snapshot_from_file(
+        self, snapshot_file: str, snapshot_name: str
+    ) -> "SerializableData":
         """
         Read the snapshot file and get only the snapshot data for assertion
         """
@@ -134,8 +142,8 @@ class SnapshotSerializer:
         return {}
 
     def _write_snapshot_or_remove_file(
-        self, snapshot_file: str, snapshot_name: str, data: Any
-    ):
+        self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
+    ) -> None:
         """
         Adds the snapshot data to the snapshots read from the file
         or removes the snapshot entry if data is `None`.
@@ -153,14 +161,14 @@ class SnapshotSerializer:
         else:
             os.remove(snapshot_file)
 
-    def _write_file(self, filepath: str, data: Any):
+    def _write_file(self, filepath: str, data: "SerializableData") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
         with open(filepath, "w") as f:
             yaml.dump(data, f, allow_unicode=True)
 
-    def _snap_file_hook(self, index: int):
+    def _snap_file_hook(self, index: int) -> None:
         """
         Notify the assertion of an access to a snapshot in a file
         """

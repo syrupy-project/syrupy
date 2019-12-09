@@ -1,4 +1,4 @@
-from typing import Any, Set, Optional
+from typing import Any, Set, Optional, TYPE_CHECKING
 from abc import ABC, abstractmethod
 import re
 
@@ -6,7 +6,9 @@ import os
 
 from syrupy.serializer import SnapshotSerializer
 from syrupy.exceptions import SnapshotDoesNotExist
-from syrupy.types import SnapshotFiles
+
+if TYPE_CHECKING:
+    from syrupy.types import SerializableData
 
 
 class AbstractImageSnapshotSerializer(ABC, SnapshotSerializer):
@@ -23,10 +25,12 @@ class AbstractImageSnapshotSerializer(ABC, SnapshotSerializer):
         sanitized_name = self._clean_filename(self.get_snapshot_name(index=index))
         return f"{sanitized_name}{maybe_extension}"
 
-    def _get_snapshot_dirname(self):
+    def _get_snapshot_dirname(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def _read_snapshot_from_file(self, snapshot_file: str, _):
+    def _read_snapshot_from_file(
+        self, snapshot_file: str, snapshot_name: str
+    ) -> "SerializableData":
         return self._read_file(snapshot_file)
 
     def _read_file(self, filepath: str) -> Any:
@@ -36,13 +40,15 @@ class AbstractImageSnapshotSerializer(ABC, SnapshotSerializer):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_or_remove_file(self, snapshot_file: str, _: str, data: Any):
+    def _write_snapshot_or_remove_file(
+        self, snapshot_file: str, _: str, data: Any
+    ) -> None:
         if data:
             self._write_file(snapshot_file, data)
         else:
             os.remove(snapshot_file)
 
-    def _write_file(self, filepath: str, data: Any):
+    def _write_file(self, filepath: str, data: "SerializableData") -> None:
         with open(filepath, "wb") as f:
             f.write(data)
 
