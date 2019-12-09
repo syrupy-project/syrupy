@@ -32,7 +32,7 @@ skip = '''
 syrupy.venv,
 build,
 dist, 
-stubs/pytest.pyi,
+stubs,
 '''
 
 [tool.pylint.messages_control]

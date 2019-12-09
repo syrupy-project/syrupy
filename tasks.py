@@ -16,17 +16,15 @@ def requirements(ctx):
 
 @task
 def lint(ctx, fix=False):
-    py_glob = "./*.py ./src ./tests"
     skip_command = "echo 'Skipping'"
     lint_commands = {
         "isort": f"python -m isort {'' if fix else '--check-only'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
-        "mypy": None if fix else f"python -m mypy --strict {py_glob}",
+        "mypy": None if fix else f"python -m mypy --strict src",
     }
 
     for section, command in lint_commands.items():
-        section_border = "-" * 8
-        print(f"{section_border}\n{section.capitalize()}\n{section_border}")
+        print(f"\033[1m{section.capitalize()}\033[0m")
         ctx.run(command or skip_command, pty=True)
         print()
 

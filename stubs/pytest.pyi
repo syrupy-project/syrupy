@@ -1,8 +1,4 @@
-from typing import (
-    Any,
-    Callable,
-    TypeVar,
-)
+from typing import Any, Callable, TypeVar
 
 ReturnType = TypeVar("ReturnType")
 
