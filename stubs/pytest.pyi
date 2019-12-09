@@ -4,7 +4,6 @@ from typing import (
     TypeVar,
 )
 
-
 ReturnType = TypeVar("ReturnType")
 
 def fixture(func: Callable[..., ReturnType]) -> Callable[..., ReturnType]: ...
