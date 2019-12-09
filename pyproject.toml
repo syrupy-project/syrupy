@@ -1,18 +1,3 @@
-[tool.pylint]
-
-
-[tool.isort]
-line_length = 88
-skip = '''
-.eggs,
-.mypy_cache,
-.venv,
-syrupy.venv,
-build,
-dist, 
-stubs/pytest.pyi,
-'''
-
 [tool.black]
 line-length = 88
 target-version = ['py36']
@@ -36,4 +21,22 @@ exclude = '''
   | foo.py           # also separately exclude a file named foo.py in
                      # the root of the project
 )
+'''
+
+[tool.isort]
+line_length = 88
+skip = '''
+.eggs,
+.mypy_cache,
+.venv,
+syrupy.venv,
+build,
+dist, 
+stubs/pytest.pyi,
+'''
+
+[tool.pylint.messages_control]
+disable = '''
+missing-function-docstring,
+missing-module-docstring,
 '''
