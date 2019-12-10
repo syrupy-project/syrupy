@@ -9,3 +9,4 @@ semver
 twine
 wheel
 py-githooks
+isort

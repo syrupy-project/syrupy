@@ -1,11 +1,18 @@
-from typing import Callable, Optional, Set, TYPE_CHECKING
-
 import os
-
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from typing import (
+    TYPE_CHECKING,
+    Callable,
+    Optional,
+    Set,
+)
 
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.exceptions import SnapshotDoesNotExist
+
 
 if TYPE_CHECKING:
     from syrupy.types import SerializableData

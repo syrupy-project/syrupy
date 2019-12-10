@@ -1,4 +1,4 @@
-from typing import TypeVar, Callable, Any
+from typing import Any, Callable, TypeVar
 
 ReturnType = TypeVar("ReturnType")
 
