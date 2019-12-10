@@ -16,16 +16,16 @@ def requirements(ctx):
 
 @task
 def lint(ctx, fix=False):
-    ctx.run(
-        f"python -m black --target-version py36 {'--check' if not fix else ''} ./*.py ./src ./tests",
-        pty=True,
-    )
+    lint_commands = {
+        "mypy": "python -m mypy --strict src",
+        "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
+        "black": f"python -m black {'' if fix else '--check'} .",
+    }
 
-    if fix:
-        print("\nSkipping type check as there is no fixer")
-    else:
-        print("\nRunning type check")
-        ctx.run("python -m mypy --strict src", pty=True)
+    for section, command in lint_commands.items():
+        print(f"\033[1m{section}\033[0m")
+        ctx.run(command, pty=True)
+        print()
 
 
 @task

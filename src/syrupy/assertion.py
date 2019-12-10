@@ -1,7 +1,17 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, TYPE_CHECKING
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Dict,
+    List,
+    Optional,
+    Type,
+    TypeVar,
+)
 
-from .types import SerializableData
 from .exceptions import SnapshotDoesNotExist
+from .types import SerializableData
+
 
 if TYPE_CHECKING:
     from .serializers.base import AbstractSnapshotSerializer

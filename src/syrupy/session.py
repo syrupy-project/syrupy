@@ -1,11 +1,27 @@
 import os
 from collections import defaultdict
 from functools import lru_cache
-from gettext import ngettext, gettext
-from typing import Dict, List, Set, Tuple, Generator, TYPE_CHECKING
+from gettext import (
+    gettext,
+    ngettext,
+)
+from typing import (
+    TYPE_CHECKING,
+    Dict,
+    Generator,
+    List,
+    Set,
+    Tuple,
+)
 
 from .constants import SNAPSHOT_DIRNAME
-from .terminal import bold, error_style, green, yellow
+from .terminal import (
+    bold,
+    error_style,
+    green,
+    yellow,
+)
+
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
