@@ -1,13 +1,12 @@
-import traceback
-import pytest
-import os
-from typing import Any, Callable, List, Optional, Type
+from typing import Any, Callable, List, Optional, Type, TypeVar, TYPE_CHECKING
 
+from .types import SerializableData
 from .exceptions import SnapshotDoesNotExist
 
-from .io import SnapshotIO
-from .serializer import SnapshotSerializer
-from .location import TestLocation
+if TYPE_CHECKING:
+    from .serializers.base import AbstractSnapshotSerializer
+    from .location import TestLocation
+    from .session import SnapshotSession
 
 
 class SnapshotAssertion:
@@ -15,34 +14,24 @@ class SnapshotAssertion:
         self,
         *,
         update_snapshots: bool,
-        io_class: Type[SnapshotIO],
-        serializer_class: Type[SnapshotSerializer],
-        test_location: TestLocation,
-        session,
+        serializer_class: Type["AbstractSnapshotSerializer"],
+        test_location: "TestLocation",
+        session: "SnapshotSession",
     ):
         self._update_snapshots = update_snapshots
-        self._io_class = io_class
         self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
 
-        from .session import SnapshotSession
-
-        self._session: SnapshotSession = session
+        self._session: "SnapshotSession" = session
         self._session.register_request(self)
 
     @property
-    def io(self) -> SnapshotIO:
-        if not getattr(self, "_io", None):
-            self._io = self._io_class(
+    def serializer(self) -> "AbstractSnapshotSerializer":
+        if not getattr(self, "_serializer", None):
+            self._serializer: "AbstractSnapshotSerializer" = self._serializer_class(
                 test_location=self._test_location, file_hook=self._file_hook
             )
-        return self._io
-
-    @property
-    def serializer(self) -> SnapshotSerializer:
-        if not getattr(self, "_serializer", None):
-            self._serializer = self._serializer_class()
         return self._serializer
 
     @property
@@ -50,61 +39,56 @@ class SnapshotAssertion:
         return int(self._executions)
 
     def with_class(
-        self,
-        io_class: Type[SnapshotIO] = None,
-        serializer_class: Type[SnapshotSerializer] = None,
-    ):
+        self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
+    ) -> "SnapshotAssertion":
         return self.__class__(
             update_snapshots=self._update_snapshots,
             test_location=self._test_location,
-            io_class=io_class or self._io_class,
             serializer_class=serializer_class or self._serializer_class,
             session=self._session,
         )
 
-    def assert_match(self, data):
+    def assert_match(self, data: "SerializableData") -> None:
         assert self == data
 
-    def get_assert_diff(self, data) -> List[str]:
-        serialized_data = self.serializer.encode(data)
+    def get_assert_diff(self, data: "SerializableData") -> List[str]:
         snapshot_data = self._recall_data(index=self.num_executions - 1)
         if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
-        if serialized_data != snapshot_data:
-            return [f"- {serialized_data}", f"+ {snapshot_data}"]
+        if data != snapshot_data:
+            return [f"- {data}", f"+ {snapshot_data}"]
 
         return []
 
-    def _file_hook(self, filepath, snapshot_name):
+    def _file_hook(self, filepath: str, snapshot_name: str) -> None:
         self._session.add_visited_snapshots({filepath: {snapshot_name}})
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"
 
-    def __call__(self, data) -> bool:
+    def __call__(self, data: "SerializableData") -> bool:
         return self._assert(data)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)
 
-    def _assert(self, data) -> bool:
+    def _assert(self, data: "SerializableData") -> bool:
         self._session.register_assertion(self)
         try:
-            serialized_data = self.serializer.encode(data)
             snapshot_data = self._recall_data(index=self.num_executions)
-            matches = snapshot_data is not None and serialized_data == snapshot_data
+            matches = snapshot_data is not None and data == snapshot_data
             if not matches and self._update_snapshots:
-                self.io.create_or_update_snapshot(
-                    serialized_data, index=self.num_executions
+                self.serializer.create_or_update_snapshot(
+                    serialized_data=data, index=self.num_executions
                 )
                 return True
             return matches
         finally:
             self._executions += 1
 
-    def _recall_data(self, index: int) -> Optional[Any]:
+    def _recall_data(self, index: int) -> Optional["SerializableData"]:
         try:
-            return self.io.read_snapshot(index=index)
+            return self.serializer.read_snapshot(index=index)
         except SnapshotDoesNotExist:
             return None
