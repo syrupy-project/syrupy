@@ -26,6 +26,19 @@ def test_missing_snapshots(snapshot):
         assert "This snapshot should not be written" == snapshot
 
 
+@pytest.fixture
+def snapshot_atomic_write(snapshot):
+    update_snapshots = snapshot._update_snapshots
+    snapshot._update_snapshots = True
+    yield snapshot
+    snapshot.serializer.write(None, snapshot.num_executions - 1)
+    snapshot._update_snapshots = update_snapshots
+
+
+def test_written_snapshots(snapshot_atomic_write):
+    assert "This snapshot should not be committed" == snapshot_atomic_write
+
+
 @pytest.mark.parametrize("expected", [r"Escaped \n", r"Backslash \u U"])
 def test_parametrized_with_special_char(snapshot, expected):
     assert expected == snapshot
