@@ -16,16 +16,15 @@ def requirements(ctx):
 
 @task
 def lint(ctx, fix=False):
-    skip_command = "echo 'Skipping'"
     lint_commands = {
+        "mypy": "python -m mypy --strict src",
         "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
-        "mypy": None if fix else f"python -m mypy --strict src",
     }
 
     for section, command in lint_commands.items():
         print(f"\033[1m{section}\033[0m")
-        ctx.run(command or skip_command, pty=True)
+        ctx.run(command, pty=True)
         print()
 
 
