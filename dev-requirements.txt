@@ -22,6 +22,7 @@ entrypoints==0.3          # via keyring
 idna==2.8                 # via requests
 importlib-metadata==0.23  # via pluggy, pytest, twine
 invoke==1.3.0
+isort==4.3.21
 keyring==19.2.0           # via twine
 more-itertools==7.2.0     # via pytest, zipp
 mypy-extensions==0.4.3    # via mypy
