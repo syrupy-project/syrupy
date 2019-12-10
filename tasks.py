@@ -24,7 +24,7 @@ def lint(ctx, fix=False):
     }
 
     for section, command in lint_commands.items():
-        print(f"\033[1m{section.capitalize()}\033[0m")
+        print(f"\033[1m{section}\033[0m")
         ctx.run(command or skip_command, pty=True)
         print()
 
