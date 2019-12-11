@@ -22,12 +22,13 @@ jobs:
     - name: Install python dev dependencies.
       run: |
         python -m pip install -U pip --no-cache-dir
-        python -m pip install pip-tools wheel
         python -m pip install -e . -r requirements.txt -r dev-requirements.txt
     - name: Lint
       run: invoke lint
     - name: Test
-      run: invoke test
+      env:
+        CODECOV_TOKEN: 282b0064-e377-478b-834c-b8de1a3ee4c4
+      run: invoke test --coverage
     - name: Build Python 3.x
       if: matrix.python-version != '3.7'
       run: invoke build
