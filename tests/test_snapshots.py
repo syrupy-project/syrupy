@@ -3,17 +3,6 @@ from collections import namedtuple
 import pytest
 
 
-@pytest.fixture
-def snapshot_atomic_write(snapshot):
-    update_snapshots = snapshot._update_snapshots
-    snapshot._update_snapshots = True
-    previous_count = snapshot.num_executions
-    yield snapshot
-    for i in range(previous_count + 1, snapshot.num_executions):
-        snapshot.serializer.write(None, i)
-    snapshot._update_snapshots = update_snapshots
-
-
 def test_simple_string(snapshot):
     assert "Loreeeeeem ipsum." == snapshot
 
@@ -35,16 +24,6 @@ def test_multiple_snapshots(snapshot):
 def test_missing_snapshots(snapshot):
     with pytest.raises(AssertionError, match="Snapshot does not exist"):
         assert "This snapshot should not be written" == snapshot
-
-
-def test_written_snapshots(snapshot_atomic_write):
-    snapshot_data = "This snapshot should not be committed"
-    assert snapshot_data == snapshot_atomic_write
-    snapshot_file = snapshot_atomic_write.serializer.get_filepath(
-        snapshot_atomic_write.num_executions
-    )
-    with open(snapshot_file, "r") as f:
-        assert snapshot_data in f.read()
 
 
 @pytest.mark.parametrize("expected", [r"Escaped \n", r"Backslash \u U"])
