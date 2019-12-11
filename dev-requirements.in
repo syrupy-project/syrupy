@@ -9,4 +9,6 @@ semver
 twine
 wheel
 py-githooks
+pytest-cov
+codecov
 isort
