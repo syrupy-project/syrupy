@@ -15,7 +15,7 @@ def test_sth(snapshot):
 
 
 @pytest.fixture
-def snapshot_atomic_write(snapshot):
+def snapshot_atomic(snapshot):
     previous_count = snapshot.num_executions
     previous_update_snapshots = snapshot._update_snapshots
     snapshot._update_snapshots = True
@@ -23,13 +23,14 @@ def snapshot_atomic_write(snapshot):
     for i in range(previous_count, snapshot.num_executions):
         snapshot.serializer.write(None, i)
     snapshot._update_snapshots = previous_update_snapshots
+    snapshot._executions = previous_count
 
 
-def test_written_snapshots(snapshot_atomic_write):
+def test_written_snapshots(snapshot_atomic):
     snapshot_data = "This snapshot should not be committed"
-    assert snapshot_data == snapshot_atomic_write
-    snapshot_file = snapshot_atomic_write.serializer.get_filepath(
-        snapshot_atomic_write.num_executions
+    assert snapshot_data == snapshot_atomic
+    snapshot_file = snapshot_atomic.serializer.get_filepath(
+        snapshot_atomic.num_executions
     )
     with open(snapshot_file, "r") as f:
         assert snapshot_data in f.read()
