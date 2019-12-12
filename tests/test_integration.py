@@ -25,12 +25,15 @@ def test_fixture(stubs):
     assert result.ret == 0
 
 
-def test_unused_snapshots(stubs):
-    result, testdir, tests, _ = stubs
+def test_generate_snapshots(stubs):
+    result = stubs[0]
     assert "2\x1b[0m snapshots generated" in result.stdout.str()
     assert "0\x1b[0m snapshots unused" in result.stdout.str()
     assert result.ret == 0
 
+
+def test_unused_snapshots(stubs):
+    result, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v")
     assert "snapshots generated" not in result.stdout.str()
