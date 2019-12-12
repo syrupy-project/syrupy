@@ -14,6 +14,28 @@ def test_sth(snapshot):
     assert result.ret == 0
 
 
+def test_unused_snapshots(testdir):
+    pyfile_used_snapshot = """
+def test_used(snapshot):
+    assert snapshot == 'this snapshot is used'
+"""
+    pyfile_content = f"""{pyfile_used_snapshot}
+def test_unused(snapshot):
+    assert snapshot == 'this snapshot will be unused'
+"""
+    testdir.makepyfile(test_file=pyfile_content)
+    result = testdir.runpytest("-v", "--snapshot-update")
+    assert "2\x1b[0m snapshots generated" in result.stdout.str()
+    assert "0\x1b[0m snapshots unused" in result.stdout.str()
+    assert result.ret == 0
+
+    testdir.makepyfile(test_file=pyfile_used_snapshot)
+    result = testdir.runpytest("-v")
+    assert "snapshots generated" not in result.stdout.str()
+    assert "1\x1b[0m snapshot unused" in result.stdout.str()
+    assert result.ret == 0
+
+
 @pytest.fixture
 def snapshot_atomic(snapshot):
     previous_count = snapshot.num_executions
