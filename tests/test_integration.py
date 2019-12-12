@@ -6,12 +6,24 @@ import pytest
 @pytest.fixture
 def stubs(testdir):
     tests = {
-        "inject": """def test_injection(snapshot):
-    assert snapshot is not None""",
-        "used": """def test_used(snapshot):
-    assert snapshot == 'used'""",
-        "unused": """def test_unused(snapshot):
-    assert snapshot == 'unused'""",
+        "inject": (
+            """
+            def test_injection(snapshot):
+                assert snapshot is not None
+            """
+        ),
+        "used": (
+            """
+            def test_used(snapshot):
+                assert snapshot == 'used'
+            """
+        ),
+        "unused": (
+            """
+            def test_unused(snapshot):
+                assert snapshot == 'unused'
+            """
+        ),
     }
     pyfile_content = "\n\n".join(tests.values())
     testdir.makepyfile(test_file=pyfile_content)
