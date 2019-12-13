@@ -1,3 +1,5 @@
+from collections import namedtuple
+from functools import lru_cache
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -11,12 +13,20 @@ from typing import (
 
 from .exceptions import SnapshotDoesNotExist
 from .types import SerializableData
+from .utils import walk_snapshot_dir
 
 
 if TYPE_CHECKING:
-    from .serializers.base import AbstractSnapshotSerializer
     from .location import TestLocation
+    from .serializers.base import AbstractSnapshotSerializer
     from .session import SnapshotSession
+    from .types import SnapshotFiles
+
+
+AssertionResult = namedtuple(
+    "AssertionResult",
+    ["asserted", "created", "file", "name", "recalled", "success", "updated"],
+)
 
 
 class SnapshotAssertion:
@@ -32,7 +42,7 @@ class SnapshotAssertion:
         self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
-        self._execution_results: Dict[int, bool] = {}
+        self._execution_results: Dict[int, AssertionResult] = {}
 
         self._session: "SnapshotSession" = session
         self._session.register_request(self)
@@ -41,7 +51,7 @@ class SnapshotAssertion:
     def serializer(self) -> "AbstractSnapshotSerializer":
         if not getattr(self, "_serializer", None):
             self._serializer: "AbstractSnapshotSerializer" = self._serializer_class(
-                test_location=self._test_location, file_hook=self._file_hook
+                test_location=self._test_location
             )
         return self._serializer
 
@@ -62,21 +72,24 @@ class SnapshotAssertion:
     def assert_match(self, data: "SerializableData") -> None:
         assert self == data
 
+    # @lru_cache(maxsize=128)
+    @property
+    def discovered_snapshots(self) -> "SnapshotFiles":
+        return {
+            filepath: self.serializer.discover_snapshots(filepath)
+            for filepath in walk_snapshot_dir(self.serializer.dirname)
+        }
+
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
-        snapshot_data = self._recall_data(index=self.num_executions - 1)
+        assertion_result = self._execution_results[self.num_executions - 1]
+        snapshot_data = assertion_result.recalled
         if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
-        if data != snapshot_data:
+        if not assertion_result.success:
             return [f"- {data}", f"+ {snapshot_data}"]
 
         return []
-
-    def get_assert_result(self, index: int) -> bool:
-        return self._execution_results.get(index, False)
-
-    def _file_hook(self, filepath: str, snapshot_name: str) -> None:
-        self._session.add_visited_snapshots({filepath: {snapshot_name}})
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"
@@ -88,17 +101,30 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        self._session.register_assertion(self)
+        snapshot_file = self.serializer.get_filepath(self.num_executions)
+        snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
         try:
             snapshot_data = self._recall_data(index=self.num_executions)
             matches = snapshot_data is not None and data == snapshot_data
+            assertion_success = matches
             if not matches and self._update_snapshots:
                 self.serializer.create_or_update_snapshot(
                     serialized_data=data, index=self.num_executions
                 )
-                return True
-            return matches
+                assertion_success = True
+            return assertion_success
         finally:
+            snapshot_created = snapshot_data is None and assertion_success
+            snapshot_updated = matches is False and assertion_success
+            self._execution_results[self._executions] = AssertionResult(
+                file=snapshot_file,
+                name=snapshot_name,
+                recalled=snapshot_data,
+                asserted=data,
+                success=assertion_success,
+                created=snapshot_created,
+                updated=snapshot_updated,
+            )
             self._executions += 1
 
     def _recall_data(self, index: int) -> Optional["SerializableData"]:

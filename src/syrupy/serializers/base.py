@@ -20,11 +20,8 @@ if TYPE_CHECKING:
 
 
 class AbstractSnapshotSerializer(ABC):
-    def __init__(
-        self, test_location: "TestLocation", file_hook: Callable[[str, str], None]
-    ):
+    def __init__(self, test_location: "TestLocation"):
         self._test_location = test_location
-        self._file_hook = file_hook
 
     @property
     @abstractmethod
@@ -93,7 +90,7 @@ class AbstractSnapshotSerializer(ABC):
         return snapshot
 
     def post_read(self, index: int = 0) -> None:
-        self._snap_file_hook(index)
+        pass
 
     def pre_write(self, data: "SerializableData", index: int = 0) -> None:
         self._ensure_snapshot_dir(index)
@@ -104,7 +101,7 @@ class AbstractSnapshotSerializer(ABC):
         self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
-        self._snap_file_hook(index)
+        pass
 
     def get_snapshot_name(self, index: int = 0) -> str:
         index_suffix = f".{index}" if index > 0 else ""
@@ -156,11 +153,3 @@ class AbstractSnapshotSerializer(ABC):
         If the snapshot file will be empty remove the entire file.
         """
         pass
-
-    def _snap_file_hook(self, index: int) -> None:
-        """
-        Notify the assertion of an access to a snapshot in a file
-        """
-        snapshot_file = self.get_filepath(index)
-        snapshot_name = self.get_snapshot_name(index)
-        self._file_hook(snapshot_file, snapshot_name)

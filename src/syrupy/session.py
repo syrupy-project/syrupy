@@ -32,44 +32,36 @@ class SnapshotSession:
     def __init__(self, *, update_snapshots: bool, base_dir: str):
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
-        self.discovered_snapshots: "SnapshotFiles" = dict()
-        self.visited_snapshots: "SnapshotFiles" = dict()
-        self.failed_snapshots: "SnapshotFiles" = dict()
         self.report: List[str] = []
-        self._assertions: Dict[str, Dict[str, "SnapshotAssertion"]] = dict()
+        self._assertions: Set["SnapshotAssertion"] = set()
 
     @property
     def unused_snapshots(self) -> "SnapshotFiles":
-        return self._diff_snapshot_files(
-            self.discovered_snapshots, self.visited_snapshots
-        )
+        return {}
 
     @property
     def written_snapshots(self) -> "SnapshotFiles":
-        return self._diff_snapshot_files(
-            self.visited_snapshots, self.discovered_snapshots
-        )
+        return {}
 
     @property
     def num_unused_snapshots(self) -> int:
-        return self._count_snapshots(self.unused_snapshots)
+        return 0
 
     @property
     def num_written_snapshots(self) -> int:
-        return self._count_snapshots(self.written_snapshots)
+        return 0
 
     def start(self) -> None:
         self.report = []
-        self.visited_snapshots = dict()
-        self.discovered_snapshots = dict()
+        self._assertions = set()
 
     def finish(self) -> None:
         n_unused = self.num_unused_snapshots
         n_written = self.num_written_snapshots
-        n_updated = 0  # TODO: self._count_snapshots(self.updated_snapshots)
-        n_failed = self._count_snapshots(self.failed_snapshots)
-        n_found = self._count_snapshots(self.discovered_snapshots)
-        n_passed = n_found - n_unused - n_failed - n_updated
+        n_updated = 0  # TODO
+        n_failed = 0  # TODO
+        n_found = 0  # TODO
+        n_passed = n_found - n_unused - n_failed - n_updated  # TODO
 
         self.add_report_line()
 
@@ -136,44 +128,10 @@ class SnapshotSession:
         self.report += [line]
 
     def register_request(self, assertion: "SnapshotAssertion") -> None:
-        discovered = {
-            filepath: assertion.serializer.discover_snapshots(filepath)
-            for filepath in self._walk_dir(assertion.serializer.dirname)
-        }
-        self.add_discovered_snapshots(discovered)
-
-    def register_assertion(self, assertion: "SnapshotAssertion") -> None:
-        filepath = assertion.serializer.get_filepath(assertion.num_executions)
-        snapshot = assertion.serializer.get_snapshot_name(assertion.num_executions)
-        snapshotFile = {filepath: {snapshot}}
-        self.add_visited_snapshots(snapshotFile)
-        if not assertion.get_assert_result(assertion.num_executions):
-            self._merge_snapshot_files_into(self.failed_snapshots, snapshotFile)
-
-        if filepath not in self._assertions:
-            self._assertions[filepath] = dict()
-        self._assertions[filepath][snapshot] = assertion
-
-    def add_discovered_snapshots(self, snapshots: "SnapshotFiles") -> None:
-        self._merge_snapshot_files_into(self.discovered_snapshots, snapshots)
-
-    def add_visited_snapshots(self, snapshots: "SnapshotFiles") -> None:
-        self._merge_snapshot_files_into(self.visited_snapshots, snapshots)
+        self._assertions.add(assertion)
 
     def remove_unused_snapshots(self) -> None:
-        for snapshot_file, unused_snapshots in self.unused_snapshots.items():
-            all_discovered_unused = (
-                unused_snapshots == self.discovered_snapshots[snapshot_file]
-            )
-            no_snapshot_written = not self.written_snapshots.get(snapshot_file)
-            if all_discovered_unused and no_snapshot_written:
-                os.remove(snapshot_file)
-                continue
-            snapshot_assertion, *_ = self._assertions[snapshot_file].values()
-            for snapshot_name in unused_snapshots:
-                snapshot_assertion.serializer.delete_snapshot(
-                    snapshot_file, snapshot_name
-                )
+        pass
 
     def _merge_snapshot_files_into(
         self,
@@ -185,10 +143,9 @@ class SnapshotSession:
         """
         for snapshot_file in snapshot_files_to_merge:
             for filepath, snapshots in snapshot_file.items():
-                if self._in_snapshot_dir(filepath):
-                    if filepath not in snapshot_files:
-                        snapshot_files[filepath] = set()
-                    snapshot_files[filepath].update(snapshots)
+                if filepath not in snapshot_files:
+                    snapshot_files[filepath] = set()
+                snapshot_files[filepath].update(snapshots)
 
     def _diff_snapshot_files(
         self, snapshot_files1: "SnapshotFiles", snapshot_files2: "SnapshotFiles",
@@ -200,16 +157,3 @@ class SnapshotSession:
 
     def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
         return sum(len(snaps) for snaps in snapshot_files.values())
-
-    def _in_snapshot_dir(self, path: str) -> bool:
-        parts = path.split(os.path.sep)
-        return SNAPSHOT_DIRNAME in parts
-
-    @lru_cache(maxsize=32)
-    def _walk_dir(self, root: str) -> Generator[str, None, None]:
-        for (dirpath, _, filenames) in os.walk(root):
-            if not self._in_snapshot_dir(dirpath):
-                continue
-            for filename in filenames:
-                if not filename.startswith("."):
-                    yield os.path.join(dirpath, filename)
