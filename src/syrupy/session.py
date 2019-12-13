@@ -33,7 +33,7 @@ class SnapshotSession:
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: List[str] = []
-        self._assertions: Set["SnapshotAssertion"] = set()
+        self._assertions: List["SnapshotAssertion"] = []
 
     @property
     def unused_snapshots(self) -> "SnapshotFiles":
@@ -53,7 +53,7 @@ class SnapshotSession:
 
     def start(self) -> None:
         self.report = []
-        self._assertions = set()
+        self._assertions = []
 
     def finish(self) -> None:
         n_unused = self.num_unused_snapshots
@@ -128,7 +128,7 @@ class SnapshotSession:
         self.report += [line]
 
     def register_request(self, assertion: "SnapshotAssertion") -> None:
-        self._assertions.add(assertion)
+        self._assertions.append(assertion)
 
     def remove_unused_snapshots(self) -> None:
         pass
