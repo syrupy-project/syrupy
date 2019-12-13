@@ -1,6 +1,10 @@
 import os
 from functools import lru_cache
-from typing import Generator
+from typing import (
+    Any,
+    Callable,
+    Generator,
+)
 
 from .constants import SNAPSHOT_DIRNAME
 
@@ -18,3 +22,7 @@ def walk_snapshot_dir(root: str) -> Generator[str, None, None]:
         for filename in filenames:
             if not filename.startswith("."):
                 yield os.path.join(dirpath, filename)
+
+
+def cached_property(f: Callable[..., Any]) -> property:
+    return property(lru_cache(maxsize=128)(f))

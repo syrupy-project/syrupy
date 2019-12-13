@@ -13,7 +13,10 @@ from typing import (
 
 from .exceptions import SnapshotDoesNotExist
 from .types import SerializableData
-from .utils import walk_snapshot_dir
+from .utils import (
+    cached_property,
+    walk_snapshot_dir,
+)
 
 
 if TYPE_CHECKING:
@@ -72,8 +75,7 @@ class SnapshotAssertion:
     def assert_match(self, data: "SerializableData") -> None:
         assert self == data
 
-    # @lru_cache(maxsize=128)
-    @property
+    @cached_property
     def discovered_snapshots(self) -> "SnapshotFiles":
         return {
             filepath: self.serializer.discover_snapshots(filepath)
