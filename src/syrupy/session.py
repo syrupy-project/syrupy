@@ -35,33 +35,25 @@ class SnapshotSession:
         self.report: List[str] = []
         self._assertions: List["SnapshotAssertion"] = []
 
-    @property
-    def unused_snapshots(self) -> "SnapshotFiles":
-        return {}
-
-    @property
-    def written_snapshots(self) -> "SnapshotFiles":
-        return {}
-
-    @property
-    def num_unused_snapshots(self) -> int:
-        return 0
-
-    @property
-    def num_written_snapshots(self) -> int:
-        return 0
-
     def start(self) -> None:
         self.report = []
         self._assertions = []
 
     def finish(self) -> None:
-        n_unused = self.num_unused_snapshots
-        n_written = self.num_written_snapshots
-        n_updated = 0  # TODO
-        n_failed = 0  # TODO
-        n_found = 0  # TODO
-        n_passed = n_found - n_unused - n_failed - n_updated  # TODO
+        (
+            _,
+            __,
+            unused_snapshots,
+            failed_snapshots,
+            created_snapshots,
+            updated_snapshots,
+            matched_snapshots,
+        ) = self._collate_snapshots()
+        n_unused = self._count_snapshots(unused_snapshots)
+        n_written = self._count_snapshots(created_snapshots)
+        n_updated = self._count_snapshots(updated_snapshots)
+        n_failed = self._count_snapshots(failed_snapshots)
+        n_passed = self._count_snapshots(matched_snapshots)
 
         self.add_report_line()
 
@@ -109,7 +101,7 @@ class SnapshotSession:
                         n_unused,
                     )
                 )
-                for filepath, snapshots in self.unused_snapshots.items():
+                for filepath, snapshots in unused_snapshots.items():
                     count = self._count_snapshots({filepath: snapshots})
                     if not count:
                         continue
@@ -132,6 +124,56 @@ class SnapshotSession:
 
     def remove_unused_snapshots(self) -> None:
         pass
+
+    def _collate_snapshots(
+        self,
+    ) -> Tuple[
+        "SnapshotFiles",
+        "SnapshotFiles",
+        "SnapshotFiles",
+        "SnapshotFiles",
+        "SnapshotFiles",
+        "SnapshotFiles",
+        "SnapshotFiles",
+    ]:
+        used_snapshots: "SnapshotFiles" = {}
+        failed_snapshots: "SnapshotFiles" = {}
+        created_snapshots: "SnapshotFiles" = {}
+        updated_snapshots: "SnapshotFiles" = {}
+        matched_snapshots: "SnapshotFiles" = {}
+        discovered_snapshots: "SnapshotFiles" = {}
+        self._merge_snapshot_files_into(
+            discovered_snapshots,
+            *[assertion.discovered_snapshots for assertion in self._assertions],
+        )
+        for assertion in self._assertions:
+            for _, result in assertion.executions.items():
+                if used_snapshots.get(result.file):
+                    used_snapshots[result.file].add(result.name)
+                else:
+                    used_snapshots[result.file] = {result.name}
+                snapshot_file: "SnapshotFiles" = {result.file: {result.name}}
+                if result.created:
+                    self._merge_snapshot_files_into(created_snapshots, snapshot_file)
+                elif result.updated:
+                    self._merge_snapshot_files_into(updated_snapshots, snapshot_file)
+                elif result.success:
+                    self._merge_snapshot_files_into(matched_snapshots, snapshot_file)
+                else:
+                    self._merge_snapshot_files_into(failed_snapshots, snapshot_file)
+
+        unused_snapshots: "SnapshotFiles" = self._diff_snapshot_files(
+            discovered_snapshots, used_snapshots
+        )
+        return (
+            discovered_snapshots,
+            used_snapshots,
+            unused_snapshots,
+            failed_snapshots,
+            created_snapshots,
+            updated_snapshots,
+            matched_snapshots,
+        )
 
     def _merge_snapshot_files_into(
         self,

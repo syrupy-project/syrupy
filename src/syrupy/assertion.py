@@ -62,6 +62,17 @@ class SnapshotAssertion:
     def num_executions(self) -> int:
         return int(self._executions)
 
+    @property
+    def executions(self) -> Dict[int, AssertionResult]:
+        return self._execution_results
+
+    @property
+    def discovered_snapshots(self) -> "SnapshotFiles":
+        return {
+            filepath: self.serializer.discover_snapshots(filepath)
+            for filepath in walk_snapshot_dir(self.serializer.dirname)
+        }
+
     def with_class(
         self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
     ) -> "SnapshotAssertion":
@@ -74,13 +85,6 @@ class SnapshotAssertion:
 
     def assert_match(self, data: "SerializableData") -> None:
         assert self == data
-
-    @cached_property
-    def discovered_snapshots(self) -> "SnapshotFiles":
-        return {
-            filepath: self.serializer.discover_snapshots(filepath)
-            for filepath in walk_snapshot_dir(self.serializer.dirname)
-        }
 
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]

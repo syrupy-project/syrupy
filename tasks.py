@@ -48,24 +48,23 @@ def install(ctx):
 @task(
     help={
         "coverage": "Build and report on test coverage",
-        "setup": "Reinstall syrupy development version",
+        "dev": "Use syrupy development version",
         "update-snapshots": "Create, update or delete snapshot files",
         "verbose": "Verbose output e.g. non captured logs etc.",
     }
 )
-def test(ctx, coverage=False, setup=False, update_snapshots=False, verbose=False):
+def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
     """
     Run entire test suite
     """
-    if setup:
-        install(ctx)
+    env = {"PYTHONPATH": "./src"} if dev else {}
     flags = {
         "-s": verbose,
         "--cov=./src": coverage,
         "--snapshot-update": update_snapshots,
     }
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
-    ctx.run(f"python -m pytest {test_flags} .", pty=True)
+    ctx.run(f"python -m pytest {test_flags} .", env=env, pty=True)
     if coverage:
         ctx.run("codecov", pty=True)
 
