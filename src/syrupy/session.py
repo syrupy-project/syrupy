@@ -42,12 +42,13 @@ class SnapshotSession:
     def finish(self) -> None:
         (
             _,
-            __,
+            used_snapshots,
             unused_snapshots,
             failed_snapshots,
             created_snapshots,
             updated_snapshots,
             matched_snapshots,
+            snapshot_file_assertion,
         ) = self._collate_snapshots()
         n_unused = self._count_snapshots(unused_snapshots)
         n_written = self._count_snapshots(created_snapshots)
@@ -76,13 +77,13 @@ class SnapshotSession:
                     "{} snapshot updated.", "{} snapshots updated.", n_passed,
                 ).format(bold(n_passed))
             ]
-        if self.update_snapshots and n_written:
+        if n_written:
             summary_lines += [
                 ngettext(
                     "{} snapshot generated.", "{} snapshots generated.", n_written,
                 ).format(bold(n_written))
             ]
-        if not self.update_snapshots and n_unused:
+        if n_unused:
             summary_lines += [
                 ngettext(
                     "{} snapshot unused.", "{} snapshots unused.", n_unused
@@ -93,7 +94,9 @@ class SnapshotSession:
         if n_unused:
             self.add_report_line()
             if self.update_snapshots:
-                self.remove_unused_snapshots()
+                self.remove_unused_snapshots(
+                    unused_snapshots, used_snapshots, snapshot_file_assertion
+                )
                 self.add_report_line(
                     ngettext(
                         "This snapshot has been deleted.",
@@ -122,8 +125,23 @@ class SnapshotSession:
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
 
-    def remove_unused_snapshots(self) -> None:
-        pass
+    def remove_unused_snapshots(
+        self,
+        unused_snapshot_files: "SnapshotFiles",
+        used_snapshot_files: "SnapshotFiles",
+        snapshot_file_assertion: Dict[str, int],
+    ) -> None:
+        for snapshot_file, unused_snapshots in unused_snapshot_files.items():
+            if snapshot_file not in used_snapshot_files:
+                os.remove(snapshot_file)
+                continue
+            snapshot_assertion = self._assertions[
+                snapshot_file_assertion[snapshot_file]
+            ]
+            for snapshot_name in unused_snapshots:
+                snapshot_assertion.serializer.delete_snapshot(
+                    snapshot_file, snapshot_name
+                )
 
     def _collate_snapshots(
         self,
@@ -135,6 +153,7 @@ class SnapshotSession:
         "SnapshotFiles",
         "SnapshotFiles",
         "SnapshotFiles",
+        Dict[str, int],
     ]:
         used_snapshots: "SnapshotFiles" = {}
         failed_snapshots: "SnapshotFiles" = {}
@@ -142,12 +161,14 @@ class SnapshotSession:
         updated_snapshots: "SnapshotFiles" = {}
         matched_snapshots: "SnapshotFiles" = {}
         discovered_snapshots: "SnapshotFiles" = {}
+        snapshot_file_assertion: Dict[str, int] = {}
         self._merge_snapshot_files_into(
             discovered_snapshots,
             *[assertion.discovered_snapshots for assertion in self._assertions],
         )
-        for assertion in self._assertions:
+        for i, assertion in enumerate(self._assertions):
             for _, result in assertion.executions.items():
+                snapshot_file_assertion[result.file] = i
                 if used_snapshots.get(result.file):
                     used_snapshots[result.file].add(result.name)
                 else:
@@ -173,6 +194,7 @@ class SnapshotSession:
             created_snapshots,
             updated_snapshots,
             matched_snapshots,
+            snapshot_file_assertion,
         )
 
     def _merge_snapshot_files_into(

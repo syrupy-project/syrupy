@@ -1,11 +1,12 @@
 import os
+import re
 
 import pytest
 
 
 @pytest.fixture
-def stubs(testdir):
-    tests = {
+def testcases():
+    return {
         "inject": (
             """
             def test_injection(snapshot):
@@ -25,10 +26,21 @@ def stubs(testdir):
             """
         ),
     }
-    pyfile_content = "\n\n".join(tests.values())
+
+
+def test_missing_snapshots(testdir, testcases):
+    testdir.makepyfile(test_file=testcases["used"])
+    result = testdir.runpytest("-v")
+    assert "Snapshot does not exist" in _clean_output(result.stdout.str())
+    assert result.ret == 1
+
+
+@pytest.fixture
+def stubs(testdir, testcases):
+    pyfile_content = "\n\n".join(testcases.values())
     testdir.makepyfile(test_file=pyfile_content)
     filepath = os.path.join(testdir.tmpdir, "__snapshots__", "test_file.yaml")
-    return testdir.runpytest("-v", "--snapshot-update"), testdir, tests, filepath
+    return testdir.runpytest("-v", "--snapshot-update"), testdir, testcases, filepath
 
 
 def test_injected_fixture(stubs):
@@ -39,8 +51,9 @@ def test_injected_fixture(stubs):
 
 def test_generated_snapshots(stubs):
     result = stubs[0]
-    assert "2\x1b[0m snapshots generated" in result.stdout.str()
-    assert "0\x1b[0m snapshots unused" in result.stdout.str()
+    result_stdout = _clean_output(result.stdout.str())
+    assert "2 snapshots generated" in result_stdout
+    assert "snapshots unused" not in result_stdout
     assert result.ret == 0
 
 
@@ -48,8 +61,10 @@ def test_unused_snapshots(stubs):
     result, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v")
-    assert "snapshots generated" not in result.stdout.str()
-    assert "1\x1b[0m snapshot unused" in result.stdout.str()
+    result_stdout = _clean_output(result.stdout.str())
+    assert "snapshots generated" not in result_stdout
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot unused" in result_stdout
     assert result.ret == 0
 
 
@@ -58,8 +73,9 @@ def test_removed_snapshots(stubs):
     assert os.path.isfile(filepath)
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert "1\x1b[0m snapshot unused" in result.stdout.str()
-    assert "This snapshot has been deleted" in result.stdout.str()
+    result_stdout = _clean_output(result.stdout.str())
+    assert "1 snapshot unused" in result_stdout
+    assert "This snapshot has been deleted" in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
 
@@ -69,7 +85,13 @@ def test_removed_snapshot_file(stubs):
     assert os.path.isfile(filepath)
     testdir.makepyfile(test_file=tests["inject"])
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert "2\x1b[0m snapshots unused" in result.stdout.str()
-    assert "These snapshots have been deleted" in result.stdout.str()
+    result_stdout = _clean_output(result.stdout.str())
+    assert "2 snapshots unused" in result_stdout
+    assert "These snapshots have been deleted" in result_stdout
     assert result.ret == 0
     assert not os.path.isfile(filepath)
+
+
+def _clean_output(output: str) -> str:
+    """Removes ansi color codes from string"""
+    return re.sub(r"\x1B[@-_][0-?]*[ -/]*[@-~]", "", str(output).strip())

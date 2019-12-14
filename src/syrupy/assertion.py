@@ -13,10 +13,7 @@ from typing import (
 
 from .exceptions import SnapshotDoesNotExist
 from .types import SerializableData
-from .utils import (
-    cached_property,
-    walk_snapshot_dir,
-)
+from .utils import walk_snapshot_dir
 
 
 if TYPE_CHECKING:
