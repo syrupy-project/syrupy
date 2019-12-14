@@ -14,7 +14,8 @@
         "infra",
         "ideas",
         "code",
-        "doc"
+        "doc",
+        "test"
       ]
     },
     {
@@ -26,7 +27,8 @@
         "code",
         "design",
         "infra",
-        "doc"
+        "doc",
+        "test"
       ]
     }
   ],
