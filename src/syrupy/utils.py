@@ -1,10 +1,6 @@
 import os
 from functools import lru_cache
-from typing import (
-    Any,
-    Callable,
-    Generator,
-)
+from typing import Generator
 
 from .constants import SNAPSHOT_DIRNAME
 
