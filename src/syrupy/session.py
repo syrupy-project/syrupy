@@ -40,21 +40,12 @@ class SnapshotSession:
         self._assertions = []
 
     def finish(self) -> None:
-        (
-            _,
-            used_snapshots,
-            unused_snapshots,
-            failed_snapshots,
-            created_snapshots,
-            updated_snapshots,
-            matched_snapshots,
-            snapshot_file_assertion,
-        ) = self._collate_snapshots()
-        n_unused = self._count_snapshots(unused_snapshots)
-        n_written = self._count_snapshots(created_snapshots)
-        n_updated = self._count_snapshots(updated_snapshots)
-        n_failed = self._count_snapshots(failed_snapshots)
-        n_passed = self._count_snapshots(matched_snapshots)
+        self._collate_snapshots()
+        n_unused = self._count_snapshots(self._unused_snapshots)
+        n_written = self._count_snapshots(self._created_snapshots)
+        n_updated = self._count_snapshots(self._updated_snapshots)
+        n_failed = self._count_snapshots(self._failed_snapshots)
+        n_passed = self._count_snapshots(self._matched_snapshots)
 
         self.add_report_line()
 
@@ -95,7 +86,9 @@ class SnapshotSession:
             self.add_report_line()
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    unused_snapshots, used_snapshots, snapshot_file_assertion
+                    self._unused_snapshots,
+                    self._used_snapshots,
+                    self._snapshot_assertions,
                 )
                 self.add_report_line(
                     ngettext(
@@ -104,7 +97,7 @@ class SnapshotSession:
                         n_unused,
                     )
                 )
-                for filepath, snapshots in unused_snapshots.items():
+                for filepath, snapshots in self._unused_snapshots.items():
                     count = self._count_snapshots({filepath: snapshots})
                     if not count:
                         continue
@@ -129,72 +122,55 @@ class SnapshotSession:
         self,
         unused_snapshot_files: "SnapshotFiles",
         used_snapshot_files: "SnapshotFiles",
-        snapshot_file_assertion: Dict[str, int],
+        snapshot_assertions: Dict[str, "SnapshotAssertion"],
     ) -> None:
         for snapshot_file, unused_snapshots in unused_snapshot_files.items():
             if snapshot_file not in used_snapshot_files:
                 os.remove(snapshot_file)
                 continue
-            snapshot_assertion = self._assertions[
-                snapshot_file_assertion[snapshot_file]
-            ]
             for snapshot_name in unused_snapshots:
-                snapshot_assertion.serializer.delete_snapshot(
+                self._snapshot_assertions[snapshot_file].serializer.delete_snapshot(
                     snapshot_file, snapshot_name
                 )
 
-    def _collate_snapshots(
-        self,
-    ) -> Tuple[
-        "SnapshotFiles",
-        "SnapshotFiles",
-        "SnapshotFiles",
-        "SnapshotFiles",
-        "SnapshotFiles",
-        "SnapshotFiles",
-        "SnapshotFiles",
-        Dict[str, int],
-    ]:
-        used_snapshots: "SnapshotFiles" = {}
-        failed_snapshots: "SnapshotFiles" = {}
-        created_snapshots: "SnapshotFiles" = {}
-        updated_snapshots: "SnapshotFiles" = {}
-        matched_snapshots: "SnapshotFiles" = {}
-        discovered_snapshots: "SnapshotFiles" = {}
-        snapshot_file_assertion: Dict[str, int] = {}
-        self._merge_snapshot_files_into(
-            discovered_snapshots,
-            *[assertion.discovered_snapshots for assertion in self._assertions],
-        )
-        for i, assertion in enumerate(self._assertions):
-            for _, result in assertion.executions.items():
-                snapshot_file_assertion[result.file] = i
-                if used_snapshots.get(result.file):
-                    used_snapshots[result.file].add(result.name)
-                else:
-                    used_snapshots[result.file] = {result.name}
+    def _collate_snapshots(self) -> None:
+        """
+        Prepare session for snapshot reporting
+        """
+        self._used_snapshots: "SnapshotFiles" = {}
+        self._failed_snapshots: "SnapshotFiles" = {}
+        self._created_snapshots: "SnapshotFiles" = {}
+        self._updated_snapshots: "SnapshotFiles" = {}
+        self._matched_snapshots: "SnapshotFiles" = {}
+        self._discovered_snapshots: "SnapshotFiles" = {}
+        self._snapshot_assertions: Dict[str, "SnapshotAssertion"] = {}
+        for assertion in self._assertions:
+            self._merge_snapshot_files_into(
+                self._discovered_snapshots, assertion.discovered_snapshots
+            )
+            for result in assertion.executions.values():
+                self._snapshot_assertions[result.file] = assertion
                 snapshot_file: "SnapshotFiles" = {result.file: {result.name}}
+                self._merge_snapshot_files_into(self._used_snapshots, snapshot_file)
                 if result.created:
-                    self._merge_snapshot_files_into(created_snapshots, snapshot_file)
+                    self._merge_snapshot_files_into(
+                        self._created_snapshots, snapshot_file
+                    )
                 elif result.updated:
-                    self._merge_snapshot_files_into(updated_snapshots, snapshot_file)
+                    self._merge_snapshot_files_into(
+                        self._updated_snapshots, snapshot_file
+                    )
                 elif result.success:
-                    self._merge_snapshot_files_into(matched_snapshots, snapshot_file)
+                    self._merge_snapshot_files_into(
+                        self._matched_snapshots, snapshot_file
+                    )
                 else:
-                    self._merge_snapshot_files_into(failed_snapshots, snapshot_file)
+                    self._merge_snapshot_files_into(
+                        self._failed_snapshots, snapshot_file
+                    )
 
-        unused_snapshots: "SnapshotFiles" = self._diff_snapshot_files(
-            discovered_snapshots, used_snapshots
-        )
-        return (
-            discovered_snapshots,
-            used_snapshots,
-            unused_snapshots,
-            failed_snapshots,
-            created_snapshots,
-            updated_snapshots,
-            matched_snapshots,
-            snapshot_file_assertion,
+        self._unused_snapshots: "SnapshotFiles" = self._diff_snapshot_files(
+            self._discovered_snapshots, self._used_snapshots
         )
 
     def _merge_snapshot_files_into(
