@@ -1,5 +1,4 @@
 from collections import namedtuple
-from functools import lru_cache
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -42,7 +41,7 @@ class SnapshotAssertion:
         self._serializer_class = serializer_class
         self._test_location = test_location
         self._executions = 0
-        self._execution_results: Dict[int, AssertionResult] = {}
+        self._execution_results: Dict[int, "AssertionResult"] = {}
 
         self._session: "SnapshotSession" = session
         self._session.register_request(self)
