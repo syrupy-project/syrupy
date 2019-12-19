@@ -61,23 +61,28 @@ class SnapshotSession:
                     "{} snapshot passed.", "{} snapshots passed.", n_passed,
                 ).format(green(bold(n_passed)))
             ]
-        if n_updated:
-            summary_lines += [
-                ngettext(
-                    "{} snapshot updated.", "{} snapshots updated.", n_passed,
-                ).format(bold(n_passed))
-            ]
         if n_written:
             summary_lines += [
                 ngettext(
                     "{} snapshot generated.", "{} snapshots generated.", n_written,
-                ).format(bold(n_written))
+                ).format(green(n_written))
             ]
-        if n_unused:
+        if n_updated:
             summary_lines += [
                 ngettext(
-                    "{} snapshot unused.", "{} snapshots unused.", n_unused
-                ).format(yellow(bold(n_unused)))
+                    "{} snapshot updated.", "{} snapshots updated.", n_updated,
+                ).format(green(n_updated))
+            ]
+        if n_unused:
+            if self.update_snapshots:
+                text_singular = "{} snapshot deleted."
+                text_plural = "{} snapshots deleted."
+            else:
+                text_singular = "{} snapshot unused."
+                text_plural = "{} snapshots unused."
+            text_count = yellow(bold(n_unused))
+            summary_lines += [
+                ngettext(text_singular, text_plural, n_unused).format(text_count)
             ]
         self.add_report_line(" ".join(summary_lines))
 
@@ -89,25 +94,18 @@ class SnapshotSession:
                     self._used_snapshots,
                     self._snapshot_assertions,
                 )
-                self.add_report_line(
-                    ngettext(
-                        "This snapshot has been deleted.",
-                        "These snapshots have been deleted.",
-                        n_unused,
-                    )
-                )
                 for filepath, snapshots in self._unused_snapshots.items():
                     count = self._count_snapshots({filepath: snapshots})
                     if not count:
                         continue
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     self.add_report_line(
-                        f"{', '.join(sorted(snapshots))} → {path_to_file}"
+                        f"Deleted {', '.join(map(bold, sorted(snapshots)))} ({path_to_file})"
                     )
             else:
                 self.add_report_line(
                     gettext(
-                        "Re-run pytest with --snapshot-update to delete the snapshots."
+                        "Re-run pytest with --snapshot-update to delete the unused snapshots."
                     )
                 )
 

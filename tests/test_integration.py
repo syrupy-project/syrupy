@@ -74,8 +74,8 @@ def test_removed_snapshots(stubs):
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = _clean_output(result.stdout.str())
-    assert "1 snapshot unused" in result_stdout
-    assert "This snapshot has been deleted" in result_stdout
+    assert "snapshot unused" not in result_stdout
+    assert "1 snapshot deleted" in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
 
@@ -86,8 +86,8 @@ def test_removed_snapshot_file(stubs):
     testdir.makepyfile(test_file=tests["inject"])
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = _clean_output(result.stdout.str())
-    assert "2 snapshots unused" in result_stdout
-    assert "These snapshots have been deleted" in result_stdout
+    assert "snapshots unused" not in result_stdout
+    assert "2 snapshots deleted" in result_stdout
     assert result.ret == 0
     assert not os.path.isfile(filepath)
 
