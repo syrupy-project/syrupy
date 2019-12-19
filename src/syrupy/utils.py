@@ -1,5 +1,4 @@
 import os
-from functools import lru_cache
 from typing import Generator
 
 from .constants import SNAPSHOT_DIRNAME
