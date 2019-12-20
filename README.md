@@ -11,6 +11,7 @@
 ![Stage](https://img.shields.io/pypi/status/syrupy)
 ![Wheel](https://img.shields.io/pypi/wheel/syrupy)
 [![codecov](https://codecov.io/gh/tophat/syrupy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy)
 
 
 ## Overview
