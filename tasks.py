@@ -27,6 +27,7 @@ def lint(ctx, fix=False):
     """
     lint_commands = {
         "mypy": "python -m mypy --strict src",
+        "pylint": "python -m pylint src",
         "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
     }
