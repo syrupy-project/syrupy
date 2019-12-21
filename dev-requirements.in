@@ -1,14 +1,15 @@
 -c requirements.in
-pytest
 black
+codecov
 invoke
-pyyaml
+isort
 mypy
 pip-tools
+py-githooks
+pylint
+pytest
+pytest-cov
+pyyaml
 semver
 twine
 wheel
-py-githooks
-pytest-cov
-codecov
-isort
