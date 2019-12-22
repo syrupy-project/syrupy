@@ -8,6 +8,7 @@ from typing import (
     Callable,
     Optional,
     Set,
+    Union,
 )
 
 from syrupy.constants import SNAPSHOT_DIRNAME
@@ -153,3 +154,10 @@ class AbstractSnapshotSerializer(ABC):
         If the snapshot file will be empty remove the entire file.
         """
         pass
+
+    def serialize(self, data: "SerializableData") -> Union[str, bytes]:
+        """
+        Serializes a python object / data structure into a string
+        to be written to a snapshot file.
+        """
+        return str(data)
