@@ -39,7 +39,6 @@ def test_dict(snapshot, actual):
 
 def test_set(snapshot):
     assert snapshot == {"this", "is", "a", "set"}
-    assert snapshot == {"this", "is", "a", frozenset({"nested, set"})}
 
 
 ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
