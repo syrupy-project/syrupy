@@ -155,9 +155,10 @@ class AbstractSnapshotSerializer(ABC):
         """
         pass
 
+    @abstractmethod
     def serialize(self, data: "SerializableData") -> Union[str, bytes]:
         """
         Serializes a python object / data structure into a string
-        to be written to a snapshot file.
+        to be used for comparison with snapshot data from disk.
         """
-        return str(data)
+        pass
