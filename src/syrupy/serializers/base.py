@@ -113,7 +113,7 @@ class AbstractSnapshotSerializer(ABC):
         Hook into post snapshot file parsing, called after `read`
         """
 
-    def pre_write(self, _: "SerializableData", index: int = 0) -> None:
+    def pre_write(self, data: "SerializableData", index: int = 0) -> None:  # pylint: disable=unused-argument
         """
         Hook into pre snapshot file writing, called before `write`
         """
