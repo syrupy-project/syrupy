@@ -3,7 +3,11 @@ YAML serializer
 """
 
 import os
-from typing import TYPE_CHECKING, Any, Set
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Set,
+)
 
 import yaml
 

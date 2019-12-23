@@ -4,7 +4,11 @@ Raw snapshot serializer
 
 import os
 import re
-from typing import TYPE_CHECKING, Any, Set
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Set,
+)
 
 from .base import AbstractSnapshotSerializer
 

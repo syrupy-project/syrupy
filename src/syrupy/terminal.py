@@ -29,9 +29,11 @@ def error_style(text: Union[str, int]) -> str:
     """Apply error styling"""
     return bold(red(text))
 
+
 def warning_style(text: Union[str, int]) -> str:
     """Apply warning styling"""
     return bold(yellow(text))
+
 
 def success_style(text: Union[str, int]) -> str:
     """Apply success styling"""

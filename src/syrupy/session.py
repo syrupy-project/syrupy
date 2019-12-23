@@ -4,10 +4,23 @@ Module for managing a pytest session
 
 import os
 from collections import namedtuple
-from gettext import gettext, ngettext
-from typing import TYPE_CHECKING, Dict, List
+from gettext import (
+    gettext,
+    ngettext,
+)
+from typing import (
+    TYPE_CHECKING,
+    Dict,
+    List,
+)
 
-from .terminal import bold, error_style, green, success_style, warning_style
+from .terminal import (
+    bold,
+    error_style,
+    green,
+    success_style,
+    warning_style,
+)
 
 
 if TYPE_CHECKING:

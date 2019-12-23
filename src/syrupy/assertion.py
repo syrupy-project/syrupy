@@ -43,7 +43,7 @@ class SnapshotAssertion:
     ):
         self._update_snapshots = update_snapshots
         self._serializer_class = serializer_class
-        self._serializer: "AbstractSnapshotSerializer"
+        self._serializer: Optional["AbstractSnapshotSerializer"] = None
         self._test_location = test_location
         self._executions = 0
         self._execution_results: Dict[int, "AssertionResult"] = {}
@@ -57,9 +57,7 @@ class SnapshotAssertion:
         Assertion serializer
         """
         if self._serializer is None:
-            self._serializer = self._serializer_class(
-                test_location=self._test_location
-            )
+            self._serializer = self._serializer_class(test_location=self._test_location)
         return self._serializer
 
     @property

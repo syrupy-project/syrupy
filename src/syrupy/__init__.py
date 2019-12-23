@@ -28,13 +28,14 @@ def pytest_addoption(parser: Any) -> None:
     )
 
 
-def pytest_assertrepr_compare(operation: str, left: Any, right: Any) -> Optional[List[str]]:
+# pylint: disable=invalid-name
+def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
     """Exposes snapshot plugin assertion comparison to pytest."""
     if isinstance(left, SnapshotAssertion):
-        assert_msg = f"snapshot {operation} {right}"
+        assert_msg = f"snapshot {op} {right}"
         return [assert_msg] + left.get_assert_diff(right)
     if isinstance(right, SnapshotAssertion):
-        assert_msg = f"{left} {operation} snapshot"
+        assert_msg = f"{left} {op} snapshot"
         return [assert_msg] + right.get_assert_diff(left)
     return None
 

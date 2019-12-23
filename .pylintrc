@@ -143,6 +143,7 @@ disable=print-statement,
         exception-escape,
         comprehension-escape,
         bad-continuation,
+        cyclic-import,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -355,7 +356,7 @@ ignore-comments=yes
 ignore-docstrings=yes
 
 # Ignore imports when computing similarities.
-ignore-imports=no
+ignore-imports=yes
 
 # Minimum lines number of a similarity.
 min-similarity-lines=4
