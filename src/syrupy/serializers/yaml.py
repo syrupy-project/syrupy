@@ -1,9 +1,9 @@
+"""
+YAML serializer
+"""
+
 import os
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Set,
-)
+from typing import TYPE_CHECKING, Any, Set
 
 import yaml
 
@@ -15,6 +15,10 @@ if TYPE_CHECKING:
 
 
 class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
+    """
+    Implements snapshot seriailizer using PyYAML
+    """
+
     @property
     def file_extension(self) -> str:
         return "yaml"
@@ -22,7 +26,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
     def discover_snapshots(self, filepath: str) -> Set[str]:
         try:
             return set(self._read_file(filepath).keys())
-        except:
+        except:  # pylint: disable=bare-except
             return set()
 
     def read_snapshot_from_file(
@@ -51,20 +55,22 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
         else:
             os.remove(snapshot_file)
 
-    def _write_file(self, filepath: str, data: "SerializableData") -> None:
+    @staticmethod
+    def _write_file(filepath: str, data: "SerializableData") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
-        with open(filepath, "w") as f:
-            yaml.dump(data, f, allow_unicode=True)
+        with open(filepath, "w") as snap_file:
+            yaml.dump(data, snap_file, allow_unicode=True)
 
-    def _read_file(self, filepath: str) -> Any:
+    @staticmethod
+    def _read_file(filepath: str) -> Any:
         """
         Read the snapshot data from the snapshot file into a python instance.
         """
         try:
-            with open(filepath, "r") as f:
-                return yaml.load(f, Loader=yaml.FullLoader) or {}
+            with open(filepath, "r") as snap_file:
+                return yaml.load(snap_file, Loader=yaml.FullLoader) or {}
         except FileNotFoundError:
             pass
         return {}

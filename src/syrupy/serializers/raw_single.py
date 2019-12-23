@@ -1,13 +1,10 @@
+"""
+Raw snapshot serializer
+"""
+
 import os
 import re
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Optional,
-    Set,
-)
-
-from syrupy.exceptions import SnapshotDoesNotExist
+from typing import TYPE_CHECKING, Any, Set
 
 from .base import AbstractSnapshotSerializer
 
@@ -17,6 +14,11 @@ if TYPE_CHECKING:
 
 
 class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
+    """
+    Implements snaphot serializer for recording each snapshot assertion
+    individually in a separate file
+    """
+
     @property
     def file_extension(self) -> str:
         return "raw"
@@ -37,10 +39,11 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
     ) -> "SerializableData":
         return self._read_file(snapshot_file)
 
-    def _read_file(self, filepath: str) -> Any:
+    @staticmethod
+    def _read_file(filepath: str) -> Any:
         try:
-            with open(filepath, "rb") as f:
-                return f.read()
+            with open(filepath, "rb") as snap_file:
+                return snap_file.read()
         except FileNotFoundError:
             return None
 
@@ -52,9 +55,10 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         else:
             os.remove(snapshot_file)
 
-    def _write_file(self, filepath: str, data: "SerializableData") -> None:
-        with open(filepath, "wb") as f:
-            f.write(data)
+    @staticmethod
+    def _write_file(filepath: str, data: "SerializableData") -> None:
+        with open(filepath, "wb") as snap_file:
+            snap_file.write(data)
 
     def _clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")

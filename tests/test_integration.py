@@ -1,11 +1,16 @@
+"""
+Test syrupy snapshot plugin integration
+"""
+
 import os
 import re
 
 import pytest
 
 
-@pytest.fixture
-def testcases():
+@pytest.fixture(name="testcases")
+def fixture_testcases():
+    """Various test case files"""
     return {
         "inject": (
             """
@@ -29,14 +34,16 @@ def testcases():
 
 
 def test_missing_snapshots(testdir, testcases):
+    """Test missing snapshot behaviour"""
     testdir.makepyfile(test_file=testcases["used"])
     result = testdir.runpytest("-v")
     assert "Snapshot does not exist" in _clean_output(result.stdout.str())
     assert result.ret == 1
 
 
-@pytest.fixture
-def stubs(testdir, testcases):
+@pytest.fixture(name="stubs")
+def fixture_stubs(testdir, testcases):
+    """Create test cases snapshot files"""
     pyfile_content = "\n\n".join(testcases.values())
     testdir.makepyfile(test_file=pyfile_content)
     filepath = os.path.join(testdir.tmpdir, "__snapshots__", "test_file.yaml")
@@ -44,12 +51,14 @@ def stubs(testdir, testcases):
 
 
 def test_injected_fixture(stubs):
+    """Test snapshot plugin injection"""
     result = stubs[0]
     result.stdout.fnmatch_lines(["*::test_injection PASSED*"])
     assert result.ret == 0
 
 
 def test_generated_snapshots(stubs):
+    """Test generating snapshot files behaviour"""
     result = stubs[0]
     result_stdout = _clean_output(result.stdout.str())
     assert "2 snapshots generated" in result_stdout
@@ -58,6 +67,7 @@ def test_generated_snapshots(stubs):
 
 
 def test_unused_snapshots(stubs):
+    """Test unused snapshot behaviour"""
     result, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v")
@@ -69,6 +79,7 @@ def test_unused_snapshots(stubs):
 
 
 def test_removed_snapshots(stubs):
+    """Test removing of unused snapshot from file behaviour"""
     _, testdir, tests, filepath = stubs
     assert os.path.isfile(filepath)
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
@@ -81,6 +92,7 @@ def test_removed_snapshots(stubs):
 
 
 def test_removed_snapshot_file(stubs):
+    """Test removing of unused snapshot file behaviour"""
     _, testdir, tests, filepath = stubs
     assert os.path.isfile(filepath)
     testdir.makepyfile(test_file=tests["inject"])

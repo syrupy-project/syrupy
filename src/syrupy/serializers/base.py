@@ -1,3 +1,7 @@
+"""
+Snapshot serializer base module
+"""
+
 import os
 from abc import (
     ABC,
@@ -5,7 +9,6 @@ from abc import (
 )
 from typing import (
     TYPE_CHECKING,
-    Callable,
     Optional,
     Set,
 )
@@ -20,20 +23,32 @@ if TYPE_CHECKING:
 
 
 class AbstractSnapshotSerializer(ABC):
+    """
+    Snapshot serializer interface
+    """
+
     def __init__(self, test_location: "TestLocation"):
         self._test_location = test_location
 
     @property
     @abstractmethod
     def file_extension(self) -> str:
-        pass
+        """
+        Snapshot file extension
+        """
 
     @property
     def test_location(self) -> "TestLocation":
+        """
+        Get snapshot assertion test location
+        """
         return self._test_location
 
     @property
     def dirname(self) -> str:
+        """
+        Get the path to the assertion snapshot file directory
+        """
         test_dirname = os.path.dirname(self.test_location.filename)
         subdir_name = self.snapshot_subdirectory_name
         if subdir_name is not None:
@@ -47,7 +62,6 @@ class AbstractSnapshotSerializer(ABC):
         within the file. Snapshot name is dependent on serializer
         implementation.
         """
-        pass
 
     def read_snapshot(self, index: int) -> "SerializableData":
         """
@@ -79,9 +93,14 @@ class AbstractSnapshotSerializer(ABC):
         self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
 
     def pre_read(self, index: int = 0) -> None:
-        pass
+        """
+        Hook into pre snapshot file parsing, called before `read`
+        """
 
     def read(self, index: int = 0) -> "SerializableData":
+        """
+        Read snapshot file by assertion index into seriailizable data
+        """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         snapshot = self.read_snapshot_from_file(snapshot_file, snapshot_name)
@@ -90,20 +109,33 @@ class AbstractSnapshotSerializer(ABC):
         return snapshot
 
     def post_read(self, index: int = 0) -> None:
-        pass
+        """
+        Hook into post snapshot file parsing, called after `read`
+        """
 
-    def pre_write(self, data: "SerializableData", index: int = 0) -> None:
+    def pre_write(self, _: "SerializableData", index: int = 0) -> None:
+        """
+        Hook into pre snapshot file writing, called before `write`
+        """
         self._ensure_snapshot_dir(index)
 
     def write(self, data: "SerializableData", index: int = 0) -> None:
+        """
+        Write seriailable data into snaphoto file by assertion index
+        """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
-        pass
+        """
+        Hook into post snapshot file writing, called after `write`
+        """
 
     def get_snapshot_name(self, index: int = 0) -> str:
+        """
+        Get name of snapshot by test location and assertion index
+        """
         index_suffix = f".{index}" if index > 0 else ""
         methodname = self._test_location.testname
 
@@ -116,7 +148,7 @@ class AbstractSnapshotSerializer(ABC):
         basename = self.get_file_basename(index=index)
         return os.path.join(self.dirname, f"{basename}.{self.file_extension}")
 
-    def get_file_basename(self, index: int) -> str:
+    def get_file_basename(self, index: int) -> str:  # pylint: disable=unused-argument
         """Returns file basename without extension. Used to create full filepath."""
         return f"{os.path.splitext(os.path.basename(self._test_location.filename))[0]}"
 
@@ -141,7 +173,6 @@ class AbstractSnapshotSerializer(ABC):
         """
         Read the snapshot file and get only the snapshot data for assertion
         """
-        pass
 
     @abstractmethod
     def write_snapshot_or_remove_file(
@@ -152,4 +183,3 @@ class AbstractSnapshotSerializer(ABC):
         or removes the snapshot entry if data is `None`.
         If the snapshot file will be empty remove the entire file.
         """
-        pass

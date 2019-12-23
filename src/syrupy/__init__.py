@@ -1,3 +1,7 @@
+"""
+Syrupy pytest fixture integration
+"""
+
 from typing import (
     Any,
     List,
@@ -24,33 +28,37 @@ def pytest_addoption(parser: Any) -> None:
     )
 
 
-def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
+def pytest_assertrepr_compare(operation: str, left: Any, right: Any) -> Optional[List[str]]:
+    """Exposes snapshot plugin assertion comparison to pytest."""
     if isinstance(left, SnapshotAssertion):
-        assert_msg = f"snapshot {op} {right}"
+        assert_msg = f"snapshot {operation} {right}"
         return [assert_msg] + left.get_assert_diff(right)
-    elif isinstance(right, SnapshotAssertion):
-        assert_msg = f"{left} {op} snapshot"
+    if isinstance(right, SnapshotAssertion):
+        assert_msg = f"{left} {operation} snapshot"
         return [assert_msg] + right.get_assert_diff(left)
     return None
 
 
 def pytest_sessionstart(session: Any) -> None:
+    """Exposes snapshot plugin test session initialisation to pytest."""
     config = session.config
-    session._syrupy = SnapshotSession(
+    session.syrupy = SnapshotSession(
         update_snapshots=config.option.update_snapshots, base_dir=config.rootdir
     )
-    session._syrupy.start()
+    session.syrupy.start()
 
 
 def pytest_sessionfinish(session: Any) -> None:
+    """Exposes snapshot plugin test session completion to pytest."""
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
-    session._syrupy.finish()
-    for line in session._syrupy.report:
+    session.syrupy.finish()
+    for line in session.syrupy.report:
         reporter.write_line(line)
 
 
 @pytest.fixture
 def snapshot(request: Any) -> "SnapshotAssertion":
+    """Syrupy snapshot test assertion fixture."""
     test_location = TestLocation(
         filename=request.fspath,
         modulename=request.module.__name__,
@@ -67,5 +75,5 @@ def snapshot(request: Any) -> "SnapshotAssertion":
         update_snapshots=request.config.option.update_snapshots,
         serializer_class=DEFAULT_SERIALIZER,
         test_location=test_location,
-        session=request.session._syrupy,
+        session=request.session.syrupy,
     )

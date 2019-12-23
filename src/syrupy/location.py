@@ -1,3 +1,7 @@
+"""
+Test method definition
+"""
+
 from collections import namedtuple
 
 

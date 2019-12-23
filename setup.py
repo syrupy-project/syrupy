@@ -1,4 +1,7 @@
-import os
+"""
+Python package setup
+"""
+
 import sys
 from datetime import datetime
 
@@ -8,15 +11,18 @@ from setuptools import (
 )
 
 
-python_requires = "~=3.6"
+PYTHON_REQUIRES = "~=3.6"
 
 if sys.version_info[0] == 2:
     raise Exception("Only python 3 supported.")
 
 
 def readme() -> str:
-    with open("README.md") as f:
-        return f.read()
+    """
+    Get readme file contents
+    """
+    with open("README.md") as readme_file:
+        return readme_file.read()
 
 
 if __name__ == "__main__":
@@ -30,9 +36,11 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         use_scm_version={
             "local_scheme": lambda _: "",
-            "version_scheme": lambda v: v.format_with("{tag}")
-            if v.exact
-            else datetime.now().strftime("%Y.%m.%d.%H%M%S%f"),
+            "version_scheme": (
+                lambda v: v.format_with("{tag}")
+                if v.exact
+                else datetime.now().strftime("%Y.%m.%d.%H%M%S%f")
+            ),
             "write_to": "version.txt",
         },
         package_dir={"": "src"},
@@ -41,7 +49,7 @@ if __name__ == "__main__":
         install_requires=["pyyaml"],
         setup_requires=["setuptools_scm"],
         entry_points={"pytest11": ["syrupy = syrupy"]},
-        python_requires=python_requires,
+        python_requires=PYTHON_REQUIRES,
         classifiers=[
             "Development Status :: 1 - Planning",
             "Framework :: Pytest",

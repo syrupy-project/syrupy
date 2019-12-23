@@ -1,4 +1,9 @@
+"""
+Invoke commands see `inv --list`
+"""
+
 import os
+import sys
 
 import semver
 from invoke import task
@@ -27,7 +32,7 @@ def lint(ctx, fix=False):
     """
     lint_commands = {
         "mypy": "python -m mypy --strict src",
-        "pylint": "python -m pylint src",
+        "pylint": "python -m pylint src tests *.py",
         "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
     }
@@ -95,11 +100,11 @@ def release(ctx, dry_run=True):
     """
     if not dry_run and not os.environ.get("CI"):
         print("This is a CI only command")
-        exit(1)
+        sys.exit(1)
 
     # get version created in build
-    with open("version.txt", "r") as f:
-        version = str(f.read())
+    with open("version.txt", "r") as version_file:
+        version = str(version_file.read())
 
     try:
         should_publish_to_pypi = not dry_run and semver.parse_version_info(version)

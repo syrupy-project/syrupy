@@ -1,17 +1,17 @@
+"""
+Syrupy snapshot assertion module
+"""
+
 from collections import namedtuple
 from typing import (
     TYPE_CHECKING,
-    Any,
-    Callable,
     Dict,
     List,
     Optional,
     Type,
-    TypeVar,
 )
 
 from .exceptions import SnapshotDoesNotExist
-from .types import SerializableData
 from .utils import walk_snapshot_dir
 
 
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from .location import TestLocation
     from .serializers.base import AbstractSnapshotSerializer
     from .session import SnapshotSession
-    from .types import SnapshotFiles
+    from .types import SerializableData, SnapshotFiles
 
 
 AssertionResult = namedtuple(
@@ -29,6 +29,10 @@ AssertionResult = namedtuple(
 
 
 class SnapshotAssertion:
+    """
+    Syrupy snapshot fixture
+    """
+
     def __init__(
         self,
         *,
@@ -39,6 +43,7 @@ class SnapshotAssertion:
     ):
         self._update_snapshots = update_snapshots
         self._serializer_class = serializer_class
+        self._serializer: "AbstractSnapshotSerializer"
         self._test_location = test_location
         self._executions = 0
         self._execution_results: Dict[int, "AssertionResult"] = {}
@@ -48,22 +53,34 @@ class SnapshotAssertion:
 
     @property
     def serializer(self) -> "AbstractSnapshotSerializer":
-        if not getattr(self, "_serializer", None):
-            self._serializer: "AbstractSnapshotSerializer" = self._serializer_class(
+        """
+        Assertion serializer
+        """
+        if self._serializer is None:
+            self._serializer = self._serializer_class(
                 test_location=self._test_location
             )
         return self._serializer
 
     @property
     def num_executions(self) -> int:
+        """
+        Number of times the assertion fixture has been executed
+        """
         return int(self._executions)
 
     @property
     def executions(self) -> Dict[int, AssertionResult]:
+        """
+        Results of fixture assertions by execution index
+        """
         return self._execution_results
 
     @property
     def discovered_snapshots(self) -> "SnapshotFiles":
+        """
+        Find and return all discovered snapshot files
+        """
         return {
             filepath: self.serializer.discover_snapshots(filepath)
             for filepath in walk_snapshot_dir(self.serializer.dirname)
@@ -72,6 +89,10 @@ class SnapshotAssertion:
     def with_class(
         self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
     ) -> "SnapshotAssertion":
+        """
+        Create new assertion with a custom serializer class.
+        Useful for extending the initial fixture to be used on more complex objects.
+        """
         return self.__class__(
             update_snapshots=self._update_snapshots,
             test_location=self._test_location,
@@ -80,9 +101,15 @@ class SnapshotAssertion:
         )
 
     def assert_match(self, data: "SerializableData") -> None:
+        """
+        Asserts if assertion matches data
+        """
         assert self == data
 
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
+        """
+        Get the different between data given and the existing snapshot
+        """
         assertion_result = self._execution_results[self.num_executions - 1]
         snapshot_data = assertion_result.recalled
         if snapshot_data is None:
