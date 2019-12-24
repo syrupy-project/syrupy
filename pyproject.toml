@@ -43,11 +43,13 @@ missing-module-docstring,
 '''
 
 [tool.coverage.run]
-source = "./src"
+source = [
+  "./src",
+]
 
 [tool.coverage.report]
 exclude_lines = [
   "pragma: no-cover",
   "if TYPE_CHECKING:",
-  "@abstractmethod"
+  "@abstractmethod",
 ]
