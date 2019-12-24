@@ -102,7 +102,7 @@ class SnapshotSession:
                 self.add_report_line(
                     gettext(
                         "Re-run pytest with --snapshot-update"
-                        "to delete the unused snapshots."
+                        " to delete the unused snapshots."
                     )
                 )
 
