@@ -62,11 +62,11 @@ def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
     env = {"PYTHONPATH": "./src"} if dev else {}
     flags = {
         "-s -vv": verbose,
-        "--cov=./src": coverage,
         "--snapshot-update": update_snapshots,
     }
+    coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
-    ctx.run(f"python -m pytest {test_flags} .", env=env, pty=True)
+    ctx.run(f"python -m {coverage_module}pytest {test_flags} .", env=env, pty=True)
     if coverage:
         if not os.environ.get("CI"):
             print("\nNote: Test coverage is only uploaded in CI.\n")
