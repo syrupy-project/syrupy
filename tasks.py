@@ -17,7 +17,9 @@ def requirements(ctx):
     """
     Build requirements lock file
     """
-    ctx.run(f"python -m piptools compile dev-requirements.in", pty=True)
+    input_files = ["requirements.in", "dev-requirements.in"]
+    for input_file in input_files:
+        ctx.run(f"python -m piptools compile {input_file}", pty=True)
 
 
 @task
