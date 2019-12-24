@@ -69,7 +69,7 @@ def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
     ctx.run(f"python -m {coverage_module}pytest {test_flags} .", env=env, pty=True)
     if coverage:
         if not os.environ.get("CI"):
-            print("\nNote: Test coverage is only uploaded in CI.\n")
+            ctx.run("coverage report", pty=True)
         else:
             ctx.run("codecov", pty=True)
 

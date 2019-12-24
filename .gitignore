@@ -35,6 +35,7 @@ pip-delete-this-directory.txt
 .pytest_cache/
 .mypy_cache/
 .coverage
+htmlcov/
 
 # Environments
 .env
