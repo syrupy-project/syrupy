@@ -1,14 +1,15 @@
 -c requirements.in
-pytest
 black
+codecov
+coverage[toml]
+flake8
 invoke
-pyyaml
+isort
 mypy
 pip-tools
+py-githooks
+pytest
+pyyaml
 semver
 twine
 wheel
-py-githooks
-codecov
-isort
-coverage[toml]

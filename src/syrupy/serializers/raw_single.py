@@ -3,11 +3,8 @@ import re
 from typing import (
     TYPE_CHECKING,
     Any,
-    Optional,
     Set,
 )
-
-from syrupy.exceptions import SnapshotDoesNotExist
 
 from .base import AbstractSnapshotSerializer
 

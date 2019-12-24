@@ -29,6 +29,7 @@ def lint(ctx, fix=False):
     """
     lint_commands = {
         "mypy": "python -m mypy --strict src",
+        "flake8": "python -m flake8 src tests *.py",
         "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
     }
@@ -87,9 +88,8 @@ def publish(ctx, dry_run=True):
     """
     Upload built package to pypi
     """
-    ctx.run(
-        f"twine upload {'--repository-url https://test.pypi.org/legacy/' if dry_run else ''} dist/*"
-    )
+    repo_url = "--repository-url https://test.pypi.org/legacy/" if dry_run else ""
+    ctx.run(f"twine upload {repo_url} dist/*")
 
 
 @task(pre=[build])

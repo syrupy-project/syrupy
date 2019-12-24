@@ -36,12 +36,6 @@ dist,
 stubs,
 '''
 
-[tool.pylint.messages_control]
-disable = '''
-missing-function-docstring,
-missing-module-docstring,
-'''
-
 [tool.coverage.run]
 source = [
   "./src",
