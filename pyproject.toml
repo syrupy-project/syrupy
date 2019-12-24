@@ -45,8 +45,9 @@ missing-module-docstring,
 [tool.coverage.report]
 exclude_lines = [
   "pragma: no-cover",
+  "@abstractmethod",
+  "@property",
   "if TYPE_CHECKING:",
-  "import",
-  "def",
-  "@",
+  "import ",
+  "def ",
 ]
