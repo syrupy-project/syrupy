@@ -13,9 +13,10 @@ from typing import (
 
 from .exceptions import SnapshotDoesNotExist
 from .terminal import (
-    bold,
+    error_style,
     green,
     red,
+    success_style,
 )
 from .types import SerializableData
 from .utils import walk_snapshot_dir
@@ -99,8 +100,8 @@ class SnapshotAssertion:
             received = serialized_data.splitlines()
             stored = snapshot_data.splitlines()
 
-            marker_stored = bold(green("-"))
-            marker_received = bold(red("+"))
+            marker_stored = success_style("-")
+            marker_received = error_style("+")
 
             diff = []
             for received_line, stored_line in zip_longest(received, stored):

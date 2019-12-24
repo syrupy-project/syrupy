@@ -41,3 +41,10 @@ disable = '''
 missing-function-docstring,
 missing-module-docstring,
 '''
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no-cover",
+  "@abstractmethod"
+]
+

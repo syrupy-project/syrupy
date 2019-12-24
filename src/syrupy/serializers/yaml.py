@@ -82,30 +82,24 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
             pass
         return {}
 
-    def _read_raw_file(self, filepath: str) -> Dict[str, Optional[str]]:
+    def _read_raw_file(self, filepath: str) -> Dict[str, str]:
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
         of the snapshot data.
         """
-        raw_snapshots = {}
-        cur_name = None
-        cur_data = None
+        snapshots = {}
         try:
             with open(filepath, "r") as f:
+                test_name = None
                 for line in f:
                     indent = len(line) - len(line.lstrip(" "))
                     if not indent:
-                        if cur_name is not None:
-                            raw_snapshots[cur_name] = cur_data
-
-                        cur_name = line[:-2]  # newline & colon
-                        cur_data = ""
-                    else:
-                        cur_data = f"{cur_data}{line[2:]}"
-                if cur_name is not None:
-                    raw_snapshots[cur_name] = cur_data
+                        test_name = line[:-2]  # newline & colon
+                        snapshots[test_name] = ""
+                    elif test_name is not None:
+                        snapshots[test_name] += line[2:]
         except FileNotFoundError:
             pass
 
-        return raw_snapshots
+        return snapshots

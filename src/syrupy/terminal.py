@@ -19,3 +19,7 @@ def bold(text: Union[str, int]) -> str:
 
 def error_style(text: Union[str, int]) -> str:
     return bold(red(text))
+
+
+def success_style(text: Union[str, int]) -> str:
+    return bold(green(text))

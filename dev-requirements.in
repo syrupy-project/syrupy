@@ -12,3 +12,4 @@ py-githooks
 pytest-cov
 codecov
 isort
+coverage[toml]
