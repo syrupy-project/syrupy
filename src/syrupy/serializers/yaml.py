@@ -3,7 +3,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
-    Optional,
     Set,
 )
 
@@ -24,7 +23,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
     def discover_snapshots(self, filepath: str) -> Set[str]:
         try:
             return set(self._read_raw_file(filepath).keys())
-        except:
+        except:  # noqa: E722
             return set()
 
     def read_snapshot_from_file(

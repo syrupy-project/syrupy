@@ -2,13 +2,10 @@ from collections import namedtuple
 from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
-    Any,
-    Callable,
     Dict,
     List,
     Optional,
     Type,
-    TypeVar,
 )
 
 from .exceptions import SnapshotDoesNotExist
@@ -18,7 +15,6 @@ from .terminal import (
     red,
     success_style,
 )
-from .types import SerializableData
 from .utils import walk_snapshot_dir
 
 
@@ -26,7 +22,7 @@ if TYPE_CHECKING:
     from .location import TestLocation
     from .serializers.base import AbstractSnapshotSerializer
     from .session import SnapshotSession
-    from .types import SnapshotFiles
+    from .types import SerializableData, SnapshotFiles
 
 
 AssertionResult = namedtuple(

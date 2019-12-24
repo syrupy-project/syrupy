@@ -1,5 +1,4 @@
 import os
-from collections import defaultdict
 from gettext import (
     gettext,
     ngettext,
@@ -7,13 +6,9 @@ from gettext import (
 from typing import (
     TYPE_CHECKING,
     Dict,
-    Generator,
     List,
-    Set,
-    Tuple,
 )
 
-from .constants import SNAPSHOT_DIRNAME
 from .terminal import (
     bold,
     error_style,
@@ -99,13 +94,15 @@ class SnapshotSession:
                     if not count:
                         continue
                     path_to_file = os.path.relpath(filepath, self.base_dir)
+                    deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     self.add_report_line(
-                        f"Deleted {', '.join(map(bold, sorted(snapshots)))} ({path_to_file})"
+                        f"Deleted {deleted_snapshots} ({path_to_file})"
                     )
             else:
                 self.add_report_line(
                     gettext(
-                        "Re-run pytest with --snapshot-update to delete the unused snapshots."
+                        "Re-run pytest with --snapshot-update"
+                        " to delete the unused snapshots."
                     )
                 )
 
@@ -171,9 +168,7 @@ class SnapshotSession:
         )
 
     def _merge_snapshot_files_into(
-        self,
-        snapshot_files: "SnapshotFiles",
-        *snapshot_files_to_merge: "SnapshotFiles",
+        self, snapshot_files: "SnapshotFiles", *snapshot_files_to_merge: "SnapshotFiles"
     ) -> None:
         """
         Add snapshots from other files into the first one
@@ -185,7 +180,7 @@ class SnapshotSession:
                 snapshot_files[filepath].update(snapshots)
 
     def _diff_snapshot_files(
-        self, snapshot_files1: "SnapshotFiles", snapshot_files2: "SnapshotFiles",
+        self, snapshot_files1: "SnapshotFiles", snapshot_files2: "SnapshotFiles"
     ) -> "SnapshotFiles":
         return {
             filename: snapshots1 - snapshot_files2.get(filename, set())
