@@ -8,6 +8,7 @@ from typing import (
     Callable,
     Optional,
     Set,
+    Union,
 )
 
 from syrupy.constants import SNAPSHOT_DIRNAME
@@ -26,7 +27,7 @@ class AbstractSnapshotSerializer(ABC):
     @property
     @abstractmethod
     def file_extension(self) -> str:
-        pass
+        raise NotImplementedError
 
     @property
     def test_location(self) -> "TestLocation":
@@ -47,7 +48,7 @@ class AbstractSnapshotSerializer(ABC):
         within the file. Snapshot name is dependent on serializer
         implementation.
         """
-        pass
+        raise NotImplementedError
 
     def read_snapshot(self, index: int) -> "SerializableData":
         """
@@ -141,7 +142,7 @@ class AbstractSnapshotSerializer(ABC):
         """
         Read the snapshot file and get only the snapshot data for assertion
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def write_snapshot_or_remove_file(
@@ -152,4 +153,12 @@ class AbstractSnapshotSerializer(ABC):
         or removes the snapshot entry if data is `None`.
         If the snapshot file will be empty remove the entire file.
         """
-        pass
+        raise NotImplementedError
+
+    @abstractmethod
+    def serialize(self, data: "SerializableData") -> Union[str, bytes]:
+        """
+        Serializes a python object / data structure into a string
+        to be used for comparison with snapshot data from disk.
+        """
+        raise NotImplementedError

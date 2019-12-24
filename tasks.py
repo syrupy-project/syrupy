@@ -17,7 +17,9 @@ def requirements(ctx):
     """
     Build requirements lock file
     """
-    ctx.run(f"python -m piptools compile dev-requirements.in", pty=True)
+    input_files = ["requirements.in", "dev-requirements.in"]
+    for input_file in input_files:
+        ctx.run(f"python -m piptools compile {input_file}", pty=True)
 
 
 @task
@@ -59,14 +61,17 @@ def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
     """
     env = {"PYTHONPATH": "./src"} if dev else {}
     flags = {
-        "-s": verbose,
-        "--cov=./src": coverage,
+        "-s -vv": verbose,
         "--snapshot-update": update_snapshots,
     }
+    coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
-    ctx.run(f"python -m pytest {test_flags} .", env=env, pty=True)
+    ctx.run(f"python -m {coverage_module}pytest {test_flags} .", env=env, pty=True)
     if coverage:
-        ctx.run("codecov", pty=True)
+        if not os.environ.get("CI"):
+            print("\nNote: Test coverage is only uploaded in CI.\n")
+        else:
+            ctx.run("codecov", pty=True)
 
 
 @task(pre=[clean])

@@ -1,4 +1,5 @@
 from collections import namedtuple
+from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -11,6 +12,12 @@ from typing import (
 )
 
 from .exceptions import SnapshotDoesNotExist
+from .terminal import (
+    error_style,
+    green,
+    red,
+    success_style,
+)
 from .types import SerializableData
 from .utils import walk_snapshot_dir
 
@@ -85,11 +92,31 @@ class SnapshotAssertion:
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         snapshot_data = assertion_result.recalled
+        serialized_data = self.serializer.serialize(data)
         if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
         if not assertion_result.success:
-            return [f"- {data}", f"+ {snapshot_data}"]
+            received = serialized_data.splitlines()
+            stored = snapshot_data.splitlines()
+
+            marker_stored = success_style("-")
+            marker_received = error_style("+")
+
+            diff = []
+            for received_line, stored_line in zip_longest(received, stored):
+                if received_line is None:
+                    diff.append(f"{marker_stored} {green(stored_line)}")
+                elif stored_line is None:
+                    diff.append(f"{marker_received} {red(received_line)}")
+                elif received_line != stored_line:
+                    diff.extend(
+                        [
+                            f"{marker_stored} {green(stored_line)}",
+                            f"{marker_received} {red(received_line)}",
+                        ]
+                    )
+            return diff
 
         return []
 
@@ -105,9 +132,10 @@ class SnapshotAssertion:
     def _assert(self, data: "SerializableData") -> bool:
         snapshot_file = self.serializer.get_filepath(self.num_executions)
         snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
+        serialized_data = self.serializer.serialize(data)
         try:
             snapshot_data = self._recall_data(index=self.num_executions)
-            matches = snapshot_data is not None and data == snapshot_data
+            matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:
                 self.serializer.create_or_update_snapshot(
@@ -122,7 +150,7 @@ class SnapshotAssertion:
                 file=snapshot_file,
                 name=snapshot_name,
                 recalled=snapshot_data,
-                asserted=data,
+                asserted=serialized_data,
                 success=assertion_success,
                 created=snapshot_created,
                 updated=snapshot_updated,

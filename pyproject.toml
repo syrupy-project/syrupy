@@ -41,3 +41,15 @@ disable = '''
 missing-function-docstring,
 missing-module-docstring,
 '''
+
+[tool.coverage.run]
+source = [
+  "./src",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no-cover",
+  "if TYPE_CHECKING:",
+  "@abstractmethod",
+]

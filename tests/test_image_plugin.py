@@ -19,3 +19,8 @@ def test_image(snapshot_png):
         b"RK5CYII="
     )
     assert actual == snapshot_png
+
+
+def test_raises_error_for_unserializable_data(snapshot_png):
+    with pytest.raises(ValueError):
+        assert "not a byte string" == snapshot_png

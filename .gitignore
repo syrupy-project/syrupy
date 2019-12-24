@@ -34,6 +34,7 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 .pytest_cache/
 .mypy_cache/
+.coverage
 
 # Environments
 .env
@@ -44,3 +45,4 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode
