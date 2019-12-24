@@ -96,6 +96,7 @@ class SnapshotAssertion:
         if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
+        diff = []
         if not assertion_result.success:
             received = serialized_data.splitlines()
             stored = snapshot_data.splitlines()
@@ -103,7 +104,6 @@ class SnapshotAssertion:
             marker_stored = success_style("-")
             marker_received = error_style("+")
 
-            diff = []
             for received_line, stored_line in zip_longest(received, stored):
                 if received_line is None:
                     diff.append(f"{marker_stored} {green(stored_line)}")
@@ -116,9 +116,8 @@ class SnapshotAssertion:
                             f"{marker_received} {red(received_line)}",
                         ]
                     )
-            return diff
 
-        return []
+        return diff
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"

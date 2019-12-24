@@ -18,7 +18,7 @@ def test_unicode_string(snapshot):
 def test_multiple_snapshots(snapshot):
     assert "First." == snapshot
     snapshot.assert_match("Second.")
-    assert "Third." == snapshot
+    snapshot("Third.")
 
 
 @pytest.mark.parametrize("expected", [r"Escaped \n", r"Backslash \u U"])
