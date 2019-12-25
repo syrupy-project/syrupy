@@ -5,7 +5,6 @@ from abc import (
 )
 from typing import (
     TYPE_CHECKING,
-    Callable,
     Optional,
     Set,
     Union,

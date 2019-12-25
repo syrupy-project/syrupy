@@ -7,13 +7,9 @@ from gettext import (
 from typing import (
     TYPE_CHECKING,
     Dict,
-    Generator,
     List,
-    Set,
-    Tuple,
 )
 
-from .constants import SNAPSHOT_DIRNAME
 from .terminal import (
     bold,
     error_style,
@@ -116,13 +112,15 @@ class SnapshotSession:
                     if not count:
                         continue
                     path_to_file = os.path.relpath(filepath, self.base_dir)
+                    deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     self.add_report_line(
-                        f"Deleted {', '.join(map(bold, sorted(snapshots)))} ({path_to_file})"
+                        f"Deleted {deleted_snapshots} ({path_to_file})"
                     )
             else:
                 self.add_report_line(
                     gettext(
-                        "Re-run pytest with --snapshot-update to delete the unused snapshots."
+                        "Re-run pytest with --snapshot-update"
+                        " to delete the unused snapshots."
                     )
                 )
 
