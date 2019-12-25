@@ -1,7 +1,10 @@
 import os
 
 import semver
-from invoke import task
+from invoke import (
+    exceptions,
+    task,
+)
 
 
 @task
@@ -28,16 +31,25 @@ def lint(ctx, fix=False):
     Check and fix syntax
     """
     lint_commands = {
-        "mypy": "python -m mypy --strict src",
-        "flake8": "python -m flake8 src tests *.py",
-        "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
-        "black": f"python -m black {'' if fix else '--check'} .",
+        "isort": ("python -m isort --check-only --diff -y", "python -m isort -y"),
+        "black": ("python -m black --check .", "python -m black ."),
+        "flake8": ("python -m flake8 src tests *.py", None),
+        "mypy": ("python -m mypy --strict src", None),
     }
 
-    for section, command in lint_commands.items():
+    last_error = None
+    for section, (command, fix_command) in lint_commands.items():
         print(f"\033[1m{section}\033[0m")
-        ctx.run(command, pty=True)
+        run_fix = fix and fix_command
+        try:
+            ctx.run(fix_command if run_fix else command, pty=True)
+        except exceptions.Failure as ex:  # noqa: E722
+            if not fix or run_fix:
+                raise
+            last_error = ex
         print()
+    if last_error:
+        raise last_error
 
 
 @task

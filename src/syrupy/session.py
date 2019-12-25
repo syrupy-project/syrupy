@@ -21,7 +21,7 @@ from .terminal import (
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
-    from .serializers.base import AbstractSnapshotSerializer
+    from .serializers.base import AbstractSnapshotSerializer  # noqa: F401
     from .types import SnapshotFiles
 
 
