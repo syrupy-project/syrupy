@@ -42,6 +42,14 @@ def pytest_sessionstart(session: Any) -> None:
     session._syrupy.start()
 
 
+def pytest_collection_modifyitems(session: Any, config: Any, items: List[Any]) -> None:
+    session._syrupy._all_items.update(items)
+
+
+def pytest_collection_finish(session: Any) -> None:
+    session._syrupy._ran_items.update(session.items)
+
+
 def pytest_sessionfinish(session: Any) -> None:
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
     session._syrupy.finish()

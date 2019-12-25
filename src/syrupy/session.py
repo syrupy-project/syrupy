@@ -6,8 +6,10 @@ from gettext import (
 )
 from typing import (
     TYPE_CHECKING,
+    Any,
     Dict,
     List,
+    Set,
 )
 
 from .terminal import (
@@ -42,12 +44,16 @@ class SnapshotSession:
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: List[str] = []
+        self._all_items: Set[Any] = set()
+        self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
         self._serializers: Dict[str, "AbstractSnapshotSerializer"] = {}
         self._snapshot_groups = empty_snapshot_groups()
 
     def start(self) -> None:
         self.report = []
+        self._all_items = set()
+        self._ran_items = set()
         self._assertions = []
         self._serializers = {}
         self._snapshot_groups = empty_snapshot_groups()
@@ -146,6 +152,8 @@ class SnapshotSession:
         """
         Prepare session for snapshot reporting
         """
+        print("\n@@@ ALL ITEMS:", self._all_items)
+        print("\n@@@ RAN ITEMS:", self._ran_items)
         for assertion in self._assertions:
             self._merge_snapshot_files_into(
                 self._snapshot_groups.discovered, assertion.discovered_snapshots
