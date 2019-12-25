@@ -21,6 +21,7 @@ from .terminal import (
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
+    from .serializers.base import AbstractSnapshotSerializer
     from .types import SnapshotFiles
 
 
@@ -42,13 +43,13 @@ class SnapshotSession:
         self.base_dir = base_dir
         self.report: List[str] = []
         self._assertions: List["SnapshotAssertion"] = []
-        self._snapshot_assertions: Dict[str, "SnapshotAssertion"] = {}
+        self._serializers: Dict[str, "AbstractSnapshotSerializer"] = {}
         self._snapshot_groups = empty_snapshot_groups()
 
     def start(self) -> None:
         self.report = []
         self._assertions = []
-        self._snapshot_assertions = {}
+        self._serializers = {}
         self._snapshot_groups = empty_snapshot_groups()
 
     def finish(self) -> None:
@@ -131,13 +132,15 @@ class SnapshotSession:
         used_snapshot_files: "SnapshotFiles",
     ) -> None:
         for snapshot_file, unused_snapshots in unused_snapshot_files.items():
-            if snapshot_file not in used_snapshot_files:
-                os.remove(snapshot_file)
-                continue
             for snapshot_name in unused_snapshots:
-                self._snapshot_assertions[snapshot_file].serializer.delete_snapshot(
+                self._serializers[snapshot_file].delete_snapshot(
                     snapshot_file, snapshot_name
                 )
+            if (
+                os.path.exists(snapshot_file)
+                and snapshot_file not in used_snapshot_files
+            ):
+                os.remove(snapshot_file)
 
     def _collate_snapshots(self) -> None:
         """
@@ -147,8 +150,9 @@ class SnapshotSession:
             self._merge_snapshot_files_into(
                 self._snapshot_groups.discovered, assertion.discovered_snapshots
             )
+            for filepath in assertion.discovered_snapshots:
+                self._serializers[filepath] = assertion.serializer
             for result in assertion.executions.values():
-                self._snapshot_assertions[result.file] = assertion
                 snapshot_file: "SnapshotFiles" = {result.file: {result.name}}
                 self._merge_snapshot_files_into(
                     self._snapshot_groups.used, snapshot_file
