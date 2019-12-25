@@ -21,5 +21,9 @@ def error_style(text: Union[str, int]) -> str:
     return bold(red(text))
 
 
+def warning_style(text: Union[str, int]) -> str:
+    return bold(yellow(text))
+
+
 def success_style(text: Union[str, int]) -> str:
     return bold(green(text))
