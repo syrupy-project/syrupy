@@ -106,9 +106,6 @@ class SnapshotSession:
                     self._snapshot_groups.unused, self._snapshot_groups.used
                 )
                 for filepath, snapshots in self._snapshot_groups.unused.items():
-                    count = self._count_snapshots({filepath: snapshots})
-                    if not count:
-                        continue
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     self.add_report_line(
@@ -173,11 +170,14 @@ class SnapshotSession:
                         self._snapshot_groups.failed, snapshot_file
                     )
 
-        self._snapshot_groups.unused.update(
-            self._diff_snapshot_files(
+        unused_snapshot_files = {
+            snapshot_file: unused_snapshots
+            for snapshot_file, unused_snapshots in self._diff_snapshot_files(
                 self._snapshot_groups.discovered, self._snapshot_groups.used
-            )
-        )
+            ).items()
+            if unused_snapshots
+        }
+        self._snapshot_groups.unused.update(unused_snapshot_files)
 
     def _merge_snapshot_files_into(
         self, snapshot_files: "SnapshotFiles", *snapshot_files_to_merge: "SnapshotFiles"

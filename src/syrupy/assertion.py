@@ -67,8 +67,9 @@ class SnapshotAssertion:
 
     @property
     def discovered_snapshots(self) -> "SnapshotFiles":
+        empty = {"empty snapshot file"}
         return {
-            filepath: self.serializer.discover_snapshots(filepath)
+            filepath: self.serializer.discover_snapshots(filepath) or empty
             for filepath in walk_snapshot_dir(self.serializer.dirname)
             if filepath.endswith(self.serializer.file_extension)
         }
