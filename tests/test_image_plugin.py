@@ -34,12 +34,12 @@ def test_image(snapshot_png, snapshot_svg):
         b'<g><rect width="50" height="50" fill="#fff"/>'
         b'<g><g fill="#fff" stroke="#707070">'
         b'<rect width="50" height="50" stroke="none"/>'
-        b'<rect x=".5" y=".5" width="50" height="50" fill="none"/></g>'
+        b'<rect x="0" y="0" width="50" height="50" fill="none"/></g>'
         b'<text transform="translate(10 27)" fill="#707070" '
         b'font-family="ConsolasForPowerline, Consolas for Powerline" font-size="8">'
         b'<tspan x="0" y="0">50 x 50</tspan></text></g></g></svg>'
     )
-    assert actual_svg == snapshot_svg
+    assert snapshot_svg == actual_svg
 
 
 def test_raises_error_for_unserializable_data(snapshot_png):
