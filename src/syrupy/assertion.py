@@ -70,6 +70,7 @@ class SnapshotAssertion:
         return {
             filepath: self.serializer.discover_snapshots(filepath)
             for filepath in walk_snapshot_dir(self.serializer.dirname)
+            if filepath.endswith(self.serializer.file_extension)
         }
 
     def with_class(

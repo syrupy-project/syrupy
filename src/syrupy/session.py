@@ -46,14 +46,12 @@ class SnapshotSession:
         self._snapshot_groups = empty_snapshot_groups()
 
     def start(self) -> None:
-        """Start test session and resets internal state"""
         self.report = []
         self._assertions = []
         self._snapshot_assertions = {}
         self._snapshot_groups = empty_snapshot_groups()
 
     def finish(self) -> None:
-        """End testing session and build test report"""
         self._collate_snapshots()
         n_unused = self._count_snapshots(self._snapshot_groups.unused)
         n_written = self._count_snapshots(self._snapshot_groups.created)
