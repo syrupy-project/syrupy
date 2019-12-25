@@ -31,20 +31,18 @@ def lint(ctx, fix=False):
     Check and fix syntax
     """
     lint_commands = {
-        "isort": ("python -m isort --check-only --diff -y", "python -m isort -y"),
-        "black": ("python -m black --check .", "python -m black ."),
-        "flake8": ("python -m flake8 src tests *.py", None),
-        "mypy": ("python -m mypy --strict src", None),
+        "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
+        "black": f"python -m black {'' if fix else '--check'} .",
+        "flake8": "python -m flake8 src tests *.py",
+        "mypy": "python -m mypy --strict src",
     }
-
     last_error = None
-    for section, (command, fix_command) in lint_commands.items():
-        print(f"\033[1m{section}\033[0m")
-        run_fix = fix and fix_command
+    for section, command in lint_commands.items():
+        print(f"\033[1m[{section}]\033[0m")
         try:
-            ctx.run(fix_command if run_fix else command, pty=True)
+            ctx.run(command, pty=True)
         except exceptions.Failure as ex:  # noqa: E722
-            if not fix or run_fix:
+            if not fix:
                 raise
             last_error = ex
         print()
@@ -64,26 +62,17 @@ def install(ctx):
     help={
         "coverage": "Build and report on test coverage",
         "dev": "Use syrupy development version",
-        "test-pattern": "Pattern used to select test files to run",
         "update-snapshots": "Create, update or delete snapshot files",
         "verbose": "Verbose output e.g. non captured logs etc.",
     }
 )
-def test(
-    ctx,
-    coverage=False,
-    dev=False,
-    test_pattern=None,
-    update_snapshots=False,
-    verbose=False,
-):
+def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
     """
     Run entire test suite
     """
     env = {"PYTHONPATH": "./src"} if dev else {}
     flags = {
         "-s -vv": verbose,
-        f"-k {test_pattern}": test_pattern,
         "--snapshot-update": update_snapshots,
     }
     coverage_module = "coverage run -m " if coverage else ""
@@ -91,7 +80,7 @@ def test(
     ctx.run(f"python -m {coverage_module}pytest {test_flags} .", env=env, pty=True)
     if coverage:
         if not os.environ.get("CI"):
-            ctx.run("coverage report", pty=True)
+            print("\nNote: Test coverage is only uploaded in CI.\n")
         else:
             ctx.run("codecov", pty=True)
 
