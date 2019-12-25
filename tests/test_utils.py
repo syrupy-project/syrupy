@@ -37,7 +37,7 @@ def testfiles(testdir):
 def test_walk_dir_skips_non_snapshot_path(testfiles):
     _, testdir = testfiles
     print(testdir.tmpdir)
-    assert set(map(os.path.relpath, walk_snapshot_dir(testdir.tmpdir))) == {
+    assert {os.path.relpath(p) for p in walk_snapshot_dir(testdir.tmpdir)} == {
         "__snapshots__/snapfile1.yaml",
         "__snapshots__/snapfolder/snapfile2.svg",
     }

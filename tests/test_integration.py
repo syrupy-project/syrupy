@@ -49,29 +49,27 @@ def testcases():
 
 @pytest.fixture
 def testcases_updated(testcases):
-    testcases.update(
-        {
-            "updated_1": (
-                """
+    updated_testcases = {
+        "updated_1": (
+            """
             def test_updated_1(snapshot):
                 assert snapshot == ['this', 'will', 'not', 'match']
             """
-            ),
-            "updated_2": (
-                """
+        ),
+        "updated_2": (
+            """
             def test_updated_2(snapshot):
                 assert ['this', 'will', 'fail'] == snapshot
             """
-            ),
-            "updated_3": (
-                """
+        ),
+        "updated_3": (
+            """
             def test_updated_3(snapshot):
                 assert snapshot == ['this', 'will', 'be', 'too', 'much']
             """
-            ),
-        }
-    )
-    return testcases
+        ),
+    }
+    return {**testcases, **updated_testcases}
 
 
 def test_missing_snapshots(testdir, testcases):
