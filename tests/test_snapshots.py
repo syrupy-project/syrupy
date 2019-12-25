@@ -3,6 +3,11 @@ from collections import namedtuple
 import pytest
 
 
+def test_non_snapshots(snapshot):
+    with pytest.raises(AssertionError):
+        assert "Lorem ipsum." == "Muspi merol."
+
+
 def test_simple_string(snapshot):
     assert "Loreeeeeem ipsum." == snapshot
 

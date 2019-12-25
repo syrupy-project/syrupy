@@ -5,31 +5,31 @@ from .utils import clean_output
 
 @pytest.fixture
 def testcases(testdir):
-    testdir.makepyfile(
-        conftest="""
-import pytest
+    testdir.makeconftest(
+        """
+        import pytest
 
-from syrupy.serializers.raw_single import RawSingleSnapshotSerializer
-from syrupy.serializers.image import (
-    PNGImageSnapshotSerializer,
-    SVGImageSnapshotSerializer,
-)
-
-
-@pytest.fixture
-def snapshot_raw(snapshot):
-    return snapshot.with_class(serializer_class=RawSingleSnapshotSerializer)
+        from syrupy.serializers.raw_single import RawSingleSnapshotSerializer
+        from syrupy.serializers.image import (
+            PNGImageSnapshotSerializer,
+            SVGImageSnapshotSerializer,
+        )
 
 
-@pytest.fixture
-def snapshot_png(snapshot):
-    return snapshot.with_class(serializer_class=PNGImageSnapshotSerializer)
+        @pytest.fixture
+        def snapshot_raw(snapshot):
+            return snapshot.with_class(serializer_class=RawSingleSnapshotSerializer)
 
 
-@pytest.fixture
-def snapshot_svg(snapshot):
-    return snapshot.with_class(serializer_class=SVGImageSnapshotSerializer)
-"""
+        @pytest.fixture
+        def snapshot_png(snapshot):
+            return snapshot.with_class(serializer_class=PNGImageSnapshotSerializer)
+
+
+        @pytest.fixture
+        def snapshot_svg(snapshot):
+            return snapshot.with_class(serializer_class=SVGImageSnapshotSerializer)
+        """
     )
     return {
         "passed": (
