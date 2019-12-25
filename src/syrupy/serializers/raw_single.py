@@ -35,9 +35,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         return self._read_file(snapshot_file)
 
     def serialize(self, data: "SerializableData") -> bytes:
-        if isinstance(data, bytes):
-            return data
-        raise ValueError("Failure to serialize image data. Expected bytes.")
+        return bytes(data)
 
     def _read_file(self, filepath: str) -> Any:
         try:
@@ -56,7 +54,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
 
     def _write_file(self, filepath: str, data: "SerializableData") -> None:
         with open(filepath, "wb") as f:
-            f.write(data)
+            f.write(self.serialize(data))
 
     def _clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")

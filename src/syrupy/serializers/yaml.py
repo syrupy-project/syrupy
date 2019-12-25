@@ -21,10 +21,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
         return "yaml"
 
     def discover_snapshots(self, filepath: str) -> Set[str]:
-        try:
-            return set(self._read_raw_file(filepath).keys())
-        except:  # noqa: E722
-            return set()
+        return set(self._read_raw_file(filepath).keys())
 
     def read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str

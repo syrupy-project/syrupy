@@ -1,3 +1,5 @@
+TestClass.test_name:
+  data: this is in a test class
 test_dict[actual0]:
   data:
     a:

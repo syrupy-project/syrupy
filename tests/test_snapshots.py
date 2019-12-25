@@ -18,7 +18,7 @@ def test_unicode_string(snapshot):
 def test_multiple_snapshots(snapshot):
     assert "First." == snapshot
     snapshot.assert_match("Second.")
-    assert "Third." == snapshot
+    snapshot("Third.")
 
 
 @pytest.mark.parametrize("expected", [r"Escaped \n", r"Backslash \u U"])
@@ -47,3 +47,8 @@ ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 def test_tuples(snapshot):
     assert snapshot == ("this", "is", ("a", "tuple"))
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
+
+
+class TestClass:
+    def test_name(self, snapshot):
+        assert snapshot == "this is in a test class"

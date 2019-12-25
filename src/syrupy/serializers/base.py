@@ -61,16 +61,14 @@ class AbstractSnapshotSerializer(ABC):
         finally:
             self.post_read(index=index)
 
-    def create_or_update_snapshot(
-        self, serialized_data: "SerializableData", index: int
-    ) -> None:
+    def create_or_update_snapshot(self, data: "SerializableData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `pre_write`, then `write` and finally `post_write`.
         """
-        self.pre_write(serialized_data, index=index)
-        self.write(serialized_data, index=index)
-        self.post_write(serialized_data, index=index)
+        self.pre_write(data, index=index)
+        self.write(data, index=index)
+        self.post_write(data, index=index)
 
     def delete_snapshot(self, snapshot_file: str, snapshot_name: str) -> None:
         """

@@ -67,9 +67,11 @@ class SnapshotAssertion:
 
     @property
     def discovered_snapshots(self) -> "SnapshotFiles":
+        empty = {"empty snapshot file"}
         return {
-            filepath: self.serializer.discover_snapshots(filepath)
+            filepath: self.serializer.discover_snapshots(filepath) or empty
             for filepath in walk_snapshot_dir(self.serializer.dirname)
+            if filepath.endswith(self.serializer.file_extension)
         }
 
     def with_class(
@@ -92,6 +94,7 @@ class SnapshotAssertion:
         if snapshot_data is None:
             return ["Snapshot does not exist!"]
 
+        diff = []
         if not assertion_result.success:
             received = serialized_data.splitlines()
             stored = snapshot_data.splitlines()
@@ -99,7 +102,6 @@ class SnapshotAssertion:
             marker_stored = success_style("-")
             marker_received = error_style("+")
 
-            diff = []
             for received_line, stored_line in zip_longest(received, stored):
                 if received_line is None:
                     diff.append(f"{marker_stored} {green(stored_line)}")
@@ -112,9 +114,8 @@ class SnapshotAssertion:
                             f"{marker_received} {red(received_line)}",
                         ]
                     )
-            return diff
 
-        return []
+        return diff
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"
@@ -126,16 +127,20 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_file = self.serializer.get_filepath(self.num_executions)
-        snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
-        serialized_data = self.serializer.serialize(data)
+        matches = False
+        assertion_success = False
+        snapshot_data = None
+        serialized_data = None
         try:
+            snapshot_file = self.serializer.get_filepath(self.num_executions)
+            snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
             snapshot_data = self._recall_data(index=self.num_executions)
+            serialized_data = self.serializer.serialize(data)
             matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:
                 self.serializer.create_or_update_snapshot(
-                    serialized_data=data, index=self.num_executions
+                    data=data, index=self.num_executions
                 )
                 assertion_success = True
             return assertion_success
