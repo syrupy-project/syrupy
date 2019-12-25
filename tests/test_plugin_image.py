@@ -40,8 +40,3 @@ def test_image(snapshot_png, snapshot_svg):
         '<tspan x="0" y="0">50 x 50</tspan></text></g></g></svg>'
     )
     assert snapshot_svg == actual_svg
-
-
-def test_raises_error_for_unserializable_data(snapshot_png):
-    with pytest.raises(TypeError):
-        assert "not a byte string" == snapshot_png

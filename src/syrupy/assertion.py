@@ -127,16 +127,20 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_file = self.serializer.get_filepath(self.num_executions)
-        snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
-        serialized_data = self.serializer.serialize(data)
+        matches = False
+        assertion_success = False
+        snapshot_data = None
+        serialized_data = None
         try:
+            snapshot_file = self.serializer.get_filepath(self.num_executions)
+            snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
             snapshot_data = self._recall_data(index=self.num_executions)
+            serialized_data = self.serializer.serialize(data)
             matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:
                 self.serializer.create_or_update_snapshot(
-                    serialized_data=data, index=self.num_executions
+                    data=data, index=self.num_executions
                 )
                 assertion_success = True
             return assertion_success

@@ -16,7 +16,8 @@ class PNGImageSnapshotSerializer(RawSingleSnapshotSerializer):
         if isinstance(data, bytes):
             return data
         raise TypeError(
-            f"Can not serialize image data. Expected 'bytes', got '{type(data)}'"
+            "Can not serialize image data. Expected "
+            f"'bytes', got '{type(data).__name__}'."
         )
 
 

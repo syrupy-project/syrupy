@@ -54,7 +54,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
 
     def _write_file(self, filepath: str, data: "SerializableData") -> None:
         with open(filepath, "wb") as f:
-            f.write(data)
+            f.write(self.serialize(data))
 
     def _clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
