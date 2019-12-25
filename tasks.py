@@ -41,7 +41,7 @@ def lint(ctx, fix=False):
         print(f"\033[1m[{section}]\033[0m")
         try:
             ctx.run(command, pty=True)
-        except exceptions.Failure as ex:  # noqa: E722
+        except exceptions.Failure as ex:
             if not fix:
                 raise
             last_error = ex
