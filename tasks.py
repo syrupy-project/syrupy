@@ -62,17 +62,26 @@ def install(ctx):
     help={
         "coverage": "Build and report on test coverage",
         "dev": "Use syrupy development version",
+        "test-pattern": "Pattern used to select test files to run",
         "update-snapshots": "Create, update or delete snapshot files",
         "verbose": "Verbose output e.g. non captured logs etc.",
     }
 )
-def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
+def test(
+    ctx,
+    coverage=False,
+    dev=False,
+    test_pattern=None,
+    update_snapshots=False,
+    verbose=False,
+):
     """
     Run entire test suite
     """
     env = {"PYTHONPATH": "./src"} if dev else {}
     flags = {
         "-s -vv": verbose,
+        f"-k {test_pattern}": test_pattern,
         "--snapshot-update": update_snapshots,
     }
     coverage_module = "coverage run -m " if coverage else ""
@@ -80,7 +89,7 @@ def test(ctx, coverage=False, dev=False, update_snapshots=False, verbose=False):
     ctx.run(f"python -m {coverage_module}pytest {test_flags} .", env=env, pty=True)
     if coverage:
         if not os.environ.get("CI"):
-            print("\nNote: Test coverage is only uploaded in CI.\n")
+            ctx.run("coverage report", pty=True)
         else:
             ctx.run("codecov", pty=True)
 
