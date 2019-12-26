@@ -65,6 +65,8 @@ class SnapshotSession:
         n_updated = self._count_snapshots(self._snapshot_groups.updated)
         n_failed = self._count_snapshots(self._snapshot_groups.failed)
         n_passed = self._count_snapshots(self._snapshot_groups.matched)
+        ran_all = self._all_items == self._ran_items
+        has_unused = n_unused and ran_all
 
         self.add_report_line()
 
@@ -93,7 +95,7 @@ class SnapshotSession:
                     "{} snapshot updated.", "{} snapshots updated.", n_updated
                 ).format(green(n_updated))
             ]
-        if n_unused:
+        if has_unused:
             if self.update_snapshots:
                 text_singular = "{} snapshot deleted."
                 text_plural = "{} snapshots deleted."
@@ -106,7 +108,7 @@ class SnapshotSession:
             ]
         self.add_report_line(" ".join(summary_lines))
 
-        if n_unused:
+        if has_unused:
             self.add_report_line()
             if self.update_snapshots:
                 self.remove_unused_snapshots(
@@ -152,8 +154,6 @@ class SnapshotSession:
         """
         Prepare session for snapshot reporting
         """
-        print("\n@@@ ALL ITEMS:", self._all_items)
-        print("\n@@@ RAN ITEMS:", self._ran_items)
         for assertion in self._assertions:
             self._merge_snapshot_files_into(
                 self._snapshot_groups.discovered, assertion.discovered_snapshots
