@@ -222,4 +222,4 @@ class SnapshotSession:
 
     @staticmethod
     def get_node_testname(node: Any) -> str:
-        return str(getattr(node, "name", node._obj.__name__ if node._obj else ""))
+        return str(getattr(node, "name", node.obj.__name__ if node.obj else ""))

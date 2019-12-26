@@ -10,8 +10,11 @@ from typing import (
     Union,
 )
 
+from typing_extensions import final
+
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.exceptions import SnapshotDoesNotExist
+from syrupy.terminal import warning_style
 
 
 if TYPE_CHECKING:
@@ -79,6 +82,7 @@ class AbstractSnapshotSerializer(ABC):
     def pre_read(self, index: int = 0) -> None:
         pass
 
+    @final
     def read(self, index: int = 0) -> "SerializableData":
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
@@ -93,9 +97,17 @@ class AbstractSnapshotSerializer(ABC):
     def pre_write(self, data: "SerializableData", index: int = 0) -> None:
         self._ensure_snapshot_dir(index)
 
+    @final
     def write(self, data: "SerializableData", index: int = 0) -> None:
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
+        if self.test_location.testname not in snapshot_name:
+            print(
+                warning_style(
+                    f"Warning: snapshot name '{snapshot_name}' does not"
+                    f" contain testname '{self.test_location.testname}'"
+                )
+            )
         self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
