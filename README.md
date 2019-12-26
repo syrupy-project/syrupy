@@ -99,7 +99,7 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## Related Links
 
-- JavaScript snapshot testing: https://github.com/facebook/jest
+- JavaScript snapshot testing: [jest](https://github.com/facebook/jest)
 
 ## License
 
