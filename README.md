@@ -1,18 +1,16 @@
 # syrupy
 
-<span><img align="right" width="200" height="200" src="https://user-images.githubusercontent.com/2528959/69500147-85d71400-0ec6-11ea-867a-277881278e57.png" alt="Logo"></span>
+<img align="center" width="100px" height="100" src="https://user-images.githubusercontent.com/2528959/69500147-85d71400-0ec6-11ea-867a-277881278e57.png" alt="Logo">
 
-> _/ˈsirəpē/_
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors) [![Maturity badge - level 1](https://img.shields.io/badge/Maturity-Level%201%20--%20New%20Project-yellow.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md) ![Stage](https://img.shields.io/pypi/status/syrupy) [![Slack workspace](https://slackinvite.dev.tophat.com/badge.svg)](https://opensource.tophat.com/slack)
 
-| Category | Badges |
-| --- | --- |
-| Project | [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors) [![Maturity badge - level 1](https://img.shields.io/badge/Maturity-Level%201%20--%20New%20Project-yellow.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md) ![Stage](https://img.shields.io/pypi/status/syrupy) [![Slack workspace](https://slackinvite.dev.tophat.com/badge.svg)](https://opensource.tophat.com/slack) |
-| Package | [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) ![Wheel](https://img.shields.io/pypi/wheel/syrupy) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) ![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy) ![PyPI - License](https://img.shields.io/pypi/l/syrupy) |
-| Testing | ![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy) |
+[![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) ![Wheel](https://img.shields.io/pypi/wheel/syrupy) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) ![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy) ![PyPI - License](https://img.shields.io/pypi/l/syrupy)
+
+![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
 
 ## Overview
 
-Syrupy is a pytest snapshot plugin. It enables developers to write tests which assert immutability of computed results.
+Syrupy is a [pytest](https://docs.pytest.org/en/latest/) snapshot plugin. It enables developers to write tests which assert immutability of computed results.
 
 ## Motivation
 
@@ -98,3 +96,11 @@ This section is automatically generated via tagging the all-contributors bot in 
 ```text
 @all-contributors please add <username> for <contribution type>
 ```
+
+## Related Links
+
+- JavaScript snapshot testing: https://github.com/facebook/jest
+
+## License
+
+See: [./LICENSE](./LICENSE)
