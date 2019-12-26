@@ -43,6 +43,19 @@ class AbstractSnapshotSerializer(ABC):
             return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
         return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
 
+    @property
+    def snapshot_subdirectory_name(self) -> Optional[str]:
+        """Optional subdirectory in which to store snapshots."""
+        return None
+
+    @abstractmethod
+    def serialize(self, data: "SerializableData") -> Union[str, bytes]:
+        """
+        Serializes a python object / data structure into a string
+        to be used for comparison with snapshot data from disk.
+        """
+        raise NotImplementedError
+
     @abstractmethod
     def discover_snapshots(self, filepath: str) -> Set[str]:
         """
@@ -52,6 +65,7 @@ class AbstractSnapshotSerializer(ABC):
         """
         raise NotImplementedError
 
+    @final
     def read_snapshot(self, index: int) -> "SerializableData":
         """
         Utility method for reading the contents of a snapshot assertion.
@@ -64,6 +78,7 @@ class AbstractSnapshotSerializer(ABC):
         finally:
             self.post_read(index=index)
 
+    @final
     def create_or_update_snapshot(self, data: "SerializableData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
@@ -73,20 +88,24 @@ class AbstractSnapshotSerializer(ABC):
         self.write(data, index=index)
         self.post_write(data, index=index)
 
-    def delete_snapshot(self, snapshot_file: str, snapshot_name: str) -> None:
+    @final
+    def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
         """
         Utility method for removing a snapshot from a snapshot file.
         """
-        self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
+        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
 
     def pre_read(self, index: int = 0) -> None:
         pass
 
     @final
     def read(self, index: int = 0) -> "SerializableData":
+        """
+        Override _read_snapshot_from_file in subclass to change behaviour
+        """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
-        snapshot = self.read_snapshot_from_file(snapshot_file, snapshot_name)
+        snapshot = self._read_snapshot_from_file(snapshot_file, snapshot_name)
         if snapshot is None:
             raise SnapshotDoesNotExist()
         return snapshot
@@ -99,6 +118,9 @@ class AbstractSnapshotSerializer(ABC):
 
     @final
     def write(self, data: "SerializableData", index: int = 0) -> None:
+        """
+        Override _write_snapshot_or_remove_file in subclass to change behaviour
+        """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         if self.test_location.testname not in snapshot_name:
@@ -108,7 +130,7 @@ class AbstractSnapshotSerializer(ABC):
                     f" contain testname '{self.test_location.testname}'"
                 )
             )
-        self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
+        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
         pass
@@ -130,11 +152,6 @@ class AbstractSnapshotSerializer(ABC):
         """Returns file basename without extension. Used to create full filepath."""
         return f"{os.path.splitext(os.path.basename(self._test_location.filename))[0]}"
 
-    @property
-    def snapshot_subdirectory_name(self) -> Optional[str]:
-        """Optional subdirectory in which to store snapshots."""
-        return None
-
     def _ensure_snapshot_dir(self, index: int) -> None:
         """
         Ensures the folder path for the snapshot file exists.
@@ -145,7 +162,7 @@ class AbstractSnapshotSerializer(ABC):
             pass
 
     @abstractmethod
-    def read_snapshot_from_file(
+    def _read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
         """
@@ -154,20 +171,12 @@ class AbstractSnapshotSerializer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def write_snapshot_or_remove_file(
+    def _write_snapshot_or_remove_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         """
         Adds the snapshot data to the snapshots read from the file
         or removes the snapshot entry if data is `None`.
         If the snapshot file will be empty remove the entire file.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def serialize(self, data: "SerializableData") -> Union[str, bytes]:
-        """
-        Serializes a python object / data structure into a string
-        to be used for comparison with snapshot data from disk.
         """
         raise NotImplementedError

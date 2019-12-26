@@ -139,7 +139,7 @@ class SnapshotSession:
     ) -> None:
         for snapshot_file, unused_snapshots in unused_snapshot_files.items():
             for snapshot_name in unused_snapshots:
-                self._serializers[snapshot_file].delete_snapshot(
+                self._serializers[snapshot_file].delete_snapshot_from_file(
                     snapshot_file, snapshot_name
                 )
             if (
