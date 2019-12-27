@@ -93,7 +93,7 @@ class AbstractSnapshotSerializer(ABC):
         self, snapshot_file: str, snapshot_names: Set[str]
     ) -> None:
         """
-        Remove a snapshot from a snapshot file.
+        Remove snapshots from a snapshot file.
         If the snapshot file will be empty remove the entire file.
         """
         raise NotImplementedError
