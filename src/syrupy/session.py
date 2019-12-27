@@ -12,6 +12,8 @@ from typing import (
     Set,
 )
 
+from .constants import SNAPSHOT_UNKNOWN_FILE
+from .location import TestLocation
 from .terminal import (
     bold,
     error_style,
@@ -138,10 +140,14 @@ class SnapshotSession:
         used_snapshot_files: "SnapshotFiles",
     ) -> None:
         for snapshot_file, unused_snapshots in unused_snapshot_files.items():
-            for snapshot_name in unused_snapshots:
-                self._serializers[snapshot_file].delete_snapshot_from_file(
-                    snapshot_file, snapshot_name
-                )
+            serializer = self._serializers.get(snapshot_file)
+            if serializer:
+                serializer.delete_snapshots_from_file(snapshot_file, unused_snapshots)
+            if (
+                os.path.exists(snapshot_file)
+                and snapshot_file not in used_snapshot_files
+            ):
+                os.remove(snapshot_file)
 
     def _collate_snapshots(self) -> None:
         """
@@ -151,8 +157,9 @@ class SnapshotSession:
             self._merge_snapshot_files_into(
                 self._snapshot_groups.discovered, assertion.discovered_snapshots
             )
-            for filepath in assertion.discovered_snapshots:
-                self._serializers[filepath] = assertion.serializer
+            for filepath, snapshots in assertion.discovered_snapshots.items():
+                if snapshots:
+                    self._serializers[filepath] = assertion.serializer
             for result in assertion.executions.values():
                 snapshot_file: "SnapshotFiles" = {result.file: {result.name}}
                 self._merge_snapshot_files_into(
@@ -186,14 +193,18 @@ class SnapshotSession:
                     snapshot_name
                     for snapshot_name in unused_snapshots
                     if any(
-                        {
-                            self.snapshot_name_matches_test_node(snapshot_name, node)
-                            for node in self._ran_items
-                        }
+                        TestLocation(node).matches_snapshot_name(snapshot_name)
+                        for node in self._ran_items
                     )
                 }
+
+            mark_file_for_removal = (
+                ran_all and snapshot_filepath not in self._snapshot_groups.used
+            )
             if unused:
                 self._snapshot_groups.unused[snapshot_filepath] = unused
+            elif mark_file_for_removal:
+                self._snapshot_groups.unused[snapshot_filepath] = SNAPSHOT_UNKNOWN_FILE
 
     def _merge_snapshot_files_into(
         self, snapshot_files: "SnapshotFiles", *snapshot_files_to_merge: "SnapshotFiles"
@@ -217,9 +228,3 @@ class SnapshotSession:
 
     def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
         return sum(len(snaps) for snaps in snapshot_files.values())
-
-    @staticmethod
-    def snapshot_name_matches_test_node(name: str, node: Any) -> bool:
-        methodname = node.obj.__name__ if node.obj else None
-        nodename = getattr(node, "name", None)
-        return methodname in name or name in nodename

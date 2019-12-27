@@ -89,7 +89,9 @@ class AbstractSnapshotSerializer(ABC):
         self.post_write(data, index=index)
 
     @abstractmethod
-    def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
+    def delete_snapshots_from_file(
+        self, snapshot_file: str, snapshot_names: Set[str]
+    ) -> None:
         """
         Remove a snapshot from a snapshot file.
         If the snapshot file will be empty remove the entire file.
@@ -124,11 +126,11 @@ class AbstractSnapshotSerializer(ABC):
         """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
-        if self.test_location.testname not in snapshot_name:
-            warning_msg = (
-                f"Snapshot name '{snapshot_name}' does not contain testname"
-                f" '{self.test_location.testname}'"
-            )
+        if not self.test_location.matches_snapshot_name(snapshot_name):
+            warning_msg = f"""
+            Can not relate snapshot name '{snapshot_name}' to the test location.
+            Consider adding '{self.test_location.testname}' to the generated name.
+            """
             warnings.warn(warning_msg)
         self._write_snapshot_to_file(snapshot_file, snapshot_name, data)
 

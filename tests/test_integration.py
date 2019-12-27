@@ -264,6 +264,25 @@ def test_removed_empty_snapshot_file_only(stubs):
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
     assert "1 snapshot deleted" in result_stdout
+    assert "empty snapshot file" in result_stdout
+    assert os.path.relpath(empty_filepath) in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
     assert not os.path.isfile(empty_filepath)
+
+
+def test_removed_hanging_snapshot_file(stubs):
+    _, testdir, _, filepath = stubs
+    hanging_filepath = os.path.join(os.path.dirname(filepath), "test_hanging.abc")
+    with open(hanging_filepath, "w") as empty_snapfile:
+        empty_snapfile.write("some dummy content")
+    assert os.path.isfile(hanging_filepath)
+    result = testdir.runpytest("-v", "--snapshot-update")
+    result_stdout = clean_output(result.stdout.str())
+    assert os.path.relpath(filepath) not in result_stdout
+    assert "1 snapshot deleted" in result_stdout
+    assert "unknown snapshot file" in result_stdout
+    assert os.path.relpath(hanging_filepath) in result_stdout
+    assert result.ret == 0
+    assert os.path.isfile(filepath)
+    assert not os.path.isfile(hanging_filepath)
