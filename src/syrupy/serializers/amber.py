@@ -1,9 +1,11 @@
+import hashlib
 import os
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
+    Iterable,
     Set,
 )
 
@@ -16,6 +18,21 @@ if TYPE_CHECKING:
 
 class DataSerializer:
     indent: str = "  "
+
+    @classmethod
+    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
+        def _sort_key(value: Any) -> Any:
+            if isinstance(value, frozenset):
+                h = hashlib.sha256()
+                for element in cls.sort(value):
+                    h.update(str(element).encode("utf-8"))
+                return h.hexdigest()
+            return value
+
+        try:
+            return sorted(iterable)
+        except TypeError:
+            return sorted(iterable, key=_sort_key)
 
     @classmethod
     def with_indent(cls, string: str, indent: int) -> str:
@@ -39,7 +56,7 @@ class DataSerializer:
     def serialize_set(cls, data: "SerializableData", indent: int = 0) -> str:
         return (
             cls.with_indent(f"{type(data)} {{\n", indent)
-            + "".join([f"{cls.serialize(d, indent + 1)},\n" for d in sorted(data)])
+            + "".join([f"{cls.serialize(d, indent + 1)},\n" for d in cls.sort(data)])
             + cls.with_indent("}", indent)
         )
 
@@ -55,7 +72,7 @@ class DataSerializer:
                         + cls.serialize(data[key], indent + 1).lstrip(cls.indent)
                         + ",\n"
                     )
-                    for key in sorted(data.keys())
+                    for key in cls.sort(data.keys())
                 ]
             )
             + cls.with_indent("}", indent)
@@ -80,7 +97,7 @@ class DataSerializer:
             return cls.serialize_string(data, indent)
         elif isinstance(data, (int, float)):
             return cls.serialize_number(data, indent)
-        elif isinstance(data, set):
+        elif isinstance(data, (set, frozenset)):
             return cls.serialize_set(data, indent)
         elif isinstance(data, dict):
             return cls.serialize_dict(data, indent)

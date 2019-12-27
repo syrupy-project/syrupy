@@ -69,6 +69,16 @@
     'this',
   }
 ---
+# name: test_set.1
+  <class 'set'> {
+    <class 'frozenset'> {
+      '1',
+      '2',
+    },
+    'contains',
+    'frozen',
+  }
+---
 # name: test_string[0]
   ''
 ---
