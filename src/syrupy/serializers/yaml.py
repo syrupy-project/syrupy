@@ -35,7 +35,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
         snapshots = self._read_file(snapshot_file)
         snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
         snapshots[snapshot_name][self._data_key] = data
-        self.__write_file(snapshot_file, snapshots)
+        self._write_file(snapshot_file, snapshots)
 
     def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
         snapshots = self._read_file(snapshot_file)
@@ -43,7 +43,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
             del snapshots[snapshot_name]
 
         if snapshots:
-            self.__write_file(snapshot_file, snapshots)
+            self._write_file(snapshot_file, snapshots)
         else:
             os.remove(snapshot_file)
 
@@ -58,7 +58,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
     def _data_key(self) -> str:
         return "data"
 
-    def __write_file(self, filepath: str, data: "SerializableData") -> None:
+    def _write_file(self, filepath: str, data: "SerializableData") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
