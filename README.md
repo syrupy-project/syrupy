@@ -4,7 +4,7 @@
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors) [![Maturity badge - level 1](https://img.shields.io/badge/Maturity-Level%201%20--%20New%20Project-yellow.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md) ![Stage](https://img.shields.io/pypi/status/syrupy) [![Slack workspace](https://slackinvite.dev.tophat.com/badge.svg)](https://opensource.tophat.com/slack)
 
-[![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) ![Wheel](https://img.shields.io/pypi/wheel/syrupy) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) ![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy) ![PyPI - License](https://img.shields.io/pypi/l/syrupy)
+[![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
 
 ![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
 
