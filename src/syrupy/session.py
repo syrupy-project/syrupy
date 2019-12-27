@@ -142,11 +142,6 @@ class SnapshotSession:
                 self._serializers[snapshot_file].delete_snapshot_from_file(
                     snapshot_file, snapshot_name
                 )
-            if (
-                os.path.exists(snapshot_file)
-                and snapshot_file not in used_snapshot_files
-            ):
-                os.remove(snapshot_file)
 
     def _collate_snapshots(self) -> None:
         """

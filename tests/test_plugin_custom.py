@@ -28,7 +28,10 @@ def testcases(testdir):
             def _read_snapshot_from_file(self, file, name):
                 pass
 
-            def _write_snapshot_or_remove_file(self, file, name, data):
+            def _write_snapshot_to_file(self, file, name, data):
+                pass
+
+            def delete_snapshot_from_file(self, file, name):
                 pass
 
 

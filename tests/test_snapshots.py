@@ -8,27 +8,34 @@ def test_non_snapshots(snapshot):
         assert "Lorem ipsum." == "Muspi merol."
 
 
-def test_simple_string(snapshot):
-    assert "Loreeeeeem ipsum." == snapshot
+def test_empty_snapshot(snapshot):
+    assert snapshot == None  # noqa: E711
+    assert snapshot == ""
 
 
-def test_raw_string(snapshot):
-    assert r"Raw string" == snapshot
-
-
-def test_unicode_string(snapshot):
-    assert "🥞🐍🍯" == snapshot
+@pytest.mark.parametrize(
+    "actual",
+    [
+        "",
+        r"Raw string",
+        r"Escaped \n",
+        r"Backslash \u U",
+        "🥞🐍🍯",
+        "singleline:",
+        "- singleline",
+        "multi-line\nline 2\nline 3",
+        "multi-line\nline 2\n  line 3",
+    ],
+    ids=lambda x: "",
+)
+def test_string(snapshot, actual):
+    assert snapshot == actual
 
 
 def test_multiple_snapshots(snapshot):
     assert "First." == snapshot
     snapshot.assert_match("Second.")
     snapshot("Third.")
-
-
-@pytest.mark.parametrize("expected", [r"Escaped \n", r"Backslash \u U"])
-def test_parametrized_with_special_char(snapshot, expected):
-    assert expected == snapshot
 
 
 @pytest.mark.parametrize(
@@ -49,7 +56,7 @@ def test_set(snapshot):
 ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 
 
-def test_tuples(snapshot):
+def test_tuple(snapshot):
     assert snapshot == ("this", "is", ("a", "tuple"))
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
 

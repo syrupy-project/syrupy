@@ -44,13 +44,13 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_or_remove_file(
+    def _write_snapshot_to_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
-        if data:
-            self.__write_file(snapshot_file, data)
-        else:
-            os.remove(snapshot_file)
+        self.__write_file(snapshot_file, data)
+
+    def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
+        os.remove(snapshot_file)
 
     def __write_file(self, filepath: str, data: "SerializableData") -> None:
         with open(filepath, "wb") as f:

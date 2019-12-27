@@ -88,12 +88,13 @@ class AbstractSnapshotSerializer(ABC):
         self.write(data, index=index)
         self.post_write(data, index=index)
 
-    @final
+    @abstractmethod
     def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
         """
-        Utility method for removing a snapshot from a snapshot file.
+        Remove a snapshot from a snapshot file.
+        If the snapshot file will be empty remove the entire file.
         """
-        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
+        raise NotImplementedError
 
     def pre_read(self, index: int = 0) -> None:
         pass
@@ -119,7 +120,7 @@ class AbstractSnapshotSerializer(ABC):
     @final
     def write(self, data: "SerializableData", index: int = 0) -> None:
         """
-        Override `_write_snapshot_or_remove_file` in subclass to change behaviour
+        Override `_write_snapshot_to_file` in subclass to change behaviour
         """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
@@ -129,7 +130,7 @@ class AbstractSnapshotSerializer(ABC):
                 f" '{self.test_location.testname}'"
             )
             warnings.warn(warning_msg)
-        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
+        self._write_snapshot_to_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
         pass
@@ -170,12 +171,10 @@ class AbstractSnapshotSerializer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_or_remove_file(
+    def _write_snapshot_to_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         """
         Adds the snapshot data to the snapshots read from the file
-        or removes the snapshot entry if data is `None`.
-        If the snapshot file will be empty remove the entire file.
         """
         raise NotImplementedError
