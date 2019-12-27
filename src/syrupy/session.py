@@ -188,6 +188,9 @@ class SnapshotSession:
         ).items():
             if ran_all:
                 unused = unused_snapshots
+                mark_file_for_removal = (
+                    snapshot_filepath not in self._snapshot_groups.used
+                )
             else:
                 unused = {
                     snapshot_name
@@ -197,10 +200,8 @@ class SnapshotSession:
                         for node in self._ran_items
                     )
                 }
+                mark_file_for_removal = False
 
-            mark_file_for_removal = (
-                ran_all and snapshot_filepath not in self._snapshot_groups.used
-            )
             if unused:
                 self._snapshot_groups.unused[snapshot_filepath] = unused
             elif mark_file_for_removal:
