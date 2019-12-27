@@ -18,6 +18,10 @@ test_dict[actual1]:
     d:
     - '1'
     - 2
+test_multiline:
+  data: 'multi
+
+    line'
 test_multiple_snapshots:
   data: First.
 test_multiple_snapshots.1:
@@ -38,6 +42,14 @@ test_set:
     this: null
 test_simple_string:
   data: Loreeeeeem ipsum.
+test_singleline:
+  data: one-line
+test_singleline.1:
+  data: 'multi
+
+    line 2
+
+    line 3'
 test_tuples:
   data: !!python/tuple
   - this

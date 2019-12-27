@@ -12,6 +12,15 @@ def test_simple_string(snapshot):
     assert "Loreeeeeem ipsum." == snapshot
 
 
+def test_multiline(snapshot):
+    assert "multi\nline" == snapshot
+
+
+def test_singleline(snapshot):
+    assert "one-line" == snapshot
+    assert "multi\nline 2\nline 3" == snapshot
+
+
 def test_raw_string(snapshot):
     assert r"Raw string" == snapshot
 

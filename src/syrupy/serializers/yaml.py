@@ -40,7 +40,7 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
         snapshots = self._read_file(snapshot_file)
         if data is None and snapshot_name in snapshots:
             del snapshots[snapshot_name]
-        else:
+        elif data is not None:
             snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
             snapshots[snapshot_name][self._data_key] = data
 
@@ -89,12 +89,12 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
             with open(filepath, "r") as f:
                 test_name = None
                 for line in f:
-                    indent = len(line) - len(line.lstrip(" "))
-                    if not indent:
+                    if line[0] not in (" ", "\n") and line[-2] == ":":
                         test_name = line[:-2]  # newline & colon
                         snapshots[test_name] = ""
                     elif test_name is not None:
-                        snapshots[test_name] += line[2:]
+                        offset = min(len(line) - 1, 2)
+                        snapshots[test_name] += line[offset:]
         except FileNotFoundError:
             pass
 
