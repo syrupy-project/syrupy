@@ -8,6 +8,7 @@ from typing import (
     Type,
 )
 
+from .constants import SNAPSHOT_EMPTY_FILE
 from .exceptions import SnapshotDoesNotExist
 from .terminal import (
     error_style,
@@ -67,11 +68,13 @@ class SnapshotAssertion:
 
     @property
     def discovered_snapshots(self) -> "SnapshotFiles":
-        empty = {"empty snapshot file"}
         return {
-            filepath: self.serializer.discover_snapshots(filepath) or empty
-            for filepath in walk_snapshot_dir(self.serializer.dirname)
+            filepath: (
+                self.serializer.discover_snapshots(filepath) or SNAPSHOT_EMPTY_FILE
+            )
             if filepath.endswith(self.serializer.file_extension)
+            else set()
+            for filepath in walk_snapshot_dir(self.serializer.dirname)
         }
 
     def with_class(
@@ -119,9 +122,6 @@ class SnapshotAssertion:
 
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"
-
-    def __call__(self, data: "SerializableData") -> bool:
-        return self._assert(data)
 
     def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)

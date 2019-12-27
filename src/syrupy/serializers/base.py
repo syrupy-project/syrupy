@@ -89,9 +89,11 @@ class AbstractSnapshotSerializer(ABC):
         self.post_write(data, index=index)
 
     @abstractmethod
-    def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
+    def delete_snapshots_from_file(
+        self, snapshot_file: str, snapshot_names: Set[str]
+    ) -> None:
         """
-        Remove a snapshot from a snapshot file.
+        Remove snapshots from a snapshot file.
         If the snapshot file will be empty remove the entire file.
         """
         raise NotImplementedError
@@ -124,11 +126,11 @@ class AbstractSnapshotSerializer(ABC):
         """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
-        if self.test_location.testname not in snapshot_name:
-            warning_msg = (
-                f"Snapshot name '{snapshot_name}' does not contain testname"
-                f" '{self.test_location.testname}'"
-            )
+        if not self.test_location.matches_snapshot_name(snapshot_name):
+            warning_msg = f"""
+            Can not relate snapshot name '{snapshot_name}' to the test location.
+            Consider adding '{self.test_location.testname}' to the generated name.
+            """
             warnings.warn(warning_msg)
         self._write_snapshot_to_file(snapshot_file, snapshot_name, data)
 
@@ -137,11 +139,11 @@ class AbstractSnapshotSerializer(ABC):
 
     def get_snapshot_name(self, index: int = 0) -> str:
         index_suffix = f".{index}" if index > 0 else ""
-        methodname = self._test_location.testname
+        testname = self._test_location.testname
 
         if self._test_location.classname is not None:
-            return f"{self._test_location.classname}.{methodname}{index_suffix}"
-        return f"{methodname}{index_suffix}"
+            return f"{self._test_location.classname}.{testname}{index_suffix}"
+        return f"{testname}{index_suffix}"
 
     def get_filepath(self, index: int) -> str:
         """Returns full filepath where snapshot data is stored."""

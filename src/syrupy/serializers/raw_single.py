@@ -49,7 +49,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
     ) -> None:
         self.__write_file(snapshot_file, data)
 
-    def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
+    def delete_snapshots_from_file(self, snapshot_file: str, _: Set[str]) -> None:
         os.remove(snapshot_file)
 
     def __write_file(self, filepath: str, data: "SerializableData") -> None:
