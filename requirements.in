@@ -1,1 +1,14 @@
+black
+codecov
+coverage[toml]
+flake8
+invoke
+isort
+mypy
+pip-tools
+py-githooks
+pytest
 pyyaml
+semver
+twine
+wheel
