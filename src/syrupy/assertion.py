@@ -120,9 +120,6 @@ class SnapshotAssertion:
     def __repr__(self) -> str:
         return f"<SnapshotAssertion ({self.num_executions})>"
 
-    def __call__(self, data: "SerializableData") -> bool:
-        return self._assert(data)
-
     def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)
 
