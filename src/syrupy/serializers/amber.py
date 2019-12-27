@@ -6,8 +6,6 @@ from typing import (
     Set,
 )
 
-import yaml
-
 from .base import AbstractSnapshotSerializer
 
 
@@ -15,26 +13,42 @@ if TYPE_CHECKING:
     from syrupy.types import SerializableData
 
 
-class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
+class AmberSnapshotSerializer(AbstractSnapshotSerializer):
+    """
+    An amber snapshot file stores data in the following format:
+
+    ```
+    # name: test_name_1
+
+     data
+    ---
+    # name: test_name_2
+
+     data
+    ```
+    """
+
     @property
     def file_extension(self) -> str:
-        return "yaml"
+        return "snap"
 
     def discover_snapshots(self, filepath: str) -> Set[str]:
-        return set(self.__read_raw_file(filepath).keys())
+        return set(name for name in self.__read_file(filepath).keys())
 
     def _read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
-        raw_snapshots = self.__read_raw_file(snapshot_file)
-        return raw_snapshots.get(snapshot_name, None)
+        snapshots = self.__read_file(snapshot_file)
+        return snapshots.get(snapshot_name, {}).get("data")
 
     def _write_snapshot_to_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         snapshots = self.__read_file(snapshot_file)
-        snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
-        snapshots[snapshot_name][self.__data_key] = data
+        snapshots[snapshot_name] = {
+            "name": snapshot_name,
+            "data": self.serialize(data),
+        }
         self.__write_file(snapshot_file, snapshots)
 
     def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
@@ -52,47 +66,42 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return str(yaml.dump({self.__data_key: data}, allow_unicode=True))
-
-    @property
-    def __data_key(self) -> str:
-        return "data"
+        return str(data)
 
     def __write_file(self, filepath: str, snapshots: Dict[str, Dict[str, Any]]) -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
         with open(filepath, "w") as f:
-            yaml.dump(snapshots, f, allow_unicode=True)
+            for key in sorted(snapshots.keys()):
+                snapshot = snapshots[key]
+                snapshot_data = snapshot.get("data")
+                if snapshot_data is not None:
+                    f.write(f"# name: {key}\n\n")
+                    f.writelines(
+                        f" {data_line}" for data_line in snapshot_data.split("\n")
+                    )
+                    f.write("\n---\n")
 
-    def __read_file(self, filepath: str) -> Any:
-        """
-        Read the snapshot data from the snapshot file into a python instance.
-        """
-        try:
-            with open(filepath, "r") as f:
-                return yaml.load(f, Loader=yaml.FullLoader) or {}
-        except FileNotFoundError:
-            pass
-        return {}
-
-    def __read_raw_file(self, filepath: str) -> Dict[str, str]:
+    def __read_file(self, filepath: str) -> Dict[str, Dict[str, Any]]:
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
         of the snapshot data.
         """
+        name_marker = "# name:"
+        name_marker_len = len(name_marker)
+        indent = " "
         snapshots = {}
         try:
             with open(filepath, "r") as f:
                 test_name = None
                 for line in f:
-                    if line[0] not in (" ", "\n") and line[-2] == ":":
-                        test_name = line[:-2]  # newline & colon
-                        snapshots[test_name] = ""
-                    elif test_name is not None:
-                        offset = min(len(line) - 1, 2)
-                        snapshots[test_name] += line[offset:]
+                    if line.startswith(name_marker):
+                        test_name = line[name_marker_len:-1]
+                        snapshots[test_name] = {"data": ""}
+                    elif test_name is not None and line.startswith(indent):
+                        snapshots[test_name]["data"] += line[len(indent)]
         except FileNotFoundError:
             pass
 
