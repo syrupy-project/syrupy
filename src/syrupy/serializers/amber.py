@@ -80,7 +80,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
                     for data_line in snapshot_data.split("\n"):
                         print("Writing data line.")
                         f.write(f"{self.__indent}{data_line}\n")
-                    f.write("---\n")
+                    f.write(f"{self.__divider}\n")
 
     def __read_file(self, filepath: str) -> Dict[str, Dict[str, Any]]:
         """
@@ -100,6 +100,12 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
                         snapshots[test_name] = {"data": ""}
                     elif test_name is not None and line.startswith(self.__indent):
                         snapshots[test_name]["data"] += line[indent_len:]
+                    elif test_name is not None and line.startswith(self.__divider):
+                        if snapshots[test_name]["data"]:
+                            # strip final newline
+                            snapshots[test_name]["data"] = snapshots[test_name]["data"][
+                                :-1
+                            ]
         except FileNotFoundError:
             pass
 
@@ -112,3 +118,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     @property
     def __name_marker(self) -> str:
         return "# name:"
+
+    @property
+    def __divider(self) -> str:
+        return "---"
