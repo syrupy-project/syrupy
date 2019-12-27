@@ -46,7 +46,6 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     ) -> None:
         snapshots = self.__read_file(snapshot_file)
         snapshots[snapshot_name] = {
-            "name": snapshot_name,
             "data": self.serialize(data),
         }
         self.__write_file(snapshot_file, snapshots)
@@ -77,11 +76,11 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
                 snapshot = snapshots[key]
                 snapshot_data = snapshot.get("data")
                 if snapshot_data is not None:
-                    f.write(f"# name: {key}\n\n")
-                    f.writelines(
-                        f" {data_line}" for data_line in snapshot_data.split("\n")
-                    )
-                    f.write("\n---\n")
+                    f.write(f"{self.__name_marker} {key}\n")
+                    for data_line in snapshot_data.split("\n"):
+                        print("Writing data line.")
+                        f.write(f"{self.__indent}{data_line}\n")
+                    f.write("---\n")
 
     def __read_file(self, filepath: str) -> Dict[str, Dict[str, Any]]:
         """
@@ -89,20 +88,27 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         of snapshot name to raw data. This does not attempt any deserialization
         of the snapshot data.
         """
-        name_marker = "# name:"
-        name_marker_len = len(name_marker)
-        indent = " "
+        name_marker_len = len(self.__name_marker)
+        indent_len = len(self.__indent)
         snapshots = {}
         try:
             with open(filepath, "r") as f:
                 test_name = None
                 for line in f:
-                    if line.startswith(name_marker):
-                        test_name = line[name_marker_len:-1]
+                    if line.startswith(self.__name_marker):
+                        test_name = line[name_marker_len:-1].strip(" \n")
                         snapshots[test_name] = {"data": ""}
-                    elif test_name is not None and line.startswith(indent):
-                        snapshots[test_name]["data"] += line[len(indent)]
+                    elif test_name is not None and line.startswith(self.__indent):
+                        snapshots[test_name]["data"] += line[indent_len:]
         except FileNotFoundError:
             pass
 
         return snapshots
+
+    @property
+    def __indent(self) -> str:
+        return "    "
+
+    @property
+    def __name_marker(self) -> str:
+        return "# name:"
