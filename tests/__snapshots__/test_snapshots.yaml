@@ -26,6 +26,8 @@ test_multiple_snapshots:
   data: First.
 test_multiple_snapshots.1:
   data: Second.
+test_multiple_snapshots.2:
+  data: Third.
 test_set:
   data: !!set
     a: null

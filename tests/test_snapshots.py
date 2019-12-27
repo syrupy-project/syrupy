@@ -35,6 +35,7 @@ def test_string(snapshot, actual):
 def test_multiple_snapshots(snapshot):
     assert "First." == snapshot
     snapshot.assert_match("Second.")
+    assert snapshot == "Third."
 
 
 @pytest.mark.parametrize(
