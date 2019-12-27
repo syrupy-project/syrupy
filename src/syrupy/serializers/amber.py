@@ -123,7 +123,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
 
     @property
     def file_extension(self) -> str:
-        return "snap"
+        return "ambr"
 
     def discover_snapshots(self, filepath: str) -> Set[str]:
         return set(name for name in self.__read_file(filepath).keys())
@@ -192,12 +192,11 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
                         test_name = line[name_marker_len:-1].strip(" \n")
                         snapshot_data = ""
                         continue
-                    if test_name is None:
-                        continue
-                    if line.startswith(self.__indent):
-                        snapshot_data += line[indent_len:]
-                    elif line.startswith(self.__divider) and snapshot_data:
-                        snapshots[test_name] = {"data": snapshot_data[:-1]}
+                    elif test_name is not None:
+                        if line.startswith(self.__indent):
+                            snapshot_data += line[indent_len:]
+                        elif line.startswith(self.__divider) and snapshot_data:
+                            snapshots[test_name] = {"data": snapshot_data[:-1]}
         except FileNotFoundError:
             pass
 

@@ -122,7 +122,7 @@ def test_missing_snapshots(testdir, testcases):
 def stubs(testdir, testcases):
     pyfile_content = "\n\n".join(testcases.values())
     testdir.makepyfile(test_file=pyfile_content)
-    filepath = os.path.join(testdir.tmpdir, "__snapshots__", "test_file.yaml")
+    filepath = os.path.join(testdir.tmpdir, "__snapshots__", "test_file.ambr")
     return testdir.runpytest("-v", "--snapshot-update"), testdir, testcases, filepath
 
 
@@ -149,18 +149,18 @@ def test_failing_snapshots(stubs, testcases_updated):
     assert "3 snapshots failed" in result_stdout
     expected_strings = [
         # 1
-        "- - be",
-        "+ - not",
-        "- - updated",
-        "+ - match",
+        "-   'be',",
+        "+   'not',",
+        "-   'updated',",
+        "+   'match',",
         # 2
-        "- - be",
-        "+ - fail",
-        "- - updated",
+        "-   'be',",
+        "+   'fail',",
+        "-   'updated',",
         # 3
-        "- - updated",
-        "+ - too",
-        "+ - much",
+        "-   'updated',",
+        "+   'too',",
+        "+   'much',",
     ]
     for string in expected_strings:
         assert string in result_stdout
@@ -214,7 +214,7 @@ def test_removed_snapshot_file(stubs):
 
 def test_removed_empty_snapshot_file_only(stubs):
     _, testdir, _, filepath = stubs
-    empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.yaml")
+    empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.ambr")
     with open(empty_filepath, "w") as empty_snapfile:
         empty_snapfile.write("")
     assert os.path.isfile(empty_filepath)

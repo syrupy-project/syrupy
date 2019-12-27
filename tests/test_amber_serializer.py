@@ -2,13 +2,6 @@ from collections import namedtuple
 
 import pytest
 
-from syrupy.serializers.amber import AmberSnapshotSerializer
-
-
-@pytest.fixture
-def snapshot(snapshot):
-    return snapshot.with_class(serializer_class=AmberSnapshotSerializer)
-
 
 def test_non_snapshots(snapshot):
     with pytest.raises(AssertionError):
