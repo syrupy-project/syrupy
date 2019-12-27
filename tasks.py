@@ -16,13 +16,15 @@ def clean(ctx):
 
 
 @task
-def requirements(ctx):
+def requirements(ctx, upgrade=False):
     """
-    Build requirements lock file
+    Build dev requirements lock file
     """
-    input_files = ["requirements.in", "dev-requirements.in"]
-    for input_file in input_files:
-        ctx.run(f"python -m piptools compile {input_file}", pty=True)
+    source = "requirements.in"
+    args = ["--no-emit-find-links", "--no-index", "--allow-unsafe", "--rebuild"]
+    if upgrade:
+        args.append("--upgrade")
+    ctx.run(f"python -m piptools compile {source} {' '.join(args)}", pty=True)
 
 
 @task
