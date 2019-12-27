@@ -143,10 +143,7 @@ class SnapshotSession:
             serializer = self._serializers.get(snapshot_file)
             if serializer:
                 serializer.delete_snapshots_from_file(snapshot_file, unused_snapshots)
-            if (
-                os.path.exists(snapshot_file)
-                and snapshot_file not in used_snapshot_files
-            ):
+            elif snapshot_file not in used_snapshot_files:
                 os.remove(snapshot_file)
 
     def _collate_snapshots(self) -> None:
