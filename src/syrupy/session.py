@@ -176,19 +176,22 @@ class SnapshotSession:
                     )
 
         ran_all = self._all_items == self._ran_items
-        ran_testnames = {self.get_node_testname(node) for node in self._ran_items}
         for snapshot_filepath, unused_snapshots in self._diff_snapshot_files(
             self._snapshot_groups.discovered, self._snapshot_groups.used
         ).items():
-            unused = (
-                unused_snapshots
-                if ran_all
-                else {
+            if ran_all:
+                unused = unused_snapshots
+            else:
+                unused = {
                     snapshot_name
                     for snapshot_name in unused_snapshots
-                    if any({testname in snapshot_name for testname in ran_testnames})
+                    if any(
+                        {
+                            self.snapshot_name_matches_test_node(snapshot_name, node)
+                            for node in self._ran_items
+                        }
+                    )
                 }
-            )
             if unused:
                 self._snapshot_groups.unused[snapshot_filepath] = unused
 
@@ -216,5 +219,7 @@ class SnapshotSession:
         return sum(len(snaps) for snaps in snapshot_files.values())
 
     @staticmethod
-    def get_node_testname(node: Any) -> str:
-        return str(getattr(node, "name", node.obj.__name__ if node.obj else ""))
+    def snapshot_name_matches_test_node(name: str, node: Any) -> bool:
+        methodname = node.obj.__name__ if node.obj else None
+        nodename = getattr(node, "name", None)
+        return methodname in name or name in nodename

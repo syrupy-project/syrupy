@@ -82,13 +82,15 @@ def pytest_sessionfinish(session: Any) -> None:
 
 @pytest.fixture
 def snapshot(request: Any) -> "SnapshotAssertion":
+    methodname = request.function.__name__ if request.function else None
+    nodename = getattr(request.node, "name", None)
     test_location = TestLocation(
         filename=request.fspath,
         modulename=request.module.__name__,
         classname=request.cls.__name__ if request.cls else None,
-        methodname=request.function.__name__ if request.function else None,
-        nodename=getattr(request.node, "name", ""),
-        testname=SnapshotSession.get_node_testname(request.node),
+        methodname=methodname,
+        nodename=nodename,
+        testname=nodename or methodname,
     )
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
