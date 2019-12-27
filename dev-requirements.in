@@ -1,4 +1,3 @@
--c requirements.in
 black
 codecov
 coverage[toml]
