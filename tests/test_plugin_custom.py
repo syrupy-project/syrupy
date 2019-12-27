@@ -31,7 +31,7 @@ def testcases(testdir):
             def _write_snapshot_to_file(self, file, name, data):
                 pass
 
-            def delete_snapshots_from_file(self, file, name):
+            def delete_snapshots_from_file(self, file, names):
                 pass
 
 
@@ -57,5 +57,5 @@ def test_warns_on_snapshot_name(testdir, testcases):
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots generated" in result_stdout
     assert "Warning:" in result_stdout
-    assert "motsuc_dessap_tset" in result_stdout
+    assert "test_passed_custom" in result_stdout
     assert result.ret == 0
