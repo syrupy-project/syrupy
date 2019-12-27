@@ -34,13 +34,55 @@ def test_collection(testdir):
                 assert snapshot == 1
                 assert snapshot == "two"
             """
-        )
+        ),
     }
     testdir.makepyfile(**updated_tests)
     result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
+    assert "1 snapshot deleted" in result_stdout
+
+
+def test_collection_parametrized(testdir):
+    tests = {
+        "test_parametrized": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, 2, 3])
+            def test_collected(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+        "test_not_collected": (
+            """
+            def test_not_collected(snapshot):
+                assert snapshot == "hello"
+            """
+        ),
+    }
+    testdir.makepyfile(**tests)
+    result = testdir.runpytest("-v", "--snapshot-update")
+    result_stdout = clean_output(result.stdout.str())
+    assert "4 snapshots generated" in result_stdout
+
+    updated_tests = {
+        "test_parametrized": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, 2])
+            def test_collected(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+    }
+    testdir.makepyfile(**updated_tests)
+    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    result_stdout = clean_output(result.stdout.str())
+    assert "2 snapshots passed" in result_stdout
+    assert "snapshot updated" not in result_stdout
     assert "1 snapshot deleted" in result_stdout
 
 
