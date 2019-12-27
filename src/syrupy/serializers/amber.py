@@ -1,4 +1,5 @@
 import os
+from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -60,12 +61,70 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         else:
             os.remove(snapshot_file)
 
+    def __with_indent(self, string: str, indent: int) -> str:
+        return f"{self.__indent * indent}{string}"
+
+    def __serialize(self, data: "SerializableData", indent: int = 0) -> str:
+        if isinstance(data, str):
+            if "\n" in data:
+                return (
+                    self.__with_indent("'\n", indent)
+                    + str(data)
+                    + self.__with_indent("\n'", indent)
+                )
+            return self.__with_indent(repr(data), indent)
+
+        if isinstance(data, (int, float)):
+            return self.__with_indent(repr(data), indent)
+
+        if isinstance(data, set):
+            return (
+                self.__with_indent(f"{type(data)} {{\n", indent)
+                + "".join(
+                    [f"{self.__serialize(d, indent + 1)},\n" for d in sorted(data)]
+                )
+                + self.__with_indent("}", indent)
+            )
+
+        if isinstance(data, dict):
+            return (
+                self.__with_indent(f"{type(data)} {{\n", indent)
+                + "".join(
+                    [
+                        (
+                            self.__serialize(key, indent + 1)
+                            + ": "
+                            + self.__serialize(data[key], indent + 1).lstrip(
+                                self.__indent
+                            )
+                            + ",\n"
+                        )
+                        for key in sorted(data.keys())
+                    ]
+                )
+                + self.__with_indent("}", indent)
+            )
+
+        if isinstance(data, (list, tuple, GeneratorType)):
+            open_paren, close_paren = next(
+                paren[1]
+                for paren in {list: "[]", tuple: "()", GeneratorType: "()"}.items()
+                if isinstance(data, paren[0])
+            )
+            return (
+                self.__with_indent(f"{type(data)} {open_paren}\n", indent)
+                + "".join([f"{self.__serialize(d, indent + 1)},\n" for d in data])
+                + self.__with_indent(close_paren, indent)
+            )
+
+        return self.__with_indent(repr(data), indent)
+
     def serialize(self, data: "SerializableData") -> str:
         """
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return str(data)
+        return self.__serialize(data)
 
     def __write_file(self, filepath: str, snapshots: Dict[str, Dict[str, Any]]) -> None:
         """
@@ -78,7 +137,6 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
                 if snapshot_data is not None:
                     f.write(f"{self.__name_marker} {key}\n")
                     for data_line in snapshot_data.split("\n"):
-                        print("Writing data line.")
                         f.write(f"{self.__indent}{data_line}\n")
                     f.write(f"{self.__divider}\n")
 
@@ -91,21 +149,21 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         name_marker_len = len(self.__name_marker)
         indent_len = len(self.__indent)
         snapshots = {}
+        test_name = None
+        snapshot_data = ""
         try:
             with open(filepath, "r") as f:
-                test_name = None
                 for line in f:
                     if line.startswith(self.__name_marker):
                         test_name = line[name_marker_len:-1].strip(" \n")
-                        snapshots[test_name] = {"data": ""}
-                    elif test_name is not None and line.startswith(self.__indent):
-                        snapshots[test_name]["data"] += line[indent_len:]
-                    elif test_name is not None and line.startswith(self.__divider):
-                        if snapshots[test_name]["data"]:
-                            # strip final newline
-                            snapshots[test_name]["data"] = snapshots[test_name]["data"][
-                                :-1
-                            ]
+                        snapshot_data = ""
+                        continue
+                    if test_name is None:
+                        continue
+                    if line.startswith(self.__indent):
+                        snapshot_data += line[indent_len:]
+                    elif line.startswith(self.__divider) and snapshot_data:
+                        snapshots[test_name] = {"data": snapshot_data[:-1]}
         except FileNotFoundError:
             pass
 
@@ -113,7 +171,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
 
     @property
     def __indent(self) -> str:
-        return "    "
+        return "  "
 
     @property
     def __name_marker(self) -> str:

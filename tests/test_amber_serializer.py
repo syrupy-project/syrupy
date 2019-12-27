@@ -68,6 +68,16 @@ def test_tuple(snapshot):
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
 
 
+def test_numbers(snapshot):
+    assert snapshot == 3.5
+    assert snapshot == 7
+    assert snapshot == 2 / 6
+
+
+def test_list(snapshot):
+    assert snapshot == [1, 2, "string", {"key": "value"}]
+
+
 class TestClass:
     def test_name(self, snapshot):
         assert snapshot == "this is in a test class"
