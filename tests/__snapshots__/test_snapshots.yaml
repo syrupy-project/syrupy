@@ -18,6 +18,10 @@ test_dict[actual1]:
     d:
     - '1'
     - 2
+test_empty_snapshot:
+  data: null
+test_empty_snapshot.1:
+  data: ''
 test_multiple_snapshots:
   data: First.
 test_multiple_snapshots.1:

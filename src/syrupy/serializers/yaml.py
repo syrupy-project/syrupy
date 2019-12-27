@@ -29,20 +29,18 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
         raw_snapshots = self._read_raw_file(snapshot_file)
         return raw_snapshots.get(snapshot_name, None)
 
-    def _write_snapshot_or_remove_file(
+    def _write_snapshot_to_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
-        """
-        Adds the snapshot data to the snapshots read from the file
-        or removes the snapshot entry if data is `None`.
-        If the snapshot file will be empty remove the entire file.
-        """
         snapshots = self._read_file(snapshot_file)
-        if data is None and snapshot_name in snapshots:
+        snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
+        snapshots[snapshot_name][self._data_key] = data
+        self.__write_file(snapshot_file, snapshots)
+
+    def delete_snapshot_from_file(self, snapshot_file: str, snapshot_name: str) -> None:
+        snapshots = self._read_file(snapshot_file)
+        if snapshot_name in snapshots:
             del snapshots[snapshot_name]
-        elif data is not None:
-            snapshots[snapshot_name] = snapshots.get(snapshot_name, {})
-            snapshots[snapshot_name][self._data_key] = data
 
         if snapshots:
             self.__write_file(snapshot_file, snapshots)
