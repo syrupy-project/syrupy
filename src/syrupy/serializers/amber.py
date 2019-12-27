@@ -14,6 +14,81 @@ if TYPE_CHECKING:
     from syrupy.types import SerializableData
 
 
+class DataSerializer:
+    indent: str = "  "
+
+    @classmethod
+    def with_indent(cls, string: str, indent: int) -> str:
+        return f"{cls.indent * indent}{string}"
+
+    @classmethod
+    def serialize_string(cls, data: "SerializableData", indent: int = 0) -> str:
+        if "\n" in data:
+            return (
+                cls.with_indent("'\n", indent)
+                + str(data)
+                + cls.with_indent("\n'", indent)
+            )
+        return cls.with_indent(repr(data), indent)
+
+    @classmethod
+    def serialize_number(cls, data: "SerializableData", indent: int = 0) -> str:
+        return cls.with_indent(repr(data), indent)
+
+    @classmethod
+    def serialize_set(cls, data: "SerializableData", indent: int = 0) -> str:
+        return (
+            cls.with_indent(f"{type(data)} {{\n", indent)
+            + "".join([f"{cls.serialize(d, indent + 1)},\n" for d in sorted(data)])
+            + cls.with_indent("}", indent)
+        )
+
+    @classmethod
+    def serialize_dict(cls, data: "SerializableData", indent: int = 0) -> str:
+        return (
+            cls.with_indent(f"{type(data)} {{\n", indent)
+            + "".join(
+                [
+                    (
+                        cls.serialize(key, indent + 1)
+                        + ": "
+                        + cls.serialize(data[key], indent + 1).lstrip(cls.indent)
+                        + ",\n"
+                    )
+                    for key in sorted(data.keys())
+                ]
+            )
+            + cls.with_indent("}", indent)
+        )
+
+    @classmethod
+    def serialize_iterable(cls, data: "SerializableData", indent: int = 0) -> str:
+        open_paren, close_paren = next(
+            paren[1]
+            for paren in {list: "[]", tuple: "()", GeneratorType: "()"}.items()
+            if isinstance(data, paren[0])
+        )
+        return (
+            cls.with_indent(f"{type(data)} {open_paren}\n", indent)
+            + "".join([f"{cls.serialize(d, indent + 1)},\n" for d in data])
+            + cls.with_indent(close_paren, indent)
+        )
+
+    @classmethod
+    def serialize(cls, data: "SerializableData", indent: int = 0) -> str:
+        if isinstance(data, str):
+            return cls.serialize_string(data, indent)
+        elif isinstance(data, (int, float)):
+            return cls.serialize_number(data, indent)
+        elif isinstance(data, set):
+            return cls.serialize_set(data, indent)
+        elif isinstance(data, dict):
+            return cls.serialize_dict(data, indent)
+        elif isinstance(data, (list, tuple, GeneratorType)):
+            return cls.serialize_iterable(data, indent)
+        return cls.with_indent(repr(data), indent)
+
+
 class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     """
     An amber snapshot file stores data in the following format:
@@ -61,70 +136,12 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         else:
             os.remove(snapshot_file)
 
-    def __with_indent(self, string: str, indent: int) -> str:
-        return f"{self.__indent * indent}{string}"
-
-    def __serialize(self, data: "SerializableData", indent: int = 0) -> str:
-        if isinstance(data, str):
-            if "\n" in data:
-                return (
-                    self.__with_indent("'\n", indent)
-                    + str(data)
-                    + self.__with_indent("\n'", indent)
-                )
-            return self.__with_indent(repr(data), indent)
-
-        if isinstance(data, (int, float)):
-            return self.__with_indent(repr(data), indent)
-
-        if isinstance(data, set):
-            return (
-                self.__with_indent(f"{type(data)} {{\n", indent)
-                + "".join(
-                    [f"{self.__serialize(d, indent + 1)},\n" for d in sorted(data)]
-                )
-                + self.__with_indent("}", indent)
-            )
-
-        if isinstance(data, dict):
-            return (
-                self.__with_indent(f"{type(data)} {{\n", indent)
-                + "".join(
-                    [
-                        (
-                            self.__serialize(key, indent + 1)
-                            + ": "
-                            + self.__serialize(data[key], indent + 1).lstrip(
-                                self.__indent
-                            )
-                            + ",\n"
-                        )
-                        for key in sorted(data.keys())
-                    ]
-                )
-                + self.__with_indent("}", indent)
-            )
-
-        if isinstance(data, (list, tuple, GeneratorType)):
-            open_paren, close_paren = next(
-                paren[1]
-                for paren in {list: "[]", tuple: "()", GeneratorType: "()"}.items()
-                if isinstance(data, paren[0])
-            )
-            return (
-                self.__with_indent(f"{type(data)} {open_paren}\n", indent)
-                + "".join([f"{self.__serialize(d, indent + 1)},\n" for d in data])
-                + self.__with_indent(close_paren, indent)
-            )
-
-        return self.__with_indent(repr(data), indent)
-
     def serialize(self, data: "SerializableData") -> str:
         """
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return self.__serialize(data)
+        return DataSerializer.serialize(data)
 
     def __write_file(self, filepath: str, snapshots: Dict[str, Dict[str, Any]]) -> None:
         """
