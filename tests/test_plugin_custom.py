@@ -22,8 +22,8 @@ def testcases(testdir):
                 return set()
 
             def get_snapshot_name(self, index = 0):
-                methodname = self._test_location.testname[::-1]
-                return f"{methodname}.{index}"
+                testname = self._test_location.testname[::-1]
+                return f"{testname}.{index}"
 
             def _read_snapshot_from_file(self, file, name):
                 pass

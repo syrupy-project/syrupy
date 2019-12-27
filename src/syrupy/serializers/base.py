@@ -139,11 +139,11 @@ class AbstractSnapshotSerializer(ABC):
 
     def get_snapshot_name(self, index: int = 0) -> str:
         index_suffix = f".{index}" if index > 0 else ""
-        methodname = self._test_location.testname
+        testname = self._test_location.testname
 
         if self._test_location.classname is not None:
-            return f"{self._test_location.classname}.{methodname}{index_suffix}"
-        return f"{methodname}{index_suffix}"
+            return f"{self._test_location.classname}.{testname}{index_suffix}"
+        return f"{testname}{index_suffix}"
 
     def get_filepath(self, index: int) -> str:
         """Returns full filepath where snapshot data is stored."""
