@@ -40,11 +40,9 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
     def delete_snapshots_from_file(
         self, snapshot_file: str, snapshot_names: Set[str]
     ) -> None:
-        snapshots = {
-            snapshot_name: snapshot_data
-            for snapshot_name, snapshot_data in self.__read_file(snapshot_file).items()
-            if snapshot_name not in snapshot_names
-        }
+        snapshots = self.__read_file(snapshot_file)
+        for name in snapshot_names:
+            snapshots.pop(name, None)
 
         if snapshots:
             self.__write_file(snapshot_file, snapshots)
