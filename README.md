@@ -103,4 +103,4 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## License
 
-See: [./LICENSE](./LICENSE)
+Syrupy is licensed under [Apache License Version 2.0](./LICENSE).
