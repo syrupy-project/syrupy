@@ -29,7 +29,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
     def snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def _read_snapshot_from_file(
+    def read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
         return self._read_file(snapshot_file)
@@ -44,7 +44,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_or_remove_file(
+    def write_snapshot_or_remove_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         if data:

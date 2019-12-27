@@ -23,13 +23,13 @@ class YAMLSnapshotSerializer(AbstractSnapshotSerializer):
     def discover_snapshots(self, filepath: str) -> Set[str]:
         return set(self._read_raw_file(filepath).keys())
 
-    def _read_snapshot_from_file(
+    def read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
         raw_snapshots = self._read_raw_file(snapshot_file)
         return raw_snapshots.get(snapshot_name, None)
 
-    def _write_snapshot_or_remove_file(
+    def write_snapshot_or_remove_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         """

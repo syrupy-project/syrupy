@@ -1,4 +1,5 @@
 import os
+import warnings
 from abc import (
     ABC,
     abstractmethod,
@@ -14,7 +15,6 @@ from typing_extensions import final
 
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.exceptions import SnapshotDoesNotExist
-from syrupy.terminal import warning_style
 
 
 if TYPE_CHECKING:
@@ -93,7 +93,7 @@ class AbstractSnapshotSerializer(ABC):
         """
         Utility method for removing a snapshot from a snapshot file.
         """
-        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
+        self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, None)
 
     def pre_read(self, index: int = 0) -> None:
         pass
@@ -101,11 +101,11 @@ class AbstractSnapshotSerializer(ABC):
     @final
     def read(self, index: int = 0) -> "SerializableData":
         """
-        Override _read_snapshot_from_file in subclass to change behaviour
+        Override `read_snapshot_from_file` in subclass to change behaviour
         """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
-        snapshot = self._read_snapshot_from_file(snapshot_file, snapshot_name)
+        snapshot = self.read_snapshot_from_file(snapshot_file, snapshot_name)
         if snapshot is None:
             raise SnapshotDoesNotExist()
         return snapshot
@@ -119,18 +119,17 @@ class AbstractSnapshotSerializer(ABC):
     @final
     def write(self, data: "SerializableData", index: int = 0) -> None:
         """
-        Override _write_snapshot_or_remove_file in subclass to change behaviour
+        Override `write_snapshot_or_remove_file` in subclass to change behaviour
         """
         snapshot_file = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         if self.test_location.testname not in snapshot_name:
-            print(
-                warning_style(
-                    f"Warning: snapshot name '{snapshot_name}' does not"
-                    f" contain testname '{self.test_location.testname}'"
-                )
+            warning_msg = (
+                f"Snapshot name '{snapshot_name}' does not contain testname"
+                f" '{self.test_location.testname}'"
             )
-        self._write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
+            warnings.warn(warning_msg)
+        self.write_snapshot_or_remove_file(snapshot_file, snapshot_name, data)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
         pass
@@ -162,7 +161,7 @@ class AbstractSnapshotSerializer(ABC):
             pass
 
     @abstractmethod
-    def _read_snapshot_from_file(
+    def read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
         """
@@ -171,7 +170,7 @@ class AbstractSnapshotSerializer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_or_remove_file(
+    def write_snapshot_or_remove_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         """
