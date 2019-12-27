@@ -5,6 +5,45 @@ import pytest
 from .utils import clean_output
 
 
+def test_collection(testdir):
+    tests = {
+        "test_collected": (
+            """
+            def test_collected(snapshot):
+                assert snapshot == 1
+                assert snapshot == "2"
+                assert snapshot == {1,1,1}
+            """
+        ),
+        "test_not_collected": (
+            """
+            def test_not_collected(snapshot):
+                assert snapshot == "hello"
+            """
+        ),
+    }
+    testdir.makepyfile(**tests)
+    result = testdir.runpytest("-v", "--snapshot-update")
+    result_stdout = clean_output(result.stdout.str())
+    assert "4 snapshots generated" in result_stdout
+
+    updated_tests = {
+        "test_collected": (
+            """
+            def test_collected(snapshot):
+                assert snapshot == 1
+                assert snapshot == "two"
+            """
+        )
+    }
+    testdir.makepyfile(**updated_tests)
+    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot updated" in result_stdout
+    assert "1 snapshot deleted" in result_stdout
+
+
 @pytest.fixture
 def testcases():
     return {

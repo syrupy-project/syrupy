@@ -6,8 +6,10 @@ from gettext import (
 )
 from typing import (
     TYPE_CHECKING,
+    Any,
     Dict,
     List,
+    Set,
 )
 
 from .terminal import (
@@ -42,12 +44,16 @@ class SnapshotSession:
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: List[str] = []
+        self._all_items: Set[Any] = set()
+        self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
         self._serializers: Dict[str, "AbstractSnapshotSerializer"] = {}
         self._snapshot_groups = empty_snapshot_groups()
 
     def start(self) -> None:
         self.report = []
+        self._all_items = set()
+        self._ran_items = set()
         self._assertions = []
         self._serializers = {}
         self._snapshot_groups = empty_snapshot_groups()
@@ -133,7 +139,7 @@ class SnapshotSession:
     ) -> None:
         for snapshot_file, unused_snapshots in unused_snapshot_files.items():
             for snapshot_name in unused_snapshots:
-                self._serializers[snapshot_file].delete_snapshot(
+                self._serializers[snapshot_file].delete_snapshot_from_file(
                     snapshot_file, snapshot_name
                 )
             if (
@@ -174,14 +180,22 @@ class SnapshotSession:
                         self._snapshot_groups.failed, snapshot_file
                     )
 
-        unused_snapshot_files = {
-            snapshot_file: unused_snapshots
-            for snapshot_file, unused_snapshots in self._diff_snapshot_files(
-                self._snapshot_groups.discovered, self._snapshot_groups.used
-            ).items()
-            if unused_snapshots
-        }
-        self._snapshot_groups.unused.update(unused_snapshot_files)
+        ran_all = self._all_items == self._ran_items
+        ran_testnames = {self.get_node_testname(node) for node in self._ran_items}
+        for snapshot_filepath, unused_snapshots in self._diff_snapshot_files(
+            self._snapshot_groups.discovered, self._snapshot_groups.used
+        ).items():
+            unused = (
+                unused_snapshots
+                if ran_all
+                else {
+                    snapshot_name
+                    for snapshot_name in unused_snapshots
+                    if any({testname in snapshot_name for testname in ran_testnames})
+                }
+            )
+            if unused:
+                self._snapshot_groups.unused[snapshot_filepath] = unused
 
     def _merge_snapshot_files_into(
         self, snapshot_files: "SnapshotFiles", *snapshot_files_to_merge: "SnapshotFiles"
@@ -205,3 +219,7 @@ class SnapshotSession:
 
     def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
         return sum(len(snaps) for snaps in snapshot_files.values())
+
+    @staticmethod
+    def get_node_testname(node: Any) -> str:
+        return str(getattr(node, "name", node.obj.__name__ if node.obj else ""))

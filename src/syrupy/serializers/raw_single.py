@@ -23,13 +23,13 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         return {os.path.splitext(os.path.basename(filepath))[0]}
 
     def get_file_basename(self, index: int) -> str:
-        return self._clean_filename(self.get_snapshot_name(index=index))
+        return self.__clean_filename(self.get_snapshot_name(index=index))
 
     @property
     def snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def read_snapshot_from_file(
+    def _read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
     ) -> "SerializableData":
         return self._read_file(snapshot_file)
@@ -44,19 +44,19 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         except FileNotFoundError:
             return None
 
-    def write_snapshot_or_remove_file(
+    def _write_snapshot_or_remove_file(
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         if data:
-            self._write_file(snapshot_file, data)
+            self.__write_file(snapshot_file, data)
         else:
             os.remove(snapshot_file)
 
-    def _write_file(self, filepath: str, data: "SerializableData") -> None:
+    def __write_file(self, filepath: str, data: "SerializableData") -> None:
         with open(filepath, "wb") as f:
             f.write(self.serialize(data))
 
-    def _clean_filename(self, filename: str) -> str:
+    def __clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
         max_filename_length = 255 - len(self.file_extension or "")
         return re.sub(r"(?u)[^-\w.]", "", filename)[:max_filename_length]
