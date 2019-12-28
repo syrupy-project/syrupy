@@ -10,4 +10,5 @@ py-githooks
 pytest
 semver
 twine
+typing_extensions
 wheel

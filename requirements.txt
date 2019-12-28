@@ -53,7 +53,7 @@ toml==0.10.0              # via black, coverage
 tqdm==4.41.0              # via twine
 twine==3.1.1
 typed-ast==1.4.0          # via black, mypy
-typing-extensions==3.7.4.1  # via mypy
+typing-extensions==3.7.4.1
 urllib3==1.25.7           # via requests
 wcwidth==0.1.7            # via pytest
 webencodings==0.5.1       # via bleach
