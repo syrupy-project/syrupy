@@ -44,8 +44,6 @@ def lint(ctx, fix=False):
         try:
             ctx.run(command, pty=True)
         except exceptions.Failure as ex:
-            if not fix:
-                raise
             last_error = ex
         print()
     if last_error:

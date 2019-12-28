@@ -85,6 +85,8 @@ Feel free to open a PR. This project is still in a very early stage, and we're s
 
 To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --list` to see available commands.
 
+### See contributing [guide](./CONTRIBUTING.md)
+
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -105,10 +107,6 @@ This section is automatically generated via tagging the all-contributors bot in 
 ```text
 @all-contributors please add <username> for <contribution type>
 ```
-
-## Related Links
-
-- JavaScript snapshot testing: [jest](https://github.com/facebook/jest)
 
 ## License
 
