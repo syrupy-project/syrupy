@@ -38,7 +38,7 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=find_packages("./src"),
         zip_safe=False,
-        install_requires=[],
+        install_requires=["typing_extensions"],
         setup_requires=["setuptools_scm"],
         entry_points={"pytest11": ["syrupy = syrupy"]},
         python_requires=python_requires,
