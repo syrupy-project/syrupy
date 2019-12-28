@@ -3,6 +3,7 @@
 :tada: Thanks for taking the time to contribute! :tada:
 
 The following is a set of guidelines for contributing to [syrupy](https://github.com/tophat/syrupy).
+
 These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document.
 
 ## Table Of Contents
@@ -13,6 +14,7 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 
 - [Python 3](#python-3)
 - [Snapshot Testing](#snapshot-testing)
+- [Releases](#releases)
 
 [How Can I Contribute?](#how-can-i-contribute)
 
@@ -40,30 +42,69 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ### Snapshot Testing
 
-- Snapshot testing: [javascript](https://jestjs.io/docs/en/snapshot-testing)
+- Javascript snapshot testing [jest](https:/a/jestjs.io/docs/en/snapshot-testing)
 
 ### Python 3
 
-- Python type hint: [typing](https://docs.python.org/3/library/typing.html)
+- Python typing and hints: [typing](https://docs.python.org/3/library/typing.html)
+
+### Releases
+
+- Semantic versioning: [semver](https://semver.org/spec/v2.0.0.html)
 
 ## How Can I Contribute
 
+Before diving into writing code, please take a look at the following.
+
 ### Reporting Bugs
+
+When attempting to fix a bug, create an issue using the "Bug report" template.
+
+Give as much information in this issue as it allows for discussions and documentation about the decisions reached for any bugs that have been encounted.
 
 ### Suggesting Enhancements
 
+Have an idea? Create an issue using the "Feature request" template.
+
+Detailing in there as much as possible, the idea and any potential solutions to it, before suggesting a pull request.
+
 ### Your First Code Contribution
+
+Have an issue to submit code changes for? See below.
 
 #### Local development
 
+- Clone the repository
+- Run `. script/bootstrap` to ensure you're working from the correct environment
+  - Ensure you do not have syrupy installed locally by running `pip uninstall syrupy -y`
+- Run `inv test -d` to verify enviroment is correctly setup
+  - The `-d` flag uses the development version of syrupy in `./src`
+- Checkout a new branch and add code changes
+- Add tests to verify code changes and rerun `inv test -d`
+- See submitting [pull requests](#pull-requests)
+
 ### Pull Requests
+
+Creating a pull request uses our template using the GitHub web interface.
+
+Fill in the relevant sections, clearly linking the issue the change is attemping to resolve.
 
 ## Styleguides
 
 ### Git Commit Messages
 
+Provide semantic commit messages following this [convention](https://www.conventionalcommits.org/en/v1.0.0/#summary).
+This informs the semantic versioning we use to control our [releases](#releases).
+
 ### Specs Styleguide
+
+A linter is provided to catch most of our styling concerns.
+This is provided in a pre-commit hook when setting up [local development](#local-development).
+
+You can also run `inv lint --fix` to see and solve what issues it can.
 
 ## Additional Notes
 
 ### Issue and Pull Request Labels
+
+Please tag issues and pull requests according to the relevant [github labels](https://github.com/tophat/syrupy/issues/labels).
