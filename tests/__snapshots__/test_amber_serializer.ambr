@@ -125,7 +125,7 @@
   )
 ---
 # name: test_tuple.1
-  <class 'tests.test_amber_serializer.ExampleTuple'> (
+  <class 'ExampleTuple'> (
     'this',
     'is',
     'a',
