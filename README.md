@@ -106,7 +106,7 @@ This section is automatically generated via tagging the all-contributors bot in 
 @all-contributors please add <username> for <contribution type>
 ```
 
-## Related Links
+## Contributing
 
 - JavaScript snapshot testing: [jest](https://github.com/facebook/jest)
 
