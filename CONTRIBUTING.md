@@ -98,7 +98,7 @@ This informs the semantic versioning we use to control our [releases](#releases)
 
 ### Specs Styleguide
 
-A linter is provided to catch most of our styling concerns.
+A linter is available to catch most of our styling concerns.
 This is provided in a pre-commit hook when setting up [local development](#local-development).
 
 You can also run `inv lint --fix` to see and solve what issues it can.
