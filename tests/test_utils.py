@@ -22,11 +22,11 @@ def testfiles(testdir):
         "file1.txt": "file1",
         "file2.txt": "file2",
         "__snapshot__": {
-            "wrong_snapfile1.yaml": "",
+            "wrong_snapfile1.ambr": "",
             "wrong_snapfolder": {"wrong_snapfile2.svg": "<svg></svg>"},
         },
         "__snapshots__": {
-            "snapfile1.yaml": "",
+            "snapfile1.ambr": "",
             "snapfolder": {"snapfile2.svg": "<svg></svg>"},
         },
     }
@@ -37,6 +37,6 @@ def testfiles(testdir):
 def test_walk_dir_skips_non_snapshot_path(testfiles):
     _, testdir = testfiles
     assert {os.path.relpath(p) for p in walk_snapshot_dir(testdir.tmpdir)} == {
-        "__snapshots__/snapfile1.yaml",
+        "__snapshots__/snapfile1.ambr",
         "__snapshots__/snapfolder/snapfile2.svg",
     }

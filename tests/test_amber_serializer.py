@@ -51,6 +51,7 @@ def test_dict(snapshot, actual):
 
 def test_set(snapshot):
     assert snapshot == {"this", "is", "a", "set"}
+    assert snapshot == {"contains", "frozen", frozenset({"1", "2"})}
 
 
 ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
@@ -59,6 +60,16 @@ ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 def test_tuple(snapshot):
     assert snapshot == ("this", "is", ("a", "tuple"))
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
+
+
+def test_numbers(snapshot):
+    assert snapshot == 3.5
+    assert snapshot == 7
+    assert snapshot == 2 / 6
+
+
+def test_list(snapshot):
+    assert snapshot == [1, 2, "string", {"key": "value"}]
 
 
 class TestClass:

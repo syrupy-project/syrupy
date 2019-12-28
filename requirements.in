@@ -8,7 +8,6 @@ mypy
 pip-tools
 py-githooks
 pytest
-pyyaml
 semver
 twine
 wheel
