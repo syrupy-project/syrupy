@@ -53,7 +53,7 @@ Syrupy comes with a few built-in serializers for you to choose from. You should 
 - **`AmberSnapshotSerializer`**: This is the default serializer which generates `.ambr` files. Serialization of most data types are supported, however non-sortable types such as frozenset are experimental.
 - **`RawSingleSnapshotSerializer`**: Unlike the `AmberSnapshotSerializer`, which groups all tests within a single test file into a singular snapshot file, the Raw Single serializer creates one `.raw` file per test case.
 - **`PNGSnapshotSerializer`**: An extension of the Raw Single serializer, this should be used to produce `.png` files.
-- SVGSnapshotSerializer: Another extension of Raw Single. This produces `.svg` files from an svg string.
+- **`SVGSnapshotSerializer`**: Another extension of Raw Single. This produces `.svg` files from an svg string.
 
 ### Advanced Usage, Plugin Support
 
