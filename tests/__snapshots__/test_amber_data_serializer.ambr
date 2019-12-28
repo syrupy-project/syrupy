@@ -1,0 +1,24 @@
+# name: test_produces_valid_object_types[0]
+  "<class 'str'>"
+---
+# name: test_produces_valid_object_types[1]
+  "<class 'int'>"
+---
+# name: test_produces_valid_object_types[2]
+  "<class 'tuple'>"
+---
+# name: test_produces_valid_object_types[3]
+  "<class 'bool'>"
+---
+# name: test_produces_valid_object_types[4]
+  "<class 'NoneType'>"
+---
+# name: test_produces_valid_object_types[5]
+  "<class 'dict'>"
+---
+# name: test_produces_valid_object_types[6]
+  "<class 'frozenset'>"
+---
+# name: test_produces_valid_object_types[7]
+  "<class 'SomeClass'>"
+---

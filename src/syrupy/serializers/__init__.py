@@ -1,4 +1,4 @@
-from .yaml import YAMLSnapshotSerializer
+from .amber import AmberSnapshotSerializer
 
 
-DEFAULT_SERIALIZER = YAMLSnapshotSerializer
+DEFAULT_SERIALIZER = AmberSnapshotSerializer

@@ -1,0 +1,137 @@
+# name: TestClass.test_name
+  'this is in a test class'
+---
+# name: test_dict[actual0]
+  <class 'dict'> {
+    'a': <class 'dict'> {
+      'e': False,
+    },
+    'b': True,
+    'c': 'Some text.',
+    'd': <class 'list'> [
+      '1',
+      2,
+    ],
+  }
+---
+# name: test_dict[actual1]
+  <class 'dict'> {
+    'a': <class 'dict'> {
+      'e': False,
+    },
+    'b': True,
+    'c': 'Some ttext.',
+    'd': <class 'list'> [
+      '1',
+      2,
+    ],
+  }
+---
+# name: test_empty_snapshot
+  None
+---
+# name: test_empty_snapshot.1
+  ''
+---
+# name: test_list
+  <class 'list'> [
+    1,
+    2,
+    'string',
+    <class 'dict'> {
+      'key': 'value',
+    },
+  ]
+---
+# name: test_multiple_snapshots
+  'First.'
+---
+# name: test_multiple_snapshots.1
+  'Second.'
+---
+# name: test_multiple_snapshots.2
+  'Third.'
+---
+# name: test_numbers
+  3.5
+---
+# name: test_numbers.1
+  7
+---
+# name: test_numbers.2
+  0.3333333333333333
+---
+# name: test_set
+  <class 'set'> {
+    'a',
+    'is',
+    'set',
+    'this',
+  }
+---
+# name: test_set.1
+  <class 'set'> {
+    <class 'frozenset'> {
+      '1',
+      '2',
+    },
+    'contains',
+    'frozen',
+  }
+---
+# name: test_string[0]
+  ''
+---
+# name: test_string[1]
+  'Raw string'
+---
+# name: test_string[2]
+  'Escaped \\n'
+---
+# name: test_string[3]
+  'Backslash \\u U'
+---
+# name: test_string[4]
+  '🥞🐍🍯'
+---
+# name: test_string[5]
+  'singleline:'
+---
+# name: test_string[6]
+  '- singleline'
+---
+# name: test_string[7]
+  '
+  multi-line
+  line 2
+  line 3
+  '
+---
+# name: test_string[8]
+  '
+  multi-line
+  line 2
+    line 3
+  '
+---
+# name: test_tuple
+  <class 'tuple'> (
+    'this',
+    'is',
+    <class 'tuple'> (
+      'a',
+      'tuple',
+    ),
+  )
+---
+# name: test_tuple.1
+  <class 'ExampleTuple'> (
+    'this',
+    'is',
+    'a',
+    <class 'set'> {
+      'named',
+      'tuple',
+    },
+  )
+---
