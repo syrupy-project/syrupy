@@ -50,9 +50,9 @@ A snapshot file should be generated under a `__snapshots__` directory in the sam
 
 These are the cli options exposed to `pytest` by the plugin.
 
-| Option                   | Description                                                                                                               |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.       |
+| Option                   | Description                                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.          |
 | `--snapshot-warn-unused` | Syrupy default behaviour is to fail the test session when there any unused snapshots. This instructs the plugin not to fail. |
 
 ### Serializers
