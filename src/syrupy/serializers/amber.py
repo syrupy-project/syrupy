@@ -118,10 +118,8 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                [
-                    f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
-                    for d in cls.sort(data)
-                ]
+                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
+                for d in cls.sort(data)
             )
             + cls.with_indent("}", depth)
         )
@@ -130,20 +128,18 @@ class DataSerializer:
     def serialize_dict(
         cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
+        kwargs = dict(depth=depth + 1, visited=visited)
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                [
+                f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
+                for serialized_key, serialized_value in (
                     (
-                        cls.serialize(key, depth=depth + 1)
-                        + ": "
-                        + cls.serialize(
-                            data[key], depth=depth + 1, visited=visited
-                        ).lstrip(cls._indent)
-                        + ",\n"
+                        cls.serialize(**dict(data=key, **kwargs)),
+                        cls.serialize(**dict(data=data[key], **kwargs)),
                     )
                     for key in cls.sort(data.keys())
-                ]
+                )
             )
             + cls.with_indent("}", depth)
         )
@@ -160,10 +156,7 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
             + "".join(
-                [
-                    f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
-                    for d in data
-                ]
+                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n" for d in data
             )
             + cls.with_indent(close_paren, depth)
         )
