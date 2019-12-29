@@ -1,6 +1,22 @@
 # name: TestClass.test_name
   'this is in a test class'
 ---
+# name: test_cycle[cyclic0]
+  <class 'list'> [
+    1,
+    2,
+    3,
+    '...',
+  ]
+---
+# name: test_cycle[cyclic1]
+  <class 'dict'> {
+    'a': 1,
+    'b': 2,
+    'c': 3,
+    'd': '...',
+  }
+---
 # name: test_dict[actual0]
   <class 'dict'> {
     'a': <class 'dict'> {

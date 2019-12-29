@@ -6,6 +6,7 @@ from typing import (
     Any,
     Dict,
     Iterable,
+    List,
     Set,
 )
 
@@ -17,6 +18,8 @@ if TYPE_CHECKING:
 
 
 class DataSerializer:
+    _max_depth: int = 99
+    _max_depth_value: str = "..."
     indent: str = "  "
     name_marker: str = "# name:"
     divider: str = "---"
@@ -89,7 +92,9 @@ class DataSerializer:
         return f"<class '{data.__class__.__name__}'>"
 
     @classmethod
-    def serialize_string(cls, data: "SerializableData", indent: int = 0) -> str:
+    def serialize_string(
+        cls, data: "SerializableData", *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
         if "\n" in data:
             return (
                 cls.with_indent("'\n", indent)
@@ -99,27 +104,40 @@ class DataSerializer:
         return cls.with_indent(repr(data), indent)
 
     @classmethod
-    def serialize_number(cls, data: "SerializableData", indent: int = 0) -> str:
+    def serialize_number(
+        cls, data: "SerializableData", *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
         return cls.with_indent(repr(data), indent)
 
     @classmethod
-    def serialize_set(cls, data: "SerializableData", indent: int = 0) -> str:
+    def serialize_set(
+        cls, data: "SerializableData", *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", indent)
-            + "".join([f"{cls.serialize(d, indent + 1)},\n" for d in cls.sort(data)])
+            + "".join(
+                [
+                    f"{cls.serialize(d, indent=indent + 1, visited=visited)},\n"
+                    for d in cls.sort(data)
+                ]
+            )
             + cls.with_indent("}", indent)
         )
 
     @classmethod
-    def serialize_dict(cls, data: "SerializableData", indent: int = 0) -> str:
+    def serialize_dict(
+        cls, data: "SerializableData", *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", indent)
             + "".join(
                 [
                     (
-                        cls.serialize(key, indent + 1)
+                        cls.serialize(key, indent=indent + 1)
                         + ": "
-                        + cls.serialize(data[key], indent + 1).lstrip(cls.indent)
+                        + cls.serialize(
+                            data[key], indent=indent + 1, visited=visited
+                        ).lstrip(cls.indent)
                         + ",\n"
                     )
                     for key in cls.sort(data.keys())
@@ -129,7 +147,9 @@ class DataSerializer:
         )
 
     @classmethod
-    def serialize_iterable(cls, data: "SerializableData", indent: int = 0) -> str:
+    def serialize_iterable(
+        cls, data: "SerializableData", *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
         open_paren, close_paren = next(
             paren[1]
             for paren in {list: "[]", tuple: "()", GeneratorType: "()"}.items()
@@ -137,23 +157,42 @@ class DataSerializer:
         )
         return (
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", indent)
-            + "".join([f"{cls.serialize(d, indent + 1)},\n" for d in data])
+            + "".join(
+                [
+                    f"{cls.serialize(d, indent=indent + 1, visited=visited)},\n"
+                    for d in data
+                ]
+            )
             + cls.with_indent(close_paren, indent)
         )
 
     @classmethod
-    def serialize(cls, data: "SerializableData", indent: int = 0) -> str:
-        if isinstance(data, str):
-            return cls.serialize_string(data, indent)
-        elif isinstance(data, (int, float)):
-            return cls.serialize_number(data, indent)
-        elif isinstance(data, (set, frozenset)):
-            return cls.serialize_set(data, indent)
-        elif isinstance(data, dict):
-            return cls.serialize_dict(data, indent)
-        elif isinstance(data, (list, tuple, GeneratorType)):
-            return cls.serialize_iterable(data, indent)
+    def serialize_unknown(
+        cls, data: Any, *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
         return cls.with_indent(repr(data), indent)
+
+    @classmethod
+    def serialize(
+        cls, data: "SerializableData", *, indent: int = 0, visited: List[Any] = []
+    ) -> str:
+        if indent > cls._max_depth or data in visited:
+            data = cls._max_depth_value
+
+        serialize_kwargs = dict(data=data, indent=indent, visited=[*visited, data])
+        if isinstance(data, str):
+            serialize_method = cls.serialize_string
+        elif isinstance(data, (int, float)):
+            serialize_method = cls.serialize_number
+        elif isinstance(data, (set, frozenset)):
+            serialize_method = cls.serialize_set
+        elif isinstance(data, dict):
+            serialize_method = cls.serialize_dict
+        elif isinstance(data, (list, tuple, GeneratorType)):
+            serialize_method = cls.serialize_iterable
+        else:
+            serialize_method = cls.serialize_unknown
+        return serialize_method(**serialize_kwargs)
 
 
 class AmberSnapshotSerializer(AbstractSnapshotSerializer):
@@ -162,12 +201,10 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
 
     ```
     # name: test_name_1
-
-     data
+      data
     ---
     # name: test_name_2
-
-     data
+      data
     ```
     """
 
