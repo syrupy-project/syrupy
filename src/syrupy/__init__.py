@@ -26,10 +26,10 @@ def pytest_addoption(parser: Any) -> None:
         help="Update snapshots",
     )
     group.addoption(
-        "--unused-warn",
+        "--snapshot-unused-warn",
         action="store_true",
         default=False,
-        dest="warn_unused",
+        dest="warn_unused_snapshots",
         help="Do not fail on unused snapshots",
     )
 
@@ -55,7 +55,7 @@ def pytest_sessionstart(session: Any) -> None:
     """
     config = session.config
     session._syrupy = SnapshotSession(
-        warn_unused=config.option.warn_unused,
+        warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
     )

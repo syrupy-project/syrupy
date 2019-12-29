@@ -42,8 +42,10 @@ def empty_snapshot_groups() -> "SnapshotGroups":
 
 
 class SnapshotSession:
-    def __init__(self, *, warn_unused: bool, update_snapshots: bool, base_dir: str):
-        self.warn_unused = warn_unused
+    def __init__(
+        self, *, warn_unused_snapshots: bool, update_snapshots: bool, base_dir: str
+    ):
+        self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: List[str] = []
@@ -104,7 +106,7 @@ class SnapshotSession:
             else:
                 text_singular = "{} snapshot unused."
                 text_plural = "{} snapshots unused."
-            if self.update_snapshots or self.warn_unused:
+            if self.update_snapshots or self.warn_unused_snapshots:
                 text_count = warning_style(n_unused)
             else:
                 text_count = error_style(n_unused)
@@ -132,7 +134,7 @@ class SnapshotSession:
                         " to delete the unused snapshots."
                     )
                 )
-                if not self.warn_unused:
+                if not self.warn_unused_snapshots:
                     exitstatus = 1
         return exitstatus
 
