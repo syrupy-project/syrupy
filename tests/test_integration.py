@@ -230,6 +230,17 @@ def test_unused_snapshots(stubs):
     assert result.ret == 1
 
 
+def test_unused_snapshots_warning(stubs):
+    _, testdir, tests, _ = stubs
+    testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
+    result = testdir.runpytest("-v", "--unused-warn")
+    result_stdout = clean_output(result.stdout.str())
+    assert "snapshots generated" not in result_stdout
+    assert "4 snapshots passed" in result_stdout
+    assert "1 snapshot unused" in result_stdout
+    assert result.ret == 0
+
+
 def test_removed_snapshots(stubs):
     _, testdir, tests, filepath = stubs
     assert os.path.isfile(filepath)
