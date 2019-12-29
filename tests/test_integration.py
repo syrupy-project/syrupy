@@ -233,7 +233,7 @@ def test_unused_snapshots(stubs):
 def test_unused_snapshots_warning(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
-    result = testdir.runpytest("-v", "--snapshot-unused-warn")
+    result = testdir.runpytest("-v", "--snapshot-warn-unused")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshots generated" not in result_stdout
     assert "4 snapshots passed" in result_stdout

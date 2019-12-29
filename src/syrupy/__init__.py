@@ -26,7 +26,7 @@ def pytest_addoption(parser: Any) -> None:
         help="Update snapshots",
     )
     group.addoption(
-        "--snapshot-unused-warn",
+        "--snapshot-warn-unused",
         action="store_true",
         default=False,
         dest="warn_unused_snapshots",
