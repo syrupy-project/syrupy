@@ -87,7 +87,7 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
     syrupy_exitstatus = session._syrupy.finish()
     for line in session._syrupy.report:
         reporter.write_line(line)
-    session.exitstatus = exitstatus | syrupy_exitstatus
+    session.exitstatus |= syrupy_exitstatus
 
 
 @pytest.fixture

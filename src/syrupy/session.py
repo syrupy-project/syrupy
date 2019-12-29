@@ -139,7 +139,7 @@ class SnapshotSession:
                     message = warning_style(message)
                 else:
                     message = error_style(message)
-                    exitstatus = EXIT_STATUS_FAIL_UNUSED | exitstatus
+                    exitstatus |= EXIT_STATUS_FAIL_UNUSED
                 self.add_report_line(message)
         return exitstatus
 
