@@ -19,9 +19,12 @@ if TYPE_CHECKING:
 class DataSerializer:
     _indent: str = "  "
     _max_depth: int = 99
-    _marker_depth_max: str = "..."
     _marker_divider: str = "---"
     _marker_name: str = "# name:"
+
+    class MarkerDepthMax:
+        def __repr__(self) -> str:
+            return "..."
 
     @classmethod
     def write_file(cls, filepath: str, snapshots: Dict[str, Dict[str, Any]]) -> None:
@@ -177,7 +180,7 @@ class DataSerializer:
     ) -> str:
         data_id = id(data)
         if depth > cls._max_depth or data_id in visited:
-            data = cls._marker_depth_max
+            data = cls.MarkerDepthMax()
 
         serialize_kwargs = dict(data=data, depth=depth, visited={*visited, data_id})
         if isinstance(data, str):
