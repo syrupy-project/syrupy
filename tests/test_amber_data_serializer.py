@@ -18,7 +18,7 @@ class SomeClass:
 
 @pytest.mark.parametrize(
     "data",
-    ["a string", 123, (1, 2), True, None, dict(), frozenset(), SomeClass()],
+    ["a string", 123, (1, 2), True, None, {}, frozenset(), SomeClass()],
     ids=lambda x: "",
 )
 def test_produces_valid_object_types(snapshot, data):

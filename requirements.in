@@ -2,6 +2,9 @@ black
 codecov
 coverage[toml]
 flake8
+flake8-bugbear
+flake8-builtins
+flake8-comprehensions
 invoke
 isort
 mypy
