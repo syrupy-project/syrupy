@@ -6,7 +6,6 @@ from typing import (
     Any,
     Dict,
     Iterable,
-    List,
     Set,
 )
 
@@ -93,7 +92,7 @@ class DataSerializer:
 
     @classmethod
     def serialize_string(
-        cls, data: "SerializableData", *, depth: int = 0, visited: List[Any] = []
+        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
         if "\n" in data:
             return (
@@ -105,13 +104,13 @@ class DataSerializer:
 
     @classmethod
     def serialize_number(
-        cls, data: "SerializableData", *, depth: int = 0, visited: List[Any] = []
+        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
     def serialize_set(
-        cls, data: "SerializableData", *, depth: int = 0, visited: List[Any] = []
+        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
@@ -126,7 +125,7 @@ class DataSerializer:
 
     @classmethod
     def serialize_dict(
-        cls, data: "SerializableData", *, depth: int = 0, visited: List[Any] = []
+        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
@@ -148,7 +147,7 @@ class DataSerializer:
 
     @classmethod
     def serialize_iterable(
-        cls, data: "SerializableData", *, depth: int = 0, visited: List[Any] = []
+        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
         open_paren, close_paren = next(
             paren[1]
@@ -168,18 +167,19 @@ class DataSerializer:
 
     @classmethod
     def serialize_unknown(
-        cls, data: Any, *, depth: int = 0, visited: List[Any] = []
+        cls, data: Any, *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
     def serialize(
-        cls, data: "SerializableData", *, depth: int = 0, visited: List[Any] = []
+        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
     ) -> str:
-        if depth > cls._max_depth or data in visited:
+        data_id = id(data)
+        if depth > cls._max_depth or data_id in visited:
             data = cls._marker_depth_max
 
-        serialize_kwargs = dict(data=data, depth=depth, visited=[*visited, data])
+        serialize_kwargs = dict(data=data, depth=depth, visited={*visited, data_id})
         if isinstance(data, str):
             serialize_method = cls.serialize_string
         elif isinstance(data, (int, float)):
@@ -225,9 +225,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         snapshots = DataSerializer.read_file(snapshot_file)
-        snapshots[snapshot_name] = {
-            "data": self.serialize(data),
-        }
+        snapshots[snapshot_name] = {"data": self.serialize(data)}
         DataSerializer.write_file(snapshot_file, snapshots)
 
     def delete_snapshots_from_file(
