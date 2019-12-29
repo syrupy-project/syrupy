@@ -12,7 +12,10 @@ from typing import (
     Set,
 )
 
-from .constants import SNAPSHOT_UNKNOWN_FILE
+from .constants import (
+    EXIT_STATUS_FAIL_UNUSED,
+    SNAPSHOT_UNKNOWN_FILE,
+)
 from .location import TestLocation
 from .terminal import (
     bold,
@@ -125,17 +128,19 @@ class SnapshotSession:
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     self.add_report_line(
-                        f"Deleted {deleted_snapshots} ({path_to_file})"
+                        gettext(f"Deleted {deleted_snapshots} ({path_to_file})")
                     )
             else:
-                self.add_report_line(
-                    gettext(
-                        "Re-run pytest with --snapshot-update"
-                        " to delete the unused snapshots."
-                    )
+                message = gettext(
+                    "Re-run pytest with --snapshot-update"
+                    " to delete the unused snapshots."
                 )
-                if not self.warn_unused_snapshots:
-                    exitstatus = 1
+                if self.warn_unused_snapshots:
+                    message = warning_style(message)
+                else:
+                    message = error_style(message)
+                    exitstatus = EXIT_STATUS_FAIL_UNUSED | exitstatus
+                self.add_report_line(message)
         return exitstatus
 
     def add_report_line(self, line: str = "") -> None:
