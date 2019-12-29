@@ -44,7 +44,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ### Snapshot Testing
 
-- Javascript snapshot testing [jest](https:/a/jestjs.io/docs/en/snapshot-testing)
+- Javascript snapshot testing [jest](https://jestjs.io/docs/en/snapshot-testing)
 
 ### Releases
 
