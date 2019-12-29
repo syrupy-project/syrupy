@@ -66,19 +66,13 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 
 ### Advanced Usage, Extending Syrupy
 
-```python
-import pytest
+See examples of how syrupy can be used and extented in the [test examples](./tests/examples).
 
-@pytest.fixture
-def snapshot_custom(snapshot):
-    return snapshot.use_extension(CustomExtensionClass)
-
-def test_image(snapshot_custom):
-    actual = "..."
-    assert actual == snapshot_custom
-```
-
-`CustomExtensionClass` should extend `syrupy.extensions.base.AbstractSyrupyExtension`.
+- [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
+- [Custom image serializer](./tests/examples/test_custom_image_serializer.py)
+- [Image serializer](./tests/test_image_serializer.py)
+- [Nested describe tests](./tests/examples/test_nested_describe.py)
 
 ## Uninstalling
 
