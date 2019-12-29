@@ -27,8 +27,6 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 
 - [Commit Messages](#commit-messages)
 - [Code Styleguide](#code-styleguide)
-- [Specs Styleguide](#specs-styleguide)
-- [Docs Styleguide](#docs-styleguide)
 
 [Additional Notes](#additional-notes)
 
@@ -40,13 +38,13 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ## What should I know before I get started
 
-### Snapshot Testing
-
-- Javascript snapshot testing [jest](https:/a/jestjs.io/docs/en/snapshot-testing)
-
 ### Python 3
 
 - Python typing and hints: [typing](https://docs.python.org/3/library/typing.html)
+
+### Snapshot Testing
+
+- Javascript snapshot testing [jest](https://jestjs.io/docs/en/snapshot-testing)
 
 ### Releases
 
@@ -91,12 +89,12 @@ Fill in the relevant sections, clearly linking the issue the change is attemping
 
 ## Styleguides
 
-### Git Commit Messages
+### Commit Messages
 
 Provide semantic commit messages following this [convention](https://www.conventionalcommits.org/en/v1.0.0/#summary).
 This informs the semantic versioning we use to control our [releases](#releases).
 
-### Specs Styleguide
+### Code Styleguide
 
 A linter is available to catch most of our styling concerns.
 This is provided in a pre-commit hook when setting up [local development](#local-development).

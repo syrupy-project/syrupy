@@ -41,7 +41,7 @@ def test_collection(testdir):
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
-    assert "1 snapshot deleted" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
 
 
 def test_collection_parametrized(testdir):
@@ -83,7 +83,7 @@ def test_collection_parametrized(testdir):
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout
-    assert "1 snapshot deleted" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
 
 
 @pytest.fixture
@@ -227,6 +227,17 @@ def test_unused_snapshots(stubs):
     assert "snapshots generated" not in result_stdout
     assert "4 snapshots passed" in result_stdout
     assert "1 snapshot unused" in result_stdout
+    assert result.ret == 1
+
+
+def test_unused_snapshots_warning(stubs):
+    _, testdir, tests, _ = stubs
+    testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
+    result = testdir.runpytest("-v", "--snapshot-warn-unused")
+    result_stdout = clean_output(result.stdout.str())
+    assert "snapshots generated" not in result_stdout
+    assert "4 snapshots passed" in result_stdout
+    assert "1 snapshot unused" in result_stdout
     assert result.ret == 0
 
 
@@ -237,7 +248,7 @@ def test_removed_snapshots(stubs):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshot unused" not in result_stdout
-    assert "1 snapshot deleted" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
 
@@ -249,7 +260,7 @@ def test_removed_snapshot_file(stubs):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshots unused" not in result_stdout
-    assert "5 snapshots deleted" in result_stdout
+    assert "5 unused snapshots deleted" in result_stdout
     assert result.ret == 0
     assert not os.path.isfile(filepath)
 
@@ -263,7 +274,7 @@ def test_removed_empty_snapshot_file_only(stubs):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
-    assert "1 snapshot deleted" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
     assert "empty snapshot file" in result_stdout
     assert os.path.relpath(empty_filepath) in result_stdout
     assert result.ret == 0
@@ -280,7 +291,7 @@ def test_removed_hanging_snapshot_file(stubs):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
-    assert "1 snapshot deleted" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
     assert "unknown snapshot file" in result_stdout
     assert os.path.relpath(hanging_filepath) in result_stdout
     assert result.ret == 0

@@ -12,7 +12,10 @@ from typing import (
     Set,
 )
 
-from .constants import SNAPSHOT_UNKNOWN_FILE
+from .constants import (
+    EXIT_STATUS_FAIL_UNUSED,
+    SNAPSHOT_UNKNOWN_FILE,
+)
 from .location import TestLocation
 from .terminal import (
     bold,
@@ -42,7 +45,10 @@ def empty_snapshot_groups() -> "SnapshotGroups":
 
 
 class SnapshotSession:
-    def __init__(self, *, update_snapshots: bool, base_dir: str):
+    def __init__(
+        self, *, warn_unused_snapshots: bool, update_snapshots: bool, base_dir: str
+    ):
+        self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: List[str] = []
@@ -60,7 +66,8 @@ class SnapshotSession:
         self._serializers = {}
         self._snapshot_groups = empty_snapshot_groups()
 
-    def finish(self) -> None:
+    def finish(self) -> int:
+        exitstatus = 0
         self._collate_snapshots()
         n_unused = self._count_snapshots(self._snapshot_groups.unused)
         n_written = self._count_snapshots(self._snapshot_groups.created)
@@ -97,12 +104,15 @@ class SnapshotSession:
             ]
         if n_unused:
             if self.update_snapshots:
-                text_singular = "{} snapshot deleted."
-                text_plural = "{} snapshots deleted."
+                text_singular = "{} unused snapshot deleted."
+                text_plural = "{} unused snapshots deleted."
             else:
                 text_singular = "{} snapshot unused."
                 text_plural = "{} snapshots unused."
-            text_count = warning_style(n_unused)
+            if self.update_snapshots or self.warn_unused_snapshots:
+                text_count = warning_style(n_unused)
+            else:
+                text_count = error_style(n_unused)
             summary_lines += [
                 ngettext(text_singular, text_plural, n_unused).format(text_count)
             ]
@@ -118,15 +128,20 @@ class SnapshotSession:
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     self.add_report_line(
-                        f"Deleted {deleted_snapshots} ({path_to_file})"
+                        gettext(f"Deleted {deleted_snapshots} ({path_to_file})")
                     )
             else:
-                self.add_report_line(
-                    gettext(
-                        "Re-run pytest with --snapshot-update"
-                        " to delete the unused snapshots."
-                    )
+                message = gettext(
+                    "Re-run pytest with --snapshot-update"
+                    " to delete the unused snapshots."
                 )
+                if self.warn_unused_snapshots:
+                    message = warning_style(message)
+                else:
+                    message = error_style(message)
+                    exitstatus |= EXIT_STATUS_FAIL_UNUSED
+                self.add_report_line(message)
+        return exitstatus
 
     def add_report_line(self, line: str = "") -> None:
         self.report += [line]
