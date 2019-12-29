@@ -46,6 +46,15 @@ pytest --snapshot-update
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
 
+### Options
+
+These are the cli options exposed to `pytest` by the plugin.
+
+| Option                   | Description                                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.       |
+| `--snapshot-warn-unused` | Syrupy default behaviour is to fail the test session when there any unused snapshots. This instructs the plugin not fail. |
+
 ### Serializers
 
 Syrupy comes with a few built-in serializers for you to choose from. You should also feel free to extend the AbstractSnapshotSerializer if your project has a need not captured by one our built-ins.
