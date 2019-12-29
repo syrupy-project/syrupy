@@ -99,8 +99,8 @@ class SnapshotSession:
             ]
         if n_unused:
             if self.update_snapshots:
-                text_singular = "{} snapshot deleted."
-                text_plural = "{} snapshots deleted."
+                text_singular = "{} unused snapshot deleted."
+                text_plural = "{} unused snapshots deleted."
             else:
                 text_singular = "{} snapshot unused."
                 text_plural = "{} snapshots unused."

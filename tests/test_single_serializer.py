@@ -108,5 +108,5 @@ def test_updated_snapshots(stubs, testcases_updated):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot updated" in result_stdout
-    assert "1 snapshot deleted" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
     assert result.ret == 0
