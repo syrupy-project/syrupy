@@ -176,6 +176,7 @@ class DataSerializer:
             data = cls.MarkerDepthMax()
 
         serialize_kwargs = dict(data=data, depth=depth, visited={*visited, data_id})
+        serialize_method = cls.serialize_unknown
         if isinstance(data, str):
             serialize_method = cls.serialize_string
         elif isinstance(data, (int, float)):
@@ -186,8 +187,6 @@ class DataSerializer:
             serialize_method = cls.serialize_dict
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
-        else:
-            serialize_method = cls.serialize_unknown
         return serialize_method(**serialize_kwargs)
 
 
@@ -221,7 +220,9 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
     ) -> None:
         snapshots = DataSerializer.read_file(snapshot_file)
-        snapshots[snapshot_name] = {"data": self.serialize(data)}
+        snapshots[snapshot_name] = {
+            "data": self.serialize(data),
+        }
         DataSerializer.write_file(snapshot_file, snapshots)
 
     def delete_snapshots_from_file(
