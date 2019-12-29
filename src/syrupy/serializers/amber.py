@@ -6,6 +6,7 @@ from typing import (
     Any,
     Dict,
     Iterable,
+    Optional,
     Set,
 )
 
@@ -95,7 +96,11 @@ class DataSerializer:
 
     @classmethod
     def serialize_string(
-        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
         if "\n" in data:
             return (
@@ -107,13 +112,21 @@ class DataSerializer:
 
     @classmethod
     def serialize_number(
-        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
     def serialize_set(
-        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
@@ -126,9 +139,13 @@ class DataSerializer:
 
     @classmethod
     def serialize_dict(
-        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
-        kwargs = dict(depth=depth + 1, visited=visited)
+        kwargs = {"depth": depth + 1, "visited": visited}
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
@@ -146,7 +163,11 @@ class DataSerializer:
 
     @classmethod
     def serialize_iterable(
-        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
         open_paren, close_paren = next(
             paren[1]
@@ -163,19 +184,28 @@ class DataSerializer:
 
     @classmethod
     def serialize_unknown(
-        cls, data: Any, *, depth: int = 0, visited: Set[Any] = set()
+        cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
     ) -> str:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
     def serialize(
-        cls, data: "SerializableData", *, depth: int = 0, visited: Set[Any] = set()
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
+        visited = visited if visited is not None else set()
         data_id = id(data)
         if depth > cls._max_depth or data_id in visited:
             data = cls.MarkerDepthMax()
 
-        serialize_kwargs = dict(data=data, depth=depth, visited={*visited, data_id})
+        serialize_kwargs = {
+            "data": data,
+            "depth": depth,
+            "visited": {*visited, data_id},
+        }
         serialize_method = cls.serialize_unknown
         if isinstance(data, str):
             serialize_method = cls.serialize_string
@@ -208,7 +238,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         return "ambr"
 
     def discover_snapshots(self, filepath: str) -> Set[str]:
-        return set(name for name in DataSerializer.read_file(filepath).keys())
+        return set(DataSerializer.read_file(filepath).keys())
 
     def _read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
