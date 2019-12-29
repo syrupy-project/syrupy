@@ -72,6 +72,18 @@ def test_list(snapshot):
     assert snapshot == [1, 2, "string", {"key": "value"}]
 
 
+list_cycle = [1, 2, 3]
+list_cycle.append(list_cycle)
+
+dict_cycle = {"a": 1, "b": 2, "c": 3}
+dict_cycle.update(d=dict_cycle)
+
+
+@pytest.mark.parametrize("cyclic", [list_cycle, dict_cycle])
+def test_cycle(cyclic, snapshot):
+    assert cyclic == snapshot
+
+
 class TestClass:
     def test_name(self, snapshot):
         assert snapshot == "this is in a test class"
