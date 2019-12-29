@@ -227,7 +227,7 @@ def test_unused_snapshots(stubs):
     assert "snapshots generated" not in result_stdout
     assert "4 snapshots passed" in result_stdout
     assert "1 snapshot unused" in result_stdout
-    assert result.ret == 0
+    assert result.ret == 1
 
 
 def test_removed_snapshots(stubs):

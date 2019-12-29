@@ -25,6 +25,13 @@ def pytest_addoption(parser: Any) -> None:
         dest="update_snapshots",
         help="Update snapshots",
     )
+    group.addoption(
+        "--unused-warn",
+        action="store_true",
+        default=False,
+        dest="warn_unused",
+        help="Do not fail on unused snapshots",
+    )
 
 
 def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
@@ -48,7 +55,9 @@ def pytest_sessionstart(session: Any) -> None:
     """
     config = session.config
     session._syrupy = SnapshotSession(
-        update_snapshots=config.option.update_snapshots, base_dir=config.rootdir
+        warn_unused=config.option.warn_unused,
+        update_snapshots=config.option.update_snapshots,
+        base_dir=config.rootdir,
     )
     session._syrupy.start()
 
@@ -69,15 +78,16 @@ def pytest_collection_finish(session: Any) -> None:
     session._syrupy._ran_items.update(session.items)
 
 
-def pytest_sessionfinish(session: Any) -> None:
+def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
     """
     Add syrupy report to pytest after whole test run finished, before exiting.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish
     """
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
-    session._syrupy.finish()
+    syrupy_exitstatus = session._syrupy.finish()
     for line in session._syrupy.report:
         reporter.write_line(line)
+    session.exitstatus = exitstatus or syrupy_exitstatus
 
 
 @pytest.fixture
