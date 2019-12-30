@@ -15,12 +15,12 @@ from .constants import (
 
 
 if TYPE_CHECKING:
-    from .types import SerializableData
+    from .types import SerializedData  # noqa: F401
 
 
 @attr.s
 class SnapshotData(object):
-    data: "SerializableData" = attr.ib(default=None)
+    data: Optional["SerializedData"] = attr.ib(default=None)
 
 
 @attr.s(eq=False)
