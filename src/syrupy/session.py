@@ -262,10 +262,9 @@ class SnapshotSession:
                 if discovered.has_snapshots:
                     self._serializers[discovered.filepath] = assertion.serializer
             for result in assertion.executions.values():
-                snapshot_file = SnapshotFile(
-                    filepath=result.file,
-                    snapshots={result.name: SnapshotData(data=result.final_data)},
-                )
+                filepath = result.snapshot_filepath
+                snapshots = {result.snapshot_name: SnapshotData(data=result.final_data)}
+                snapshot_file = SnapshotFile(filepath=filepath, snapshots=snapshots)
                 snapshot_groups.used.merge(snapshot_file)
                 if result.created:
                     snapshot_groups.created.merge(snapshot_file)

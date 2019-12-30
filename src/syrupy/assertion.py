@@ -33,17 +33,19 @@ if TYPE_CHECKING:
 
 @attr.s
 class AssertionResult(object):
-    file: str = attr.ib()
-    name: str = attr.ib()
-    asserted: Optional["SerializedData"] = attr.ib()
-    recalled: Optional["SerializedData"] = attr.ib()
+    snapshot_filepath: str = attr.ib()
+    snapshot_name: str = attr.ib()
+    asserted_data: Optional["SerializedData"] = attr.ib()
+    recalled_data: Optional["SerializedData"] = attr.ib()
     created: bool = attr.ib()
     updated: bool = attr.ib()
     success: bool = attr.ib()
 
     @property
     def final_data(self) -> Optional["SerializedData"]:
-        return self.asserted if self.created or self.updated else self.recalled
+        if self.created or self.updated:
+            return self.asserted_data
+        return self.recalled_data
 
 
 class SnapshotAssertion:
@@ -108,7 +110,7 @@ class SnapshotAssertion:
 
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
-        snapshot_data = assertion_result.recalled
+        snapshot_data = assertion_result.recalled_data
         serialized_data = self.serializer.serialize(data)
         if snapshot_data is None:
             return ["Snapshot does not exist!"]
@@ -148,7 +150,7 @@ class SnapshotAssertion:
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         try:
-            snapshot_file = self.serializer.get_filepath(self.num_executions)
+            snapshot_filepath = self.serializer.get_filepath(self.num_executions)
             snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
             snapshot_data = self._recall_data(index=self.num_executions)
             serialized_data = self.serializer.serialize(data)
@@ -164,10 +166,10 @@ class SnapshotAssertion:
             snapshot_created = snapshot_data is None and assertion_success
             snapshot_updated = matches is False and assertion_success
             self._execution_results[self._executions] = AssertionResult(
-                file=snapshot_file,
-                name=snapshot_name,
-                recalled=snapshot_data,
-                asserted=serialized_data,
+                snapshot_filepath=snapshot_filepath,
+                snapshot_name=snapshot_name,
+                recalled_data=snapshot_data,
+                asserted_data=serialized_data,
                 success=assertion_success,
                 created=snapshot_created,
                 updated=snapshot_updated,
