@@ -10,7 +10,7 @@ from typing import (
     Set,
 )
 
-from syrupy.snapshot import (
+from syrupy.data import (
     SnapshotData,
     SnapshotFile,
 )

@@ -14,13 +14,13 @@ from typing import (
 import attr
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
-from .location import TestLocation
-from .snapshot import (
+from .data import (
     SnapshotData,
     SnapshotFile,
     SnapshotFiles,
     SnapshotUnknownFile,
 )
+from .location import TestLocation
 from .terminal import (
     bold,
     error_style,
@@ -78,7 +78,7 @@ class SnapshotReportingGroups(object):
         ):
             snapshot_filepath = unused_snapshot_file.filepath
             if self.ran_all_collected_tests:
-                unused = unused_snapshot_file
+                unused_snapshots = dict(unused_snapshot_file.snapshots)
                 mark_file_for_removal = snapshot_filepath not in self.used
             else:
                 unused_snapshots = {
@@ -89,13 +89,13 @@ class SnapshotReportingGroups(object):
                         for node in self.ran_items
                     )
                 }
-                unused = SnapshotFile(
-                    filepath=snapshot_filepath, snapshots=unused_snapshots
-                )
                 mark_file_for_removal = False
 
-            if unused.snapshots:
-                unused_files.add(unused)
+            if unused_snapshots:
+                marked_unused_snapshot_file = SnapshotFile(
+                    filepath=snapshot_filepath, snapshots=unused_snapshots
+                )
+                unused_files.add(marked_unused_snapshot_file)
             elif mark_file_for_removal:
                 unused_files.add(SnapshotUnknownFile(filepath=snapshot_filepath))
         return unused_files

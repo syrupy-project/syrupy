@@ -9,12 +9,12 @@ from typing import (
 
 import attr
 
-from .exceptions import SnapshotDoesNotExist
-from .snapshot import (
+from .data import (
     SnapshotEmptyFile,
     SnapshotFile,
     SnapshotFiles,
 )
+from .exceptions import SnapshotDoesNotExist
 from .terminal import (
     error_style,
     green,

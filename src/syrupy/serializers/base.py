@@ -17,8 +17,8 @@ from syrupy.exceptions import SnapshotDoesNotExist
 
 
 if TYPE_CHECKING:
+    from syrupy.data import SnapshotFile
     from syrupy.location import TestLocation
-    from syrupy.snapshot import SnapshotFile
     from syrupy.types import SerializableData, SerializedData
 
 

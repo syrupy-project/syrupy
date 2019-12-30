@@ -23,25 +23,29 @@ class SnapshotData(object):
     data: "SerializableData" = attr.ib(default=None)
 
 
-@attr.s
+@attr.s(eq=False)
 class SnapshotFile(object):
     filepath: str = attr.ib()
-    snapshots: Dict[str, "SnapshotData"] = attr.ib(default={})
+    snapshots: Dict[str, "SnapshotData"] = attr.ib(factory=dict)
 
 
-@attr.s
+@attr.s(eq=False)
 class SnapshotEmptyFile(SnapshotFile):
-    snapshots = {SNAPSHOT_EMPTY_FILE_KEY: SnapshotData()}
+    snapshots: Dict[str, "SnapshotData"] = attr.ib(
+        default={SNAPSHOT_EMPTY_FILE_KEY: SnapshotData()}
+    )
 
 
-@attr.s
+@attr.s(eq=False)
 class SnapshotUnknownFile(SnapshotFile):
-    snapshots = {SNAPSHOT_UNKNOWN_FILE_KEY: SnapshotData()}
+    snapshots: Dict[str, "SnapshotData"] = attr.ib(
+        default={SNAPSHOT_UNKNOWN_FILE_KEY: SnapshotData()}
+    )
 
 
 @attr.s
 class SnapshotFiles(object):
-    _snapshot_files: Set["SnapshotFile"] = attr.ib(default=set())
+    _snapshot_files: Set["SnapshotFile"] = attr.ib(factory=set)
 
     def get(self, filepath: str) -> Optional["SnapshotFile"]:
         for snapshot_file in self._snapshot_files:
