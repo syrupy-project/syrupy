@@ -259,7 +259,7 @@ class SnapshotSession:
         for assertion in self._assertions:
             for discovered in assertion.discovered_snapshots:
                 snapshot_groups.discovered.merge(discovered)
-                if discovered.snapshots:
+                if discovered.has_snapshots:
                     self._serializers[discovered.filepath] = assertion.serializer
             for result in assertion.executions.values():
                 snapshot_file = SnapshotFile(

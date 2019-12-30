@@ -263,7 +263,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
         for snapshot_name in snapshot_names:
             snapshot_file_to_update.snapshots.pop(snapshot_name, None)
 
-        if snapshot_file_to_update.snapshots:
+        if snapshot_file_to_update.has_snapshots:
             DataSerializer.write_file(snapshot_file_to_update)
         else:
             os.remove(snapshot_file)

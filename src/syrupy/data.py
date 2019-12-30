@@ -28,12 +28,20 @@ class SnapshotFile(object):
     filepath: str = attr.ib()
     snapshots: Dict[str, "SnapshotData"] = attr.ib(factory=dict)
 
+    @property
+    def has_snapshots(self) -> bool:
+        return bool(self.snapshots)
+
 
 @attr.s(eq=False)
 class SnapshotEmptyFile(SnapshotFile):
     snapshots: Dict[str, "SnapshotData"] = attr.ib(
         default={SNAPSHOT_EMPTY_FILE_KEY: SnapshotData()}
     )
+
+    @property
+    def has_snapshots(self) -> bool:
+        return False
 
 
 @attr.s(eq=False)
@@ -60,7 +68,7 @@ class SnapshotFiles(object):
         snapshot_file_to_update = self.get(snapshot_file.filepath)
         if not snapshot_file_to_update:
             snapshot_file_to_update = SnapshotFile(filepath=snapshot_file.filepath)
-            self._snapshot_files.add(snapshot_file_to_update)
+            self.add(snapshot_file_to_update)
         snapshot_file_to_update.snapshots.update(snapshot_file.snapshots)
 
     def __iter__(self) -> Iterator["SnapshotFile"]:

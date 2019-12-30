@@ -86,7 +86,7 @@ class SnapshotAssertion:
         for filepath in walk_snapshot_dir(self.serializer.dirname):
             if filepath.endswith(self.serializer.file_extension):
                 snapshot_file = self.serializer.discover_snapshots(filepath)
-                if not snapshot_file.snapshots:
+                if not snapshot_file.has_snapshots:
                     snapshot_file = SnapshotEmptyFile(filepath=filepath)
             else:
                 snapshot_file = SnapshotFile(filepath=filepath)
