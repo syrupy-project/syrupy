@@ -13,10 +13,16 @@ def test_empty_snapshot(snapshot):
     assert snapshot == ""
 
 
+@pytest.mark.parametrize("actual", [False, True])
+def test_bool(actual, snapshot):
+    assert actual == snapshot
+
+
 @pytest.mark.parametrize(
     "actual",
     [
         "",
+        b"Byte string",
         r"Raw string",
         r"Escaped \n",
         r"Backslash \u U",
@@ -26,7 +32,7 @@ def test_empty_snapshot(snapshot):
         "multi-line\nline 2\nline 3",
         "multi-line\nline 2\n  line 3",
     ],
-    ids=lambda x: "",
+    ids=lambda x: "|".join(str(x).splitlines()),
 )
 def test_string(snapshot, actual):
     assert snapshot == actual
