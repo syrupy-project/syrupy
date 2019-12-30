@@ -139,6 +139,9 @@
 # name: test_string[singleline:]
   'singleline:'
 ---
+# name: test_string[string with 'quotes']
+  "string with 'quotes'"
+---
 # name: test_tuple
   <class 'tuple'> (
     'this',

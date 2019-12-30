@@ -31,6 +31,7 @@ def test_bool(actual, snapshot):
         "- singleline",
         "multi-line\nline 2\nline 3",
         "multi-line\nline 2\n  line 3",
+        "string with 'quotes'",
     ],
     ids=lambda x: "|".join(str(x).splitlines()),
 )
