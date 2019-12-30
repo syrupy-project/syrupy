@@ -1,5 +1,4 @@
 import os
-from collections import namedtuple
 from gettext import (
     gettext,
     ngettext,
@@ -12,11 +11,16 @@ from typing import (
     Set,
 )
 
-from .constants import (
-    EXIT_STATUS_FAIL_UNUSED,
-    SNAPSHOT_UNKNOWN_FILE,
-)
+import attr
+
+from .constants import EXIT_STATUS_FAIL_UNUSED
 from .location import TestLocation
+from .snapshot import (
+    SnapshotData,
+    SnapshotFile,
+    SnapshotFiles,
+    SnapshotUnknownFile,
+)
 from .terminal import (
     bold,
     error_style,
@@ -29,19 +33,96 @@ from .terminal import (
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
     from .serializers.base import AbstractSnapshotSerializer  # noqa: F401
-    from .types import SnapshotFiles
 
 
-SnapshotGroups = namedtuple(
-    "SnapshotGroups",
-    ["created", "discovered", "failed", "matched", "unused", "updated", "used"],
-)
+@attr.s
+class SnapshotReportingGroups(object):
+    all_items: Set[Any] = attr.ib()
+    ran_items: Set[Any] = attr.ib()
+    discovered: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
+    created: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
+    failed: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
+    matched: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
+    updated: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
+    used: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
 
+    @property
+    def num_created(self) -> int:
+        return self._count_snapshots(self.created)
 
-def empty_snapshot_groups() -> "SnapshotGroups":
-    return SnapshotGroups(
-        created={}, discovered={}, failed={}, matched={}, unused={}, updated={}, used={}
-    )
+    @property
+    def num_failed(self) -> int:
+        return self._count_snapshots(self.failed)
+
+    @property
+    def num_matched(self) -> int:
+        return self._count_snapshots(self.matched)
+
+    @property
+    def num_updated(self) -> int:
+        return self._count_snapshots(self.updated)
+
+    @property
+    def num_unused(self) -> int:
+        return self._count_snapshots(self.unused)
+
+    @property
+    def ran_all_collected_tests(self) -> bool:
+        return self.all_items == self.ran_items
+
+    @property
+    def unused(self) -> "SnapshotFiles":
+        unused_files = SnapshotFiles()
+        for unused_snapshot_file in self._diff_snapshot_files(
+            self.discovered, self.used
+        ):
+            snapshot_filepath = unused_snapshot_file.filepath
+            if self.ran_all_collected_tests:
+                unused = unused_snapshot_file
+                mark_file_for_removal = snapshot_filepath not in self.used
+            else:
+                unused_snapshots = {
+                    snapshot_name: unused_snapshot_file.snapshots[snapshot_name]
+                    for snapshot_name in unused_snapshot_file.snapshots
+                    if any(
+                        TestLocation(node).matches_snapshot_name(snapshot_name)
+                        for node in self.ran_items
+                    )
+                }
+                unused = SnapshotFile(
+                    filepath=snapshot_filepath, snapshots=unused_snapshots
+                )
+                mark_file_for_removal = False
+
+            if unused.snapshots:
+                unused_files.add(unused)
+            elif mark_file_for_removal:
+                unused_files.add(SnapshotUnknownFile(filepath=snapshot_filepath))
+        return unused_files
+
+    def _diff_snapshot_files(
+        self, snapshot_files1: "SnapshotFiles", snapshot_files2: "SnapshotFiles"
+    ) -> "SnapshotFiles":
+        diffed_snapshot_files: "SnapshotFiles" = SnapshotFiles()
+        for snapshot_file1 in snapshot_files1:
+            snapshot_file2 = snapshot_files2.get(
+                snapshot_file1.filepath
+            ) or SnapshotFile(filepath=snapshot_file1.filepath)
+            diffed_snapshots = {
+                snapshot_name: snapshot_file1.snapshots[snapshot_name]
+                for snapshot_name in (
+                    snapshot_file1.snapshots.keys() - snapshot_file2.snapshots.keys()
+                )
+            }
+            diffed_snapshot_files.add(
+                SnapshotFile(
+                    filepath=snapshot_file1.filepath, snapshots=diffed_snapshots
+                )
+            )
+        return diffed_snapshot_files
+
+    def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
+        return sum(len(snapshot_file.snapshots) for snapshot_file in snapshot_files)
 
 
 class SnapshotSession:
@@ -56,7 +137,6 @@ class SnapshotSession:
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
         self._serializers: Dict[str, "AbstractSnapshotSerializer"] = {}
-        self._snapshot_groups = empty_snapshot_groups()
 
     def start(self) -> None:
         self.report = []
@@ -64,45 +144,46 @@ class SnapshotSession:
         self._ran_items = set()
         self._assertions = []
         self._serializers = {}
-        self._snapshot_groups = empty_snapshot_groups()
 
     def finish(self) -> int:
         exitstatus = 0
-        self._collate_snapshots()
-        n_unused = self._count_snapshots(self._snapshot_groups.unused)
-        n_written = self._count_snapshots(self._snapshot_groups.created)
-        n_updated = self._count_snapshots(self._snapshot_groups.updated)
-        n_failed = self._count_snapshots(self._snapshot_groups.failed)
-        n_passed = self._count_snapshots(self._snapshot_groups.matched)
-
+        snapshot_groups = self._get_snapshot_groups()
         self.add_report_line()
 
         summary_lines: List[str] = []
-        if n_failed:
+        if snapshot_groups.num_failed:
             summary_lines += [
                 ngettext(
-                    "{} snapshot failed.", "{} snapshots failed.", n_failed
-                ).format(error_style(n_failed))
+                    "{} snapshot failed.",
+                    "{} snapshots failed.",
+                    snapshot_groups.num_failed,
+                ).format(error_style(snapshot_groups.num_failed))
             ]
-        if n_passed:
+        if snapshot_groups.num_matched:
             summary_lines += [
                 ngettext(
-                    "{} snapshot passed.", "{} snapshots passed.", n_passed
-                ).format(success_style(n_passed))
+                    "{} snapshot passed.",
+                    "{} snapshots passed.",
+                    snapshot_groups.num_matched,
+                ).format(success_style(snapshot_groups.num_matched))
             ]
-        if n_written:
+        if snapshot_groups.num_created:
             summary_lines += [
                 ngettext(
-                    "{} snapshot generated.", "{} snapshots generated.", n_written
-                ).format(green(n_written))
+                    "{} snapshot generated.",
+                    "{} snapshots generated.",
+                    snapshot_groups.num_created,
+                ).format(green(snapshot_groups.num_created))
             ]
-        if n_updated:
+        if snapshot_groups.num_updated:
             summary_lines += [
                 ngettext(
-                    "{} snapshot updated.", "{} snapshots updated.", n_updated
-                ).format(green(n_updated))
+                    "{} snapshot updated.",
+                    "{} snapshots updated.",
+                    snapshot_groups.num_updated,
+                ).format(green(snapshot_groups.num_updated))
             ]
-        if n_unused:
+        if snapshot_groups.num_unused:
             if self.update_snapshots:
                 text_singular = "{} unused snapshot deleted."
                 text_plural = "{} unused snapshots deleted."
@@ -110,21 +191,25 @@ class SnapshotSession:
                 text_singular = "{} snapshot unused."
                 text_plural = "{} snapshots unused."
             if self.update_snapshots or self.warn_unused_snapshots:
-                text_count = warning_style(n_unused)
+                text_count = warning_style(snapshot_groups.num_unused)
             else:
-                text_count = error_style(n_unused)
+                text_count = error_style(snapshot_groups.num_unused)
             summary_lines += [
-                ngettext(text_singular, text_plural, n_unused).format(text_count)
+                ngettext(text_singular, text_plural, snapshot_groups.num_unused).format(
+                    text_count
+                )
             ]
         self.add_report_line(" ".join(summary_lines))
 
-        if n_unused:
+        if snapshot_groups.num_unused:
             self.add_report_line()
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    self._snapshot_groups.unused, self._snapshot_groups.used
+                    snapshot_groups.unused, snapshot_groups.used
                 )
-                for filepath, snapshots in self._snapshot_groups.unused.items():
+                for snapshot_file in snapshot_groups.unused:
+                    filepath = snapshot_file.filepath
+                    snapshots = snapshot_file.snapshots
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     self.add_report_line(
@@ -154,90 +239,39 @@ class SnapshotSession:
         unused_snapshot_files: "SnapshotFiles",
         used_snapshot_files: "SnapshotFiles",
     ) -> None:
-        for snapshot_file, unused_snapshots in unused_snapshot_files.items():
+        for unused_snapshot_file in unused_snapshot_files:
+            snapshot_file = unused_snapshot_file.filepath
+            unused_snapshots = set(unused_snapshot_file.snapshots.keys())
             serializer = self._serializers.get(snapshot_file)
             if serializer:
                 serializer.delete_snapshots_from_file(snapshot_file, unused_snapshots)
             elif snapshot_file not in used_snapshot_files:
                 os.remove(snapshot_file)
 
-    def _collate_snapshots(self) -> None:
+    def _get_snapshot_groups(self) -> "SnapshotReportingGroups":
         """
-        Prepare session for snapshot reporting
+        Prepare snapshot groups for session reporting
         """
+        snapshot_groups = SnapshotReportingGroups(
+            all_items=self._all_items, ran_items=self._ran_items
+        )
         for assertion in self._assertions:
-            self._merge_snapshot_files_into(
-                self._snapshot_groups.discovered, assertion.discovered_snapshots
-            )
-            for filepath, snapshots in assertion.discovered_snapshots.items():
-                if snapshots:
-                    self._serializers[filepath] = assertion.serializer
+            for discovered in assertion.discovered_snapshots:
+                snapshot_groups.discovered.merge(discovered)
+                if discovered.snapshots:
+                    self._serializers[discovered.filepath] = assertion.serializer
             for result in assertion.executions.values():
-                snapshot_file: "SnapshotFiles" = {result.file: {result.name}}
-                self._merge_snapshot_files_into(
-                    self._snapshot_groups.used, snapshot_file
+                snapshot_file = SnapshotFile(
+                    filepath=result.file,
+                    snapshots={result.name: SnapshotData(data=result.final_data)},
                 )
+                snapshot_groups.used.merge(snapshot_file)
                 if result.created:
-                    self._merge_snapshot_files_into(
-                        self._snapshot_groups.created, snapshot_file
-                    )
+                    snapshot_groups.created.merge(snapshot_file)
                 elif result.updated:
-                    self._merge_snapshot_files_into(
-                        self._snapshot_groups.updated, snapshot_file
-                    )
+                    snapshot_groups.updated.merge(snapshot_file)
                 elif result.success:
-                    self._merge_snapshot_files_into(
-                        self._snapshot_groups.matched, snapshot_file
-                    )
+                    snapshot_groups.matched.merge(snapshot_file)
                 else:
-                    self._merge_snapshot_files_into(
-                        self._snapshot_groups.failed, snapshot_file
-                    )
-
-        ran_all = self._all_items == self._ran_items
-        for snapshot_filepath, unused_snapshots in self._diff_snapshot_files(
-            self._snapshot_groups.discovered, self._snapshot_groups.used
-        ).items():
-            if ran_all:
-                unused = unused_snapshots
-                mark_file_for_removal = (
-                    snapshot_filepath not in self._snapshot_groups.used
-                )
-            else:
-                unused = {
-                    snapshot_name
-                    for snapshot_name in unused_snapshots
-                    if any(
-                        TestLocation(node).matches_snapshot_name(snapshot_name)
-                        for node in self._ran_items
-                    )
-                }
-                mark_file_for_removal = False
-
-            if unused:
-                self._snapshot_groups.unused[snapshot_filepath] = unused
-            elif mark_file_for_removal:
-                self._snapshot_groups.unused[snapshot_filepath] = SNAPSHOT_UNKNOWN_FILE
-
-    def _merge_snapshot_files_into(
-        self, snapshot_files: "SnapshotFiles", *snapshot_files_to_merge: "SnapshotFiles"
-    ) -> None:
-        """
-        Add snapshots from other files into the first one
-        """
-        for snapshot_file in snapshot_files_to_merge:
-            for filepath, snapshots in snapshot_file.items():
-                if filepath not in snapshot_files:
-                    snapshot_files[filepath] = set()
-                snapshot_files[filepath].update(snapshots)
-
-    def _diff_snapshot_files(
-        self, snapshot_files1: "SnapshotFiles", snapshot_files2: "SnapshotFiles"
-    ) -> "SnapshotFiles":
-        return {
-            filename: snapshots1 - snapshot_files2.get(filename, set())
-            for filename, snapshots1 in snapshot_files1.items()
-        }
-
-    def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
-        return sum(len(snaps) for snaps in snapshot_files.values())
+                    snapshot_groups.failed.merge(snapshot_file)
+        return snapshot_groups

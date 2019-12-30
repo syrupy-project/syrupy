@@ -6,6 +6,11 @@ from typing import (
     Set,
 )
 
+from syrupy.snapshot import (
+    SnapshotData,
+    SnapshotFile,
+)
+
 from .base import AbstractSnapshotSerializer
 
 
@@ -18,9 +23,12 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
     def file_extension(self) -> str:
         return "raw"
 
-    def discover_snapshots(self, filepath: str) -> Set[str]:
+    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """Parse the snapshot name from the filename."""
-        return {os.path.splitext(os.path.basename(filepath))[0]}
+        return SnapshotFile(
+            filepath=filepath,
+            snapshots={os.path.splitext(os.path.basename(filepath))[0]: SnapshotData()},
+        )
 
     def get_file_basename(self, index: int) -> str:
         return self.__clean_filename(self.get_snapshot_name(index=index))

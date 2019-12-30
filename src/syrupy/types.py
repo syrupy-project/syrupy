@@ -1,9 +1,8 @@
 from typing import (
     Any,
-    Dict,
-    Set,
+    Union,
 )
 
 
-SnapshotFiles = Dict[str, Set[str]]
 SerializableData = Any
+SerializedData = Union[str, bytes]

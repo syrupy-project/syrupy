@@ -8,7 +8,6 @@ from typing import (
     TYPE_CHECKING,
     Optional,
     Set,
-    Union,
 )
 
 from typing_extensions import final
@@ -18,8 +17,9 @@ from syrupy.exceptions import SnapshotDoesNotExist
 
 
 if TYPE_CHECKING:
-    from syrupy.types import SerializableData
     from syrupy.location import TestLocation
+    from syrupy.snapshot import SnapshotFile
+    from syrupy.types import SerializableData, SerializedData
 
 
 class AbstractSnapshotSerializer(ABC):
@@ -49,7 +49,7 @@ class AbstractSnapshotSerializer(ABC):
         return None
 
     @abstractmethod
-    def serialize(self, data: "SerializableData") -> Union[str, bytes]:
+    def serialize(self, data: "SerializableData") -> "SerializedData":
         """
         Serializes a python object / data structure into a string
         to be used for comparison with snapshot data from disk.
@@ -57,16 +57,16 @@ class AbstractSnapshotSerializer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def discover_snapshots(self, filepath: str) -> Set[str]:
+    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """
-        Given a snapshot file, returns a Set of all snapshots
+        Given a snapshot file, returns a map of all snapshots
         within the file. Snapshot name is dependent on serializer
         implementation.
         """
         raise NotImplementedError
 
     @final
-    def read_snapshot(self, index: int) -> "SerializableData":
+    def read_snapshot(self, index: int) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `pre_read`, then `read` and finally `post_read`,
@@ -102,7 +102,7 @@ class AbstractSnapshotSerializer(ABC):
         pass
 
     @final
-    def read(self, index: int = 0) -> "SerializableData":
+    def read(self, index: int = 0) -> "SerializedData":
         """
         Override `_read_snapshot_from_file` in subclass to change behaviour
         """
@@ -166,7 +166,7 @@ class AbstractSnapshotSerializer(ABC):
     @abstractmethod
     def _read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
-    ) -> "SerializableData":
+    ) -> "SerializedData":
         """
         Read the snapshot file and get only the snapshot data for assertion
         """

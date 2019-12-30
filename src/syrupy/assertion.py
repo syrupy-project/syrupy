@@ -1,4 +1,3 @@
-from collections import namedtuple
 from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
@@ -8,8 +7,14 @@ from typing import (
     Type,
 )
 
-from .constants import SNAPSHOT_EMPTY_FILE
+import attr
+
 from .exceptions import SnapshotDoesNotExist
+from .snapshot import (
+    SnapshotEmptyFile,
+    SnapshotFile,
+    SnapshotFiles,
+)
 from .terminal import (
     error_style,
     green,
@@ -23,13 +28,22 @@ if TYPE_CHECKING:
     from .location import TestLocation
     from .serializers.base import AbstractSnapshotSerializer
     from .session import SnapshotSession
-    from .types import SerializableData, SnapshotFiles
+    from .types import SerializableData, SerializedData  # noqa: F401
 
 
-AssertionResult = namedtuple(
-    "AssertionResult",
-    ["asserted", "created", "file", "name", "recalled", "success", "updated"],
-)
+@attr.s
+class AssertionResult(object):
+    file: str = attr.ib()
+    name: str = attr.ib()
+    asserted: Optional["SerializedData"] = attr.ib()
+    recalled: Optional["SerializedData"] = attr.ib()
+    created: bool = attr.ib()
+    updated: bool = attr.ib()
+    success: bool = attr.ib()
+
+    @property
+    def final_data(self) -> Optional["SerializedData"]:
+        return self.asserted if self.created or self.updated else self.recalled
 
 
 class SnapshotAssertion:
@@ -68,14 +82,16 @@ class SnapshotAssertion:
 
     @property
     def discovered_snapshots(self) -> "SnapshotFiles":
-        return {
-            filepath: (
-                self.serializer.discover_snapshots(filepath) or SNAPSHOT_EMPTY_FILE
-            )
-            if filepath.endswith(self.serializer.file_extension)
-            else set()
-            for filepath in walk_snapshot_dir(self.serializer.dirname)
-        }
+        discovered_files: "SnapshotFiles" = SnapshotFiles()
+        for filepath in walk_snapshot_dir(self.serializer.dirname):
+            if filepath.endswith(self.serializer.file_extension):
+                snapshot_file = self.serializer.discover_snapshots(filepath)
+                if not snapshot_file.snapshots:
+                    snapshot_file = SnapshotEmptyFile(filepath=filepath)
+            else:
+                snapshot_file = SnapshotFile(filepath=filepath)
+            discovered_files.add(snapshot_file)
+        return discovered_files
 
     def with_class(
         self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
@@ -129,8 +145,8 @@ class SnapshotAssertion:
     def _assert(self, data: "SerializableData") -> bool:
         matches = False
         assertion_success = False
-        snapshot_data = None
-        serialized_data = None
+        snapshot_data: Optional["SerializedData"] = None
+        serialized_data: Optional["SerializedData"] = None
         try:
             snapshot_file = self.serializer.get_filepath(self.num_executions)
             snapshot_name = self.serializer.get_snapshot_name(self.num_executions)

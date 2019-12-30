@@ -10,6 +10,11 @@ from typing import (
     Set,
 )
 
+from syrupy.snapshot import (
+    SnapshotData,
+    SnapshotFile,
+)
+
 from .base import AbstractSnapshotSerializer
 
 
@@ -237,8 +242,15 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     def file_extension(self) -> str:
         return "ambr"
 
-    def discover_snapshots(self, filepath: str) -> Set[str]:
-        return set(DataSerializer.read_file(filepath).keys())
+    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
+        snapshot_file = SnapshotFile(filepath=filepath)
+        for snapshot_name, serialized_snapshot in DataSerializer.read_file(
+            filepath
+        ).items():
+            snapshot_file.snapshots[snapshot_name] = SnapshotData(
+                data=serialized_snapshot.get("data")
+            )
+        return snapshot_file
 
     def _read_snapshot_from_file(
         self, snapshot_file: str, snapshot_name: str
