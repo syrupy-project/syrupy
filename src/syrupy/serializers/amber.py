@@ -157,8 +157,8 @@ class DataSerializer:
                 f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
                 for serialized_key, serialized_value in (
                     (
-                        cls.serialize(**dict(data=key, **kwargs)),
-                        cls.serialize(**dict(data=data[key], **kwargs)),
+                        cls.serialize(**{"data": key, **kwargs}),
+                        cls.serialize(**{"data": data[key], **kwargs}),
                     )
                     for key in cls.sort(data.keys())
                 )
