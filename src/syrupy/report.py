@@ -98,7 +98,7 @@ class SnapshotReport(object):
         ):
             snapshot_filepath = unused_snapshot_file.filepath
             if self.ran_all_collected_tests:
-                unused_snapshots = dict(unused_snapshot_file.snapshots)
+                unused_snapshots = {**unused_snapshot_file.snapshots}
                 mark_file_for_removal = snapshot_filepath not in self.used
             else:
                 unused_snapshots = {
