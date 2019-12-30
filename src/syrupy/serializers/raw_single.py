@@ -26,10 +26,8 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
 
     def discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """Parse the snapshot name from the filename."""
-        return SnapshotFile(
-            filepath=filepath,
-            snapshots={os.path.splitext(os.path.basename(filepath))[0]: SnapshotData()},
-        )
+        snapshots = {os.path.splitext(os.path.basename(filepath))[0]: SnapshotData()}
+        return SnapshotFile(filepath=filepath, snapshots=snapshots)
 
     def get_file_basename(self, index: int) -> str:
         return self.__clean_filename(self.get_snapshot_name(index=index))
