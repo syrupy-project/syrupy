@@ -62,9 +62,8 @@ class AbstractSnapshotSerializer(ABC):
     @abstractmethod
     def discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """
-        Given a snapshot file, returns a map of all snapshots
-        within the file. Snapshot name is dependent on serializer
-        implementation.
+        Given a path to a snapshot file, returns all snapshots in the file.
+        Snapshot name is dependent on serializer implementation.
         """
         raise NotImplementedError
 
