@@ -203,11 +203,12 @@ class SnapshotSession:
 
         if snapshot_groups.num_unused:
             self.add_report_line()
+            unused_snapshot_files = snapshot_groups.unused
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    snapshot_groups.unused, snapshot_groups.used
+                    unused_snapshot_files, snapshot_groups.used
                 )
-                for snapshot_file in snapshot_groups.unused:
+                for snapshot_file in unused_snapshot_files:
                     filepath = snapshot_file.filepath
                     snapshots = snapshot_file.snapshots
                     path_to_file = os.path.relpath(filepath, self.base_dir)
