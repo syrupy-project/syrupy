@@ -174,11 +174,12 @@ class SnapshotReport(object):
                     snapshots = snapshot_file.snapshots
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
-                    yield gettext(f"Deleted {deleted_snapshots} ({path_to_file})")
+                    yield gettext("Deleted {} ({})").format(
+                        deleted_snapshots, path_to_file
+                    )
             else:
                 message = gettext(
-                    "Re-run pytest with --snapshot-update"
-                    " to delete the unused snapshots."
+                    "Re-run pytest with --snapshot-update to delete unused snapshots."
                 )
                 if self.warn_unused_snapshots:
                     yield warning_style(message)

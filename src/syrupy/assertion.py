@@ -1,3 +1,4 @@
+from gettext import gettext
 from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
@@ -113,7 +114,7 @@ class SnapshotAssertion:
         snapshot_data = assertion_result.recalled_data
         serialized_data = self.serializer.serialize(data)
         if snapshot_data is None:
-            return ["Snapshot does not exist!"]
+            return [gettext("Snapshot does not exist!")]
 
         diff = []
         if not assertion_result.success:
