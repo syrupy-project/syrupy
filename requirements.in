@@ -5,6 +5,7 @@ flake8
 flake8-bugbear
 flake8-builtins
 flake8-comprehensions
+flake8-i18n
 invoke
 isort
 mypy

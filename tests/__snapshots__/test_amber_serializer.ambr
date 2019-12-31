@@ -83,6 +83,9 @@
 # name: test_numbers.2
   0.3333333333333333
 ---
+# name: test_reflection
+  SnapshotAssertion(name='snapshot', num_executions=0)
+---
 # name: test_set
   <class 'set'> {
     'a',

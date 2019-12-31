@@ -1,5 +1,6 @@
 import os
 import re
+from gettext import gettext
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -59,9 +60,11 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         os.remove(snapshot_filepath)
 
     def __write_file(self, filepath: str, data: Optional["SerializedData"]) -> None:
-        if isinstance(data, bytes):
-            with open(filepath, "wb") as f:
-                f.write(data)
+        if not isinstance(data, bytes):
+            error_text = gettext("Can write non binary data. Expected '{}', got '{}'")
+            raise TypeError(error_text.format(bytes.__name__, type(data).__name__))
+        with open(filepath, "wb") as f:
+            f.write(data)
 
     def __clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")

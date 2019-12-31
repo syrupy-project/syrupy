@@ -8,6 +8,10 @@ def test_non_snapshots(snapshot):
         assert "Lorem ipsum." == "Muspi merol."
 
 
+def test_reflection(snapshot):
+    assert snapshot == snapshot
+
+
 def test_empty_snapshot(snapshot):
     assert snapshot == None  # noqa: E711
     assert snapshot == ""

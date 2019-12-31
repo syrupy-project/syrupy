@@ -12,14 +12,6 @@ class PNGImageSnapshotSerializer(RawSingleSnapshotSerializer):
     def file_extension(self) -> str:
         return "png"
 
-    def serialize(self, data: "SerializableData") -> bytes:
-        if isinstance(data, bytes):
-            return data
-        raise TypeError(
-            "Can not serialize image data. Expected "
-            f"'bytes', got '{type(data).__name__}'."
-        )
-
 
 class SVGImageSnapshotSerializer(RawSingleSnapshotSerializer):
     @property
