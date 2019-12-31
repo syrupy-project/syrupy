@@ -4,7 +4,7 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from itertools import zip_longest
+from difflib import ndiff
 from typing import (
     TYPE_CHECKING,
     List,
@@ -20,12 +20,6 @@ from syrupy.data import (
     SnapshotFile,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
-from syrupy.terminal import (
-    error_style,
-    green,
-    red,
-    success_style,
-)
 
 
 if TYPE_CHECKING:
@@ -194,17 +188,6 @@ class AbstractSnapshotSerializer(ABC):
     def diff_lines(
         self, serialized_data: "SerializedData", snapshot_data: "SerializedData"
     ) -> List[str]:
-        received = serialized_data.splitlines()
-        stored = snapshot_data.splitlines()
-        marker_received = error_style("+")
-        marker_stored = success_style("-")
-        diff = []
-        for received_line, stored_line in zip_longest(received, stored):
-            if received_line is None:
-                diff.append(f"{marker_stored} {green(stored_line)}")
-            elif stored_line is None:
-                diff.append(f"{marker_received} {red(received_line)}")
-            elif received_line != stored_line:
-                diff.append(f"{marker_stored} {green(stored_line)}")
-                diff.append(f"{marker_received} {red(received_line)}")
-        return diff
+        received = str(serialized_data).splitlines()
+        stored = str(snapshot_data).splitlines()
+        return list(ndiff(stored, received))
