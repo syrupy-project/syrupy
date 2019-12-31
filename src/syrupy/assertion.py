@@ -1,5 +1,4 @@
 from gettext import gettext
-from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
     Dict,
@@ -16,12 +15,6 @@ from .data import (
     SnapshotFiles,
 )
 from .exceptions import SnapshotDoesNotExist
-from .terminal import (
-    error_style,
-    green,
-    red,
-    success_style,
-)
 from .utils import walk_snapshot_dir
 
 
@@ -113,25 +106,7 @@ class SnapshotAssertion:
 
         diff = []
         if not assertion_result.success:
-            received = serialized_data.splitlines()
-            stored = snapshot_data.splitlines()
-
-            marker_stored = success_style("-")
-            marker_received = error_style("+")
-
-            for received_line, stored_line in zip_longest(received, stored):
-                if received_line is None:
-                    diff.append(f"{marker_stored} {green(stored_line)}")
-                elif stored_line is None:
-                    diff.append(f"{marker_received} {red(received_line)}")
-                elif received_line != stored_line:
-                    diff.extend(
-                        [
-                            f"{marker_stored} {green(stored_line)}",
-                            f"{marker_received} {red(received_line)}",
-                        ]
-                    )
-
+            diff = self.serializer.diff_lines(serialized_data, snapshot_data)
         return diff
 
     def __repr__(self) -> str:
