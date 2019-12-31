@@ -1,4 +1,3 @@
-from gettext import gettext
 from typing import (
     Any,
     List,
@@ -40,12 +39,11 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
     Return explanation for comparisons in failing assert expressions.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
-    snapshot_text = gettext("snapshot")
     if isinstance(left, SnapshotAssertion):
-        assert_msg = f"{snapshot_text} {op} {right}"
+        assert_msg = f"{left.name} {op} {right}"
         return [assert_msg] + left.get_assert_diff(right)
     elif isinstance(right, SnapshotAssertion):
-        assert_msg = f"{left} {op} {snapshot_text}"
+        assert_msg = f"{left} {op} {right.name}"
         return [assert_msg] + right.get_assert_diff(left)
     return None
 

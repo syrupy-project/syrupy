@@ -49,22 +49,17 @@ class AssertionResult(object):
         return self.recalled_data
 
 
+@attr.s(cmp=False, repr=False)
 class SnapshotAssertion:
-    def __init__(
-        self,
-        *,
-        update_snapshots: bool,
-        serializer_class: Type["AbstractSnapshotSerializer"],
-        test_location: "TestLocation",
-        session: "SnapshotSession",
-    ):
-        self._update_snapshots = update_snapshots
-        self._serializer_class = serializer_class
-        self._test_location = test_location
-        self._executions = 0
-        self._execution_results: Dict[int, "AssertionResult"] = {}
+    name: str = attr.ib(default="snapshot")
+    _session: "SnapshotSession" = attr.ib(kw_only=True)
+    _serializer_class: Type["AbstractSnapshotSerializer"] = attr.ib(kw_only=True)
+    _test_location: "TestLocation" = attr.ib(kw_only=True)
+    _update_snapshots: bool = attr.ib(kw_only=True)
+    _executions: int = attr.ib(init=False, default=0)
+    _execution_results: Dict[int, "AssertionResult"] = attr.ib(init=False, factory=dict)
 
-        self._session: "SnapshotSession" = session
+    def __attrs_post_init__(self) -> None:
         self._session.register_request(self)
 
     @property
@@ -140,7 +135,9 @@ class SnapshotAssertion:
         return diff
 
     def __repr__(self) -> str:
-        return f"<SnapshotAssertion ({self.num_executions})>"
+        attrs_to_repr = ["name", "num_executions"]
+        attrs_repr = ", ".join(f"{a}={repr(getattr(self, a))}" for a in attrs_to_repr)
+        return f"SnapshotAssertion({attrs_repr})"
 
     def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)
