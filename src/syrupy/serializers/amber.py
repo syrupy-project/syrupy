@@ -10,7 +10,7 @@ from typing import (
 )
 
 from syrupy.data import (
-    SnapshotData,
+    Snapshot,
     SnapshotFile,
 )
 
@@ -37,12 +37,11 @@ class DataSerializer:
         Writes the snapshot data into the snapshot file that be read later.
         """
         filepath = snapshot_file.filepath
-        snapshots = snapshot_file.snapshots
         with open(filepath, "w") as f:
-            for key in sorted(snapshots.keys()):
-                snapshot_data = str(snapshots[key].data)
+            for snapshot in sorted(snapshot_file, key=lambda s: s.name):
+                snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
-                    f.write(f"{cls._marker_name} {key}\n")
+                    f.write(f"{cls._marker_name} {snapshot.name}\n")
                     for data_line in snapshot_data.split("\n"):
                         f.write(f"{cls._indent}{data_line}\n")
                     f.write(f"{cls._marker_divider}\n")
@@ -56,7 +55,7 @@ class DataSerializer:
         """
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
-        snapshots = {}
+        snapshot_file = SnapshotFile(filepath=filepath)
         try:
             with open(filepath, "r") as f:
                 test_name = None
@@ -70,11 +69,13 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshots[test_name] = SnapshotData(data=snapshot_data[:-1])
+                            snapshot_file.add(
+                                Snapshot(name=test_name, data=snapshot_data[:-1])
+                            )
         except FileNotFoundError:
             pass
 
-        return SnapshotFile(filepath=filepath, snapshots=snapshots)
+        return snapshot_file
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
@@ -248,12 +249,12 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     def _read_snapshot_from_file(
         self, snapshot_filepath: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
-        snap = DataSerializer.read_file(snapshot_filepath).snapshots.get(snapshot_name)
-        return snap.data if snap else None
+        snapshot = DataSerializer.read_file(snapshot_filepath).get(snapshot_name)
+        return snapshot.data if snapshot else None
 
     def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
         snapshot_file_to_update = DataSerializer.read_file(snapshot_file.filepath)
-        snapshot_file_to_update.snapshots.update(snapshot_file.snapshots)
+        snapshot_file_to_update.merge(snapshot_file)
         DataSerializer.write_file(snapshot_file_to_update)
 
     def delete_snapshots_from_file(
@@ -261,7 +262,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     ) -> None:
         snapshot_file_to_update = DataSerializer.read_file(snapshot_file)
         for snapshot_name in snapshot_names:
-            snapshot_file_to_update.snapshots.pop(snapshot_name, None)
+            snapshot_file_to_update.remove(snapshot_name)
 
         if snapshot_file_to_update.has_snapshots:
             DataSerializer.write_file(snapshot_file_to_update)

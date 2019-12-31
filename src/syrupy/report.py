@@ -14,7 +14,7 @@ from typing import (
 import attr
 
 from .data import (
-    SnapshotData,
+    Snapshot,
     SnapshotFile,
     SnapshotFiles,
     SnapshotUnknownFile,
@@ -50,21 +50,22 @@ class SnapshotReport(object):
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            for discovered in assertion.discovered_snapshots:
-                self.discovered.merge(discovered)
+            self.discovered.merge(assertion.discovered_snapshots)
             for result in assertion.executions.values():
                 filepath = result.snapshot_filepath
-                snapshots = {result.snapshot_name: SnapshotData(data=result.final_data)}
-                snapshot_file = SnapshotFile(filepath=filepath, snapshots=snapshots)
-                self.used.merge(snapshot_file)
+                snapshot_file = SnapshotFile(filepath=filepath)
+                snapshot_file.add(
+                    Snapshot(name=result.snapshot_name, data=result.final_data)
+                )
+                self.used.update(snapshot_file)
                 if result.created:
-                    self.created.merge(snapshot_file)
+                    self.created.update(snapshot_file)
                 elif result.updated:
-                    self.updated.merge(snapshot_file)
+                    self.updated.update(snapshot_file)
                 elif result.success:
-                    self.matched.merge(snapshot_file)
+                    self.matched.update(snapshot_file)
                 else:
-                    self.failed.merge(snapshot_file)
+                    self.failed.update(snapshot_file)
 
     @property
     def num_created(self) -> int:
@@ -98,23 +99,23 @@ class SnapshotReport(object):
         ):
             snapshot_filepath = unused_snapshot_file.filepath
             if self.ran_all_collected_tests:
-                unused_snapshots = {**unused_snapshot_file.snapshots}
+                unused_snapshots = {*unused_snapshot_file}
                 mark_file_for_removal = snapshot_filepath not in self.used
             else:
                 unused_snapshots = {
-                    snapshot_name: unused_snapshot_file.snapshots[snapshot_name]
-                    for snapshot_name in unused_snapshot_file.snapshots
+                    snapshot
+                    for snapshot in unused_snapshot_file
                     if any(
-                        TestLocation(node).matches_snapshot_name(snapshot_name)
+                        TestLocation(node).matches_snapshot_name(snapshot.name)
                         for node in self.ran_items
                     )
                 }
                 mark_file_for_removal = False
 
             if unused_snapshots:
-                marked_unused_snapshot_file = SnapshotFile(
-                    filepath=snapshot_filepath, snapshots=unused_snapshots
-                )
+                marked_unused_snapshot_file = SnapshotFile(filepath=snapshot_filepath)
+                for snapshot in unused_snapshots:
+                    marked_unused_snapshot_file.add(snapshot)
                 unused_files.add(marked_unused_snapshot_file)
             elif mark_file_for_removal:
                 unused_files.add(SnapshotUnknownFile(filepath=snapshot_filepath))
@@ -171,7 +172,7 @@ class SnapshotReport(object):
             if self.update_snapshots:
                 for snapshot_file in self.unused:
                     filepath = snapshot_file.filepath
-                    snapshots = snapshot_file.snapshots
+                    snapshots = (snapshot.name for snapshot in snapshot_file)
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     yield gettext("Deleted {} ({})").format(
@@ -194,18 +195,12 @@ class SnapshotReport(object):
             snapshot_file2 = snapshot_files2.get(
                 snapshot_file1.filepath
             ) or SnapshotFile(filepath=snapshot_file1.filepath)
-            diffed_snapshots = {
-                snapshot_name: snapshot_file1.snapshots[snapshot_name]
-                for snapshot_name in (
-                    snapshot_file1.snapshots.keys() - snapshot_file2.snapshots.keys()
-                )
-            }
-            diffed_snapshot_files.add(
-                SnapshotFile(
-                    filepath=snapshot_file1.filepath, snapshots=diffed_snapshots
-                )
-            )
+            diffed_snapshot_file = SnapshotFile(filepath=snapshot_file1.filepath)
+            for snapshot in snapshot_file1:
+                if not snapshot_file2.get(snapshot.name):
+                    diffed_snapshot_file.add(snapshot)
+            diffed_snapshot_files.add(diffed_snapshot_file)
         return diffed_snapshot_files
 
     def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
-        return sum(len(snapshot_file.snapshots) for snapshot_file in snapshot_files)
+        return sum(len(snapshot_file) for snapshot_file in snapshot_files)
