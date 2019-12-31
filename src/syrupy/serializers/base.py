@@ -134,10 +134,8 @@ class AbstractSnapshotSerializer(ABC):
             Consider adding '{self.test_location.testname}' to the generated name.
             """
             warnings.warn(warning_msg)
-        snapshot_file = SnapshotFile(
-            filepath=snapshot_filepath,
-            snapshots={Snapshot(name=snapshot_name, data=self.serialize(data))},
-        )
+        snapshot_file = SnapshotFile(filepath=snapshot_filepath)
+        snapshot_file.add(Snapshot(name=snapshot_name, data=self.serialize(data)))
         self._write_snapshot_to_file(snapshot_file)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:

@@ -53,10 +53,10 @@ class SnapshotReport(object):
             self.discovered.merge(assertion.discovered_snapshots)
             for result in assertion.executions.values():
                 filepath = result.snapshot_filepath
-                snapshots = {
+                snapshot_file = SnapshotFile(filepath=filepath)
+                snapshot_file.add(
                     Snapshot(name=result.snapshot_name, data=result.final_data)
-                }
-                snapshot_file = SnapshotFile(filepath=filepath, snapshots=snapshots)
+                )
                 self.used.update(snapshot_file)
                 if result.created:
                     self.created.update(snapshot_file)
@@ -113,9 +113,9 @@ class SnapshotReport(object):
                 mark_file_for_removal = False
 
             if unused_snapshots:
-                marked_unused_snapshot_file = SnapshotFile(
-                    filepath=snapshot_filepath, snapshots=unused_snapshots
-                )
+                marked_unused_snapshot_file = SnapshotFile(filepath=snapshot_filepath)
+                for snapshot in unused_snapshots:
+                    marked_unused_snapshot_file.add(snapshot)
                 unused_files.add(marked_unused_snapshot_file)
             elif mark_file_for_removal:
                 unused_files.add(SnapshotUnknownFile(filepath=snapshot_filepath))
@@ -195,16 +195,11 @@ class SnapshotReport(object):
             snapshot_file2 = snapshot_files2.get(
                 snapshot_file1.filepath
             ) or SnapshotFile(filepath=snapshot_file1.filepath)
-            diffed_snapshots: Set["Snapshot"] = {
-                snapshot
-                for snapshot in snapshot_file1
-                if not snapshot_file2.get(snapshot.name)
-            }
-            diffed_snapshot_files.add(
-                SnapshotFile(
-                    filepath=snapshot_file1.filepath, snapshots=diffed_snapshots
-                )
-            )
+            diffed_snapshot_file = SnapshotFile(filepath=snapshot_file1.filepath)
+            for snapshot in snapshot_file1:
+                if not snapshot_file2.get(snapshot.name):
+                    diffed_snapshot_file.add(snapshot)
+            diffed_snapshot_files.add(diffed_snapshot_file)
         return diffed_snapshot_files
 
     def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:

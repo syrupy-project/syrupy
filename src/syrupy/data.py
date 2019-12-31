@@ -1,8 +1,9 @@
+from types import MappingProxyType
 from typing import (
     TYPE_CHECKING,
+    Dict,
     Iterator,
     Optional,
-    Set,
 )
 
 import attr
@@ -36,23 +37,19 @@ class SnapshotUnknown(Snapshot):
 @attr.s(eq=False)
 class SnapshotFile(object):
     filepath: str = attr.ib()
-    _snapshots: Set["Snapshot"] = attr.ib(factory=set)
+    _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)
 
     @property
     def has_snapshots(self) -> bool:
         return bool(self._snapshots)
 
     def get(self, snapshot_name: str) -> Optional["Snapshot"]:
-        for snapshot in self._snapshots:
-            if snapshot.name == snapshot_name:
-                return snapshot
-        return None
+        return self._snapshots.get(snapshot_name)
 
     def add(self, snapshot: "Snapshot") -> None:
-        self._snapshots.add(snapshot)
+        self._snapshots[snapshot.name] = snapshot
 
     def update(self, snapshot: "Snapshot") -> None:
-        self.remove(snapshot.name)
         self.add(snapshot)
 
     def merge(self, snapshot_file: "SnapshotFile") -> None:
@@ -60,22 +57,22 @@ class SnapshotFile(object):
             self.update(snapshot)
 
     def remove(self, snapshot_name: str) -> None:
-        snapshot_to_remove = self.get(snapshot_name)
-        if snapshot_to_remove:
-            self._snapshots.remove(snapshot_to_remove)
+        self._snapshots.pop(snapshot_name, None)
 
     def __len__(self) -> int:
         return len(self._snapshots)
 
     def __iter__(self) -> Iterator["Snapshot"]:
-        return iter(self._snapshots)
+        return iter(self._snapshots.values())
+
+
+SNAPSHOTS_EMPTY = MappingProxyType({SnapshotEmpty().name: SnapshotEmpty()})
+SNAPSHOTS_UNKNOWN = MappingProxyType({SnapshotUnknown().name: SnapshotUnknown()})
 
 
 @attr.s(frozen=True)
 class SnapshotEmptyFile(SnapshotFile):
-    _snapshots: Set["Snapshot"] = attr.ib(
-        default=frozenset({SnapshotEmpty()}), init=False,
-    )
+    _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_EMPTY, init=False)
 
     @property
     def has_snapshots(self) -> bool:
@@ -84,23 +81,18 @@ class SnapshotEmptyFile(SnapshotFile):
 
 @attr.s(frozen=True)
 class SnapshotUnknownFile(SnapshotFile):
-    _snapshots: Set["Snapshot"] = attr.ib(
-        default=frozenset({SnapshotUnknown()}), init=False,
-    )
+    _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
 
 
 @attr.s
 class SnapshotFiles(object):
-    _snapshot_files: Set["SnapshotFile"] = attr.ib(factory=set)
+    _snapshot_files: Dict[str, "SnapshotFile"] = attr.ib(factory=dict)
 
     def get(self, filepath: str) -> Optional["SnapshotFile"]:
-        for snapshot_file in self._snapshot_files:
-            if snapshot_file.filepath == filepath:
-                return snapshot_file
-        return None
+        return self._snapshot_files.get(filepath)
 
     def add(self, snapshot_file: "SnapshotFile") -> None:
-        self._snapshot_files.add(snapshot_file)
+        self._snapshot_files[snapshot_file.filepath] = snapshot_file
 
     def update(self, snapshot_file: "SnapshotFile") -> None:
         snapshot_file_to_update = self.get(snapshot_file.filepath)
@@ -114,7 +106,7 @@ class SnapshotFiles(object):
             self.update(snapshot_file)
 
     def __iter__(self) -> Iterator["SnapshotFile"]:
-        return iter(self._snapshot_files)
+        return iter(self._snapshot_files.values())
 
     def __contains__(self, key: str) -> bool:
-        return key in (snapshot_file.filepath for snapshot_file in self._snapshot_files)
+        return key in self._snapshot_files

@@ -74,11 +74,10 @@ class SnapshotSession:
     ) -> None:
         for unused_snapshot_file in unused_snapshot_files:
             snapshot_file = unused_snapshot_file.filepath
-            unused_snapshot_names = {snapshot.name for snapshot in unused_snapshot_file}
             serializer = self._serializers.get(snapshot_file)
             if serializer:
                 serializer.delete_snapshots_from_file(
-                    snapshot_file, unused_snapshot_names
+                    snapshot_file, {snapshot.name for snapshot in unused_snapshot_file}
                 )
             elif snapshot_file not in used_snapshot_files:
                 os.remove(snapshot_file)

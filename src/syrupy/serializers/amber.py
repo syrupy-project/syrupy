@@ -55,7 +55,7 @@ class DataSerializer:
         """
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
-        snapshots = set()
+        snapshot_file = SnapshotFile(filepath=filepath)
         try:
             with open(filepath, "r") as f:
                 test_name = None
@@ -69,13 +69,13 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshots.add(
+                            snapshot_file.add(
                                 Snapshot(name=test_name, data=snapshot_data[:-1])
                             )
         except FileNotFoundError:
             pass
 
-        return SnapshotFile(filepath=filepath, snapshots=snapshots)
+        return snapshot_file
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
