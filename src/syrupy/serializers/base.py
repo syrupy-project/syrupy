@@ -14,7 +14,7 @@ from typing_extensions import final
 
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.data import (
-    SnapshotData,
+    Snapshot,
     SnapshotFile,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
@@ -136,7 +136,7 @@ class AbstractSnapshotSerializer(ABC):
             warnings.warn(warning_msg)
         snapshot_file = SnapshotFile(
             filepath=snapshot_filepath,
-            snapshots={snapshot_name: SnapshotData(data=self.serialize(data))},
+            snapshots={Snapshot(name=snapshot_name, data=self.serialize(data))},
         )
         self._write_snapshot_to_file(snapshot_file)
 

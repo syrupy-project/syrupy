@@ -1,6 +1,5 @@
 from typing import (
     TYPE_CHECKING,
-    Dict,
     Iterator,
     Optional,
     Set,
@@ -18,25 +17,64 @@ if TYPE_CHECKING:
     from .types import SerializedData  # noqa: F401
 
 
-@attr.s
-class SnapshotData(object):
+@attr.s(frozen=True)
+class Snapshot(object):
+    name: str = attr.ib()
     data: Optional["SerializedData"] = attr.ib(default=None)
+
+
+@attr.s(frozen=True)
+class SnapshotEmpty(Snapshot):
+    name: str = attr.ib(default=SNAPSHOT_EMPTY_FILE_KEY, init=False)
+
+
+@attr.s(frozen=True)
+class SnapshotUnknown(Snapshot):
+    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FILE_KEY, init=False)
 
 
 @attr.s(eq=False)
 class SnapshotFile(object):
     filepath: str = attr.ib()
-    snapshots: Dict[str, "SnapshotData"] = attr.ib(factory=dict)
+    _snapshots: Set["Snapshot"] = attr.ib(factory=set)
 
     @property
     def has_snapshots(self) -> bool:
-        return bool(self.snapshots)
+        return bool(self._snapshots)
+
+    def get(self, snapshot_name: str) -> Optional["Snapshot"]:
+        for snapshot in self._snapshots:
+            if snapshot.name == snapshot_name:
+                return snapshot
+        return None
+
+    def add(self, snapshot: "Snapshot") -> None:
+        self._snapshots.add(snapshot)
+
+    def update(self, snapshot: "Snapshot") -> None:
+        self.remove(snapshot.name)
+        self.add(snapshot)
+
+    def merge(self, snapshot_file: "SnapshotFile") -> None:
+        for snapshot in snapshot_file:
+            self.update(snapshot)
+
+    def remove(self, snapshot_name: str) -> None:
+        snapshot_to_remove = self.get(snapshot_name)
+        if snapshot_to_remove:
+            self._snapshots.remove(snapshot_to_remove)
+
+    def __len__(self) -> int:
+        return len(self._snapshots)
+
+    def __iter__(self) -> Iterator["Snapshot"]:
+        return iter(self._snapshots)
 
 
-@attr.s(eq=False)
+@attr.s(frozen=True)
 class SnapshotEmptyFile(SnapshotFile):
-    snapshots: Dict[str, "SnapshotData"] = attr.ib(
-        default={SNAPSHOT_EMPTY_FILE_KEY: SnapshotData()}
+    _snapshots: Set["Snapshot"] = attr.ib(
+        default=frozenset({SnapshotEmpty()}), init=False,
     )
 
     @property
@@ -44,10 +82,10 @@ class SnapshotEmptyFile(SnapshotFile):
         return False
 
 
-@attr.s(eq=False)
+@attr.s(frozen=True)
 class SnapshotUnknownFile(SnapshotFile):
-    snapshots: Dict[str, "SnapshotData"] = attr.ib(
-        default={SNAPSHOT_UNKNOWN_FILE_KEY: SnapshotData()}
+    _snapshots: Set["Snapshot"] = attr.ib(
+        default=frozenset({SnapshotUnknown()}), init=False,
     )
 
 
@@ -64,12 +102,16 @@ class SnapshotFiles(object):
     def add(self, snapshot_file: "SnapshotFile") -> None:
         self._snapshot_files.add(snapshot_file)
 
-    def merge(self, snapshot_file: "SnapshotFile") -> None:
+    def update(self, snapshot_file: "SnapshotFile") -> None:
         snapshot_file_to_update = self.get(snapshot_file.filepath)
-        if not snapshot_file_to_update:
+        if snapshot_file_to_update is None:
             snapshot_file_to_update = SnapshotFile(filepath=snapshot_file.filepath)
             self.add(snapshot_file_to_update)
-        snapshot_file_to_update.snapshots.update(snapshot_file.snapshots)
+        snapshot_file_to_update.merge(snapshot_file)
+
+    def merge(self, snapshot_files: "SnapshotFiles") -> None:
+        for snapshot_file in snapshot_files:
+            self.update(snapshot_file)
 
     def __iter__(self) -> Iterator["SnapshotFile"]:
         return iter(self._snapshot_files)

@@ -9,7 +9,7 @@ from typing import (
 )
 
 from syrupy.data import (
-    SnapshotData,
+    Snapshot,
     SnapshotFile,
 )
 
@@ -27,7 +27,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
 
     def discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """Parse the snapshot name from the filename."""
-        snapshots = {os.path.splitext(os.path.basename(filepath))[0]: SnapshotData()}
+        snapshots = {Snapshot(name=os.path.splitext(os.path.basename(filepath))[0])}
         return SnapshotFile(filepath=filepath, snapshots=snapshots)
 
     def get_file_basename(self, index: int) -> str:
@@ -53,8 +53,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
             return None
 
     def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
-        snapshot_data = next(iter(snapshot_file.snapshots.values())).data
-        self.__write_file(snapshot_file.filepath, snapshot_data)
+        self.__write_file(snapshot_file.filepath, next(iter(snapshot_file)).data)
 
     def delete_snapshots_from_file(self, snapshot_filepath: str, _: Set[str]) -> None:
         os.remove(snapshot_filepath)
