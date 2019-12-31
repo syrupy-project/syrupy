@@ -49,12 +49,9 @@ class SnapshotFile(object):
     def add(self, snapshot: "Snapshot") -> None:
         self._snapshots[snapshot.name] = snapshot
 
-    def update(self, snapshot: "Snapshot") -> None:
-        self.add(snapshot)
-
     def merge(self, snapshot_file: "SnapshotFile") -> None:
         for snapshot in snapshot_file:
-            self.update(snapshot)
+            self.add(snapshot)
 
     def remove(self, snapshot_name: str) -> None:
         self._snapshots.pop(snapshot_name, None)
