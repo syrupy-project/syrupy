@@ -4,10 +4,14 @@ from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
     Iterable,
     Optional,
     Set,
+)
+
+from syrupy.data import (
+    SnapshotData,
+    SnapshotFile,
 )
 
 from .base import AbstractSnapshotSerializer
@@ -28,14 +32,15 @@ class DataSerializer:
             return "..."
 
     @classmethod
-    def write_file(cls, filepath: str, snapshots: Dict[str, Dict[str, Any]]) -> None:
+    def write_file(cls, snapshot_file: "SnapshotFile") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
+        filepath = snapshot_file.filepath
+        snapshots = snapshot_file.snapshots
         with open(filepath, "w") as f:
             for key in sorted(snapshots.keys()):
-                snapshot = snapshots[key]
-                snapshot_data = snapshot.get("data")
+                snapshot_data = str(snapshots[key].data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {key}\n")
                     for data_line in snapshot_data.split("\n"):
@@ -43,7 +48,7 @@ class DataSerializer:
                     f.write(f"{cls._marker_divider}\n")
 
     @classmethod
-    def read_file(cls, filepath: str) -> Dict[str, Dict[str, Any]]:
+    def read_file(cls, filepath: str) -> "SnapshotFile":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
@@ -52,10 +57,10 @@ class DataSerializer:
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
         snapshots = {}
-        test_name = None
-        snapshot_data = ""
         try:
             with open(filepath, "r") as f:
+                test_name = None
+                snapshot_data = ""
                 for line in f:
                     if line.startswith(cls._marker_name):
                         test_name = line[name_marker_len:-1].strip(" \n")
@@ -65,11 +70,11 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshots[test_name] = {"data": snapshot_data[:-1]}
+                            snapshots[test_name] = SnapshotData(data=snapshot_data[:-1])
         except FileNotFoundError:
             pass
 
-        return snapshots
+        return SnapshotFile(filepath=filepath, snapshots=snapshots)
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
@@ -152,8 +157,8 @@ class DataSerializer:
                 f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
                 for serialized_key, serialized_value in (
                     (
-                        cls.serialize(**dict(data=key, **kwargs)),
-                        cls.serialize(**dict(data=data[key], **kwargs)),
+                        cls.serialize(**{"data": key, **kwargs}),
+                        cls.serialize(**{"data": data[key], **kwargs}),
                     )
                     for key in cls.sort(data.keys())
                 )
@@ -237,33 +242,29 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     def file_extension(self) -> str:
         return "ambr"
 
-    def discover_snapshots(self, filepath: str) -> Set[str]:
-        return set(DataSerializer.read_file(filepath).keys())
+    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
+        return DataSerializer.read_file(filepath)
 
     def _read_snapshot_from_file(
-        self, snapshot_file: str, snapshot_name: str
-    ) -> "SerializableData":
-        snapshots = DataSerializer.read_file(snapshot_file)
-        return snapshots.get(snapshot_name, {}).get("data")
+        self, snapshot_filepath: str, snapshot_name: str
+    ) -> Optional["SerializableData"]:
+        snap = DataSerializer.read_file(snapshot_filepath).snapshots.get(snapshot_name)
+        return snap.data if snap else None
 
-    def _write_snapshot_to_file(
-        self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
-    ) -> None:
-        snapshots = DataSerializer.read_file(snapshot_file)
-        snapshots[snapshot_name] = {
-            "data": self.serialize(data),
-        }
-        DataSerializer.write_file(snapshot_file, snapshots)
+    def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
+        snapshot_file_to_update = DataSerializer.read_file(snapshot_file.filepath)
+        snapshot_file_to_update.snapshots.update(snapshot_file.snapshots)
+        DataSerializer.write_file(snapshot_file_to_update)
 
     def delete_snapshots_from_file(
         self, snapshot_file: str, snapshot_names: Set[str]
     ) -> None:
-        snapshots = DataSerializer.read_file(snapshot_file)
+        snapshot_file_to_update = DataSerializer.read_file(snapshot_file)
         for snapshot_name in snapshot_names:
-            snapshots.pop(snapshot_name, None)
+            snapshot_file_to_update.snapshots.pop(snapshot_name, None)
 
-        if snapshots:
-            DataSerializer.write_file(snapshot_file, snapshots)
+        if snapshot_file_to_update.has_snapshots:
+            DataSerializer.write_file(snapshot_file_to_update)
         else:
             os.remove(snapshot_file)
 

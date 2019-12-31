@@ -8,18 +8,21 @@ from typing import (
     TYPE_CHECKING,
     Optional,
     Set,
-    Union,
 )
 
 from typing_extensions import final
 
 from syrupy.constants import SNAPSHOT_DIRNAME
+from syrupy.data import (
+    SnapshotData,
+    SnapshotFile,
+)
 from syrupy.exceptions import SnapshotDoesNotExist
 
 
 if TYPE_CHECKING:
-    from syrupy.types import SerializableData
     from syrupy.location import TestLocation
+    from syrupy.types import SerializableData, SerializedData
 
 
 class AbstractSnapshotSerializer(ABC):
@@ -49,7 +52,7 @@ class AbstractSnapshotSerializer(ABC):
         return None
 
     @abstractmethod
-    def serialize(self, data: "SerializableData") -> Union[str, bytes]:
+    def serialize(self, data: "SerializableData") -> "SerializedData":
         """
         Serializes a python object / data structure into a string
         to be used for comparison with snapshot data from disk.
@@ -57,16 +60,15 @@ class AbstractSnapshotSerializer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def discover_snapshots(self, filepath: str) -> Set[str]:
+    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """
-        Given a snapshot file, returns a Set of all snapshots
-        within the file. Snapshot name is dependent on serializer
-        implementation.
+        Given a path to a snapshot file, returns all snapshots in the file.
+        Snapshot name is dependent on serializer implementation.
         """
         raise NotImplementedError
 
     @final
-    def read_snapshot(self, index: int) -> "SerializableData":
+    def read_snapshot(self, index: int) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `pre_read`, then `read` and finally `post_read`,
@@ -90,7 +92,7 @@ class AbstractSnapshotSerializer(ABC):
 
     @abstractmethod
     def delete_snapshots_from_file(
-        self, snapshot_file: str, snapshot_names: Set[str]
+        self, snapshot_filepath: str, snapshot_names: Set[str]
     ) -> None:
         """
         Remove snapshots from a snapshot file.
@@ -102,7 +104,7 @@ class AbstractSnapshotSerializer(ABC):
         pass
 
     @final
-    def read(self, index: int = 0) -> "SerializableData":
+    def read(self, index: int = 0) -> "SerializedData":
         """
         Override `_read_snapshot_from_file` in subclass to change behaviour
         """
@@ -124,7 +126,7 @@ class AbstractSnapshotSerializer(ABC):
         """
         Override `_write_snapshot_to_file` in subclass to change behaviour
         """
-        snapshot_file = self.get_filepath(index)
+        snapshot_filepath = self.get_filepath(index)
         snapshot_name = self.get_snapshot_name(index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = f"""
@@ -132,7 +134,11 @@ class AbstractSnapshotSerializer(ABC):
             Consider adding '{self.test_location.testname}' to the generated name.
             """
             warnings.warn(warning_msg)
-        self._write_snapshot_to_file(snapshot_file, snapshot_name, data)
+        snapshot_file = SnapshotFile(
+            filepath=snapshot_filepath,
+            snapshots={snapshot_name: SnapshotData(data=self.serialize(data))},
+        )
+        self._write_snapshot_to_file(snapshot_file)
 
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
         pass
@@ -165,17 +171,15 @@ class AbstractSnapshotSerializer(ABC):
 
     @abstractmethod
     def _read_snapshot_from_file(
-        self, snapshot_file: str, snapshot_name: str
-    ) -> "SerializableData":
+        self, snapshot_filepath: str, snapshot_name: str
+    ) -> Optional["SerializedData"]:
         """
         Read the snapshot file and get only the snapshot data for assertion
         """
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_to_file(
-        self, snapshot_file: str, snapshot_name: str, data: "SerializableData"
-    ) -> None:
+    def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
         """
         Adds the snapshot data to the snapshots read from the file
         """

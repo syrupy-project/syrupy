@@ -19,7 +19,7 @@ def testcases(testdir):
                 return str(data)
 
             def discover_snapshots(self, filepath):
-                return set()
+                pass
 
             def get_snapshot_name(self, index = 0):
                 testname = self._test_location.testname[::-1]
@@ -28,7 +28,7 @@ def testcases(testdir):
             def _read_snapshot_from_file(self, file, name):
                 pass
 
-            def _write_snapshot_to_file(self, file, name, data):
+            def _write_snapshot_to_file(self, snapshot_file):
                 pass
 
             def delete_snapshots_from_file(self, file, names):

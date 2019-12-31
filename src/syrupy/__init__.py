@@ -85,7 +85,7 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
     """
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
     syrupy_exitstatus = session._syrupy.finish()
-    for line in session._syrupy.report:
+    for line in session._syrupy.report.lines:
         reporter.write_line(line)
     session.exitstatus |= syrupy_exitstatus
 

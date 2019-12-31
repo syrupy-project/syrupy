@@ -1,6 +1,12 @@
 # name: TestClass.test_name
   'this is in a test class'
 ---
+# name: test_bool[False]
+  False
+---
+# name: test_bool[True]
+  True
+---
 # name: test_cycle[cyclic0]
   <class 'list'> [
     1,
@@ -98,6 +104,9 @@
 # name: test_string[0]
   ''
 ---
+# name: test_string[10]
+  b'Byte string'
+---
 # name: test_string[1]
   'Raw string'
 ---
@@ -129,6 +138,9 @@
   line 2
     line 3
   '
+---
+# name: test_string[9]
+  "string with 'quotes'"
 ---
 # name: test_tuple
   <class 'tuple'> (
