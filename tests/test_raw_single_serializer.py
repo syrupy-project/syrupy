@@ -24,6 +24,6 @@ def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
         filepath=os.path.join(testdir.tmpdir, "snapshot_file.raw"),
         snapshots={"snapshot_data": SnapshotData(data="non binary data")},
     )
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match="Expected 'bytes', got 'str'"):
         snapshot_raw.serializer._write_snapshot_to_file(snapshot_file)
     assert not os.path.exists(snapshot_file.filepath)
