@@ -22,7 +22,6 @@ def test_bool(actual, snapshot):
     "actual",
     [
         "",
-        b"Byte string",
         r"Raw string",
         r"Escaped \n",
         r"Backslash \u U",
@@ -32,8 +31,9 @@ def test_bool(actual, snapshot):
         "multi-line\nline 2\nline 3",
         "multi-line\nline 2\n  line 3",
         "string with 'quotes'",
+        b"Byte string",
     ],
-    ids=lambda x: "|".join(str(x).splitlines()),
+    ids=lambda x: "",
 )
 def test_string(snapshot, actual):
     assert snapshot == actual

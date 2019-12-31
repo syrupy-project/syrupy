@@ -101,45 +101,45 @@
     'frozen',
   }
 ---
-# name: test_string[- singleline]
-  '- singleline'
----
-# name: test_string[Backslash \\u U]
-  'Backslash \\u U'
----
-# name: test_string[Escaped \\n]
-  'Escaped \\n'
----
-# name: test_string[Raw string]
-  'Raw string'
----
-# name: test_string[\U0001f95e\U0001f40d\U0001f36f]
-  '🥞🐍🍯'
----
-# name: test_string[]
+# name: test_string[0]
   ''
 ---
-# name: test_string[b'Byte string']
+# name: test_string[10]
   b'Byte string'
 ---
-# name: test_string[multi-line|line 2|  line 3]
-  '
-  multi-line
-  line 2
-    line 3
-  '
+# name: test_string[1]
+  'Raw string'
 ---
-# name: test_string[multi-line|line 2|line 3]
+# name: test_string[2]
+  'Escaped \\n'
+---
+# name: test_string[3]
+  'Backslash \\u U'
+---
+# name: test_string[4]
+  '🥞🐍🍯'
+---
+# name: test_string[5]
+  'singleline:'
+---
+# name: test_string[6]
+  '- singleline'
+---
+# name: test_string[7]
   '
   multi-line
   line 2
   line 3
   '
 ---
-# name: test_string[singleline:]
-  'singleline:'
+# name: test_string[8]
+  '
+  multi-line
+  line 2
+    line 3
+  '
 ---
-# name: test_string[string with 'quotes']
+# name: test_string[9]
   "string with 'quotes'"
 ---
 # name: test_tuple
