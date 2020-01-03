@@ -21,6 +21,6 @@ VENV="${PWD##*/}.venv"
 test -d $VENV || python3 -m venv $VENV || return
 $VENV/bin/pip install -U pip --no-cache-dir
 $VENV/bin/pip install -e .
-$VENV/bin/python -m python_githooks
+$VENV/bin/githooks
 
 . $VENV/bin/activate
