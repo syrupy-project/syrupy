@@ -198,38 +198,29 @@ class AbstractSnapshotSerializer(ABC):
     def diff_lines(
         self, serialized_data: "SerializedData", snapshot_data: "SerializedData"
     ) -> Generator[str, None, None]:
-        received = str(serialized_data).splitlines()
-        stored = str(snapshot_data).splitlines()
-        last_line = None
-        staged_line = None
-        staged_style = None
-        squash_line = reset(mute("  ..."))
-        for line in ndiff(stored, received):
-            if line[:1] != "?":
-                if staged_line:
-                    yield reset(staged_style(staged_line))
-                    last_line = staged_line
-                    staged_line, staged_style = None, None
-                if line[:1] == "-":
-                    staged_line, staged_style = line, green
-                elif line[:1] == "+":
-                    staged_line, staged_style = line, red
-                elif last_line != squash_line:
-                    yield squash_line
-                    last_line = squash_line
+        for line in self.__diff_lines(str(snapshot_data), str(serialized_data)):
+            yield reset(line)
+
+    def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
+        line_styler = {"-": green, "+": red}
+        staged_line, skip = "", False
+        for line in ndiff(a.splitlines(), b.splitlines()):
+            if staged_line and line[:1] != "?":
+                yield line_styler[staged_line[:1]](staged_line)
+                staged_line, skip = "", False
+            if line[:1] in "-+":
+                staged_line = line
             elif line[:1] == "?":
-                if staged_line and staged_style:
-                    yield "".join(self.__diff_line(line, staged_line, staged_style))
-                    last_line = staged_line
-                    staged_line, staged_style = None, None
-        if staged_line and staged_style:
-            yield reset(staged_style(staged_line))
+                yield self.__diff_line(line, staged_line, line_styler[staged_line[:1]])
+                staged_line, skip = "", False
+            elif not skip:
+                yield mute("  ...")
+                skip = True
 
     def __diff_line(
         self, marker_line: str, line: str, line_style: Callable[[Union[str, int]], str]
-    ) -> Generator[str, None, None]:
-        for marker, char in zip_longest(marker_line, line):
-            if str(marker) in "-+^":
-                yield emphasize(line_style(char))
-            elif char:
-                yield reset(line_style(char))
+    ) -> str:
+        return "".join(
+            emphasize(line_style(char)) if str(marker) in "-+^" else line_style(char)
+            for marker, char in zip_longest(marker_line.strip(), line)
+        )
