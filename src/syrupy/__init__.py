@@ -10,6 +10,11 @@ from .assertion import SnapshotAssertion
 from .location import TestLocation
 from .serializers import DEFAULT_SERIALIZER
 from .session import SnapshotSession
+from .terminal import (
+    green,
+    red,
+    reset,
+)
 
 
 def pytest_addoption(parser: Any) -> None:
@@ -40,10 +45,10 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
     if isinstance(left, SnapshotAssertion):
-        assert_msg = f"{left.name} {op} {right}"
+        assert_msg = reset(f"{green(left.name)} {op} {red('recieved')}")
         return [assert_msg] + left.get_assert_diff(right)
     elif isinstance(right, SnapshotAssertion):
-        assert_msg = f"{left} {op} {right.name}"
+        assert_msg = reset(f"{red('recieved')} {op} {green(right.name)}")
         return [assert_msg] + right.get_assert_diff(left)
     return None
 

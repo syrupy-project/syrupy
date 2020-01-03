@@ -1,5 +1,6 @@
 black
 codecov
+colored
 coverage[toml]
 flake8
 flake8-bugbear

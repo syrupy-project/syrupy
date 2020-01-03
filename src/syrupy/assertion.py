@@ -104,9 +104,9 @@ class SnapshotAssertion:
         if snapshot_data is None:
             return [gettext("Snapshot does not exist!")]
 
-        diff = []
+        diff: List[str] = []
         if not assertion_result.success:
-            diff = self.serializer.diff_lines(serialized_data, snapshot_data)
+            diff.extend(self.serializer.diff_lines(serialized_data, snapshot_data))
         return diff
 
     def __repr__(self) -> str:

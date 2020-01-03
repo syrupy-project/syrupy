@@ -7,7 +7,7 @@ from abc import (
 from difflib import ndiff
 from typing import (
     TYPE_CHECKING,
-    List,
+    Generator,
     Optional,
     Set,
 )
@@ -20,6 +20,12 @@ from syrupy.data import (
     SnapshotFile,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
+from syrupy.terminal import (
+    comment,
+    green,
+    red,
+    reset,
+)
 
 
 if TYPE_CHECKING:
@@ -187,7 +193,26 @@ class AbstractSnapshotSerializer(ABC):
 
     def diff_lines(
         self, serialized_data: "SerializedData", snapshot_data: "SerializedData"
-    ) -> List[str]:
+    ) -> Generator[str, None, None]:
         received = str(serialized_data).splitlines()
         stored = str(snapshot_data).splitlines()
-        return list(ndiff(stored, received))
+        last_line = None
+        last_line_relevant = False
+        last_line_dummy = False
+        for line in ndiff(stored, received):
+            line_relevant = bool(line) and line[:1] in "-+?"
+            if line_relevant:
+                if last_line and not last_line_relevant and not last_line_dummy:
+                    yield reset(comment("  ..."))
+                    last_line_dummy = True
+                if line[:1] == "-":
+                    yield reset(green(line))
+                    last_line_dummy = False
+                elif line[:1] == "+":
+                    yield reset(red(line))
+                    last_line_dummy = False
+            elif last_line_relevant and not last_line_dummy:
+                yield reset(comment("  ..."))
+                last_line_dummy = True
+            last_line = line
+            last_line_relevant = line_relevant

@@ -12,6 +12,7 @@ certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via black, pip-tools
 codecov==2.0.15
+colored==1.4.2
 configparser==4.0.2       # via py-githooks
 coverage[toml]==5.0.1
 docutils==0.15.2          # via readme-renderer

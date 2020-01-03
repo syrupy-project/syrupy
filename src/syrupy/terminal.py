@@ -1,20 +1,30 @@
 from typing import Union
 
+import colored
+
+
+def reset(text: Union[str, int]) -> str:
+    return colored.stylize(text, colored.attr("reset"))
+
 
 def red(text: Union[str, int]) -> str:
-    return f"\033[31m{text}\033[0m"
+    return colored.stylize(text, colored.fg("red"))
 
 
 def yellow(text: Union[str, int]) -> str:
-    return f"\033[33m{text}\033[0m"
+    return colored.stylize(text, colored.fg("yellow"))
 
 
 def green(text: Union[str, int]) -> str:
-    return f"\033[32m{text}\033[0m"
+    return colored.stylize(text, colored.fg("green"))
 
 
 def bold(text: Union[str, int]) -> str:
-    return f"\033[1m{text}\033[0m"
+    return colored.stylize(text, colored.attr("bold"))
+
+
+def comment(text: Union[str, int]) -> str:
+    return colored.stylize(text, colored.fg("dark_gray"))
 
 
 def error_style(text: Union[str, int]) -> str:
