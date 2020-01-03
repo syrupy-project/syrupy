@@ -5,11 +5,14 @@ from abc import (
     abstractmethod,
 )
 from difflib import ndiff
+from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
+    Callable,
     Generator,
     Optional,
     Set,
+    Union,
 )
 
 from typing_extensions import final
@@ -21,8 +24,9 @@ from syrupy.data import (
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
-    comment,
+    emphasize,
     green,
+    mute,
     red,
     reset,
 )
@@ -197,15 +201,35 @@ class AbstractSnapshotSerializer(ABC):
         received = str(serialized_data).splitlines()
         stored = str(snapshot_data).splitlines()
         last_line = None
-        squash_line = reset(comment("  ..."))
+        staged_line = None
+        staged_style = None
+        squash_line = reset(mute("  ..."))
         for line in ndiff(stored, received):
-            if line[:1] in "-+?":
+            if line[:1] != "?":
+                if staged_line:
+                    yield reset(staged_style(staged_line))
+                    last_line = staged_line
+                    staged_line, staged_style = None, None
                 if line[:1] == "-":
-                    yield reset(green(line))
+                    staged_line, staged_style = line, green
                 elif line[:1] == "+":
-                    yield reset(red(line))
-                last_line = line
-            else:
-                if last_line != squash_line:
+                    staged_line, staged_style = line, red
+                elif last_line != squash_line:
                     yield squash_line
-                last_line = squash_line
+                    last_line = squash_line
+            elif line[:1] == "?":
+                if staged_line and staged_style:
+                    yield "".join(self.__diff_line(line, staged_line, staged_style))
+                    last_line = staged_line
+                    staged_line, staged_style = None, None
+        if staged_line and staged_style:
+            yield reset(staged_style(staged_line))
+
+    def __diff_line(
+        self, marker_line: str, line: str, line_style: Callable[[Union[str, int]], str]
+    ) -> Generator[str, None, None]:
+        for marker, char in zip_longest(marker_line, line):
+            if str(marker) in "-+^":
+                yield emphasize(line_style(char))
+            elif char:
+                yield reset(line_style(char))

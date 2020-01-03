@@ -23,8 +23,12 @@ def bold(text: Union[str, int]) -> str:
     return colored.stylize(text, colored.attr("bold"))
 
 
-def comment(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.fg("dark_gray"))
+def mute(text: Union[str, int]) -> str:
+    return colored.stylize(text, colored.attr("dim"))
+
+
+def emphasize(text: Union[str, int]) -> str:
+    return colored.stylize(bold(text), colored.attr("underlined"))
 
 
 def error_style(text: Union[str, int]) -> str:
