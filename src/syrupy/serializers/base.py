@@ -197,22 +197,15 @@ class AbstractSnapshotSerializer(ABC):
         received = str(serialized_data).splitlines()
         stored = str(snapshot_data).splitlines()
         last_line = None
-        last_line_relevant = False
-        last_line_dummy = False
+        squash_line = reset(comment("  ..."))
         for line in ndiff(stored, received):
-            line_relevant = bool(line) and line[:1] in "-+?"
-            if line_relevant:
-                if last_line and not last_line_relevant and not last_line_dummy:
-                    yield reset(comment("  ..."))
-                    last_line_dummy = True
+            if line[:1] in "-+?":
                 if line[:1] == "-":
                     yield reset(green(line))
-                    last_line_dummy = False
                 elif line[:1] == "+":
                     yield reset(red(line))
-                    last_line_dummy = False
-            elif last_line_relevant and not last_line_dummy:
-                yield reset(comment("  ..."))
-                last_line_dummy = True
-            last_line = line
-            last_line_relevant = line_relevant
+                last_line = line
+            else:
+                if last_line != squash_line:
+                    yield squash_line
+                last_line = squash_line
