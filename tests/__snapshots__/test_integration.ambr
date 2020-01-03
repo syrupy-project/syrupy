@@ -67,7 +67,7 @@
           cause when there are a lot of changes you only want to see what changed
           you do not want to see this line
           or this line
-          but this line should show up because it has changes
+          this line should show up because it changes color
           and this line does not exist in the first one
           '''
   E       assert snapshot == received
@@ -79,8 +79,8 @@
   E         -     because when there are a lot of changes you only want to see changes
   E         +     cause when there are a lot of changes you only want to see what changed
   E           ...
-  E         -     but this line should show up because it has changed
-  E         +     but this line should show up because it has changes
+  E         -     [38;5;1mthis line should show up because it changes color[0m
+  E         +     [38;5;3mthis line should show up because it changes color[0m
   E         +     and this line does not exist in the first one
   E           ...
   

@@ -141,7 +141,7 @@ def testcases():
                 because when there are a lot of changes you only want to see changes
                 you do not want to see this line
                 or this line
-                but this line should show up because it has changed
+                \x1b[38;5;1mthis line should show up because it changes color\x1b[0m
                 '''
             """
         ),
@@ -185,7 +185,7 @@ def testcases_updated(testcases):
                 cause when there are a lot of changes you only want to see what changed
                 you do not want to see this line
                 or this line
-                but this line should show up because it has changes
+                \x1b[38;5;3mthis line should show up because it changes color\x1b[0m
                 and this line does not exist in the first one
                 '''
             """
