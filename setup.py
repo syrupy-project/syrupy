@@ -7,6 +7,29 @@ from setuptools import (
 )
 
 
+python_requires = "~=3.6"
+setup_requires = ["setuptools_scm"]
+install_requires = ["typing_extensions>=3.6"]
+dev_requires = [
+    "black",
+    "codecov",
+    "coverage[toml]",
+    "flake8",
+    "flake8-bugbear",
+    "flake8-builtins",
+    "flake8-comprehensions",
+    "flake8-i18n",
+    "invoke",
+    "isort",
+    "mypy",
+    "pip-tools",
+    "py-githooks",
+    "pytest",
+    "semver",
+    "twine",
+    "wheel",
+]
+
 if sys.version_info[0] == 2:
     raise Exception("Only python 3 supported.")
 
@@ -36,31 +59,11 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=find_packages("./src"),
         zip_safe=False,
-        python_requires="~=3.6",
-        install_requires=["typing_extensions>=3.6"],
-        setup_requires=["setuptools_scm"],
-        extras_require={
-            "dev": [
-                "black",
-                "codecov",
-                "coverage[toml]",
-                "flake8",
-                "flake8-bugbear",
-                "flake8-builtins",
-                "flake8-comprehensions",
-                "flake8-i18n",
-                "invoke",
-                "isort",
-                "mypy",
-                "pip-tools",
-                "py-githooks",
-                "pytest",
-                "semver",
-                "twine",
-                "wheel",
-            ]
-        },
         entry_points={"pytest11": ["syrupy = syrupy"]},
+        extras_require={"dev": dev_requires},
+        install_requires=install_requires,
+        setup_requires=setup_requires,
+        python_requires=python_requires,
         classifiers=[
             "Development Status :: 1 - Planning",
             "Framework :: Pytest",
