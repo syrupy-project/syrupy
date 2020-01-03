@@ -125,6 +125,26 @@ def testcases():
                 assert snapshot == ['this', 'will', 'be', 'updated']
             """
         ),
+        "updated_4": (
+            """
+            def test_updated_4(snapshot):
+                assert snapshot == "single line change"
+            """
+        ),
+        "updated_5": (
+            """
+            def test_updated_5(snapshot):
+                assert snapshot == '''
+                multiple line changes
+                with some lines staying the same
+                intermittent changes that have to be ignore by the differ output
+                because when there are a lot of changes you only want to see changes
+                you do not want to see this line
+                or this line
+                but this line should show up because it has changed
+                '''
+            """
+        ),
     }
 
 
@@ -147,6 +167,27 @@ def testcases_updated(testcases):
             """
             def test_updated_3(snapshot):
                 assert snapshot == ['this', 'will', 'be', 'too', 'much']
+            """
+        ),
+        "updated_4": (
+            """
+            def test_updated_4(snapshot):
+                assert snapshot == "sing line changeling"
+            """
+        ),
+        "updated_5": (
+            """
+            def test_updated_5(snapshot):
+                assert snapshot == '''
+                multiple line changes
+                with some lines not staying the same
+                intermittent changes so unchanged lines have to be ignored by the differ
+                cause when there are a lot of changes you only want to see what changed
+                you do not want to see this line
+                or this line
+                but this line should show up because it has changes
+                and this line does not exist in the first one
+                '''
             """
         ),
     }
@@ -177,35 +218,19 @@ def test_injected_fixture(stubs):
 def test_generated_snapshots(stubs):
     result = stubs[0]
     result_stdout = clean_output(result.stdout.str())
-    assert "5 snapshots generated" in result_stdout
+    assert "7 snapshots generated" in result_stdout
     assert "snapshots unused" not in result_stdout
     assert result.ret == 0
 
 
-def test_failing_snapshots(stubs, testcases_updated):
+def test_failing_snapshots_diff(stubs, testcases_updated, snapshot):
     testdir = stubs[1]
     testdir.makepyfile(test_file="\n\n".join(testcases_updated.values()))
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-vv")
     result_stdout = clean_output(result.stdout.str())
-    assert "2 snapshots passed" in result_stdout
-    assert "3 snapshots failed" in result_stdout
-    expected_strings = [
-        # 1
-        "-   'be',",
-        "+   'not',",
-        "-   'updated',",
-        "+   'match',",
-        # 2
-        "-   'be',",
-        "+   'fail',",
-        "-   'updated',",
-        # 3
-        "-   'updated',",
-        "+   'too',",
-        "+   'much',",
-    ]
-    for string in expected_strings:
-        assert string in result_stdout
+    start_index = result_stdout.find("FAILURES ====")
+    end_index = result_stdout.find("==== 5 failed")
+    assert snapshot == result_stdout[start_index:end_index]
     assert result.ret == 1
 
 
@@ -215,7 +240,7 @@ def test_updated_snapshots(stubs, testcases_updated):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots passed" in result_stdout
-    assert "3 snapshots updated" in result_stdout
+    assert "5 snapshots updated" in result_stdout
     assert result.ret == 0
 
 
@@ -225,7 +250,7 @@ def test_unused_snapshots(stubs):
     result = testdir.runpytest("-v")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshots generated" not in result_stdout
-    assert "4 snapshots passed" in result_stdout
+    assert "6 snapshots passed" in result_stdout
     assert "1 snapshot unused" in result_stdout
     assert result.ret == 1
 
@@ -236,7 +261,7 @@ def test_unused_snapshots_warning(stubs):
     result = testdir.runpytest("-v", "--snapshot-warn-unused")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshots generated" not in result_stdout
-    assert "4 snapshots passed" in result_stdout
+    assert "6 snapshots passed" in result_stdout
     assert "1 snapshot unused" in result_stdout
     assert result.ret == 0
 
@@ -260,7 +285,7 @@ def test_removed_snapshot_file(stubs):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshots unused" not in result_stdout
-    assert "5 unused snapshots deleted" in result_stdout
+    assert "7 unused snapshots deleted" in result_stdout
     assert result.ret == 0
     assert not os.path.isfile(filepath)
 
