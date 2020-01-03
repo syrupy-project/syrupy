@@ -216,6 +216,8 @@ class AbstractSnapshotSerializer(ABC):
             elif not skip:
                 yield mute("  ...")
                 skip = True
+        if staged_line:
+            yield line_styler[staged_line[:1]](staged_line)
 
     def __diff_line(
         self, marker_line: str, line: str, line_style: Callable[[Union[str, int]], str]
