@@ -8,6 +8,27 @@ from setuptools import (
 
 
 python_requires = "~=3.6"
+setup_requires = ["setuptools_scm"]
+install_requires = ["typing_extensions>=3.6"]
+dev_requires = [
+    "black",
+    "codecov",
+    "coverage[toml]",
+    "flake8",
+    "flake8-bugbear",
+    "flake8-builtins",
+    "flake8-comprehensions",
+    "flake8-i18n",
+    "invoke",
+    "isort",
+    "mypy",
+    "pip-tools",
+    "py-githooks",
+    "pytest",
+    "semver",
+    "twine",
+    "wheel",
+]
 
 if sys.version_info[0] == 2:
     raise Exception("Only python 3 supported.")
@@ -18,7 +39,7 @@ def readme() -> str:
         return f.read()
 
 
-if __name__ == "__main__":
+if __name__ in ["__main__", "builtins"]:
     setup(
         name="syrupy",
         description="PyTest Snapshot Test Utility",
@@ -38,9 +59,10 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=find_packages("./src"),
         zip_safe=False,
-        install_requires=["typing_extensions"],
-        setup_requires=["setuptools_scm"],
         entry_points={"pytest11": ["syrupy = syrupy"]},
+        extras_require={"dev": dev_requires},
+        install_requires=install_requires,
+        setup_requires=setup_requires,
         python_requires=python_requires,
         classifiers=[
             "Development Status :: 1 - Planning",
