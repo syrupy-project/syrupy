@@ -20,6 +20,6 @@ else
     fi
 fi
 
-pip install -U pip --no-cache-dir
-pip install -e . -r requirements.txt
+python -m pip install -U pip --no-cache-dir
+python -m pip install -e . -r requirements.txt
 python -m python_githooks
