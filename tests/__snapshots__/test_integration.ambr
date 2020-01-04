@@ -1,7 +1,5 @@
 # name: test_failing_snapshots_diff
   '
-  FAILURES ===================================
-  ________________________________ test_updated_1 ________________________________
   
   snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
   
@@ -16,7 +14,6 @@
   E           ...
   
   test_file.py:17: AssertionError
-  ________________________________ test_updated_2 ________________________________
   
   snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
   
@@ -30,7 +27,6 @@
   E           ...
   
   test_file.py:22: AssertionError
-  ________________________________ test_updated_3 ________________________________
   
   snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
   
@@ -44,7 +40,6 @@
   E           ...
   
   test_file.py:27: AssertionError
-  ________________________________ test_updated_4 ________________________________
   
   snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
   
@@ -55,7 +50,6 @@
   E         + 'sing line changeling'
   
   test_file.py:32: AssertionError
-  ________________________________ test_updated_5 ________________________________
   
   snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
   
@@ -85,6 +79,5 @@
   E           ...
   
   test_file.py:37: AssertionError
-  =====================
   '
 ---

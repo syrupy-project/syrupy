@@ -228,9 +228,14 @@ def test_failing_snapshots_diff(stubs, testcases_updated, snapshot):
     testdir.makepyfile(test_file="\n\n".join(testcases_updated.values()))
     result = testdir.runpytest("-vv")
     result_stdout = clean_output(result.stdout.str())
-    start_index = result_stdout.find("FAILURES ====")
+    start_index = result_stdout.find("==== FAILURES")
     end_index = result_stdout.find("==== 5 failed")
-    assert snapshot == result_stdout[start_index:end_index]
+    result_stdout = "\n".join(
+        line
+        for line in result_stdout[start_index:end_index].splitlines()
+        if not line.startswith("____") and not line.startswith("====")
+    )
+    assert snapshot == result_stdout
     assert result.ret == 1
 
 
