@@ -20,11 +20,15 @@ def requirements(ctx, upgrade=False):
     """
     Build dev requirements lock file
     """
-    source = "requirements.in"
+    dest = "requirements.txt"
     args = ["--no-emit-find-links", "--no-index", "--allow-unsafe", "--rebuild"]
     if upgrade:
         args.append("--upgrade")
-    ctx.run(f"python -m piptools compile {source} {' '.join(args)}", pty=True)
+    ctx.run(
+        "echo '-e .[dev]' | python -m piptools compile "
+        f"{' '.join(args)} - -qo- | sed '/^-e / d' > {dest}",
+        pty=True,
+    )
 
 
 @task

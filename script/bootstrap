@@ -8,6 +8,9 @@
 if [[ -z $CI ]]; then
     # pyenv update
     pyenv install --skip-existing || return
+    VENV="${PWD##*/}.venv"
+    test -d $VENV || python3 -m venv $VENV || return
+    . $VENV/bin/activate
 else
     if [[ ! -f `pwd`/.python-version ]]; then
         echo "You are missing a .python-version file."
@@ -17,10 +20,6 @@ else
     fi
 fi
 
-VENV="${PWD##*/}.venv"
-test -d $VENV || python3 -m venv $VENV || return
-$VENV/bin/pip install -U pip --no-cache-dir
-$VENV/bin/pip install -e . -r requirements.txt
-$VENV/bin/python -m python_githooks
-
-. $VENV/bin/activate
+python -m pip install -U pip --no-cache-dir
+python -m pip install -e . -r requirements.txt
+python -m python_githooks

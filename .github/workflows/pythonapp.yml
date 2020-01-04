@@ -21,8 +21,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install python dev dependencies.
       run: |
-        python -m pip install -U pip --no-cache-dir
-        python -m pip install -e . -r requirements.txt
+        . script/bootstrap
     - name: Lint
       run: invoke lint
     - name: Test
