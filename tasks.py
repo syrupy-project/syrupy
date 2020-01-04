@@ -16,6 +16,22 @@ def clean(ctx):
 
 
 @task
+def requirements(ctx, upgrade=False):
+    """
+    Build dev requirements lock file
+    """
+    dest = "requirements.txt"
+    args = ["--no-emit-find-links", "--no-index", "--allow-unsafe"]
+    if upgrade:
+        args.append("--upgrade")
+    ctx.run(
+        "echo '-e .[dev]' | python -m piptools compile "
+        f"{' '.join(args)} - -qo- | sed '/^-e / d' > {dest}",
+        pty=True,
+    )
+
+
+@task
 def lint(ctx, fix=False):
     """
     Check and fix syntax
