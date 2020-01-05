@@ -4,10 +4,15 @@ from abc import (
     ABC,
     abstractmethod,
 )
+from difflib import ndiff
+from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
+    Callable,
+    Generator,
     Optional,
     Set,
+    Union,
 )
 
 from typing_extensions import final
@@ -18,6 +23,13 @@ from syrupy.data import (
     SnapshotFile,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
+from syrupy.terminal import (
+    emphasize,
+    green,
+    mute,
+    red,
+    reset,
+)
 
 
 if TYPE_CHECKING:
@@ -182,3 +194,35 @@ class AbstractSnapshotSerializer(ABC):
         Adds the snapshot data to the snapshots read from the file
         """
         raise NotImplementedError
+
+    def diff_lines(
+        self, serialized_data: "SerializedData", snapshot_data: "SerializedData"
+    ) -> Generator[str, None, None]:
+        for line in self.__diff_lines(str(snapshot_data), str(serialized_data)):
+            yield reset(line)
+
+    def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
+        line_styler = {"-": green, "+": red}
+        staged_line, skip = "", False
+        for line in ndiff(a.splitlines(), b.splitlines()):
+            if staged_line and line[:1] != "?":
+                yield line_styler[staged_line[:1]](staged_line)
+                staged_line, skip = "", False
+            if line[:1] in "-+":
+                staged_line = line
+            elif line[:1] == "?":
+                yield self.__diff_line(line, staged_line, line_styler[staged_line[:1]])
+                staged_line, skip = "", False
+            elif not skip:
+                yield mute("  ...")
+                skip = True
+        if staged_line:
+            yield line_styler[staged_line[:1]](staged_line)
+
+    def __diff_line(
+        self, marker_line: str, line: str, line_style: Callable[[Union[str, int]], str]
+    ) -> str:
+        return "".join(
+            emphasize(line_style(char)) if str(marker) in "-+^" else line_style(char)
+            for marker, char in zip_longest(marker_line.strip(), line)
+        )

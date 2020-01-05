@@ -1,0 +1,83 @@
+# name: test_failing_snapshots_diff
+  '
+  
+  snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
+  
+      def test_updated_1(snapshot):
+  >       assert snapshot == ['this', 'will', 'not', 'match']
+  E       AssertionError: assert snapshot == received
+  E           ...
+  E         -   'be',
+  E         -   'updated',
+  E         +   'not',
+  E         +   'match',
+  E           ...
+  
+  test_file.py:17: AssertionError
+  
+  snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
+  
+      def test_updated_2(snapshot):
+  >       assert ['this', 'will', 'fail'] == snapshot
+  E       AssertionError: assert received == snapshot
+  E           ...
+  E         +   'fail',
+  E         -   'be',
+  E         -   'updated',
+  E           ...
+  
+  test_file.py:22: AssertionError
+  
+  snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
+  
+      def test_updated_3(snapshot):
+  >       assert snapshot == ['this', 'will', 'be', 'too', 'much']
+  E       AssertionError: assert snapshot == received
+  E           ...
+  E         -   'updated',
+  E         +   'too',
+  E         +   'much',
+  E           ...
+  
+  test_file.py:27: AssertionError
+  
+  snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
+  
+      def test_updated_4(snapshot):
+  >       assert snapshot == "sing line changeling"
+  E       AssertionError: assert snapshot == received
+  E         - 'single line change'
+  E         + 'sing line changeling'
+  
+  test_file.py:32: AssertionError
+  
+  snapshot = SnapshotAssertion(name='snapshot', num_executions=1)
+  
+      def test_updated_5(snapshot):
+  >       assert snapshot == '''
+          multiple line changes
+          with some lines not staying the same
+          intermittent changes so unchanged lines have to be ignored by the differ
+          cause when there are a lot of changes you only want to see what changed
+          you do not want to see this line
+          or this line
+          this line should show up because it changes color
+          and this line does not exist in the first one
+          '''
+  E       assert snapshot == received
+  E           ...
+  E         -     with some lines staying the same
+  E         +     with some lines not staying the same
+  E         -     intermittent changes that have to be ignore by the differ output
+  E         +     intermittent changes so unchanged lines have to be ignored by the differ
+  E         -     because when there are a lot of changes you only want to see changes
+  E         +     cause when there are a lot of changes you only want to see what changed
+  E           ...
+  E         -     [38;5;1mthis line should show up because it changes color[0m
+  E         +     [38;5;3mthis line should show up because it changes color[0m
+  E         +     and this line does not exist in the first one
+  E           ...
+  
+  test_file.py:37: AssertionError
+  '
+---
