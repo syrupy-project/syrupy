@@ -1,6 +1,3 @@
-# name: TestClass.test_name
-  'this is in a test class'
----
 # name: test_bool[False]
   False
 ---
