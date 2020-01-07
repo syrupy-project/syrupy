@@ -96,5 +96,9 @@ def test_cycle(cyclic, snapshot):
 
 
 class TestClass:
-    def test_name(self, snapshot):
+    def test_class_method_name(self, snapshot):
         assert snapshot == "this is in a test class"
+
+    @pytest.mark.parametrize("actual", ["a", "b", "c"])
+    def test_class_method_parametrized(self, snapshot, actual):
+        assert snapshot == actual

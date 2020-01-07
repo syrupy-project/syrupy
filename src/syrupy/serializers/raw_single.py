@@ -34,7 +34,12 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
         return snapshot_file
 
     def get_file_basename(self, index: int) -> str:
-        return self.__clean_filename(self.get_snapshot_name(index=index))
+        return self.get_snapshot_name(index=index)
+
+    def get_snapshot_name(self, index: int = 0) -> str:
+        return self.__clean_filename(
+            super(RawSingleSnapshotSerializer, self).get_snapshot_name(index=index)
+        )
 
     @property
     def snapshot_subdirectory_name(self) -> str:

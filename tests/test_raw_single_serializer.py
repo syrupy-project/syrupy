@@ -27,3 +27,12 @@ def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
     with pytest.raises(TypeError, match="Expected 'bytes', got 'str'"):
         snapshot_raw.serializer._write_snapshot_to_file(snapshot_file)
     assert not os.path.exists(snapshot_file.filepath)
+
+
+class TestClass:
+    def test_class_method_name(self, snapshot_raw):
+        assert snapshot_raw == b"this is in a test class"
+
+    @pytest.mark.parametrize("content", [b"x", b"y", b"z"])
+    def test_class_method_parametrized(self, snapshot_raw, content):
+        assert snapshot_raw == content

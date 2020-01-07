@@ -1,5 +1,14 @@
-# name: TestClass.test_name
+# name: TestClass.test_class_method_name
   'this is in a test class'
+---
+# name: TestClass.test_class_method_parametrized[a]
+  'a'
+---
+# name: TestClass.test_class_method_parametrized[b]
+  'b'
+---
+# name: TestClass.test_class_method_parametrized[c]
+  'c'
 ---
 # name: test_bool[False]
   False
