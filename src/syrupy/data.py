@@ -34,7 +34,7 @@ class SnapshotUnknown(Snapshot):
     name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FILE_KEY, init=False)
 
 
-@attr.s(eq=False)
+@attr.s
 class SnapshotFile(object):
     filepath: str = attr.ib()
     _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)

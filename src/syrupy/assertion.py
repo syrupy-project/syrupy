@@ -49,8 +49,10 @@ class SnapshotAssertion:
     _serializer_class: Type["AbstractSnapshotSerializer"] = attr.ib(kw_only=True)
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
-    _executions: int = attr.ib(init=False, default=0)
-    _execution_results: Dict[int, "AssertionResult"] = attr.ib(init=False, factory=dict)
+    _executions: int = attr.ib(init=False, default=0, kw_only=True)
+    _execution_results: Dict[int, "AssertionResult"] = attr.ib(
+        init=False, factory=dict, kw_only=True
+    )
 
     def __attrs_post_init__(self) -> None:
         self._session.register_request(self)
