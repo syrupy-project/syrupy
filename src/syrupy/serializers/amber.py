@@ -243,7 +243,7 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     def file_extension(self) -> str:
         return "ambr"
 
-    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
+    def _discover_snapshots(self, filepath: str) -> "SnapshotFile":
         return DataSerializer.read_file(filepath)
 
     def _read_snapshot_from_file(

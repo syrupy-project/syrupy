@@ -62,7 +62,7 @@ class SnapshotSession:
         self._assertions.append(assertion)
         discovered_serializers = {
             discovered.filepath: assertion.serializer
-            for discovered in assertion.discovered_snapshots
+            for discovered in assertion.serializer.discover_snapshots()
             if discovered.has_snapshots
         }
         self._serializers.update(discovered_serializers)
