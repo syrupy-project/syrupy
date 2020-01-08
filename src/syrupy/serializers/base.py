@@ -75,6 +75,9 @@ class AbstractSnapshotSerializer(ABC):
         raise NotImplementedError
 
     def discover_snapshots(self) -> "SnapshotFiles":
+        """
+        Returns all snapshot files relating to serializer test location
+        """
         discovered_files: "SnapshotFiles" = SnapshotFiles()
         for filepath in walk_snapshot_dir(self.dirname):
             if filepath.endswith(self.file_extension):
