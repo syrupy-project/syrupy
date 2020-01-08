@@ -18,7 +18,7 @@ def testcases(testdir):
             def serialize(self, data):
                 return str(data)
 
-            def discover_snapshots(self, filepath):
+            def _discover_snapshots(self, filepath):
                 pass
 
             def get_snapshot_name(self, index = 0):

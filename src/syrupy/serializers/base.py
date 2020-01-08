@@ -20,7 +20,9 @@ from typing_extensions import final
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.data import (
     Snapshot,
+    SnapshotEmptyFile,
     SnapshotFile,
+    SnapshotFiles,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
@@ -30,6 +32,7 @@ from syrupy.terminal import (
     red,
     reset,
 )
+from syrupy.utils import walk_snapshot_dir
 
 
 if TYPE_CHECKING:
@@ -71,8 +74,23 @@ class AbstractSnapshotSerializer(ABC):
         """
         raise NotImplementedError
 
+    def discover_snapshots(self) -> "SnapshotFiles":
+        """
+        Returns all snapshot files relating to serializer test location
+        """
+        discovered_files: "SnapshotFiles" = SnapshotFiles()
+        for filepath in walk_snapshot_dir(self.dirname):
+            if filepath.endswith(self.file_extension):
+                snapshot_file = self._discover_snapshots(filepath)
+                if not snapshot_file.has_snapshots:
+                    snapshot_file = SnapshotEmptyFile(filepath=filepath)
+            else:
+                snapshot_file = SnapshotFile(filepath=filepath)
+            discovered_files.add(snapshot_file)
+        return discovered_files
+
     @abstractmethod
-    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
+    def _discover_snapshots(self, snapshot_file: str) -> "SnapshotFile":
         """
         Given a path to a snapshot file, returns all snapshots in the file.
         Snapshot name is dependent on serializer implementation.

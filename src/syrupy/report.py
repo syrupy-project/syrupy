@@ -50,7 +50,7 @@ class SnapshotReport(object):
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            self.discovered.merge(assertion.discovered_snapshots)
+            self.discovered.merge(assertion.serializer.discover_snapshots())
             for result in assertion.executions.values():
                 filepath = result.snapshot_filepath
                 snapshot_file = SnapshotFile(filepath=filepath)

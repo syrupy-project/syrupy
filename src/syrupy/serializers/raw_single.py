@@ -25,7 +25,7 @@ class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
     def file_extension(self) -> str:
         return "raw"
 
-    def discover_snapshots(self, filepath: str) -> "SnapshotFile":
+    def _discover_snapshots(self, filepath: str) -> "SnapshotFile":
         """Parse the snapshot name from the filename."""
         snapshot_file = SnapshotFile(filepath=filepath)
         snapshot_file.add(

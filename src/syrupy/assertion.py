@@ -9,13 +9,7 @@ from typing import (
 
 import attr
 
-from .data import (
-    SnapshotEmptyFile,
-    SnapshotFile,
-    SnapshotFiles,
-)
 from .exceptions import SnapshotDoesNotExist
-from .utils import walk_snapshot_dir
 
 
 if TYPE_CHECKING:
@@ -72,19 +66,6 @@ class SnapshotAssertion:
     @property
     def executions(self) -> Dict[int, AssertionResult]:
         return self._execution_results
-
-    @property
-    def discovered_snapshots(self) -> "SnapshotFiles":
-        discovered_files: "SnapshotFiles" = SnapshotFiles()
-        for filepath in walk_snapshot_dir(self.serializer.dirname):
-            if filepath.endswith(self.serializer.file_extension):
-                snapshot_file = self.serializer.discover_snapshots(filepath)
-                if not snapshot_file.has_snapshots:
-                    snapshot_file = SnapshotEmptyFile(filepath=filepath)
-            else:
-                snapshot_file = SnapshotFile(filepath=filepath)
-            discovered_files.add(snapshot_file)
-        return discovered_files
 
     def with_class(
         self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
