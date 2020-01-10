@@ -1,6 +1,5 @@
 import os
 
-import semver
 from invoke import (
     exceptions,
     task,
@@ -18,17 +17,18 @@ def clean(ctx):
 @task
 def requirements(ctx, upgrade=False):
     """
-    Build dev requirements lock file
+    Build test & dev requirements lock file
     """
-    dest = "requirements.txt"
+    file_suffix = "requirements.txt"
     args = ["--no-emit-find-links", "--no-index", "--allow-unsafe", "--rebuild"]
     if upgrade:
         args.append("--upgrade")
-    ctx.run(
-        "echo '-e .[dev]' | python -m piptools compile "
-        f"{' '.join(args)} - -qo- | sed '/^-e / d' > {dest}",
-        pty=True,
-    )
+    for env in ["test", "dev"]:
+        ctx.run(
+            f"echo '-e .[{env}]' | python -m piptools compile "
+            f"{' '.join(args)} - -qo- | sed '/^-e / d' > {env}_{file_suffix}",
+            pty=True,
+        )
 
 
 @task
@@ -120,6 +120,8 @@ def release(ctx, dry_run=True):
     """
     Build and publish package to pypi index based on scm version
     """
+    from semver import parse_version_info
+
     if not dry_run and not os.environ.get("CI"):
         print("This is a CI only command")
         exit(1)
@@ -129,7 +131,7 @@ def release(ctx, dry_run=True):
         version = str(f.read())
 
     try:
-        should_publish_to_pypi = not dry_run and semver.parse_version_info(version)
+        should_publish_to_pypi = not dry_run and parse_version_info(version)
     except ValueError:
         should_publish_to_pypi = False
 

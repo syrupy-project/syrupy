@@ -16,22 +16,24 @@ install_requires = [
 ]
 dev_requires = [
     "black",
-    "codecov",
-    "coverage[toml]",
-    "flake8",
     "flake8-bugbear",
     "flake8-builtins",
     "flake8-comprehensions",
     "flake8-i18n",
-    "invoke",
+    "flake8",
     "isort",
     "mypy",
     "pip-tools",
     "py-githooks",
-    "pytest",
     "semver",
     "twine",
     "wheel",
+]
+test_requires = [
+    "codecov",
+    "coverage[toml]",
+    "invoke",
+    "pytest",
 ]
 
 if sys.version_info[0] == 2:
@@ -64,7 +66,7 @@ if __name__ in ["__main__", "builtins"]:
         packages=find_packages("./src"),
         zip_safe=False,
         entry_points={"pytest11": ["syrupy = syrupy"]},
-        extras_require={"dev": dev_requires},
+        extras_require={"dev": dev_requires + test_requires, "test": test_requires},
         install_requires=install_requires,
         setup_requires=setup_requires,
         python_requires=python_requires,

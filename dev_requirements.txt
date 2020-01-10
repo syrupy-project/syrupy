@@ -15,11 +15,11 @@ click==7.0                # via black, pip-tools
 codecov==2.0.15
 colored==1.4.2
 configparser==4.0.2       # via py-githooks
-coverage[toml]==5.0.1     # via codecov
+coverage[toml]==5.0.2     # via codecov
 cryptography==2.8         # via secretstorage
 docutils==0.15.2          # via readme-renderer
 entrypoints==0.3          # via flake8
-flake8-bugbear==20.1.0
+flake8-bugbear==20.1.2
 flake8-builtins==1.4.2
 flake8-comprehensions==3.1.4
 flake8-i18n==0.1.0
@@ -34,7 +34,7 @@ mccabe==0.6.1             # via flake8
 more-itertools==8.0.2     # via pytest, zipp
 mypy-extensions==0.4.3    # via mypy
 mypy==0.761
-packaging==19.2           # via pytest
+packaging==20.0           # via pytest
 pathspec==0.7.0           # via black
 pip-tools==4.3.0
 pkginfo==1.5.0.1          # via twine
@@ -48,10 +48,10 @@ pygments==2.5.2           # via readme-renderer
 pyparsing==2.4.6          # via packaging
 pytest==5.3.2
 readme-renderer==24.0     # via twine
-regex==2019.12.20         # via black
+regex==2020.1.8           # via black
 requests-toolbelt==0.9.1  # via twine
 requests==2.22.0          # via codecov, requests-toolbelt, twine
-secretstorage==3.1.1      # via keyring
+secretstorage==3.1.2      # via keyring
 semver==2.9.0
 six==1.13.0               # via bleach, cryptography, packaging, pip-tools, readme-renderer
 toml==0.10.0              # via black, coverage
