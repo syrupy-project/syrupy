@@ -9,7 +9,7 @@ def testcases(testdir):
         """
         import pytest
 
-        from syrupy.extensions.raw_single import RawSingleSnapshotExtension
+        from syrupy.extensions.single_file import SingleFileSnapshotExtension
         from syrupy.extensions.image import (
             PNGImageSnapshotExtension,
             SVGImageSnapshotExtension,
@@ -18,7 +18,7 @@ def testcases(testdir):
 
         @pytest.fixture
         def snapshot_raw(snapshot):
-            return snapshot.use_extension(RawSingleSnapshotExtension)
+            return snapshot.use_extension(SingleFileSnapshotExtension)
 
 
         @pytest.fixture

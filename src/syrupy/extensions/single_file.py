@@ -19,13 +19,13 @@ if TYPE_CHECKING:
     from syrupy.types import SerializableData, SerializedData  # noqa: F401
 
 
-class RawSingleSnapshotExtension(AbstractSyrupyExtension):
+class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def serialize(self, data: "SerializableData") -> bytes:
         return bytes(data)
 
     def get_snapshot_name(self, *, index: int = 0) -> str:
         return self.__clean_filename(
-            super(RawSingleSnapshotExtension, self).get_snapshot_name(index=index)
+            super(SingleFileSnapshotExtension, self).get_snapshot_name(index=index)
         )
 
     def delete_snapshots(

@@ -7,7 +7,7 @@ from syrupy.data import (
     Snapshot,
     SnapshotCache,
 )
-from syrupy.extensions.raw_single import RawSingleSnapshotExtension
+from syrupy.extensions.single_file import SingleFileSnapshotExtension
 
 
 if TYPE_CHECKING:
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture
 def snapshot_raw(snapshot):
-    return snapshot.use_extension(RawSingleSnapshotExtension)
+    return snapshot.use_extension(SingleFileSnapshotExtension)
 
 
 def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
