@@ -36,6 +36,8 @@ class SnapshotUnknown(Snapshot):
 
 @attr.s
 class SnapshotFossil(object):
+    """A collection of snapshots at a save location"""
+
     location: str = attr.ib()
     _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)
 
