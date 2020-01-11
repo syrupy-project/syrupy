@@ -239,23 +239,12 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     ```
     """
 
-    @property
-    def _file_extension(self) -> str:
-        return "ambr"
-
-    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
-        return DataSerializer.read_file(snapshot_location)
-
-    def _read_snapshot_from_location(
-        self, snapshot_location: str, snapshot_name: str
-    ) -> Optional["SerializableData"]:
-        snapshot = DataSerializer.read_file(snapshot_location).get(snapshot_name)
-        return snapshot.data if snapshot else None
-
-    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
-        snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache.location)
-        snapshot_cache_to_update.merge(snapshot_cache)
-        DataSerializer.write_file(snapshot_cache_to_update)
+    def serialize(self, data: "SerializableData") -> str:
+        """
+        Returns the serialized form of 'data' to be compared
+        with the snapshot data written to disk.
+        """
+        return DataSerializer.serialize(data)
 
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]
@@ -269,9 +258,20 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         else:
             os.remove(snapshot_location)
 
-    def serialize(self, data: "SerializableData") -> str:
-        """
-        Returns the serialized form of 'data' to be compared
-        with the snapshot data written to disk.
-        """
-        return DataSerializer.serialize(data)
+    @property
+    def _file_extension(self) -> str:
+        return "ambr"
+
+    def _read_snapshot_from_location(
+        self, snapshot_location: str, snapshot_name: str
+    ) -> Optional["SerializableData"]:
+        snapshot = DataSerializer.read_file(snapshot_location).get(snapshot_name)
+        return snapshot.data if snapshot else None
+
+    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
+        snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache.location)
+        snapshot_cache_to_update.merge(snapshot_cache)
+        DataSerializer.write_file(snapshot_cache_to_update)
+
+    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
+        return DataSerializer.read_file(snapshot_location)

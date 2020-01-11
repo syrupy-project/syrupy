@@ -3,7 +3,6 @@ import re
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
-    Any,
     Optional,
     Set,
 )
@@ -21,6 +20,17 @@ if TYPE_CHECKING:
 
 
 class RawSingleSnapshotExtension(AbstractSyrupyExtension):
+    def serialize(self, data: "SerializableData") -> bytes:
+        return bytes(data)
+
+    def get_snapshot_name(self, index: int = 0) -> str:
+        return self.__clean_filename(
+            super(RawSingleSnapshotExtension, self).get_snapshot_name(index=index)
+        )
+
+    def delete_snapshots(self, snapshot_location: str, _: Set[str]) -> None:
+        os.remove(snapshot_location)
+
     @property
     def _file_extension(self) -> str:
         return "raw"
@@ -36,37 +46,21 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     def _get_file_basename(self, index: int) -> str:
         return self.get_snapshot_name(index=index)
 
-    def get_snapshot_name(self, index: int = 0) -> str:
-        return self.__clean_filename(
-            super(RawSingleSnapshotExtension, self).get_snapshot_name(index=index)
-        )
-
     @property
-    def snapshot_subdirectory_name(self) -> str:
+    def _snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
     def _read_snapshot_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
-        return self._read_file(snapshot_location)
-
-    def serialize(self, data: "SerializableData") -> bytes:
-        return bytes(data)
-
-    def _read_file(self, filepath: str) -> Any:
         try:
-            with open(filepath, "rb") as f:
+            with open(snapshot_location, "rb") as f:
                 return f.read()
         except FileNotFoundError:
             return None
 
     def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
-        self.__write_file(snapshot_cache.location, next(iter(snapshot_cache)).data)
-
-    def delete_snapshots(self, snapshot_location: str, _: Set[str]) -> None:
-        os.remove(snapshot_location)
-
-    def __write_file(self, filepath: str, data: Optional["SerializedData"]) -> None:
+        filepath, data = snapshot_cache.location, next(iter(snapshot_cache)).data
         if not isinstance(data, bytes):
             error_text = gettext("Can write non binary data. Expected '{}', got '{}'")
             raise TypeError(error_text.format(bytes.__name__, type(data).__name__))

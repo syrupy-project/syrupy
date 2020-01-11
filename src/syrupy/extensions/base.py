@@ -56,6 +56,24 @@ class SnapshotCacher(ABC):
     def test_location(self) -> "TestLocation":
         raise NotImplementedError
 
+    def get_snapshot_name(self, index: int = 0) -> str:
+        """Get the snapshot name for the assertion index in a test location"""
+        index_suffix = f".{index}" if index > 0 else ""
+        testname = self.test_location.testname
+
+        if self.test_location.classname is not None:
+            return f"{self.test_location.classname}.{testname}{index_suffix}"
+        return f"{testname}{index_suffix}"
+
+    def get_location(self, index: int) -> str:
+        """Returns full location where snapshot data is stored."""
+        basename = self._get_file_basename(index=index)
+        return os.path.join(self._dirname, f"{basename}.{self._file_extension}")
+
+    def is_snapshot_location(self, location: str) -> bool:
+        """Checks if supplied location is valid for this snapshot extension"""
+        return location.endswith(self._file_extension)
+
     @final
     def read_snapshot(self, index: int) -> "SerializedData":
         """
@@ -122,53 +140,6 @@ class SnapshotCacher(ABC):
     def post_write(self, data: "SerializedData", index: int = 0) -> None:
         pass
 
-    def get_location(self, index: int) -> str:
-        """Returns full location where snapshot data is stored."""
-        basename = self._get_file_basename(index=index)
-        return os.path.join(self.dirname, f"{basename}.{self._file_extension}")
-
-    def _get_file_basename(self, index: int) -> str:
-        """Returns file basename without extension. Used to create full filepath."""
-        return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
-
-    def __ensure_snapshot_dir(self, index: int) -> None:
-        """
-        Ensures the folder path for the snapshot file exists.
-        """
-        try:
-            os.makedirs(os.path.dirname(self.get_location(index)))
-        except FileExistsError:
-            pass
-
-    @property
-    @abstractmethod
-    def _file_extension(self) -> str:
-        raise NotImplementedError
-
-    def is_snapshot_location(self, location: str) -> bool:
-        return location.endswith(self._file_extension)
-
-    @property
-    def dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filename)
-        subdir_name = self.snapshot_subdirectory_name
-        if subdir_name is not None:
-            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
-        return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
-
-    @property
-    def snapshot_subdirectory_name(self) -> Optional[str]:
-        """Optional subdirectory in which to store snapshots."""
-        return None
-
-    def get_snapshot_name(self, index: int = 0) -> str:
-        index_suffix = f".{index}" if index > 0 else ""
-        testname = self.test_location.testname
-
-        if self.test_location.classname is not None:
-            return f"{self.test_location.classname}.{testname}{index_suffix}"
-        return f"{testname}{index_suffix}"
-
     @abstractmethod
     def _read_snapshot_from_location(
         self, snapshot_location: str, snapshot_name: str
@@ -184,6 +155,37 @@ class SnapshotCacher(ABC):
         Adds the snapshot data to the snapshots read from the file
         """
         raise NotImplementedError
+
+    @property
+    def _snapshot_subdirectory_name(self) -> Optional[str]:
+        """Optional subdirectory in which to store snapshots."""
+        return None
+
+    @property
+    def _dirname(self) -> str:
+        test_dirname = os.path.dirname(self.test_location.filename)
+        subdir_name = self._snapshot_subdirectory_name
+        if subdir_name is not None:
+            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
+        return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
+
+    @property
+    @abstractmethod
+    def _file_extension(self) -> str:
+        raise NotImplementedError
+
+    def _get_file_basename(self, index: int) -> str:
+        """Returns file basename without extension. Used to create full filepath."""
+        return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
+
+    def __ensure_snapshot_dir(self, index: int) -> None:
+        """
+        Ensures the folder path for the snapshot file exists.
+        """
+        try:
+            os.makedirs(os.path.dirname(self.get_location(index)))
+        except FileExistsError:
+            pass
 
 
 class SnapshotReporter(ABC):
@@ -233,7 +235,7 @@ class AbstractSyrupyExtension(SnapshotSerializer, SnapshotCacher, SnapshotReport
         Returns all snapshot files relating to test location
         """
         discovered_files: "SnapshotCaches" = SnapshotCaches()
-        for filepath in walk_snapshot_dir(self.dirname):
+        for filepath in walk_snapshot_dir(self._dirname):
             if self.is_snapshot_location(filepath):
                 snapshot_cache = self._discover_snapshots(filepath)
                 if not snapshot_cache.has_snapshots:
