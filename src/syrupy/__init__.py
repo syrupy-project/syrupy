@@ -99,7 +99,7 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
 def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        serializer_class=DEFAULT_EXTENSION,
+        extension_class=DEFAULT_EXTENSION,
         test_location=TestLocation(request.node),
         session=request.session._syrupy,
     )

@@ -1,4 +1,4 @@
-from .amber import AmberSnapshotSerializer
+from .amber import AmberSnapshotExtension
 
 
-DEFAULT_EXTENSION = AmberSnapshotSerializer
+DEFAULT_EXTENSION = AmberSnapshotExtension

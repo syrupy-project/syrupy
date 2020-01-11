@@ -40,7 +40,7 @@ class AssertionResult(object):
 class SnapshotAssertion:
     name: str = attr.ib(default="snapshot")
     _session: "SnapshotSession" = attr.ib(kw_only=True)
-    _serializer_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
+    _extension_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
     _executions: int = attr.ib(init=False, default=0, kw_only=True)
@@ -52,12 +52,12 @@ class SnapshotAssertion:
         self._session.register_request(self)
 
     @property
-    def serializer(self) -> "AbstractSyrupyExtension":
-        if not getattr(self, "_serializer", None):
-            self._serializer: "AbstractSyrupyExtension" = self._serializer_class(
+    def extension(self) -> "AbstractSyrupyExtension":
+        if not getattr(self, "_extension", None):
+            self._extension: "AbstractSyrupyExtension" = self._extension_class(
                 test_location=self._test_location
             )
-        return self._serializer
+        return self._extension
 
     @property
     def num_executions(self) -> int:
@@ -68,12 +68,12 @@ class SnapshotAssertion:
         return self._execution_results
 
     def with_class(
-        self, serializer_class: Optional[Type["AbstractSyrupyExtension"]] = None,
+        self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
     ) -> "SnapshotAssertion":
         return self.__class__(
             update_snapshots=self._update_snapshots,
             test_location=self._test_location,
-            serializer_class=serializer_class or self._serializer_class,
+            extension_class=extension_class or self._extension_class,
             session=self._session,
         )
 
@@ -83,13 +83,13 @@ class SnapshotAssertion:
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         snapshot_data = assertion_result.recalled_data
-        serialized_data = self.serializer.serialize(data)
+        serialized_data = self.extension.serialize(data)
         if snapshot_data is None:
             return [gettext("Snapshot does not exist!")]
 
         diff: List[str] = []
         if not assertion_result.success:
-            diff.extend(self.serializer.diff_lines(serialized_data, snapshot_data))
+            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data))
         return diff
 
     def __repr__(self) -> str:
@@ -106,15 +106,15 @@ class SnapshotAssertion:
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         try:
-            snapshot_filepath = self.serializer.get_filepath(self.num_executions)
-            snapshot_name = self.serializer.get_snapshot_name(self.num_executions)
+            snapshot_filepath = self.extension.get_filepath(self.num_executions)
+            snapshot_name = self.extension.get_snapshot_name(self.num_executions)
             snapshot_data = self._recall_data(index=self.num_executions)
-            serialized_data = self.serializer.serialize(data)
+            serialized_data = self.extension.serialize(data)
             matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:
-                self.serializer.create_or_update_snapshot(
-                    data=data, index=self.num_executions
+                self.extension.create_or_update_snapshot(
+                    data=serialized_data, index=self.num_executions
                 )
                 assertion_success = True
             return assertion_success
@@ -134,6 +134,6 @@ class SnapshotAssertion:
 
     def _recall_data(self, index: int) -> Optional["SerializableData"]:
         try:
-            return self.serializer.read_snapshot(index=index)
+            return self.extension.read_snapshot(index=index)
         except SnapshotDoesNotExist:
             return None

@@ -226,7 +226,7 @@ class DataSerializer:
         return serialize_method(**serialize_kwargs)
 
 
-class AmberSnapshotSerializer(AbstractSyrupyExtension):
+class AmberSnapshotExtension(AbstractSyrupyExtension):
     """
     An amber snapshot file stores data in the following format:
 

@@ -3,19 +3,19 @@ import base64
 import pytest
 
 from syrupy.extensions.image import (
-    PNGImageSnapshotSerializer,
-    SVGImageSnapshotSerializer,
+    PNGImageSnapshotExtension,
+    SVGImageSnapshotExtension,
 )
 
 
 @pytest.fixture
 def snapshot_png(snapshot):
-    return snapshot.with_class(serializer_class=PNGImageSnapshotSerializer)
+    return snapshot.with_class(extension_class=PNGImageSnapshotExtension)
 
 
 @pytest.fixture
 def snapshot_svg(snapshot):
-    return snapshot.with_class(serializer_class=SVGImageSnapshotSerializer)
+    return snapshot.with_class(extension_class=SVGImageSnapshotExtension)
 
 
 def test_image(snapshot_png, snapshot_svg):

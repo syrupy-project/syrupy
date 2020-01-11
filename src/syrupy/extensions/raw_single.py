@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from syrupy.types import SerializableData, SerializedData  # noqa: F401
 
 
-class RawSingleSnapshotSerializer(AbstractSyrupyExtension):
+class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     @property
     def file_extension(self) -> str:
         return "raw"
@@ -38,7 +38,7 @@ class RawSingleSnapshotSerializer(AbstractSyrupyExtension):
 
     def get_snapshot_name(self, index: int = 0) -> str:
         return self.__clean_filename(
-            super(RawSingleSnapshotSerializer, self).get_snapshot_name(index=index)
+            super(RawSingleSnapshotExtension, self).get_snapshot_name(index=index)
         )
 
     @property

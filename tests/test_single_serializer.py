@@ -9,26 +9,26 @@ def testcases(testdir):
         """
         import pytest
 
-        from syrupy.extensions.raw_single import RawSingleSnapshotSerializer
+        from syrupy.extensions.raw_single import RawSingleSnapshotExtension
         from syrupy.extensions.image import (
-            PNGImageSnapshotSerializer,
-            SVGImageSnapshotSerializer,
+            PNGImageSnapshotExtension,
+            SVGImageSnapshotExtension,
         )
 
 
         @pytest.fixture
         def snapshot_raw(snapshot):
-            return snapshot.with_class(serializer_class=RawSingleSnapshotSerializer)
+            return snapshot.with_class(extension_class=RawSingleSnapshotExtension)
 
 
         @pytest.fixture
         def snapshot_png(snapshot):
-            return snapshot.with_class(serializer_class=PNGImageSnapshotSerializer)
+            return snapshot.with_class(extension_class=PNGImageSnapshotExtension)
 
 
         @pytest.fixture
         def snapshot_svg(snapshot):
-            return snapshot.with_class(serializer_class=SVGImageSnapshotSerializer)
+            return snapshot.with_class(extension_class=SVGImageSnapshotExtension)
         """
     )
     return {

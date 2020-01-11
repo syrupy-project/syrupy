@@ -7,7 +7,7 @@ from syrupy.data import (
     Snapshot,
     SnapshotFile,
 )
-from syrupy.extensions.raw_single import RawSingleSnapshotSerializer
+from syrupy.extensions.raw_single import RawSingleSnapshotExtension
 
 
 if TYPE_CHECKING:
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture
 def snapshot_raw(snapshot):
-    return snapshot.with_class(serializer_class=RawSingleSnapshotSerializer)
+    return snapshot.with_class(extension_class=RawSingleSnapshotExtension)
 
 
 def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
@@ -25,7 +25,7 @@ def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
     )
     snapshot_file.add(Snapshot(name="snapshot_name", data="non binary data"))
     with pytest.raises(TypeError, match="Expected 'bytes', got 'str'"):
-        snapshot_raw.serializer._write_snapshot_to_file(snapshot_file)
+        snapshot_raw.extension._write_snapshot_to_file(snapshot_file)
     assert not os.path.exists(snapshot_file.filepath)
 
 

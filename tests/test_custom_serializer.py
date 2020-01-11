@@ -11,7 +11,7 @@ def testcases(testdir):
 
         from syrupy.extensions.base import AbstractSyrupyExtension
 
-        class CustomSnapshotSerializer(AbstractSyrupyExtension):
+        class CustomSnapshotExtension(AbstractSyrupyExtension):
             def file_extension(self):
                 return ""
 
@@ -37,7 +37,7 @@ def testcases(testdir):
 
         @pytest.fixture
         def snapshot_custom(snapshot):
-            return snapshot.with_class(serializer_class=CustomSnapshotSerializer)
+            return snapshot.with_class(extension_class=CustomSnapshotExtension)
         """
     )
     return {

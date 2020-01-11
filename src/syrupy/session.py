@@ -29,14 +29,14 @@ class SnapshotSession:
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
-        self._serializers: Dict[str, "AbstractSyrupyExtension"] = {}
+        self._extensions: Dict[str, "AbstractSyrupyExtension"] = {}
 
     def start(self) -> None:
         self.report = None
         self._all_items = set()
         self._ran_items = set()
         self._assertions = []
-        self._serializers = {}
+        self._extensions = {}
 
     def finish(self) -> int:
         exitstatus = 0
@@ -60,12 +60,12 @@ class SnapshotSession:
 
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
-        discovered_serializers = {
-            discovered.filepath: assertion.serializer
-            for discovered in assertion.serializer.discover_snapshots()
+        discovered_extensions = {
+            discovered.filepath: assertion.extension
+            for discovered in assertion.extension.discover_snapshots()
             if discovered.has_snapshots
         }
-        self._serializers.update(discovered_serializers)
+        self._extensions.update(discovered_extensions)
 
     def remove_unused_snapshots(
         self,
@@ -74,9 +74,9 @@ class SnapshotSession:
     ) -> None:
         for unused_snapshot_file in unused_snapshot_files:
             snapshot_file = unused_snapshot_file.filepath
-            serializer = self._serializers.get(snapshot_file)
-            if serializer:
-                serializer.delete_snapshots_from_file(
+            extension = self._extensions.get(snapshot_file)
+            if extension:
+                extension.delete_snapshots_from_file(
                     snapshot_file, {snapshot.name for snapshot in unused_snapshot_file}
                 )
             elif snapshot_file not in used_snapshot_files:

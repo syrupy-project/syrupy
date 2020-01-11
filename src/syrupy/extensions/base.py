@@ -50,7 +50,11 @@ class SnapshotSerializer(ABC):
         raise NotImplementedError
 
 
-class SnapshotStorage(ABC):
+class SnapshotCacher(ABC):
+    @property
+    def test_location(self) -> "TestLocation":
+        raise NotImplementedError
+
     @final
     def read_snapshot(self, index: int) -> "SerializedData":
         """
@@ -65,7 +69,7 @@ class SnapshotStorage(ABC):
             self.post_read(index=index)
 
     @final
-    def create_or_update_snapshot(self, data: "SerializableData", index: int) -> None:
+    def create_or_update_snapshot(self, data: "SerializedData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `pre_write`, then `write` and finally `post_write`.
@@ -102,11 +106,11 @@ class SnapshotStorage(ABC):
     def post_read(self, index: int = 0) -> None:
         pass
 
-    def pre_write(self, data: "SerializableData", index: int = 0) -> None:
+    def pre_write(self, data: "SerializedData", index: int = 0) -> None:
         self.__ensure_snapshot_dir(index)
 
     @final
-    def write(self, data: "SerializableData", index: int = 0) -> None:
+    def write(self, data: "SerializedData", index: int = 0) -> None:
         """
         Override `_write_snapshot_to_file` in subclass to change behaviour
         """
@@ -119,10 +123,10 @@ class SnapshotStorage(ABC):
             """
             warnings.warn(warning_msg)
         snapshot_file = SnapshotFile(filepath=snapshot_filepath)
-        snapshot_file.add(Snapshot(name=snapshot_name, data=self.serialize(data)))
+        snapshot_file.add(Snapshot(name=snapshot_name, data=data))
         self._write_snapshot_to_file(snapshot_file)
 
-    def post_write(self, data: "SerializableData", index: int = 0) -> None:
+    def post_write(self, data: "SerializedData", index: int = 0) -> None:
         pass
 
     def get_filepath(self, index: int) -> str:
@@ -132,7 +136,7 @@ class SnapshotStorage(ABC):
 
     def get_file_basename(self, index: int) -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return f"{os.path.splitext(os.path.basename(self._test_location.filename))[0]}"
+        return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
 
     def __ensure_snapshot_dir(self, index: int) -> None:
         """
@@ -160,6 +164,14 @@ class SnapshotStorage(ABC):
     def snapshot_subdirectory_name(self) -> Optional[str]:
         """Optional subdirectory in which to store snapshots."""
         return None
+
+    def get_snapshot_name(self, index: int = 0) -> str:
+        index_suffix = f".{index}" if index > 0 else ""
+        testname = self.test_location.testname
+
+        if self.test_location.classname is not None:
+            return f"{self.test_location.classname}.{testname}{index_suffix}"
+        return f"{testname}{index_suffix}"
 
     @abstractmethod
     def _read_snapshot_from_file(
@@ -212,9 +224,7 @@ class SnapshotReporter(ABC):
         )
 
 
-class AbstractSyrupyExtension(
-    ABC, SnapshotSerializer, SnapshotStorage, SnapshotReporter
-):
+class AbstractSyrupyExtension(SnapshotSerializer, SnapshotCacher, SnapshotReporter):
     def __init__(self, test_location: "TestLocation"):
         self._test_location = test_location
 
@@ -224,7 +234,7 @@ class AbstractSyrupyExtension(
 
     def discover_snapshots(self) -> "SnapshotFiles":
         """
-        Returns all snapshot files relating to serializer test location
+        Returns all snapshot files relating to test location
         """
         discovered_files: "SnapshotFiles" = SnapshotFiles()
         for filepath in walk_snapshot_dir(self.dirname):
@@ -244,11 +254,3 @@ class AbstractSyrupyExtension(
         Snapshot name is dependent on serializer implementation.
         """
         raise NotImplementedError
-
-    def get_snapshot_name(self, index: int = 0) -> str:
-        index_suffix = f".{index}" if index > 0 else ""
-        testname = self._test_location.testname
-
-        if self._test_location.classname is not None:
-            return f"{self._test_location.classname}.{testname}{index_suffix}"
-        return f"{testname}{index_suffix}"
