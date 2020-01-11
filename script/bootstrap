@@ -21,5 +21,5 @@ else
 fi
 
 python -m pip install -U pip --no-cache-dir
-python -m pip install -e . -r requirements.txt
+python -m pip install -e . -r dev_requirements.txt
 python -m python_githooks

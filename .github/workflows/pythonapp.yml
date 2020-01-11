@@ -6,34 +6,62 @@ env:
   CI: 1
 
 jobs:
-  build:
-    name: Build
+  analysis:
+    name: Code Analysis
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Install lint & packaging dependencies.
+        run: |
+          python -m pip install -U pip --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
+      - name: Lint
+        run: invoke lint
+  tests:
+    name: Tests
     runs-on: ubuntu-18.04
     strategy:
       matrix:
         python-version: [3.6, 3.7]
       fail-fast: true
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install python dev dependencies.
-      run: |
-        . script/bootstrap
-    - name: Lint
-      run: invoke lint
-    - name: Test
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: invoke test --coverage
-    - name: Build Python 3.x
-      if: matrix.python-version != '3.7'
-      run: invoke build
-    - name: Release Python 3.7
-      env:
-        TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-      if: matrix.python-version == '3.7'
-      run: invoke release --no-dry-run
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test dependencies.
+        run: |
+          python -m pip install -U pip --no-cache-dir
+          python -m pip install -e . -r test_requirements.txt
+      - name: Test
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: invoke test --coverage
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        python-version: [3.7]
+      fail-fast: true
+    needs: [analysis, tests]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install build dependencies.
+        run: |
+          python -m pip install -U pip --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
+      - name: Release Python 3.7
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+        run: invoke release --no-dry-run
