@@ -109,7 +109,7 @@ class SnapshotCacher(ABC):
                 raise SnapshotDoesNotExist()
             return snapshot_data
         finally:
-            self._pre_read(index=index)
+            self._post_read(index=index)
 
     @final
     def write_snapshot(self, *, data: "SerializedData", index: int) -> None:

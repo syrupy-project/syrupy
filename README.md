@@ -61,8 +61,8 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 
 - **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported, however non-sortable types such as frozenset are experimental.
 - **`SingleFileSnapshotExtension`**: Unlike the `AmberSnapshotExtension`, which groups all tests within a single test file into a singular snapshot file, and creates one `.raw` file per test case.
-- **`PNGSnapshotExtension`**: An extension of raw single, this should be used to produce `.png` files.
-- **`SVGSnapshotExtension`**: Another extension of raw single. This produces `.svg` files from an svg string.
+- **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files.
+- **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 
 ### Advanced Usage, Extending Syrupy
 
