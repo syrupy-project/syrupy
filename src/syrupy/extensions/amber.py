@@ -11,7 +11,7 @@ from typing import (
 
 from syrupy.data import (
     Snapshot,
-    SnapshotCache,
+    SnapshotFossil,
 )
 
 from .base import AbstractSyrupyExtension
@@ -32,13 +32,13 @@ class DataSerializer:
             return "..."
 
     @classmethod
-    def write_file(cls, snapshot_cache: "SnapshotCache") -> None:
+    def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
-        filepath = snapshot_cache.location
+        filepath = snapshot_fossil.location
         with open(filepath, "w") as f:
-            for snapshot in sorted(snapshot_cache, key=lambda s: s.name):
+            for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
@@ -47,7 +47,7 @@ class DataSerializer:
                     f.write(f"{cls._marker_divider}\n")
 
     @classmethod
-    def read_file(cls, filepath: str) -> "SnapshotCache":
+    def read_file(cls, filepath: str) -> "SnapshotFossil":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
@@ -55,7 +55,7 @@ class DataSerializer:
         """
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
-        snapshot_cache = SnapshotCache(location=filepath)
+        snapshot_fossil = SnapshotFossil(location=filepath)
         try:
             with open(filepath, "r") as f:
                 test_name = None
@@ -69,13 +69,13 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshot_cache.add(
+                            snapshot_fossil.add(
                                 Snapshot(name=test_name, data=snapshot_data[:-1])
                             )
         except FileNotFoundError:
             pass
 
-        return snapshot_cache
+        return snapshot_fossil
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
@@ -249,12 +249,12 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
-        snapshot_cache_to_update = DataSerializer.read_file(snapshot_location)
+        snapshot_fossil_to_update = DataSerializer.read_file(snapshot_location)
         for snapshot_name in snapshot_names:
-            snapshot_cache_to_update.remove(snapshot_name)
+            snapshot_fossil_to_update.remove(snapshot_name)
 
-        if snapshot_cache_to_update.has_snapshots:
-            DataSerializer.write_file(snapshot_cache_to_update)
+        if snapshot_fossil_to_update.has_snapshots:
+            DataSerializer.write_file(snapshot_fossil_to_update)
         else:
             os.remove(snapshot_location)
 
@@ -262,16 +262,16 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def _file_extension(self) -> str:
         return "ambr"
 
-    def _read_snapshot_cache(self, snapshot_location: str) -> "SnapshotCache":
+    def _read_snapshot_fossil(self, snapshot_location: str) -> "SnapshotFossil":
         return DataSerializer.read_file(snapshot_location)
 
     def _read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
-        snapshot = self._read_snapshot_cache(snapshot_location).get(snapshot_name)
+        snapshot = self._read_snapshot_fossil(snapshot_location).get(snapshot_name)
         return snapshot.data if snapshot else None
 
-    def _write_snapshot_cache(self, *, snapshot_cache: "SnapshotCache") -> None:
-        snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache.location)
-        snapshot_cache_to_update.merge(snapshot_cache)
-        DataSerializer.write_file(snapshot_cache_to_update)
+    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
+        snapshot_fossil_to_update = DataSerializer.read_file(snapshot_fossil.location)
+        snapshot_fossil_to_update.merge(snapshot_fossil)
+        DataSerializer.write_file(snapshot_fossil_to_update)

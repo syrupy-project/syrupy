@@ -1,5 +1,5 @@
 SNAPSHOT_DIRNAME = "__snapshots__"
-SNAPSHOT_EMPTY_CACHE_KEY = "empty snapshot cache"
-SNAPSHOT_UNKNOWN_CACHE_KEY = "unknown snapshot cache"
+SNAPSHOT_EMPTY_FOSSIL_KEY = "empty snapshot fossil"
+SNAPSHOT_UNKNOWN_FOSSIL_KEY = "unknown snapshot fossil"
 
 EXIT_STATUS_FAIL_UNUSED = 1

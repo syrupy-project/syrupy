@@ -9,7 +9,7 @@ from typing import (
 )
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
-from .data import SnapshotCaches
+from .data import SnapshotFossils
 from .report import SnapshotReport
 
 
@@ -51,8 +51,8 @@ class SnapshotSession:
         if self.report.num_unused:
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    unused_snapshot_caches=self.report.unused,
-                    used_snapshot_caches=self.report.used,
+                    unused_snapshot_fossils=self.report.unused,
+                    used_snapshot_fossils=self.report.used,
                 )
             elif not self.warn_unused_snapshots:
                 exitstatus |= EXIT_STATUS_FAIL_UNUSED
@@ -69,18 +69,18 @@ class SnapshotSession:
 
     def remove_unused_snapshots(
         self,
-        unused_snapshot_caches: "SnapshotCaches",
-        used_snapshot_caches: "SnapshotCaches",
+        unused_snapshot_fossils: "SnapshotFossils",
+        used_snapshot_fossils: "SnapshotFossils",
     ) -> None:
-        for unused_snapshot_cache in unused_snapshot_caches:
-            snapshot_location = unused_snapshot_cache.location
+        for unused_snapshot_fossil in unused_snapshot_fossils:
+            snapshot_location = unused_snapshot_fossil.location
             extension = self._extensions.get(snapshot_location)
             if extension:
                 extension.delete_snapshots(
                     snapshot_location=snapshot_location,
                     snapshot_names={
-                        snapshot.name for snapshot in unused_snapshot_cache
+                        snapshot.name for snapshot in unused_snapshot_fossil
                     },
                 )
-            elif snapshot_location not in used_snapshot_caches:
+            elif snapshot_location not in used_snapshot_fossils:
                 os.remove(snapshot_location)

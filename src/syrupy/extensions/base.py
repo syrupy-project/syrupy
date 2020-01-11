@@ -20,9 +20,9 @@ from typing_extensions import final
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.data import (
     Snapshot,
-    SnapshotCache,
-    SnapshotCaches,
-    SnapshotEmptyCache,
+    SnapshotEmptyFossil,
+    SnapshotFossil,
+    SnapshotFossils,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
@@ -74,20 +74,20 @@ class SnapshotFossilizer(ABC):
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
-    def discover_snapshots(self) -> "SnapshotCaches":
+    def discover_snapshots(self) -> "SnapshotFossils":
         """
-        Returns all snapshot cached in relation to test location
+        Returns all snapshot fossils in test site
         """
-        discovered_files: "SnapshotCaches" = SnapshotCaches()
+        discovered: "SnapshotFossils" = SnapshotFossils()
         for filepath in walk_snapshot_dir(self._dirname):
             if self.is_snapshot_location(location=filepath):
-                snapshot_cache = self._read_snapshot_cache(snapshot_location=filepath)
-                if not snapshot_cache.has_snapshots:
-                    snapshot_cache = SnapshotEmptyCache(location=filepath)
+                snapshot_fossil = self._read_snapshot_fossil(snapshot_location=filepath)
+                if not snapshot_fossil.has_snapshots:
+                    snapshot_fossil = SnapshotEmptyFossil(location=filepath)
             else:
-                snapshot_cache = SnapshotCache(location=filepath)
-            discovered_files.add(snapshot_cache)
-        return discovered_files
+                snapshot_fossil = SnapshotFossil(location=filepath)
+            discovered.add(snapshot_fossil)
+        return discovered
 
     @final
     def read_snapshot(self, *, index: int) -> "SerializedData":
@@ -117,7 +117,7 @@ class SnapshotFossilizer(ABC):
         Utility method for writing the contents of a snapshot assertion.
         Will call `_pre_write`, then perform `write` and finally `_post_write`.
 
-        Override `_write_snapshot_cache` in subclass to change behaviour
+        Override `_write_snapshot_fossil` in subclass to change behaviour
         """
         self._pre_write(data=data, index=index)
         snapshot_location = self.get_location(index=index)
@@ -128,9 +128,9 @@ class SnapshotFossilizer(ABC):
             Consider adding '{self.test_location.testname}' to the generated name.
             """
             warnings.warn(warning_msg)
-        snapshot_cache = SnapshotCache(location=snapshot_location)
-        snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_cache(snapshot_cache=snapshot_cache)
+        snapshot_fossil = SnapshotFossil(location=snapshot_location)
+        snapshot_fossil.add(Snapshot(name=snapshot_name, data=data))
+        self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
         self._post_write(data=data, index=index)
 
     @abstractmethod
@@ -156,9 +156,9 @@ class SnapshotFossilizer(ABC):
         pass
 
     @abstractmethod
-    def _read_snapshot_cache(self, *, snapshot_location: str) -> "SnapshotCache":
+    def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
         """
-        Read the snapshot location and construct a snapshot cache object
+        Read the snapshot location and construct a snapshot fossil object
         """
         raise NotImplementedError
 
@@ -172,9 +172,9 @@ class SnapshotFossilizer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_cache(self, *, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
         """
-        Adds the snapshot data to the snapshots in cache location
+        Adds the snapshot data to the snapshots in fossil location
         """
         raise NotImplementedError
 

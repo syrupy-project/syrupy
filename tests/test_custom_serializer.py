@@ -22,13 +22,13 @@ def testcases(testdir):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 
-            def _read_snapshot_cache(self, **kwargs):
+            def _read_snapshot_fossil(self, **kwargs):
                 pass
 
             def _read_snapshot_data_from_location(self, **kwargs):
                 pass
 
-            def _write_snapshot_cache(self, **kwargs):
+            def _write_snapshot_fossil(self, **kwargs):
                 pass
 
             def delete_snapshots(self, **kwargs):

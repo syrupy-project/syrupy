@@ -9,7 +9,7 @@ from typing import (
 
 from syrupy.data import (
     Snapshot,
-    SnapshotCache,
+    SnapshotFossil,
 )
 
 from .base import AbstractSyrupyExtension
@@ -44,12 +44,12 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def _snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def _read_snapshot_cache(self, *, snapshot_location: str) -> "SnapshotCache":
-        snapshot_cache = SnapshotCache(location=snapshot_location)
-        snapshot_cache.add(
+    def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
+        snapshot_fossil = SnapshotFossil(location=snapshot_location)
+        snapshot_fossil.add(
             Snapshot(name=os.path.splitext(os.path.basename(snapshot_location))[0])
         )
-        return snapshot_cache
+        return snapshot_fossil
 
     def _read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str
@@ -60,8 +60,8 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_cache(self, *, snapshot_cache: "SnapshotCache") -> None:
-        filepath, data = snapshot_cache.location, next(iter(snapshot_cache)).data
+    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
+        filepath, data = snapshot_fossil.location, next(iter(snapshot_fossil)).data
         if not isinstance(data, bytes):
             error_text = gettext("Can write non binary data. Expected '{}', got '{}'")
             raise TypeError(error_text.format(bytes.__name__, type(data).__name__))

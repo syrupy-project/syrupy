@@ -9,8 +9,8 @@ from typing import (
 import attr
 
 from .constants import (
-    SNAPSHOT_EMPTY_CACHE_KEY,
-    SNAPSHOT_UNKNOWN_CACHE_KEY,
+    SNAPSHOT_EMPTY_FOSSIL_KEY,
+    SNAPSHOT_UNKNOWN_FOSSIL_KEY,
 )
 
 
@@ -26,16 +26,16 @@ class Snapshot(object):
 
 @attr.s(frozen=True)
 class SnapshotEmpty(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_EMPTY_CACHE_KEY, init=False)
+    name: str = attr.ib(default=SNAPSHOT_EMPTY_FOSSIL_KEY, init=False)
 
 
 @attr.s(frozen=True)
 class SnapshotUnknown(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_CACHE_KEY, init=False)
+    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FOSSIL_KEY, init=False)
 
 
 @attr.s
-class SnapshotCache(object):
+class SnapshotFossil(object):
     location: str = attr.ib()
     _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)
 
@@ -49,8 +49,8 @@ class SnapshotCache(object):
     def add(self, snapshot: "Snapshot") -> None:
         self._snapshots[snapshot.name] = snapshot
 
-    def merge(self, snapshot_cache: "SnapshotCache") -> None:
-        for snapshot in snapshot_cache:
+    def merge(self, snapshot_fossil: "SnapshotFossil") -> None:
+        for snapshot in snapshot_fossil:
             self.add(snapshot)
 
     def remove(self, snapshot_name: str) -> None:
@@ -68,8 +68,8 @@ SNAPSHOTS_UNKNOWN = MappingProxyType({SnapshotUnknown().name: SnapshotUnknown()}
 
 
 @attr.s(frozen=True)
-class SnapshotEmptyCache(SnapshotCache):
-    """This is a cache that is known to be empty and thus can be removed"""
+class SnapshotEmptyFossil(SnapshotFossil):
+    """This is a saved fossil that is known to be empty and thus can be removed"""
 
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_EMPTY, init=False)
 
@@ -79,38 +79,37 @@ class SnapshotEmptyCache(SnapshotCache):
 
 
 @attr.s(frozen=True)
-class SnapshotUnknownCache(SnapshotCache):
-    """
-    This is a cache that exists but no snapshot extension currently
-    in use has claimed
-    """
+class SnapshotUnknownFossil(SnapshotFossil):
+    """This is a saved fossil that is unclaimed by any extension currenly in use"""
 
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
 
 
 @attr.s
-class SnapshotCaches(object):
-    _snapshot_caches: Dict[str, "SnapshotCache"] = attr.ib(factory=dict)
+class SnapshotFossils(object):
+    _snapshot_fossils: Dict[str, "SnapshotFossil"] = attr.ib(factory=dict)
 
-    def get(self, location: str) -> Optional["SnapshotCache"]:
-        return self._snapshot_caches.get(location)
+    def get(self, location: str) -> Optional["SnapshotFossil"]:
+        return self._snapshot_fossils.get(location)
 
-    def add(self, snapshot_cache: "SnapshotCache") -> None:
-        self._snapshot_caches[snapshot_cache.location] = snapshot_cache
+    def add(self, snapshot_fossil: "SnapshotFossil") -> None:
+        self._snapshot_fossils[snapshot_fossil.location] = snapshot_fossil
 
-    def update(self, snapshot_cache: "SnapshotCache") -> None:
-        snapshot_cache_to_update = self.get(snapshot_cache.location)
-        if snapshot_cache_to_update is None:
-            snapshot_cache_to_update = SnapshotCache(location=snapshot_cache.location)
-            self.add(snapshot_cache_to_update)
-        snapshot_cache_to_update.merge(snapshot_cache)
+    def update(self, snapshot_fossil: "SnapshotFossil") -> None:
+        snapshot_fossil_to_update = self.get(snapshot_fossil.location)
+        if snapshot_fossil_to_update is None:
+            snapshot_fossil_to_update = SnapshotFossil(
+                location=snapshot_fossil.location
+            )
+            self.add(snapshot_fossil_to_update)
+        snapshot_fossil_to_update.merge(snapshot_fossil)
 
-    def merge(self, snapshot_caches: "SnapshotCaches") -> None:
-        for snapshot_cache in snapshot_caches:
-            self.update(snapshot_cache)
+    def merge(self, snapshot_fossils: "SnapshotFossils") -> None:
+        for snapshot_fossil in snapshot_fossils:
+            self.update(snapshot_fossil)
 
-    def __iter__(self) -> Iterator["SnapshotCache"]:
-        return iter(self._snapshot_caches.values())
+    def __iter__(self) -> Iterator["SnapshotFossil"]:
+        return iter(self._snapshot_fossils.values())
 
     def __contains__(self, key: str) -> bool:
-        return key in self._snapshot_caches
+        return key in self._snapshot_fossils

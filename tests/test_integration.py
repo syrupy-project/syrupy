@@ -283,7 +283,7 @@ def test_removed_snapshots(stubs):
     assert os.path.isfile(filepath)
 
 
-def test_removed_snapshot_cache(stubs):
+def test_removed_snapshot_fossil(stubs):
     _, testdir, tests, filepath = stubs
     assert os.path.isfile(filepath)
     testdir.makepyfile(test_file=tests["inject"])
@@ -295,7 +295,7 @@ def test_removed_snapshot_cache(stubs):
     assert not os.path.isfile(filepath)
 
 
-def test_removed_empty_snapshot_cache_only(stubs):
+def test_removed_empty_snapshot_fossil_only(stubs):
     _, testdir, _, filepath = stubs
     empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.ambr")
     with open(empty_filepath, "w") as empty_snapfile:
@@ -312,7 +312,7 @@ def test_removed_empty_snapshot_cache_only(stubs):
     assert not os.path.isfile(empty_filepath)
 
 
-def test_removed_hanging_snapshot_cache(stubs):
+def test_removed_hanging_snapshot_fossil(stubs):
     _, testdir, _, filepath = stubs
     hanging_filepath = os.path.join(os.path.dirname(filepath), "test_hanging.abc")
     with open(hanging_filepath, "w") as empty_snapfile:

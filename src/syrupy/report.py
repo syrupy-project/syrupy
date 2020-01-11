@@ -15,9 +15,9 @@ import attr
 
 from .data import (
     Snapshot,
-    SnapshotCache,
-    SnapshotCaches,
-    SnapshotUnknownCache,
+    SnapshotFossil,
+    SnapshotFossils,
+    SnapshotUnknownFossil,
 )
 from .location import TestLocation
 from .terminal import (
@@ -41,30 +41,30 @@ class SnapshotReport(object):
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
-    discovered: "SnapshotCaches" = attr.ib(factory=SnapshotCaches)
-    created: "SnapshotCaches" = attr.ib(factory=SnapshotCaches)
-    failed: "SnapshotCaches" = attr.ib(factory=SnapshotCaches)
-    matched: "SnapshotCaches" = attr.ib(factory=SnapshotCaches)
-    updated: "SnapshotCaches" = attr.ib(factory=SnapshotCaches)
-    used: "SnapshotCaches" = attr.ib(factory=SnapshotCaches)
+    discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    failed: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    matched: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
             self.discovered.merge(assertion.extension.discover_snapshots())
             for result in assertion.executions.values():
-                snapshot_cache = SnapshotCache(location=result.snapshot_location)
-                snapshot_cache.add(
+                snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
+                snapshot_fossil.add(
                     Snapshot(name=result.snapshot_name, data=result.final_data)
                 )
-                self.used.update(snapshot_cache)
+                self.used.update(snapshot_fossil)
                 if result.created:
-                    self.created.update(snapshot_cache)
+                    self.created.update(snapshot_fossil)
                 elif result.updated:
-                    self.updated.update(snapshot_cache)
+                    self.updated.update(snapshot_fossil)
                 elif result.success:
-                    self.matched.update(snapshot_cache)
+                    self.matched.update(snapshot_fossil)
                 else:
-                    self.failed.update(snapshot_cache)
+                    self.failed.update(snapshot_fossil)
 
     @property
     def num_created(self) -> int:
@@ -91,34 +91,36 @@ class SnapshotReport(object):
         return self.all_items == self.ran_items
 
     @property
-    def unused(self) -> "SnapshotCaches":
-        unused_caches = SnapshotCaches()
-        for unused_snapshot_cache in self._diff_snapshot_caches(
+    def unused(self) -> "SnapshotFossils":
+        unused_fossils = SnapshotFossils()
+        for unused_snapshot_fossil in self._diff_snapshot_fossils(
             self.discovered, self.used
         ):
-            snapshot_location = unused_snapshot_cache.location
+            snapshot_location = unused_snapshot_fossil.location
             if self.ran_all_collected_tests:
-                unused_snapshots = {*unused_snapshot_cache}
-                mark_cache_for_removal = snapshot_location not in self.used
+                unused_snapshots = {*unused_snapshot_fossil}
+                mark_for_removal = snapshot_location not in self.used
             else:
                 unused_snapshots = {
                     snapshot
-                    for snapshot in unused_snapshot_cache
+                    for snapshot in unused_snapshot_fossil
                     if any(
                         TestLocation(node).matches_snapshot_name(snapshot.name)
                         for node in self.ran_items
                     )
                 }
-                mark_cache_for_removal = False
+                mark_for_removal = False
 
             if unused_snapshots:
-                marked_unused_snapshot_cache = SnapshotCache(location=snapshot_location)
+                marked_unused_snapshot_fossil = SnapshotFossil(
+                    location=snapshot_location
+                )
                 for snapshot in unused_snapshots:
-                    marked_unused_snapshot_cache.add(snapshot)
-                unused_caches.add(marked_unused_snapshot_cache)
-            elif mark_cache_for_removal:
-                unused_caches.add(SnapshotUnknownCache(location=snapshot_location))
-        return unused_caches
+                    marked_unused_snapshot_fossil.add(snapshot)
+                unused_fossils.add(marked_unused_snapshot_fossil)
+            elif mark_for_removal:
+                unused_fossils.add(SnapshotUnknownFossil(location=snapshot_location))
+        return unused_fossils
 
     @property
     def lines(self) -> Generator[str, None, None]:
@@ -169,9 +171,9 @@ class SnapshotReport(object):
         if self.num_unused:
             yield ""
             if self.update_snapshots:
-                for snapshot_cache in self.unused:
-                    filepath = snapshot_cache.location
-                    snapshots = (snapshot.name for snapshot in snapshot_cache)
+                for snapshot_fossil in self.unused:
+                    filepath = snapshot_fossil.location
+                    snapshots = (snapshot.name for snapshot in snapshot_fossil)
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     yield warning_style(gettext("Deleted {} ({})")).format(
@@ -186,20 +188,20 @@ class SnapshotReport(object):
                 else:
                     yield error_style(message)
 
-    def _diff_snapshot_caches(
-        self, snapshot_caches1: "SnapshotCaches", snapshot_caches2: "SnapshotCaches"
-    ) -> "SnapshotCaches":
-        diffed_snapshot_caches: "SnapshotCaches" = SnapshotCaches()
-        for snapshot_cache1 in snapshot_caches1:
-            snapshot_cache2 = snapshot_caches2.get(
-                snapshot_cache1.location
-            ) or SnapshotCache(location=snapshot_cache1.location)
-            diffed_snapshot_cache = SnapshotCache(location=snapshot_cache1.location)
-            for snapshot in snapshot_cache1:
-                if not snapshot_cache2.get(snapshot.name):
-                    diffed_snapshot_cache.add(snapshot)
-            diffed_snapshot_caches.add(diffed_snapshot_cache)
-        return diffed_snapshot_caches
+    def _diff_snapshot_fossils(
+        self, snapshot_fossils1: "SnapshotFossils", snapshot_fossils2: "SnapshotFossils"
+    ) -> "SnapshotFossils":
+        diffed_snapshot_fossils: "SnapshotFossils" = SnapshotFossils()
+        for snapshot_fossil1 in snapshot_fossils1:
+            snapshot_fossil2 = snapshot_fossils2.get(
+                snapshot_fossil1.location
+            ) or SnapshotFossil(location=snapshot_fossil1.location)
+            diffed_snapshot_fossil = SnapshotFossil(location=snapshot_fossil1.location)
+            for snapshot in snapshot_fossil1:
+                if not snapshot_fossil2.get(snapshot.name):
+                    diffed_snapshot_fossil.add(snapshot)
+            diffed_snapshot_fossils.add(diffed_snapshot_fossil)
+        return diffed_snapshot_fossils
 
-    def _count_snapshots(self, snapshot_caches: "SnapshotCaches") -> int:
-        return sum(len(snapshot_cache) for snapshot_cache in snapshot_caches)
+    def _count_snapshots(self, snapshot_fossils: "SnapshotFossils") -> int:
+        return sum(len(snapshot_fossil) for snapshot_fossil in snapshot_fossils)

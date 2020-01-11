@@ -5,7 +5,7 @@ import pytest
 
 from syrupy.data import (
     Snapshot,
-    SnapshotCache,
+    SnapshotFossil,
 )
 from syrupy.extensions.single_file import SingleFileSnapshotExtension
 
@@ -20,13 +20,13 @@ def snapshot_raw(snapshot):
 
 
 def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
-    snapshot_cache = SnapshotCache(
-        location=os.path.join(testdir.tmpdir, "snapshot_cache.raw"),
+    snapshot_fossil = SnapshotFossil(
+        location=os.path.join(testdir.tmpdir, "snapshot_fossil.raw"),
     )
-    snapshot_cache.add(Snapshot(name="snapshot_name", data="non binary data"))
+    snapshot_fossil.add(Snapshot(name="snapshot_name", data="non binary data"))
     with pytest.raises(TypeError, match="Expected 'bytes', got 'str'"):
-        snapshot_raw.extension._write_snapshot_cache(snapshot_cache=snapshot_cache)
-    assert not os.path.exists(snapshot_cache.location)
+        snapshot_raw.extension._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
+    assert not os.path.exists(snapshot_fossil.location)
 
 
 class TestClass:
