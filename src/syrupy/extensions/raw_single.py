@@ -13,14 +13,14 @@ from syrupy.data import (
     SnapshotFile,
 )
 
-from .base import AbstractSnapshotSerializer
+from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
     from syrupy.types import SerializableData, SerializedData  # noqa: F401
 
 
-class RawSingleSnapshotSerializer(AbstractSnapshotSerializer):
+class RawSingleSnapshotSerializer(AbstractSyrupyExtension):
     @property
     def file_extension(self) -> str:
         return "raw"

@@ -9,9 +9,9 @@ def testcases(testdir):
         """
         import pytest
 
-        from syrupy.serializers.base import AbstractSnapshotSerializer
+        from syrupy.extensions.base import AbstractSyrupyExtension
 
-        class CustomSnapshotSerializer(AbstractSnapshotSerializer):
+        class CustomSnapshotSerializer(AbstractSyrupyExtension):
             def file_extension(self):
                 return ""
 

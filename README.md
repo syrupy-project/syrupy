@@ -55,16 +55,16 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.          |
 | `--snapshot-warn-unused` | Syrupy default behaviour is to fail the test session when there any unused snapshots. This instructs the plugin not to fail. |
 
-### Serializers
+### Syrupy Extensions
 
-Syrupy comes with a few built-in serializers for you to choose from. You should also feel free to extend the AbstractSnapshotSerializer if your project has a need not captured by one our built-ins.
+Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the AbstractSyrupyExtension if your project has a need not captured by one our built-ins.
 
 - **`AmberSnapshotSerializer`**: This is the default serializer which generates `.ambr` files. Serialization of most data types are supported, however non-sortable types such as frozenset are experimental.
 - **`RawSingleSnapshotSerializer`**: Unlike the `AmberSnapshotSerializer`, which groups all tests within a single test file into a singular snapshot file, the Raw Single serializer creates one `.raw` file per test case.
 - **`PNGSnapshotSerializer`**: An extension of the Raw Single serializer, this should be used to produce `.png` files.
 - **`SVGSnapshotSerializer`**: Another extension of Raw Single. This produces `.svg` files from an svg string.
 
-### Advanced Usage, Plugin Support
+### Advanced Usage, Syrupy Plugin Support
 
 ```python
 import pytest
@@ -80,7 +80,7 @@ def test_image(snapshot_custom):
     assert actual == snapshot_custom
 ```
 
-`CustomSerializerClass` should extend `syrupy.serializers.base.AbstractSnapshotSerializer`.
+`CustomSerializerClass` should extend `syrupy.extensions.base.AbstractSyrupyExtension`.
 
 ## Uninstalling
 

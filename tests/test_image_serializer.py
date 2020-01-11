@@ -2,7 +2,7 @@ import base64
 
 import pytest
 
-from syrupy.serializers.image import (
+from syrupy.extensions.image import (
     PNGImageSnapshotSerializer,
     SVGImageSnapshotSerializer,
 )

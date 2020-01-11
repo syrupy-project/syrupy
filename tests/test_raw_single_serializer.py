@@ -7,7 +7,7 @@ from syrupy.data import (
     Snapshot,
     SnapshotFile,
 )
-from syrupy.serializers.raw_single import RawSingleSnapshotSerializer
+from syrupy.extensions.raw_single import RawSingleSnapshotSerializer
 
 
 if TYPE_CHECKING:

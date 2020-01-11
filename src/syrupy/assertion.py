@@ -14,7 +14,7 @@ from .exceptions import SnapshotDoesNotExist
 
 if TYPE_CHECKING:
     from .location import TestLocation
-    from .serializers.base import AbstractSnapshotSerializer
+    from .extensions.base import AbstractSyrupyExtension
     from .session import SnapshotSession
     from .types import SerializableData, SerializedData  # noqa: F401
 
@@ -40,7 +40,7 @@ class AssertionResult(object):
 class SnapshotAssertion:
     name: str = attr.ib(default="snapshot")
     _session: "SnapshotSession" = attr.ib(kw_only=True)
-    _serializer_class: Type["AbstractSnapshotSerializer"] = attr.ib(kw_only=True)
+    _serializer_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
     _executions: int = attr.ib(init=False, default=0, kw_only=True)
@@ -52,9 +52,9 @@ class SnapshotAssertion:
         self._session.register_request(self)
 
     @property
-    def serializer(self) -> "AbstractSnapshotSerializer":
+    def serializer(self) -> "AbstractSyrupyExtension":
         if not getattr(self, "_serializer", None):
-            self._serializer: "AbstractSnapshotSerializer" = self._serializer_class(
+            self._serializer: "AbstractSyrupyExtension" = self._serializer_class(
                 test_location=self._test_location
             )
         return self._serializer
@@ -68,7 +68,7 @@ class SnapshotAssertion:
         return self._execution_results
 
     def with_class(
-        self, serializer_class: Optional[Type["AbstractSnapshotSerializer"]] = None,
+        self, serializer_class: Optional[Type["AbstractSyrupyExtension"]] = None,
     ) -> "SnapshotAssertion":
         return self.__class__(
             update_snapshots=self._update_snapshots,

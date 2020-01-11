@@ -40,32 +40,7 @@ if TYPE_CHECKING:
     from syrupy.types import SerializableData, SerializedData
 
 
-class AbstractSnapshotSerializer(ABC):
-    def __init__(self, test_location: "TestLocation"):
-        self._test_location = test_location
-
-    @property
-    @abstractmethod
-    def file_extension(self) -> str:
-        raise NotImplementedError
-
-    @property
-    def test_location(self) -> "TestLocation":
-        return self._test_location
-
-    @property
-    def dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filename)
-        subdir_name = self.snapshot_subdirectory_name
-        if subdir_name is not None:
-            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
-        return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
-
-    @property
-    def snapshot_subdirectory_name(self) -> Optional[str]:
-        """Optional subdirectory in which to store snapshots."""
-        return None
-
+class SnapshotSerializer(ABC):
     @abstractmethod
     def serialize(self, data: "SerializableData") -> "SerializedData":
         """
@@ -74,29 +49,8 @@ class AbstractSnapshotSerializer(ABC):
         """
         raise NotImplementedError
 
-    def discover_snapshots(self) -> "SnapshotFiles":
-        """
-        Returns all snapshot files relating to serializer test location
-        """
-        discovered_files: "SnapshotFiles" = SnapshotFiles()
-        for filepath in walk_snapshot_dir(self.dirname):
-            if filepath.endswith(self.file_extension):
-                snapshot_file = self._discover_snapshots(filepath)
-                if not snapshot_file.has_snapshots:
-                    snapshot_file = SnapshotEmptyFile(filepath=filepath)
-            else:
-                snapshot_file = SnapshotFile(filepath=filepath)
-            discovered_files.add(snapshot_file)
-        return discovered_files
 
-    @abstractmethod
-    def _discover_snapshots(self, snapshot_file: str) -> "SnapshotFile":
-        """
-        Given a path to a snapshot file, returns all snapshots in the file.
-        Snapshot name is dependent on serializer implementation.
-        """
-        raise NotImplementedError
-
+class SnapshotStorage(ABC):
     @final
     def read_snapshot(self, index: int) -> "SerializedData":
         """
@@ -171,14 +125,6 @@ class AbstractSnapshotSerializer(ABC):
     def post_write(self, data: "SerializableData", index: int = 0) -> None:
         pass
 
-    def get_snapshot_name(self, index: int = 0) -> str:
-        index_suffix = f".{index}" if index > 0 else ""
-        testname = self._test_location.testname
-
-        if self._test_location.classname is not None:
-            return f"{self._test_location.classname}.{testname}{index_suffix}"
-        return f"{testname}{index_suffix}"
-
     def get_filepath(self, index: int) -> str:
         """Returns full filepath where snapshot data is stored."""
         basename = self.get_file_basename(index=index)
@@ -197,6 +143,24 @@ class AbstractSnapshotSerializer(ABC):
         except FileExistsError:
             pass
 
+    @property
+    @abstractmethod
+    def file_extension(self) -> str:
+        raise NotImplementedError
+
+    @property
+    def dirname(self) -> str:
+        test_dirname = os.path.dirname(self.test_location.filename)
+        subdir_name = self.snapshot_subdirectory_name
+        if subdir_name is not None:
+            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
+        return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
+
+    @property
+    def snapshot_subdirectory_name(self) -> Optional[str]:
+        """Optional subdirectory in which to store snapshots."""
+        return None
+
     @abstractmethod
     def _read_snapshot_from_file(
         self, snapshot_filepath: str, snapshot_name: str
@@ -213,6 +177,8 @@ class AbstractSnapshotSerializer(ABC):
         """
         raise NotImplementedError
 
+
+class SnapshotReporter(ABC):
     def diff_lines(
         self, serialized_data: "SerializedData", snapshot_data: "SerializedData"
     ) -> Generator[str, None, None]:
@@ -244,3 +210,45 @@ class AbstractSnapshotSerializer(ABC):
             emphasize(line_style(char)) if str(marker) in "-+^" else line_style(char)
             for marker, char in zip_longest(marker_line.strip(), line)
         )
+
+
+class AbstractSyrupyExtension(
+    ABC, SnapshotSerializer, SnapshotStorage, SnapshotReporter
+):
+    def __init__(self, test_location: "TestLocation"):
+        self._test_location = test_location
+
+    @property
+    def test_location(self) -> "TestLocation":
+        return self._test_location
+
+    def discover_snapshots(self) -> "SnapshotFiles":
+        """
+        Returns all snapshot files relating to serializer test location
+        """
+        discovered_files: "SnapshotFiles" = SnapshotFiles()
+        for filepath in walk_snapshot_dir(self.dirname):
+            if filepath.endswith(self.file_extension):
+                snapshot_file = self._discover_snapshots(filepath)
+                if not snapshot_file.has_snapshots:
+                    snapshot_file = SnapshotEmptyFile(filepath=filepath)
+            else:
+                snapshot_file = SnapshotFile(filepath=filepath)
+            discovered_files.add(snapshot_file)
+        return discovered_files
+
+    @abstractmethod
+    def _discover_snapshots(self, snapshot_file: str) -> "SnapshotFile":
+        """
+        Given a path to a snapshot file, returns all snapshots in the file.
+        Snapshot name is dependent on serializer implementation.
+        """
+        raise NotImplementedError
+
+    def get_snapshot_name(self, index: int = 0) -> str:
+        index_suffix = f".{index}" if index > 0 else ""
+        testname = self._test_location.testname
+
+        if self._test_location.classname is not None:
+            return f"{self._test_location.classname}.{testname}{index_suffix}"
+        return f"{testname}{index_suffix}"

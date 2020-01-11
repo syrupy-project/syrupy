@@ -9,8 +9,8 @@ def testcases(testdir):
         """
         import pytest
 
-        from syrupy.serializers.raw_single import RawSingleSnapshotSerializer
-        from syrupy.serializers.image import (
+        from syrupy.extensions.raw_single import RawSingleSnapshotSerializer
+        from syrupy.extensions.image import (
             PNGImageSnapshotSerializer,
             SVGImageSnapshotSerializer,
         )

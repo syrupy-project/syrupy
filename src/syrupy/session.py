@@ -15,7 +15,7 @@ from .report import SnapshotReport
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
-    from .serializers.base import AbstractSnapshotSerializer  # noqa: F401
+    from .extensions.base import AbstractSyrupyExtension  # noqa: F401
 
 
 class SnapshotSession:
@@ -29,7 +29,7 @@ class SnapshotSession:
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
-        self._serializers: Dict[str, "AbstractSnapshotSerializer"] = {}
+        self._serializers: Dict[str, "AbstractSyrupyExtension"] = {}
 
     def start(self) -> None:
         self.report = None

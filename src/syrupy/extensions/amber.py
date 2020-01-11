@@ -14,7 +14,7 @@ from syrupy.data import (
     SnapshotFile,
 )
 
-from .base import AbstractSnapshotSerializer
+from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
@@ -226,7 +226,7 @@ class DataSerializer:
         return serialize_method(**serialize_kwargs)
 
 
-class AmberSnapshotSerializer(AbstractSnapshotSerializer):
+class AmberSnapshotSerializer(AbstractSyrupyExtension):
     """
     An amber snapshot file stores data in the following format:
 
