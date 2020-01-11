@@ -64,7 +64,7 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`PNGSnapshotExtension`**: An extension of raw single, this should be used to produce `.png` files.
 - **`SVGSnapshotExtension`**: Another extension of raw single. This produces `.svg` files from an svg string.
 
-### Advanced Usage, Syrupy Plugin Support
+### Advanced Usage, Extending Syrupy
 
 ```python
 import pytest
