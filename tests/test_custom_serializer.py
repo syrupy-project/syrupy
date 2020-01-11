@@ -12,13 +12,13 @@ def testcases(testdir):
         from syrupy.extensions.base import AbstractSyrupyExtension
 
         class CustomSnapshotExtension(AbstractSyrupyExtension):
-            def file_extension(self):
+            def _file_extension(self):
                 return ""
 
             def serialize(self, data):
                 return str(data)
 
-            def _discover_snapshots(self, filepath):
+            def _discover_snapshots(self, snapshot_location):
                 pass
 
             def get_snapshot_name(self, index = 0):
@@ -28,7 +28,7 @@ def testcases(testdir):
             def _read_snapshot_from_file(self, file, name):
                 pass
 
-            def _write_snapshot_to_file(self, snapshot_file):
+            def _write_snapshot_to_file(self, snapshot_cache):
                 pass
 
             def delete_snapshots_from_file(self, file, names):

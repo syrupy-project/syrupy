@@ -20,9 +20,9 @@ from typing_extensions import final
 from syrupy.constants import SNAPSHOT_DIRNAME
 from syrupy.data import (
     Snapshot,
-    SnapshotEmptyFile,
-    SnapshotFile,
-    SnapshotFiles,
+    SnapshotCache,
+    SnapshotCaches,
+    SnapshotEmptyCache,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
@@ -81,7 +81,7 @@ class SnapshotCacher(ABC):
 
     @abstractmethod
     def delete_snapshots_from_file(
-        self, snapshot_filepath: str, snapshot_names: Set[str]
+        self, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
         """
         Remove snapshots from a snapshot file.
@@ -97,9 +97,9 @@ class SnapshotCacher(ABC):
         """
         Override `_read_snapshot_from_file` in subclass to change behaviour
         """
-        snapshot_file = self.get_filepath(index)
+        snapshot_location = self.get_location(index)
         snapshot_name = self.get_snapshot_name(index)
-        snapshot = self._read_snapshot_from_file(snapshot_file, snapshot_name)
+        snapshot = self._read_snapshot_from_file(snapshot_location, snapshot_name)
         if snapshot is None:
             raise SnapshotDoesNotExist()
         return snapshot
@@ -115,7 +115,7 @@ class SnapshotCacher(ABC):
         """
         Override `_write_snapshot_to_file` in subclass to change behaviour
         """
-        snapshot_filepath = self.get_filepath(index)
+        snapshot_location = self.get_location(index)
         snapshot_name = self.get_snapshot_name(index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = f"""
@@ -123,19 +123,19 @@ class SnapshotCacher(ABC):
             Consider adding '{self.test_location.testname}' to the generated name.
             """
             warnings.warn(warning_msg)
-        snapshot_file = SnapshotFile(filepath=snapshot_filepath)
-        snapshot_file.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_to_file(snapshot_file)
+        snapshot_cache = SnapshotCache(location=snapshot_location)
+        snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
+        self._write_snapshot_to_file(snapshot_cache)
 
     def post_write(self, data: "SerializedData", index: int = 0) -> None:
         pass
 
-    def get_filepath(self, index: int) -> str:
-        """Returns full filepath where snapshot data is stored."""
-        basename = self.get_file_basename(index=index)
-        return os.path.join(self.dirname, f"{basename}.{self.file_extension}")
+    def get_location(self, index: int) -> str:
+        """Returns full location where snapshot data is stored."""
+        basename = self._get_file_basename(index=index)
+        return os.path.join(self.dirname, f"{basename}.{self._file_extension}")
 
-    def get_file_basename(self, index: int) -> str:
+    def _get_file_basename(self, index: int) -> str:
         """Returns file basename without extension. Used to create full filepath."""
         return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
 
@@ -144,14 +144,17 @@ class SnapshotCacher(ABC):
         Ensures the folder path for the snapshot file exists.
         """
         try:
-            os.makedirs(os.path.dirname(self.get_filepath(index)))
+            os.makedirs(os.path.dirname(self.get_location(index)))
         except FileExistsError:
             pass
 
     @property
     @abstractmethod
-    def file_extension(self) -> str:
+    def _file_extension(self) -> str:
         raise NotImplementedError
+
+    def is_snapshot_location(self, location: str) -> bool:
+        return location.endswith(self._file_extension)
 
     @property
     def dirname(self) -> str:
@@ -176,7 +179,7 @@ class SnapshotCacher(ABC):
 
     @abstractmethod
     def _read_snapshot_from_file(
-        self, snapshot_filepath: str, snapshot_name: str
+        self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializedData"]:
         """
         Read the snapshot file and get only the snapshot data for assertion
@@ -184,7 +187,7 @@ class SnapshotCacher(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
+    def _write_snapshot_to_file(self, snapshot_cache: "SnapshotCache") -> None:
         """
         Adds the snapshot data to the snapshots read from the file
         """
@@ -233,23 +236,23 @@ class AbstractSyrupyExtension(SnapshotSerializer, SnapshotCacher, SnapshotReport
     def test_location(self) -> "TestLocation":
         return self._test_location
 
-    def discover_snapshots(self) -> "SnapshotFiles":
+    def discover_snapshots(self) -> "SnapshotCaches":
         """
         Returns all snapshot files relating to test location
         """
-        discovered_files: "SnapshotFiles" = SnapshotFiles()
+        discovered_files: "SnapshotCaches" = SnapshotCaches()
         for filepath in walk_snapshot_dir(self.dirname):
-            if filepath.endswith(self.file_extension):
-                snapshot_file = self._discover_snapshots(filepath)
-                if not snapshot_file.has_snapshots:
-                    snapshot_file = SnapshotEmptyFile(filepath=filepath)
+            if self.is_snapshot_location(filepath):
+                snapshot_cache = self._discover_snapshots(filepath)
+                if not snapshot_cache.has_snapshots:
+                    snapshot_cache = SnapshotEmptyCache(location=filepath)
             else:
-                snapshot_file = SnapshotFile(filepath=filepath)
-            discovered_files.add(snapshot_file)
+                snapshot_cache = SnapshotCache(location=filepath)
+            discovered_files.add(snapshot_cache)
         return discovered_files
 
     @abstractmethod
-    def _discover_snapshots(self, snapshot_file: str) -> "SnapshotFile":
+    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
         """
         Given a path to a snapshot file, returns all snapshots in the file.
         Snapshot name is dependent on serializer implementation.

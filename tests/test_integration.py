@@ -283,7 +283,7 @@ def test_removed_snapshots(stubs):
     assert os.path.isfile(filepath)
 
 
-def test_removed_snapshot_file(stubs):
+def test_removed_snapshot_cache(stubs):
     _, testdir, tests, filepath = stubs
     assert os.path.isfile(filepath)
     testdir.makepyfile(test_file=tests["inject"])
@@ -295,7 +295,7 @@ def test_removed_snapshot_file(stubs):
     assert not os.path.isfile(filepath)
 
 
-def test_removed_empty_snapshot_file_only(stubs):
+def test_removed_empty_snapshot_cache_only(stubs):
     _, testdir, _, filepath = stubs
     empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.ambr")
     with open(empty_filepath, "w") as empty_snapfile:
@@ -305,14 +305,14 @@ def test_removed_empty_snapshot_file_only(stubs):
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert "empty snapshot file" in result_stdout
+    assert "empty snapshot" in result_stdout
     assert os.path.relpath(empty_filepath) in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
     assert not os.path.isfile(empty_filepath)
 
 
-def test_removed_hanging_snapshot_file(stubs):
+def test_removed_hanging_snapshot_cache(stubs):
     _, testdir, _, filepath = stubs
     hanging_filepath = os.path.join(os.path.dirname(filepath), "test_hanging.abc")
     with open(hanging_filepath, "w") as empty_snapfile:
@@ -322,7 +322,7 @@ def test_removed_hanging_snapshot_file(stubs):
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert "unknown snapshot file" in result_stdout
+    assert "unknown snapshot" in result_stdout
     assert os.path.relpath(hanging_filepath) in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)

@@ -9,8 +9,8 @@ from typing import (
 import attr
 
 from .constants import (
-    SNAPSHOT_EMPTY_FILE_KEY,
-    SNAPSHOT_UNKNOWN_FILE_KEY,
+    SNAPSHOT_EMPTY_CACHE_KEY,
+    SNAPSHOT_UNKNOWN_CACHE_KEY,
 )
 
 
@@ -26,17 +26,17 @@ class Snapshot(object):
 
 @attr.s(frozen=True)
 class SnapshotEmpty(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_EMPTY_FILE_KEY, init=False)
+    name: str = attr.ib(default=SNAPSHOT_EMPTY_CACHE_KEY, init=False)
 
 
 @attr.s(frozen=True)
 class SnapshotUnknown(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FILE_KEY, init=False)
+    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_CACHE_KEY, init=False)
 
 
 @attr.s
-class SnapshotFile(object):
-    filepath: str = attr.ib()
+class SnapshotCache(object):
+    location: str = attr.ib()
     _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)
 
     @property
@@ -49,8 +49,8 @@ class SnapshotFile(object):
     def add(self, snapshot: "Snapshot") -> None:
         self._snapshots[snapshot.name] = snapshot
 
-    def merge(self, snapshot_file: "SnapshotFile") -> None:
-        for snapshot in snapshot_file:
+    def merge(self, snapshot_cache: "SnapshotCache") -> None:
+        for snapshot in snapshot_cache:
             self.add(snapshot)
 
     def remove(self, snapshot_name: str) -> None:
@@ -68,7 +68,7 @@ SNAPSHOTS_UNKNOWN = MappingProxyType({SnapshotUnknown().name: SnapshotUnknown()}
 
 
 @attr.s(frozen=True)
-class SnapshotEmptyFile(SnapshotFile):
+class SnapshotEmptyCache(SnapshotCache):
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_EMPTY, init=False)
 
     @property
@@ -77,33 +77,33 @@ class SnapshotEmptyFile(SnapshotFile):
 
 
 @attr.s(frozen=True)
-class SnapshotUnknownFile(SnapshotFile):
+class SnapshotUnknownCache(SnapshotCache):
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
 
 
 @attr.s
-class SnapshotFiles(object):
-    _snapshot_files: Dict[str, "SnapshotFile"] = attr.ib(factory=dict)
+class SnapshotCaches(object):
+    _snapshot_caches: Dict[str, "SnapshotCache"] = attr.ib(factory=dict)
 
-    def get(self, filepath: str) -> Optional["SnapshotFile"]:
-        return self._snapshot_files.get(filepath)
+    def get(self, location: str) -> Optional["SnapshotCache"]:
+        return self._snapshot_caches.get(location)
 
-    def add(self, snapshot_file: "SnapshotFile") -> None:
-        self._snapshot_files[snapshot_file.filepath] = snapshot_file
+    def add(self, snapshot_cache: "SnapshotCache") -> None:
+        self._snapshot_caches[snapshot_cache.location] = snapshot_cache
 
-    def update(self, snapshot_file: "SnapshotFile") -> None:
-        snapshot_file_to_update = self.get(snapshot_file.filepath)
-        if snapshot_file_to_update is None:
-            snapshot_file_to_update = SnapshotFile(filepath=snapshot_file.filepath)
-            self.add(snapshot_file_to_update)
-        snapshot_file_to_update.merge(snapshot_file)
+    def update(self, snapshot_cache: "SnapshotCache") -> None:
+        snapshot_cache_to_update = self.get(snapshot_cache.location)
+        if snapshot_cache_to_update is None:
+            snapshot_cache_to_update = SnapshotCache(location=snapshot_cache.location)
+            self.add(snapshot_cache_to_update)
+        snapshot_cache_to_update.merge(snapshot_cache)
 
-    def merge(self, snapshot_files: "SnapshotFiles") -> None:
-        for snapshot_file in snapshot_files:
-            self.update(snapshot_file)
+    def merge(self, snapshot_caches: "SnapshotCaches") -> None:
+        for snapshot_cache in snapshot_caches:
+            self.update(snapshot_cache)
 
-    def __iter__(self) -> Iterator["SnapshotFile"]:
-        return iter(self._snapshot_files.values())
+    def __iter__(self) -> Iterator["SnapshotCache"]:
+        return iter(self._snapshot_caches.values())
 
     def __contains__(self, key: str) -> bool:
-        return key in self._snapshot_files
+        return key in self._snapshot_caches

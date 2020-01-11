@@ -9,7 +9,7 @@ from typing import (
 )
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
-from .data import SnapshotFiles
+from .data import SnapshotCaches
 from .report import SnapshotReport
 
 
@@ -51,8 +51,8 @@ class SnapshotSession:
         if self.report.num_unused:
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    unused_snapshot_files=self.report.unused,
-                    used_snapshot_files=self.report.used,
+                    unused_snapshot_caches=self.report.unused,
+                    used_snapshot_caches=self.report.used,
                 )
             elif not self.warn_unused_snapshots:
                 exitstatus |= EXIT_STATUS_FAIL_UNUSED
@@ -61,7 +61,7 @@ class SnapshotSession:
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
         discovered_extensions = {
-            discovered.filepath: assertion.extension
+            discovered.location: assertion.extension
             for discovered in assertion.extension.discover_snapshots()
             if discovered.has_snapshots
         }
@@ -69,15 +69,16 @@ class SnapshotSession:
 
     def remove_unused_snapshots(
         self,
-        unused_snapshot_files: "SnapshotFiles",
-        used_snapshot_files: "SnapshotFiles",
+        unused_snapshot_caches: "SnapshotCaches",
+        used_snapshot_caches: "SnapshotCaches",
     ) -> None:
-        for unused_snapshot_file in unused_snapshot_files:
-            snapshot_file = unused_snapshot_file.filepath
-            extension = self._extensions.get(snapshot_file)
+        for unused_snapshot_cache in unused_snapshot_caches:
+            snapshot_cache = unused_snapshot_cache.location
+            extension = self._extensions.get(snapshot_cache)
             if extension:
                 extension.delete_snapshots_from_file(
-                    snapshot_file, {snapshot.name for snapshot in unused_snapshot_file}
+                    snapshot_cache,
+                    {snapshot.name for snapshot in unused_snapshot_cache},
                 )
-            elif snapshot_file not in used_snapshot_files:
-                os.remove(snapshot_file)
+            elif snapshot_cache not in used_snapshot_caches:
+                os.remove(snapshot_cache)

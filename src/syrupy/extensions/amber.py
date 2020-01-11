@@ -11,7 +11,7 @@ from typing import (
 
 from syrupy.data import (
     Snapshot,
-    SnapshotFile,
+    SnapshotCache,
 )
 
 from .base import AbstractSyrupyExtension
@@ -32,13 +32,13 @@ class DataSerializer:
             return "..."
 
     @classmethod
-    def write_file(cls, snapshot_file: "SnapshotFile") -> None:
+    def write_file(cls, snapshot_cache: "SnapshotCache") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
-        filepath = snapshot_file.filepath
+        filepath = snapshot_cache.location
         with open(filepath, "w") as f:
-            for snapshot in sorted(snapshot_file, key=lambda s: s.name):
+            for snapshot in sorted(snapshot_cache, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
@@ -47,7 +47,7 @@ class DataSerializer:
                     f.write(f"{cls._marker_divider}\n")
 
     @classmethod
-    def read_file(cls, filepath: str) -> "SnapshotFile":
+    def read_file(cls, filepath: str) -> "SnapshotCache":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
@@ -55,7 +55,7 @@ class DataSerializer:
         """
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
-        snapshot_file = SnapshotFile(filepath=filepath)
+        snapshot_cache = SnapshotCache(location=filepath)
         try:
             with open(filepath, "r") as f:
                 test_name = None
@@ -69,13 +69,13 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshot_file.add(
+                            snapshot_cache.add(
                                 Snapshot(name=test_name, data=snapshot_data[:-1])
                             )
         except FileNotFoundError:
             pass
 
-        return snapshot_file
+        return snapshot_cache
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
@@ -240,34 +240,34 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     """
 
     @property
-    def file_extension(self) -> str:
+    def _file_extension(self) -> str:
         return "ambr"
 
-    def _discover_snapshots(self, filepath: str) -> "SnapshotFile":
-        return DataSerializer.read_file(filepath)
+    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
+        return DataSerializer.read_file(snapshot_location)
 
     def _read_snapshot_from_file(
-        self, snapshot_filepath: str, snapshot_name: str
+        self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
-        snapshot = DataSerializer.read_file(snapshot_filepath).get(snapshot_name)
+        snapshot = DataSerializer.read_file(snapshot_location).get(snapshot_name)
         return snapshot.data if snapshot else None
 
-    def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
-        snapshot_file_to_update = DataSerializer.read_file(snapshot_file.filepath)
-        snapshot_file_to_update.merge(snapshot_file)
-        DataSerializer.write_file(snapshot_file_to_update)
+    def _write_snapshot_to_file(self, snapshot_cache: "SnapshotCache") -> None:
+        snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache.location)
+        snapshot_cache_to_update.merge(snapshot_cache)
+        DataSerializer.write_file(snapshot_cache_to_update)
 
     def delete_snapshots_from_file(
-        self, snapshot_file: str, snapshot_names: Set[str]
+        self, snapshot_cache: str, snapshot_names: Set[str]
     ) -> None:
-        snapshot_file_to_update = DataSerializer.read_file(snapshot_file)
+        snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache)
         for snapshot_name in snapshot_names:
-            snapshot_file_to_update.remove(snapshot_name)
+            snapshot_cache_to_update.remove(snapshot_name)
 
-        if snapshot_file_to_update.has_snapshots:
-            DataSerializer.write_file(snapshot_file_to_update)
+        if snapshot_cache_to_update.has_snapshots:
+            DataSerializer.write_file(snapshot_cache_to_update)
         else:
-            os.remove(snapshot_file)
+            os.remove(snapshot_cache)
 
     def serialize(self, data: "SerializableData") -> str:
         """

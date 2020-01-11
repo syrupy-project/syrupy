@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 @attr.s
 class AssertionResult(object):
-    snapshot_filepath: str = attr.ib()
+    snapshot_location: str = attr.ib()
     snapshot_name: str = attr.ib()
     asserted_data: Optional["SerializedData"] = attr.ib()
     recalled_data: Optional["SerializedData"] = attr.ib()
@@ -106,7 +106,7 @@ class SnapshotAssertion:
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         try:
-            snapshot_filepath = self.extension.get_filepath(self.num_executions)
+            snapshot_location = self.extension.get_location(self.num_executions)
             snapshot_name = self.extension.get_snapshot_name(self.num_executions)
             snapshot_data = self._recall_data(index=self.num_executions)
             serialized_data = self.extension.serialize(data)
@@ -122,7 +122,7 @@ class SnapshotAssertion:
             snapshot_created = snapshot_data is None and assertion_success
             snapshot_updated = matches is False and assertion_success
             self._execution_results[self._executions] = AssertionResult(
-                snapshot_filepath=snapshot_filepath,
+                snapshot_location=snapshot_location,
                 snapshot_name=snapshot_name,
                 recalled_data=snapshot_data,
                 asserted_data=serialized_data,
