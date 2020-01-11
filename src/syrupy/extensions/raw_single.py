@@ -60,7 +60,7 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_to_cache(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
         self.__write_file(snapshot_cache.location, next(iter(snapshot_cache)).data)
 
     def delete_snapshots(self, snapshot_location: str, _: Set[str]) -> None:

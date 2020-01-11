@@ -28,7 +28,7 @@ def testcases(testdir):
             def _read_snapshot_from_location(self, location, name):
                 pass
 
-            def _write_snapshot_to_cache(self, snapshot_cache):
+            def _write_snapshot_cache(self, snapshot_cache):
                 pass
 
             def delete_snapshots(self, location, names):

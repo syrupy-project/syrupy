@@ -84,7 +84,7 @@ class SnapshotCacher(ABC):
         Utility method for writing the contents of a snapshot assertion.
         Will call `pre_write`, then perform `write` and finally `post_write`.
 
-        Override `_write_snapshot_to_cache` in subclass to change behaviour
+        Override `_write_snapshot_cache` in subclass to change behaviour
         """
         self.pre_write(data, index=index)
         snapshot_location = self.get_location(index)
@@ -97,7 +97,7 @@ class SnapshotCacher(ABC):
             warnings.warn(warning_msg)
         snapshot_cache = SnapshotCache(location=snapshot_location)
         snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_to_cache(snapshot_cache)
+        self._write_snapshot_cache(snapshot_cache)
         self.post_write(data, index=index)
 
     @abstractmethod
@@ -179,7 +179,7 @@ class SnapshotCacher(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_to_cache(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
         """
         Adds the snapshot data to the snapshots read from the file
         """
