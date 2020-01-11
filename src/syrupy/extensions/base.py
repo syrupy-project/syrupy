@@ -74,37 +74,52 @@ class SnapshotCacher(ABC):
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
+    def discover_snapshots(self) -> "SnapshotCaches":
+        """
+        Returns all snapshot cached in relation to test location
+        """
+        discovered_files: "SnapshotCaches" = SnapshotCaches()
+        for filepath in walk_snapshot_dir(self._dirname):
+            if self.is_snapshot_location(filepath):
+                snapshot_cache = self._read_snapshot_cache(filepath)
+                if not snapshot_cache.has_snapshots:
+                    snapshot_cache = SnapshotEmptyCache(location=filepath)
+            else:
+                snapshot_cache = SnapshotCache(location=filepath)
+            discovered_files.add(snapshot_cache)
+        return discovered_files
+
     @final
     def read_snapshot(self, index: int) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
-        Will call `pre_read`, then perform `read` and finally `post_read`,
+        Will call `_pre_read`, then perform `read` and finally `post_read`,
         returning the contents parsed from the `read` method.
 
-        Override `_read_snapshot_from_location` in subclass to change behaviour
+        Override `_read_snapshot_data_from_location` in subclass to change behaviour
         """
         try:
-            self.pre_read(index=index)
+            self._pre_read(index=index)
             snapshot_location = self.get_location(index)
             snapshot_name = self.get_snapshot_name(index)
-            snapshot = self._read_snapshot_from_location(
+            snapshot_data = self._read_snapshot_data_from_location(
                 snapshot_location, snapshot_name
             )
-            if snapshot is None:
+            if snapshot_data is None:
                 raise SnapshotDoesNotExist()
-            return snapshot
+            return snapshot_data
         finally:
-            self.post_read(index=index)
+            self._pre_read(index=index)
 
     @final
     def write_snapshot(self, data: "SerializedData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
-        Will call `pre_write`, then perform `write` and finally `post_write`.
+        Will call `_pre_write`, then perform `write` and finally `_post_write`.
 
         Override `_write_snapshot_cache` in subclass to change behaviour
         """
-        self.pre_write(data, index=index)
+        self._pre_write(data, index=index)
         snapshot_location = self.get_location(index)
         snapshot_name = self.get_snapshot_name(index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
@@ -116,7 +131,7 @@ class SnapshotCacher(ABC):
         snapshot_cache = SnapshotCache(location=snapshot_location)
         snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
         self._write_snapshot_cache(snapshot_cache)
-        self.post_write(data, index=index)
+        self._post_write(data, index=index)
 
     @abstractmethod
     def delete_snapshots(
@@ -128,31 +143,38 @@ class SnapshotCacher(ABC):
         """
         raise NotImplementedError
 
-    def pre_read(self, index: int = 0) -> None:
+    def _pre_read(self, index: int = 0) -> None:
         pass
 
-    def post_read(self, index: int = 0) -> None:
+    def _post_read(self, index: int = 0) -> None:
         pass
 
-    def pre_write(self, data: "SerializedData", index: int = 0) -> None:
+    def _pre_write(self, data: "SerializedData", index: int = 0) -> None:
         self.__ensure_snapshot_dir(index)
 
-    def post_write(self, data: "SerializedData", index: int = 0) -> None:
+    def _post_write(self, data: "SerializedData", index: int = 0) -> None:
         pass
 
     @abstractmethod
-    def _read_snapshot_from_location(
+    def _read_snapshot_cache(self, snapshot_location: str) -> "SnapshotCache":
+        """
+        Read the snapshot location and construct a snapshot cache object
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def _read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializedData"]:
         """
-        Read the snapshot file and get only the snapshot data for assertion
+        Get only the snapshot data from location for assertion
         """
         raise NotImplementedError
 
     @abstractmethod
     def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
         """
-        Adds the snapshot data to the snapshots read from the file
+        Adds the snapshot data to the snapshots in cache location
         """
         raise NotImplementedError
 
@@ -229,26 +251,3 @@ class AbstractSyrupyExtension(SnapshotSerializer, SnapshotCacher, SnapshotReport
     @property
     def test_location(self) -> "TestLocation":
         return self._test_location
-
-    def discover_snapshots(self) -> "SnapshotCaches":
-        """
-        Returns all snapshot files relating to test location
-        """
-        discovered_files: "SnapshotCaches" = SnapshotCaches()
-        for filepath in walk_snapshot_dir(self._dirname):
-            if self.is_snapshot_location(filepath):
-                snapshot_cache = self._discover_snapshots(filepath)
-                if not snapshot_cache.has_snapshots:
-                    snapshot_cache = SnapshotEmptyCache(location=filepath)
-            else:
-                snapshot_cache = SnapshotCache(location=filepath)
-            discovered_files.add(snapshot_cache)
-        return discovered_files
-
-    @abstractmethod
-    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
-        """
-        Given a path to a snapshot file, returns all snapshots in the file.
-        Snapshot name is dependent on serializer implementation.
-        """
-        raise NotImplementedError

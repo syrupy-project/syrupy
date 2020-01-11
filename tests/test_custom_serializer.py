@@ -18,17 +18,17 @@ def testcases(testdir):
             def serialize(self, data):
                 return str(data)
 
-            def _discover_snapshots(self, snapshot_location):
-                pass
-
             def get_snapshot_name(self, index = 0):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 
-            def _read_snapshot_from_location(self, location, name):
+            def _read_snapshot_cache(self, location):
                 pass
 
-            def _write_snapshot_cache(self, snapshot_cache):
+            def _read_snapshot_data_from_location(self, location, name):
+                pass
+
+            def _write_snapshot_cache(self, cache):
                 pass
 
             def delete_snapshots(self, location, names):

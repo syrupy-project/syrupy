@@ -35,14 +35,6 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     def _file_extension(self) -> str:
         return "raw"
 
-    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
-        """Parse the snapshot name from the filename."""
-        snapshot_cache = SnapshotCache(location=snapshot_location)
-        snapshot_cache.add(
-            Snapshot(name=os.path.splitext(os.path.basename(snapshot_location))[0])
-        )
-        return snapshot_cache
-
     def _get_file_basename(self, index: int) -> str:
         return self.get_snapshot_name(index=index)
 
@@ -50,7 +42,14 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     def _snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def _read_snapshot_from_location(
+    def _read_snapshot_cache(self, snapshot_location: str) -> "SnapshotCache":
+        snapshot_cache = SnapshotCache(location=snapshot_location)
+        snapshot_cache.add(
+            Snapshot(name=os.path.splitext(os.path.basename(snapshot_location))[0])
+        )
+        return snapshot_cache
+
+    def _read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
         try:

@@ -262,16 +262,16 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def _file_extension(self) -> str:
         return "ambr"
 
-    def _read_snapshot_from_location(
+    def _read_snapshot_cache(self, snapshot_location: str) -> "SnapshotCache":
+        return DataSerializer.read_file(snapshot_location)
+
+    def _read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
-        snapshot = DataSerializer.read_file(snapshot_location).get(snapshot_name)
+        snapshot = self._read_snapshot_cache(snapshot_location).get(snapshot_name)
         return snapshot.data if snapshot else None
 
     def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
         snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache.location)
         snapshot_cache_to_update.merge(snapshot_cache)
         DataSerializer.write_file(snapshot_cache_to_update)
-
-    def _discover_snapshots(self, snapshot_location: str) -> "SnapshotCache":
-        return DataSerializer.read_file(snapshot_location)
