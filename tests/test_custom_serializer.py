@@ -25,13 +25,13 @@ def testcases(testdir):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 
-            def _read_snapshot_from_file(self, file, name):
+            def _read_snapshot_from_location(self, location, name):
                 pass
 
-            def _write_snapshot_to_file(self, snapshot_cache):
+            def _write_snapshot_to_cache(self, snapshot_cache):
                 pass
 
-            def delete_snapshots(self, file, names):
+            def delete_snapshots(self, location, names):
                 pass
 
 

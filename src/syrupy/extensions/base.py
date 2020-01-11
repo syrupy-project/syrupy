@@ -63,13 +63,15 @@ class SnapshotCacher(ABC):
         Will call `pre_read`, then perform `read` and finally `post_read`,
         returning the contents parsed from the `read` method.
 
-        Override `_read_snapshot_from_file` in subclass to change behaviour
+        Override `_read_snapshot_from_location` in subclass to change behaviour
         """
         try:
             self.pre_read(index=index)
             snapshot_location = self.get_location(index)
             snapshot_name = self.get_snapshot_name(index)
-            snapshot = self._read_snapshot_from_file(snapshot_location, snapshot_name)
+            snapshot = self._read_snapshot_from_location(
+                snapshot_location, snapshot_name
+            )
             if snapshot is None:
                 raise SnapshotDoesNotExist()
             return snapshot
@@ -82,7 +84,7 @@ class SnapshotCacher(ABC):
         Utility method for writing the contents of a snapshot assertion.
         Will call `pre_write`, then perform `write` and finally `post_write`.
 
-        Override `_write_snapshot_to_file` in subclass to change behaviour
+        Override `_write_snapshot_to_cache` in subclass to change behaviour
         """
         self.pre_write(data, index=index)
         snapshot_location = self.get_location(index)
@@ -95,7 +97,7 @@ class SnapshotCacher(ABC):
             warnings.warn(warning_msg)
         snapshot_cache = SnapshotCache(location=snapshot_location)
         snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_to_file(snapshot_cache)
+        self._write_snapshot_to_cache(snapshot_cache)
         self.post_write(data, index=index)
 
     @abstractmethod
@@ -168,7 +170,7 @@ class SnapshotCacher(ABC):
         return f"{testname}{index_suffix}"
 
     @abstractmethod
-    def _read_snapshot_from_file(
+    def _read_snapshot_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializedData"]:
         """
@@ -177,7 +179,7 @@ class SnapshotCacher(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_to_file(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_to_cache(self, snapshot_cache: "SnapshotCache") -> None:
         """
         Adds the snapshot data to the snapshots read from the file
         """

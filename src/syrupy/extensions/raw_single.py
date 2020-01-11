@@ -45,7 +45,7 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     def snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def _read_snapshot_from_file(
+    def _read_snapshot_from_location(
         self, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
         return self._read_file(snapshot_location)
@@ -60,7 +60,7 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_to_file(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_to_cache(self, snapshot_cache: "SnapshotCache") -> None:
         self.__write_file(snapshot_cache.location, next(iter(snapshot_cache)).data)
 
     def delete_snapshots(self, snapshot_location: str, _: Set[str]) -> None:

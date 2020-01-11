@@ -73,12 +73,12 @@ class SnapshotSession:
         used_snapshot_caches: "SnapshotCaches",
     ) -> None:
         for unused_snapshot_cache in unused_snapshot_caches:
-            snapshot_cache = unused_snapshot_cache.location
-            extension = self._extensions.get(snapshot_cache)
+            snapshot_location = unused_snapshot_cache.location
+            extension = self._extensions.get(snapshot_location)
             if extension:
                 extension.delete_snapshots(
-                    snapshot_cache,
+                    snapshot_location,
                     {snapshot.name for snapshot in unused_snapshot_cache},
                 )
-            elif snapshot_cache not in used_snapshot_caches:
-                os.remove(snapshot_cache)
+            elif snapshot_location not in used_snapshot_caches:
+                os.remove(snapshot_location)
