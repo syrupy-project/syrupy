@@ -1,21 +1,21 @@
 from typing import TYPE_CHECKING
 
-from .raw_single import RawSingleSnapshotSerializer
+from .single_file import SingleFileSnapshotExtension
 
 
 if TYPE_CHECKING:
     from syrupy.types import SerializableData
 
 
-class PNGImageSnapshotSerializer(RawSingleSnapshotSerializer):
+class PNGImageSnapshotExtension(SingleFileSnapshotExtension):
     @property
-    def file_extension(self) -> str:
+    def _file_extension(self) -> str:
         return "png"
 
 
-class SVGImageSnapshotSerializer(RawSingleSnapshotSerializer):
+class SVGImageSnapshotExtension(SingleFileSnapshotExtension):
     @property
-    def file_extension(self) -> str:
+    def _file_extension(self) -> str:
         return "svg"
 
     def serialize(self, data: "SerializableData") -> bytes:

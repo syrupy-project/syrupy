@@ -9,8 +9,8 @@ from typing import (
 import attr
 
 from .constants import (
-    SNAPSHOT_EMPTY_FILE_KEY,
-    SNAPSHOT_UNKNOWN_FILE_KEY,
+    SNAPSHOT_EMPTY_FOSSIL_KEY,
+    SNAPSHOT_UNKNOWN_FOSSIL_KEY,
 )
 
 
@@ -26,17 +26,19 @@ class Snapshot(object):
 
 @attr.s(frozen=True)
 class SnapshotEmpty(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_EMPTY_FILE_KEY, init=False)
+    name: str = attr.ib(default=SNAPSHOT_EMPTY_FOSSIL_KEY, init=False)
 
 
 @attr.s(frozen=True)
 class SnapshotUnknown(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FILE_KEY, init=False)
+    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FOSSIL_KEY, init=False)
 
 
 @attr.s
-class SnapshotFile(object):
-    filepath: str = attr.ib()
+class SnapshotFossil(object):
+    """A collection of snapshots at a save location"""
+
+    location: str = attr.ib()
     _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)
 
     @property
@@ -49,8 +51,8 @@ class SnapshotFile(object):
     def add(self, snapshot: "Snapshot") -> None:
         self._snapshots[snapshot.name] = snapshot
 
-    def merge(self, snapshot_file: "SnapshotFile") -> None:
-        for snapshot in snapshot_file:
+    def merge(self, snapshot_fossil: "SnapshotFossil") -> None:
+        for snapshot in snapshot_fossil:
             self.add(snapshot)
 
     def remove(self, snapshot_name: str) -> None:
@@ -68,7 +70,9 @@ SNAPSHOTS_UNKNOWN = MappingProxyType({SnapshotUnknown().name: SnapshotUnknown()}
 
 
 @attr.s(frozen=True)
-class SnapshotEmptyFile(SnapshotFile):
+class SnapshotEmptyFossil(SnapshotFossil):
+    """This is a saved fossil that is known to be empty and thus can be removed"""
+
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_EMPTY, init=False)
 
     @property
@@ -77,33 +81,37 @@ class SnapshotEmptyFile(SnapshotFile):
 
 
 @attr.s(frozen=True)
-class SnapshotUnknownFile(SnapshotFile):
+class SnapshotUnknownFossil(SnapshotFossil):
+    """This is a saved fossil that is unclaimed by any extension currenly in use"""
+
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
 
 
 @attr.s
-class SnapshotFiles(object):
-    _snapshot_files: Dict[str, "SnapshotFile"] = attr.ib(factory=dict)
+class SnapshotFossils(object):
+    _snapshot_fossils: Dict[str, "SnapshotFossil"] = attr.ib(factory=dict)
 
-    def get(self, filepath: str) -> Optional["SnapshotFile"]:
-        return self._snapshot_files.get(filepath)
+    def get(self, location: str) -> Optional["SnapshotFossil"]:
+        return self._snapshot_fossils.get(location)
 
-    def add(self, snapshot_file: "SnapshotFile") -> None:
-        self._snapshot_files[snapshot_file.filepath] = snapshot_file
+    def add(self, snapshot_fossil: "SnapshotFossil") -> None:
+        self._snapshot_fossils[snapshot_fossil.location] = snapshot_fossil
 
-    def update(self, snapshot_file: "SnapshotFile") -> None:
-        snapshot_file_to_update = self.get(snapshot_file.filepath)
-        if snapshot_file_to_update is None:
-            snapshot_file_to_update = SnapshotFile(filepath=snapshot_file.filepath)
-            self.add(snapshot_file_to_update)
-        snapshot_file_to_update.merge(snapshot_file)
+    def update(self, snapshot_fossil: "SnapshotFossil") -> None:
+        snapshot_fossil_to_update = self.get(snapshot_fossil.location)
+        if snapshot_fossil_to_update is None:
+            snapshot_fossil_to_update = SnapshotFossil(
+                location=snapshot_fossil.location
+            )
+            self.add(snapshot_fossil_to_update)
+        snapshot_fossil_to_update.merge(snapshot_fossil)
 
-    def merge(self, snapshot_files: "SnapshotFiles") -> None:
-        for snapshot_file in snapshot_files:
-            self.update(snapshot_file)
+    def merge(self, snapshot_fossils: "SnapshotFossils") -> None:
+        for snapshot_fossil in snapshot_fossils:
+            self.update(snapshot_fossil)
 
-    def __iter__(self) -> Iterator["SnapshotFile"]:
-        return iter(self._snapshot_files.values())
+    def __iter__(self) -> Iterator["SnapshotFossil"]:
+        return iter(self._snapshot_fossils.values())
 
     def __contains__(self, key: str) -> bool:
-        return key in self._snapshot_files
+        return key in self._snapshot_fossils

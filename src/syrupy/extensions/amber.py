@@ -11,10 +11,10 @@ from typing import (
 
 from syrupy.data import (
     Snapshot,
-    SnapshotFile,
+    SnapshotFossil,
 )
 
-from .base import AbstractSnapshotSerializer
+from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
@@ -32,13 +32,13 @@ class DataSerializer:
             return "..."
 
     @classmethod
-    def write_file(cls, snapshot_file: "SnapshotFile") -> None:
+    def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
         """
         Writes the snapshot data into the snapshot file that be read later.
         """
-        filepath = snapshot_file.filepath
+        filepath = snapshot_fossil.location
         with open(filepath, "w") as f:
-            for snapshot in sorted(snapshot_file, key=lambda s: s.name):
+            for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
@@ -47,7 +47,7 @@ class DataSerializer:
                     f.write(f"{cls._marker_divider}\n")
 
     @classmethod
-    def read_file(cls, filepath: str) -> "SnapshotFile":
+    def read_file(cls, filepath: str) -> "SnapshotFossil":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
@@ -55,7 +55,7 @@ class DataSerializer:
         """
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
-        snapshot_file = SnapshotFile(filepath=filepath)
+        snapshot_fossil = SnapshotFossil(location=filepath)
         try:
             with open(filepath, "r") as f:
                 test_name = None
@@ -69,13 +69,13 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshot_file.add(
+                            snapshot_fossil.add(
                                 Snapshot(name=test_name, data=snapshot_data[:-1])
                             )
         except FileNotFoundError:
             pass
 
-        return snapshot_file
+        return snapshot_fossil
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
@@ -226,7 +226,7 @@ class DataSerializer:
         return serialize_method(**serialize_kwargs)
 
 
-class AmberSnapshotSerializer(AbstractSnapshotSerializer):
+class AmberSnapshotExtension(AbstractSyrupyExtension):
     """
     An amber snapshot file stores data in the following format:
 
@@ -239,39 +239,39 @@ class AmberSnapshotSerializer(AbstractSnapshotSerializer):
     ```
     """
 
-    @property
-    def file_extension(self) -> str:
-        return "ambr"
-
-    def _discover_snapshots(self, filepath: str) -> "SnapshotFile":
-        return DataSerializer.read_file(filepath)
-
-    def _read_snapshot_from_file(
-        self, snapshot_filepath: str, snapshot_name: str
-    ) -> Optional["SerializableData"]:
-        snapshot = DataSerializer.read_file(snapshot_filepath).get(snapshot_name)
-        return snapshot.data if snapshot else None
-
-    def _write_snapshot_to_file(self, snapshot_file: "SnapshotFile") -> None:
-        snapshot_file_to_update = DataSerializer.read_file(snapshot_file.filepath)
-        snapshot_file_to_update.merge(snapshot_file)
-        DataSerializer.write_file(snapshot_file_to_update)
-
-    def delete_snapshots_from_file(
-        self, snapshot_file: str, snapshot_names: Set[str]
-    ) -> None:
-        snapshot_file_to_update = DataSerializer.read_file(snapshot_file)
-        for snapshot_name in snapshot_names:
-            snapshot_file_to_update.remove(snapshot_name)
-
-        if snapshot_file_to_update.has_snapshots:
-            DataSerializer.write_file(snapshot_file_to_update)
-        else:
-            os.remove(snapshot_file)
-
     def serialize(self, data: "SerializableData") -> str:
         """
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
         return DataSerializer.serialize(data)
+
+    def delete_snapshots(
+        self, snapshot_location: str, snapshot_names: Set[str]
+    ) -> None:
+        snapshot_fossil_to_update = DataSerializer.read_file(snapshot_location)
+        for snapshot_name in snapshot_names:
+            snapshot_fossil_to_update.remove(snapshot_name)
+
+        if snapshot_fossil_to_update.has_snapshots:
+            DataSerializer.write_file(snapshot_fossil_to_update)
+        else:
+            os.remove(snapshot_location)
+
+    @property
+    def _file_extension(self) -> str:
+        return "ambr"
+
+    def _read_snapshot_fossil(self, snapshot_location: str) -> "SnapshotFossil":
+        return DataSerializer.read_file(snapshot_location)
+
+    def _read_snapshot_data_from_location(
+        self, snapshot_location: str, snapshot_name: str
+    ) -> Optional["SerializableData"]:
+        snapshot = self._read_snapshot_fossil(snapshot_location).get(snapshot_name)
+        return snapshot.data if snapshot else None
+
+    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
+        snapshot_fossil_to_update = DataSerializer.read_file(snapshot_fossil.location)
+        snapshot_fossil_to_update.merge(snapshot_fossil)
+        DataSerializer.write_file(snapshot_fossil_to_update)

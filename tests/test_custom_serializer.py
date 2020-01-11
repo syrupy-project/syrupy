@@ -9,35 +9,35 @@ def testcases(testdir):
         """
         import pytest
 
-        from syrupy.serializers.base import AbstractSnapshotSerializer
+        from syrupy.extensions.base import AbstractSyrupyExtension
 
-        class CustomSnapshotSerializer(AbstractSnapshotSerializer):
-            def file_extension(self):
+        class CustomSnapshotExtension(AbstractSyrupyExtension):
+            def _file_extension(self):
                 return ""
 
             def serialize(self, data):
                 return str(data)
 
-            def _discover_snapshots(self, filepath):
-                pass
-
-            def get_snapshot_name(self, index = 0):
+            def get_snapshot_name(self, *, index = 0):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 
-            def _read_snapshot_from_file(self, file, name):
+            def _read_snapshot_fossil(self, **kwargs):
                 pass
 
-            def _write_snapshot_to_file(self, snapshot_file):
+            def _read_snapshot_data_from_location(self, **kwargs):
                 pass
 
-            def delete_snapshots_from_file(self, file, names):
+            def _write_snapshot_fossil(self, **kwargs):
+                pass
+
+            def delete_snapshots(self, **kwargs):
                 pass
 
 
         @pytest.fixture
         def snapshot_custom(snapshot):
-            return snapshot.with_class(serializer_class=CustomSnapshotSerializer)
+            return snapshot.use_extension(CustomSnapshotExtension)
         """
     )
     return {

@@ -9,13 +9,13 @@ from typing import (
 )
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
-from .data import SnapshotFiles
+from .data import SnapshotFossils
 from .report import SnapshotReport
 
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
-    from .serializers.base import AbstractSnapshotSerializer  # noqa: F401
+    from .extensions.base import AbstractSyrupyExtension  # noqa: F401
 
 
 class SnapshotSession:
@@ -29,14 +29,14 @@ class SnapshotSession:
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
-        self._serializers: Dict[str, "AbstractSnapshotSerializer"] = {}
+        self._extensions: Dict[str, "AbstractSyrupyExtension"] = {}
 
     def start(self) -> None:
         self.report = None
         self._all_items = set()
         self._ran_items = set()
         self._assertions = []
-        self._serializers = {}
+        self._extensions = {}
 
     def finish(self) -> int:
         exitstatus = 0
@@ -51,8 +51,8 @@ class SnapshotSession:
         if self.report.num_unused:
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    unused_snapshot_files=self.report.unused,
-                    used_snapshot_files=self.report.used,
+                    unused_snapshot_fossils=self.report.unused,
+                    used_snapshot_fossils=self.report.used,
                 )
             elif not self.warn_unused_snapshots:
                 exitstatus |= EXIT_STATUS_FAIL_UNUSED
@@ -60,24 +60,27 @@ class SnapshotSession:
 
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
-        discovered_serializers = {
-            discovered.filepath: assertion.serializer
-            for discovered in assertion.serializer.discover_snapshots()
+        discovered_extensions = {
+            discovered.location: assertion.extension
+            for discovered in assertion.extension.discover_snapshots()
             if discovered.has_snapshots
         }
-        self._serializers.update(discovered_serializers)
+        self._extensions.update(discovered_extensions)
 
     def remove_unused_snapshots(
         self,
-        unused_snapshot_files: "SnapshotFiles",
-        used_snapshot_files: "SnapshotFiles",
+        unused_snapshot_fossils: "SnapshotFossils",
+        used_snapshot_fossils: "SnapshotFossils",
     ) -> None:
-        for unused_snapshot_file in unused_snapshot_files:
-            snapshot_file = unused_snapshot_file.filepath
-            serializer = self._serializers.get(snapshot_file)
-            if serializer:
-                serializer.delete_snapshots_from_file(
-                    snapshot_file, {snapshot.name for snapshot in unused_snapshot_file}
+        for unused_snapshot_fossil in unused_snapshot_fossils:
+            snapshot_location = unused_snapshot_fossil.location
+            extension = self._extensions.get(snapshot_location)
+            if extension:
+                extension.delete_snapshots(
+                    snapshot_location=snapshot_location,
+                    snapshot_names={
+                        snapshot.name for snapshot in unused_snapshot_fossil
+                    },
                 )
-            elif snapshot_file not in used_snapshot_files:
-                os.remove(snapshot_file)
+            elif snapshot_location not in used_snapshot_fossils:
+                os.remove(snapshot_location)

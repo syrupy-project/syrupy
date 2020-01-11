@@ -15,9 +15,9 @@ import attr
 
 from .data import (
     Snapshot,
-    SnapshotFile,
-    SnapshotFiles,
-    SnapshotUnknownFile,
+    SnapshotFossil,
+    SnapshotFossils,
+    SnapshotUnknownFossil,
 )
 from .location import TestLocation
 from .terminal import (
@@ -41,31 +41,30 @@ class SnapshotReport(object):
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
-    discovered: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
-    created: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
-    failed: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
-    matched: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
-    updated: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
-    used: "SnapshotFiles" = attr.ib(factory=SnapshotFiles)
+    discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    failed: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    matched: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            self.discovered.merge(assertion.serializer.discover_snapshots())
+            self.discovered.merge(assertion.extension.discover_snapshots())
             for result in assertion.executions.values():
-                filepath = result.snapshot_filepath
-                snapshot_file = SnapshotFile(filepath=filepath)
-                snapshot_file.add(
+                snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
+                snapshot_fossil.add(
                     Snapshot(name=result.snapshot_name, data=result.final_data)
                 )
-                self.used.update(snapshot_file)
+                self.used.update(snapshot_fossil)
                 if result.created:
-                    self.created.update(snapshot_file)
+                    self.created.update(snapshot_fossil)
                 elif result.updated:
-                    self.updated.update(snapshot_file)
+                    self.updated.update(snapshot_fossil)
                 elif result.success:
-                    self.matched.update(snapshot_file)
+                    self.matched.update(snapshot_fossil)
                 else:
-                    self.failed.update(snapshot_file)
+                    self.failed.update(snapshot_fossil)
 
     @property
     def num_created(self) -> int:
@@ -92,34 +91,36 @@ class SnapshotReport(object):
         return self.all_items == self.ran_items
 
     @property
-    def unused(self) -> "SnapshotFiles":
-        unused_files = SnapshotFiles()
-        for unused_snapshot_file in self._diff_snapshot_files(
+    def unused(self) -> "SnapshotFossils":
+        unused_fossils = SnapshotFossils()
+        for unused_snapshot_fossil in self._diff_snapshot_fossils(
             self.discovered, self.used
         ):
-            snapshot_filepath = unused_snapshot_file.filepath
+            snapshot_location = unused_snapshot_fossil.location
             if self.ran_all_collected_tests:
-                unused_snapshots = {*unused_snapshot_file}
-                mark_file_for_removal = snapshot_filepath not in self.used
+                unused_snapshots = {*unused_snapshot_fossil}
+                mark_for_removal = snapshot_location not in self.used
             else:
                 unused_snapshots = {
                     snapshot
-                    for snapshot in unused_snapshot_file
+                    for snapshot in unused_snapshot_fossil
                     if any(
                         TestLocation(node).matches_snapshot_name(snapshot.name)
                         for node in self.ran_items
                     )
                 }
-                mark_file_for_removal = False
+                mark_for_removal = False
 
             if unused_snapshots:
-                marked_unused_snapshot_file = SnapshotFile(filepath=snapshot_filepath)
+                marked_unused_snapshot_fossil = SnapshotFossil(
+                    location=snapshot_location
+                )
                 for snapshot in unused_snapshots:
-                    marked_unused_snapshot_file.add(snapshot)
-                unused_files.add(marked_unused_snapshot_file)
-            elif mark_file_for_removal:
-                unused_files.add(SnapshotUnknownFile(filepath=snapshot_filepath))
-        return unused_files
+                    marked_unused_snapshot_fossil.add(snapshot)
+                unused_fossils.add(marked_unused_snapshot_fossil)
+            elif mark_for_removal:
+                unused_fossils.add(SnapshotUnknownFossil(location=snapshot_location))
+        return unused_fossils
 
     @property
     def lines(self) -> Generator[str, None, None]:
@@ -170,9 +171,9 @@ class SnapshotReport(object):
         if self.num_unused:
             yield ""
             if self.update_snapshots:
-                for snapshot_file in self.unused:
-                    filepath = snapshot_file.filepath
-                    snapshots = (snapshot.name for snapshot in snapshot_file)
+                for snapshot_fossil in self.unused:
+                    filepath = snapshot_fossil.location
+                    snapshots = (snapshot.name for snapshot in snapshot_fossil)
                     path_to_file = os.path.relpath(filepath, self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     yield warning_style(gettext("Deleted {} ({})")).format(
@@ -187,20 +188,20 @@ class SnapshotReport(object):
                 else:
                     yield error_style(message)
 
-    def _diff_snapshot_files(
-        self, snapshot_files1: "SnapshotFiles", snapshot_files2: "SnapshotFiles"
-    ) -> "SnapshotFiles":
-        diffed_snapshot_files: "SnapshotFiles" = SnapshotFiles()
-        for snapshot_file1 in snapshot_files1:
-            snapshot_file2 = snapshot_files2.get(
-                snapshot_file1.filepath
-            ) or SnapshotFile(filepath=snapshot_file1.filepath)
-            diffed_snapshot_file = SnapshotFile(filepath=snapshot_file1.filepath)
-            for snapshot in snapshot_file1:
-                if not snapshot_file2.get(snapshot.name):
-                    diffed_snapshot_file.add(snapshot)
-            diffed_snapshot_files.add(diffed_snapshot_file)
-        return diffed_snapshot_files
+    def _diff_snapshot_fossils(
+        self, snapshot_fossils1: "SnapshotFossils", snapshot_fossils2: "SnapshotFossils"
+    ) -> "SnapshotFossils":
+        diffed_snapshot_fossils: "SnapshotFossils" = SnapshotFossils()
+        for snapshot_fossil1 in snapshot_fossils1:
+            snapshot_fossil2 = snapshot_fossils2.get(
+                snapshot_fossil1.location
+            ) or SnapshotFossil(location=snapshot_fossil1.location)
+            diffed_snapshot_fossil = SnapshotFossil(location=snapshot_fossil1.location)
+            for snapshot in snapshot_fossil1:
+                if not snapshot_fossil2.get(snapshot.name):
+                    diffed_snapshot_fossil.add(snapshot)
+            diffed_snapshot_fossils.add(diffed_snapshot_fossil)
+        return diffed_snapshot_fossils
 
-    def _count_snapshots(self, snapshot_files: "SnapshotFiles") -> int:
-        return sum(len(snapshot_file) for snapshot_file in snapshot_files)
+    def _count_snapshots(self, snapshot_fossils: "SnapshotFossils") -> int:
+        return sum(len(snapshot_fossil) for snapshot_fossil in snapshot_fossils)
