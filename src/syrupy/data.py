@@ -70,6 +70,7 @@ SNAPSHOTS_UNKNOWN = MappingProxyType({SnapshotUnknown().name: SnapshotUnknown()}
 @attr.s(frozen=True)
 class SnapshotEmptyCache(SnapshotCache):
     """This is a cache that is known to be empty and thus can be removed"""
+
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_EMPTY, init=False)
 
     @property
@@ -79,7 +80,11 @@ class SnapshotEmptyCache(SnapshotCache):
 
 @attr.s(frozen=True)
 class SnapshotUnknownCache(SnapshotCache):
-    """This is a cache that exists but no snapshot extension currently in use has claimed"""
+    """
+    This is a cache that exists but no snapshot extension currently
+    in use has claimed
+    """
+
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
 
 
