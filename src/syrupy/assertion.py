@@ -113,7 +113,7 @@ class SnapshotAssertion:
             matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:
-                self.extension.create_or_update_snapshot(
+                self.extension.write_snapshot(
                     data=serialized_data, index=self.num_executions
                 )
                 assertion_success = True

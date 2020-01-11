@@ -60,23 +60,42 @@ class SnapshotCacher(ABC):
     def read_snapshot(self, index: int) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
-        Will call `pre_read`, then `read` and finally `post_read`,
+        Will call `pre_read`, then perform `read` and finally `post_read`,
         returning the contents parsed from the `read` method.
+
+        Override `_read_snapshot_from_file` in subclass to change behaviour
         """
         try:
             self.pre_read(index=index)
-            return self.read(index=index)
+            snapshot_location = self.get_location(index)
+            snapshot_name = self.get_snapshot_name(index)
+            snapshot = self._read_snapshot_from_file(snapshot_location, snapshot_name)
+            if snapshot is None:
+                raise SnapshotDoesNotExist()
+            return snapshot
         finally:
             self.post_read(index=index)
 
     @final
-    def create_or_update_snapshot(self, data: "SerializedData", index: int) -> None:
+    def write_snapshot(self, data: "SerializedData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
-        Will call `pre_write`, then `write` and finally `post_write`.
+        Will call `pre_write`, then perform `write` and finally `post_write`.
+
+        Override `_write_snapshot_to_file` in subclass to change behaviour
         """
         self.pre_write(data, index=index)
-        self.write(data, index=index)
+        snapshot_location = self.get_location(index)
+        snapshot_name = self.get_snapshot_name(index)
+        if not self.test_location.matches_snapshot_name(snapshot_name):
+            warning_msg = f"""
+            Can not relate snapshot name '{snapshot_name}' to the test location.
+            Consider adding '{self.test_location.testname}' to the generated name.
+            """
+            warnings.warn(warning_msg)
+        snapshot_cache = SnapshotCache(location=snapshot_location)
+        snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
+        self._write_snapshot_to_file(snapshot_cache)
         self.post_write(data, index=index)
 
     @abstractmethod
@@ -92,40 +111,11 @@ class SnapshotCacher(ABC):
     def pre_read(self, index: int = 0) -> None:
         pass
 
-    @final
-    def read(self, index: int = 0) -> "SerializedData":
-        """
-        Override `_read_snapshot_from_file` in subclass to change behaviour
-        """
-        snapshot_location = self.get_location(index)
-        snapshot_name = self.get_snapshot_name(index)
-        snapshot = self._read_snapshot_from_file(snapshot_location, snapshot_name)
-        if snapshot is None:
-            raise SnapshotDoesNotExist()
-        return snapshot
-
     def post_read(self, index: int = 0) -> None:
         pass
 
     def pre_write(self, data: "SerializedData", index: int = 0) -> None:
         self.__ensure_snapshot_dir(index)
-
-    @final
-    def write(self, data: "SerializedData", index: int = 0) -> None:
-        """
-        Override `_write_snapshot_to_file` in subclass to change behaviour
-        """
-        snapshot_location = self.get_location(index)
-        snapshot_name = self.get_snapshot_name(index)
-        if not self.test_location.matches_snapshot_name(snapshot_name):
-            warning_msg = f"""
-            Can not relate snapshot name '{snapshot_name}' to the test location.
-            Consider adding '{self.test_location.testname}' to the generated name.
-            """
-            warnings.warn(warning_msg)
-        snapshot_cache = SnapshotCache(location=snapshot_location)
-        snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_to_file(snapshot_cache)
 
     def post_write(self, data: "SerializedData", index: int = 0) -> None:
         pass
