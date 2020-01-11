@@ -76,7 +76,7 @@ class SnapshotSession:
             snapshot_cache = unused_snapshot_cache.location
             extension = self._extensions.get(snapshot_cache)
             if extension:
-                extension.delete_snapshots_from_file(
+                extension.delete_snapshots(
                     snapshot_cache,
                     {snapshot.name for snapshot in unused_snapshot_cache},
                 )

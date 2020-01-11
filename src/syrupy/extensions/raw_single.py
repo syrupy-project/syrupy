@@ -63,7 +63,7 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     def _write_snapshot_to_file(self, snapshot_cache: "SnapshotCache") -> None:
         self.__write_file(snapshot_cache.location, next(iter(snapshot_cache)).data)
 
-    def delete_snapshots_from_file(self, snapshot_location: str, _: Set[str]) -> None:
+    def delete_snapshots(self, snapshot_location: str, _: Set[str]) -> None:
         os.remove(snapshot_location)
 
     def __write_file(self, filepath: str, data: Optional["SerializedData"]) -> None:

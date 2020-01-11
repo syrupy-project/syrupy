@@ -257,9 +257,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         snapshot_cache_to_update.merge(snapshot_cache)
         DataSerializer.write_file(snapshot_cache_to_update)
 
-    def delete_snapshots_from_file(
-        self, snapshot_cache: str, snapshot_names: Set[str]
-    ) -> None:
+    def delete_snapshots(self, snapshot_cache: str, snapshot_names: Set[str]) -> None:
         snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache)
         for snapshot_name in snapshot_names:
             snapshot_cache_to_update.remove(snapshot_name)

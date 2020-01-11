@@ -99,7 +99,7 @@ class SnapshotCacher(ABC):
         self.post_write(data, index=index)
 
     @abstractmethod
-    def delete_snapshots_from_file(
+    def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
         """

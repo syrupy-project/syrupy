@@ -31,7 +31,7 @@ def testcases(testdir):
             def _write_snapshot_to_file(self, snapshot_cache):
                 pass
 
-            def delete_snapshots_from_file(self, file, names):
+            def delete_snapshots(self, file, names):
                 pass
 
 
