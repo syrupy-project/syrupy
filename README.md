@@ -70,8 +70,8 @@ See examples of how syrupy can be used and extented in the [test examples](./tes
 
 - [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
 - [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
-- [Custom image serializer](./tests/examples/test_custom_image_serializer.py)
-- [Image serializer](./tests/test_image_serializer.py)
+- [Custom image extension](./tests/examples/test_custom_image_extension.py)
+- [Image extension](./tests/test_image_extension.py)
 - [Nested describe tests](./tests/examples/test_nested_describe.py)
 
 ## Uninstalling

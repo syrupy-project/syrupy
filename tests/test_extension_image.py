@@ -13,11 +13,6 @@ def snapshot_png(snapshot):
     return snapshot.use_extension(PNGImageSnapshotExtension)
 
 
-@pytest.fixture
-def snapshot_svg(snapshot):
-    return snapshot.use_extension(SVGImageSnapshotExtension)
-
-
 def test_image(snapshot_png, snapshot_svg):
     actual_png = base64.b64decode(
         b"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMy"
@@ -31,7 +26,7 @@ def test_image(snapshot_png, snapshot_svg):
 
 @pytest.fixture
 def snapshot_svg(snapshot):
-    return snapshot.with_class(serializer_class=SVGImageSnapshotSerializer)
+    return snapshot.use_extension(SVGImageSnapshotExtension)
 
 
 def test_image_vector(snapshot_svg):

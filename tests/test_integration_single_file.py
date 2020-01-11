@@ -17,7 +17,7 @@ def testcases(testdir):
 
 
         @pytest.fixture
-        def snapshot_raw(snapshot):
+        def snapshot_single(snapshot):
             return snapshot.use_extension(SingleFileSnapshotExtension)
 
 
@@ -34,15 +34,15 @@ def testcases(testdir):
     return {
         "passed": (
             """
-            def test_passed_raw(snapshot_raw):
-                assert snapshot_raw == b'passed1'
-                assert snapshot_raw == b'passed2'
+            def test_passed_single(snapshot_single):
+                assert snapshot_single == b'passed1'
+                assert snapshot_single == b'passed2'
             """
         ),
         "failed": (
             """
-            def test_failed_raw(snapshot_raw):
-                assert snapshot_raw == 'failed'
+            def test_failed_single(snapshot_single):
+                assert snapshot_single == 'failed'
 
             def test_failed_image(snapshot_png):
                 assert "not a byte string" == snapshot_png
@@ -56,8 +56,8 @@ def testcases_updated(testcases):
     updated_testcases = {
         "passed": (
             """
-            def test_passed_raw(snapshot_raw):
-                assert snapshot_raw == b'passed'
+            def test_passed_single(snapshot_single):
+                assert snapshot_single == b'passed'
             """
         )
     }
