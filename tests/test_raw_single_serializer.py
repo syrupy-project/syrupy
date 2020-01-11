@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture
 def snapshot_raw(snapshot):
-    return snapshot.with_class(extension_class=RawSingleSnapshotExtension)
+    return snapshot.use_extension(RawSingleSnapshotExtension)
 
 
 def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
@@ -25,7 +25,7 @@ def test_does_not_write_non_binary(testdir, snapshot_raw: "SnapshotAssertion"):
     )
     snapshot_cache.add(Snapshot(name="snapshot_name", data="non binary data"))
     with pytest.raises(TypeError, match="Expected 'bytes', got 'str'"):
-        snapshot_raw.extension._write_snapshot_cache(snapshot_cache)
+        snapshot_raw.extension._write_snapshot_cache(snapshot_cache=snapshot_cache)
     assert not os.path.exists(snapshot_cache.location)
 
 

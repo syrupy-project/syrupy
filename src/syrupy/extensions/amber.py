@@ -271,7 +271,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         snapshot = self._read_snapshot_cache(snapshot_location).get(snapshot_name)
         return snapshot.data if snapshot else None
 
-    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_cache(self, *, snapshot_cache: "SnapshotCache") -> None:
         snapshot_cache_to_update = DataSerializer.read_file(snapshot_cache.location)
         snapshot_cache_to_update.merge(snapshot_cache)
         DataSerializer.write_file(snapshot_cache_to_update)

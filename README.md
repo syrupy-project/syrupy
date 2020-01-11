@@ -71,9 +71,7 @@ import pytest
 
 @pytest.fixture
 def snapshot_custom(snapshot):
-    return snapshot.with_class(
-        extension_class=CustomExtensionClass,
-    )
+    return snapshot.use_extension(CustomExtensionClass)
 
 def test_image(snapshot_custom):
     actual = "..."

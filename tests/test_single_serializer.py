@@ -18,17 +18,17 @@ def testcases(testdir):
 
         @pytest.fixture
         def snapshot_raw(snapshot):
-            return snapshot.with_class(extension_class=RawSingleSnapshotExtension)
+            return snapshot.use_extension(RawSingleSnapshotExtension)
 
 
         @pytest.fixture
         def snapshot_png(snapshot):
-            return snapshot.with_class(extension_class=PNGImageSnapshotExtension)
+            return snapshot.use_extension(PNGImageSnapshotExtension)
 
 
         @pytest.fixture
         def snapshot_svg(snapshot):
-            return snapshot.with_class(extension_class=SVGImageSnapshotExtension)
+            return snapshot.use_extension(SVGImageSnapshotExtension)
         """
     )
     return {

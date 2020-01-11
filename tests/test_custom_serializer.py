@@ -18,26 +18,26 @@ def testcases(testdir):
             def serialize(self, data):
                 return str(data)
 
-            def get_snapshot_name(self, index = 0):
+            def get_snapshot_name(self, *, index = 0):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 
-            def _read_snapshot_cache(self, location):
+            def _read_snapshot_cache(self, **kwargs):
                 pass
 
-            def _read_snapshot_data_from_location(self, location, name):
+            def _read_snapshot_data_from_location(self, **kwargs):
                 pass
 
-            def _write_snapshot_cache(self, cache):
+            def _write_snapshot_cache(self, **kwargs):
                 pass
 
-            def delete_snapshots(self, location, names):
+            def delete_snapshots(self, **kwargs):
                 pass
 
 
         @pytest.fixture
         def snapshot_custom(snapshot):
-            return snapshot.with_class(extension_class=CustomSnapshotExtension)
+            return snapshot.use_extension(CustomSnapshotExtension)
         """
     )
     return {

@@ -56,7 +56,7 @@ class SnapshotCacher(ABC):
     def test_location(self) -> "TestLocation":
         raise NotImplementedError
 
-    def get_snapshot_name(self, index: int = 0) -> str:
+    def get_snapshot_name(self, *, index: int = 0) -> str:
         """Get the snapshot name for the assertion index in a test location"""
         index_suffix = f".{index}" if index > 0 else ""
         testname = self.test_location.testname
@@ -65,12 +65,12 @@ class SnapshotCacher(ABC):
             return f"{self.test_location.classname}.{testname}{index_suffix}"
         return f"{testname}{index_suffix}"
 
-    def get_location(self, index: int) -> str:
+    def get_location(self, *, index: int) -> str:
         """Returns full location where snapshot data is stored."""
         basename = self._get_file_basename(index=index)
         return os.path.join(self._dirname, f"{basename}.{self._file_extension}")
 
-    def is_snapshot_location(self, location: str) -> bool:
+    def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
@@ -80,8 +80,8 @@ class SnapshotCacher(ABC):
         """
         discovered_files: "SnapshotCaches" = SnapshotCaches()
         for filepath in walk_snapshot_dir(self._dirname):
-            if self.is_snapshot_location(filepath):
-                snapshot_cache = self._read_snapshot_cache(filepath)
+            if self.is_snapshot_location(location=filepath):
+                snapshot_cache = self._read_snapshot_cache(snapshot_location=filepath)
                 if not snapshot_cache.has_snapshots:
                     snapshot_cache = SnapshotEmptyCache(location=filepath)
             else:
@@ -90,7 +90,7 @@ class SnapshotCacher(ABC):
         return discovered_files
 
     @final
-    def read_snapshot(self, index: int) -> "SerializedData":
+    def read_snapshot(self, *, index: int) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `_pre_read`, then perform `read` and finally `post_read`,
@@ -100,10 +100,10 @@ class SnapshotCacher(ABC):
         """
         try:
             self._pre_read(index=index)
-            snapshot_location = self.get_location(index)
-            snapshot_name = self.get_snapshot_name(index)
+            snapshot_location = self.get_location(index=index)
+            snapshot_name = self.get_snapshot_name(index=index)
             snapshot_data = self._read_snapshot_data_from_location(
-                snapshot_location, snapshot_name
+                snapshot_location=snapshot_location, snapshot_name=snapshot_name
             )
             if snapshot_data is None:
                 raise SnapshotDoesNotExist()
@@ -112,16 +112,16 @@ class SnapshotCacher(ABC):
             self._pre_read(index=index)
 
     @final
-    def write_snapshot(self, data: "SerializedData", index: int) -> None:
+    def write_snapshot(self, *, data: "SerializedData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `_pre_write`, then perform `write` and finally `_post_write`.
 
         Override `_write_snapshot_cache` in subclass to change behaviour
         """
-        self._pre_write(data, index=index)
-        snapshot_location = self.get_location(index)
-        snapshot_name = self.get_snapshot_name(index)
+        self._pre_write(data=data, index=index)
+        snapshot_location = self.get_location(index=index)
+        snapshot_name = self.get_snapshot_name(index=index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = f"""
             Can not relate snapshot name '{snapshot_name}' to the test location.
@@ -130,12 +130,12 @@ class SnapshotCacher(ABC):
             warnings.warn(warning_msg)
         snapshot_cache = SnapshotCache(location=snapshot_location)
         snapshot_cache.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_cache(snapshot_cache)
-        self._post_write(data, index=index)
+        self._write_snapshot_cache(snapshot_cache=snapshot_cache)
+        self._post_write(data=data, index=index)
 
     @abstractmethod
     def delete_snapshots(
-        self, snapshot_location: str, snapshot_names: Set[str]
+        self, *, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
         """
         Remove snapshots from a snapshot file.
@@ -143,20 +143,20 @@ class SnapshotCacher(ABC):
         """
         raise NotImplementedError
 
-    def _pre_read(self, index: int = 0) -> None:
+    def _pre_read(self, *, index: int = 0) -> None:
         pass
 
-    def _post_read(self, index: int = 0) -> None:
+    def _post_read(self, *, index: int = 0) -> None:
         pass
 
-    def _pre_write(self, data: "SerializedData", index: int = 0) -> None:
-        self.__ensure_snapshot_dir(index)
+    def _pre_write(self, *, data: "SerializedData", index: int = 0) -> None:
+        self.__ensure_snapshot_dir(index=index)
 
-    def _post_write(self, data: "SerializedData", index: int = 0) -> None:
+    def _post_write(self, *, data: "SerializedData", index: int = 0) -> None:
         pass
 
     @abstractmethod
-    def _read_snapshot_cache(self, snapshot_location: str) -> "SnapshotCache":
+    def _read_snapshot_cache(self, *, snapshot_location: str) -> "SnapshotCache":
         """
         Read the snapshot location and construct a snapshot cache object
         """
@@ -164,7 +164,7 @@ class SnapshotCacher(ABC):
 
     @abstractmethod
     def _read_snapshot_data_from_location(
-        self, snapshot_location: str, snapshot_name: str
+        self, *, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializedData"]:
         """
         Get only the snapshot data from location for assertion
@@ -172,7 +172,7 @@ class SnapshotCacher(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_cache(self, *, snapshot_cache: "SnapshotCache") -> None:
         """
         Adds the snapshot data to the snapshots in cache location
         """
@@ -196,16 +196,16 @@ class SnapshotCacher(ABC):
     def _file_extension(self) -> str:
         raise NotImplementedError
 
-    def _get_file_basename(self, index: int) -> str:
+    def _get_file_basename(self, *, index: int) -> str:
         """Returns file basename without extension. Used to create full filepath."""
         return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
 
-    def __ensure_snapshot_dir(self, index: int) -> None:
+    def __ensure_snapshot_dir(self, *, index: int) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """
         try:
-            os.makedirs(os.path.dirname(self.get_location(index)))
+            os.makedirs(os.path.dirname(self.get_location(index=index)))
         except FileExistsError:
             pass
 

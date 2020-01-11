@@ -67,7 +67,7 @@ class SnapshotAssertion:
     def executions(self) -> Dict[int, AssertionResult]:
         return self._execution_results
 
-    def with_class(
+    def use_extension(
         self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
     ) -> "SnapshotAssertion":
         return self.__class__(
@@ -106,8 +106,8 @@ class SnapshotAssertion:
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         try:
-            snapshot_location = self.extension.get_location(self.num_executions)
-            snapshot_name = self.extension.get_snapshot_name(self.num_executions)
+            snapshot_location = self.extension.get_location(index=self.num_executions)
+            snapshot_name = self.extension.get_snapshot_name(index=self.num_executions)
             snapshot_data = self._recall_data(index=self.num_executions)
             serialized_data = self.extension.serialize(data)
             matches = snapshot_data is not None and serialized_data == snapshot_data

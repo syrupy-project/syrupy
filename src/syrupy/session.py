@@ -77,8 +77,10 @@ class SnapshotSession:
             extension = self._extensions.get(snapshot_location)
             if extension:
                 extension.delete_snapshots(
-                    snapshot_location,
-                    {snapshot.name for snapshot in unused_snapshot_cache},
+                    snapshot_location=snapshot_location,
+                    snapshot_names={
+                        snapshot.name for snapshot in unused_snapshot_cache
+                    },
                 )
             elif snapshot_location not in used_snapshot_caches:
                 os.remove(snapshot_location)

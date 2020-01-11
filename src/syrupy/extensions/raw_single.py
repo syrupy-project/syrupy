@@ -23,26 +23,28 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
     def serialize(self, data: "SerializableData") -> bytes:
         return bytes(data)
 
-    def get_snapshot_name(self, index: int = 0) -> str:
+    def get_snapshot_name(self, *, index: int = 0) -> str:
         return self.__clean_filename(
             super(RawSingleSnapshotExtension, self).get_snapshot_name(index=index)
         )
 
-    def delete_snapshots(self, snapshot_location: str, _: Set[str]) -> None:
+    def delete_snapshots(
+        self, *, snapshot_location: str, snapshot_names: Set[str]
+    ) -> None:
         os.remove(snapshot_location)
 
     @property
     def _file_extension(self) -> str:
         return "raw"
 
-    def _get_file_basename(self, index: int) -> str:
+    def _get_file_basename(self, *, index: int) -> str:
         return self.get_snapshot_name(index=index)
 
     @property
     def _snapshot_subdirectory_name(self) -> str:
         return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
 
-    def _read_snapshot_cache(self, snapshot_location: str) -> "SnapshotCache":
+    def _read_snapshot_cache(self, *, snapshot_location: str) -> "SnapshotCache":
         snapshot_cache = SnapshotCache(location=snapshot_location)
         snapshot_cache.add(
             Snapshot(name=os.path.splitext(os.path.basename(snapshot_location))[0])
@@ -50,7 +52,7 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
         return snapshot_cache
 
     def _read_snapshot_data_from_location(
-        self, snapshot_location: str, snapshot_name: str
+        self, *, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
         try:
             with open(snapshot_location, "rb") as f:
@@ -58,7 +60,7 @@ class RawSingleSnapshotExtension(AbstractSyrupyExtension):
         except FileNotFoundError:
             return None
 
-    def _write_snapshot_cache(self, snapshot_cache: "SnapshotCache") -> None:
+    def _write_snapshot_cache(self, *, snapshot_cache: "SnapshotCache") -> None:
         filepath, data = snapshot_cache.location, next(iter(snapshot_cache)).data
         if not isinstance(data, bytes):
             error_text = gettext("Can write non binary data. Expected '{}', got '{}'")
