@@ -52,6 +52,7 @@ class SnapshotSerializer(ABC):
 
 class SnapshotCacher(ABC):
     @property
+    @abstractmethod
     def test_location(self) -> "TestLocation":
         raise NotImplementedError
 
