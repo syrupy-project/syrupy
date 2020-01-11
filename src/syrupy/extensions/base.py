@@ -50,7 +50,7 @@ class SnapshotSerializer(ABC):
         raise NotImplementedError
 
 
-class SnapshotCacher(ABC):
+class SnapshotFossilizer(ABC):
     @property
     @abstractmethod
     def test_location(self) -> "TestLocation":
@@ -244,7 +244,7 @@ class SnapshotReporter(ABC):
         )
 
 
-class AbstractSyrupyExtension(SnapshotSerializer, SnapshotCacher, SnapshotReporter):
+class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
     def __init__(self, test_location: "TestLocation"):
         self._test_location = test_location
 
