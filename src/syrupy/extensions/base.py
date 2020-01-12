@@ -179,16 +179,8 @@ class SnapshotFossilizer(ABC):
         raise NotImplementedError
 
     @property
-    def _snapshot_subdirectory_name(self) -> Optional[str]:
-        """Optional subdirectory in which to store snapshots."""
-        return None
-
-    @property
     def _dirname(self) -> str:
         test_dirname = os.path.dirname(self.test_location.filename)
-        subdir_name = self._snapshot_subdirectory_name
-        if subdir_name is not None:
-            return os.path.join(test_dirname, SNAPSHOT_DIRNAME, subdir_name)
         return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
 
     @property

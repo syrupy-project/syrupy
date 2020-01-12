@@ -41,8 +41,11 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         return self.get_snapshot_name(index=index)
 
     @property
-    def _snapshot_subdirectory_name(self) -> str:
-        return os.path.splitext(os.path.basename(str(self.test_location.filename)))[0]
+    def _dirname(self) -> str:
+        original_dirname = super(SingleFileSnapshotExtension, self)._dirname
+        file_basename = os.path.basename(str(self.test_location.filename))
+        sub_dirname = os.path.splitext(file_basename)[0]
+        return os.path.join(original_dirname, sub_dirname)
 
     def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
         snapshot_fossil = SnapshotFossil(location=snapshot_location)
