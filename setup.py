@@ -72,7 +72,7 @@ if __name__ in ["__main__", "builtins"]:
         setup_requires=setup_requires,
         python_requires=python_requires,
         classifiers=[
-            "Development Status :: 1 - Planning",
+            "Development Status :: 4 - Beta",
             "Framework :: Pytest",
             "Intended Audience :: Developers",
             "Operating System :: OS Independent",

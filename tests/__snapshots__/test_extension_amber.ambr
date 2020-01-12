@@ -1,3 +1,12 @@
+# name: TestClass.TestNestedClass.test_nested_class_method[x]
+  'parameterized nested class method x'
+---
+# name: TestClass.TestNestedClass.test_nested_class_method[y]
+  'parameterized nested class method y'
+---
+# name: TestClass.TestNestedClass.test_nested_class_method[z]
+  'parameterized nested class method z'
+---
 # name: TestClass.test_class_method_name
   'this is in a test class'
 ---
