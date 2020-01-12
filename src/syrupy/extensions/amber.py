@@ -192,10 +192,9 @@ class DataSerializer:
     def serialize_unknown(
         cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
     ) -> str:
-        data_repr = repr(data)
-        is_default_repr = object.__repr__(data) == data_repr
+        is_default_repr = object.__repr__ == data.__class__.__repr__
         if not is_default_repr:
-            return cls.with_indent(data_repr, depth)
+            return cls.with_indent(repr(data), depth)
 
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
