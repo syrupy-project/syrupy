@@ -8,6 +8,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
+- Fix issue with using hashables as dict keys or in sets (#103)
 - Add support for custom objects repr (#101)
 - Add support for nested test classes (#99)
 - Remove `_snapshot_subdirectory_name` from `SnapshotFossilizer` (#99)
