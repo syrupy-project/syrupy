@@ -24,9 +24,6 @@ class DifferentDirectoryExtension(AmberSnapshotExtension):
     @property
     def _dirname(self) -> str:
         test_dirname = os.path.dirname(self.test_location.filename)
-        subdir_name = self._snapshot_subdirectory_name
-        if subdir_name is not None:
-            return os.path.join(test_dirname, DIFFERENT_DIRECTORY, subdir_name)
         return os.path.join(test_dirname, DIFFERENT_DIRECTORY)
 
 
