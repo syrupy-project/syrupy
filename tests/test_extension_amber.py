@@ -60,17 +60,25 @@ def test_dict(snapshot, actual):
     assert actual == snapshot
 
 
-def test_set(snapshot):
-    assert snapshot == {"this", "is", "a", "set"}
-    assert snapshot == {"contains", "frozen", frozenset({"1", "2"})}
-
-
 ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 
 
 def test_tuple(snapshot):
     assert snapshot == ("this", "is", ("a", "tuple"))
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
+
+
+@pytest.mark.parametrize(
+    "actual",
+    [
+        {"this", "is", "a", "set"},
+        {"contains", "frozen", frozenset({"1", "2"})},
+        {"contains", "tuple", (1, 2)}, # unsupported
+        {"contains", "namedtuple", ExampleTuple(a=1, b=2, c=3, d=4)}, # unsupported
+    ],
+)
+def test_set(snapshot, actual):
+    assert snapshot == actual
 
 
 def test_numbers(snapshot):

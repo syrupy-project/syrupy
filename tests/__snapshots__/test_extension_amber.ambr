@@ -139,7 +139,7 @@
 # name: test_reflection
   SnapshotAssertion(name='snapshot', num_executions=0)
 ---
-# name: test_set
+# name: test_set[actual0]
   <class 'set'> {
     'a',
     'is',
@@ -147,7 +147,7 @@
     'this',
   }
 ---
-# name: test_set.1
+# name: test_set[actual1]
   <class 'set'> {
     <class 'frozenset'> {
       '1',
