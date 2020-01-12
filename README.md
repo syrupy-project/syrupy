@@ -66,13 +66,13 @@ def __repr__(self):
   state = "\n".join(
     f"  {a}={getattr(self, a)}" for a in dir(self) if not a.startswith("__")
   )
-  return f"{self.__class__.__name__} (\n{state}\n)"
+  return f"{self.__class__.__name__}(\n{state}\n)"
 ```
 
 This makes the snapshot diff in case of failures or updates easy to review.
 
 ```ambr
-MyCustomSmartReprClass (
+MyCustomSmartReprClass(
   prop1=1
   prop2=a
   prop3={1, 2, 3}
