@@ -8,9 +8,10 @@
   E       AssertionError: assert snapshot == received
   E           ...
   E         -   'be',
-  E         -   'updated',
-  E         +   'not',
   E         +   'match',
+  E         +   'not',
+  E           ...
+  E         -   'updated',
   E           ...
   
   test_file.py:17: AssertionError
@@ -21,8 +22,9 @@
   >       assert ['this', 'will', 'fail'] == snapshot
   E       AssertionError: assert received == snapshot
   E           ...
-  E         +   'fail',
   E         -   'be',
+  E         +   'fail',
+  E           ...
   E         -   'updated',
   E           ...
   
@@ -34,9 +36,10 @@
   >       assert snapshot == ['this', 'will', 'be', 'too', 'much']
   E       AssertionError: assert snapshot == received
   E           ...
+  E         +   'much',
+  E           ...
   E         -   'updated',
   E         +   'too',
-  E         +   'much',
   E           ...
   
   test_file.py:27: AssertionError

@@ -73,8 +73,8 @@ def test_tuple(snapshot):
     [
         {"this", "is", "a", "set"},
         {"contains", "frozen", frozenset({"1", "2"})},
-        {"contains", "tuple", (1, 2)}, # unsupported
-        {"contains", "namedtuple", ExampleTuple(a=1, b=2, c=3, d=4)}, # unsupported
+        {"contains", "tuple", (1, 2)},
+        {"contains", "namedtuple", ExampleTuple(a=1, b=2, c=3, d=4)},
     ],
 )
 def test_set(snapshot, actual):

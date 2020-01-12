@@ -30,10 +30,10 @@
     a=1
     b='2'
     c=<class 'list'> [
+      ...,
       1,
       2,
       3,
-      ...,
     ]
     d=<class 'dict'> {
       'a': 1,
@@ -45,10 +45,10 @@
       a=1
       b='2'
       c=<class 'list'> [
+        ...,
         1,
         2,
         3,
-        ...,
       ]
       d=<class 'dict'> {
         'a': 1,
@@ -62,10 +62,10 @@
 ---
 # name: test_cycle[cyclic0]
   <class 'list'> [
+    ...,
     1,
     2,
     3,
-    ...,
   ]
 ---
 # name: test_cycle[cyclic1]
@@ -110,9 +110,9 @@
 ---
 # name: test_list
   <class 'list'> [
+    'string',
     1,
     2,
-    'string',
     <class 'dict'> {
       'key': 'value',
     },
@@ -149,12 +149,34 @@
 ---
 # name: test_set[actual1]
   <class 'set'> {
+    'contains',
+    'frozen',
     <class 'frozenset'> {
       '1',
       '2',
     },
+  }
+---
+# name: test_set[actual2]
+  <class 'set'> {
     'contains',
-    'frozen',
+    'tuple',
+    <class 'tuple'> (
+      1,
+      2,
+    ),
+  }
+---
+# name: test_set[actual3]
+  <class 'set'> {
+    'contains',
+    'namedtuple',
+    <class 'ExampleTuple'> (
+      1,
+      2,
+      3,
+      4,
+    ),
   }
 ---
 # name: test_string[0]
@@ -200,8 +222,8 @@
 ---
 # name: test_tuple
   <class 'tuple'> (
-    'this',
     'is',
+    'this',
     <class 'tuple'> (
       'a',
       'tuple',
@@ -210,9 +232,9 @@
 ---
 # name: test_tuple.1
   <class 'ExampleTuple'> (
-    'this',
-    'is',
     'a',
+    'is',
+    'this',
     <class 'set'> {
       'named',
       'tuple',

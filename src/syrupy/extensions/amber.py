@@ -1,10 +1,8 @@
-import hashlib
 import os
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
-    Iterable,
     Optional,
     Set,
 )
@@ -78,21 +76,6 @@ class DataSerializer:
         return snapshot_fossil
 
     @classmethod
-    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
-        def _sort_key(value: Any) -> Any:
-            if isinstance(value, frozenset):
-                h = hashlib.sha256()
-                for element in cls.sort(value):
-                    h.update(str(element).encode("utf-8"))
-                return h.hexdigest()
-            return value
-
-        try:
-            return sorted(iterable)
-        except TypeError:
-            return sorted(iterable, key=_sort_key)
-
-    @classmethod
     def with_indent(cls, string: str, depth: int) -> str:
         return f"{cls._indent * depth}{string}"
 
@@ -137,8 +120,10 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
-                for d in cls.sort(data)
+                sorted(
+                    f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
+                    for d in data
+                )
             )
             + cls.with_indent("}", depth)
         )
@@ -155,13 +140,15 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
-                for serialized_key, serialized_value in (
-                    (
-                        cls.serialize(**{"data": key, **kwargs}),
-                        cls.serialize(**{"data": data[key], **kwargs}),
+                sorted(
+                    f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
+                    for serialized_key, serialized_value in (
+                        (
+                            cls.serialize(**{"data": key, **kwargs}),
+                            cls.serialize(**{"data": value, **kwargs}),
+                        )
+                        for key, value in data.items()
                     )
-                    for key in cls.sort(data.keys())
                 )
             )
             + cls.with_indent("}", depth)
@@ -183,7 +170,10 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
             + "".join(
-                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n" for d in data
+                sorted(
+                    f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
+                    for d in data
+                )
             )
             + cls.with_indent(close_paren, depth)
         )
@@ -198,16 +188,21 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
-                for serialized_key, serialized_value in (
-                    (
-                        cls.with_indent(name, depth=depth + 1),
-                        cls.serialize(
-                            data=getattr(data, name), depth=depth + 1, visited=visited
-                        ),
+                sorted(
+                    f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
+                    for serialized_key, serialized_value in (
+                        (
+                            cls.with_indent(name, depth=depth + 1),
+                            cls.serialize(
+                                data=getattr(data, name),
+                                depth=depth + 1,
+                                visited=visited,
+                            ),
+                        )
+                        for name in dir(data)
+                        if not name.startswith("_")
+                        and not callable(getattr(data, name))
                     )
-                    for name in cls.sort(dir(data))
-                    if not name.startswith("_") and not callable(getattr(data, name))
                 )
             )
             + cls.with_indent("}", depth)
