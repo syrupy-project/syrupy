@@ -49,17 +49,6 @@ def test_multiple_snapshots(snapshot):
     assert snapshot == "Third."
 
 
-@pytest.mark.parametrize(
-    "actual",
-    [
-        {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}},
-        {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}},
-    ],
-)
-def test_dict(snapshot, actual):
-    assert actual == snapshot
-
-
 ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 
 
@@ -79,6 +68,23 @@ def test_tuple(snapshot):
 )
 def test_set(snapshot, actual):
     assert snapshot == actual
+
+
+@pytest.mark.parametrize(
+    "actual",
+    [
+        {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}},
+        {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}},
+        {
+            1: True,
+            "a": "Some ttext.",
+            frozenset({"1", "2"}): ["1", 2],
+            ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
+        },
+    ],
+)
+def test_dict(snapshot, actual):
+    assert actual == snapshot
 
 
 def test_numbers(snapshot):

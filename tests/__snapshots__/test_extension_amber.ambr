@@ -102,6 +102,27 @@
     ],
   }
 ---
+# name: test_dict[actual2]
+  <class 'dict'> {
+    'a': 'Some ttext.',
+    1: True,
+    <class 'ExampleTuple'> (
+      1,
+      2,
+      3,
+      4,
+    ): <class 'dict'> {
+      'e': False,
+    },
+    <class 'frozenset'> {
+      '1',
+      '2',
+    }: <class 'list'> [
+      '1',
+      2,
+    ],
+  }
+---
 # name: test_empty_snapshot
   None
 ---
