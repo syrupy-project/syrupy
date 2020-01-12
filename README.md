@@ -62,35 +62,13 @@ A snapshot file should be generated under a `__snapshots__` directory in the sam
 
 #### Custom Objects
 
-The default serializer supports all python built-in types and when in doubt it falls back to __repr__.
+The default serializer supports all python built-in types and provides a sensible default for custom objects.
 
-This means your custom object needs to implement `__repr__` to prevent non deterministic snapshots.
+If you need to customise your object snapshot, is as easy as overriding the default `__repr__` implementation.
 
 ```python
 def __repr__(self) -> str:
   return "MyCustomClass(...)"
-```
-
-It is recommended to split representation into multiple lines.
-
-```python
-def __repr__(self):
-  state = "\n".join(
-    f"  {a}={getattr(self, a)}"
-    for a in sorted(dir(self))
-    if not a.startswith("__")
-  )
-  return f"{self.__class__.__name__}(\n{state}\n)"
-```
-
-This makes the snapshot diff in case of failures or updates easy to review.
-
-```ambr
-MyCustomSmartReprClass(
-  prop1=1
-  prop2=a
-  prop3={1, 2, 3}
-)
 ```
 
 ### Options
