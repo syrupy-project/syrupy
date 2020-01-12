@@ -55,7 +55,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.          |
 | `--snapshot-warn-unused` | Syrupy default behaviour is to fail the test session when there any unused snapshots. This instructs the plugin not to fail. |
 
-### Syrupy Extensions
+## Syrupy Extensions
 
 Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the `AbstractSyrupyExtension` if your project has a need not captured by one our built-ins.
 
@@ -64,15 +64,14 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files.
 - **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 
-### Advanced Usage, Extending Syrupy
+## Advanced Usage, Extending Syrupy
 
-See examples of how syrupy can be used and extented in the [test examples](./tests/examples).
+See examples of how syrupy can be used and extended in the [test examples](./tests/examples).
 
 - [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
 - [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
 - [Custom image extension](./tests/examples/test_custom_image_extension.py)
-- [Image extension](./tests/test_image_extension.py)
-- [Nested describe tests](./tests/examples/test_nested_describe.py)
+- [Image extension](./tests/test_extension_image.py)
 
 ## Uninstalling
 
