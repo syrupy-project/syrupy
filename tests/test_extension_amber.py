@@ -95,6 +95,33 @@ def test_cycle(cyclic, snapshot):
     assert cyclic == snapshot
 
 
+class CustomClass:
+    a = 1
+    b = "2"
+    c = list_cycle
+    d = dict_cycle
+    _protected_variable = None
+    __private_variable = None
+
+    def __init__(self, x=None):
+        self.x = x
+        self._y = 1
+        self.__z = 2
+
+    def public_method(self, a, b=1, *, c, d=None):
+        pass
+
+    def _protected_method(self):
+        pass
+
+    def __private_method(self):
+        pass
+
+
+def test_custom_object_repr(snapshot):
+    assert CustomClass(CustomClass()) == snapshot
+
+
 class TestClass:
     def test_class_method_name(self, snapshot):
         assert snapshot == "this is in a test class"

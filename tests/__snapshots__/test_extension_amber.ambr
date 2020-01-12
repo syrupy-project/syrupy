@@ -25,6 +25,41 @@
 # name: test_bool[True]
   True
 ---
+# name: test_custom_object_repr
+  <class 'CustomClass'> {
+    a=1
+    b='2'
+    c=<class 'list'> [
+      1,
+      2,
+      3,
+      ...,
+    ]
+    d=<class 'dict'> {
+      'a': 1,
+      'b': 2,
+      'c': 3,
+      'd': ...,
+    }
+    x=<class 'CustomClass'> {
+      a=1
+      b='2'
+      c=<class 'list'> [
+        1,
+        2,
+        3,
+        ...,
+      ]
+      d=<class 'dict'> {
+        'a': 1,
+        'b': 2,
+        'c': 3,
+        'd': ...,
+      }
+      x=None
+    }
+  }
+---
 # name: test_cycle[cyclic0]
   <class 'list'> [
     1,
