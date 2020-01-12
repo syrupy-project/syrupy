@@ -8,7 +8,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-Up to date with releases.
+- Removes `_snapshot_subdirectory_name` from `SnapshotFossilizer`
 
 ## v0.1.0
 
