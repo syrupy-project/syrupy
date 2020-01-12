@@ -198,13 +198,17 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                f"{name}="
-                + cls.serialize(
-                    data=getattr(data, name), depth=depth + 1, visited=visited
-                ).lstrip(cls._indent)
-                + "\n"
-                for name in cls.sort(dir(data))
-                if not name.startswith("__")
+                f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
+                for serialized_key, serialized_value in (
+                    (
+                        cls.with_indent(name, depth=depth + 1),
+                        cls.serialize(
+                            data=getattr(data, name), depth=depth + 1, visited=visited
+                        ),
+                    )
+                    for name in cls.sort(dir(data))
+                    if not name.startswith("__")
+                )
             )
             + cls.with_indent("}", depth)
         )
