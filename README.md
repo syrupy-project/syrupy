@@ -61,11 +61,23 @@ def __repr__(self) -> str:
 
 It is recommended to split representation into multiple lines.
 
-https://github.com/tophat/syrupy/blob/9da5a72c153548870e5e9c2dd62fdd944ae7c663/tests/examples/test_custom_object_repr.py#L20-L24
+```python
+def __repr__(self):
+  state = "\n".join(
+    f"  {a}={getattr(self, a)}" for a in dir(self) if not a.startswith("__")
+  )
+  return f"{self.__class__.__name__} (\n{state}\n)"
+```
 
 This makes the snapshot diff in case of failures or updates easy to review.
 
-https://github.com/tophat/syrupy/blob/9da5a72c153548870e5e9c2dd62fdd944ae7c663/tests/examples/__snapshots__/test_custom_object_repr.ambr#L5-L9
+```ambr
+MyCustomSmartReprClass (
+  prop1=1
+  prop2=a
+  prop3={1, 2, 3}
+)
+```
 
 ### Options
 
