@@ -8,8 +8,8 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-- Add support for nested test classes
-- Removes `_snapshot_subdirectory_name` from `SnapshotFossilizer`
+- Add support for nested test classes (#99)
+- Removes `_snapshot_subdirectory_name` from `SnapshotFossilizer` (#99)
 
 ## v0.1.0
 
