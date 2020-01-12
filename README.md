@@ -46,6 +46,8 @@ pytest --snapshot-update
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
 
+![Usage Demo](./assets/usage_demo.gif)
+
 ### Options
 
 These are the cli options exposed to `pytest` by the plugin.
@@ -55,7 +57,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.          |
 | `--snapshot-warn-unused` | Syrupy default behaviour is to fail the test session when there any unused snapshots. This instructs the plugin not to fail. |
 
-### Syrupy Extensions
+### Built-In Extensions
 
 Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the `AbstractSyrupyExtension` if your project has a need not captured by one our built-ins.
 
@@ -64,21 +66,18 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files.
 - **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 
-### Advanced Usage, Extending Syrupy
+### Advanced Usage
 
-```python
-import pytest
+By overriding the provided [`AbstractSnapshotExtension`](./src/syrupy/extensions/base.py) you can implement varied custom behaviours.
 
-@pytest.fixture
-def snapshot_custom(snapshot):
-    return snapshot.use_extension(CustomExtensionClass)
+See examples of how syrupy can be used and extended in the [test examples](./tests/examples).
 
-def test_image(snapshot_custom):
-    actual = "..."
-    assert actual == snapshot_custom
-```
+### Extending Syrupy
 
-`CustomExtensionClass` should extend `syrupy.extensions.base.AbstractSyrupyExtension`.
+- [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
+- [JPEG image extension](./tests/examples/test_custom_image_extension.py)
+- [Built-in image extensions](./tests/test_extension_image.py)
 
 ## Uninstalling
 

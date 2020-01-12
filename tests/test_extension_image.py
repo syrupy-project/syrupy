@@ -13,11 +13,6 @@ def snapshot_png(snapshot):
     return snapshot.use_extension(PNGImageSnapshotExtension)
 
 
-@pytest.fixture
-def snapshot_svg(snapshot):
-    return snapshot.use_extension(SVGImageSnapshotExtension)
-
-
 def test_image(snapshot_png, snapshot_svg):
     actual_png = base64.b64decode(
         b"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMy"
@@ -28,6 +23,16 @@ def test_image(snapshot_png, snapshot_svg):
     )
     assert actual_png == snapshot_png
 
+
+@pytest.fixture
+def snapshot_svg(snapshot):
+    return snapshot.use_extension(SVGImageSnapshotExtension)
+
+
+def test_image_vector(snapshot_svg):
+    """
+    Example of creating a previewable svg snapshot
+    """
     actual_svg = (
         '<?xml version="1.0" encoding="UTF-8"?>'
         '<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">'
