@@ -19,7 +19,7 @@ class MyCustomSmartReprClass:
 
     def __repr__(self):
         state = "\n".join(
-            f"  {a}={getattr(self, a)}"
+            f"  {a}={repr(getattr(self, a))},"
             for a in sorted(dir(self))
             if not a.startswith("__")
         )
