@@ -48,6 +48,20 @@ A snapshot file should be generated under a `__snapshots__` directory in the sam
 
 ![Usage Demo](./assets/usage_demo.gif)
 
+#### Custom Objects
+
+The default serializer supports all python built-in types and when in doubt it falls back to __repr__.
+
+This means your custom object needs to implement `__repr__` to prevent non deterministic snapshots.
+
+```python
+def __repr__(self) -> str:
+  return "MyCustomClass (...)"
+```
+
+It is recommended to split representation into multiple lines.
+This makes the snapshot diff in case of failures or updates easy to review.
+
 ### Options
 
 These are the cli options exposed to `pytest` by the plugin.
@@ -76,6 +90,7 @@ See examples of how syrupy can be used and extended in the [test examples](./tes
 
 - [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
 - [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
+- [Custom object snapshots](./tests/examples/test_custom_object_repr.py)
 - [JPEG image extension](./tests/examples/test_custom_image_extension.py)
 - [Built-in image extensions](./tests/test_extension_image.py)
 
