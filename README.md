@@ -56,7 +56,7 @@ This means your custom object needs to implement `__repr__` to prevent non deter
 
 ```python
 def __repr__(self) -> str:
-  return "MyCustomClass (...)"
+  return "MyCustomClass(...)"
 ```
 
 It is recommended to split representation into multiple lines.
