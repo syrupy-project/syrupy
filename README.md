@@ -70,8 +70,8 @@ See examples of how syrupy can be used and extended in the [test examples](./tes
 
 - [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
 - [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
-- [Custom image extension](./tests/examples/test_custom_image_extension.py)
-- [Image extension](./tests/test_extension_image.py)
+- [JPEG image extension](./tests/examples/test_custom_image_extension.py)
+- [Built-in image extensions](./tests/test_extension_image.py)
 
 ## Uninstalling
 
