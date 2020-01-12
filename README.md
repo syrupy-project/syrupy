@@ -46,6 +46,8 @@ pytest --snapshot-update
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
 
+![Usage Demo](./assets/usage_demo.gif)
+
 ### Options
 
 These are the cli options exposed to `pytest` by the plugin.
