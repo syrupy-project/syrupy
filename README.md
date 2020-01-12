@@ -26,6 +26,18 @@ The most popular snapshot test plugin compatible with pytest has some core limit
 python -m pip install syrupy
 ```
 
+### Migration
+
+Syrupy is a drop in replacement for `snapshottest`. If you already have snapshot tests written, it is as easy as:
+
+```shell
+pip uninstall snapshottest
+```
+
+This is neccessary to prevent argument conflicts.
+
+![there can only be one](https://media.giphy.com/media/9Jmb2idg10qJSygvTQ/giphy.gif)
+
 ## Usage
 
 ### Basic Usage
