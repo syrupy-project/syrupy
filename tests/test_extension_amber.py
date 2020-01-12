@@ -95,15 +95,6 @@ def test_cycle(cyclic, snapshot):
     assert cyclic == snapshot
 
 
-def callable_object(self, a, b=1, *, c, d=None):
-    pass
-
-
-@pytest.mark.parametrize("fn", [callable_object, lambda x: None])
-def test_callable(fn, snapshot):
-    assert fn == snapshot
-
-
 class CustomClass:
     a = 1
     b = "2"
