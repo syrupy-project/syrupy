@@ -60,7 +60,12 @@ def __repr__(self) -> str:
 ```
 
 It is recommended to split representation into multiple lines.
+
+https://github.com/tophat/syrupy/blob/9da5a72c153548870e5e9c2dd62fdd944ae7c663/tests/examples/test_custom_object_repr.py#L20-L24
+
 This makes the snapshot diff in case of failures or updates easy to review.
+
+https://github.com/tophat/syrupy/blob/9da5a72c153548870e5e9c2dd62fdd944ae7c663/tests/examples/__snapshots__/test_custom_object_repr.ambr#L5-L9
 
 ### Options
 
