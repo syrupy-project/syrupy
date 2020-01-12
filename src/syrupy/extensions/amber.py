@@ -189,6 +189,18 @@ class DataSerializer:
         )
 
     @classmethod
+    def serialize_callable(
+        cls,
+        data: "SerializableData",
+        *,
+        depth: int = 0,
+        visited: Optional[Set[Any]] = None,
+    ) -> str:
+        return cls.with_indent(
+            f"{cls.object_type(data)} ({cls.MarkerDepthMax()})", depth
+        )
+
+    @classmethod
     def serialize_unknown(
         cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
     ) -> str:
@@ -207,7 +219,7 @@ class DataSerializer:
                         ),
                     )
                     for name in cls.sort(dir(data))
-                    if not name.startswith("__")
+                    if not name.startswith("_")
                 )
             )
             + cls.with_indent("}", depth)
@@ -242,6 +254,8 @@ class DataSerializer:
             serialize_method = cls.serialize_dict
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
+        elif callable(data):
+            serialize_method = cls.serialize_callable
         return serialize_method(**serialize_kwargs)
 
 

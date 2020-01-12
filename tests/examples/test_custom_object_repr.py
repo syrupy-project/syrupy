@@ -13,7 +13,7 @@ class MyCustomReprClass(MyCustomClass):
         state = "\n".join(
             f"  {a}={repr(getattr(self, a))},"
             for a in sorted(dir(self))
-            if not a.startswith("__")
+            if not a.startswith("_")
         )
         return f"{self.__class__.__name__}(\n{state}\n)"
 
