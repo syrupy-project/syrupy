@@ -1,4 +1,3 @@
-import inspect
 from typing import (
     Any,
     Optional,
@@ -16,12 +15,8 @@ class TestLocation(object):
 
     @property
     def classname(self) -> Optional[str]:
-        if inspect.ismethod(self._node.obj):
-            method = self._node.obj
-            for cls in inspect.getmro(method.__self__.__class__):
-                if method.__name__ in cls.__dict__:
-                    return cls.__name__
-        return None
+        classes = self._node.obj.__qualname__.split(".")[:-1]
+        return ".".join(classes) if classes else None
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
         matches_basemethod = str(self.methodname) in snapshot_name
