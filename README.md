@@ -76,7 +76,9 @@ It is recommended to split representation into multiple lines.
 ```python
 def __repr__(self):
   state = "\n".join(
-    f"  {a}={getattr(self, a)}" for a in dir(self) if not a.startswith("__")
+    f"  {a}={getattr(self, a)}"
+    for a in sorted(dir(self))
+    if not a.startswith("__")
   )
   return f"{self.__class__.__name__}(\n{state}\n)"
 ```
