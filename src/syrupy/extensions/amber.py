@@ -3,6 +3,7 @@ from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
+    Iterable,
     Optional,
     Set,
 )
@@ -76,6 +77,13 @@ class DataSerializer:
         return snapshot_fossil
 
     @classmethod
+    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
+        try:
+            return sorted(iterable)
+        except TypeError:
+            return sorted(iterable, key=cls.serialize)
+
+    @classmethod
     def with_indent(cls, string: str, depth: int) -> str:
         return f"{cls._indent * depth}{string}"
 
@@ -120,10 +128,8 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                sorted(
-                    f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
-                    for d in data
-                )
+                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
+                for d in cls.sort(data)
             )
             + cls.with_indent("}", depth)
         )
@@ -140,15 +146,13 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                sorted(
-                    f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
-                    for serialized_key, serialized_value in (
-                        (
-                            cls.serialize(**{"data": key, **kwargs}),
-                            cls.serialize(**{"data": value, **kwargs}),
-                        )
-                        for key, value in data.items()
+                f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
+                for serialized_key, serialized_value in (
+                    (
+                        cls.serialize(**{"data": key, **kwargs}),
+                        cls.serialize(**{"data": data[key], **kwargs}),
                     )
+                    for key in cls.sort(data.keys())
                 )
             )
             + cls.with_indent("}", depth)
@@ -170,10 +174,7 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
             + "".join(
-                sorted(
-                    f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
-                    for d in data
-                )
+                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n" for d in data
             )
             + cls.with_indent(close_paren, depth)
         )
@@ -188,21 +189,16 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                sorted(
-                    f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
-                    for serialized_key, serialized_value in (
-                        (
-                            cls.with_indent(name, depth=depth + 1),
-                            cls.serialize(
-                                data=getattr(data, name),
-                                depth=depth + 1,
-                                visited=visited,
-                            ),
-                        )
-                        for name in dir(data)
-                        if not name.startswith("_")
-                        and not callable(getattr(data, name))
+                f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
+                for serialized_key, serialized_value in (
+                    (
+                        cls.with_indent(name, depth=depth + 1),
+                        cls.serialize(
+                            data=getattr(data, name), depth=depth + 1, visited=visited
+                        ),
                     )
+                    for name in cls.sort(dir(data))
+                    if not name.startswith("_") and not callable(getattr(data, name))
                 )
             )
             + cls.with_indent("}", depth)

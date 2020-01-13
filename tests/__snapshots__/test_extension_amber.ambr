@@ -30,10 +30,10 @@
     a=1
     b='2'
     c=<class 'list'> [
-      ...,
       1,
       2,
       3,
+      ...,
     ]
     d=<class 'dict'> {
       'a': 1,
@@ -45,10 +45,10 @@
       a=1
       b='2'
       c=<class 'list'> [
-        ...,
         1,
         2,
         3,
+        ...,
       ]
       d=<class 'dict'> {
         'a': 1,
@@ -62,10 +62,10 @@
 ---
 # name: test_cycle[cyclic0]
   <class 'list'> [
-    ...,
     1,
     2,
     3,
+    ...,
   ]
 ---
 # name: test_cycle[cyclic1]
@@ -131,9 +131,9 @@
 ---
 # name: test_list
   <class 'list'> [
-    'string',
     1,
     2,
+    'string',
     <class 'dict'> {
       'key': 'value',
     },
@@ -243,8 +243,8 @@
 ---
 # name: test_tuple
   <class 'tuple'> (
-    'is',
     'this',
+    'is',
     <class 'tuple'> (
       'a',
       'tuple',
@@ -253,9 +253,9 @@
 ---
 # name: test_tuple.1
   <class 'ExampleTuple'> (
-    'a',
-    'is',
     'this',
+    'is',
+    'a',
     <class 'set'> {
       'named',
       'tuple',
