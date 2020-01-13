@@ -159,13 +159,13 @@ class DataSerializer:
         )
 
     @classmethod
-    def __is_named_tuple(cls, obj: Any) -> bool:
+    def __is_namedtuple(cls, obj: Any) -> bool:
         return isinstance(obj, tuple) and all(
             type(n) == str for n in getattr(obj, "_fields", [None])
         )
 
     @classmethod
-    def serialize_named_tuple(
+    def serialize_namedtuple(
         cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
     ) -> str:
         return (
@@ -258,8 +258,8 @@ class DataSerializer:
             serialize_method = cls.serialize_set
         elif isinstance(data, dict):
             serialize_method = cls.serialize_dict
-        elif cls.__is_named_tuple(data):
-            serialize_method = cls.serialize_named_tuple
+        elif cls.__is_namedtuple(data):
+            serialize_method = cls.serialize_namedtuple
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
         return serialize_method(**serialize_kwargs)
