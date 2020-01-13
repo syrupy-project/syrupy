@@ -14,7 +14,7 @@ Syrupy is a [pytest](https://docs.pytest.org/en/latest/) snapshot plugin. It ena
 
 ## Motivation
 
-The most popular snapshot test plugin compatible with pytest has some core limitations which this package attempts to address by upholding some keys values:
+The most popular snapshot test plugin compatible with pytest has some core limitations which this package attempts to address by upholding some key values:
 
 - Extensible: If a particular data type is not supported, users should be able to easily and quickly add support.
 - Idiomatic: Snapshot testing should fit naturally among other tests cases in pytest, e.g. `assert x == snapshot` vs. `snapshot.assert_match(x)`.
