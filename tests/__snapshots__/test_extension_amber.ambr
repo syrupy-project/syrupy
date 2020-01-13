@@ -27,37 +27,37 @@
 ---
 # name: test_custom_object_repr
   <class 'CustomClass'> {
-    a=1
-    b='2'
+    a=1,
+    b='2',
     c=<class 'list'> [
       1,
       2,
       3,
       ...,
-    ]
+    ],
     d=<class 'dict'> {
       'a': 1,
       'b': 2,
       'c': 3,
       'd': ...,
-    }
+    },
     x=<class 'CustomClass'> {
-      a=1
-      b='2'
+      a=1,
+      b='2',
       c=<class 'list'> [
         1,
         2,
         3,
         ...,
-      ]
+      ],
       d=<class 'dict'> {
         'a': 1,
         'b': 2,
         'c': 3,
         'd': ...,
-      }
-      x=None
-    }
+      },
+      x=None,
+    },
   }
 ---
 # name: test_cycle[cyclic0]
@@ -107,10 +107,10 @@
     'a': 'Some ttext.',
     1: True,
     <class 'ExampleTuple'> (
-      1,
-      2,
-      3,
-      4,
+      a=1,
+      b=2,
+      c=3,
+      d=4,
     ): <class 'dict'> {
       'e': False,
     },
@@ -193,10 +193,10 @@
     'contains',
     'namedtuple',
     <class 'ExampleTuple'> (
-      1,
-      2,
-      3,
-      4,
+      a=1,
+      b=2,
+      c=3,
+      d=4,
     ),
   }
 ---
@@ -253,10 +253,10 @@
 ---
 # name: test_tuple.1
   <class 'ExampleTuple'> (
-    'this',
-    'is',
-    'a',
-    <class 'set'> {
+    a='this',
+    b='is',
+    c='a',
+    d=<class 'set'> {
       'named',
       'tuple',
     },

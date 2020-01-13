@@ -1,12 +1,12 @@
 # name: test_snapshot_custom_class
   <class 'MyCustomClass'> {
-    prop1=1
-    prop2='a'
+    prop1=1,
+    prop2='a',
     prop3=<class 'set'> {
       1,
       2,
       3,
-    }
+    },
   }
 ---
 # name: test_snapshot_custom_repr_class
