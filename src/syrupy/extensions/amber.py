@@ -1,4 +1,3 @@
-import hashlib
 import os
 from types import GeneratorType
 from typing import (
@@ -79,18 +78,10 @@ class DataSerializer:
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
-        def _sort_key(value: Any) -> Any:
-            if isinstance(value, frozenset):
-                h = hashlib.sha256()
-                for element in cls.sort(value):
-                    h.update(str(element).encode("utf-8"))
-                return h.hexdigest()
-            return value
-
         try:
             return sorted(iterable)
         except TypeError:
-            return sorted(iterable, key=_sort_key)
+            return sorted(iterable, key=cls.serialize)
 
     @classmethod
     def with_indent(cls, string: str, depth: int) -> str:

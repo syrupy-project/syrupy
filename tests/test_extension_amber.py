@@ -49,28 +49,42 @@ def test_multiple_snapshots(snapshot):
     assert snapshot == "Third."
 
 
-@pytest.mark.parametrize(
-    "actual",
-    [
-        {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}},
-        {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}},
-    ],
-)
-def test_dict(snapshot, actual):
-    assert actual == snapshot
-
-
-def test_set(snapshot):
-    assert snapshot == {"this", "is", "a", "set"}
-    assert snapshot == {"contains", "frozen", frozenset({"1", "2"})}
-
-
 ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 
 
 def test_tuple(snapshot):
     assert snapshot == ("this", "is", ("a", "tuple"))
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
+
+
+@pytest.mark.parametrize(
+    "actual",
+    [
+        {"this", "is", "a", "set"},
+        {"contains", "frozen", frozenset({"1", "2"})},
+        {"contains", "tuple", (1, 2)},
+        {"contains", "namedtuple", ExampleTuple(a=1, b=2, c=3, d=4)},
+    ],
+)
+def test_set(snapshot, actual):
+    assert snapshot == actual
+
+
+@pytest.mark.parametrize(
+    "actual",
+    [
+        {"b": True, "c": "Some text.", "d": ["1", 2], "a": {"e": False}},
+        {"b": True, "c": "Some ttext.", "d": ["1", 2], "a": {"e": False}},
+        {
+            1: True,
+            "a": "Some ttext.",
+            frozenset({"1", "2"}): ["1", 2],
+            ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
+        },
+    ],
+)
+def test_dict(snapshot, actual):
+    assert actual == snapshot
 
 
 def test_numbers(snapshot):
