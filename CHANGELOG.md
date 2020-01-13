@@ -8,7 +8,8 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-Up to date with releases.
+- Adds support for named tuple fields (#108)
+- Add trailing commas to class fields (#108)
 
 ## [v0.2.0](https://github.com/tophat/syrupy/compare/v0.1.0...v0.2.0)
 
