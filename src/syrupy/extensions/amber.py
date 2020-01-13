@@ -171,7 +171,7 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} (\n", depth)
             + "".join(
-                f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
+                f"{serialized_key}={serialized_value.lstrip(cls._indent)},\n"
                 for serialized_key, serialized_value in (
                     (
                         cls.with_indent(name, depth=depth + 1),
@@ -216,7 +216,7 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
+                f"{serialized_key}={serialized_value.lstrip(cls._indent)},\n"
                 for serialized_key, serialized_value in (
                     (
                         cls.with_indent(name, depth=depth + 1),
