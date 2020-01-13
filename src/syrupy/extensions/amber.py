@@ -159,6 +159,33 @@ class DataSerializer:
         )
 
     @classmethod
+    def __is_named_tuple(cls, obj: Any) -> bool:
+        return isinstance(obj, tuple) and all(
+            type(n) == str for n in getattr(obj, "_fields", [None])
+        )
+
+    @classmethod
+    def serialize_named_tuple(
+        cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
+    ) -> str:
+        return (
+            cls.with_indent(f"{cls.object_type(data)} (\n", depth)
+            + "".join(
+                f"{serialized_key}={serialized_value.lstrip(cls._indent)}\n"
+                for serialized_key, serialized_value in (
+                    (
+                        cls.with_indent(name, depth=depth + 1),
+                        cls.serialize(
+                            data=getattr(data, name), depth=depth + 1, visited=visited
+                        ),
+                    )
+                    for name in cls.sort(data._fields)
+                )
+            )
+            + cls.with_indent(")", depth)
+        )
+
+    @classmethod
     def serialize_iterable(
         cls,
         data: "SerializableData",
@@ -231,6 +258,8 @@ class DataSerializer:
             serialize_method = cls.serialize_set
         elif isinstance(data, dict):
             serialize_method = cls.serialize_dict
+        elif cls.__is_named_tuple(data):
+            serialize_method = cls.serialize_named_tuple
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
         return serialize_method(**serialize_kwargs)
