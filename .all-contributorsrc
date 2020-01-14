@@ -30,6 +30,15 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "adamlazz",
+      "name": "Adam Lazzarato",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/453811?v=4",
+      "profile": "https://github.com/adamlazz",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
