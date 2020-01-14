@@ -8,6 +8,10 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
+Up to date with releases.
+
+## [v0.3.0](https://github.com/tophat/syrupy/compare/v0.2.0...v0.3.0)
+
 - Adds support for named tuple fields (#108)
 - Add trailing commas to class fields (#108)
 - Specify explicit version range for pytest peer dependency (#111)
