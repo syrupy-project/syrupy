@@ -8,7 +8,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-Up to date with releases.
+- Fix bug where newline control characters were being translated based on platform (#113)
 
 ## [v0.3.0](https://github.com/tophat/syrupy/compare/v0.2.0...v0.3.0)
 
