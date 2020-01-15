@@ -17,6 +17,12 @@ def test_empty_snapshot(snapshot):
     assert snapshot == ""
 
 
+def test_newline_control_characters(snapshot):
+    assert snapshot == "line 1\nline 2"
+    assert snapshot == "line 1\r\nline 2"
+    assert snapshot == "line 1\r\nline 2\r\n"
+
+
 @pytest.mark.parametrize("actual", [False, True])
 def test_bool(actual, snapshot):
     assert actual == snapshot

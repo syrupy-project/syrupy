@@ -36,14 +36,15 @@ class DataSerializer:
         Writes the snapshot data into the snapshot file that be read later.
         """
         filepath = snapshot_fossil.location
-        with open(filepath, "w") as f:
+        with open(filepath, "w", newline="") as f:
             for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
-                    for data_line in snapshot_data.split("\n"):
-                        f.write(f"{cls._indent}{data_line}\n")
-                    f.write(f"{cls._marker_divider}\n")
+                    print(snapshot_data.splitlines(keepends=True))
+                    for data_line in snapshot_data.splitlines(keepends=True):
+                        f.write(f"{cls._indent}{data_line}")
+                    f.write(f"\n{cls._marker_divider}\n")
 
     @classmethod
     def read_file(cls, filepath: str) -> "SnapshotFossil":
@@ -56,12 +57,12 @@ class DataSerializer:
         indent_len = len(cls._indent)
         snapshot_fossil = SnapshotFossil(location=filepath)
         try:
-            with open(filepath, "r") as f:
+            with open(filepath, "r", newline="") as f:
                 test_name = None
                 snapshot_data = ""
                 for line in f:
                     if line.startswith(cls._marker_name):
-                        test_name = line[name_marker_len:-1].strip(" \n")
+                        test_name = line[name_marker_len:-1].strip(" \r\n")
                         snapshot_data = ""
                         continue
                     elif test_name is not None:

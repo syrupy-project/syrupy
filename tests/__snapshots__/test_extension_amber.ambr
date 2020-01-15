@@ -148,6 +148,25 @@
 # name: test_multiple_snapshots.2
   'Third.'
 ---
+# name: test_newline_control_characters
+  '
+  line 1
+  line 2
+  '
+---
+# name: test_newline_control_characters.1
+  '
+  line 1
+  line 2
+  '
+---
+# name: test_newline_control_characters.2
+  '
+  line 1
+  line 2
+  
+  '
+---
 # name: test_numbers
   3.5
 ---
