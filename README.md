@@ -17,7 +17,7 @@ Syrupy is a [pytest](https://docs.pytest.org/en/latest/) snapshot plugin. It ena
 The most popular snapshot test plugin compatible with pytest has some core limitations which this package attempts to address by upholding some key values:
 
 - Extensible: If a particular data type is not supported, users should be able to easily and quickly add support.
-- Idiomatic: Snapshot testing should fit naturally among other tests cases in pytest, e.g. `assert x == snapshot` vs. `snapshot.assert_match(x)`.
+- Idiomatic: Snapshot testing should fit naturally among other test cases in pytest, e.g. `assert x == snapshot` vs. `snapshot.assert_match(x)`.
 - Soundness: Snapshot tests should uncover even the most minute issues. Unlike other snapshot libraries, Syrupy will fail a test suite if a snapshot does not exist, not just on snapshot differences.
 
 ## Installation
@@ -64,29 +64,29 @@ A snapshot file should be generated under a `__snapshots__` directory in the sam
 
 The default serializer supports all python built-in types and provides a sensible default for custom objects.
 
-If you need to customise your object snapshot, is as easy as overriding the default `__repr__` implementation.
+If you need to customise your object snapshot, it is as easy as overriding the default `__repr__` implementation.
 
 ```python
 def __repr__(self) -> str:
-  return "MyCustomClass(...)"
+    return "MyCustomClass(...)"
 ```
 
 ### Options
 
 These are the cli options exposed to `pytest` by the plugin.
 
-| Option                   | Description                                                                                                                  |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| `--snapshot-update`      | When supplied updates existing snapshots of any run tests, as well as deleting unused and generating new snapshots.          |
-| `--snapshot-warn-unused` | Syrupy default behaviour is to fail the test session when there any unused snapshots. This instructs the plugin not to fail. |
+| Option                   | Description                                                                            |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| `--snapshot-update`      | Snapshots will be updated to match assertions and unused snapshots will be deleted.    |
+| `--snapshot-warn-unused` | Prints a warning on unused snapshots rather than fail the test suite.                  |
 
 ### Built-In Extensions
 
 Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the `AbstractSyrupyExtension` if your project has a need not captured by one our built-ins.
 
-- **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported, however non-sortable types such as frozenset are experimental.
-- **`SingleFileSnapshotExtension`**: Unlike the `AmberSnapshotExtension`, which groups all tests within a single test file into a singular snapshot file, and creates one `.raw` file per test case.
-- **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files.
+- **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported.
+- **`SingleFileSnapshotExtension`**: Unlike the `AmberSnapshotExtension`, which groups all tests within a single test file into a singular snapshot file, this extension creates one `.raw` file per test case.
+- **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
 - **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 
 ### Advanced Usage
@@ -108,6 +108,8 @@ See examples of how syrupy can be used and extended in the [test examples](./tes
 ```python
 pip uninstall syrupy
 ```
+
+If you have decided not to use Syrupy for your project after giving us a try, we'd love to get your feedback. Please create a GitHub issue if applicable, or drop a comment in our [Slack channel](https://opensource.tophat.com/slack).
 
 ## Contributing
 
