@@ -32,7 +32,7 @@ class SnapshotSession:
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: Optional["SnapshotReport"] = None
-        self.targeted_items = targeted_items
+        self.targeted_items: Optional[Set[Any]] = targeted_items
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
@@ -87,7 +87,6 @@ class SnapshotSession:
             snapshot_location = unused_snapshot_fossil.location
 
             if snapshot_location not in targeted_snapshots:
-                print("skip")
                 continue
 
             extension = self._extensions.get(snapshot_location)

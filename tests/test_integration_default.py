@@ -275,13 +275,11 @@ def test_mytest(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
-        ".ambr",
-        **{
-            "__snapshots__/other_snapfile": "---\n# name: other_snapfile.1\n\n\tsnapfile: 1\n---"
-        },
+        ".ambr", **{"__snapshots__/other_snapfile": ""},
     )
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
     result_stdout = clean_output(result.stdout.str())
+    assert "1 unused snapshot deleted" in result_stdout
     assert result.ret == 0
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 

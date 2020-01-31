@@ -8,6 +8,7 @@ from typing import (
     Any,
     Generator,
     List,
+    Optional,
     Set,
 )
 
@@ -27,6 +28,7 @@ from .terminal import (
     success_style,
     warning_style,
 )
+from .utils import get_targeted_snapshots_from_targeted_files
 
 
 if TYPE_CHECKING:
@@ -41,7 +43,7 @@ class SnapshotReport(object):
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
-    targeted_items = attr.ib()
+    targeted_items: Optional[Set[Any]] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     failed: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -49,11 +51,12 @@ class SnapshotReport(object):
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
-    def __filter(self, item):
-        from .utils import get_targeted_snapshots_from_targeted_files
+    def __filter(self, item: SnapshotFossil) -> bool:
+        if not self.targeted_items:
+            return True
 
-        c = get_targeted_snapshots_from_targeted_files(self.targeted_items)
-        return item.location in c
+        target_snaps = get_targeted_snapshots_from_targeted_files(self.targeted_items)
+        return item.location in target_snaps
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:

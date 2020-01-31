@@ -75,7 +75,9 @@ class SnapshotFossilizer(ABC):
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
-    def discover_snapshots(self, snapshot_filter=None) -> "SnapshotFossils":
+    def discover_snapshots(
+        self, snapshot_filter: Union[None, Callable[[Any], Any]] = None
+    ) -> "SnapshotFossils":
         """
         Returns all snapshot fossils in test site
         """
@@ -89,6 +91,7 @@ class SnapshotFossilizer(ABC):
                 snapshot_fossil = SnapshotFossil(location=filepath)
             if snapshot_filter and not snapshot_filter(snapshot_fossil):
                 continue
+
             discovered.add(snapshot_fossil)
 
         return discovered
