@@ -41,6 +41,7 @@ class SnapshotReport(object):
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
+    targeted_items = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     failed: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -48,9 +49,15 @@ class SnapshotReport(object):
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
+    def __filter(self, item):
+        from .utils import get_targeted_snapshots_from_targeted_files
+
+        c = get_targeted_snapshots_from_targeted_files(self.targeted_items)
+        return item.location in c
+
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            self.discovered.merge(assertion.extension.discover_snapshots())
+            self.discovered.merge(assertion.extension.discover_snapshots(self.__filter))
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(

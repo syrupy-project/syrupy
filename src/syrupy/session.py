@@ -54,6 +54,7 @@ class SnapshotSession:
             assertions=self._assertions,
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
+            targeted_items=self.targeted_items,
         )
         if self.report.num_unused:
             if self.update_snapshots:
@@ -82,14 +83,11 @@ class SnapshotSession:
         targeted_snapshots = get_targeted_snapshots_from_targeted_files(
             self.targeted_items
         )
-        print(targeted_snapshots)
         for unused_snapshot_fossil in unused_snapshot_fossils:
             snapshot_location = unused_snapshot_fossil.location
 
-            print('_______________________' + snapshot_location)
-            print(snapshot_location in targeted_snapshots)
             if snapshot_location not in targeted_snapshots:
-                print('skip')
+                print("skip")
                 continue
 
             extension = self._extensions.get(snapshot_location)
