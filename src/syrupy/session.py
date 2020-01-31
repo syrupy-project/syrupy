@@ -11,6 +11,7 @@ from typing import (
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
 from .report import SnapshotReport
+from .utils import get_targeted_snapshots_from_targeted_files
 
 
 if TYPE_CHECKING:
@@ -20,12 +21,18 @@ if TYPE_CHECKING:
 
 class SnapshotSession:
     def __init__(
-        self, *, warn_unused_snapshots: bool, update_snapshots: bool, base_dir: str
+        self,
+        *,
+        warn_unused_snapshots: bool,
+        update_snapshots: bool,
+        base_dir: str,
+        targeted_items: Optional[Set[str]],
     ):
         self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
         self.report: Optional["SnapshotReport"] = None
+        self.targeted_items = targeted_items
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
@@ -72,8 +79,19 @@ class SnapshotSession:
         unused_snapshot_fossils: "SnapshotFossils",
         used_snapshot_fossils: "SnapshotFossils",
     ) -> None:
+        targeted_snapshots = get_targeted_snapshots_from_targeted_files(
+            self.targeted_items
+        )
+        print(targeted_snapshots)
         for unused_snapshot_fossil in unused_snapshot_fossils:
             snapshot_location = unused_snapshot_fossil.location
+
+            print('_______________________' + snapshot_location)
+            print(snapshot_location in targeted_snapshots)
+            if snapshot_location not in targeted_snapshots:
+                print('skip')
+                continue
+
             extension = self._extensions.get(snapshot_location)
             if extension:
                 extension.delete_snapshots(

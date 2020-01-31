@@ -1,7 +1,27 @@
 import os
-from typing import Generator
+from typing import (
+    Generator,
+    Set,
+)
 
 from .constants import SNAPSHOT_DIRNAME
+
+
+def get_targeted_snapshots_from_targeted_files(targeted_files: Set[str]):
+    split_paths = [file_path.split("/") for file_path in targeted_files]
+    split_path = split_paths[0]
+
+
+    return [
+        os.path.abspath(os.path.join(
+            *[
+                *split_path[:-1],
+                "__snapshots__",
+                ".".join([os.path.splitext(split_path[-1])[0], "ambr"]),
+            ]
+        ))
+        for split_path in split_paths
+    ]
 
 
 def in_snapshot_dir(path: str) -> bool:

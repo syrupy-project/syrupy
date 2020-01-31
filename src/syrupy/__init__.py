@@ -63,6 +63,9 @@ def pytest_sessionstart(session: Any) -> None:
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
+        targeted_items=[
+            arg for arg in config.invocation_params.args if not arg.startswith("-")
+        ],
     )
     session._syrupy.start()
 
