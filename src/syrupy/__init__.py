@@ -1,3 +1,4 @@
+import os
 from typing import (
     Any,
     List,
@@ -64,7 +65,9 @@ def pytest_sessionstart(session: Any) -> None:
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
         targeted_items={
-            arg for arg in config.invocation_params.args if not arg.startswith("-")
+            arg
+            for arg in config.invocation_params.args
+            if not arg.startswith("-") and os.path.isfile(arg)
         },
     )
     session._syrupy.start()
