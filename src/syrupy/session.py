@@ -11,7 +11,6 @@ from typing import (
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
 from .report import SnapshotReport
-from .utils import get_targeted_snapshots_from_targeted_files
 
 
 if TYPE_CHECKING:
@@ -80,14 +79,8 @@ class SnapshotSession:
         unused_snapshot_fossils: "SnapshotFossils",
         used_snapshot_fossils: "SnapshotFossils",
     ) -> None:
-        targeted_snapshots = get_targeted_snapshots_from_targeted_files(
-            self.targeted_items
-        )
         for unused_snapshot_fossil in unused_snapshot_fossils:
             snapshot_location = unused_snapshot_fossil.location
-
-            if snapshot_location not in targeted_snapshots:
-                continue
 
             extension = self._extensions.get(snapshot_location)
             if extension:

@@ -23,7 +23,7 @@ def get_targeted_snapshots_from_targeted_files(
             os.path.join(
                 *[
                     *split_path[:-1],
-                    "__snapshots__",
+                    SNAPSHOT_DIRNAME,
                     ".".join([os.path.splitext(split_path[-1])[0], "ambr"]),
                 ]
             )
