@@ -271,7 +271,9 @@ def test_unused_snapshots_warning(stubs):
     assert result.ret == 0
 
 
-def test_mytest(stubs):
+def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfiles(
+    stubs,
+):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
