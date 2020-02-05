@@ -3,19 +3,13 @@ from typing import (
     Any,
     Generator,
     List,
-    Optional,
     Set,
 )
 
 from .constants import SNAPSHOT_DIRNAME
 
 
-def get_targeted_snapshots_from_targeted_files(
-    targeted_files: Optional[Set[Any]],
-) -> List[str]:
-    if not targeted_files:
-        return []
-
+def get_targeted_snapshots_from_targeted_files(targeted_files: Set[Any],) -> List[str]:
     split_paths = [file_path.split("/") for file_path in targeted_files]
 
     return [
