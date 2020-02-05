@@ -76,7 +76,7 @@ class SnapshotFossilizer(ABC):
         return location.endswith(self._file_extension)
 
     def discover_snapshots(
-        self, snapshot_filter: Union[None, Callable[[Any], Any]] = None
+        self, snapshot_filter: Optional[Callable[[Any], Any]] = None
     ) -> "SnapshotFossils":
         """
         Returns all snapshot fossils in test site
