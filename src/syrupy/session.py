@@ -25,13 +25,13 @@ class SnapshotSession:
         warn_unused_snapshots: bool,
         update_snapshots: bool,
         base_dir: str,
-        targeted_items: Optional[Set[str]],
+        is_providing_paths: bool,
     ):
         self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
+        self.is_providing_paths: bool = is_providing_paths
         self.report: Optional["SnapshotReport"] = None
-        self.targeted_items: Optional[Set[Any]] = targeted_items
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []
@@ -53,7 +53,7 @@ class SnapshotSession:
             assertions=self._assertions,
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
-            targeted_items=self.targeted_items,
+            is_providing_paths=self.is_providing_paths,
         )
         if self.report.num_unused:
             if self.update_snapshots:

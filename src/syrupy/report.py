@@ -41,9 +41,9 @@ class SnapshotReport(object):
     all_items: Set[Any] = attr.ib()
     ran_items: Set[Any] = attr.ib()
     update_snapshots: bool = attr.ib()
+    is_providing_paths: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
-    targeted_items: Optional[Set[Any]] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     failed: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -51,16 +51,21 @@ class SnapshotReport(object):
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
-    def __filter(self, item: SnapshotFossil) -> bool:
-        if not self.targeted_items:
+    def filter_fossils(self, item: SnapshotFossil) -> bool:
+        if not self.ran_test_files or not self.is_providing_paths:
             return True
 
-        target_snaps = get_targeted_snapshots_from_targeted_files(self.targeted_items)
+        target_snaps = set(
+            get_targeted_snapshots_from_targeted_files(self.ran_test_files)
+        )
+
         return item.location in target_snaps
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            self.discovered.merge(assertion.extension.discover_snapshots(self.__filter))
+            self.discovered.merge(
+                assertion.extension.discover_snapshots(self.filter_fossils)
+            )
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(
@@ -75,6 +80,10 @@ class SnapshotReport(object):
                     self.matched.update(snapshot_fossil)
                 else:
                     self.failed.update(snapshot_fossil)
+
+    @property
+    def ran_test_files(self) -> Optional[List[str]]:
+        return [ran_item.location[0] for ran_item in self.ran_items]
 
     @property
     def num_created(self) -> int:

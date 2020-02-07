@@ -1,4 +1,4 @@
-import os
+import glob
 from typing import (
     Any,
     List,
@@ -64,11 +64,10 @@ def pytest_sessionstart(session: Any) -> None:
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
-        targeted_items={
-            arg
+        is_providing_paths=any(
+            not arg.startswith("-") and glob.glob(arg)
             for arg in config.invocation_params.args
-            if not arg.startswith("-") and os.path.isfile(arg)
-        },
+        ),
     )
     session._syrupy.start()
 
