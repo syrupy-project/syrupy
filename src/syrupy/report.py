@@ -8,7 +8,6 @@ from typing import (
     Any,
     Generator,
     List,
-    Optional,
     Set,
 )
 
@@ -51,7 +50,7 @@ class SnapshotReport(object):
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
     def filter_fossils(self, item: "SnapshotFossil") -> bool:
-        if not self.ran_test_files or not self.is_providing_paths:
+        if not self.ran_items or not self.is_providing_paths:
             return True
 
         target_snaps = {snap.location for snap in self.used}
@@ -83,7 +82,7 @@ class SnapshotReport(object):
                     self.failed.update(snapshot_fossil)
 
     @property
-    def ran_test_files(self) -> Optional[List[str]]:
+    def ran_test_files(self) -> List[str]:
         return [ran_item.location[0] for ran_item in self.ran_items]
 
     @property
