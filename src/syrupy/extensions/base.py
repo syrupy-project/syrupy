@@ -8,7 +8,6 @@ from difflib import ndiff
 from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
-    Any,
     Callable,
     Generator,
     Optional,
@@ -76,7 +75,7 @@ class SnapshotFossilizer(ABC):
         return location.endswith(self._file_extension)
 
     def discover_snapshots(
-        self, snapshot_filter: Optional[Callable[[Any], Any]] = None
+        self, snapshot_filter: Optional[Callable[["SnapshotFossil"], bool]] = None
     ) -> "SnapshotFossils":
         """
         Returns all snapshot fossils in test site

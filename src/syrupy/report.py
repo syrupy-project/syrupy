@@ -28,7 +28,6 @@ from .terminal import (
     success_style,
     warning_style,
 )
-from .utils import get_targeted_snapshots_from_targeted_files
 
 
 if TYPE_CHECKING:
@@ -55,9 +54,7 @@ class SnapshotReport(object):
         if not self.ran_test_files or not self.is_providing_paths:
             return True
 
-        target_snaps = set(
-            get_targeted_snapshots_from_targeted_files(self.ran_test_files)
-        )
+        target_snaps = {snap.location for snap in self.used}
 
         return item.location in target_snaps
 
