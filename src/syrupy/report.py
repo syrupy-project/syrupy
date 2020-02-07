@@ -59,13 +59,6 @@ class SnapshotReport(object):
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            discovered_snaps = assertion.extension.discover_snapshots()
-            filtered_snaps = {
-                snap.location: snap
-                for snap in discovered_snaps
-                if self.filter_fossils(snap)
-            }
-            self.discovered.merge(SnapshotFossils(filtered_snaps))
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(
@@ -80,6 +73,14 @@ class SnapshotReport(object):
                     self.matched.update(snapshot_fossil)
                 else:
                     self.failed.update(snapshot_fossil)
+
+            discovered_snaps = assertion.extension.discover_snapshots()
+            filtered_snaps = {
+                snap.location: snap
+                for snap in discovered_snaps
+                if self.filter_fossils(snap)
+            }
+            self.discovered.merge(SnapshotFossils(filtered_snaps))
 
     @property
     def ran_test_files(self) -> List[str]:
