@@ -50,7 +50,7 @@ class SnapshotReport(object):
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
-    def filter_fossils(self, item: SnapshotFossil) -> bool:
+    def filter_fossils(self, item: "SnapshotFossil") -> bool:
         if not self.ran_test_files or not self.is_providing_paths:
             return True
 
