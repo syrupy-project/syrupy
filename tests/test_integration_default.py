@@ -292,7 +292,7 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(st
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
 
-def test_unused_snapshots_ignored_if_not_targeted_wdhen_targeting_specific_testfiles(
+def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfiles(
     stubs,
 ):
     _, testdir, tests, _ = stubs
