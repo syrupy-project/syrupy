@@ -60,9 +60,13 @@ class SnapshotReport(object):
 
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
-            self.discovered.merge(
-                assertion.extension.discover_snapshots(self.filter_fossils)
-            )
+            discovered_snaps = assertion.extension.discover_snapshots()
+            filtered_snaps = {
+                snap.location: snap
+                for snap in discovered_snaps
+                if self.filter_fossils(snap)
+            }
+            self.discovered.merge(SnapshotFossils(filtered_snaps))
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(
