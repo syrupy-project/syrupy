@@ -271,7 +271,28 @@ def test_unused_snapshots_warning(stubs):
     assert result.ret == 0
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfiles(
+def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(stubs,):
+    _, testdir, tests, _ = stubs
+    testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
+    testdir.makefile(
+        ".ambr", **{"__snapshots__/other_snapfile": ""},
+    )
+    test_content = (
+        "def test_life_always_finds_a_way(snapshot):\n\tassert snapshot == snapshot"
+    )
+    testdir.makefile(
+        ".py", **{"test_life_always_finds_a_way": test_content},
+    )
+    result = testdir.runpytest(
+        "-k", "life_always_finds_a_way", "-v", "--snapshot-update"
+    )
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot generated" in result_stdout
+    assert result.ret == 0
+    assert os.path.isfile("__snapshots__/other_snapfile.ambr")
+
+
+def test_unused_snapshots_ignored_if_not_targeted_wdhen_targeting_specific_testfiles(
     stubs,
 ):
     _, testdir, tests, _ = stubs
