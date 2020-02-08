@@ -9,9 +9,6 @@ def in_snapshot_dir(path: Path) -> bool:
 
 
 def walk_snapshot_dir(root: str) -> Generator[str, None, None]:
-    if not Path(root).exists():
-        return
-
     for file_path in Path(root).rglob("*"):
         if not in_snapshot_dir(file_path):
             continue
