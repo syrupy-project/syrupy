@@ -1,18 +1,19 @@
-import os
+from pathlib import Path
 from typing import Generator
 
 from .constants import SNAPSHOT_DIRNAME
 
 
-def in_snapshot_dir(path: str) -> bool:
-    parts = path.split(os.path.sep)
-    return SNAPSHOT_DIRNAME in parts
+def in_snapshot_dir(path: Path) -> bool:
+    return SNAPSHOT_DIRNAME in path.parts
 
 
 def walk_snapshot_dir(root: str) -> Generator[str, None, None]:
-    for (dirpath, _, filenames) in os.walk(root):
-        if not in_snapshot_dir(dirpath):
+    if not Path(root).exists():
+        return
+
+    for file_path in Path(root).rglob("*"):
+        if not in_snapshot_dir(file_path):
             continue
-        for filename in filenames:
-            if not filename.startswith("."):
-                yield os.path.join(dirpath, filename)
+        if not file_path.name.startswith(".") and file_path.is_file():
+            yield str(file_path)

@@ -1,4 +1,3 @@
-import os
 import warnings
 from abc import (
     ABC,
@@ -6,6 +5,7 @@ from abc import (
 )
 from difflib import ndiff
 from itertools import zip_longest
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Callable,
@@ -68,7 +68,7 @@ class SnapshotFossilizer(ABC):
     def get_location(self, *, index: int) -> str:
         """Returns full location where snapshot data is stored."""
         basename = self._get_file_basename(index=index)
-        return os.path.join(self._dirname, f"{basename}.{self._file_extension}")
+        return str(Path(self._dirname).joinpath(f"{basename}.{self._file_extension}"))
 
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
@@ -180,8 +180,8 @@ class SnapshotFossilizer(ABC):
 
     @property
     def _dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filename)
-        return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
+        test_dirname = Path(self.test_location.filename).parent
+        return str(Path(test_dirname).joinpath(SNAPSHOT_DIRNAME))
 
     @property
     @abstractmethod
@@ -190,14 +190,14 @@ class SnapshotFossilizer(ABC):
 
     def _get_file_basename(self, *, index: int) -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
+        return f"{Path(self.test_location.filename).stem}"
 
     def __ensure_snapshot_dir(self, *, index: int) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """
         try:
-            os.makedirs(os.path.dirname(self.get_location(index=index)))
+            Path(self.get_location(index=index)).parent.mkdir(parents=True)
         except FileExistsError:
             pass
 

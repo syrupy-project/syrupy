@@ -1,8 +1,8 @@
-import os
 from gettext import (
     gettext,
     ngettext,
 )
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -174,7 +174,7 @@ class SnapshotReport(object):
                 for snapshot_fossil in self.unused:
                     filepath = snapshot_fossil.location
                     snapshots = (snapshot.name for snapshot in snapshot_fossil)
-                    path_to_file = os.path.relpath(filepath, self.base_dir)
+                    path_to_file = Path(filepath).relative_to(self.base_dir)
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     yield warning_style(gettext("Deleted {} ({})")).format(
                         deleted_snapshots, path_to_file

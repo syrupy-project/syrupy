@@ -1,6 +1,6 @@
-import os
 import re
 from gettext import gettext
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Optional,
@@ -31,7 +31,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def delete_snapshots(
         self, *, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
-        os.remove(snapshot_location)
+        Path(snapshot_location).unlink()
 
     @property
     def _file_extension(self) -> str:
@@ -43,15 +43,12 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     @property
     def _dirname(self) -> str:
         original_dirname = super(SingleFileSnapshotExtension, self)._dirname
-        file_basename = os.path.basename(str(self.test_location.filename))
-        sub_dirname = os.path.splitext(file_basename)[0]
-        return os.path.join(original_dirname, sub_dirname)
+        sub_dirname = Path(str(self.test_location.filename)).stem
+        return str(Path(original_dirname).joinpath(sub_dirname))
 
     def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
         snapshot_fossil = SnapshotFossil(location=snapshot_location)
-        snapshot_fossil.add(
-            Snapshot(name=os.path.splitext(os.path.basename(snapshot_location))[0])
-        )
+        snapshot_fossil.add(Snapshot(name=Path(snapshot_location).stem))
         return snapshot_fossil
 
     def _read_snapshot_data_from_location(
