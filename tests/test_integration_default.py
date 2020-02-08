@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 import pytest
 
@@ -205,7 +205,7 @@ def test_missing_snapshots(testdir, testcases):
 def stubs(testdir, testcases):
     pyfile_content = "\n\n".join(testcases.values())
     testdir.makepyfile(test_file=pyfile_content)
-    filepath = os.path.join(testdir.tmpdir, "__snapshots__", "test_file.ambr")
+    filepath = str(Path(testdir.tmpdir) / "__snapshots__" / "test_file.ambr")
     return testdir.runpytest("-v", "--snapshot-update"), testdir, testcases, filepath
 
 
@@ -273,57 +273,57 @@ def test_unused_snapshots_warning(stubs):
 
 def test_removed_snapshots(stubs):
     _, testdir, tests, filepath = stubs
-    assert os.path.isfile(filepath)
+    assert Path(filepath).is_file()
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshot unused" not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     assert result.ret == 0
-    assert os.path.isfile(filepath)
+    assert Path(filepath).is_file()
 
 
 def test_removed_snapshot_fossil(stubs):
     _, testdir, tests, filepath = stubs
-    assert os.path.isfile(filepath)
+    assert Path(filepath).is_file()
     testdir.makepyfile(test_file=tests["inject"])
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "snapshots unused" not in result_stdout
     assert "7 unused snapshots deleted" in result_stdout
     assert result.ret == 0
-    assert not os.path.isfile(filepath)
+    assert not Path(filepath).is_file()
 
 
 def test_removed_empty_snapshot_fossil_only(stubs):
     _, testdir, _, filepath = stubs
-    empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.ambr")
+    empty_filepath = Path(filepath).parent.joinpath("test_empty.ambr")
     with open(empty_filepath, "w") as empty_snapfile:
         empty_snapfile.write("")
-    assert os.path.isfile(empty_filepath)
+    assert Path(empty_filepath).is_file()
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
-    assert os.path.relpath(filepath) not in result_stdout
+    assert str(Path(filepath).relative_to(Path.cwd())) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     assert "empty snapshot" in result_stdout
-    assert os.path.relpath(empty_filepath) in result_stdout
+    assert str(Path(empty_filepath).relative_to(Path.cwd())) in result_stdout
     assert result.ret == 0
-    assert os.path.isfile(filepath)
-    assert not os.path.isfile(empty_filepath)
+    assert Path(filepath).is_file()
+    assert not Path(empty_filepath).is_file()
 
 
 def test_removed_hanging_snapshot_fossil(stubs):
     _, testdir, _, filepath = stubs
-    hanging_filepath = os.path.join(os.path.dirname(filepath), "test_hanging.abc")
+    hanging_filepath = Path(filepath).parent.joinpath("test_hanging.abc")
     with open(hanging_filepath, "w") as empty_snapfile:
         empty_snapfile.write("some dummy content")
-    assert os.path.isfile(hanging_filepath)
+    assert Path(hanging_filepath).is_file()
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
-    assert os.path.relpath(filepath) not in result_stdout
+    assert str(Path(filepath).relative_to(Path.cwd())) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     assert "unknown snapshot" in result_stdout
-    assert os.path.relpath(hanging_filepath) in result_stdout
+    assert str(Path(hanging_filepath).relative_to(Path.cwd())) in result_stdout
     assert result.ret == 0
-    assert os.path.isfile(filepath)
-    assert not os.path.isfile(hanging_filepath)
+    assert Path(filepath).is_file()
+    assert not Path(hanging_filepath).is_file()
