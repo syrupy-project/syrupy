@@ -83,10 +83,6 @@ class SnapshotReport(object):
             self.discovered.merge(SnapshotFossils(filtered_snaps))
 
     @property
-    def ran_test_files(self) -> List[str]:
-        return [ran_item.location[0] for ran_item in self.ran_items]
-
-    @property
     def num_created(self) -> int:
         return self._count_snapshots(self.created)
 
