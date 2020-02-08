@@ -39,6 +39,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mcataford",
+      "name": "Marc Cataford",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6210361?v=4",
+      "profile": "https://mcataford.github.io",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
