@@ -20,11 +20,17 @@ if TYPE_CHECKING:
 
 class SnapshotSession:
     def __init__(
-        self, *, warn_unused_snapshots: bool, update_snapshots: bool, base_dir: str
+        self,
+        *,
+        warn_unused_snapshots: bool,
+        update_snapshots: bool,
+        base_dir: str,
+        is_providing_paths: bool,
     ):
         self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
         self.base_dir = base_dir
+        self.is_providing_paths: bool = is_providing_paths
         self.report: Optional["SnapshotReport"] = None
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
@@ -47,6 +53,7 @@ class SnapshotSession:
             assertions=self._assertions,
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
+            is_providing_paths=self.is_providing_paths,
         )
         if self.report.num_unused:
             if self.update_snapshots:
@@ -74,6 +81,7 @@ class SnapshotSession:
     ) -> None:
         for unused_snapshot_fossil in unused_snapshot_fossils:
             snapshot_location = unused_snapshot_fossil.location
+
             extension = self._extensions.get(snapshot_location)
             if extension:
                 extension.delete_snapshots(

@@ -86,7 +86,9 @@ class SnapshotFossilizer(ABC):
                     snapshot_fossil = SnapshotEmptyFossil(location=filepath)
             else:
                 snapshot_fossil = SnapshotFossil(location=filepath)
+
             discovered.add(snapshot_fossil)
+
         return discovered
 
     @final

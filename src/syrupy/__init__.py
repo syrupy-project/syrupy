@@ -1,3 +1,4 @@
+import glob
 from typing import (
     Any,
     List,
@@ -63,6 +64,10 @@ def pytest_sessionstart(session: Any) -> None:
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
+        is_providing_paths=any(
+            not arg.startswith("-") and glob.glob(arg)
+            for arg in config.invocation_params.args
+        ),
     )
     session._syrupy.start()
 

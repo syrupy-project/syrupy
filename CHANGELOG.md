@@ -8,7 +8,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-- Up to date with releases.
+- Fix bug where untargeted snapshots would be deleted when using pytest in targeted mode (#123)
 
 ## [v0.3.1](https://github.com/tophat/syrupy/compare/v0.3.0...v0.3.1)
 
