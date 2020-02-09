@@ -28,6 +28,7 @@ def collection(testdir):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "4 snapshots generated" in result_stdout
+    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
     return testdir
 
 
@@ -49,9 +50,9 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert os.path.isfile(
-        os.path.join(collection.tmpdir, "__snapshots__/test_not_collected.ambr")
-    )
+    snapshot_path = [collection.tmpdir, "__snapshots__"]
+    assert os.path.isfile(os.path.join(*snapshot_path, "test_not_collected.ambr"))
+    assert os.path.isfile(os.path.join(*snapshot_path, "other_snapfile.ambr"))
 
 
 def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
@@ -72,9 +73,9 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert os.path.isfile(
-        os.path.join(collection.tmpdir, "__snapshots__/test_not_collected.ambr")
-    )
+    snapshot_path = [collection.tmpdir, "__snapshots__"]
+    assert os.path.isfile(os.path.join(*snapshot_path, "test_not_collected.ambr"))
+    assert os.path.isfile(os.path.join(*snapshot_path, "other_snapfile.ambr"))
 
 
 def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
@@ -95,9 +96,9 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert os.path.isfile(
-        os.path.join(collection.tmpdir, "__snapshots__/test_not_collected.ambr")
-    )
+    snapshot_path = [collection.tmpdir, "__snapshots__"]
+    assert os.path.isfile(os.path.join(*snapshot_path, "test_not_collected.ambr"))
+    assert os.path.isfile(os.path.join(*snapshot_path, "other_snapfile.ambr"))
 
 
 @pytest.fixture

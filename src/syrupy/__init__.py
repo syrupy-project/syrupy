@@ -54,6 +54,14 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
     return None
 
 
+def __is_testpath(arg: str) -> bool:
+    return not arg.startswith("-") and bool(glob.glob(arg.split("::")[0]))
+
+
+def __is_testmodule(arg: str) -> bool:
+    return arg == "--pyargs"
+
+
 def pytest_sessionstart(session: Any) -> None:
     """
     Initialize snapshot session before tests are collected and ran.
@@ -65,7 +73,7 @@ def pytest_sessionstart(session: Any) -> None:
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
         is_providing_paths=any(
-            not arg.startswith("-") and glob.glob(arg.split("::")[0])
+            __is_testpath(arg) or __is_testmodule(arg)
             for arg in config.invocation_params.args
         ),
     )
