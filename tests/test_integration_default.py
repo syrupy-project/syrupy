@@ -5,7 +5,53 @@ import pytest
 from .utils import clean_output
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(testdir):
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(testdir):
+    tests = {
+        "test_collected": (
+            """
+            import pytest
+
+            @pytest.mark.slow
+            def test_collected(snapshot):
+                assert snapshot == 1
+                assert snapshot == "2"
+                assert snapshot == {1,1,1}
+            """
+        ),
+        "test_not_collected": (
+            """
+            def test_not_collected(snapshot):
+                assert snapshot == "hello"
+            """
+        ),
+    }
+    testdir.makepyfile(**tests)
+    result = testdir.runpytest("-v", "--snapshot-update")
+    result_stdout = clean_output(result.stdout.str())
+    assert "4 snapshots generated" in result_stdout
+
+    updated_tests = {
+        "test_collected": (
+            """
+            import pytest
+
+            @pytest.mark.slow
+            def test_collected(snapshot):
+                assert snapshot == 1
+                assert snapshot == "two"
+            """
+        ),
+    }
+    testdir.makepyfile(**updated_tests)
+    result = testdir.runpytest("-v", "--snapshot-update", "-m", "slow")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot updated" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
+    assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
+
+
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(testdir):
     tests = {
         "test_collected": (
             """
@@ -45,7 +91,7 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(te
     assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
 
 
-def test_unused_parameterized_ignored_if_not_targeted_when_targeting_using_dash_k(testdir):
+def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(testdir):
     tests = {
         "test_parametrized": (
             """
@@ -273,7 +319,7 @@ def test_unused_snapshots_warning(stubs):
     assert result.ret == 0
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_node_ids(stubs):
+def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(stubs):
     _, testdir, tests, snapshot_file = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
@@ -296,9 +342,7 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_node_ids(stubs)
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfiles(
-    stubs,
-):
+def test_unused_snapshots_ignored_if_not_targeted_by_module_testfiles(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
@@ -311,7 +355,7 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfi
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
 
-def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs,):
+def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(
         test_file=(
