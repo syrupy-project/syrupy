@@ -5,7 +5,7 @@ import pytest
 from .utils import clean_output
 
 
-def test_collection(testdir):
+def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(testdir):
     tests = {
         "test_collected": (
             """
@@ -42,9 +42,10 @@ def test_collection(testdir):
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
+    assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
 
 
-def test_collection_parametrized(testdir):
+def test_unused_parameterized_ignored_if_not_targeted_when_targeting_using_dash_k(testdir):
     tests = {
         "test_parametrized": (
             """
@@ -84,6 +85,7 @@ def test_collection_parametrized(testdir):
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
+    assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
 
 
 @pytest.fixture
@@ -271,8 +273,8 @@ def test_unused_snapshots_warning(stubs):
     assert result.ret == 0
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(stubs):
-    _, testdir, tests, _ = stubs
+def test_unused_snapshots_ignored_if_not_targeted_when_targeting_node_ids(stubs):
+    _, testdir, tests, snapshot_file = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
         ".ambr", **{"__snapshots__/other_snapfile": ""},
@@ -283,12 +285,14 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(st
     testdir.makefile(
         ".py", **{"test_life_always_finds_a_way": test_content},
     )
+    testfile = os.path.join(testdir.tmpdir, "test_life_always_finds_a_way.py")
     result = testdir.runpytest(
-        "-k", "life_always_finds_a_way", "-v", "--snapshot-update"
+        f"{testfile}::test_life_always_finds_a_way", "-v", "--snapshot-update"
     )
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot generated" in result_stdout
     assert result.ret == 0
+    assert os.path.isfile(snapshot_file)
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
 
