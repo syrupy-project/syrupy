@@ -307,6 +307,26 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfi
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
 
+def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs,):
+    _, testdir, tests, _ = stubs
+    testdir.makepyfile(
+        test_file=(
+            """
+            def test_add_fixture_to_run_syrupy(snapshot):
+                assert True
+            """
+        )
+    )
+    testdir.makefile(
+        ".ambr", **{"__snapshots__/other_snapfile": ""},
+    )
+    result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
+    result_stdout = clean_output(result.stdout.str())
+    assert "7 unused snapshots deleted" in result_stdout
+    assert result.ret == 0
+    assert os.path.isfile("__snapshots__/other_snapfile.ambr")
+
+
 def test_removed_snapshots(stubs):
     _, testdir, tests, filepath = stubs
     assert os.path.isfile(filepath)
