@@ -360,7 +360,7 @@ def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs):
     testdir.makepyfile(
         test_file=(
             """
-            def test_add_fixture_to_run_syrupy(snapshot):
+            def test_used(snapshot):
                 assert True
             """
         )
@@ -401,15 +401,14 @@ def test_removed_snapshot_fossil(stubs):
 
 def test_removed_empty_snapshot_fossil_only(stubs):
     _, testdir, _, filepath = stubs
-    empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.ambr")
-    with open(empty_filepath, "w") as empty_snapfile:
-        empty_snapfile.write("")
+    testdir.makefile(".ambr", **{"__snapshots__/test_empty": ""})
+    empty_filepath = os.path.join(testdir.tmpdir, "__snapshots__/test_empty.ambr")
     assert os.path.isfile(empty_filepath)
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert "empty snapshot" in result_stdout
+    assert "snapshot fossil" in result_stdout
     assert os.path.relpath(empty_filepath) in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
@@ -418,9 +417,8 @@ def test_removed_empty_snapshot_fossil_only(stubs):
 
 def test_removed_hanging_snapshot_fossil(stubs):
     _, testdir, _, filepath = stubs
-    hanging_filepath = os.path.join(os.path.dirname(filepath), "test_hanging.abc")
-    with open(hanging_filepath, "w") as empty_snapfile:
-        empty_snapfile.write("some dummy content")
+    testdir.makefile(".abc", **{"__snapshots__/test_hanging": ""})
+    hanging_filepath = os.path.join(testdir.tmpdir, "__snapshots__/test_hanging.abc")
     assert os.path.isfile(hanging_filepath)
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
