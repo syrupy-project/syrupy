@@ -5,95 +5,10 @@ import pytest
 from .utils import clean_output
 
 
-def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(testdir):
+@pytest.fixture
+def collection(testdir):
     tests = {
         "test_collected": (
-            """
-            import pytest
-
-            @pytest.mark.slow
-            def test_collected(snapshot):
-                assert snapshot == 1
-                assert snapshot == "2"
-                assert snapshot == {1,1,1}
-            """
-        ),
-        "test_not_collected": (
-            """
-            def test_not_collected(snapshot):
-                assert snapshot == "hello"
-            """
-        ),
-    }
-    testdir.makepyfile(**tests)
-    result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = clean_output(result.stdout.str())
-    assert "4 snapshots generated" in result_stdout
-
-    updated_tests = {
-        "test_collected": (
-            """
-            import pytest
-
-            @pytest.mark.slow
-            def test_collected(snapshot):
-                assert snapshot == 1
-                assert snapshot == "two"
-            """
-        ),
-    }
-    testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-m", "slow")
-    result_stdout = clean_output(result.stdout.str())
-    assert "1 snapshot passed" in result_stdout
-    assert "1 snapshot updated" in result_stdout
-    assert "1 unused snapshot deleted" in result_stdout
-    assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
-
-
-def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(testdir):
-    tests = {
-        "test_collected": (
-            """
-            def test_collected(snapshot):
-                assert snapshot == 1
-                assert snapshot == "2"
-                assert snapshot == {1,1,1}
-            """
-        ),
-        "test_not_collected": (
-            """
-            def test_not_collected(snapshot):
-                assert snapshot == "hello"
-            """
-        ),
-    }
-    testdir.makepyfile(**tests)
-    result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = clean_output(result.stdout.str())
-    assert "4 snapshots generated" in result_stdout
-
-    updated_tests = {
-        "test_collected": (
-            """
-            def test_collected(snapshot):
-                assert snapshot == 1
-                assert snapshot == "two"
-            """
-        ),
-    }
-    testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
-    result_stdout = clean_output(result.stdout.str())
-    assert "1 snapshot passed" in result_stdout
-    assert "1 snapshot updated" in result_stdout
-    assert "1 unused snapshot deleted" in result_stdout
-    assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
-
-
-def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(testdir):
-    tests = {
-        "test_parametrized": (
             """
             import pytest
 
@@ -113,9 +28,58 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(testdir):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "4 snapshots generated" in result_stdout
+    return testdir
 
+
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     updated_tests = {
-        "test_parametrized": (
+        "test_collected": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, "2"])
+            def test_collected(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+    }
+    collection.makepyfile(**updated_tests)
+    result = collection.runpytest("-v", "--snapshot-update", "-m", "parametrize")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot updated" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
+    assert os.path.isfile(
+        os.path.join(collection.tmpdir, "__snapshots__/test_not_collected.ambr")
+    )
+
+
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
+    updated_tests = {
+        "test_collected": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, "2"])
+            def test_collected(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+    }
+    collection.makepyfile(**updated_tests)
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot updated" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
+    assert os.path.isfile(
+        os.path.join(collection.tmpdir, "__snapshots__/test_not_collected.ambr")
+    )
+
+
+def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
+    updated_tests = {
+        "test_collected": (
             """
             import pytest
 
@@ -125,13 +89,15 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(testdir):
             """
         ),
     }
-    testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    collection.makepyfile(**updated_tests)
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected")
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert os.path.isfile(os.path.join(testdir.tmpdir, "test_not_collected.py"))
+    assert os.path.isfile(
+        os.path.join(collection.tmpdir, "__snapshots__/test_not_collected.ambr")
+    )
 
 
 @pytest.fixture
