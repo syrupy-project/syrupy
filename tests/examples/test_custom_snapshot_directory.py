@@ -23,7 +23,7 @@ DIFFERENT_DIRECTORY = "__snaps_example__"
 class DifferentDirectoryExtension(AmberSnapshotExtension):
     @property
     def _dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filename)
+        test_dirname = os.path.dirname(self.test_location.filepath)
         return os.path.join(test_dirname, DIFFERENT_DIRECTORY)
 
 

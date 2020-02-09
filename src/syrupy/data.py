@@ -50,6 +50,8 @@ class SnapshotFossil(object):
 
     def add(self, snapshot: "Snapshot") -> None:
         self._snapshots[snapshot.name] = snapshot
+        if snapshot.name != SNAPSHOT_EMPTY_FOSSIL_KEY:
+            self.remove(SNAPSHOT_EMPTY_FOSSIL_KEY)
 
     def merge(self, snapshot_fossil: "SnapshotFossil") -> None:
         for snapshot in snapshot_fossil:
@@ -82,7 +84,7 @@ class SnapshotEmptyFossil(SnapshotFossil):
 
 @attr.s(frozen=True)
 class SnapshotUnknownFossil(SnapshotFossil):
-    """This is a saved fossil that is unclaimed by any extension currenly in use"""
+    """This is a saved fossil that is unclaimed by any extension currently in use"""
 
     _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
 

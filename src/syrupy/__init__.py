@@ -65,7 +65,7 @@ def pytest_sessionstart(session: Any) -> None:
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
         is_providing_paths=any(
-            not arg.startswith("-") and glob.glob(arg)
+            not arg.startswith("-") and glob.glob(arg.split("::")[0])
             for arg in config.invocation_params.args
         ),
     )

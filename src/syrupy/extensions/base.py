@@ -123,6 +123,12 @@ class SnapshotFossilizer(ABC):
         """
         self._pre_write(data=data, index=index)
         snapshot_location = self.get_location(index=index)
+        if not self.test_location.matches_snapshot_location(snapshot_location):
+            warning_msg = f"""
+            Can not relate snapshot location '{snapshot_location}' to the test location.
+            Consider adding '{self.test_location.filename}' to the generated location.
+            """
+            warnings.warn(warning_msg)
         snapshot_name = self.get_snapshot_name(index=index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = f"""
@@ -182,7 +188,7 @@ class SnapshotFossilizer(ABC):
 
     @property
     def _dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filename)
+        test_dirname = os.path.dirname(self.test_location.filepath)
         return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
 
     @property
@@ -192,7 +198,7 @@ class SnapshotFossilizer(ABC):
 
     def _get_file_basename(self, *, index: int) -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
+        return self.test_location.filename
 
     def __ensure_snapshot_dir(self, *, index: int) -> None:
         """

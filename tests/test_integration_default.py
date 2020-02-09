@@ -408,7 +408,7 @@ def test_removed_empty_snapshot_fossil_only(stubs):
     result_stdout = clean_output(result.stdout.str())
     assert os.path.relpath(filepath) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
-    assert "snapshot fossil" in result_stdout
+    assert "empty snapshot" in result_stdout
     assert os.path.relpath(empty_filepath) in result_stdout
     assert result.ret == 0
     assert os.path.isfile(filepath)
