@@ -5,6 +5,7 @@ from abc import (
     abstractmethod,
 )
 from difflib import ndiff
+from gettext import gettext
 from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
@@ -124,17 +125,21 @@ class SnapshotFossilizer(ABC):
         self._pre_write(data=data, index=index)
         snapshot_location = self.get_location(index=index)
         if not self.test_location.matches_snapshot_location(snapshot_location):
-            warning_msg = f"""
-            Can not relate snapshot location '{snapshot_location}' to the test location.
-            Consider adding '{self.test_location.filename}' to the generated location.
-            """
+            warning_msg = gettext(
+                """
+                Can not relate snapshot location '{}' to the test location.
+                Consider adding '{}' to the generated location.
+                """
+            ).format(snapshot_location, self.test_location.filename)
             warnings.warn(warning_msg)
         snapshot_name = self.get_snapshot_name(index=index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
-            warning_msg = f"""
-            Can not relate snapshot name '{snapshot_name}' to the test location.
-            Consider adding '{self.test_location.testname}' to the generated name.
-            """
+            warning_msg = gettext(
+                """
+                Can not relate snapshot name '{}' to the test location.
+                Consider adding '{}' to the generated name.
+                """
+            ).format(snapshot_name, self.test_location.testname)
             warnings.warn(warning_msg)
         snapshot_fossil = SnapshotFossil(location=snapshot_location)
         snapshot_fossil.add(Snapshot(name=snapshot_name, data=data))
