@@ -107,26 +107,14 @@ class SnapshotReport(object):
                 unused_snapshots = {*unused_snapshot_fossil}
                 mark_for_removal = snapshot_location not in self.used
             else:
-                if self.is_providing_paths:
-                    unused_snapshots = {
-                        snapshot
-                        for snapshot in unused_snapshot_fossil
-                        if any(
-                            TestLocation(node).matches_snapshot_location(
-                                snapshot_location
-                            )
-                            for node in self.ran_items
-                        )
-                    }
-                else:
-                    unused_snapshots = {
-                        snapshot
-                        for snapshot in unused_snapshot_fossil
-                        if any(
-                            TestLocation(node).matches_snapshot_name(snapshot.name)
-                            for node in self.ran_items
-                        )
-                    }
+                unused_snapshots = {
+                    snapshot
+                    for snapshot in unused_snapshot_fossil
+                    if any(
+                        TestLocation(node).matches_snapshot_name(snapshot.name)
+                        for node in self.ran_items
+                    )
+                }
                 mark_for_removal = False
 
             if unused_snapshots:

@@ -34,6 +34,9 @@ def testcases(testdir):
             def delete_snapshots(self, **kwargs):
                 pass
 
+            def _get_file_basename(self, *, index = 0):
+                return self.test_location.filename[::-1]
+
 
         @pytest.fixture
         def snapshot_custom(snapshot):
@@ -57,5 +60,7 @@ def test_warns_on_snapshot_name(testdir, testcases):
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots generated" in result_stdout
     assert "Warning:" in result_stdout
+    assert "Can not relate snapshot name" in result_stdout
+    assert "Can not relate snapshot location" in result_stdout
     assert "test_passed_custom" in result_stdout
     assert result.ret == 0
