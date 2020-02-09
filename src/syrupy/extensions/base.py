@@ -4,6 +4,7 @@ from abc import (
     ABC,
     abstractmethod,
 )
+from collections import deque
 from difflib import ndiff
 from gettext import gettext
 from itertools import zip_longest
@@ -27,11 +28,12 @@ from syrupy.data import (
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
+    context_color,
     emphasize,
-    green,
     mute,
-    red,
+    received_color,
     reset,
+    snapshot_color,
 )
 from syrupy.utils import walk_snapshot_dir
 
@@ -218,31 +220,87 @@ class SnapshotReporter(ABC):
         for line in self.__diff_lines(str(snapshot_data), str(serialized_data)):
             yield reset(line)
 
-    def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
-        line_styler = {"-": green, "+": red}
-        staged_line, skip = "", False
-        for line in ndiff(a.splitlines(), b.splitlines()):
-            if staged_line and line[:1] != "?":
-                yield line_styler[staged_line[:1]](staged_line)
-                staged_line, skip = "", False
-            if line[:1] in "-+":
-                staged_line = line
-            elif line[:1] == "?":
-                yield self.__diff_line(line, staged_line, line_styler[staged_line[:1]])
-                staged_line, skip = "", False
-            elif not skip:
-                yield mute("  ...")
-                skip = True
-        if staged_line:
-            yield line_styler[staged_line[:1]](staged_line)
+    @property
+    def __max_context_lines(self):
+        return 3
 
-    def __diff_line(
-        self, marker_line: str, line: str, line_style: Callable[[Union[str, int]], str]
-    ) -> str:
-        return "".join(
-            emphasize(line_style(char)) if str(marker) in "-+^" else line_style(char)
-            for marker, char in zip_longest(marker_line.strip(), line)
-        )
+    def __get_context(self, queue: "deque", before: bool) -> Generator[str, None, None]:
+        extra_lines = len(queue) == self.__max_context_lines + 1
+        for idx, context_line in enumerate(queue):
+            if before and extra_lines and idx == 0:
+                yield context_color("...")
+            elif not before and extra_lines and idx == len(queue) - 1:
+                yield context_color("...")
+            else:
+                yield context_color(context_line.rstrip("\r\n"))
+
+    def __show_line_endings(self, a: str, b: str) -> bool:
+        if a is None or b is None:
+            return False
+        a_count = {"\r": 0, "\n": 0}
+        b_count = {"\r": 0, "\n": 0}
+        for c in a:
+            if c in a_count:
+                a_count[c] += 1
+        for c in b:
+            if c in b_count:
+                b_count[c] += 1
+        return a_count != b_count
+
+    def __sanitize_line(self, line: Optional[str], show_line_ending: bool) -> str:
+        if line is None:
+            return line
+        if show_line_ending:
+            line = line.replace("\n", mute("\u2424")).replace("\r", mute("\u240D"))
+        line = line.rstrip("\r\n")
+
+        if line.endswith(" "):
+            n_spaces = len(line) - len(line.rstrip(" "))
+            line = line.rstrip(" ") + mute("\u00B7" * n_spaces)
+
+        return line
+
+    def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
+        context_queue = deque([], self.__max_context_lines + 1)
+        staged_line = None
+        for line in ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
+            marker, _ = line[:2]
+            if marker == "?":
+                continue
+
+            if marker == " ":
+                context_queue.append(line)
+                continue
+
+            if marker == "-":
+                staged_line = line
+                continue
+
+            if marker == "+":
+                yield from self.__get_context(context_queue, True)
+
+                show_line_endings = self.__show_line_endings(staged_line, line)
+                staged_line = self.__sanitize_line(staged_line, show_line_endings)
+                line = self.__sanitize_line(line, show_line_endings)
+
+                if staged_line is not None:
+                    yield from self.__diff_line(staged_line, line)
+                else:
+                    yield received_color(line)
+                context_queue.clear()
+                staged_line = None
+
+        yield from self.__get_context(context_queue, False)
+
+    def __diff_line(self, snapshot_line: Optional[str], received_line: str) -> str:
+        is_similar = False
+        if snapshot_line is None:
+            yield received_color(received_line)
+        elif is_similar:
+            yield "Line diff... TODO."
+        else:
+            yield snapshot_color(snapshot_line)
+            yield received_color(received_line)
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):

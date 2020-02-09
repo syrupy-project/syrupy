@@ -41,3 +41,15 @@ def warning_style(text: Union[str, int]) -> str:
 
 def success_style(text: Union[str, int]) -> str:
     return bold(green(text))
+
+
+def snapshot_color(text: Union[str, int]) -> str:
+    return colored.stylize(text, colored.fg("green"))
+
+
+def received_color(text: Union[str, int]) -> str:
+    return colored.stylize(text, colored.fg("red"))
+
+
+def context_color(text: Union[str, int]) -> str:
+    return colored.stylize(text, colored.attr("dim") + colored.fg("white"))

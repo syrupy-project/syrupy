@@ -12,9 +12,9 @@ from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
 from .session import SnapshotSession
 from .terminal import (
-    green,
-    red,
+    received_color,
     reset,
+    snapshot_color,
 )
 
 
@@ -46,10 +46,14 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
     if isinstance(left, SnapshotAssertion):
-        assert_msg = reset(f"{green(left.name)} {op} {red('received')}")
+        assert_msg = reset(
+            f"{snapshot_color(left.name)} {op} {received_color('received')}"
+        )
         return [assert_msg] + left.get_assert_diff(right)
     elif isinstance(right, SnapshotAssertion):
-        assert_msg = reset(f"{red('received')} {op} {green(right.name)}")
+        assert_msg = reset(
+            f"{received_color('received')} {op} {snapshot_color(right.name)}"
+        )
         return [assert_msg] + right.get_assert_diff(left)
     return None
 
