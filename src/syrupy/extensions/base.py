@@ -263,20 +263,27 @@ class SnapshotReporter(ABC):
     def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
         context_queue = deque([], self.__max_context_lines + 1)
         staged_line = None
-        for line in ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
+        last_match_index = None
+        for idx, line in enumerate(ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True))):
             marker, _ = line[:2]
             if marker == "?":
                 continue
 
             if marker == " ":
                 context_queue.append(line)
+
+                if last_match_index is not None and idx - last_match_index == self.__max_context_lines + 1:
+                    yield from self.__get_context(context_queue, False)
                 continue
 
             if marker == "-":
+                last_match_index = idx
                 staged_line = line
                 continue
 
             if marker == "+":
+                last_match_index = idx
+
                 yield from self.__get_context(context_queue, True)
 
                 show_line_endings = self.__show_line_endings(staged_line, line)
@@ -289,8 +296,6 @@ class SnapshotReporter(ABC):
                     yield received_color(line)
                 context_queue.clear()
                 staged_line = None
-
-        yield from self.__get_context(context_queue, False)
 
     def __diff_line(self, snapshot_line: Optional[str], received_line: str) -> str:
         is_similar = False

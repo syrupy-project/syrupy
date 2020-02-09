@@ -44,11 +44,11 @@ def success_style(text: Union[str, int]) -> str:
 
 
 def snapshot_color(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.fg("green"))
+    return colored.stylize(text, colored.bg(225) + colored.fg(90))
 
 
 def received_color(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.fg("red"))
+    return colored.stylize(text, colored.bg(195) + colored.fg(23))
 
 
 def context_color(text: Union[str, int]) -> str:
