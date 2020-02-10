@@ -126,19 +126,15 @@ class SnapshotFossilizer(ABC):
         snapshot_location = self.get_location(index=index)
         if not self.test_location.matches_snapshot_location(snapshot_location):
             warning_msg = gettext(
-                """
-Can not relate snapshot location '{}' to the test location.
-Consider adding '{}' to the generated location.
-                """
+                "\nCan not relate snapshot location '{}' to the test location."
+                "\nConsider adding '{}' to the generated location."
             ).format(snapshot_location, self.test_location.filename)
             warnings.warn(warning_msg)
         snapshot_name = self.get_snapshot_name(index=index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = gettext(
-                """
-Can not relate snapshot name '{}' to the test location.
-Consider adding '{}' to the generated name.
-                """
+                "\nCan not relate snapshot name '{}' to the test location."
+                "\nConsider adding '{}' to the generated name."
             ).format(snapshot_name, self.test_location.testname)
             warnings.warn(warning_msg)
         snapshot_fossil = SnapshotFossil(location=snapshot_location)
