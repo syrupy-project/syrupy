@@ -49,16 +49,9 @@ class SnapshotReport(object):
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
 
-    def filter_fossils(self, item: "SnapshotFossil") -> bool:
-        if not self.ran_items or not self.is_providing_paths:
-            return True
-
-        target_snaps = {snap.location for snap in self.used}
-
-        return item.location in target_snaps
-
     def __attrs_post_init__(self) -> None:
         for assertion in self.assertions:
+            self.discovered.merge(assertion.extension.discover_snapshots())
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(
@@ -73,14 +66,6 @@ class SnapshotReport(object):
                     self.matched.update(snapshot_fossil)
                 else:
                     self.failed.update(snapshot_fossil)
-
-            discovered_snaps = assertion.extension.discover_snapshots()
-            filtered_snaps = {
-                snap.location: snap
-                for snap in discovered_snaps
-                if self.filter_fossils(snap)
-            }
-            self.discovered.merge(SnapshotFossils(filtered_snaps))
 
     @property
     def num_created(self) -> int:
@@ -113,6 +98,12 @@ class SnapshotReport(object):
             self.discovered, self.used
         ):
             snapshot_location = unused_snapshot_fossil.location
+            if self.is_providing_paths and not any(
+                TestLocation(node).matches_snapshot_location(snapshot_location)
+                for node in self.ran_items
+            ):
+                continue
+
             if self.ran_all_collected_tests:
                 unused_snapshots = {*unused_snapshot_fossil}
                 mark_for_removal = snapshot_location not in self.used

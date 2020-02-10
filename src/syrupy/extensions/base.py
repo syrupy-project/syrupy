@@ -5,6 +5,7 @@ from abc import (
     abstractmethod,
 )
 from difflib import ndiff
+from gettext import gettext
 from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
@@ -123,12 +124,18 @@ class SnapshotFossilizer(ABC):
         """
         self._pre_write(data=data, index=index)
         snapshot_location = self.get_location(index=index)
+        if not self.test_location.matches_snapshot_location(snapshot_location):
+            warning_msg = gettext(
+                "\nCan not relate snapshot location '{}' to the test location."
+                "\nConsider adding '{}' to the generated location."
+            ).format(snapshot_location, self.test_location.filename)
+            warnings.warn(warning_msg)
         snapshot_name = self.get_snapshot_name(index=index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
-            warning_msg = f"""
-            Can not relate snapshot name '{snapshot_name}' to the test location.
-            Consider adding '{self.test_location.testname}' to the generated name.
-            """
+            warning_msg = gettext(
+                "\nCan not relate snapshot name '{}' to the test location."
+                "\nConsider adding '{}' to the generated name."
+            ).format(snapshot_name, self.test_location.testname)
             warnings.warn(warning_msg)
         snapshot_fossil = SnapshotFossil(location=snapshot_location)
         snapshot_fossil.add(Snapshot(name=snapshot_name, data=data))
@@ -182,7 +189,7 @@ class SnapshotFossilizer(ABC):
 
     @property
     def _dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filename)
+        test_dirname = os.path.dirname(self.test_location.filepath)
         return os.path.join(test_dirname, SNAPSHOT_DIRNAME)
 
     @property
@@ -192,7 +199,7 @@ class SnapshotFossilizer(ABC):
 
     def _get_file_basename(self, *, index: int) -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return f"{os.path.splitext(os.path.basename(self.test_location.filename))[0]}"
+        return self.test_location.filename
 
     def __ensure_snapshot_dir(self, *, index: int) -> None:
         """

@@ -9,6 +9,9 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 ## Master (Unreleased)
 
 - Fix bug where untargeted snapshots would be deleted when using pytest in targeted mode (#123)
+- Fix bug where snapshot files were not cleaned up when running specific test files (#127)
+- Fix bug where targeting specific test nodes in a test file was not supported (#127)
+- Fix bug where targeting specific test modules using pyargs was not supported (#127)
 
 ## [v0.3.1](https://github.com/tophat/syrupy/compare/v0.3.0...v0.3.1)
 

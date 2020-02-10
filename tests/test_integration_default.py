@@ -5,48 +5,10 @@ import pytest
 from .utils import clean_output
 
 
-def test_collection(testdir):
+@pytest.fixture
+def collection(testdir):
     tests = {
         "test_collected": (
-            """
-            def test_collected(snapshot):
-                assert snapshot == 1
-                assert snapshot == "2"
-                assert snapshot == {1,1,1}
-            """
-        ),
-        "test_not_collected": (
-            """
-            def test_not_collected(snapshot):
-                assert snapshot == "hello"
-            """
-        ),
-    }
-    testdir.makepyfile(**tests)
-    result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = clean_output(result.stdout.str())
-    assert "4 snapshots generated" in result_stdout
-
-    updated_tests = {
-        "test_collected": (
-            """
-            def test_collected(snapshot):
-                assert snapshot == 1
-                assert snapshot == "two"
-            """
-        ),
-    }
-    testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
-    result_stdout = clean_output(result.stdout.str())
-    assert "1 snapshot passed" in result_stdout
-    assert "1 snapshot updated" in result_stdout
-    assert "1 unused snapshot deleted" in result_stdout
-
-
-def test_collection_parametrized(testdir):
-    tests = {
-        "test_parametrized": (
             """
             import pytest
 
@@ -66,9 +28,59 @@ def test_collection_parametrized(testdir):
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
     assert "4 snapshots generated" in result_stdout
+    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
+    return testdir
 
+
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     updated_tests = {
-        "test_parametrized": (
+        "test_collected": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, "2"])
+            def test_collected(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+    }
+    collection.makepyfile(**updated_tests)
+    result = collection.runpytest("-v", "--snapshot-update", "-m", "parametrize")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot updated" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
+    snapshot_path = [collection.tmpdir, "__snapshots__"]
+    assert os.path.isfile(os.path.join(*snapshot_path, "test_not_collected.ambr"))
+    assert os.path.isfile(os.path.join(*snapshot_path, "other_snapfile.ambr"))
+
+
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
+    updated_tests = {
+        "test_collected": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, "2"])
+            def test_collected(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+    }
+    collection.makepyfile(**updated_tests)
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "1 snapshot updated" in result_stdout
+    assert "1 unused snapshot deleted" in result_stdout
+    snapshot_path = [collection.tmpdir, "__snapshots__"]
+    assert os.path.isfile(os.path.join(*snapshot_path, "test_not_collected.ambr"))
+    assert os.path.isfile(os.path.join(*snapshot_path, "other_snapfile.ambr"))
+
+
+def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
+    updated_tests = {
+        "test_collected": (
             """
             import pytest
 
@@ -78,12 +90,15 @@ def test_collection_parametrized(testdir):
             """
         ),
     }
-    testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    collection.makepyfile(**updated_tests)
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected")
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
+    snapshot_path = [collection.tmpdir, "__snapshots__"]
+    assert os.path.isfile(os.path.join(*snapshot_path, "test_not_collected.ambr"))
+    assert os.path.isfile(os.path.join(*snapshot_path, "other_snapfile.ambr"))
 
 
 @pytest.fixture
@@ -271,8 +286,8 @@ def test_unused_snapshots_warning(stubs):
     assert result.ret == 0
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(stubs):
-    _, testdir, tests, _ = stubs
+def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(stubs):
+    _, testdir, tests, snapshot_file = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
         ".ambr", **{"__snapshots__/other_snapfile": ""},
@@ -283,18 +298,18 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_using_dash_k(st
     testdir.makefile(
         ".py", **{"test_life_always_finds_a_way": test_content},
     )
+    testfile = os.path.join(testdir.tmpdir, "test_life_always_finds_a_way.py")
     result = testdir.runpytest(
-        "-k", "life_always_finds_a_way", "-v", "--snapshot-update"
+        f"{testfile}::test_life_always_finds_a_way", "-v", "--snapshot-update"
     )
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot generated" in result_stdout
     assert result.ret == 0
+    assert os.path.isfile(snapshot_file)
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
 
-def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfiles(
-    stubs,
-):
+def test_unused_snapshots_ignored_if_not_targeted_by_module_testfiles(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(
@@ -303,6 +318,26 @@ def test_unused_snapshots_ignored_if_not_targeted_when_targeting_specific_testfi
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
     result_stdout = clean_output(result.stdout.str())
     assert "1 unused snapshot deleted" in result_stdout
+    assert result.ret == 0
+    assert os.path.isfile("__snapshots__/other_snapfile.ambr")
+
+
+def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs):
+    _, testdir, tests, _ = stubs
+    testdir.makepyfile(
+        test_file=(
+            """
+            def test_used(snapshot):
+                assert True
+            """
+        )
+    )
+    testdir.makefile(
+        ".ambr", **{"__snapshots__/other_snapfile": ""},
+    )
+    result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
+    result_stdout = clean_output(result.stdout.str())
+    assert "7 unused snapshots deleted" in result_stdout
     assert result.ret == 0
     assert os.path.isfile("__snapshots__/other_snapfile.ambr")
 
@@ -333,9 +368,8 @@ def test_removed_snapshot_fossil(stubs):
 
 def test_removed_empty_snapshot_fossil_only(stubs):
     _, testdir, _, filepath = stubs
-    empty_filepath = os.path.join(os.path.dirname(filepath), "test_empty.ambr")
-    with open(empty_filepath, "w") as empty_snapfile:
-        empty_snapfile.write("")
+    testdir.makefile(".ambr", **{"__snapshots__/test_empty": ""})
+    empty_filepath = os.path.join(testdir.tmpdir, "__snapshots__/test_empty.ambr")
     assert os.path.isfile(empty_filepath)
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
@@ -350,9 +384,8 @@ def test_removed_empty_snapshot_fossil_only(stubs):
 
 def test_removed_hanging_snapshot_fossil(stubs):
     _, testdir, _, filepath = stubs
-    hanging_filepath = os.path.join(os.path.dirname(filepath), "test_hanging.abc")
-    with open(hanging_filepath, "w") as empty_snapfile:
-        empty_snapfile.write("some dummy content")
+    testdir.makefile(".abc", **{"__snapshots__/test_hanging": ""})
+    hanging_filepath = os.path.join(testdir.tmpdir, "__snapshots__/test_hanging.abc")
     assert os.path.isfile(hanging_filepath)
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
