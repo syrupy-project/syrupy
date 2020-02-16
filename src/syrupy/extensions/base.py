@@ -265,8 +265,16 @@ class SnapshotReporter(ABC):
         staged_line = None
         last_match_index = None
         for idx, line in enumerate(ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True))):
-            marker, _ = line[:2]
-            if marker == "?":
+            marker = line[0]
+
+            if staged_line is not None:
+                yield from self.__get_context(context_queue, True)
+                show_line_endings = self.__show_line_endings(staged_line, line)
+                staged_line = self.__sanitize_line(staged_line, show_line_endings)
+                line = self.__sanitize_line(line, show_line_endings)
+                yield from self.__diff_line(line, staged_line)
+                staged_line = None
+                context_queue.clear()
                 continue
 
             if marker == " ":
@@ -276,36 +284,21 @@ class SnapshotReporter(ABC):
                     yield from self.__get_context(context_queue, False)
                 continue
 
-            if marker == "-":
+            if marker in ("+", "-"):
                 last_match_index = idx
                 staged_line = line
                 continue
 
-            if marker == "+":
-                last_match_index = idx
 
-                yield from self.__get_context(context_queue, True)
+    def __diff_line(self, inline_marker_ctx: Optional[str], line: str) -> str:
+        marker, line_content = line[0], line[2:]
+        marker_ctx = inline_marker_ctx[2:]
 
-                show_line_endings = self.__show_line_endings(staged_line, line)
-                staged_line = self.__sanitize_line(staged_line, show_line_endings)
-                line = self.__sanitize_line(line, show_line_endings)
+        if marker == "-":
+            yield snapshot_color(line)
 
-                if staged_line is not None:
-                    yield from self.__diff_line(staged_line, line)
-                else:
-                    yield received_color(line)
-                context_queue.clear()
-                staged_line = None
-
-    def __diff_line(self, snapshot_line: Optional[str], received_line: str) -> str:
-        is_similar = False
-        if snapshot_line is None:
-            yield received_color(received_line)
-        elif is_similar:
-            yield "Line diff... TODO."
-        else:
-            yield snapshot_color(snapshot_line)
-            yield received_color(received_line)
+        if marker == "+":
+            yield received_color(line)
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
