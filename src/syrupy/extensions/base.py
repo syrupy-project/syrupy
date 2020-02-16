@@ -7,14 +7,12 @@ from abc import (
 from collections import deque
 from difflib import ndiff
 from gettext import gettext
-from itertools import zip_longest
 from typing import (
     TYPE_CHECKING,
-    Callable,
+    Deque,
     Generator,
     Optional,
     Set,
-    Union,
 )
 
 from typing_extensions import final
@@ -29,7 +27,6 @@ from syrupy.data import (
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
     context_color,
-    emphasize,
     mute,
     received_color,
     reset,
@@ -221,10 +218,12 @@ class SnapshotReporter(ABC):
             yield reset(line)
 
     @property
-    def __max_context_lines(self):
+    def __max_context_lines(self) -> int:
         return 3
 
-    def __get_context(self, queue: "deque", before: bool) -> Generator[str, None, None]:
+    def __get_context(
+        self, queue: Deque[str], before: bool
+    ) -> Generator[str, None, None]:
         extra_lines = len(queue) == self.__max_context_lines + 1
         for idx, context_line in enumerate(queue):
             if before and extra_lines and idx == 0:
@@ -247,7 +246,9 @@ class SnapshotReporter(ABC):
                 b_count[c] += 1
         return a_count != b_count
 
-    def __sanitize_line(self, line: Optional[str], show_line_ending: bool) -> str:
+    def __sanitize_line(
+        self, line: Optional[str], show_line_ending: bool
+    ) -> Optional[str]:
         if line is None:
             return line
         if show_line_ending:
@@ -261,10 +262,12 @@ class SnapshotReporter(ABC):
         return line
 
     def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
-        context_queue = deque([], self.__max_context_lines + 1)
+        context_queue: Deque[str] = deque([], self.__max_context_lines + 1)
         staged_line = None
         last_match_index = None
-        for idx, line in enumerate(ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True))):
+        for idx, line in enumerate(
+            ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True))
+        ):
             marker = line[0]
 
             if staged_line is not None:
@@ -280,7 +283,10 @@ class SnapshotReporter(ABC):
             if marker == " ":
                 context_queue.append(line)
 
-                if last_match_index is not None and idx - last_match_index == self.__max_context_lines + 1:
+                if (
+                    last_match_index is not None
+                    and idx - last_match_index == self.__max_context_lines + 1
+                ):
                     yield from self.__get_context(context_queue, False)
                 continue
 
@@ -289,10 +295,10 @@ class SnapshotReporter(ABC):
                 staged_line = line
                 continue
 
-
-    def __diff_line(self, inline_marker_ctx: Optional[str], line: str) -> str:
-        marker, line_content = line[0], line[2:]
-        marker_ctx = inline_marker_ctx[2:]
+    def __diff_line(
+        self, inline_marker_ctx: str, line: str
+    ) -> Generator[str, None, None]:
+        marker = line[0]
 
         if marker == "-":
             yield snapshot_color(line)
