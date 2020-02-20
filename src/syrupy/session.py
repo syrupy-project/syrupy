@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -83,4 +83,4 @@ class SnapshotSession:
                     },
                 )
             elif snapshot_location not in used_snapshot_fossils:
-                os.remove(snapshot_location)
+                Path(snapshot_location).unlink()
