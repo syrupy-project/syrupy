@@ -10,7 +10,7 @@ root conftest.py file, it is equivalent to globally overriding
 the default snapshot directory.
 """
 
-import os
+from pathlib import Path
 
 import pytest
 
@@ -23,8 +23,9 @@ DIFFERENT_DIRECTORY = "__snaps_example__"
 class DifferentDirectoryExtension(AmberSnapshotExtension):
     @property
     def _dirname(self) -> str:
-        test_dirname = os.path.dirname(self.test_location.filepath)
-        return os.path.join(test_dirname, DIFFERENT_DIRECTORY)
+        return str(
+            Path(self.test_location.filepath).parent.joinpath(DIFFERENT_DIRECTORY)
+        )
 
 
 @pytest.fixture

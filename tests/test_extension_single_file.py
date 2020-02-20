@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
@@ -21,14 +21,14 @@ def snapshot_single(snapshot):
 
 def test_does_not_write_non_binary(testdir, snapshot_single: "SnapshotAssertion"):
     snapshot_fossil = SnapshotFossil(
-        location=os.path.join(testdir.tmpdir, "snapshot_fossil.raw"),
+        location=str(Path(testdir.tmpdir).joinpath("snapshot_fossil.raw")),
     )
     snapshot_fossil.add(Snapshot(name="snapshot_name", data="non binary data"))
     with pytest.raises(TypeError, match="Expected 'bytes', got 'str'"):
         snapshot_single.extension._write_snapshot_fossil(
             snapshot_fossil=snapshot_fossil
         )
-    assert not os.path.exists(snapshot_fossil.location)
+    assert not Path(snapshot_fossil.location).exists()
 
 
 class TestClass:
