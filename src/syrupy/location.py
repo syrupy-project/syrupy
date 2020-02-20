@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import (
     Any,
     Optional,
@@ -21,7 +21,7 @@ class TestLocation(object):
 
     @property
     def filename(self) -> str:
-        return str(os.path.splitext(os.path.basename(self.filepath))[0])
+        return Path(self.filepath).stem
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
         matches_basemethod = str(self.methodname) in snapshot_name

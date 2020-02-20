@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
@@ -296,7 +296,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         if snapshot_fossil_to_update.has_snapshots:
             DataSerializer.write_file(snapshot_fossil_to_update)
         else:
-            os.remove(snapshot_location)
+            Path(snapshot_location).unlink()
 
     @property
     def _file_extension(self) -> str:
