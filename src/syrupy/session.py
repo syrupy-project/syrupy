@@ -26,9 +26,11 @@ class SnapshotSession:
         update_snapshots: bool,
         base_dir: str,
         is_providing_paths: bool,
+        default_serializer_plugin: str,
     ):
         self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
+        self.default_serializer_plugin = default_serializer_plugin
         self.base_dir = base_dir
         self.is_providing_paths: bool = is_providing_paths
         self.report: Optional["SnapshotReport"] = None

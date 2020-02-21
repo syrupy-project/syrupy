@@ -1,4 +1,5 @@
 import glob
+from importlib import import_module
 from typing import (
     Any,
     List,
@@ -38,6 +39,13 @@ def pytest_addoption(parser: Any) -> None:
         dest="warn_unused_snapshots",
         help="Do not fail on unused snapshots",
     )
+    group.addoption(
+        "--snapshot-default-plugin",
+        action="store",
+        default="",
+        dest="default_serializer_plugin",
+        help="Specify the default snapshot serializer",
+    )
 
 
 def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
@@ -71,6 +79,7 @@ def pytest_sessionstart(session: Any) -> None:
     session._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
+        default_serializer_plugin=config.option.default_serializer_plugin,
         base_dir=config.rootdir,
         is_providing_paths=any(
             __is_testpath(arg) or __is_testmodule(arg)
@@ -110,9 +119,18 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
 
 @pytest.fixture
 def snapshot(request: Any) -> "SnapshotAssertion":
+    default_serializer_plugin = request.config.option.default_serializer_plugin
+
+    if default_serializer_plugin:
+        parts = default_serializer_plugin.split(".")
+        module, extension_class_name = ".".join(parts[:-1]), parts[-1:][0]
+        extension_class = getattr(import_module(module), extension_class_name)
+    else:
+        extension_class = DEFAULT_EXTENSION
+
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        extension_class=DEFAULT_EXTENSION,
+        extension_class=extension_class,
         test_location=TestLocation(request.node),
         session=request.session._syrupy,
     )
