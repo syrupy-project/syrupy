@@ -8,7 +8,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-- Up to date with releases.
+- Conversion of all `os.path` and `os.walk` calls to use `pathlib` instead, setting `pathlib` as the new preferred way of doing path operations (#130)
 
 ## [v0.3.2](https://github.com/tophat/syrupy/compare/v0.3.1...v0.3.2)
 
