@@ -7,7 +7,7 @@
 appdirs==1.4.3            # via black
 attrs==19.3.0             # via black, flake8-bugbear, pytest
 black==19.10b0
-bleach==3.1.0             # via readme-renderer
+bleach==3.1.1             # via readme-renderer
 certifi==2019.11.28       # via requests
 cffi==1.13.2              # via cryptography
 chardet==3.0.4            # via requests
