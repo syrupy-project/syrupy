@@ -23,11 +23,11 @@ class TestLocation(object):
     def filename(self) -> str:
         return Path(self.filepath).stem
 
-    def __pick_id(self, name: str) -> str:
+    def __valid_id(self, name: str) -> str:
         return "".join(c for c in name if c.isidentifier())
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
-        return self.__pick_id(str(self.methodname)) == self.__pick_id(snapshot_name)
+        return self.__valid_id(str(self.methodname)) == self.__valid_id(snapshot_name)
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         return self.filename in snapshot_location
