@@ -39,19 +39,19 @@ def collection(testdir):
 
 def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     updated_tests = {
-        "test_not_collected": (
+        "test_collected": (
             """
             import pytest
 
-            @pytest.mark.not_collected
+            @pytest.mark.collected
             @pytest.mark.parametrize("actual", [1, "2"])
-            def test_name(snapshot, actual):
+            def test_name1(snapshot, actual):
                 assert snapshot == actual
             """
         ),
     }
     collection.makepyfile(**updated_tests)
-    result = collection.runpytest("-v", "--snapshot-update", "-m", "not_collected")
+    result = collection.runpytest("-v", "--snapshot-update", "-m", "collected")
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
