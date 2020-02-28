@@ -24,12 +24,10 @@ class TestLocation(object):
         return Path(self.filepath).stem
 
     def __valid_id(self, name: str) -> str:
-        valid_id = []
-        for c in name:
-            if not c.isidentifier():
-                break
-            valid_id.append(c)
-        return "".join(valid_id)
+        [valid_id, *other] = name
+        while valid_id.isidentifier() and other:
+            valid_id += other.pop()
+        return valid_id
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
         return self.__valid_id(str(self.methodname)) == self.__valid_id(snapshot_name)
