@@ -17,9 +17,9 @@ def collection(testdir):
                 assert snapshot == actual
             """
         ),
-        "test_not_collected": (
+        "test_collect": (
             """
-            def test_not_collected(snapshot):
+            def test_collect(snapshot):
                 assert snapshot == "hello"
             """
         ),
@@ -51,7 +51,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
+    assert Path(*snapshot_path).joinpath("test_collect.ambr").exists()
     assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
 
 
@@ -74,7 +74,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
+    assert Path(*snapshot_path).joinpath("test_collect.ambr").exists()
     assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
 
 
@@ -97,7 +97,7 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
     assert "snapshot updated" not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
+    assert Path(*snapshot_path).joinpath("test_collect.ambr").exists()
     assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
 
 
