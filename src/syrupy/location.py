@@ -23,10 +23,15 @@ class TestLocation(object):
     def filename(self) -> str:
         return Path(self.filepath).stem
 
+    def __matches_snapshot_name(self, var_name: str, snapshot_name: str) -> bool:
+        if var_name.isidentifier():
+            return var_name in snapshot_name
+        return snapshot_name in var_name
+
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
-        matches_basemethod = str(self.methodname) in snapshot_name
-        matches_testnode = snapshot_name in str(self.nodename)
-        return matches_basemethod or matches_testnode
+        return self.__matches_snapshot_name(
+            str(self.methodname), snapshot_name
+        ) or self.__matches_snapshot_name(str(self.nodename), snapshot_name)
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         return self.filename in snapshot_location
