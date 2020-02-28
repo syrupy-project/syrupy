@@ -6,16 +6,40 @@ from typing import (
     List,
     Optional,
     Set,
+    Type,
 )
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
+from .extensions import DEFAULT_EXTENSION
 from .report import SnapshotReport
+from .utils import (
+    FailedToLoadModuleMember,
+    load_module_member_from_path,
+)
 
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
     from .extensions.base import AbstractSyrupyExtension  # noqa: F401
+
+
+class FailedToLoadDefaultSnapshotPlugin(Exception):
+    pass
+
+
+def get_extension_class(
+    default_serializer_plugin: str,
+) -> Type["AbstractSyrupyExtension"]:
+    extension_class = DEFAULT_EXTENSION
+
+    if default_serializer_plugin:
+        try:
+            extension_class = load_module_member_from_path(default_serializer_plugin)
+        except FailedToLoadModuleMember as e:
+            raise FailedToLoadDefaultSnapshotPlugin(str(e))
+
+    return extension_class
 
 
 class SnapshotSession:
@@ -30,10 +54,10 @@ class SnapshotSession:
     ):
         self.warn_unused_snapshots = warn_unused_snapshots
         self.update_snapshots = update_snapshots
-        self.default_serializer_plugin = default_serializer_plugin
         self.base_dir = base_dir
         self.is_providing_paths: bool = is_providing_paths
         self.report: Optional["SnapshotReport"] = None
+        self.default_extension_class = get_extension_class(default_serializer_plugin)
         self._all_items: Set[Any] = set()
         self._ran_items: Set[Any] = set()
         self._assertions: List["SnapshotAssertion"] = []

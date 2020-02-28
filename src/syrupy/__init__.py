@@ -1,5 +1,4 @@
 import glob
-from importlib import import_module
 from typing import (
     Any,
     List,
@@ -9,7 +8,6 @@ from typing import (
 import pytest
 
 from .assertion import SnapshotAssertion
-from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
 from .session import SnapshotSession
 from .terminal import (
@@ -119,18 +117,10 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
 
 @pytest.fixture
 def snapshot(request: Any) -> "SnapshotAssertion":
-    default_serializer_plugin = request.config.option.default_serializer_plugin
-
-    if default_serializer_plugin:
-        parts = default_serializer_plugin.split(".")
-        module, extension_class_name = ".".join(parts[:-1]), parts[-1:][0]
-        extension_class = getattr(import_module(module), extension_class_name)
-    else:
-        extension_class = DEFAULT_EXTENSION
-
+    session = request.session._syrupy
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        extension_class=extension_class,
         test_location=TestLocation(request.node),
-        session=request.session._syrupy,
+        extension_class=session.default_extension_class,
+        session=session,
     )
