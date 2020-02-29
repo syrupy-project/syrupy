@@ -286,24 +286,29 @@ def test_unused_snapshots_warning(stubs):
     assert result.ret == 0
 
 
-def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(stubs):
-    _, testdir, tests, snapshot_file = stubs
-    testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
+def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir):
+    snapshot_file = Path(testdir.tmpdir, "__snapshots__", "test_file.ambr")
+    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
     testdir.makefile(
-        ".ambr", **{"__snapshots__/other_snapfile": ""},
+        ".py",
+        test_life_uhh_finds_a_way=(
+            """
+            def test_life_always_finds_a_way(snapshot):
+                assert snapshot == snapshot
+
+            def test_clever_girl(snapshot):
+                assert snapshot == snapshot
+            """
+        ),
     )
-    test_content = (
-        "def test_life_always_finds_a_way(snapshot):\n\tassert snapshot == snapshot"
-    )
-    testdir.makefile(
-        ".py", **{"test_life_always_finds_a_way": test_content},
-    )
-    testfile = Path(testdir.tmpdir, "test_life_always_finds_a_way.py")
+    testfile = Path(testdir.tmpdir, "test_life_uhh_finds_a_way.py")
+    testdir.runpytest("-v", "--snapshot-update")
     result = testdir.runpytest(
         f"{testfile}::test_life_always_finds_a_way", "-v", "--snapshot-update"
     )
     result_stdout = clean_output(result.stdout.str())
-    assert "1 snapshot generated" in result_stdout
+    assert "1 snapshot passed" in result_stdout
+    assert "unused" not in result_stdout
     assert result.ret == 0
     assert Path(snapshot_file).exists()
     assert Path("__snapshots__/other_snapfile.ambr").exists()
