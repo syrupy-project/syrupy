@@ -57,7 +57,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_collected.ambr").exists()
+    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
     assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
 
 
