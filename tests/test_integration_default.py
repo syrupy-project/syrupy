@@ -12,7 +12,6 @@ def collection(testdir):
             """
             import pytest
 
-            @pytest.mark.collected
             @pytest.mark.parametrize("actual", [1, 2, 3])
             def test_name1(snapshot, actual):
                 assert snapshot == actual
@@ -22,7 +21,6 @@ def collection(testdir):
             """
             import pytest
 
-            @pytest.mark.not_collected
             @pytest.mark.parametrize("actual", [1, 2, 3])
             def test_name(snapshot, actual):
                 assert snapshot == actual
