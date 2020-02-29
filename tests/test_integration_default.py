@@ -12,8 +12,9 @@ def collection(testdir):
             """
             import pytest
 
+            @pytest.mark.collected
             @pytest.mark.parametrize("actual", [1, 2, 3])
-            def test_name1(snapshot, actual):
+            def test_name(snapshot, actual):
                 assert snapshot == actual
             """
         ),
@@ -21,8 +22,9 @@ def collection(testdir):
             """
             import pytest
 
+            @pytest.mark.not_collected
             @pytest.mark.parametrize("actual", [1, 2, 3])
-            def test_name(snapshot, actual):
+            def test_name1(snapshot, actual):
                 assert snapshot == actual
             """
         ),
@@ -43,7 +45,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
 
             @pytest.mark.collected
             @pytest.mark.parametrize("actual", [1, "2"])
-            def test_name1(snapshot, actual):
+            def test_name(snapshot, actual):
                 assert snapshot == actual
             """
         ),
@@ -55,7 +57,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     assert "1 snapshot updated" in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
+    assert Path(*snapshot_path).joinpath("test_collected.ambr").exists()
     assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
 
 
@@ -66,13 +68,13 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
             import pytest
 
             @pytest.mark.parametrize("actual", [1, "2"])
-            def test_name1(snapshot, actual):
+            def test_name(snapshot, actual):
                 assert snapshot == actual
             """
         ),
     }
     collection.makepyfile(**updated_tests)
-    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_name1")
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_name[")
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
@@ -89,13 +91,13 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
             import pytest
 
             @pytest.mark.parametrize("actual", [1, 2])
-            def test_name1(snapshot, actual):
+            def test_name(snapshot, actual):
                 assert snapshot == actual
             """
         ),
     }
     collection.makepyfile(**updated_tests)
-    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_name1")
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_name[")
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout
