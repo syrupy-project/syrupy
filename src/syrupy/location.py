@@ -23,10 +23,17 @@ class TestLocation(object):
     def filename(self) -> str:
         return Path(self.filepath).stem
 
+    def __valid_id(self, name: str) -> str:
+        [valid_id, *rest] = name
+        while rest:
+            new_valid_id = f"{valid_id}{rest.pop(0)}"
+            if not new_valid_id.isidentifier():
+                break
+            valid_id = new_valid_id
+        return valid_id
+
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
-        matches_basemethod = str(self.methodname) in snapshot_name
-        matches_testnode = snapshot_name in str(self.nodename)
-        return matches_basemethod or matches_testnode
+        return self.__valid_id(str(self.methodname)) == self.__valid_id(snapshot_name)
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         return self.filename in snapshot_location

@@ -19,7 +19,7 @@ def collection(testdir):
         ),
         "test_not_collected": (
             """
-            def test_not_collected(snapshot):
+            def test_collected1(snapshot):
                 assert snapshot == "hello"
             """
         ),
@@ -68,7 +68,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
         ),
     }
     collection.makepyfile(**updated_tests)
-    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
     assert "1 snapshot updated" in result_stdout
@@ -91,7 +91,7 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
         ),
     }
     collection.makepyfile(**updated_tests)
-    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected")
+    result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
     result_stdout = clean_output(result.stdout.str())
     assert "2 snapshots passed" in result_stdout
     assert "snapshot updated" not in result_stdout

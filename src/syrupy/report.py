@@ -183,7 +183,7 @@ class SnapshotReport(object):
                     snapshots = (snapshot.name for snapshot in snapshot_fossil)
                     path_to_file = str(Path(filepath).relative_to(self.base_dir))
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
-                    yield warning_style(gettext("Deleted {} ({})")).format(
+                    yield warning_style(gettext("Deleted")) + " {} ({})".format(
                         deleted_snapshots, path_to_file
                     )
             else:
