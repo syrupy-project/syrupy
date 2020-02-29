@@ -20,19 +20,15 @@ def collection(testdir):
         ),
         "test_not_collected": (
             """
-            import pytest
-
-            @pytest.mark.not_collected
-            @pytest.mark.parametrize("actual", [1, 2, 3])
-            def test_collected1(snapshot, actual):
-                assert snapshot == actual
+            def test_collected1(snapshot):
+                assert snapshot == "hello"
             """
         ),
     }
     testdir.makepyfile(**tests)
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = clean_output(result.stdout.str())
-    assert "6 snapshots generated" in result_stdout
+    assert "4 snapshots generated" in result_stdout
     testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
     return testdir
 
