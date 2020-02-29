@@ -287,7 +287,6 @@ def test_unused_snapshots_warning(stubs):
 
 
 def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir):
-    snapshot_file = Path(testdir.tmpdir, "__snapshots__", "test_file.ambr")
     testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
     testdir.makefile(
         ".py",
@@ -302,15 +301,15 @@ def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir):
         ),
     )
     testfile = Path(testdir.tmpdir, "test_life_uhh_finds_a_way.py")
-    testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest(str(testfile), "-v", "--snapshot-update")
     result = testdir.runpytest(
         f"{testfile}::test_life_always_finds_a_way", "-v", "--snapshot-update"
     )
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
-    assert "unused" not in result_stdout
+    assert "snapshots unused" not in result_stdout
+    assert "snapshot unused" not in result_stdout
     assert result.ret == 0
-    assert Path(snapshot_file).exists()
     assert Path("__snapshots__/other_snapfile.ambr").exists()
 
 

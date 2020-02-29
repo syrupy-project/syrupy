@@ -58,6 +58,10 @@ def __is_testpath(arg: str) -> bool:
     return not arg.startswith("-") and bool(glob.glob(arg.split("::")[0]))
 
 
+def __is_testnode(arg: str) -> bool:
+    return __is_testpath(arg) and "::" in arg
+
+
 def __is_testmodule(arg: str) -> bool:
     return arg == "--pyargs"
 
@@ -75,6 +79,9 @@ def pytest_sessionstart(session: Any) -> None:
         is_providing_paths=any(
             __is_testpath(arg) or __is_testmodule(arg)
             for arg in config.invocation_params.args
+        ),
+        is_providing_nodes=any(
+            __is_testnode(arg) for arg in config.invocation_params.args
         ),
     )
     session._syrupy.start()

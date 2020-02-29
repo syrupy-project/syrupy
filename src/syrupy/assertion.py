@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 @attr.s
-class AssertionResult(object):
+class AssertionResult:
     snapshot_location: str = attr.ib()
     snapshot_name: str = attr.ib()
     asserted_data: Optional["SerializedData"] = attr.ib()
