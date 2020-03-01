@@ -92,7 +92,6 @@ def pytest_sessionstart(session: Any) -> None:
     session._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
-        default_extension_class=config.option.default_extension,
         base_dir=config.rootdir,
         is_providing_paths=any(
             __is_testpath(arg) or __is_testmodule(arg)
@@ -137,7 +136,7 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
 def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        extension_class=request.session._syrupy.default_extension_class,
+        extension_class=request.config.option.default_extension,
         test_location=TestLocation(request.node),
         session=request.session._syrupy,
     )

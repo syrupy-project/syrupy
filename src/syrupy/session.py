@@ -27,7 +27,6 @@ class SnapshotSession:
     warn_unused_snapshots: bool = attr.ib()
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
-    default_extension_class: str = attr.ib()
     report: Optional["SnapshotReport"] = attr.ib(default=None)
     _all_items: Set[Any] = attr.ib(factory=set)
     _ran_items: Set[Any] = attr.ib(factory=set)
