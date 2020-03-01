@@ -421,3 +421,17 @@ def test_snapshot_default_extension_option(testdir):
     assert "1 snapshot generated" in result_stdout
     assert Path(testdir.tmpdir, "__snapshots__/test_file/test_default.raw").exists()
     assert result.ret == 0
+
+
+def test_snapshot_default_extension_option_failure(testdir, testcases):
+    testdir.makepyfile(test_file=testcases["used"])
+    result = testdir.runpytest(
+        "-v",
+        "--snapshot-update",
+        "--snapshot-default-extension",
+        "syrupy.extensions.amber.DoesNotExistExtension",
+    )
+    result_stderr = clean_output(result.stderr.str())
+    assert "error: argument --snapshot-default-extension" in result_stderr
+    assert "Member 'DoesNotExistExtension' not found" in result_stderr
+    assert result.ret

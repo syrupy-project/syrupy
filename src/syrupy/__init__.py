@@ -4,17 +4,12 @@ from typing import (
     Any,
     List,
     Optional,
-    Sequence,
-    Union,
 )
 
 import pytest
 
 from .assertion import SnapshotAssertion
-from .exceptions import (
-    FailedToLoadDefaultSnapshotExtension,
-    FailedToLoadModuleMember,
-)
+from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
 from .session import SnapshotSession
@@ -26,18 +21,11 @@ from .terminal import (
 from .utils import import_module_member
 
 
-class DefaultExtensionAction(argparse.Action):
-    def __call__(
-        self,
-        parser: object,
-        namespace: object,
-        values: Optional[Union[str, Sequence[Any]]],
-        option_string: Optional[Any] = None,
-    ) -> None:
-        try:
-            setattr(namespace, self.dest, import_module_member(str(values)))
-        except FailedToLoadModuleMember as e:
-            raise FailedToLoadDefaultSnapshotExtension(e)
+def __default_extension_option(value: str) -> Any:
+    try:
+        return import_module_member(value)
+    except FailedToLoadModuleMember as e:
+        raise argparse.ArgumentTypeError(e)
 
 
 def pytest_addoption(parser: Any) -> None:
@@ -62,7 +50,7 @@ def pytest_addoption(parser: Any) -> None:
     )
     group.addoption(
         "--snapshot-default-extension",
-        action=DefaultExtensionAction,
+        type=__default_extension_option,
         default=DEFAULT_EXTENSION,
         dest="default_extension",
         help="Specify the default snapshot extension",
