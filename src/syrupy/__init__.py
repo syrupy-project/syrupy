@@ -136,7 +136,7 @@ def pytest_terminal_summary(
     Add syrupy report to pytest.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_terminal_summary
     """
-    terminalreporter.write_sep("=", gettext("snapshot report summary"))
+    terminalreporter.write_sep("-", gettext("snapshot report summary"))
     for line in terminalreporter.config._syrupy.report.lines:
         terminalreporter.write_line(line)
 
