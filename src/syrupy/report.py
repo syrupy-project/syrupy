@@ -34,12 +34,13 @@ if TYPE_CHECKING:
 
 
 @attr.s
-class SnapshotReport(object):
+class SnapshotReport:
     base_dir: str = attr.ib()
     all_items: Set[Any] = attr.ib()
     ran_items: Set[Any] = attr.ib()
     update_snapshots: bool = attr.ib()
     is_providing_paths: bool = attr.ib()
+    is_providing_nodes: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -89,7 +90,7 @@ class SnapshotReport(object):
 
     @property
     def ran_all_collected_tests(self) -> bool:
-        return self.all_items == self.ran_items
+        return self.all_items == self.ran_items and not self.is_providing_nodes
 
     @property
     def unused(self) -> "SnapshotFossils":

@@ -5,7 +5,7 @@ from typing import (
 )
 
 
-class TestLocation(object):
+class TestLocation:
     def __init__(self, node: Any):
         self._node = node
         self.filepath = self._node.fspath
