@@ -1,3 +1,4 @@
+import argparse
 import glob
 from gettext import gettext
 from typing import (
@@ -9,6 +10,7 @@ from typing import (
 import pytest
 
 from .assertion import SnapshotAssertion
+from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
 from .session import SnapshotSession
@@ -17,6 +19,14 @@ from .terminal import (
     red,
     reset,
 )
+from .utils import import_module_member
+
+
+def __default_extension_option(value: str) -> Any:
+    try:
+        return import_module_member(value)
+    except FailedToLoadModuleMember as e:
+        raise argparse.ArgumentTypeError(e)
 
 
 def pytest_addoption(parser: Any) -> None:
@@ -38,6 +48,13 @@ def pytest_addoption(parser: Any) -> None:
         default=False,
         dest="warn_unused_snapshots",
         help="Do not fail on unused snapshots",
+    )
+    group.addoption(
+        "--snapshot-default-extension",
+        type=__default_extension_option,
+        default=DEFAULT_EXTENSION,
+        dest="default_extension",
+        help="Specify the default snapshot extension",
     )
 
 
@@ -128,7 +145,7 @@ def pytest_terminal_summary(
 def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        extension_class=DEFAULT_EXTENSION,
+        extension_class=request.config.option.default_extension,
         test_location=TestLocation(request.node),
         session=request.session.config._syrupy,
     )
