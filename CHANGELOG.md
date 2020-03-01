@@ -13,6 +13,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 - Fix bug where snapshot names were incorrectly matching tests (#136)
 - Fix bug where deleted snapshots where incorrectly colored (#136)
 - Fix bug where targeting specific test nodes did not filter out unused snapshots (#139)
+- Fix bug where snapshot report was printed out before the pytest report (#144)
 
 ## [v0.3.2](https://github.com/tophat/syrupy/compare/v0.3.1...v0.3.2)
 
