@@ -1,3 +1,4 @@
+from importlib import import_module
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
@@ -20,6 +21,10 @@ if TYPE_CHECKING:
     from .extensions.base import AbstractSyrupyExtension  # noqa: F401
 
 
+class FailedToLoadDefaultSnapshotExtension(Exception):
+    pass
+
+
 @attr.s
 class SnapshotSession:
     base_dir: str = attr.ib()
@@ -28,10 +33,17 @@ class SnapshotSession:
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
     report: Optional["SnapshotReport"] = attr.ib(default=None)
+    _default_extension: str = attr.ib(default=None)
     _all_items: Set[Any] = attr.ib(factory=set)
     _ran_items: Set[Any] = attr.ib(factory=set)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
+
+    def __attrs_post_init__(self) -> None:
+        try:
+            self.default_extension_class = import_module(self._default_extension)
+        except ModuleNotFoundError as e:
+            raise FailedToLoadDefaultSnapshotExtension(e)
 
     def start(self) -> None:
         self.report = None
