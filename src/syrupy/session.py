@@ -12,7 +12,9 @@ import attr
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
+from .exceptions import FailedToLoadDefaultSnapshotExtension
 from .report import SnapshotReport
+from .utils import import_module_member
 
 
 if TYPE_CHECKING:
@@ -28,10 +30,17 @@ class SnapshotSession:
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
     report: Optional["SnapshotReport"] = attr.ib(default=None)
+    _default_extension: str = attr.ib(default=None)
     _all_items: Set[Any] = attr.ib(factory=set)
     _ran_items: Set[Any] = attr.ib(factory=set)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
+
+    def __attrs_post_init__(self) -> None:
+        try:
+            self.default_extension_class = import_module_member(self._default_extension)
+        except ModuleNotFoundError as e:
+            raise FailedToLoadDefaultSnapshotExtension(e)
 
     def start(self) -> None:
         self.report = None

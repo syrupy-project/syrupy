@@ -38,6 +38,13 @@ def pytest_addoption(parser: Any) -> None:
         dest="warn_unused_snapshots",
         help="Do not fail on unused snapshots",
     )
+    group.addoption(
+        "--snapshot-default-extension",
+        action="store",
+        default=DEFAULT_EXTENSION,
+        dest="default_extension",
+        help="Specify the default snapshot extension",
+    )
 
 
 def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
@@ -75,6 +82,7 @@ def pytest_sessionstart(session: Any) -> None:
     session._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
+        default_extension=config.option.default_extension,
         base_dir=config.rootdir,
         is_providing_paths=any(
             __is_testpath(arg) or __is_testmodule(arg)
@@ -119,7 +127,7 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
 def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        extension_class=DEFAULT_EXTENSION,
+        extension_class=request.session._syrupy.default_extension_class,
         test_location=TestLocation(request.node),
         session=request.session._syrupy,
     )
