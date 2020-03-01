@@ -244,7 +244,7 @@ def test_failing_snapshots_diff(stubs, testcases_updated, snapshot):
     result = testdir.runpytest("-vv")
     result_stdout = clean_output(result.stdout.str())
     start_index = result_stdout.find("==== FAILURES")
-    end_index = result_stdout.find("==== 5 failed")
+    end_index = result_stdout.find("==== snapshot report summary")
     result_stdout = "\n".join(
         line
         for line in result_stdout[start_index:end_index].splitlines()
@@ -327,7 +327,7 @@ def test_unused_snapshots_ignored_if_not_targeted_by_module_testfiles(stubs):
 
 
 def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs):
-    _, testdir, tests, _ = stubs
+    _, testdir, _, _ = stubs
     testdir.makepyfile(
         test_file=(
             """
