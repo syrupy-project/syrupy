@@ -1,4 +1,3 @@
-from importlib import import_module
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
@@ -13,16 +12,14 @@ import attr
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
+from .exceptions import FailedToLoadDefaultSnapshotExtension
 from .report import SnapshotReport
+from .utils import import_module_member
 
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
     from .extensions.base import AbstractSyrupyExtension  # noqa: F401
-
-
-class FailedToLoadDefaultSnapshotExtension(Exception):
-    pass
 
 
 @attr.s
@@ -41,7 +38,7 @@ class SnapshotSession:
 
     def __attrs_post_init__(self) -> None:
         try:
-            self.default_extension_class = import_module(self._default_extension)
+            self.default_extension_class = import_module_member(self._default_extension)
         except ModuleNotFoundError as e:
             raise FailedToLoadDefaultSnapshotExtension(e)
 
