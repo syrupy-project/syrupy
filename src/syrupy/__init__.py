@@ -1,13 +1,20 @@
+import argparse
 import glob
 from typing import (
     Any,
     List,
     Optional,
+    Sequence,
+    Union,
 )
 
 import pytest
 
 from .assertion import SnapshotAssertion
+from .exceptions import (
+    FailedToLoadDefaultSnapshotExtension,
+    FailedToLoadModuleMember,
+)
 from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
 from .session import SnapshotSession
@@ -16,6 +23,21 @@ from .terminal import (
     red,
     reset,
 )
+from .utils import import_module_member
+
+
+class DefaultExtensionAction(argparse.Action):
+    def __call__(
+        self,
+        parser: object,
+        namespace: object,
+        values: Optional[Union[str, Sequence[Any]]],
+        option_string: Optional[Any] = None,
+    ) -> None:
+        try:
+            setattr(namespace, self.dest, import_module_member(str(values)))
+        except FailedToLoadModuleMember as e:
+            raise FailedToLoadDefaultSnapshotExtension(e)
 
 
 def pytest_addoption(parser: Any) -> None:
@@ -40,7 +62,7 @@ def pytest_addoption(parser: Any) -> None:
     )
     group.addoption(
         "--snapshot-default-extension",
-        action="store",
+        action=DefaultExtensionAction,
         default=DEFAULT_EXTENSION,
         dest="default_extension",
         help="Specify the default snapshot extension",
@@ -82,7 +104,7 @@ def pytest_sessionstart(session: Any) -> None:
     session._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
-        default_extension=config.option.default_extension,
+        default_extension_class=config.option.default_extension,
         base_dir=config.rootdir,
         is_providing_paths=any(
             __is_testpath(arg) or __is_testmodule(arg)
