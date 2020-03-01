@@ -6,6 +6,7 @@ from typing import (
     List,
     Optional,
     Set,
+    Type,
 )
 
 import attr

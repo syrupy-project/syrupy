@@ -8,7 +8,6 @@ from typing import (
 import pytest
 
 from .assertion import SnapshotAssertion
-from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
 from .session import SnapshotSession
 from .terminal import (
@@ -125,9 +124,10 @@ def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
 
 @pytest.fixture
 def snapshot(request: Any) -> "SnapshotAssertion":
+    session = request.session._syrupy
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
         extension_class=request.session._syrupy.default_extension_class,
         test_location=TestLocation(request.node),
-        session=request.session._syrupy,
+        session=session,
     )
