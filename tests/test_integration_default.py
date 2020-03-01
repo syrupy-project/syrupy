@@ -400,3 +400,24 @@ def test_removed_hanging_snapshot_fossil(stubs):
     assert result.ret == 0
     assert Path(filepath).exists()
     assert not Path(hanging_filepath).exists()
+
+
+def test_snapshot_default_extension_option(testdir):
+    testdir.makepyfile(
+        test_file=(
+            """
+            def test_default(snapshot):
+                assert b"default extension serializer" == snapshot
+            """
+        )
+    )
+    result = testdir.runpytest(
+        "-v",
+        "--snapshot-update",
+        "--snapshot-default-extension",
+        "syrupy.extensions.single_file.SingleFileSnapshotExtension",
+    )
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot generated" in result_stdout
+    assert Path(testdir.tmpdir, "__snapshots__/test_file/test_default.raw").exists()
+    assert result.ret == 0
