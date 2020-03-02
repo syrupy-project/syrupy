@@ -48,7 +48,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection, snaps
             def test_collected(snapshot, actual):
                 assert snapshot == actual
             """
-        )
+        ),
     }
     collection.makepyfile(**updated_tests)
     result = collection.runpytest("-v", "--snapshot-update", "-m", "parametrize")
@@ -90,7 +90,7 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(
             def test_collected(snapshot, actual):
                 assert snapshot == actual
             """
-        )
+        ),
     }
     collection.makepyfile(**updated_tests)
     result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
@@ -312,7 +312,7 @@ def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs, sn
             def test_used(snapshot):
                 assert True
             """
-        )
+        ),
     )
     testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
@@ -376,7 +376,7 @@ def test_snapshot_default_extension_option(testdir, snapshot):
             def test_default(snapshot):
                 assert b"default extension serializer" == snapshot
             """
-        )
+        ),
     )
     result = testdir.runpytest(
         "-v",
