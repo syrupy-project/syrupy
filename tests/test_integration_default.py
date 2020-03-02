@@ -7,9 +7,7 @@ from .utils import clean_output
 
 def get_result_snapshot_summary(result: object) -> str:
     result_stdout = clean_output(result.stdout.str())
-    start_idx = result_stdout.find(
-        "\n", result_stdout.find("---- snapshot report summary")
-    )
+    start_idx = result_stdout.find("\n", result_stdout.find("---- snapshot report"))
     end_idx = result_stdout.find("====", start_idx)
     return result_stdout[start_idx:end_idx].strip()
 
