@@ -79,7 +79,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | ------------------------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------ |
 | `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted. | `False`                                          |
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.               | `False`                                          |
-| `--snapshot-default-extension` | Supply a default snapshot extension class to use replacing.                         | `syrupy.extensions.amber.AmberSnapshotExtension` |
+| `--snapshot-default-extension` | Use to change the default snapshot extension class.                                 | `syrupy.extensions.amber.AmberSnapshotExtension` |
 
 ### Built-In Extensions
 
