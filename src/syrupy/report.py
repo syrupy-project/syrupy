@@ -132,7 +132,6 @@ class SnapshotReport:
 
     @property
     def lines(self) -> Generator[str, None, None]:
-        yield ""
         summary_lines: List[str] = []
         if self.num_failed:
             summary_lines.append(

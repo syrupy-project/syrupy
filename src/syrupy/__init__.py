@@ -1,5 +1,6 @@
 import argparse
 import glob
+from gettext import gettext
 from typing import (
     Any,
     List,
@@ -89,7 +90,7 @@ def pytest_sessionstart(session: Any) -> None:
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
     config = session.config
-    session._syrupy = SnapshotSession(
+    config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
         base_dir=config.rootdir,
@@ -101,7 +102,7 @@ def pytest_sessionstart(session: Any) -> None:
             __is_testnode(arg) for arg in config.invocation_params.args
         ),
     )
-    session._syrupy.start()
+    config._syrupy.start()
 
 
 def pytest_collection_modifyitems(session: Any, config: Any, items: List[Any]) -> None:
@@ -109,7 +110,7 @@ def pytest_collection_modifyitems(session: Any, config: Any, items: List[Any]) -
     After tests are collected and before any modification is performed.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_modifyitems
     """
-    session._syrupy._all_items.update(items)
+    config._syrupy._all_items.update(items)
 
 
 def pytest_collection_finish(session: Any) -> None:
@@ -117,19 +118,27 @@ def pytest_collection_finish(session: Any) -> None:
     After collection has been performed and modified.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_finish
     """
-    session._syrupy._ran_items.update(session.items)
+    session.config._syrupy._ran_items.update(session.items)
 
 
 def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
     """
-    Add syrupy report to pytest after whole test run finished, before exiting.
+    Finish session run and set exit status.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish
     """
-    reporter = session.config.pluginmanager.get_plugin("terminalreporter")
-    syrupy_exitstatus = session._syrupy.finish()
-    for line in session._syrupy.report.lines:
-        reporter.write_line(line)
-    session.exitstatus |= syrupy_exitstatus
+    session.exitstatus |= exitstatus | session.config._syrupy.finish()
+
+
+def pytest_terminal_summary(
+    terminalreporter: Any, exitstatus: int, config: Any
+) -> None:
+    """
+    Add syrupy report to pytest.
+    https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_terminal_summary
+    """
+    terminalreporter.write_sep("-", gettext("snapshot report summary"))
+    for line in terminalreporter.config._syrupy.report.lines:
+        terminalreporter.write_line(line)
 
 
 @pytest.fixture
@@ -138,5 +147,5 @@ def snapshot(request: Any) -> "SnapshotAssertion":
         update_snapshots=request.config.option.update_snapshots,
         extension_class=request.config.option.default_extension,
         test_location=TestLocation(request.node),
-        session=request.session._syrupy,
+        session=request.session.config._syrupy,
     )
