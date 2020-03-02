@@ -8,7 +8,7 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-- Update to date with releases
+- Up to date with releases
 
 ## [v0.4.0](https://github.com/tophat/syrupy/compare/v0.3.2...v0.4.0)
 
