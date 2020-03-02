@@ -118,12 +118,6 @@
 # name: test_snapshot_default_extension_option
   '1 snapshot generated.'
 ---
-# name: test_snapshot_default_extension_option_failure
-  '
-  ERROR: usage: pytest [options] [file_or_dir] [file_or_dir] [...]
-  pytest: error: argument --snapshot-default-extension: Member 'DoesNotExistExtension' not found in module 'syrupy.extensions.amber'.
-  '
----
 # name: test_unused_parameterized_ignored_if_not_targeted_using_dash_k
   '4 snapshots generated.'
 ---

@@ -398,5 +398,6 @@ def test_snapshot_default_extension_option_failure(testdir, testcases, snapshot)
         "syrupy.extensions.amber.DoesNotExistExtension",
     )
     result_stderr = clean_output(result.stderr.str())
-    assert result_stderr == snapshot
+    assert "error: argument --snapshot-default-extension" in result_stderr
+    assert "Member 'DoesNotExistExtension' not found" in result_stderr
     assert result.ret
