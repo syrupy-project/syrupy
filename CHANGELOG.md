@@ -8,6 +8,10 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
+- Update to date with releases
+
+## [v0.3.2](https://github.com/tophat/syrupy/compare/v0.4.0...v0.3.2)
+
 - Conversion of all `os.path` and `os.walk` calls to use `pathlib` instead, setting `pathlib` as the new preferred way of doing path operations (#130)
 - Add `--snapshot-default-extension` option to specify extension class via pytest cli (#132)
 - Fix bug where snapshot diffs were erroneously printed (#135)
