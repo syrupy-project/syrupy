@@ -68,7 +68,7 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection, snaps
             def test_collected(snapshot, actual):
                 assert snapshot == actual
             """
-        )
+        ),
     }
     collection.makepyfile(**updated_tests)
     result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
