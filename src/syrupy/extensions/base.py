@@ -8,6 +8,8 @@ from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Callable,
+    Dict,
     Generator,
     List,
     Optional,
@@ -16,7 +18,12 @@ from typing import (
 
 from typing_extensions import final
 
-from syrupy.constants import SNAPSHOT_DIRNAME
+from syrupy.constants import (
+    SNAPSHOT_DIRNAME,
+    SYMBOL_CARRIAGE,
+    SYMBOL_ELLIPSIS,
+    SYMBOL_NEW_LINE,
+)
 from syrupy.data import (
     DiffedLine,
     Snapshot,
@@ -27,6 +34,7 @@ from syrupy.data import (
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
     context_style,
+    mute,
     received_style,
     reset,
     snapshot_style,
@@ -217,23 +225,39 @@ class SnapshotReporter(ABC):
             yield reset(line)
 
     @property
+    def _ends(self) -> Dict[str, str]:
+        return {"\n": self._marker_new_line, "\r": self._marker_carriage}
+
+    @property
     def _context_line_count(self) -> int:
         return 1
 
     @property
-    def _context_max_marker(self) -> str:
-        return "      ..."
+    def _marker_context_max(self) -> str:
+        return f"      {SYMBOL_ELLIPSIS}"
+
+    @property
+    def _marker_new_line(self) -> str:
+        return SYMBOL_NEW_LINE
+
+    @property
+    def _marker_carriage(self) -> str:
+        return SYMBOL_CARRIAGE
 
     def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
         for line in self.__diff_data(a, b):
+            show_ends = line.is_complete and self.__strip_ends(
+                line.a[1:]
+            ) == self.__strip_ends(line.b[1:])
             if line.has_snapshot:
-                yield snapshot_style(line.a)
+                yield self.__format_line(line.a, line.diff_a, snapshot_style, show_ends)
             if line.has_received:
-                yield received_style(line.b)
+                yield self.__format_line(line.b, line.diff_b, received_style, show_ends)
+
             for context_line in line.c[: self._context_line_count]:
                 yield context_style(context_line)
             if len(line.c) > self._context_line_count * 2:
-                yield context_style(self._context_max_marker)
+                yield context_style(self._marker_context_max)
             for context_line in line.c[-self._context_line_count :]:  # noqa: E203
                 yield context_style(context_line)
 
@@ -245,6 +269,9 @@ class SnapshotReporter(ABC):
             is_snapshot_line = line[0] == "-"
             is_received_line = line[0] == "+"
             is_diff_line = line[0] == "?"
+
+            if is_context_line:
+                line = self.__strip_ends(line)
 
             if staged_diffed_line:
                 if is_diff_line:
@@ -282,6 +309,17 @@ class SnapshotReporter(ABC):
                     staged_diffed_line = DiffedLine(c=[line])
 
         return diffed_data
+
+    def __format_line(
+        self, line: str, diff_markers: str, style: Callable[[str], str], show_ends: bool
+    ) -> str:
+        if show_ends:
+            for old, new in self._ends.items():
+                line = line.replace(old, mute(new))
+        return style(self.__strip_ends(line))
+
+    def __strip_ends(self, line: str) -> str:
+        return line.rstrip("".join(self._ends.keys()))
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):

@@ -8,6 +8,7 @@ from typing import (
     Set,
 )
 
+from syrupy.constants import SYMBOL_ELLIPSIS
 from syrupy.data import (
     Snapshot,
     SnapshotFossil,
@@ -28,7 +29,7 @@ class DataSerializer:
 
     class MarkerDepthMax:
         def __repr__(self) -> str:
-            return "..."
+            return SYMBOL_ELLIPSIS
 
     @classmethod
     def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
