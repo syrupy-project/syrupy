@@ -236,8 +236,12 @@ class SnapshotReporter(ABC):
         return 1
 
     @property
+    def _context_line_max(self) -> int:
+        return self._context_line_count * 2
+
+    @property
     def _marker_context_max(self) -> str:
-        return f"      {SYMBOL_ELLIPSIS}"
+        return SYMBOL_ELLIPSIS
 
     @property
     def _marker_new_line(self) -> str:
@@ -265,10 +269,14 @@ class SnapshotReporter(ABC):
 
             for context_line in line.c[: self._context_line_count]:
                 yield context_style(context_line)
-            if len(line.c) > self._context_line_count * 2:
-                yield context_style(self._marker_context_max)
-            for context_line in line.c[-self._context_line_count :]:  # noqa: E203
+            if line.context_line_count > self._context_line_max:
+                context_line = line.c[line.context_line_count // 2]
+                old = context_line.lstrip()
+                context_line = context_line.replace(old, self._marker_context_max, 1)
                 yield context_style(context_line)
+            if line.context_line_count > 1:
+                for context_line in line.c[-self._context_line_count :]:  # noqa: E203
+                    yield context_style(context_line)
 
     def __diff_data(self, a: str, b: str) -> List["DiffedLine"]:
         diffed_data = []
@@ -293,7 +301,7 @@ class SnapshotReporter(ABC):
                         staged_diffed_line.is_complete
                         or (staged_diffed_line.has_snapshot and is_snapshot_line)
                         or (staged_diffed_line.has_received and is_received_line)
-                        or (staged_diffed_line.is_context and not is_context_line)
+                        or (bool(staged_diffed_line.c) and not is_context_line)
                     )
                     if should_unstage:
                         diffed_data.append(staged_diffed_line)
@@ -317,6 +325,9 @@ class SnapshotReporter(ABC):
                 elif is_context_line:
                     staged_diffed_line = DiffedLine(c=[line])
 
+        if staged_diffed_line:
+            diffed_data.append(staged_diffed_line)
+
         return diffed_data
 
     def __format_line(
@@ -333,7 +344,7 @@ class SnapshotReporter(ABC):
         else:
             line = self.__strip_ends(line)
         line = "".join(
-            diff_style(char) if str(marker) in "-+^" else char
+            diff_style(char) if str(marker) in "-+^" else line_style(char)
             for marker, char in zip_longest(diff_markers.rstrip(), line)
         )
         return line_style(line)
