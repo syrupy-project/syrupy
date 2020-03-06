@@ -5,6 +5,7 @@ from abc import (
 )
 from difflib import ndiff
 from gettext import gettext
+from itertools import zip_longest
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
@@ -35,8 +36,10 @@ from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
     context_style,
     mute,
+    received_diff_style,
     received_style,
     reset,
+    snapshot_diff_style,
     snapshot_style,
 )
 from syrupy.utils import walk_snapshot_dir
@@ -246,13 +249,19 @@ class SnapshotReporter(ABC):
 
     def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
         for line in self.__diff_data(a, b):
-            show_ends = line.is_complete and self.__strip_ends(
-                line.a[1:]
-            ) == self.__strip_ends(line.b[1:])
+            show_ends = (
+                self.__strip_ends(line.a[1:]) == self.__strip_ends(line.b[1:])
+                if line.is_complete
+                else False
+            )
             if line.has_snapshot:
-                yield self.__format_line(line.a, line.diff_a, snapshot_style, show_ends)
+                yield self.__format_line(
+                    line.a, line.diff_a, snapshot_style, snapshot_diff_style, show_ends
+                )
             if line.has_received:
-                yield self.__format_line(line.b, line.diff_b, received_style, show_ends)
+                yield self.__format_line(
+                    line.b, line.diff_b, received_style, received_diff_style, show_ends
+                )
 
             for context_line in line.c[: self._context_line_count]:
                 yield context_style(context_line)
@@ -311,12 +320,23 @@ class SnapshotReporter(ABC):
         return diffed_data
 
     def __format_line(
-        self, line: str, diff_markers: str, style: Callable[[str], str], show_ends: bool
+        self,
+        line: str,
+        diff_markers: str,
+        line_style: Callable[[str], str],
+        diff_style: Callable[[str], str],
+        show_ends: bool,
     ) -> str:
         if show_ends:
             for old, new in self._ends.items():
                 line = line.replace(old, mute(new))
-        return style(self.__strip_ends(line))
+        else:
+            line = self.__strip_ends(line)
+        line = "".join(
+            diff_style(char) if str(marker) in "-+^" else char
+            for marker, char in zip_longest(diff_markers.rstrip(), line)
+        )
+        return line_style(line)
 
     def __strip_ends(self, line: str) -> str:
         return line.rstrip("".join(self._ends.keys()))

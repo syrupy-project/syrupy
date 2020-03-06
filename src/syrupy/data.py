@@ -125,8 +125,8 @@ class DiffedLine:
     a: str = attr.ib(default=None)
     b: str = attr.ib(default=None)
     c: List[str] = attr.ib(factory=list)
-    diff_a: str = attr.ib(default=None)
-    diff_b: str = attr.ib(default=None)
+    diff_a: str = attr.ib(default="")
+    diff_b: str = attr.ib(default="")
 
     @property
     def has_snapshot(self) -> bool:
