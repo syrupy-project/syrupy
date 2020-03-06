@@ -17,8 +17,8 @@ class TestSnapshotReporter:
         "a, b",
         [
             (
-                "line 0\nline 1\nline 02\nline 3\nline 4\r\nline 5\nline 6\nline 7\nline 8",
-                "line 0\nline 1\nline 2\r\nline 3\nline 04\nline 5\nline 6\nline 7\nline 8",
+                "line 0\nline 1\nline 02\nline 3\nline 4\r\nline 5\nline 6\nline 7",
+                "line 0\nline 1\nline 2\r\nline 3\nline 04\nline 5\nline 6\nline 7",
             ),
         ],
         ids=lambda _: "",
