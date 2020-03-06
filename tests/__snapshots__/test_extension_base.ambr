@@ -1,0 +1,25 @@
+# name: TestSnapshotReporter.test_diff_lines[--SnapshotReporterNoContext]
+  '
+    ...
+  - line 2
+  + line 02
+    ...
+  - line 04
+  + line 4
+    ...
+  '
+---
+# name: TestSnapshotReporter.test_diff_lines[--SnapshotReporter]
+  '
+    line 0
+    line 1
+  - line 2
+  + line 02
+    line 3
+  - line 04
+  + line 4
+    line 5
+    ...
+    line 8
+  '
+---
