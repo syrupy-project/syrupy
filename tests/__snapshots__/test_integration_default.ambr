@@ -8,12 +8,14 @@
       def test_updated_1(snapshot):
   >       assert snapshot == ['this', 'will', 'not', 'match']
   E       AssertionError: assert snapshot == received
-  E           ...
+  E           <class 'list'> [
+  E            ...
+  E             'will',
   E         -   'be',
   E         -   'updated',
   E         +   'not',
   E         +   'match',
-  E           ...
+  E           ]
   
   test_file.py:17: AssertionError
   ________________________________ test_updated_2 ________________________________
@@ -23,11 +25,13 @@
       def test_updated_2(snapshot):
   >       assert ['this', 'will', 'fail'] == snapshot
   E       AssertionError: assert received == snapshot
-  E           ...
-  E         +   'fail',
+  E           <class 'list'> [
+  E            ...
+  E             'will',
   E         -   'be',
+  E         +   'fail',
   E         -   'updated',
-  E           ...
+  E           ]
   
   test_file.py:22: AssertionError
   ________________________________ test_updated_3 ________________________________
@@ -37,11 +41,13 @@
       def test_updated_3(snapshot):
   >       assert snapshot == ['this', 'will', 'be', 'too', 'much']
   E       AssertionError: assert snapshot == received
-  E           ...
+  E           <class 'list'> [
+  E            ...
+  E             'be',
   E         -   'updated',
   E         +   'too',
   E         +   'much',
-  E           ...
+  E           ]
   
   test_file.py:27: AssertionError
   ________________________________ test_updated_4 ________________________________
@@ -70,19 +76,23 @@
           this line should show up because it changes color
           and this line does not exist in the first one
           '''
-  E       assert snapshot == received
-  E           ...
+  E       AssertionError: assert snapshot == received
+  E           '
+  E             ...
+  E               multiple line changes
   E         -     with some lines staying the same
   E         +     with some lines not staying the same
   E         -     intermittent changes that have to be ignore by the differ output
   E         +     intermittent changes so unchanged lines have to be ignored by the differ
   E         -     because when there are a lot of changes you only want to see changes
   E         +     cause when there are a lot of changes you only want to see what changed
-  E           ...
+  E               you do not want to see this line
+  E               or this line
   E         -     [38;5;1mthis line should show up because it changes color[0m
   E         +     [38;5;3mthis line should show up because it changes color[0m
   E         +     and this line does not exist in the first one
-  E           ...
+  E               
+  E           '
   
   test_file.py:37: AssertionError
   --------------------------- snapshot report summary ----------------------------

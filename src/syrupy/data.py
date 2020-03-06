@@ -141,5 +141,5 @@ class DiffedLine:
         return self.has_snapshot and self.has_received
 
     @property
-    def context_line_count(self) -> int:
-        return len(self.c)
+    def is_context(self) -> bool:
+        return bool(self.c)

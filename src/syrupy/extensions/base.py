@@ -291,7 +291,7 @@ class SnapshotReporter(ABC):
                         staged_diffed_line.is_complete
                         or (staged_diffed_line.has_snapshot and is_snapshot_line)
                         or (staged_diffed_line.has_received and is_received_line)
-                        or (bool(staged_diffed_line.c) and not is_context_line)
+                        or (staged_diffed_line.is_context and not is_context_line)
                     )
                     if should_unstage:
                         diffed_data.append(staged_diffed_line)
@@ -340,19 +340,27 @@ class SnapshotReporter(ABC):
         return line_style(line)
 
     def __limit_context(self, lines: List[str]) -> List[str]:
-        limited_lines: List[str] = lines[: self._context_line_count]
+        top_lines = lines[: self._context_line_count]
+        mid_lines = []
+        end_lines = []
         num_lines = len(lines)
-        count_leading_whitespace: Callable[[str], int] = (
-            lambda s: len(s) - len(s.lstrip())  # noqa: E731
-        )
-        if num_lines > 1:
+        if num_lines:
+            if self._context_line_count and num_lines > 1:
+                end_lines = lines[-self._context_line_count :]  # noqa: E203
             if num_lines > self._context_line_max:
-                prev_ws = count_leading_whitespace(limited_lines[-1])
-                next_ws = count_leading_whitespace(lines[-self._context_line_count])
+                count_leading_whitespace: Callable[[str], int] = (
+                    lambda s: len(s) - len(s.lstrip())  # noqa: E731
+                )
+                curr_ws = count_leading_whitespace(lines[num_lines // 2])
+                prev_ws = (
+                    count_leading_whitespace(top_lines[-1]) if top_lines else curr_ws
+                )
+                next_ws = (
+                    count_leading_whitespace(end_lines[0]) if end_lines else curr_ws
+                )
                 num_space = (prev_ws + next_ws) // 2
-                limited_lines.append(" " * num_space + self._marker_context_max)
-            limited_lines += lines[-self._context_line_count :]  # noqa: E203
-        return limited_lines
+                mid_lines = [" " * num_space + self._marker_context_max]
+        return top_lines + mid_lines + end_lines
 
     def __strip_ends(self, line: str) -> str:
         return line.rstrip("".join(self._ends.keys()))
