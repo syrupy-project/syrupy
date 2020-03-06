@@ -266,17 +266,7 @@ class SnapshotReporter(ABC):
                 yield self.__format_line(
                     line.b, line.diff_b, received_style, received_diff_style, show_ends
                 )
-
-            for context_line in line.c[: self._context_line_count]:
-                yield context_style(context_line)
-            if line.context_line_count > self._context_line_max:
-                context_line = line.c[line.context_line_count // 2]
-                old = context_line.lstrip()
-                context_line = context_line.replace(old, self._marker_context_max, 1)
-                yield context_style(context_line)
-            if line.context_line_count > 1:
-                for context_line in line.c[-self._context_line_count :]:  # noqa: E203
-                    yield context_style(context_line)
+            yield from map(context_style, self.__limit_context(line.c))
 
     def __diff_data(self, a: str, b: str) -> List["DiffedLine"]:
         diffed_data = []
@@ -348,6 +338,21 @@ class SnapshotReporter(ABC):
             for marker, char in zip_longest(diff_markers.rstrip(), line)
         )
         return line_style(line)
+
+    def __limit_context(self, lines: List[str]) -> List[str]:
+        limited_lines: List[str] = lines[: self._context_line_count]
+        num_lines = len(lines)
+        count_leading_whitespace: Callable[[str], int] = (
+            lambda s: len(s) - len(s.lstrip())  # noqa: E731
+        )
+        if num_lines > 1:
+            if num_lines > self._context_line_max:
+                prev_ws = count_leading_whitespace(limited_lines[-1])
+                next_ws = count_leading_whitespace(lines[-self._context_line_count])
+                num_space = (prev_ws + next_ws) // 2
+                limited_lines.append(" " * num_space + self._marker_context_max)
+            limited_lines += lines[-self._context_line_count :]  # noqa: E203
+        return limited_lines
 
     def __strip_ends(self, line: str) -> str:
         return line.rstrip("".join(self._ends.keys()))
