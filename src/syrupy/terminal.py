@@ -23,10 +23,6 @@ def bold(text: Union[str, int]) -> str:
     return colored.stylize(text, colored.attr("bold"))
 
 
-def mute(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.attr("dim"))
-
-
 def error_style(text: Union[str, int]) -> str:
     return bold(red(text))
 

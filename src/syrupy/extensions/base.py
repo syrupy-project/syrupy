@@ -35,7 +35,6 @@ from syrupy.data import (
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
     context_style,
-    mute,
     received_diff_style,
     received_style,
     reset,
@@ -276,7 +275,7 @@ class SnapshotReporter(ABC):
             is_received_line = line[0] == "+"
             is_diff_line = line[0] == "?"
 
-            if is_context_line:
+            if is_context_line or is_diff_line:
                 line = self.__strip_ends(line)
 
             if staged_diffed_line:
@@ -327,12 +326,13 @@ class SnapshotReporter(ABC):
     ) -> str:
         if show_ends:
             for old, new in self._ends.items():
-                line = line.replace(old, mute(new))
+                line = line.replace(old, new)
         else:
             line = self.__strip_ends(line)
         return "".join(
             diff_style(char) if str(marker) in "-+^" else line_style(char)
             for marker, char in zip_longest(diff_markers.rstrip(), line)
+            if char is not None
         )
 
     def __limit_context(self, lines: List[str]) -> Iterator[str]:

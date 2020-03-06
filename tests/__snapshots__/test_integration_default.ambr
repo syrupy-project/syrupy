@@ -73,6 +73,7 @@
           cause when there are a lot of changes you only want to see what changed
           you do not want to see this line
           or this line
+          this line should show up because it changes\n
           this line should show up because it changes color
           and this line does not exist in the first one
           '''
@@ -88,6 +89,9 @@
   E         +     cause when there are a lot of changes you only want to see what changed
   E               you do not want to see this line
   E               or this line
+  E         -     this line should show up because it changes␍␤
+  E         +     this line should show up because it changes␤
+  E           
   E         -     [38;5;1mthis line should show up because it changes color[0m
   E         +     [38;5;3mthis line should show up because it changes color[0m
   E         +     and this line does not exist in the first one
