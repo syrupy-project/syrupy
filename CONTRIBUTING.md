@@ -27,6 +27,7 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 
 - [Commit Messages](#commit-messages)
 - [Code Styleguide](#code-styleguide)
+- [`pathlib` over `os.path`](#usage-of-pathlib)
 
 [Additional Notes](#additional-notes)
 
@@ -100,6 +101,10 @@ A linter is available to catch most of our styling concerns.
 This is provided in a pre-commit hook when setting up [local development](#local-development).
 
 You can also run `inv lint --fix` to see and solve what issues it can.
+
+### Usage of Pathlib
+
+`pathlib` is the preferred library when dealing with path operations. Some [documentation](https://docs.python.org/3/library/pathlib.html#correspondence-to-tools-in-the-os-module) is available to help translate `os.path`-type calls to `pathlib` calls. Documentation on `pathlib`'s API is also available on the same page.
 
 ## Additional Notes
 

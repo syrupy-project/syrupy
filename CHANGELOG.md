@@ -8,7 +8,17 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-- Up to date with releases.
+- Up to date with releases
+
+## [v0.3.3](https://github.com/tophat/syrupy/compare/v0.3.2...v0.3.3)
+
+- Conversion of all `os.path` and `os.walk` calls to use `pathlib` instead, setting `pathlib` as the new preferred way of doing path operations (#130)
+- Add `--snapshot-default-extension` option to specify extension class via pytest cli (#132)
+- Fix bug where snapshot diffs were erroneously printed (#135)
+- Fix bug where snapshot names were incorrectly matching tests (#136)
+- Fix bug where deleted snapshots where incorrectly colored (#136)
+- Fix bug where targeting specific test nodes did not filter out unused snapshots (#139)
+- Fix bug where snapshot report was printed out before the pytest report (#144)
 
 ## [v0.3.2](https://github.com/tophat/syrupy/compare/v0.3.1...v0.3.2)
 

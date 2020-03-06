@@ -75,10 +75,11 @@ def __repr__(self) -> str:
 
 These are the cli options exposed to `pytest` by the plugin.
 
-| Option                   | Description                                                                            |
-| ------------------------ | -------------------------------------------------------------------------------------- |
-| `--snapshot-update`      | Snapshots will be updated to match assertions and unused snapshots will be deleted.    |
-| `--snapshot-warn-unused` | Prints a warning on unused snapshots rather than fail the test suite.                  |
+| Option                         | Description                                                                         | Default                                          |
+| ------------------------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------ |
+| `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted. | `False`                                          |
+| `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.               | `False`                                          |
+| `--snapshot-default-extension` | Use to change the default snapshot extension class.                                 | `syrupy.extensions.amber.AmberSnapshotExtension` |
 
 ### Built-In Extensions
 
@@ -130,6 +131,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
     <td align="center"><a href="http://emmanuel.ogbizi.com"><img src="https://avatars0.githubusercontent.com/u/2528959?v=4" width="100px;" alt=""/><br /><sub><b>Emmanuel Ogbizi</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=iamogbz" title="Code">💻</a> <a href="#design-iamogbz" title="Design">🎨</a> <a href="#infra-iamogbz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/tophat/syrupy/commits?author=iamogbz" title="Documentation">📖</a> <a href="https://github.com/tophat/syrupy/commits?author=iamogbz" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/adamlazz"><img src="https://avatars3.githubusercontent.com/u/453811?v=4" width="100px;" alt=""/><br /><sub><b>Adam Lazzarato</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=adamlazz" title="Documentation">📖</a></td>
     <td align="center"><a href="https://mcataford.github.io"><img src="https://avatars2.githubusercontent.com/u/6210361?v=4" width="100px;" alt=""/><br /><sub><b>Marc Cataford</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=mcataford" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=mcataford" title="Tests">⚠️</a></td>
+    <td align="center"><a href="http://msrose.github.io"><img src="https://avatars3.githubusercontent.com/u/3495264?v=4" width="100px;" alt=""/><br /><sub><b>Michael Rose</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=msrose" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=msrose" title="Tests">⚠️</a></td>
   </tr>
 </table>
 

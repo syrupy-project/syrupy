@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -7,6 +7,8 @@ from typing import (
     Optional,
     Set,
 )
+
+import attr
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
@@ -18,24 +20,18 @@ if TYPE_CHECKING:
     from .extensions.base import AbstractSyrupyExtension  # noqa: F401
 
 
+@attr.s
 class SnapshotSession:
-    def __init__(
-        self,
-        *,
-        warn_unused_snapshots: bool,
-        update_snapshots: bool,
-        base_dir: str,
-        is_providing_paths: bool,
-    ):
-        self.warn_unused_snapshots = warn_unused_snapshots
-        self.update_snapshots = update_snapshots
-        self.base_dir = base_dir
-        self.is_providing_paths: bool = is_providing_paths
-        self.report: Optional["SnapshotReport"] = None
-        self._all_items: Set[Any] = set()
-        self._ran_items: Set[Any] = set()
-        self._assertions: List["SnapshotAssertion"] = []
-        self._extensions: Dict[str, "AbstractSyrupyExtension"] = {}
+    base_dir: str = attr.ib()
+    update_snapshots: bool = attr.ib()
+    warn_unused_snapshots: bool = attr.ib()
+    is_providing_paths: bool = attr.ib()
+    is_providing_nodes: bool = attr.ib()
+    report: Optional["SnapshotReport"] = attr.ib(default=None)
+    _all_items: Set[Any] = attr.ib(factory=set)
+    _ran_items: Set[Any] = attr.ib(factory=set)
+    _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
+    _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
 
     def start(self) -> None:
         self.report = None
@@ -54,6 +50,7 @@ class SnapshotSession:
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
             is_providing_paths=self.is_providing_paths,
+            is_providing_nodes=self.is_providing_nodes,
         )
         if self.report.num_unused:
             if self.update_snapshots:
@@ -91,4 +88,4 @@ class SnapshotSession:
                     },
                 )
             elif snapshot_location not in used_snapshot_fossils:
-                os.remove(snapshot_location)
+                Path(snapshot_location).unlink()

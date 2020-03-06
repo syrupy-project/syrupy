@@ -1,8 +1,8 @@
-import os
 from gettext import (
     gettext,
     ngettext,
 )
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -34,12 +34,13 @@ if TYPE_CHECKING:
 
 
 @attr.s
-class SnapshotReport(object):
+class SnapshotReport:
     base_dir: str = attr.ib()
     all_items: Set[Any] = attr.ib()
     ran_items: Set[Any] = attr.ib()
     update_snapshots: bool = attr.ib()
     is_providing_paths: bool = attr.ib()
+    is_providing_nodes: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -89,7 +90,7 @@ class SnapshotReport(object):
 
     @property
     def ran_all_collected_tests(self) -> bool:
-        return self.all_items == self.ran_items
+        return self.all_items == self.ran_items and not self.is_providing_nodes
 
     @property
     def unused(self) -> "SnapshotFossils":
@@ -131,7 +132,6 @@ class SnapshotReport(object):
 
     @property
     def lines(self) -> Generator[str, None, None]:
-        yield ""
         summary_lines: List[str] = []
         if self.num_failed:
             summary_lines.append(
@@ -181,9 +181,9 @@ class SnapshotReport(object):
                 for snapshot_fossil in self.unused:
                     filepath = snapshot_fossil.location
                     snapshots = (snapshot.name for snapshot in snapshot_fossil)
-                    path_to_file = os.path.relpath(filepath, self.base_dir)
+                    path_to_file = str(Path(filepath).relative_to(self.base_dir))
                     deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
-                    yield warning_style(gettext("Deleted {} ({})")).format(
+                    yield warning_style(gettext("Deleted")) + " {} ({})".format(
                         deleted_snapshots, path_to_file
                     )
             else:

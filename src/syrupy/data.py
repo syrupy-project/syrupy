@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 @attr.s(frozen=True)
-class Snapshot(object):
+class Snapshot:
     name: str = attr.ib()
     data: Optional["SerializedData"] = attr.ib(default=None)
 
@@ -35,7 +35,7 @@ class SnapshotUnknown(Snapshot):
 
 
 @attr.s
-class SnapshotFossil(object):
+class SnapshotFossil:
     """A collection of snapshots at a save location"""
 
     location: str = attr.ib()
@@ -90,7 +90,7 @@ class SnapshotUnknownFossil(SnapshotFossil):
 
 
 @attr.s
-class SnapshotFossils(object):
+class SnapshotFossils:
     _snapshot_fossils: Dict[str, "SnapshotFossil"] = attr.ib(factory=dict)
 
     def get(self, location: str) -> Optional["SnapshotFossil"]:

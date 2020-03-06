@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
@@ -41,7 +41,6 @@ class DataSerializer:
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
-                    print(snapshot_data.splitlines(keepends=True))
                     for data_line in snapshot_data.splitlines(keepends=True):
                         f.write(f"{cls._indent}{data_line}")
                     f.write(f"\n{cls._marker_divider}\n")
@@ -296,7 +295,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         if snapshot_fossil_to_update.has_snapshots:
             DataSerializer.write_file(snapshot_fossil_to_update)
         else:
-            os.remove(snapshot_location)
+            Path(snapshot_location).unlink()
 
     @property
     def _file_extension(self) -> str:
