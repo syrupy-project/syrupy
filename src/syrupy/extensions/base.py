@@ -336,28 +336,24 @@ class SnapshotReporter(ABC):
         )
         return line_style(line)
 
-    def __limit_context(self, lines: List[str]) -> List[str]:
-        top_lines = lines[: self._context_line_count]
-        mid_lines = []
-        end_lines = []
+    def __limit_context(self, lines: List[str]) -> Iterator[str]:
+        yield from lines[: self._context_line_count]
         num_lines = len(lines)
         if num_lines:
-            if self._context_line_count and num_lines > 1:
-                end_lines = lines[-self._context_line_count :]  # noqa: E203
             if num_lines > self._context_line_max:
                 count_leading_whitespace: Callable[[str], int] = (
                     lambda s: len(s) - len(s.lstrip())  # noqa: E731
                 )
-                curr_ws = count_leading_whitespace(lines[num_lines // 2])
-                prev_ws = (
-                    count_leading_whitespace(top_lines[-1]) if top_lines else curr_ws
-                )
-                next_ws = (
-                    count_leading_whitespace(end_lines[0]) if end_lines else curr_ws
-                )
-                num_space = (prev_ws + next_ws) // 2
-                mid_lines = [" " * num_space + self._marker_context_max]
-        return top_lines + mid_lines + end_lines
+                if self._context_line_count:
+                    num_space = (
+                        count_leading_whitespace(lines[self._context_line_count - 1])
+                        + count_leading_whitespace(lines[-self._context_line_count])
+                    ) // 2
+                else:
+                    num_space = count_leading_whitespace(lines[num_lines // 2])
+                yield " " * num_space + self._marker_context_max
+            if self._context_line_count and num_lines > 1:
+                yield from lines[-self._context_line_count :]  # noqa: E203
 
     def __strip_ends(self, line: str) -> str:
         return line.rstrip("".join(self._ends.keys()))
