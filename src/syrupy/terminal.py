@@ -27,10 +27,6 @@ def mute(text: Union[str, int]) -> str:
     return colored.stylize(text, colored.attr("dim"))
 
 
-def emphasize(text: Union[str, int]) -> str:
-    return colored.stylize(bold(text), colored.attr("underlined"))
-
-
 def error_style(text: Union[str, int]) -> str:
     return bold(red(text))
 
@@ -43,13 +39,13 @@ def success_style(text: Union[str, int]) -> str:
     return bold(green(text))
 
 
-def snapshot_color(text: Union[str, int]) -> str:
+def snapshot_style(text: Union[str, int]) -> str:
     return colored.stylize(text, colored.bg(225) + colored.fg(90))
 
 
-def received_color(text: Union[str, int]) -> str:
+def received_style(text: Union[str, int]) -> str:
     return colored.stylize(text, colored.bg(195) + colored.fg(23))
 
 
-def context_color(text: Union[str, int]) -> str:
+def context_style(text: Union[str, int]) -> str:
     return colored.stylize(text, colored.attr("dim") + colored.fg("white"))

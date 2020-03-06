@@ -26,11 +26,11 @@ from syrupy.data import (
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
-    context_color,
+    context_style,
     mute,
-    received_color,
+    received_style,
     reset,
-    snapshot_color,
+    snapshot_style,
 )
 from syrupy.utils import walk_snapshot_dir
 
@@ -227,11 +227,11 @@ class SnapshotReporter(ABC):
         extra_lines = len(queue) == self.__max_context_lines + 1
         for idx, context_line in enumerate(queue):
             if before and extra_lines and idx == 0:
-                yield context_color("...")
+                yield context_style("...")
             elif not before and extra_lines and idx == len(queue) - 1:
-                yield context_color("...")
+                yield context_style("...")
             else:
-                yield context_color(context_line.rstrip("\r\n"))
+                yield context_style(context_line.rstrip("\r\n"))
 
     def __show_line_endings(self, a: str, b: str) -> bool:
         if a is None or b is None:
@@ -301,10 +301,10 @@ class SnapshotReporter(ABC):
         marker = line[0]
 
         if marker == "-":
-            yield snapshot_color(line)
+            yield snapshot_style(line)
 
         if marker == "+":
-            yield received_color(line)
+            yield received_style(line)
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
