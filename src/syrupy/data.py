@@ -3,6 +3,7 @@ from typing import (
     TYPE_CHECKING,
     Dict,
     Iterator,
+    List,
     Optional,
 )
 
@@ -117,3 +118,28 @@ class SnapshotFossils:
 
     def __contains__(self, key: str) -> bool:
         return key in self._snapshot_fossils
+
+
+@attr.s
+class DiffedLine:
+    a: str = attr.ib(default=None)
+    b: str = attr.ib(default=None)
+    c: List[str] = attr.ib(factory=list)
+    diff_a: str = attr.ib(default="")
+    diff_b: str = attr.ib(default="")
+
+    @property
+    def has_snapshot(self) -> bool:
+        return self.a is not None
+
+    @property
+    def has_received(self) -> bool:
+        return self.b is not None
+
+    @property
+    def is_complete(self) -> bool:
+        return self.has_snapshot and self.has_received
+
+    @property
+    def is_context(self) -> bool:
+        return bool(self.c)

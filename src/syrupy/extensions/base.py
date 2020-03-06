@@ -3,22 +3,30 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from collections import deque
 from difflib import ndiff
 from gettext import gettext
+from itertools import zip_longest
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Deque,
+    Callable,
+    Dict,
     Generator,
+    List,
     Optional,
     Set,
 )
 
 from typing_extensions import final
 
-from syrupy.constants import SNAPSHOT_DIRNAME
+from syrupy.constants import (
+    SNAPSHOT_DIRNAME,
+    SYMBOL_CARRIAGE,
+    SYMBOL_ELLIPSIS,
+    SYMBOL_NEW_LINE,
+)
 from syrupy.data import (
+    DiffedLine,
     Snapshot,
     SnapshotEmptyFossil,
     SnapshotFossil,
@@ -26,11 +34,13 @@ from syrupy.data import (
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
-    context_color,
+    context_style,
     mute,
-    received_color,
+    received_diff_style,
+    received_style,
     reset,
-    snapshot_color,
+    snapshot_diff_style,
+    snapshot_style,
 )
 from syrupy.utils import walk_snapshot_dir
 
@@ -218,93 +228,142 @@ class SnapshotReporter(ABC):
             yield reset(line)
 
     @property
-    def __max_context_lines(self) -> int:
-        return 3
+    def _ends(self) -> Dict[str, str]:
+        return {"\n": self._marker_new_line, "\r": self._marker_carriage}
 
-    def __get_context(
-        self, queue: Deque[str], before: bool
-    ) -> Generator[str, None, None]:
-        extra_lines = len(queue) == self.__max_context_lines + 1
-        for idx, context_line in enumerate(queue):
-            if before and extra_lines and idx == 0:
-                yield context_color("...")
-            elif not before and extra_lines and idx == len(queue) - 1:
-                yield context_color("...")
-            else:
-                yield context_color(context_line.rstrip("\r\n"))
+    @property
+    def _context_line_count(self) -> int:
+        return 1
 
-    def __show_line_endings(self, a: str, b: str) -> bool:
-        if a is None or b is None:
-            return False
-        a_count = {"\r": 0, "\n": 0}
-        b_count = {"\r": 0, "\n": 0}
-        for c in a:
-            if c in a_count:
-                a_count[c] += 1
-        for c in b:
-            if c in b_count:
-                b_count[c] += 1
-        return a_count != b_count
+    @property
+    def _context_line_max(self) -> int:
+        return self._context_line_count * 2
 
-    def __sanitize_line(
-        self, line: Optional[str], show_line_ending: bool
-    ) -> Optional[str]:
-        if line is None:
-            return line
-        if show_line_ending:
-            line = line.replace("\n", mute("\u2424")).replace("\r", mute("\u240D"))
-        line = line.rstrip("\r\n")
+    @property
+    def _marker_context_max(self) -> str:
+        return SYMBOL_ELLIPSIS
 
-        if line.endswith(" "):
-            n_spaces = len(line) - len(line.rstrip(" "))
-            line = line.rstrip(" ") + mute("\u00B7" * n_spaces)
+    @property
+    def _marker_new_line(self) -> str:
+        return SYMBOL_NEW_LINE
 
-        return line
+    @property
+    def _marker_carriage(self) -> str:
+        return SYMBOL_CARRIAGE
 
     def __diff_lines(self, a: str, b: str) -> Generator[str, None, None]:
-        context_queue: Deque[str] = deque([], self.__max_context_lines + 1)
-        staged_line = None
-        last_match_index = None
-        for idx, line in enumerate(
-            ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True))
-        ):
-            marker = line[0]
+        for line in self.__diff_data(a, b):
+            show_ends = (
+                self.__strip_ends(line.a[1:]) == self.__strip_ends(line.b[1:])
+                if line.is_complete
+                else False
+            )
+            if line.has_snapshot:
+                yield self.__format_line(
+                    line.a, line.diff_a, snapshot_style, snapshot_diff_style, show_ends
+                )
+            if line.has_received:
+                yield self.__format_line(
+                    line.b, line.diff_b, received_style, received_diff_style, show_ends
+                )
+            yield from map(context_style, self.__limit_context(line.c))
 
-            if staged_line is not None:
-                yield from self.__get_context(context_queue, True)
-                show_line_endings = self.__show_line_endings(staged_line, line)
-                staged_line = self.__sanitize_line(staged_line, show_line_endings)
-                line = self.__sanitize_line(line, show_line_endings)
-                yield from self.__diff_line(line, staged_line)
-                staged_line = None
-                context_queue.clear()
-                continue
+    def __diff_data(self, a: str, b: str) -> List["DiffedLine"]:
+        diffed_data = []
+        staged_diffed_line: Optional["DiffedLine"] = None
+        for line in ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
+            is_context_line = line[0] == " "
+            is_snapshot_line = line[0] == "-"
+            is_received_line = line[0] == "+"
+            is_diff_line = line[0] == "?"
 
-            if marker == " ":
-                context_queue.append(line)
+            if is_context_line:
+                line = self.__strip_ends(line)
 
-                if (
-                    last_match_index is not None
-                    and idx - last_match_index == self.__max_context_lines + 1
-                ):
-                    yield from self.__get_context(context_queue, False)
-                continue
+            if staged_diffed_line:
+                if is_diff_line:
+                    if staged_diffed_line.b:
+                        staged_diffed_line.diff_b = line
+                    else:
+                        staged_diffed_line.diff_a = line
+                else:
+                    should_unstage = (
+                        staged_diffed_line.is_complete
+                        or (staged_diffed_line.has_snapshot and is_snapshot_line)
+                        or (staged_diffed_line.has_received and is_received_line)
+                        or (staged_diffed_line.is_context and not is_context_line)
+                    )
+                    if should_unstage:
+                        diffed_data.append(staged_diffed_line)
+                        staged_diffed_line = None
+                    elif is_snapshot_line:
+                        staged_diffed_line.a = line
+                    elif is_received_line:
+                        staged_diffed_line.b = line
+                    elif is_context_line:
+                        staged_diffed_line.c.append(line)
 
-            if marker in ("+", "-"):
-                last_match_index = idx
-                staged_line = line
-                continue
+            if not staged_diffed_line:
+                if is_diff_line:
+                    raise RuntimeWarning(
+                        "Encounted a diff line without any previously staged line"
+                    )
+                elif is_snapshot_line:
+                    staged_diffed_line = DiffedLine(a=line)
+                elif is_received_line:
+                    staged_diffed_line = DiffedLine(b=line)
+                elif is_context_line:
+                    staged_diffed_line = DiffedLine(c=[line])
 
-    def __diff_line(
-        self, inline_marker_ctx: str, line: str
-    ) -> Generator[str, None, None]:
-        marker = line[0]
+        if staged_diffed_line:
+            diffed_data.append(staged_diffed_line)
 
-        if marker == "-":
-            yield snapshot_color(line)
+        return diffed_data
 
-        if marker == "+":
-            yield received_color(line)
+    def __format_line(
+        self,
+        line: str,
+        diff_markers: str,
+        line_style: Callable[[str], str],
+        diff_style: Callable[[str], str],
+        show_ends: bool,
+    ) -> str:
+        if show_ends:
+            for old, new in self._ends.items():
+                line = line.replace(old, mute(new))
+        else:
+            line = self.__strip_ends(line)
+        line = "".join(
+            diff_style(char) if str(marker) in "-+^" else line_style(char)
+            for marker, char in zip_longest(diff_markers.rstrip(), line)
+        )
+        return line_style(line)
+
+    def __limit_context(self, lines: List[str]) -> List[str]:
+        top_lines = lines[: self._context_line_count]
+        mid_lines = []
+        end_lines = []
+        num_lines = len(lines)
+        if num_lines:
+            if self._context_line_count and num_lines > 1:
+                end_lines = lines[-self._context_line_count :]  # noqa: E203
+            if num_lines > self._context_line_max:
+                count_leading_whitespace: Callable[[str], int] = (
+                    lambda s: len(s) - len(s.lstrip())  # noqa: E731
+                )
+                curr_ws = count_leading_whitespace(lines[num_lines // 2])
+                prev_ws = (
+                    count_leading_whitespace(top_lines[-1]) if top_lines else curr_ws
+                )
+                next_ws = (
+                    count_leading_whitespace(end_lines[0]) if end_lines else curr_ws
+                )
+                num_space = (prev_ws + next_ws) // 2
+                mid_lines = [" " * num_space + self._marker_context_max]
+        return top_lines + mid_lines + end_lines
+
+    def __strip_ends(self, line: str) -> str:
+        return line.rstrip("".join(self._ends.keys()))
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
