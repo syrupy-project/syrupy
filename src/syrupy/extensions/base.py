@@ -281,10 +281,12 @@ class SnapshotReporter(ABC):
 
             if staged_diffed_line:
                 if is_diff_line:
-                    if staged_diffed_line.b:
+                    if staged_diffed_line.has_received:
                         staged_diffed_line.diff_b = line
-                    else:
+                    elif staged_diffed_line.has_snapshot:
                         staged_diffed_line.diff_a = line
+                    # else: should never happen because then it would have
+                    # encounted a diff line without any previously staged line
                 else:
                     should_unstage = (
                         staged_diffed_line.is_complete
@@ -303,16 +305,14 @@ class SnapshotReporter(ABC):
                         staged_diffed_line.c.append(line)
 
             if not staged_diffed_line:
-                if is_diff_line:
-                    raise RuntimeWarning(
-                        "Encounted a diff line without any previously staged line"
-                    )
-                elif is_snapshot_line:
+                if is_snapshot_line:
                     staged_diffed_line = DiffedLine(a=line)
                 elif is_received_line:
                     staged_diffed_line = DiffedLine(b=line)
                 elif is_context_line:
                     staged_diffed_line = DiffedLine(c=[line])
+                # else: should never happen because then it would have
+                # encounted a diff line without any previously staged line
 
         if staged_diffed_line:
             yield staged_diffed_line
