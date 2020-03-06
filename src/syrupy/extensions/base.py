@@ -330,11 +330,10 @@ class SnapshotReporter(ABC):
                 line = line.replace(old, mute(new))
         else:
             line = self.__strip_ends(line)
-        line = "".join(
+        return "".join(
             diff_style(char) if str(marker) in "-+^" else line_style(char)
             for marker, char in zip_longest(diff_markers.rstrip(), line)
         )
-        return line_style(line)
 
     def __limit_context(self, lines: List[str]) -> Iterator[str]:
         yield from lines[: self._context_line_count]
