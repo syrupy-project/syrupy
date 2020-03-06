@@ -1,4 +1,4 @@
-# name: TestSnapshotReporter.test_diff_lines[--SnapshotReporterNoContext]
+# name: TestSnapshotReporter.test_diff_lines[-0-SnapshotReporterNoContext]
   '
     ...
   - line 2
@@ -9,7 +9,7 @@
     ...
   '
 ---
-# name: TestSnapshotReporter.test_diff_lines[--SnapshotReporter]
+# name: TestSnapshotReporter.test_diff_lines[-0-SnapshotReporter]
   '
     line 0
     line 1
@@ -19,6 +19,26 @@
   - line 04
   + line 4
     line 5
+    ...
+    line 7
+  '
+---
+# name: TestSnapshotReporter.test_diff_lines[-1-SnapshotReporterNoContext]
+  '
+    ...
+  - line 3  
+  + line 3	
+    ...
+  '
+---
+# name: TestSnapshotReporter.test_diff_lines[-1-SnapshotReporter]
+  '
+    line 0
+    ...
+    line 2
+  - line 3  
+  + line 3	
+    line 4
     ...
     line 7
   '
