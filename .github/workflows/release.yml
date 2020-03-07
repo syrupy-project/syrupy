@@ -8,7 +8,7 @@ jobs:
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master
-          dry_run: true
+          dry_run: false
           extra_plugins: |
             @semantic-release/changelog
             @semantic-release/git
