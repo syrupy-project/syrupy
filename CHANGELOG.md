@@ -8,7 +8,8 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 ## Master (Unreleased)
 
-- Up to date with releases
+- Fix bug where missing carriage return not shown in diff reports (#126)
+- Account for accessibility and readability in snapshot outputs (#126)
 
 ## [v0.3.3](https://github.com/tophat/syrupy/compare/v0.3.2...v0.3.3)
 
