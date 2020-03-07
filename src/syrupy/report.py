@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
-    Generator,
+    Iterator,
     List,
     Set,
 )
@@ -131,7 +131,7 @@ class SnapshotReport:
         return unused_fossils
 
     @property
-    def lines(self) -> Generator[str, None, None]:
+    def lines(self) -> Iterator[str]:
         summary_lines: List[str] = []
         if self.num_failed:
             summary_lines.append(
