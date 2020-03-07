@@ -52,4 +52,4 @@ def received_diff_style(text: Union[str, int]) -> str:
 
 
 def context_style(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.attr("dim") + colored.fg("white"))
+    return colored.stylize(text, colored.attr("dim"))
