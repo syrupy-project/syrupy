@@ -23,6 +23,12 @@ class TestLocation:
     def filename(self) -> str:
         return Path(self.filepath).stem
 
+    @property
+    def snapshot_name(self) -> str:
+        if self.classname is not None:
+            return f"{self.classname}.{self.testname}"
+        return str(self.testname)
+
     def __valid_id(self, name: str) -> str:
         [valid_id, *rest] = name
         while rest:
@@ -33,7 +39,7 @@ class TestLocation:
         return valid_id
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
-        return self.__valid_id(str(self.methodname)) == self.__valid_id(snapshot_name)
+        return self.__valid_id(self.snapshot_name) == self.__valid_id(snapshot_name)
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         return self.filename in snapshot_location
