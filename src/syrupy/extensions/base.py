@@ -68,11 +68,7 @@ class SnapshotFossilizer(ABC):
     def get_snapshot_name(self, *, index: int = 0) -> str:
         """Get the snapshot name for the assertion index in a test location"""
         index_suffix = f".{index}" if index > 0 else ""
-        testname = self.test_location.testname
-
-        if self.test_location.classname is not None:
-            return f"{self.test_location.classname}.{testname}{index_suffix}"
-        return f"{testname}{index_suffix}"
+        return f"{self.test_location.snapshot_name}{index_suffix}"
 
     def get_location(self, *, index: int) -> str:
         """Returns full location where snapshot data is stored."""
@@ -251,7 +247,7 @@ class SnapshotReporter(ABC):
         return SYMBOL_CARRIAGE
 
     def __diff_lines(self, a: str, b: str) -> Iterator[str]:
-        for line in self.__diff_data(a, b):
+        for line in self.__diffed_lines(a, b):
             show_ends = (
                 self.__strip_ends(line.a[1:]) == self.__strip_ends(line.b[1:])
                 if line.is_complete
@@ -267,7 +263,7 @@ class SnapshotReporter(ABC):
                 )
             yield from map(context_style, self.__limit_context(line.c))
 
-    def __diff_data(self, a: str, b: str) -> Iterator["DiffedLine"]:
+    def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
         staged_diffed_line: Optional["DiffedLine"] = None
         for line in ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
             is_context_line = line[0] == " "
