@@ -15,7 +15,7 @@ e.g. This PR refactors the X submodule, applying Y's algorithm to improve Z by K
 <!-- Please mark items as completed where appropriate. e.g. [x]. -->
 
 - [ ] This PR has sufficient test coverage.
-- [ ] I have updated the CHANGELOG.md.
+- [ ] I will merge this pull request with a semantic title.
 
 ## Additional Comments
 
