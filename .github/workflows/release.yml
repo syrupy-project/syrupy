@@ -8,9 +8,9 @@ jobs:
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master
-          dry_run: true
+          dry_run: false
           extra_plugins: |
             @semantic-release/changelog
             @semantic-release/git
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
