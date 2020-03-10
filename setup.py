@@ -13,7 +13,7 @@ install_requires = [
     "attrs>=18.2.0,<20.0.0",
     "colored>=1.3.92,<2.0.0",
     "typing_extensions>=3.6,<4.0.0",
-    "pytest>=5.0.0,<6.0.0",
+    "pytest>=5.1.0,<6.0.0",
 ]
 test_requires = [
     "codecov",
