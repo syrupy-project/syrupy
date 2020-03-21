@@ -50,6 +50,6 @@ def test_multiple_snapshot_extensions(snapshot):
     These should be indexed in order of assertion.
     """
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
-    assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
+    assert actual_svg == snapshot  # last extension class specified is used
     assert actual_png == snapshot(extension_class=PNGImageSnapshotExtension)
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
