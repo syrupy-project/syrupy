@@ -43,6 +43,7 @@ class SnapshotAssertion:
     _extension_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
+    _extension: Optional["AbstractSyrupyExtension"] = attr.ib(init=False, default=None)
     _executions: int = attr.ib(init=False, default=0, kw_only=True)
     _execution_results: Dict[int, "AssertionResult"] = attr.ib(
         init=False, factory=dict, kw_only=True
@@ -53,7 +54,7 @@ class SnapshotAssertion:
 
     @property
     def extension(self) -> "AbstractSyrupyExtension":
-        if not getattr(self, "_extension", None):
+        if not self._extension:
             self._extension: "AbstractSyrupyExtension" = self._extension_class(
                 test_location=self._test_location
             )
@@ -70,6 +71,10 @@ class SnapshotAssertion:
     def use_extension(
         self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
     ) -> "SnapshotAssertion":
+        """
+        Creates a new snapshot assertion fixture with the same options but using
+        specified extension class. This does not perserve assertion index or state.
+        """
         return self.__class__(
             update_snapshots=self._update_snapshots,
             test_location=self._test_location,
@@ -91,6 +96,14 @@ class SnapshotAssertion:
         if not assertion_result.success:
             diff.extend(self.extension.diff_lines(serialized_data, snapshot_data))
         return diff
+
+    def __call__(
+        self, *, extension_class: Optional[Type["AbstractSyrupyExtension"]]
+    ) -> "SnapshotAssertion":
+        if extension_class:
+            self._extension_class = extension_class
+            self._extension = None
+        return self
 
     def __repr__(self) -> str:
         attrs_to_repr = ["name", "num_executions"]
