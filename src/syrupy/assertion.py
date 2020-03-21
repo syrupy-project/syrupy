@@ -52,12 +52,15 @@ class SnapshotAssertion:
     def __attrs_post_init__(self) -> None:
         self._session.register_request(self)
 
+    def __init_extension(
+        self, extension_class: Type["AbstractSyrupyExtension"]
+    ) -> "AbstractSyrupyExtension":
+        return extension_class(test_location=self._test_location)
+
     @property
     def extension(self) -> "AbstractSyrupyExtension":
         if not self._extension:
-            self._extension: "AbstractSyrupyExtension" = self._extension_class(
-                test_location=self._test_location
-            )
+            self._extension = self.__init_extension(self._extension_class)
         return self._extension
 
     @property
@@ -100,9 +103,11 @@ class SnapshotAssertion:
     def __call__(
         self, *, extension_class: Optional[Type["AbstractSyrupyExtension"]]
     ) -> "SnapshotAssertion":
+        """
+        Modifies assertion instance options
+        """
         if extension_class:
-            self._extension_class = extension_class
-            self._extension = None
+            self._extension = self.__init_extension(extension_class)
         return self
 
     def __repr__(self) -> str:
@@ -144,6 +149,13 @@ class SnapshotAssertion:
                 updated=snapshot_updated,
             )
             self._executions += 1
+            self._post_assert()
+
+    def _post_assert(self) -> None:
+        """
+        Restores assertion instance options
+        """
+        self._extension = None
 
     def _recall_data(self, index: int) -> Optional["SerializableData"]:
         try:
