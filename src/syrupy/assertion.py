@@ -76,7 +76,7 @@ class SnapshotAssertion:
     ) -> "SnapshotAssertion":
         """
         Creates a new snapshot assertion fixture with the same options but using
-        specified extension class. This does not perserve assertion index or state.
+        specified extension class. This does not preserve assertion index or state.
         """
         return self.__class__(
             update_snapshots=self._update_snapshots,
