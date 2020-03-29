@@ -1,0 +1,51 @@
+#!/usr/bin/osascript
+
+tell application "Terminal"
+    activate
+    delay 2
+    -- Ensure folder is ready and is current working
+    my execCmd("cd ~/syrupy_example", 1)
+    -- Ensure venv is ready with pytest and syrupy
+    my execPythonCmd("venv venv", 2)
+    my execCmd("source venv/bin/activate", 1)
+    my execPythonCmd("pip install pytest syrupy", 3)
+    -- Write initial snapshot test file
+    my createTestFile()
+    -- Run pytest
+    my execPythonCmd("pytest", 2)
+end tell
+
+on execCmd(cmds, wait)
+    tell application "System Events"
+        tell application process "Terminal"
+            set frontmost to true
+            repeat with cmd in cmds
+                if class of cmd is integer then
+                    key code cmd
+                else
+                    keystroke cmd
+                end if
+            end repeat
+            keystroke return
+        end tell
+    end tell
+    delay wait
+end execCmd
+
+on execPythonCmd(cmd, wait)
+    execCmd({"python",49,27,46,49,cmd}, wait)
+end execPythonCmd
+
+on createTestFile()
+    my execCmd({"rm ",27,"f test_file",47,"py"}, 1)
+    my execCmd({"vim test_file",47,"py"}, 1)
+    my execCmd({"i"}, 2)
+    my execCmd({"def test_case(snapshot):"}, 1)
+    my execCmd({"    assert 'syrupy is amazing' == snapshot"}, 1)
+    my execCmd({""}, 1)
+    my execCmd({"def test_other(snapshot):"}, 1)
+    my execCmd({"    assert 'this is amazing' == snapshot"}, 1)
+    my execCmd({"    assert dict(key='value', hmm=[1,2]) == snapshot"}, 1)
+    my execCmd({53}, 1)
+    my execCmd({":wq"}, 1)
+end createFile
