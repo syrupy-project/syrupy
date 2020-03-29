@@ -2,7 +2,8 @@
 
 tell application "Terminal"
     activate
-    my clearScreen(2)
+    delay 1
+    my clearScreen(1)
     -- Ensure folder is ready and is current working
     my execCmd({"mkdir ", 27, "p ~/syrupy_example"}, 1)
     my execCmd({"cd ~/syrupy_example"}, 1)
@@ -14,23 +15,26 @@ tell application "Terminal"
     my execPythonCmd({"venv venv"}, 2)
     my execCmd({"source venv/bin/activate"}, 1)
     my clearScreen(1)
-    my execPythonCmd({"pip install ", 27, "U pytest syrupy"}, 3)
+    my execPipInstall("pytest syrupy", 3)
     -- Write initial snapshot test file
     my createTestFile()
-    -- Run pytest
-    my execPythonCmd({"pytest"}, 2)
-    -- Generate snapshots
-    my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
+    my execPytestVerbose()
+    my execPytestSnapshotUpdate()
     -- Show generated snapshots
-    my execCmd({"ls ", 27, "l"}, 2)
-    my execCmd({"ls __snapshots__"}, 2)
+    my execListFiles(".")
+    my execListFiles("__snapshots__")
     my readTestFileSnapshot()
     -- Modify test file
     my updateTestFile1()
-    -- Run to show failing changes
-    my execPythonCmd({"pytest ", 27, "vv"}, 2)
-    -- Update snapshots
-    my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
+    my execPytestVerbose()
+    my execPytestSnapshotUpdate()
+    -- Modify test file
+    my updateTestFile2()
+    my execPytestVerbose()
+    my execPytestSnapshotUpdate()
+    -- Show updated snapshots
+    my readTestFileSnapshot()
+    my clearScreen(1)
 end tell
 
 on clearScreen(wait)
@@ -72,9 +76,25 @@ on execCmd(cmds, wait)
     delay wait
 end execCmd
 
+on execListFiles(folder)
+    my execCmd({"ls ", 27, "l ", folder}, 2)
+end execListFiles
+
 on execPythonCmd(cmd, wait)
     execCmd({"python", 49, 27, 46, 49} & cmd, wait)
 end execPythonCmd
+
+on execPipInstall(packages, wait)
+    my execPythonCmd({"pip install ", 27, "U ", packages}, wait)
+end execPipInstall
+
+on execPytestVerbose()
+    my execPythonCmd({"pytest ", 27, "vv"}, 2)
+end execPytestSnapshotUpdate
+
+on execPytestSnapshotUpdate()
+    my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
+end execPytestSnapshotUpdate
 
 on createTestFile()
     my execCmd({"vim test_file", 47, "py"}, 1)
@@ -90,7 +110,6 @@ end createFile
 
 on readTestFileSnapshot()
     my execCmd({"less __snapshots__/test_file", 47, "ambr"}, 3)
-    my execCmd({53}, 1)
     my execCmd({":q"}, 1)
 end readTestFileSnapshot
 
@@ -98,7 +117,16 @@ on updateTestFile1()
     my execCmd({"vim test_file", 47, "py"}, 1)
     my execCmdsNTimes({125}, 4)
     my execCmdsNTimes({124}, 27)
-    my execCmdsNTimes({"i","!"}, 1)
+    my execCmdsNTimes({"i", "!"}, 1)
+    my execCmd({53}, 1)
+    my execCmd({":wq"}, 1)
+end updateTestFile1
+
+on updateTestFile2()
+    my execCmd({"vim test_file", 47, "py"}, 1)
+    my execCmdsNTimes({125}, 5)
+    my execCmdsNTimes({124}, 36)
+    my execCmdsNTimes({"i", 51, 51}, 1)
     my execCmd({53}, 1)
     my execCmd({":wq"}, 1)
 end updateTestFile1
