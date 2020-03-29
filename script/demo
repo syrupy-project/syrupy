@@ -5,15 +5,15 @@ tell application "Terminal"
     delay 1
     my clearScreen(1)
     -- Ensure folder is ready and is current working
-    my execCmd({"mkdir ", 27, "p ~/syrupy_example"}, 1)
-    my execCmd({"cd ~/syrupy_example"}, 1)
+    my execInput({"mkdir ", 27, "p ~/syrupy_example"}, 1)
+    my execInput({"cd ~/syrupy_example"}, 1)
     -- Remove last demo run from folder if exists
-    my execCmd({"rm ", 27, "f test_file", 47, "py"}, 1)
-    my execCmd({"rm ", 27, "r __snapshots__"}, 1)
+    my execInput({"rm ", 27, "f test_file", 47, "py"}, 1)
+    my execInput({"rm ", 27, "r __snapshots__"}, 1)
     my clearScreen(1)
     -- Ensure venv is ready with pytest and syrupy
     my execPythonCmd({"venv venv"}, 2)
-    my execCmd({"source venv/bin/activate"}, 1)
+    my execInput({"source venv/bin/activate"}, 1)
     my clearScreen(1)
     my execPipInstall("pytest syrupy", 3)
     -- Write initial snapshot test file
@@ -46,7 +46,7 @@ on clearScreen(wait)
     delay wait
 end clearScreen
 
-on writeInput(input, n)
+on sendInput(input, n)
     set inputs to {}
     repeat n times
         set inputs to inputs & input
@@ -64,24 +64,24 @@ on writeInput(input, n)
         end tell
     end tell
     delay 0.3
-end writeInput
+end sendInput
 
-on execCmd(cmds, wait)
-    writeInput(cmds, 1)
+on execInput(cmds, wait)
+    sendInput(cmds, 1)
     tell application "System Events"
         tell application process "Terminal"
             keystroke return
         end tell
     end tell
     delay wait
-end execCmd
+end execInput
 
 on execListFiles(folder)
-    my execCmd({"ls ", 27, "l ", folder}, 2)
+    my execInput({"ls ", 27, "l ", folder}, 2)
 end execListFiles
 
 on execPythonCmd(cmd, wait)
-    execCmd({"python", 49, 27, 46, 49} & cmd, wait)
+    execInput({"python", 49, 27, 46, 49} & cmd, wait)
 end execPythonCmd
 
 on execPipInstall(packages, wait)
@@ -97,34 +97,34 @@ on execPytestSnapshotUpdate()
 end execPytestSnapshotUpdate
 
 on createTestFile()
-    my execCmd({"vim test_file", 47, "py"}, 1)
-    my execCmd({"i","def test_case(snapshot):"}, 1)
-    my execCmd({"    assert 'syrupy is amazing!' == snapshot"}, 1)
-    my execCmd({""}, 1)
-    my execCmd({"def test_other(snapshot):"}, 1)
-    my execCmd({"    assert 'this is amazing' == snapshot"}, 1)
-    my execCmd({"    assert dict(key='value', hmm=[1,2]) == snapshot"}, 1)
-    my execCmd({53}, 1)
-    my execCmd({":wq"}, 1)
+    my execInput({"vim test_file", 47, "py"}, 1)
+    my execInput({"i","def test_case(snapshot):"}, 1)
+    my execInput({"    assert 'syrupy is amazing!' == snapshot"}, 1)
+    my execInput({""}, 1)
+    my execInput({"def test_other(snapshot):"}, 1)
+    my execInput({"    assert 'this is amazing' == snapshot"}, 1)
+    my execInput({"    assert dict(key='value', hmm=[1,2]) == snapshot"}, 1)
+    my execInput({53}, 1)
+    my execInput({":wq"}, 1)
 end createFile
 
 on readTestFileSnapshot()
-    my execCmd({"less __snapshots__/test_file", 47, "ambr"}, 3)
-    my execCmd({":q"}, 1)
+    my execInput({"less __snapshots__/test_file", 47, "ambr"}, 3)
+    my execInput({":q"}, 1)
 end readTestFileSnapshot
 
 on updateTestFile1()
-    my execCmd({"vim test_file", 47, "py"}, 1)
-    my writeInput({125}, 4)
-    my writeInput({124}, 27)
-    my writeInput({"i", "!", 53}, 1)
-    my execCmd({":wq"}, 1)
+    my execInput({"vim test_file", 47, "py"}, 1)
+    my sendInput({125}, 4)
+    my sendInput({124}, 27)
+    my sendInput({"i", "!", 53}, 1)
+    my execInput({":wq"}, 1)
 end updateTestFile1
 
 on updateTestFile2()
-    my execCmd({"vim test_file", 47, "py"}, 1)
-    my writeInput({125}, 5)
-    my writeInput({124}, 36)
-    my writeInput({"i", 51, 51, 53}, 1)
-    my execCmd({":wq"}, 1)
+    my execInput({"vim test_file", 47, "py"}, 1)
+    my sendInput({125}, 5)
+    my sendInput({124}, 36)
+    my sendInput({"i", 51, 51, 53}, 1)
+    my execInput({":wq"}, 1)
 end updateTestFile1
