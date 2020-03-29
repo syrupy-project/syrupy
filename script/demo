@@ -4,15 +4,21 @@ tell application "Terminal"
     activate
     delay 2
     -- Ensure folder is ready and is current working
-    my execCmd("cd ~/syrupy_example", 1)
+    my execCmd({"mkdir ", 27, "p ~/syrupy_example"}, 1)
+    my execCmd({"cd ~/syrupy_example"}, 1)
+    -- Remove last demo run from folder if exists
+    my execCmd({"rm ", 27, "f test_file", 47, "py"}, 1)
+    my execCmd({"rm ", 27, "r __snapshots__"}, 1)
     -- Ensure venv is ready with pytest and syrupy
-    my execPythonCmd("venv venv", 2)
-    my execCmd("source venv/bin/activate", 1)
-    my execPythonCmd("pip install pytest syrupy", 3)
+    my execPythonCmd({"venv venv"}, 2)
+    my execCmd({"source venv/bin/activate"}, 1)
+    my execPythonCmd({"pip install pytest syrupy"}, 3)
     -- Write initial snapshot test file
     my createTestFile()
     -- Run pytest
-    my execPythonCmd("pytest", 2)
+    my execPythonCmd({"pytest"}, 2)
+    -- Generate snapshots
+    my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
 end tell
 
 on execCmd(cmds, wait)
@@ -33,12 +39,11 @@ on execCmd(cmds, wait)
 end execCmd
 
 on execPythonCmd(cmd, wait)
-    execCmd({"python",49,27,46,49,cmd}, wait)
+    execCmd({"python", 49, 27, 46, 49} & cmd, wait)
 end execPythonCmd
 
 on createTestFile()
-    my execCmd({"rm ",27,"f test_file",47,"py"}, 1)
-    my execCmd({"vim test_file",47,"py"}, 1)
+    my execCmd({"vim test_file", 47, "py"}, 1)
     my execCmd({"i"}, 2)
     my execCmd({"def test_case(snapshot):"}, 1)
     my execCmd({"    assert 'syrupy is amazing' == snapshot"}, 1)
