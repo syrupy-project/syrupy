@@ -1,0 +1,130 @@
+#!/usr/bin/osascript
+
+tell application "Terminal"
+    activate
+    delay 1
+    my clearScreen(1)
+    -- Ensure folder is ready and is current working
+    my execInput({"mkdir ", 27, "p ~/syrupy_example"}, 1)
+    my execInput({"cd ~/syrupy_example"}, 1)
+    -- Remove last demo run from folder if exists
+    my execInput({"rm ", 27, "f test_file", 47, "py"}, 1)
+    my execInput({"rm ", 27, "r __snapshots__"}, 1)
+    my clearScreen(1)
+    -- Ensure venv is ready with pytest and syrupy
+    my execPythonCmd({"venv venv"}, 2)
+    my execInput({"source venv/bin/activate"}, 1)
+    my clearScreen(1)
+    my execPipInstall("pytest syrupy", 3)
+    -- Write initial snapshot test file
+    my createTestFile()
+    my execPytestVerbose()
+    my execPytestSnapshotUpdate()
+    -- Show generated snapshots
+    my execListFiles(".")
+    my execListFiles("__snapshots__")
+    my readTestFileSnapshot()
+    -- Modify test file
+    my updateTestFile1()
+    my execPytestVerbose()
+    my execPytestSnapshotUpdate()
+    -- Modify test file
+    my updateTestFile2()
+    my execPytestVerbose()
+    my execPytestSnapshotUpdate()
+    -- Show updated snapshots
+    my readTestFileSnapshot()
+    my clearScreen(1)
+end tell
+
+on clearScreen(wait)
+    tell application "System Events"
+        tell application process "Terminal"
+            keystroke "k" using command down
+        end tell
+    end tell
+    delay wait
+end clearScreen
+
+on sendInput(input, n)
+    set inputs to {}
+    repeat n times
+        set inputs to inputs & input
+    end repeat
+    tell application "System Events"
+        tell application process "Terminal"
+            set frontmost to true
+            repeat with input in inputs
+                if class of input is integer then
+                    key code input
+                else
+                    keystroke input
+                end if
+            end repeat
+        end tell
+    end tell
+    delay 0.3
+end sendInput
+
+on execInput(cmds, wait)
+    sendInput(cmds, 1)
+    tell application "System Events"
+        tell application process "Terminal"
+            keystroke return
+        end tell
+    end tell
+    delay wait
+end execInput
+
+on execListFiles(folder)
+    my execInput({"ls ", 27, "l ", folder}, 2)
+end execListFiles
+
+on execPythonCmd(cmd, wait)
+    execInput({"python", 49, 27, 46, 49} & cmd, wait)
+end execPythonCmd
+
+on execPipInstall(packages, wait)
+    my execPythonCmd({"pip install ", 27, "U ", packages}, wait)
+end execPipInstall
+
+on execPytestVerbose()
+    my execPythonCmd({"pytest ", 27, "vv"}, 2)
+end execPytestSnapshotUpdate
+
+on execPytestSnapshotUpdate()
+    my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
+end execPytestSnapshotUpdate
+
+on createTestFile()
+    my execInput({"vim test_file", 47, "py"}, 1)
+    my execInput({"i","def test_case(snapshot):"}, 1)
+    my execInput({"    assert 'syrupy is amazing!' == snapshot"}, 1)
+    my execInput({""}, 1)
+    my execInput({"def test_other(snapshot):"}, 1)
+    my execInput({"    assert 'this is amazing' == snapshot"}, 1)
+    my execInput({"    assert dict(key='value', hmm=[1,2]) == snapshot"}, 1)
+    my execInput({53}, 1)
+    my execInput({":wq"}, 1)
+end createFile
+
+on readTestFileSnapshot()
+    my execInput({"less __snapshots__/test_file", 47, "ambr"}, 3)
+    my execInput({":q"}, 1)
+end readTestFileSnapshot
+
+on updateTestFile1()
+    my execInput({"vim test_file", 47, "py"}, 1)
+    my sendInput({125}, 4)
+    my sendInput({124}, 27)
+    my sendInput({"i", "!", 53}, 1)
+    my execInput({":wq"}, 1)
+end updateTestFile1
+
+on updateTestFile2()
+    my execInput({"vim test_file", 47, "py"}, 1)
+    my sendInput({125}, 5)
+    my sendInput({124}, 36)
+    my sendInput({"i", 51, 51, 53}, 1)
+    my execInput({":wq"}, 1)
+end updateTestFile1
