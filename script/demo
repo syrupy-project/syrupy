@@ -117,8 +117,7 @@ on updateTestFile1()
     my execCmd({"vim test_file", 47, "py"}, 1)
     my execCmdsNTimes({125}, 4)
     my execCmdsNTimes({124}, 27)
-    my execCmdsNTimes({"i", "!"}, 1)
-    my execCmd({53}, 1)
+    my execCmdsNTimes({"i", "!", 53}, 1)
     my execCmd({":wq"}, 1)
 end updateTestFile1
 
@@ -126,7 +125,6 @@ on updateTestFile2()
     my execCmd({"vim test_file", 47, "py"}, 1)
     my execCmdsNTimes({125}, 5)
     my execCmdsNTimes({124}, 36)
-    my execCmdsNTimes({"i", 51, 51}, 1)
-    my execCmd({53}, 1)
+    my execCmdsNTimes({"i", 51, 51, 53}, 1)
     my execCmd({":wq"}, 1)
 end updateTestFile1
