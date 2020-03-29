@@ -14,7 +14,7 @@ tell application "Terminal"
     my execPythonCmd({"venv venv"}, 2)
     my execCmd({"source venv/bin/activate"}, 1)
     my clearScreen(1)
-    my execPythonCmd({"pip install pytest syrupy"}, 3)
+    my execPythonCmd({"pip install ", 27, "U pytest syrupy"}, 3)
     -- Write initial snapshot test file
     my createTestFile()
     -- Run pytest
@@ -59,6 +59,7 @@ on execCmdsNTimes(cmd, n)
             end repeat
         end tell
     end tell
+    delay 0.3
 end execCmdsNTimes
 
 on execCmd(cmds, wait)
