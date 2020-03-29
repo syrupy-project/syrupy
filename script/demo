@@ -2,16 +2,18 @@
 
 tell application "Terminal"
     activate
-    delay 2
+    my clearScreen(2)
     -- Ensure folder is ready and is current working
     my execCmd({"mkdir ", 27, "p ~/syrupy_example"}, 1)
     my execCmd({"cd ~/syrupy_example"}, 1)
     -- Remove last demo run from folder if exists
     my execCmd({"rm ", 27, "f test_file", 47, "py"}, 1)
     my execCmd({"rm ", 27, "r __snapshots__"}, 1)
+    my clearScreen(1)
     -- Ensure venv is ready with pytest and syrupy
     my execPythonCmd({"venv venv"}, 2)
     my execCmd({"source venv/bin/activate"}, 1)
+    my clearScreen(1)
     my execPythonCmd({"pip install pytest syrupy"}, 3)
     -- Write initial snapshot test file
     my createTestFile()
@@ -19,9 +21,32 @@ tell application "Terminal"
     my execPythonCmd({"pytest"}, 2)
     -- Generate snapshots
     my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
+    -- Show generated snapshots
+    my execCmd({"ls ", 27, "l"}, 2)
+    my execCmd({"ls __snapshots__"}, 2)
+    my readTestFileSnapshot()
+    -- Modify test file
+    my updateTestFile1()
+    -- Run to show failing changes
+    my execPythonCmd({"pytest ", 27, "vv"}, 2)
+    -- Update snapshots
+    my execPythonCmd({"pytest ", 27, 27, "snapshot", 27, "update"}, 2)
 end tell
 
-on execCmd(cmds, wait)
+on clearScreen(wait)
+    tell application "System Events"
+        tell application process "Terminal"
+            keystroke "k" using command down
+        end tell
+    end tell
+    delay wait
+end clearScreen
+
+on execCmdsNTimes(cmd, n)
+    set cmds to {}
+    repeat n times
+        set cmds to cmds & cmd
+    end repeat
     tell application "System Events"
         tell application process "Terminal"
             set frontmost to true
@@ -32,6 +57,14 @@ on execCmd(cmds, wait)
                     keystroke cmd
                 end if
             end repeat
+        end tell
+    end tell
+end execCmdsNTimes
+
+on execCmd(cmds, wait)
+    execCmdsNTimes(cmds, 1)
+    tell application "System Events"
+        tell application process "Terminal"
             keystroke return
         end tell
     end tell
@@ -44,9 +77,8 @@ end execPythonCmd
 
 on createTestFile()
     my execCmd({"vim test_file", 47, "py"}, 1)
-    my execCmd({"i"}, 2)
-    my execCmd({"def test_case(snapshot):"}, 1)
-    my execCmd({"    assert 'syrupy is amazing' == snapshot"}, 1)
+    my execCmd({"i","def test_case(snapshot):"}, 1)
+    my execCmd({"    assert 'syrupy is amazing!' == snapshot"}, 1)
     my execCmd({""}, 1)
     my execCmd({"def test_other(snapshot):"}, 1)
     my execCmd({"    assert 'this is amazing' == snapshot"}, 1)
@@ -54,3 +86,18 @@ on createTestFile()
     my execCmd({53}, 1)
     my execCmd({":wq"}, 1)
 end createFile
+
+on readTestFileSnapshot()
+    my execCmd({"less __snapshots__/test_file", 47, "ambr"}, 3)
+    my execCmd({53}, 1)
+    my execCmd({":q"}, 1)
+end readTestFileSnapshot
+
+on updateTestFile1()
+    my execCmd({"vim test_file", 47, "py"}, 1)
+    my execCmdsNTimes({125}, 4)
+    my execCmdsNTimes({124}, 27)
+    my execCmdsNTimes({"i","!"}, 1)
+    my execCmd({53}, 1)
+    my execCmd({":wq"}, 1)
+end updateTestFile1
