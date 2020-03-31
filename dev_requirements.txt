@@ -44,7 +44,7 @@ py==1.8.1                 # via pytest
 pycodestyle==2.5.0        # via flake8
 pycparser==2.19           # via cffi
 pyflakes==2.1.1           # via flake8
-pygments==2.5.2           # via readme-renderer
+pygments==2.6.1           # via readme-renderer
 pyparsing==2.4.6          # via packaging
 pytest==5.3.5
 readme-renderer==24.0     # via twine
