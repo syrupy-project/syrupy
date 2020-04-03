@@ -7,22 +7,20 @@
 attrs==19.3.0             # via pytest
 certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
-codecov==2.0.15
+codecov==2.0.22
 colored==1.4.2
 coverage[toml]==5.0.4     # via codecov
 idna==2.9                 # via requests
-importlib-metadata==1.6.0  # via pluggy, pytest
 invoke==1.4.1
 more-itertools==8.2.0     # via pytest
-packaging==20.1           # via pytest
+packaging==20.3           # via pytest
 pluggy==0.13.1            # via pytest
 py==1.8.1                 # via pytest
 pyparsing==2.4.6          # via packaging
 pytest==5.4.1
-requests==2.22.0          # via codecov
+requests==2.23.0          # via codecov
 six==1.14.0               # via packaging
 toml==0.10.0              # via coverage
-typing-extensions==3.7.4.1
+typing-extensions==3.7.4.2
 urllib3==1.25.8           # via requests
-wcwidth==0.1.8            # via pytest
-zipp==2.1.0               # via importlib-metadata
+wcwidth==0.1.9            # via pytest
