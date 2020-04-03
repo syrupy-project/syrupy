@@ -1,6 +1,7 @@
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
+    Callable,
     Dict,
     List,
     Optional,
@@ -44,10 +45,9 @@ class SnapshotAssertion:
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
     _extension: Optional["AbstractSyrupyExtension"] = attr.ib(init=False, default=None)
-    _executions: int = attr.ib(init=False, default=0, kw_only=True)
-    _execution_results: Dict[int, "AssertionResult"] = attr.ib(
-        init=False, factory=dict, kw_only=True
-    )
+    _executions: int = attr.ib(init=False, default=0)
+    _execution_results: Dict[int, "AssertionResult"] = attr.ib(init=False, factory=dict)
+    _post_assert_actions: List[Callable[..., None]] = attr.ib(init=False, factory=list)
 
     def __attrs_post_init__(self) -> None:
         self._session.register_request(self)
@@ -108,6 +108,11 @@ class SnapshotAssertion:
         """
         if extension_class:
             self._extension = self.__init_extension(extension_class)
+
+            def clear_extension() -> None:
+                self._extension = None
+
+            self._post_assert_actions.append(clear_extension)
         return self
 
     def __repr__(self) -> str:
@@ -155,7 +160,8 @@ class SnapshotAssertion:
         """
         Restores assertion instance options
         """
-        self._extension = None
+        while self._post_assert_actions:
+            self._post_assert_actions.pop()()
 
     def _recall_data(self, index: int) -> Optional["SerializableData"]:
         try:
