@@ -24,7 +24,7 @@ flake8-builtins==1.4.2
 flake8-comprehensions==3.2.2
 flake8-i18n==0.1.0
 flake8==3.7.9             # via flake8-bugbear, flake8-builtins, flake8-comprehensions, flake8-i18n
-idna==2.8                 # via requests
+idna==2.9                 # via requests
 importlib-metadata==1.6.0  # via flake8-comprehensions, keyring, pluggy, pytest, twine
 invoke==1.4.1
 isort==4.3.21

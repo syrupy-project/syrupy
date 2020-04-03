@@ -10,7 +10,7 @@ chardet==3.0.4            # via requests
 codecov==2.0.15
 colored==1.4.2
 coverage[toml]==5.0.4     # via codecov
-idna==2.8                 # via requests
+idna==2.9                 # via requests
 importlib-metadata==1.6.0  # via pluggy, pytest
 invoke==1.4.1
 more-itertools==8.2.0     # via pytest
