@@ -51,5 +51,6 @@ def test_multiple_snapshot_extensions(snapshot):
     """
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
     assert actual_svg == snapshot  # uses initial extension class
+    assert snapshot._extension is not None
     assert actual_png == snapshot(extension_class=PNGImageSnapshotExtension)
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
