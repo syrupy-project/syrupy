@@ -18,7 +18,7 @@ packaging==20.1           # via pytest
 pluggy==0.13.1            # via pytest
 py==1.8.1                 # via pytest
 pyparsing==2.4.6          # via packaging
-pytest==5.3.5
+pytest==5.4.1
 requests==2.22.0          # via codecov
 six==1.14.0               # via packaging
 toml==0.10.0              # via coverage
