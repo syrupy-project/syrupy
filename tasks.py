@@ -19,16 +19,14 @@ def requirements(ctx, upgrade=False):
     """
     Build test & dev requirements lock file
     """
-    file_suffix = "requirements.txt"
     args = ["--no-emit-find-links", "--no-index", "--allow-unsafe", "--rebuild"]
     if upgrade:
         args.append("--upgrade")
-    for env in ["test", "dev"]:
-        ctx.run(
-            f"echo '-e .[{env}]' | python -m piptools compile "
-            f"{' '.join(args)} - -qo- | sed '/^-e / d' > {env}_{file_suffix}",
-            pty=True,
-        )
+    ctx.run(
+        f"echo '-e .[dev]' | python -m piptools compile "
+        f"{' '.join(args)} - -qo- | sed '/^-e / d' > dev_requirements.txt",
+        pty=True,
+    )
 
 
 @task
