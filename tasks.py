@@ -100,7 +100,7 @@ def test(
 def benchmark(ctx, report=False):
     ctx.run(
         "python -m pyperf timeit '"
-        'import subprocess; subprocess.run(["pytest"])'
+        'import subprocess; subprocess.run(["pytest", "-qqq"])'
         "' -o performance.json"
     )
 
