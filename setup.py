@@ -31,7 +31,7 @@ dev_requires = [
     "mypy",
     "pip-tools",
     "py-githooks",
-    "pyperformance",
+    "pyperf",
     "semver",
     "twine",
     "wheel",

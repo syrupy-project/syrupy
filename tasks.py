@@ -1,9 +1,6 @@
 import os
 
-from invoke import (
-    exceptions,
-    task,
-)
+from invoke import exceptions, task
 
 
 @task
@@ -94,6 +91,15 @@ def test(
             ctx.run("coverage report", pty=True)
         else:
             ctx.run("codecov", pty=True)
+
+
+@task(help={"report": "Publish report as github status"})
+def benchmark(ctx, report=False):
+    ctx.run(
+        "python -m pyperf timeit '"
+        "import subprocess; subprocess.run(['pytest'])"
+        "' -o performance.json"
+    )
 
 
 @task(pre=[clean])

@@ -38,10 +38,14 @@ jobs:
         run: |
           python -m pip install -U pip --no-cache-dir
           python -m pip install -e . -r test_requirements.txt
-      - name: Test
+      - name: Run coverage tests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: invoke test --coverage
+      - name: Run benchmark suite
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: invoke benchmark --report
   build:
     name: Build
     runs-on: ubuntu-18.04

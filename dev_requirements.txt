@@ -41,8 +41,7 @@ pycodestyle==2.5.0        # via flake8
 pyflakes==2.1.1           # via flake8
 pygments==2.6.1           # via readme-renderer
 pyparsing==2.4.6          # via packaging
-pyperf==2.0.0             # via pyperformance
-pyperformance==1.0.1      # via syrupy
+pyperf==2.0.0             # via syrupy
 pytest==5.4.1             # via syrupy
 readme-renderer==25.0     # via twine
 regex==2020.4.4           # via black
