@@ -40,7 +40,7 @@ py==1.8.1                 # via pytest
 pycodestyle==2.5.0        # via flake8
 pyflakes==2.1.1           # via flake8
 pygments==2.6.1           # via readme-renderer
-pyparsing==2.4.6          # via packaging
+pyparsing==2.4.7          # via packaging
 pytest==5.4.1
 readme-renderer==25.0     # via twine
 regex==2020.2.20          # via black
