@@ -5,10 +5,7 @@ from invoke import (
     task,
 )
 
-from benchmark import (
-    measure_perf,
-    report_status,
-)
+import benchmarks
 
 
 @task
@@ -103,9 +100,7 @@ def test(
 
 @task(help={"report": "Publish report as github status"})
 def benchmark(ctx, report=False):
-    measure_perf()
-    if report:
-        report_status()
+    benchmarks.main(report=report)
 
 
 @task(pre=[clean])
