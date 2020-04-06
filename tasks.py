@@ -5,6 +5,11 @@ from invoke import (
     task,
 )
 
+from benchmark import (
+    measure_perf,
+    report_status,
+)
+
 
 @task
 def clean(ctx):
@@ -98,11 +103,9 @@ def test(
 
 @task(help={"report": "Publish report as github status"})
 def benchmark(ctx, report=False):
-    ctx.run(
-        "python -m pyperf timeit '"
-        'import subprocess; subprocess.run(["pytest", "-qqq"])'
-        "' -o performance.json"
-    )
+    measure_perf()
+    if report:
+        report_status()
 
 
 @task(pre=[clean])
