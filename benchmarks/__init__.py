@@ -65,11 +65,11 @@ def report_pending(github: Optional["Github"] = None) -> None:
     )
 
 
-def default_runner(cmd: str) -> "CompletedProcess[bytes]":
+def default_runner(cmd: str, **kwargs: Any) -> "CompletedProcess[bytes]":
     """
     Default code runner, interchangeable with invoke context runner
     """
-    return subprocess.run(cmd, shell=True, check=True)
+    return subprocess.run(cmd, shell=True, check=True, **kwargs)
 
 
 def measure_perf(run: Callable[..., Any] = default_runner) -> None:
@@ -99,14 +99,18 @@ def parse_status(commit_status: "CommitStatus") -> str:
     return str(commit_status.description).split(GH_STATUS_DESC_DELIM)[1]
 
 
-def fetch_bench_ref_json(github: "Github", head: str) -> bool:
+def fetch_bench_ref_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> bool:
     """
     Retrieve and save the benchmark results on the reference branch
     Skipping the current branch is the reference branch
     """
-    head_status = get_branch_status(github, head)
-    if not head_status or get_branch() == GH_BRANCH_REF:
+    if get_branch() == ref_branch:
         return False
+
+    head_status = get_branch_status(github, ref_branch)
+    if not head_status:
+        return False
+
     with open(BENCH_REF_FILE, "w") as ref_json_file:
         ref_json_file.write(parse_status(head_status))
     return True
@@ -119,17 +123,21 @@ def compare_bench_status(
     Compare benchmarks for current branch to reference and return results
     indicating success or failure and the github status description
     """
-    results = default_runner(f"python -m pyperf compare_to -q {ref_file} {perf_file}")
-    return str(results.stdout).strip(), True
+    cmd = f"python -m pyperf compare_to -q {ref_file} {perf_file}"
+    return str(default_runner(cmd, stdout=subprocess.PIPE).stdout).strip(), True
 
 
-def get_bench_status(bench_file: str) -> Tuple[str, bool]:
+def get_bench_status(bench_file: str = BENCH_PERF_FILE) -> Tuple[str, bool]:
     """
     Get the status of the benchmark file indicating success or failure
     and the github status description
     """
-    results = default_runner(f"python -m pyperf show -q {bench_file}")
-    return str(results.stdout).strip(), True
+    cmd = f"python -m pyperf show -q {bench_file}"
+    output = str(default_runner(cmd, stdout=subprocess.PIPE).stdout).strip()
+    with open(bench_file, "w") as bench_file_stream:
+        bench_file_json = bench_file_stream.read()
+        output += f"{GH_STATUS_DESC_DELIM}{bench_file_json}"
+    return output, True
 
 
 def report_status(github: Optional["Github"] = None) -> None:
@@ -143,10 +151,10 @@ def report_status(github: Optional["Github"] = None) -> None:
     if not commit:
         return
 
-    if fetch_bench_ref_json(github, GH_BRANCH_REF):
+    if fetch_bench_ref_json(github):
         description, success = compare_bench_status()
     else:
-        description, success = get_bench_status(BENCH_PERF_FILE)
+        description, success = get_bench_status()
 
     commit.create_status(
         state="success" if success else "failure",
