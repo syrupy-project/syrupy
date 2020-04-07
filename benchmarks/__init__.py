@@ -124,7 +124,7 @@ def compare_bench_status(
     indicating success or failure and the github status description
     """
     cmd = f"python -m pyperf compare_to -q {ref_file} {perf_file}"
-    return str(default_runner(cmd, stdout=subprocess.PIPE).stdout).strip(), True
+    return default_runner(cmd, stdout=subprocess.PIPE).stdout.decode().strip(), True
 
 
 def get_bench_status(bench_file: str = BENCH_PERF_FILE) -> Tuple[str, bool]:
@@ -133,7 +133,7 @@ def get_bench_status(bench_file: str = BENCH_PERF_FILE) -> Tuple[str, bool]:
     and the github status description
     """
     cmd = f"python -m pyperf show -q {bench_file}"
-    output = str(default_runner(cmd, stdout=subprocess.PIPE).stdout).strip()
+    output = default_runner(cmd, stdout=subprocess.PIPE).stdout.decode().strip()
     with open(bench_file, "r") as bench_file_stream:
         bench_file_json = bench_file_stream.read()
         print(bench_file_json)
