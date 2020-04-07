@@ -14,7 +14,6 @@ from github import Github  # type: ignore
 if TYPE_CHECKING:
     from subprocess import CompletedProcess
     from github.Commit import Commit  # type: ignore
-    from github.CommitStatus import CommitStatus  # type: ignore
 
 BENCH_COMMAND = "pytest -qq"
 BENCH_PERF_FILE = ".perf.bench.json"
@@ -25,19 +24,30 @@ GH_STATUS_CONTEXT = "Syrupy CICD / Benchmark"
 GH_STATUS_DESC_DELIM = "\n" * 3
 
 
+def get_req_env(var_name: str) -> str:
+    """
+    Try to get environment variable and exits if not available
+    """
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        print(f"Missing required environment variable '{var_name}'.")
+        exit(1)
+
+
 def get_commit(github: "Github") -> "Commit":
     """
     Get current commit the github ci run is for
     """
-    github_sha = os.environ.get("GITHUB_SHA")
-    return github.get_repo(GH_REPO).get_commit(github_sha) if github_sha else None
+    github_sha = get_req_env("GITHUB_SHA")
+    return github.get_repo(GH_REPO).get_commit(github_sha)
 
 
 def get_branch() -> Optional[str]:
     """
     Get current branch the github ci run is for
     """
-    github_ref = os.environ.get("GITHUB_REF")
+    github_ref = get_req_env("GITHUB_REF")
     return github_ref.replace("refs/heads/", "") if github_ref else None
 
 
@@ -72,34 +82,30 @@ def default_runner(cmd: str, **kwargs: Any) -> "CompletedProcess[bytes]":
     return subprocess.run(cmd, shell=True, check=True, **kwargs)
 
 
-def measure_perf(run: Callable[..., Any] = default_runner) -> None:
+def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> None:
     """
     Measure benchmark command performance and save results in file
-    Also checks that the benchmark run was stable
+    Checks that the benchmark run was stable
+    Saves the benchmark results to github
     """
     run(f"python -m pyperf command -o {BENCH_PERF_FILE} -- {BENCH_COMMAND}")
     run(f"python -m pyperf check {BENCH_PERF_FILE}")
+    if not github:
+        return
 
 
-def get_branch_status(github: "Github", branch: str) -> "CommitStatus":
+def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     """
-    Get the commit status of a branch for the benchmark context
+    Retrieve the benchmark results for the head commit of the given branch
     """
     head = github.get_repo(GH_REPO).get_branch(branch)
     for status in head.commit.get_statuses():
         if status.context == GH_STATUS_CONTEXT:
-            return status
+            return str(status)  # Placeholder until proper retrieval is implemented
     return None
 
 
-def parse_status(commit_status: "CommitStatus") -> str:
-    """
-    Get the benchmark results from a github commit status
-    """
-    return str(commit_status.description).split(GH_STATUS_DESC_DELIM)[1]
-
-
-def fetch_bench_ref_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> bool:
+def fetch_ref_bench_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> bool:
     """
     Retrieve and save the benchmark results on the reference branch
     Skipping the current branch is the reference branch
@@ -107,12 +113,12 @@ def fetch_bench_ref_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> b
     if get_branch() == ref_branch:
         return False
 
-    head_status = get_branch_status(github, ref_branch)
-    if not head_status:
+    ref_json = fetch_branch_bench_json(github, ref_branch)
+    if not ref_json:
         return False
 
     with open(BENCH_REF_FILE, "w") as ref_json_file:
-        ref_json_file.write(parse_status(head_status))
+        ref_json_file.write(ref_json)
     return True
 
 
@@ -133,11 +139,7 @@ def get_bench_status(bench_file: str = BENCH_PERF_FILE) -> Tuple[str, bool]:
     and the github status description
     """
     cmd = f"python -m pyperf show -q {bench_file}"
-    output = default_runner(cmd, stdout=subprocess.PIPE).stdout.decode().strip()
-    with open(bench_file, "r") as bench_file_stream:
-        bench_file_json = bench_file_stream.read()
-        print(bench_file_json)
-    return output, True
+    return default_runner(cmd, stdout=subprocess.PIPE).stdout.decode().strip(), True
 
 
 def report_status(github: Optional["Github"] = None) -> None:
@@ -151,7 +153,7 @@ def report_status(github: Optional["Github"] = None) -> None:
     if not commit:
         return
 
-    if fetch_bench_ref_json(github):
+    if fetch_ref_bench_json(github):
         description, success = compare_bench_status()
     else:
         description, success = get_bench_status()
@@ -165,7 +167,7 @@ def report_status(github: Optional["Github"] = None) -> None:
 
 
 def main(report: bool = False) -> None:
-    github = Github(os.environ["GITHUB_TOKEN"]) if report else None
+    github = Github(get_req_env("GITHUB_TOKEN")) if report else None
     report_pending(github)
-    measure_perf()
+    measure_perf(github)
     report_status(github)
