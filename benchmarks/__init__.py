@@ -73,10 +73,7 @@ def report_pending(github: Optional["Github"] = None) -> None:
     if not github:
         return
     get_commit(github).create_status(
-        state="pending",
-        target_url=get_target_url(),
-        description="Running benchmarks",
-        context=GH_STATUS_CONTEXT,
+        state="pending", description="Running benchmarks", context=GH_STATUS_CONTEXT,
     )
 
 
