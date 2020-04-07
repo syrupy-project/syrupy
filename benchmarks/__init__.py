@@ -134,7 +134,7 @@ def get_bench_status(bench_file: str = BENCH_PERF_FILE) -> Tuple[str, bool]:
     """
     cmd = f"python -m pyperf show -q {bench_file}"
     output = str(default_runner(cmd, stdout=subprocess.PIPE).stdout).strip()
-    with open(bench_file, "w") as bench_file_stream:
+    with open(bench_file, "r") as bench_file_stream:
         bench_file_json = bench_file_stream.read()
         output += f"{GH_STATUS_DESC_DELIM}{bench_file_json}"
     return output, True
