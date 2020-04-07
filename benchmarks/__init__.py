@@ -8,7 +8,10 @@ from typing import (
     Tuple,
 )
 
-from github import Github  # type: ignore
+from github import (  # type: ignore
+    Github,
+    UnknownObjectException,
+)
 
 
 if TYPE_CHECKING:
@@ -118,7 +121,7 @@ def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     commit_bench_path = get_commit_bench_path(commit_sha)
     try:
         return str(repo.get_contents(commit_bench_path, commit_sha).content)
-    except github.GithubException.UnknownObjectException:
+    except UnknownObjectException:
         return None
 
 
