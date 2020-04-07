@@ -27,10 +27,27 @@ GH_STATUS_DESC_DELIM = "\n" * 3
 
 def get_commit(github: "Github") -> "Commit":
     """
-    Get current commit the ci run is for
+    Get current commit the github ci run is for
     """
     github_sha = os.environ.get("GITHUB_SHA")
     return github.get_repo(GH_REPO).get_commit(github_sha) if github_sha else None
+
+
+def get_branch() -> Optional[str]:
+    """
+    Get current branch the github ci run is for
+    """
+    github_ref = os.environ.get("GITHUB_REF")
+    return github_ref.replace("refs/heads/", "") if github_ref else None
+
+
+def get_target_url() -> str:
+    """
+    Get url to current repo branch
+    """
+    repo_url = f"https://github.com/{GH_REPO}"
+    branch = get_branch()
+    return f"{repo_url}/tree/{branch}" if branch else repo_url
 
 
 def report_pending(github: Optional["Github"] = None) -> None:
@@ -42,7 +59,7 @@ def report_pending(github: Optional["Github"] = None) -> None:
     commit = get_commit(github)
     commit.create_status(
         state="pending",
-        target_url="#",
+        target_url=get_target_url(),
         description="Running benchmarks",
         context=GH_STATUS_CONTEXT,
     )
@@ -62,14 +79,6 @@ def measure_perf(run: Callable[..., Any] = default_runner) -> None:
     """
     run(f"python -m pyperf command -o {BENCH_PERF_FILE} -- {BENCH_COMMAND}")
     run(f"python -m pyperf check {BENCH_PERF_FILE}")
-
-
-def get_branch() -> Optional[str]:
-    """
-    Get the current branch the ci run was for
-    """
-    github_ref = os.environ.get("GITHUB_REF")
-    return github_ref.replace("refs/heads/", "") if github_ref else None
 
 
 def get_branch_status(github: "Github", branch: str) -> "CommitStatus":
@@ -141,7 +150,7 @@ def report_status(github: Optional["Github"] = None) -> None:
 
     commit.create_status(
         state="success" if success else "failure",
-        target_url="#",
+        target_url=get_target_url(),
         description=description,
         context=GH_STATUS_CONTEXT,
     )
