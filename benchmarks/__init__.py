@@ -58,11 +58,12 @@ def get_branch() -> Optional[str]:
 
 def get_target_url() -> str:
     """
-    Get url to current repo branch
+    Get url to benchmark result
     """
     repo_url = f"https://github.com/{GH_REPO}"
-    branch = get_branch()
-    return f"{repo_url}/tree/{branch}" if branch else repo_url
+    all_results_url = f"{repo_url}/tree/{GH_BENCH_BRANCH}/{GH_BENCH_FILE_PATH}"
+    commit_sha = get_req_env("GITHUB_SHA")
+    return all_results_url + (f"/{commit_sha}" if commit_sha else "")
 
 
 def report_pending(github: Optional["Github"] = None) -> None:
@@ -71,8 +72,7 @@ def report_pending(github: Optional["Github"] = None) -> None:
     """
     if not github:
         return
-    commit = get_commit(github)
-    commit.create_status(
+    get_commit(github).create_status(
         state="pending",
         target_url=get_target_url(),
         description="Running benchmarks",
@@ -88,7 +88,7 @@ def default_runner(cmd: str, **kwargs: Any) -> "CompletedProcess[bytes]":
 
 
 def get_commit_bench_path(commit_sha: str) -> str:
-    return f"{GH_BENCH_FILE_PATH}/{commit_sha}.json"
+    return f"{GH_BENCH_FILE_PATH}/{commit_sha}/result.json"
 
 
 def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> None:
@@ -102,7 +102,7 @@ def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> 
     if not github:
         return
     repo = github.get_repo(GH_REPO)
-    commit_sha = get_commit(github).sha
+    commit_sha = get_req_env("GITHUB_SHA")
     with open(BENCH_PERF_FILE, "r") as bench_file:
         repo.create_file(
             path=get_commit_bench_path(commit_sha),
@@ -169,16 +169,12 @@ def report_status(github: Optional["Github"] = None) -> None:
     if not github:
         return
 
-    commit = get_commit(github)
-    if not commit:
-        return
-
     if fetch_ref_bench_json(github):
         description, success = compare_bench_status()
     else:
         description, success = get_bench_status()
 
-    commit.create_status(
+    get_commit(github).create_status(
         state="success" if success else "failure",
         target_url=get_target_url(),
         description=description,
