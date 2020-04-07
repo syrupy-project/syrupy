@@ -1,7 +1,8 @@
-name: Syrupy Release
+name: Syrupy CICD
 on: [push]
 jobs:
-  build:
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

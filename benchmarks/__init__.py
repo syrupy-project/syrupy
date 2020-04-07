@@ -21,7 +21,7 @@ BENCH_PERF_FILE = ".perf.bench.json"
 BENCH_REF_FILE = ".ref.bench.json"
 GH_BRANCH_REF = "master"
 GH_REPO = "tophat/syrupy"
-GH_STATUS_CONTEXT = "ci/benchmark/syrupy"
+GH_STATUS_CONTEXT = "Syrupy CICD / Benchmark"
 GH_STATUS_DESC_DELIM = "\n" * 3
 
 
