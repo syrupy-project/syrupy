@@ -62,7 +62,7 @@ jobs:
           python -m pip install -e . -r dev_requirements.txt
       - name: Benchmark
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: invoke benchmark --report
       - name: Release Python ${{ matrix.python-version }}
         env:

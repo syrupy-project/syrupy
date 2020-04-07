@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 BENCH_COMMAND = "pytest -qq"
 BENCH_PERF_FILE = ".perf.bench.json"
 BENCH_REF_FILE = ".ref.bench.json"
+GH_BENCH_FILE_PATH = "runs"
+GH_BENCH_BRANCH = "benchmarks"
 GH_BRANCH_REF = "master"
 GH_REPO = "tophat/syrupy"
 GH_STATUS_CONTEXT = "Syrupy CICD / Benchmark"
@@ -82,6 +84,10 @@ def default_runner(cmd: str, **kwargs: Any) -> "CompletedProcess[bytes]":
     return subprocess.run(cmd, shell=True, check=True, **kwargs)
 
 
+def get_commit_bench_path(commit_sha: str) -> str:
+    return f"{GH_BENCH_FILE_PATH}/{commit_sha}.json"
+
+
 def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> None:
     """
     Measure benchmark command performance and save results in file
@@ -92,17 +98,24 @@ def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> 
     run(f"python -m pyperf check {BENCH_PERF_FILE}")
     if not github:
         return
+    repo = github.get_repo(GH_REPO)
+    commit_sha = get_commit(github).sha
+    with open(BENCH_PERF_FILE, "r") as bench_file:
+        repo.create_file(
+            path=get_commit_bench_path(commit_sha),
+            message=f"build: benchmark run {commit_sha[:7]}",
+            content=bench_file.read(),
+        )
 
 
 def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     """
     Retrieve the benchmark results for the head commit of the given branch
     """
-    head = github.get_repo(GH_REPO).get_branch(branch)
-    for status in head.commit.get_statuses():
-        if status.context == GH_STATUS_CONTEXT:
-            return str(status)  # Placeholder until proper retrieval is implemented
-    return None
+    repo = github.get_repo(GH_REPO)
+    commit_sha = repo.get_branch(branch).commit.sha
+    commit_bench_path = get_commit_bench_path(commit_sha)
+    return str(repo.get_contents(commit_bench_path, commit_sha).content)
 
 
 def fetch_ref_bench_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> bool:
