@@ -105,6 +105,7 @@ def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> 
             path=get_commit_bench_path(commit_sha),
             message=f"build: benchmark run {commit_sha[:7]}",
             content=bench_file.read(),
+            branch=GH_BENCH_BRANCH,
         )
 
 
@@ -115,7 +116,10 @@ def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     repo = github.get_repo(GH_REPO)
     commit_sha = repo.get_branch(branch).commit.sha
     commit_bench_path = get_commit_bench_path(commit_sha)
-    return str(repo.get_contents(commit_bench_path, commit_sha).content)
+    try:
+        return str(repo.get_contents(commit_bench_path, commit_sha).content)
+    except github.GithubException.UnknownObjectException:
+        return None
 
 
 def fetch_ref_bench_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> bool:
@@ -180,7 +184,7 @@ def report_status(github: Optional["Github"] = None) -> None:
 
 
 def main(report: bool = False) -> None:
-    github = Github(get_req_env("GITHUB_TOKEN")) if report else None
+    github = Github(get_req_env("GH_TOKEN")) if report else None
     report_pending(github)
     measure_perf(github)
     report_status(github)
