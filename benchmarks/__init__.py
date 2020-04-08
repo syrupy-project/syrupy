@@ -20,8 +20,8 @@ if TYPE_CHECKING:
     from github.Commit import Commit  # type: ignore
 
 BENCH_COMMAND = "pytest -qq"
-BENCH_PERF_FILE = ".perf.bench.json"
-BENCH_REF_FILE = ".ref.bench.json"
+BENCH_PERF_FILE = "current.json"
+BENCH_REF_FILE = "master.json"
 GH_BENCH_FILE_PATH = "runs"
 GH_BENCH_BRANCH = "benchmarks"
 GH_BRANCH_REF = "master"
@@ -184,8 +184,24 @@ def report_status(github: Optional["Github"] = None) -> None:
     )
 
 
+def report_error(github: Optional["Github"] = None) -> None:
+    """
+    Report benchmark error to github as the commit status
+    """
+    if not github:
+        return
+    get_commit(github).create_status(
+        state="error",
+        description="Unable to report benchmark",
+        context=GH_STATUS_CONTEXT,
+    )
+
+
 def main(report: bool = False) -> None:
     github = Github(get_req_env("GH_TOKEN")) if report else None
-    report_pending(github)
-    measure_perf(github)
-    report_status(github)
+    try:
+        report_pending(github)
+        measure_perf(github)
+        report_status(github)
+    except Exception:
+        report_error(github)
