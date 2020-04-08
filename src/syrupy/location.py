@@ -38,8 +38,11 @@ class TestLocation:
             valid_id = new_valid_id
         return valid_id
 
+    def __parse(self, name: str) -> str:
+        return ".".join(self.__valid_id(n) for n in name.split("."))
+
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
-        return self.__valid_id(self.snapshot_name) == self.__valid_id(snapshot_name)
+        return self.__parse(self.snapshot_name) == self.__parse(snapshot_name)
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         return self.filename in snapshot_location

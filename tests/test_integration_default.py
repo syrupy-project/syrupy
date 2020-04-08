@@ -100,6 +100,55 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(
     assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
 
 
+def test_only_updates_targeted_snapshot_in_class_for_single_file(testdir):
+    test_content = """
+        import pytest
+
+        class TestClass:
+            def test_case_1(self, snapshot):
+                assert snapshot == 1
+
+            def test_case_2(self, snapshot):
+                assert snapshot == 2
+        """
+
+    testdir.makepyfile(test_content=test_content)
+    result = testdir.runpytest("-v", "--snapshot-update")
+
+    snapshot_path = Path(testdir.tmpdir, "__snapshots__")
+    assert snapshot_path.joinpath("test_content.ambr").exists()
+
+    test_filepath = Path(testdir.tmpdir, "test_content.py")
+    result = testdir.runpytest(str(test_filepath), "-v", "-k test_case_2")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "snapshot unused" not in result_stdout
+
+
+def test_only_updates_targeted_snapshot_for_single_file(testdir):
+    test_content = """
+        import pytest
+
+        def test_case_1(snapshot):
+            assert snapshot == 1
+
+        def test_case_2(snapshot):
+            assert snapshot == 2
+        """
+
+    testdir.makepyfile(test_content=test_content)
+    result = testdir.runpytest("-v", "--snapshot-update")
+
+    snapshot_path = Path(testdir.tmpdir, "__snapshots__")
+    assert snapshot_path.joinpath("test_content.ambr").exists()
+
+    test_filepath = Path(testdir.tmpdir, "test_content.py")
+    result = testdir.runpytest(str(test_filepath), "-v", "-k test_case_2")
+    result_stdout = clean_output(result.stdout.str())
+    assert "1 snapshot passed" in result_stdout
+    assert "snapshot unused" not in result_stdout
+
+
 @pytest.fixture
 def testcases():
     return {
