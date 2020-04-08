@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from subprocess import CompletedProcess
     from github.Commit import Commit  # type: ignore
 
-BENCH_COMMAND = "pytest -qq"
+BENCH_COMMAND = "pytest benchmarks/test.py -qq --snapshot-update"
 BENCH_PERF_FILE = "current.json"
 BENCH_REF_FILE = "master.json"
 GH_BENCH_FILE_PATH = "runs"
