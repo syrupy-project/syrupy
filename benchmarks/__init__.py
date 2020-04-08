@@ -10,6 +10,7 @@ from typing import (
 
 from github import (  # type: ignore
     Github,
+    GithubException,
     UnknownObjectException,
 )
 
@@ -101,12 +102,15 @@ def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> 
     repo = github.get_repo(GH_REPO)
     commit_sha = get_req_env("GITHUB_SHA")
     with open(BENCH_PERF_FILE, "r") as bench_file:
-        repo.create_file(
-            path=get_commit_bench_path(commit_sha),
-            message=f"build: benchmark run {commit_sha[:7]}",
-            content=bench_file.read(),
-            branch=GH_BENCH_BRANCH,
-        )
+        try:
+            repo.create_file(
+                path=get_commit_bench_path(commit_sha),
+                message=f"build: benchmark run {commit_sha[:7]}",
+                content=bench_file.read(),
+                branch=GH_BENCH_BRANCH,
+            )
+        except GithubException:
+            print("Unable to save benchmark results to repo")
 
 
 def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
@@ -117,8 +121,9 @@ def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     commit_sha = repo.get_branch(branch).commit.sha
     commit_bench_path = get_commit_bench_path(commit_sha)
     try:
-        return str(repo.get_contents(commit_bench_path, commit_sha).content)
+        return str(repo.get_contents(commit_bench_path, GH_BENCH_BRANCH).content)
     except UnknownObjectException:
+        print("Unable to retrieve benchmark results from repo")
         return None
 
 
