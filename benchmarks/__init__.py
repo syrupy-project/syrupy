@@ -121,7 +121,8 @@ def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     commit_sha = repo.get_branch(branch).commit.sha
     commit_bench_path = get_commit_bench_path(commit_sha)
     try:
-        return str(repo.get_contents(commit_bench_path, GH_BENCH_BRANCH).content)
+        content_file = repo.get_contents(commit_bench_path, GH_BENCH_BRANCH)
+        return str(content_file.decoded_content.decode())
     except UnknownObjectException:
         print("Unable to retrieve benchmark results from repo")
         return None
