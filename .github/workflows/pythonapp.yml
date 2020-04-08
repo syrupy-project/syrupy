@@ -37,7 +37,7 @@ jobs:
       - name: Install test dependencies.
         run: |
           python -m pip install -U pip --no-cache-dir
-          python -m pip install -e . -r test_requirements.txt
+          python -m pip install -e . -r dev_requirements.txt
       - name: Test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -65,3 +65,7 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: invoke release --no-dry-run
+      - name: Benchmark
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: invoke benchmark --report

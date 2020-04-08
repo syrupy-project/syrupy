@@ -2,7 +2,8 @@ name: Auto approve
 on: pull_request
 
 jobs:
-  build:
+  dependabot:
+    name: Dependabot
     runs-on: ubuntu-latest
     steps:
     - uses: hmarr/auto-approve-action@v2.0.0

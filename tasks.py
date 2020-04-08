@@ -5,6 +5,8 @@ from invoke import (
     task,
 )
 
+import benchmarks
+
 
 @task
 def clean(ctx):
@@ -19,16 +21,14 @@ def requirements(ctx, upgrade=False):
     """
     Build test & dev requirements lock file
     """
-    file_suffix = "requirements.txt"
     args = ["--no-emit-find-links", "--no-index", "--allow-unsafe", "--rebuild"]
     if upgrade:
         args.append("--upgrade")
-    for env in ["test", "dev"]:
-        ctx.run(
-            f"echo '-e .[{env}]' | python -m piptools compile "
-            f"{' '.join(args)} - -qo- | sed '/^-e / d' > {env}_{file_suffix}",
-            pty=True,
-        )
+    ctx.run(
+        f"echo '-e .[dev]' | python -m piptools compile "
+        f"{' '.join(args)} - -qo- | sed '/^-e / d' > dev_requirements.txt",
+        pty=True,
+    )
 
 
 @task
@@ -39,8 +39,8 @@ def lint(ctx, fix=False):
     lint_commands = {
         "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
         "black": f"python -m black {'' if fix else '--check'} .",
-        "flake8": "python -m flake8 src tests *.py",
-        "mypy": "python -m mypy --strict src",
+        "flake8": "python -m flake8 src tests benchmarks *.py",
+        "mypy": "python -m mypy --strict src benchmarks",
     }
     last_error = None
     for section, command in lint_commands.items():
@@ -96,6 +96,11 @@ def test(
             ctx.run("coverage report", pty=True)
         else:
             ctx.run("codecov", pty=True)
+
+
+@task(help={"report": "Publish report as github status"})
+def benchmark(ctx, report=False):
+    benchmarks.main(report=report)
 
 
 @task(pre=[clean])
