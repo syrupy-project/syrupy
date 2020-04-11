@@ -13,7 +13,7 @@ def clean(ctx):
     """
     Remove build files e.g. package, distributable, compiled etc.
     """
-    ctx.run(f"rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
+    ctx.run("rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
 
 
 @task
