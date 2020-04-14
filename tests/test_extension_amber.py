@@ -23,6 +23,11 @@ def test_newline_control_characters(snapshot):
     assert snapshot == "line 1\r\nline 2\r\n"
 
 
+def test_list_in_dict(snapshot):
+    lines = "\n".join(["line 1", "line 2"])
+    assert {"value": lines} == snapshot
+
+
 @pytest.mark.parametrize("actual", [False, True])
 def test_bool(actual, snapshot):
     assert actual == snapshot
