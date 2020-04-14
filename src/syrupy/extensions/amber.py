@@ -104,7 +104,8 @@ class DataSerializer:
             return (
                 cls.with_indent("'\n", depth)
                 + str(data)
-                + cls.with_indent("\n'", depth)
+                + "\n"
+                + cls.with_indent("'", depth)
             )
         return cls.with_indent(repr(data), depth)
 
