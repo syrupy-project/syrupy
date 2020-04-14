@@ -139,6 +139,14 @@
     },
   ]
 ---
+# name: test_list_in_dict
+  <class 'dict'> {
+    'value': '
+  line 1
+  line 2
+    ',
+  }
+---
 # name: test_multiple_snapshots
   'First.'
 ---
