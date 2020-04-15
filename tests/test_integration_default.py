@@ -113,7 +113,7 @@ def test_only_updates_targeted_snapshot_in_class_for_single_file(testdir):
         """
 
     testdir.makepyfile(test_content=test_content)
-    result = testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest("-v", "--snapshot-update")
 
     snapshot_path = Path(testdir.tmpdir, "__snapshots__")
     assert snapshot_path.joinpath("test_content.ambr").exists()
@@ -137,7 +137,7 @@ def test_only_updates_targeted_snapshot_for_single_file(testdir):
         """
 
     testdir.makepyfile(test_content=test_content)
-    result = testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest("-v", "--snapshot-update")
 
     snapshot_path = Path(testdir.tmpdir, "__snapshots__")
     assert snapshot_path.joinpath("test_content.ambr").exists()
@@ -147,6 +147,22 @@ def test_only_updates_targeted_snapshot_for_single_file(testdir):
     result_stdout = clean_output(result.stdout.str())
     assert "1 snapshot passed" in result_stdout
     assert "snapshot unused" not in result_stdout
+
+
+def test_multiple_snapshots(testdir):
+    test_content = """
+        import pytest
+
+        def test_case_1(snapshot):
+            assert snapshot == 1
+            assert snapshot == 2
+        """
+
+    testdir.makepyfile(test_content=test_content)
+    result = testdir.runpytest("-v", "--snapshot-update")
+
+    result_stdout = clean_output(result.stdout.str())
+    assert "Can not relate snapshot name" not in result_stdout
 
 
 @pytest.fixture
