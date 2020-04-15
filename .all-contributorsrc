@@ -59,6 +59,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "taion",
+      "name": "Jimmy Jia",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/3112159?v=4",
+      "profile": "http://fashionablenonsense.com/",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
