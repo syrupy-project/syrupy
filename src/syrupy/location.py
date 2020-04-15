@@ -30,16 +30,17 @@ class TestLocation:
         return str(self.testname)
 
     def __valid_id(self, name: str) -> str:
-        [valid_id, *rest] = name
-        while rest:
-            new_valid_id = f"{valid_id}{rest.pop(0)}"
+        valid_id = ""
+        for char in name:
+            new_valid_id = f"{valid_id}{char}"
             if not new_valid_id.isidentifier():
                 break
             valid_id = new_valid_id
         return valid_id
 
     def __parse(self, name: str) -> str:
-        return ".".join(self.__valid_id(n) for n in name.split("."))
+        valid_ids = (self.__valid_id(n) for n in name.split("."))
+        return ".".join(valid_id for valid_id in valid_ids if valid_id)
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
         return self.__parse(self.snapshot_name) == self.__parse(snapshot_name)
