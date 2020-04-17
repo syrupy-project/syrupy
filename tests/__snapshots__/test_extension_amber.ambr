@@ -97,6 +97,17 @@
     'd': ...,
   }
 ---
+# name: test_deeply_nested_multiline_string_in_dict
+  <class 'dict'> {
+    'value_a': <class 'dict'> {
+      'value_b': '
+        line 1
+        line 2
+        line 3
+      ',
+    },
+  }
+---
 # name: test_dict[actual0]
   <class 'dict'> {
     'a': <class 'dict'> {
@@ -160,11 +171,11 @@
     },
   ]
 ---
-# name: test_list_in_dict
+# name: test_multiline_string_in_dict
   <class 'dict'> {
     'value': '
-  line 1
-  line 2
+      line 1
+      line 2
     ',
   }
 ---

@@ -23,9 +23,15 @@ def test_newline_control_characters(snapshot):
     assert snapshot == "line 1\r\nline 2\r\n"
 
 
-def test_list_in_dict(snapshot):
+def test_multiline_string_in_dict(snapshot):
     lines = "\n".join(["line 1", "line 2"])
     assert {"value": lines} == snapshot
+
+
+def test_deeply_nested_multiline_string_in_dict(snapshot):
+    lines = "\n".join(["line 1", "line 2", "line 3"])
+    d = {"value_a": {"value_b": lines}}
+    assert d == snapshot
 
 
 @pytest.mark.parametrize("actual", [False, True])
