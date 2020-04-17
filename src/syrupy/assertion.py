@@ -72,7 +72,7 @@ class SnapshotAssertion:
         return self._execution_results
 
     def use_extension(
-        self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
+        self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None
     ) -> "SnapshotAssertion":
         """
         Creates a new snapshot assertion fixture with the same options but using
@@ -92,12 +92,11 @@ class SnapshotAssertion:
         assertion_result = self._execution_results[self.num_executions - 1]
         snapshot_data = assertion_result.recalled_data
         serialized_data = self.extension.serialize(data)
-        if snapshot_data is None:
-            return [gettext("Snapshot does not exist!")]
-
         diff: List[str] = []
+        if snapshot_data is None:
+            diff.append(gettext("Snapshot does not exist!"))
         if not assertion_result.success:
-            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data))
+            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data or ""))
         return diff
 
     def __call__(
