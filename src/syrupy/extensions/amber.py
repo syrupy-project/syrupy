@@ -103,7 +103,10 @@ class DataSerializer:
         if "\n" in data:
             return (
                 cls.with_indent("'\n", depth)
-                + str(data)
+                + "".join(
+                    cls.with_indent(line, depth + 1 if depth else depth)
+                    for line in str(data).splitlines(keepends=True)
+                )
                 + "\n"
                 + cls.with_indent("'", depth)
             )
