@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [0.4.0](https://github.com/tophat/syrupy/compare/v0.3.12...v0.4.0) (2020-04-19)
+
+
+### Bug Fixes
+
+* remove added trailing whitespace from multiline string ([24f3d57](https://github.com/tophat/syrupy/commit/24f3d577726bc9c9b09433780f1647adc8fd35a4))
+
+
+### Features
+
+* **amber:** indent multiline strings, close [#193](https://github.com/tophat/syrupy/issues/193) ([#194](https://github.com/tophat/syrupy/issues/194)) ([de5af3e](https://github.com/tophat/syrupy/commit/de5af3e233712e1db3132b0cdbcc6325dcb9a625))
+
 ## [0.3.12](https://github.com/tophat/syrupy/compare/v0.3.11...v0.3.12) (2020-04-19)
 
 
