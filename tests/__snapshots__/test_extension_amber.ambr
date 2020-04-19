@@ -19,6 +19,27 @@
 # name: TestClass.test_class_method_parametrized[c]
   'c'
 ---
+# name: TestSubClass.TestNestedClass.test_nested_class_method[x]
+  'parameterized nested class method x'
+---
+# name: TestSubClass.TestNestedClass.test_nested_class_method[y]
+  'parameterized nested class method y'
+---
+# name: TestSubClass.TestNestedClass.test_nested_class_method[z]
+  'parameterized nested class method z'
+---
+# name: TestSubClass.test_class_method_name
+  'this is in a test class'
+---
+# name: TestSubClass.test_class_method_parametrized[a]
+  'a'
+---
+# name: TestSubClass.test_class_method_parametrized[b]
+  'b'
+---
+# name: TestSubClass.test_class_method_parametrized[c]
+  'c'
+---
 # name: test_bool[False]
   False
 ---
