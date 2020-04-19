@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [0.3.12](https://github.com/tophat/syrupy/compare/v0.3.11...v0.3.12) (2020-04-19)
+
+
+### Bug Fixes
+
+* use the test node location when determining snapshot class name ([#197](https://github.com/tophat/syrupy/issues/197)) ([1010c94](https://github.com/tophat/syrupy/commit/1010c94378dbf325fe3fda6a2f563ae152c640ca))
+
 ## [0.3.11](https://github.com/tophat/syrupy/compare/v0.3.10...v0.3.11) (2020-04-17)
 
 
