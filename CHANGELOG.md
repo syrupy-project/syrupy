@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [0.4.1](https://github.com/tophat/syrupy/compare/v0.4.0...v0.4.1) (2020-04-19)
+
+
+### Bug Fixes
+
+* specify encoding when reading and writing amber fossils ([#198](https://github.com/tophat/syrupy/issues/198)) ([a6a53c4](https://github.com/tophat/syrupy/commit/a6a53c4065880433953b1372e6057e2c8ec03768))
+
 # [0.4.0](https://github.com/tophat/syrupy/compare/v0.3.12...v0.4.0) (2020-04-19)
 
 
