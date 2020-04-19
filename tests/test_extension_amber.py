@@ -154,3 +154,7 @@ class TestClass:
     class TestNestedClass:
         def test_nested_class_method(self, snapshot, actual):
             assert snapshot == f"parameterized nested class method {actual}"
+
+
+class TestSubClass(TestClass):
+    pass
