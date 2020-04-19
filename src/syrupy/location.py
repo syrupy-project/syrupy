@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import (
     Any,
+    Iterator,
     Optional,
 )
 
@@ -16,8 +17,8 @@ class TestLocation:
 
     @property
     def classname(self) -> Optional[str]:
-        classes = self._node.obj.__qualname__.split(".")[:-1]
-        return ".".join(classes) if classes else None
+        _, __, qualname = self._node.location
+        return ".".join(list(self.__valid_ids(qualname))[:-1]) or None
 
     @property
     def filename(self) -> str:
@@ -38,9 +39,11 @@ class TestLocation:
             valid_id = new_valid_id
         return valid_id
 
+    def __valid_ids(self, name: str) -> Iterator[str]:
+        return filter(None, (self.__valid_id(n) for n in name.split(".")))
+
     def __parse(self, name: str) -> str:
-        valid_ids = (self.__valid_id(n) for n in name.split("."))
-        return ".".join(valid_id for valid_id in valid_ids if valid_id)
+        return ".".join(self.__valid_ids(name))
 
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
         return self.__parse(self.snapshot_name) == self.__parse(snapshot_name)
