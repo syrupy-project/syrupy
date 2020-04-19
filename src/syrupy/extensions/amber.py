@@ -37,7 +37,7 @@ class DataSerializer:
         Writes the snapshot data into the snapshot file that be read later.
         """
         filepath = snapshot_fossil.location
-        with open(filepath, "w", newline="") as f:
+        with open(filepath, "w", encoding="utf-8", newline="") as f:
             for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
@@ -57,7 +57,7 @@ class DataSerializer:
         indent_len = len(cls._indent)
         snapshot_fossil = SnapshotFossil(location=filepath)
         try:
-            with open(filepath, "r", newline="") as f:
+            with open(filepath, "r", encoding="utf-8", newline="") as f:
                 test_name = None
                 snapshot_data = ""
                 for line in f:
