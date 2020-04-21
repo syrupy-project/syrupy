@@ -155,6 +155,12 @@
     ],
   }
 ---
+# name: test_doubly_parametrized[bar-foo]
+  'foo'
+---
+# name: test_doubly_parametrized[bar-foo].1
+  'bar'
+---
 # name: test_empty_snapshot
   None
 ---
@@ -215,6 +221,9 @@
 ---
 # name: test_numbers.2
   0.3333333333333333
+---
+# name: test_parameter_with_dot[value.with.dot]
+  'value.with.dot'
 ---
 # name: test_reflection
   SnapshotAssertion(name='snapshot', num_executions=0)
