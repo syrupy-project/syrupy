@@ -5,8 +5,6 @@ from typing import (
     Optional,
 )
 
-from pytest import Class
-
 
 class TestLocation:
     def __init__(self, node: Any):
@@ -19,12 +17,8 @@ class TestLocation:
 
     @property
     def classname(self) -> Optional[str]:
-        return (
-            ".".join(
-                node.name for node in self._node.listchain() if isinstance(node, Class)
-            )
-            or None
-        )
+        _, __, qualname = self._node.location
+        return ".".join(list(self.__valid_ids(qualname))[:-1]) or None
 
     @property
     def filename(self) -> str:
@@ -46,7 +40,12 @@ class TestLocation:
         return valid_id
 
     def __valid_ids(self, name: str) -> Iterator[str]:
-        return filter(None, (self.__valid_id(n) for n in name.split(".")))
+        for n in name.split("."):
+            valid_id = self.__valid_id(n)
+            if valid_id:
+                yield valid_id
+            if valid_id != n:
+                break
 
     def __parse(self, name: str) -> str:
         return ".".join(self.__valid_ids(name))
