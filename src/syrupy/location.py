@@ -40,7 +40,12 @@ class TestLocation:
         return valid_id
 
     def __valid_ids(self, name: str) -> Iterator[str]:
-        return filter(None, (self.__valid_id(n) for n in name.split(".")))
+        for n in name.split("."):
+            valid_id = self.__valid_id(n)
+            if valid_id:
+                yield valid_id
+            if valid_id != n:
+                break
 
     def __parse(self, name: str) -> str:
         return ".".join(self.__valid_ids(name))
