@@ -169,3 +169,15 @@ class TestClass:
 
 class TestSubClass(TestClass):
     pass
+
+
+@pytest.mark.parametrize("parameter_with_dot", ("value.with.dot",))
+def test_parameter_with_dot(parameter_with_dot, snapshot):
+    assert parameter_with_dot == snapshot
+
+
+@pytest.mark.parametrize("parameter_1", ("foo",))
+@pytest.mark.parametrize("parameter_2", ("bar",))
+def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
+    assert parameter_1 == snapshot
+    assert parameter_2 == snapshot

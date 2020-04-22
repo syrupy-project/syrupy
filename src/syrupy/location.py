@@ -5,6 +5,8 @@ from typing import (
     Optional,
 )
 
+from pytest import Class
+
 
 class TestLocation:
     def __init__(self, node: Any):
@@ -17,8 +19,12 @@ class TestLocation:
 
     @property
     def classname(self) -> Optional[str]:
-        _, __, qualname = self._node.location
-        return ".".join(list(self.__valid_ids(qualname))[:-1]) or None
+        return (
+            ".".join(
+                node.name for node in self._node.listchain() if isinstance(node, Class)
+            )
+            or None
+        )
 
     @property
     def filename(self) -> str:
