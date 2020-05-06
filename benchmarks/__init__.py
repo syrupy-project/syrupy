@@ -8,7 +8,7 @@ from typing import (
     Tuple,
 )
 
-from github import (  # type: ignore
+from github import (
     Github,
     GithubException,
     UnknownObjectException,
@@ -17,7 +17,7 @@ from github import (  # type: ignore
 
 if TYPE_CHECKING:
     from subprocess import CompletedProcess
-    from github.Commit import Commit  # type: ignore
+    from github.Commit import Commit
 
 BENCH_COMMAND = "pytest benchmarks/test.py -qq --snapshot-update"
 BENCH_PERF_FILE = "current.json"
@@ -89,7 +89,9 @@ def get_commit_bench_path(commit_sha: str) -> str:
     return f"{GH_BENCH_FILE_PATH}/{commit_sha}/result.json"
 
 
-def measure_perf(github: "Github", run: Callable[..., Any] = default_runner) -> None:
+def measure_perf(
+    github: Optional["Github"], run: Callable[..., Any] = default_runner
+) -> None:
     """
     Measure benchmark command performance and save results in file
     Checks that the benchmark run was stable
@@ -122,6 +124,8 @@ def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     commit_bench_path = get_commit_bench_path(commit_sha)
     try:
         content_file = repo.get_contents(commit_bench_path, GH_BENCH_BRANCH)
+        if isinstance(content_file, list):
+            raise UnknownObjectException
         return str(content_file.decoded_content.decode())
     except UnknownObjectException:
         print("Unable to retrieve benchmark results from repo")
