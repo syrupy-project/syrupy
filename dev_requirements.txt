@@ -15,7 +15,7 @@ codecov==2.0.22           # via syrupy
 colored==1.4.2            # via syrupy
 configparser==5.0.0       # via py-githooks
 coverage[toml]==5.1     # via codecov, syrupy
-deprecated==1.2.9         # via pygithub
+deprecated==1.2.10         # via pygithub
 docutils==0.16            # via readme-renderer
 entrypoints==0.3          # via flake8
 flake8-bugbear==20.1.4    # via syrupy
