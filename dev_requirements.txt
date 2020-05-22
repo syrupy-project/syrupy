@@ -11,7 +11,7 @@ bleach==3.1.5             # via readme-renderer
 certifi==2020.4.5.1       # via requests
 chardet==3.0.4            # via requests
 click==7.1.2              # via black, pip-tools
-codecov==2.1.0           # via syrupy
+codecov==2.1.3           # via syrupy
 colored==1.4.2            # via syrupy
 configparser==5.0.0       # via py-githooks
 coverage[toml]==5.1     # via codecov, syrupy
