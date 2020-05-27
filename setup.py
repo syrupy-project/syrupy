@@ -7,7 +7,7 @@ from setuptools import (
 )
 
 
-python_requires = "~=3.6"
+python_requires = ">=3.6"
 setup_requires = ["setuptools_scm"]
 install_requires = [
     "attrs>=18.2.0,<20.0.0",
@@ -39,8 +39,8 @@ dev_requires = [
     *test_requires,
 ]
 
-if sys.version_info[0] == 2:
-    raise Exception("Only python 3 supported.")
+if sys.version_info < (3, 6):
+    raise RuntimeError("Only Python 3.6+ supported.")
 
 
 def readme() -> str:
