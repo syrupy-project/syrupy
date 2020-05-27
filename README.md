@@ -134,6 +134,9 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
     <td align="center"><a href="http://fashionablenonsense.com/"><img src="https://avatars0.githubusercontent.com/u/3112159?v=4" width="100px;" alt=""/><br /><sub><b>Jimmy Jia</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=taion" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=taion" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://stevenloria.com"><img src="https://avatars2.githubusercontent.com/u/2379650?v=4" width="100px;" alt=""/><br /><sub><b>Steven Loria</b></sub></a><br /><a href="#infra-sloria" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/arturbalabanov"><img src="https://avatars1.githubusercontent.com/u/3062003?v=4" width="100px;" alt=""/><br /><sub><b>Artur Balabanov</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=arturbalabanov" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
