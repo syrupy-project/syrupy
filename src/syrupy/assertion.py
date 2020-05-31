@@ -106,8 +106,8 @@ class SnapshotAssertion:
     def __call__(
         self,
         *,
-        extension_class: Optional[Type["AbstractSyrupyExtension"]],
-        matcher: Optional["PropertyMatcher"],
+        extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
+        matcher: Optional["PropertyMatcher"] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
