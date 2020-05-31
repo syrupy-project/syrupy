@@ -191,10 +191,8 @@ def test_non_deterministic_snapshots(snapshot):
             return "UUID(...)"
         if isinstance(value, datetime):
             return "datetime.datetime(...)"
-        if len(path) > 1:
-            *_, propA, propB = path
-            if propA == "c" and propB == 0:
-                return "Your wish is my command"
+        if path[-2:] == ("c", 0):
+            return "Your wish is my command"
         return value
 
     assert {
