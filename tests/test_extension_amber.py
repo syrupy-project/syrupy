@@ -1,4 +1,6 @@
+import uuid
 from collections import namedtuple
+from datetime import datetime
 
 import pytest
 
@@ -181,3 +183,38 @@ def test_parameter_with_dot(parameter_with_dot, snapshot):
 def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
     assert parameter_1 == snapshot
     assert parameter_2 == snapshot
+
+
+class NonDeterministic:
+    a = uuid.uuid4()
+
+    @property
+    def b(self):
+        return {
+            "b_1": "This is deterministic",
+            "b_2": datetime.now(),
+        }
+
+    @property
+    def c(self):
+        return [
+            "Replace this one",
+            "Do not replace this one",
+        ]
+
+
+def test_non_deterministic_snapshots(snapshot):
+    non_deterministic = NonDeterministic()
+
+    def matcher(value, path):
+        if isinstance(value, uuid.UUID):
+            return "<UUID4>"
+        if isinstance(value, datetime):
+            return "<DATETIME>"
+        if len(path) > 1:
+            *_, propA, propB = path
+            if propA == "c" and propB == 0:
+                return "Your wish is my command"
+        return value
+
+    assert non_deterministic == snapshot(matcher=matcher)
