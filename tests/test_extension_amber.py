@@ -197,10 +197,7 @@ def test_non_deterministic_snapshots(snapshot):
 
     assert {
         "a": uuid.uuid4(),
-        "b": {
-            "b_1": "This is deterministic",
-            "b_2": datetime.now(),
-        },
+        "b": {"b_1": "This is deterministic", "b_2": datetime.now()},
         "c": ["Replace this one", "Do not replace this one"],
     } == snapshot(matcher=matcher)
     assert {
