@@ -185,36 +185,31 @@ def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
     assert parameter_2 == snapshot
 
 
-class NonDeterministic:
-    a = uuid.uuid4()
-
-    @property
-    def b(self):
-        return {
-            "b_1": "This is deterministic",
-            "b_2": datetime.now(),
-        }
-
-    @property
-    def c(self):
-        return [
-            "Replace this one",
-            "Do not replace this one",
-        ]
-
-
 def test_non_deterministic_snapshots(snapshot):
-    non_deterministic = NonDeterministic()
-
     def matcher(value, path):
         if isinstance(value, uuid.UUID):
-            return "<UUID4>"
+            return "UUID(...)"
         if isinstance(value, datetime):
-            return "<DATETIME>"
+            return "datetime.datetime(...)"
         if len(path) > 1:
             *_, propA, propB = path
             if propA == "c" and propB == 0:
                 return "Your wish is my command"
         return value
 
-    assert non_deterministic == snapshot(matcher=matcher)
+    assert {
+        "a": uuid.uuid4(),
+        "b": {
+            "b_1": "This is deterministic",
+            "b_2": datetime.now(),
+        },
+        "c": ["Replace this one", "Do not replace this one"],
+    } == snapshot(matcher=matcher)
+    assert {
+        "a": uuid.UUID("06335e84-2872-4914-8c5d-3ed07d2a2f16"),
+        "b": {
+            "b_1": "This is deterministic",
+            "b_2": datetime(year=2020, month=5, day=31),
+        },
+        "c": ["Replace this one", "Do not replace this one"],
+    } == snapshot

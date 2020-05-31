@@ -214,14 +214,27 @@
   '
 ---
 # name: test_non_deterministic_snapshots
-  <class 'NonDeterministic'> {
-    a='<UUID4>',
-    b=<class 'dict'> {
+  <class 'dict'> {
+    'a': 'UUID(...)',
+    'b': <class 'dict'> {
       'b_1': 'This is deterministic',
-      'b_2': '<DATETIME>',
+      'b_2': 'datetime.datetime(...)',
     },
-    c=<class 'list'> [
+    'c': <class 'list'> [
       'Your wish is my command',
+      'Do not replace this one',
+    ],
+  }
+---
+# name: test_non_deterministic_snapshots.1
+  <class 'dict'> {
+    'a': UUID('06335e84-2872-4914-8c5d-3ed07d2a2f16'),
+    'b': <class 'dict'> {
+      'b_1': 'This is deterministic',
+      'b_2': datetime.datetime(2020, 5, 31, 0, 0),
+    },
+    'c': <class 'list'> [
+      'Replace this one',
       'Do not replace this one',
     ],
   }
