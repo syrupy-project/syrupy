@@ -18,7 +18,7 @@ from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
-    from syrupy.types import PropertyMatcher, SerializableData
+    from syrupy.types import PropertyMatcher, PropertyPath, SerializableData
 
 
 class DataSerializer:
@@ -99,6 +99,7 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         if "\n" in data:
@@ -120,6 +121,7 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         return cls.with_indent(repr(data), depth)
@@ -131,12 +133,20 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
-                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n"
+                cls.serialize(
+                    d,
+                    depth=depth + 1,
+                    matcher=matcher,
+                    path=(*path, d),
+                    visited=visited,
+                )
+                + ",\n"
                 for d in cls.sort(data)
             )
             + cls.with_indent("}", depth)
@@ -149,9 +159,10 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
-        kwargs = {"depth": depth + 1, "visited": visited}
+        kwargs = {"depth": depth + 1, "matcher": matcher, "visited": visited}
         return (
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
@@ -159,7 +170,9 @@ class DataSerializer:
                 for serialized_key, serialized_value in (
                     (
                         cls.serialize(**{"data": key, **kwargs}),
-                        cls.serialize(**{"data": data[key], **kwargs}),
+                        cls.serialize(
+                            **{"data": data[key], "path": (*path, key), **kwargs}
+                        ),
                     )
                     for key in cls.sort(data.keys())
                 )
@@ -180,6 +193,7 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         return (
@@ -190,7 +204,11 @@ class DataSerializer:
                     (
                         cls.with_indent(name, depth=depth + 1),
                         cls.serialize(
-                            data=getattr(data, name), depth=depth + 1, visited=visited
+                            data=getattr(data, name),
+                            depth=depth + 1,
+                            matcher=matcher,
+                            path=(*path, name),
+                            visited=visited,
                         ),
                     )
                     for name in cls.sort(data._fields)
@@ -206,6 +224,7 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         open_paren, close_paren = next(
@@ -216,7 +235,15 @@ class DataSerializer:
         return (
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
             + "".join(
-                f"{cls.serialize(d, depth=depth + 1, visited=visited)},\n" for d in data
+                cls.serialize(
+                    d,
+                    depth=depth + 1,
+                    matcher=matcher,
+                    path=(*path, i),
+                    visited=visited,
+                )
+                + ",\n"
+                for i, d in enumerate(data)
             )
             + cls.with_indent(close_paren, depth)
         )
@@ -228,6 +255,7 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         if data.__class__.__repr__ != object.__repr__:
@@ -241,7 +269,11 @@ class DataSerializer:
                     (
                         cls.with_indent(name, depth=depth + 1),
                         cls.serialize(
-                            data=getattr(data, name), depth=depth + 1, visited=visited
+                            data=getattr(data, name),
+                            depth=depth + 1,
+                            matcher=matcher,
+                            path=(*path, name),
+                            visited=visited,
                         ),
                     )
                     for name in cls.sort(dir(data))
@@ -258,17 +290,20 @@ class DataSerializer:
         *,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
     ) -> str:
         visited = visited if visited is not None else set()
         data_id = id(data)
         if depth > cls._max_depth or data_id in visited:
             data = cls.MarkerDepthMax()
-
+        if matcher:
+            data = matcher(data, path)
         serialize_kwargs = {
             "data": data,
             "depth": depth,
             "matcher": matcher,
+            "path": path,
             "visited": {*visited, data_id},
         }
         serialize_method = cls.serialize_unknown
