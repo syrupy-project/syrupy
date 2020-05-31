@@ -18,7 +18,7 @@ from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
-    from syrupy.types import SerializableData
+    from syrupy.types import PropertyMatcher, SerializableData
 
 
 class DataSerializer:
@@ -98,6 +98,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> str:
         if "\n" in data:
@@ -118,6 +119,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> str:
         return cls.with_indent(repr(data), depth)
@@ -128,6 +130,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> str:
         return (
@@ -145,6 +148,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> str:
         kwargs = {"depth": depth + 1, "visited": visited}
@@ -171,7 +175,12 @@ class DataSerializer:
 
     @classmethod
     def serialize_namedtuple(
-        cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
+        cls,
+        data: Any,
+        *,
+        depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
         return (
             cls.with_indent(f"{cls.object_type(data)} (\n", depth)
@@ -196,6 +205,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> str:
         open_paren, close_paren = next(
@@ -213,7 +223,12 @@ class DataSerializer:
 
     @classmethod
     def serialize_unknown(
-        cls, data: Any, *, depth: int = 0, visited: Optional[Set[Any]] = None
+        cls,
+        data: Any,
+        *,
+        depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
+        visited: Optional[Set[Any]] = None,
     ) -> str:
         if data.__class__.__repr__ != object.__repr__:
             return cls.with_indent(repr(data), depth)
@@ -242,6 +257,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> str:
         visited = visited if visited is not None else set()
@@ -252,6 +268,7 @@ class DataSerializer:
         serialize_kwargs = {
             "data": data,
             "depth": depth,
+            "matcher": matcher,
             "visited": {*visited, data_id},
         }
         serialize_method = cls.serialize_unknown
@@ -283,12 +300,14 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     ```
     """
 
-    def serialize(self, data: "SerializableData") -> str:
+    def serialize(
+        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"]
+    ) -> str:
         """
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return DataSerializer.serialize(data)
+        return DataSerializer.serialize(data, matcher=matcher)
 
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]

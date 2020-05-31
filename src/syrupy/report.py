@@ -30,7 +30,7 @@ from .terminal import (
 
 
 if TYPE_CHECKING:
-    from .assertion import SnapshotAssertion  # noqa: F401
+    from .assertion import SnapshotAssertion
 
 
 @attr.s

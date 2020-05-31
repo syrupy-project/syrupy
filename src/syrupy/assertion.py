@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .location import TestLocation
     from .extensions.base import AbstractSyrupyExtension
     from .session import SnapshotSession
-    from .types import SerializableData, SerializedData  # noqa: F401
+    from .types import PropertyMatcher, SerializableData, SerializedData
 
 
 @attr.s
@@ -45,6 +45,7 @@ class SnapshotAssertion:
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
     _extension: Optional["AbstractSyrupyExtension"] = attr.ib(init=False, default=None)
+    _matcher: Optional["PropertyMatcher"] = attr.ib(init=False, default=None)
     _executions: int = attr.ib(init=False, default=0)
     _execution_results: Dict[int, "AssertionResult"] = attr.ib(init=False, factory=dict)
     _post_assert_actions: List[Callable[..., None]] = attr.ib(init=False, factory=list)
@@ -88,10 +89,13 @@ class SnapshotAssertion:
     def assert_match(self, data: "SerializableData") -> None:
         assert self == data
 
+    def _serialize(self, data: "SerializableData") -> "SerializedData":
+        return self.extension.serialize(data, matcher=self._matcher)
+
     def get_assert_diff(self, data: "SerializableData") -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         snapshot_data = assertion_result.recalled_data
-        serialized_data = self.extension.serialize(data)
+        serialized_data = self._serialize(data)
         diff: List[str] = []
         if snapshot_data is None:
             diff.append(gettext("Snapshot does not exist!"))
@@ -100,7 +104,10 @@ class SnapshotAssertion:
         return diff
 
     def __call__(
-        self, *, extension_class: Optional[Type["AbstractSyrupyExtension"]]
+        self,
+        *,
+        extension_class: Optional[Type["AbstractSyrupyExtension"]],
+        matcher: Optional["PropertyMatcher"],
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
@@ -112,6 +119,13 @@ class SnapshotAssertion:
                 self._extension = None
 
             self._post_assert_actions.append(clear_extension)
+        if matcher:
+            self._matcher = matcher
+
+            def clear_matcher() -> None:
+                self._matcher = None
+
+            self._post_assert_actions.append(clear_matcher)
         return self
 
     def __repr__(self) -> str:
@@ -131,7 +145,7 @@ class SnapshotAssertion:
         assertion_success = False
         try:
             snapshot_data = self._recall_data(index=self.num_executions)
-            serialized_data = self.extension.serialize(data)
+            serialized_data = self._serialize(data)
             matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:

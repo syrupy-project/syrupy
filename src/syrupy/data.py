@@ -16,7 +16,7 @@ from .constants import (
 
 
 if TYPE_CHECKING:
-    from .types import SerializedData  # noqa: F401
+    from .types import SerializedData
 
 
 @attr.s(frozen=True)
