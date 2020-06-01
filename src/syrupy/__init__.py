@@ -114,7 +114,8 @@ def pytest_collection_modifyitems(session: Any, config: Any, items: List[Any]) -
     After tests are collected and before any modification is performed.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_modifyitems
     """
-    config._syrupy._all_items.update(items)
+    valid_items = (item for item in session.items if hasattr(item, "obj"))
+    config._syrupy._all_items.update(valid_items)
 
 
 def pytest_collection_finish(session: Any) -> None:
@@ -122,7 +123,8 @@ def pytest_collection_finish(session: Any) -> None:
     After collection has been performed and modified.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_finish
     """
-    session.config._syrupy._ran_items.update(session.items)
+    valid_items = (item for item in session.items if hasattr(item, "obj"))
+    session.config._syrupy._ran_items.update(valid_items)
 
 
 def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
