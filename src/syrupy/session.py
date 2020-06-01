@@ -1,7 +1,6 @@
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Any,
     Dict,
     Iterable,
     List,
@@ -10,6 +9,7 @@ from typing import (
 )
 
 import attr
+import pytest
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
@@ -29,8 +29,8 @@ class SnapshotSession:
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
     report: Optional["SnapshotReport"] = attr.ib(default=None)
-    _all_items: Set[Any] = attr.ib(factory=set)
-    _ran_items: Set[Any] = attr.ib(factory=set)
+    _all_items: Set["pytest.Item"] = attr.ib(factory=set)
+    _ran_items: Set["pytest.Item"] = attr.ib(factory=set)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
 
@@ -92,5 +92,5 @@ class SnapshotSession:
                 Path(snapshot_location).unlink()
 
     @staticmethod
-    def filter_valid_items(items: List[Any]) -> Iterable[Any]:
-        return (item for item in items if hasattr(item, "obj"))
+    def filter_valid_items(items: List["pytest.Item"]) -> Iterable["pytest.Item"]:
+        return (item for item in items if isinstance(item, pytest.Function))

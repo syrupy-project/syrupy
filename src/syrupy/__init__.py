@@ -109,7 +109,9 @@ def pytest_sessionstart(session: Any) -> None:
     config._syrupy.start()
 
 
-def pytest_collection_modifyitems(session: Any, config: Any, items: List[Any]) -> None:
+def pytest_collection_modifyitems(
+    session: Any, config: Any, items: List["pytest.Item"]
+) -> None:
     """
     After tests are collected and before any modification is performed.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_modifyitems
