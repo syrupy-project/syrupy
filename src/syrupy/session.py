@@ -3,6 +3,7 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
+    Iterable,
     List,
     Optional,
     Set,
@@ -89,3 +90,7 @@ class SnapshotSession:
                 )
             elif snapshot_location not in used_snapshot_fossils:
                 Path(snapshot_location).unlink()
+
+    @staticmethod
+    def filter_valid_items(items: List[Any]) -> Iterable[Any]:
+        return (item for item in items if hasattr(item, "obj"))
