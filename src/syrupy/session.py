@@ -1,14 +1,14 @@
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Any,
     Dict,
+    Iterable,
     List,
     Optional,
-    Set,
 )
 
 import attr
+import pytest
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
@@ -28,15 +28,15 @@ class SnapshotSession:
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
     report: Optional["SnapshotReport"] = attr.ib(default=None)
-    _all_items: Set[Any] = attr.ib(factory=set)
-    _ran_items: Set[Any] = attr.ib(factory=set)
+    _all_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
+    _ran_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
 
     def start(self) -> None:
         self.report = None
-        self._all_items = set()
-        self._ran_items = set()
+        self._all_items = {}
+        self._ran_items = {}
         self._assertions = []
         self._extensions = {}
 
@@ -89,3 +89,7 @@ class SnapshotSession:
                 )
             elif snapshot_location not in used_snapshot_fossils:
                 Path(snapshot_location).unlink()
+
+    @staticmethod
+    def filter_valid_items(items: List["pytest.Item"]) -> Iterable["pytest.Item"]:
+        return (item for item in items if isinstance(item, pytest.Function))

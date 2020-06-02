@@ -26,6 +26,7 @@ wheels/
 *.egg
 MANIFEST
 version.txt
+pip-wheel-metadata
 
 # Installer logs
 pip-log.txt
