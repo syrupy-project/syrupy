@@ -5,13 +5,13 @@ from gettext import (
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Any,
+    Dict,
     Iterator,
     List,
-    Set,
 )
 
 import attr
+import pytest
 
 from .data import (
     Snapshot,
@@ -36,8 +36,8 @@ if TYPE_CHECKING:
 @attr.s
 class SnapshotReport:
     base_dir: str = attr.ib()
-    all_items: Set[Any] = attr.ib()
-    ran_items: Set[Any] = attr.ib()
+    all_items: Dict["pytest.Item", bool] = attr.ib()
+    ran_items: Dict["pytest.Item", bool] = attr.ib()
     update_snapshots: bool = attr.ib()
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
@@ -101,7 +101,7 @@ class SnapshotReport:
             snapshot_location = unused_snapshot_fossil.location
             if self.is_providing_paths and not any(
                 TestLocation(node).matches_snapshot_location(snapshot_location)
-                for node in self.ran_items
+                for node in self.ran_items.keys()
             ):
                 continue
 
@@ -114,7 +114,7 @@ class SnapshotReport:
                     for snapshot in unused_snapshot_fossil
                     if any(
                         TestLocation(node).matches_snapshot_name(snapshot.name)
-                        for node in self.ran_items
+                        for node in self.ran_items.keys()
                     )
                 }
                 mark_for_removal = False

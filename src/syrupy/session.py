@@ -5,7 +5,6 @@ from typing import (
     Iterable,
     List,
     Optional,
-    Set,
 )
 
 import attr
@@ -29,15 +28,15 @@ class SnapshotSession:
     is_providing_paths: bool = attr.ib()
     is_providing_nodes: bool = attr.ib()
     report: Optional["SnapshotReport"] = attr.ib(default=None)
-    _all_items: Set["pytest.Item"] = attr.ib(factory=set)
-    _ran_items: Set["pytest.Item"] = attr.ib(factory=set)
+    _all_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
+    _ran_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
 
     def start(self) -> None:
         self.report = None
-        self._all_items = set()
-        self._ran_items = set()
+        self._all_items = {}
+        self._ran_items = {}
         self._assertions = []
         self._extensions = {}
 
