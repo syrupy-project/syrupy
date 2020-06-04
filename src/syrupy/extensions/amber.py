@@ -199,9 +199,13 @@ class DataSerializer:
         visited: Optional[Set[Any]] = None,
     ) -> str:
         open_paren, close_paren = next(
-            paren[1]
-            for paren in {list: "[]", tuple: "()", GeneratorType: "()"}.items()
-            if isinstance(data, paren[0])
+            parens
+            for iter_type, parens in {
+                GeneratorType: ("(", ")"),
+                list: ("[", "]"),
+                tuple: ("(", ")"),
+            }.items()
+            if isinstance(data, iter_type)
         )
         return (
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
