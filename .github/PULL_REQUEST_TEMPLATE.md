@@ -14,8 +14,9 @@ e.g. This PR refactors the X submodule, applying Y's algorithm to improve Z by K
 
 <!-- Please mark items as completed where appropriate. e.g. [x]. -->
 
+- [ ] This PR has sufficient documentation.
 - [ ] This PR has sufficient test coverage.
-- [ ] I will merge this pull request with a semantic title.
+- [ ] This PR title satisfies semantic [convention](https://www.conventionalcommits.org/en/v1.0.0/#summary).
 
 ## Additional Comments
 
