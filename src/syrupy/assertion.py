@@ -92,10 +92,10 @@ class SnapshotAssertion:
     def _serialize(self, data: "SerializableData") -> "SerializedData":
         return self.extension.serialize(data, matcher=self._matcher)
 
-    def get_assert_diff(self, data: "SerializableData") -> List[str]:
+    def get_assert_diff(self) -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         snapshot_data = assertion_result.recalled_data
-        serialized_data = self._serialize(data)
+        serialized_data = assertion_result.asserted_data or ""
         diff: List[str] = []
         if snapshot_data is None:
             diff.append(gettext("Snapshot does not exist!"))

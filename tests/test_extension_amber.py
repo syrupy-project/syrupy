@@ -4,6 +4,8 @@ from datetime import datetime
 
 import pytest
 
+from syrupy.matchers import Repr
+
 
 def test_non_snapshots(snapshot):
     with pytest.raises(AssertionError):
@@ -188,9 +190,9 @@ def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
 def test_non_deterministic_snapshots(snapshot):
     def matcher(value, path):
         if isinstance(value, uuid.UUID):
-            return "UUID(...)"
+            return Repr("UUID(...)")
         if isinstance(value, datetime):
-            return "datetime.datetime(...)"
+            return Repr("datetime.datetime(...)")
         if path[-2:] == ("c", 0):
             return "Your wish is my command"
         return value

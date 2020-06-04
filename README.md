@@ -94,9 +94,9 @@ This allows you to match on a property path and value to control how specific ob
 def my_matcher(value, path):
     prop = path[-1]
     if prop === 'id':
-        return 'ID(...)
+        return Repr('ID(...)')
     if isinstance(value, datetime):
-        return 'DATE(...)'
+        return Repr('DATE(...)')
     return value
 
 def test_bar(snapshot):
@@ -112,8 +112,8 @@ Results in
 
 ```ambr
 <class 'dict'> {
-  'id': 'ID(...)',
-  'date_created': 'DATE(...)'.
+  'id': ID(...),
+  'date_created': DATE(...),
   'value': 'Some computed value!',
 }
 ```
@@ -132,7 +132,10 @@ That will still fail if the types do not match.
 ```py
 from syrupy.matchers import path_type
 
-my_matcher = path_type({ "value": datetime, "nested.path.id": int })
+my_matcher = path_type({
+  "date_created": (datetime,),
+  "nested.path.id": (int,),
+})
 
 def test_bar(snapshot):
     actual = {
