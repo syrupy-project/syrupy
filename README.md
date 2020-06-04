@@ -124,10 +124,10 @@ Results in
 
 Syrupy comes with a few built-in matcher presets that can be used to make easy work of using property matchers.
 
-###### `path_type`
+###### `path_type(mapping, strict=True)`
 
 Easy way to build a matcher that uses the path and value type to replace serailized.
-That will still fail if the types do not match.
+When strict, this will raise a `ValueError` if the types specified are not matched.
 
 ```py
 from syrupy.matchers import path_type
