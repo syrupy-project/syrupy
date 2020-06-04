@@ -22,6 +22,6 @@ class SVGImageSnapshotExtension(SingleFileSnapshotExtension):
         return "svg"
 
     def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"]
+        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
     ) -> bytes:
         return str(data).encode("utf-8")

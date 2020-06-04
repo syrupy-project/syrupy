@@ -16,15 +16,12 @@ from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
-    from syrupy.types import (
-        PropertyMatcher,
-        SerializableData,
-    )
+    from syrupy.types import PropertyMatcher, SerializableData
 
 
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"]
+        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
     ) -> bytes:
         return bytes(data)
 

@@ -340,7 +340,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     """
 
     def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"]
+        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
     ) -> str:
         """
         Returns the serialized form of 'data' to be compared

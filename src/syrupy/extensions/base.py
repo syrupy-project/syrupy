@@ -52,7 +52,7 @@ if TYPE_CHECKING:
 class SnapshotSerializer(ABC):
     @abstractmethod
     def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"]
+        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
         """
         Serializes a python object / data structure into a string
