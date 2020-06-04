@@ -70,7 +70,7 @@ def __repr__(self) -> str:
     return "MyCustomClass(...)"
 ```
 
-### Options
+### CLI Options
 
 These are the cli options exposed to `pytest` by the plugin.
 
@@ -80,7 +80,79 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.               | `False`                                          |
 | `--snapshot-default-extension` | Use to change the default snapshot extension class.                                 | `syrupy.extensions.amber.AmberSnapshotExtension` |
 
-### Built-In Extensions
+### Assertion Options
+
+These are the options available on the `snapshot` assertion fixture.
+Use of these options are one shot and do not persist across assertions.
+For more persitent options see the [advanced usage](#advanced-usage).
+
+#### `matcher`
+
+This allows you to match on a property path and value to control how specific object shapes are serialized.
+
+```py
+def my_matcher(value, path):
+    prop = path[-1]
+    if prop === 'id':
+        return 'ID(...)
+    if isinstance(value, datetime):
+        return 'DATE(...)'
+    return value
+
+def test_bar(snapshot):
+    actual = {
+      "id": 1, # some auto generated id
+      "date_created": datetime.now(),
+      "value": "Some computed value!",
+    }
+    assert actual == snapshot(matcher=my_matcher)
+```
+
+Results in
+
+```ambr
+<class 'dict'> {
+  'id': 'ID(...)',
+  'date_created': 'DATE(...)'.
+  'value': 'Some computed value!',
+}
+```
+
+**NOTE:** Do not mutate the value recieved into the matcher and return the same value if nothing matches.
+
+##### Built-In Matchers
+
+Syrupy comes with a few built-in matcher presets that can be used to make easy work of using property matchers.
+
+###### `path_type`
+
+Easy way to build a matcher that uses the path and value type to replace serailized.
+That will still fail if the types do not match.
+
+```py
+from syrupy.matchers import path_type
+
+my_matcher = path_type({ "value": datetime, "nested.path.id": int })
+
+def test_bar(snapshot):
+    actual = {
+      "date_created": datetime.now(),
+      "value": "Some computed value!",
+    }
+    assert actual == snapshot(matcher=my_matcher)
+```
+
+#### `extension_class`
+
+This is a way to modify how the snapshot matches and serializes your data in a single assertion.
+
+```py
+def test_foo(snapshot):
+    actual_svg = "<svg></svg>"
+    assert actual_svg = snapshot(extension_class=SVGImageSnapshotExtension)
+```
+
+##### Built-In Extensions
 
 Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the `AbstractSyrupyExtension` if your project has a need not captured by one our built-ins.
 
