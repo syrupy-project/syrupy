@@ -92,8 +92,10 @@ This allows you to match on a property path and value to control how specific ob
 
 The matcher is a function that takes two keyword arguments:
 
-- `data`: the current serializable value being matched on
-- `path`: the ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))`
+| Argument | Description                                                                   |
+| -------- | ----------------------------------------------------------------------------- |
+| `data`   | Current serializable value being matched on                                   |
+| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` |
 
 **NOTE:** Do not mutate the value received as it could cause unintended side effects.
 
@@ -101,7 +103,7 @@ The matcher is a function that takes two keyword arguments:
 
 Syrupy comes with a few built-in matcher presets that can be used to make easy work of using property matchers.
 
-###### `path_type(mapping, strict=True)`
+###### `path_type(mapping=None, *, types=(), strict=True)`
 
 Easy way to build a matcher that uses the path and value type to replace serialized.
 When strict, this will raise a `ValueError` if the types specified are not matched.
@@ -119,6 +121,12 @@ def test_bar(snapshot):
       "nested.path.id": (int,),
     }))
 ```
+
+| Argument  | Description                                          |
+| --------- | ---------------------------------------------------- |
+| `mapping` | Dict of path string to class type tuples             |
+| `types`   | The types to match if no mapped path does            |
+| `strict`  | If a path is matched but no type does raise an error |
 
 #### `extension_class`
 

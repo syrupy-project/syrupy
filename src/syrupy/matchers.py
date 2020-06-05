@@ -30,36 +30,35 @@ class Repr:
 
 
 def path_type(
-    mapping: Dict[str, Tuple["PropertyValueType", ...]], *, strict: bool = True
+    mapping: Optional[Dict[str, Tuple["PropertyValueType", ...]]] = None,
+    *,
+    types: Tuple["PropertyValueType", ...] = (),
+    strict: bool = True,
 ) -> "PropertyMatcher":
     """
     Factory to create a matcher using path and type mapping
-    e.g.
-    {
-        "*": (datetime.datetime, uuid.UUID),
-        "some.deep.path.id": (int,),
-    }
     """
-    path_any = "*"
-    ordered_mapping = [
-        *((p, t) for p, t in mapping.items() if p != path_any),
-        (path_any, mapping.get(path_any) or ()),
-    ]
+    if not mapping and not types:
+        raise ValueError("Both mapping and types argument cannot be empty")
 
     def path_type_matcher(
         data: "SerializableData", path: "PropertyPath"
     ) -> Optional["SerializableData"]:
         path_str = ".".join(str(p) for p, _ in path)
-        for path_to_match, types in ordered_mapping:
-            if path_to_match == path_str or path_to_match == path_any:
-                for type_to_match in types:
-                    if isinstance(data, type_to_match):
-                        return Repr(DataSerializer.object_type(data))
-                if path_to_match != path_any and strict:
-                    raise ValueError(
-                        f"{data} at '{path_str}' of type {data.__class__} "
-                        f"does not match any of the expected types {types}"
-                    )
+        if mapping:
+            for path_to_match in mapping:
+                if path_to_match == path_str:
+                    for type_to_match in mapping[path_to_match]:
+                        if isinstance(data, type_to_match):
+                            return Repr(DataSerializer.object_type(data))
+                    if strict:
+                        raise ValueError(
+                            f"{data} at '{path_str}' of type {data.__class__} "
+                            f"does not match any of the expected types {types}"
+                        )
+        for type_to_match in types:
+            if isinstance(data, type_to_match):
+                return Repr(DataSerializer.object_type(data))
         return data
 
     return path_type_matcher

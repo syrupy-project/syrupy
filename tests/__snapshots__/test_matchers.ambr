@@ -7,7 +7,7 @@
     'some_uuid': <class 'UUID'>,
   }
 ---
-# name: test_raises_unexpected_type.1
+# name: test_raises_unexpected_type
   <class 'dict'> {
     'date_created': <class 'datetime'>,
     'date_updated': datetime.date(2020, 6, 1),
