@@ -1,10 +1,8 @@
 from typing import (
     TYPE_CHECKING,
-    Any,
     Dict,
     Optional,
     Tuple,
-    Type,
 )
 
 from syrupy.extensions.amber import DataSerializer
@@ -14,6 +12,7 @@ if TYPE_CHECKING:
     from syrupy.types import (
         PropertyMatcher,
         PropertyPath,
+        PropertyValueType,
         SerializableData,
     )
 
@@ -31,7 +30,7 @@ class Repr:
 
 
 def path_type(
-    mapping: Dict[str, Tuple[Type[Any], ...]], *, strict: bool = True
+    mapping: Dict[str, Tuple["PropertyValueType", ...]], *, strict: bool = True
 ) -> "PropertyMatcher":
     """
     Factory to create a matcher using path and type mapping
@@ -42,19 +41,21 @@ def path_type(
     }
     """
     path_any = "*"
-    strict_mapping = {**mapping}
-    types_any = strict_mapping.pop(path_any) if path_any in mapping else ()
+    ordered_mapping = [
+        *((p, t) for p, t in mapping.items() if p != path_any),
+        (path_any, mapping.get(path_any) or ()),
+    ]
 
     def path_type_matcher(
-        data: "SerializableData", paths: "PropertyPath"
+        data: "SerializableData", path: "PropertyPath"
     ) -> Optional["SerializableData"]:
-        path_str = ".".join(str(p) for p in paths)
-        for path, types in (*strict_mapping.items(), (path_any, types_any)):
-            if path == path_str or path == path_any:
-                for class_type in types:
-                    if isinstance(data, class_type):
+        path_str = ".".join(str(p) for p, _ in path)
+        for path_to_match, types in ordered_mapping:
+            if path_to_match == path_str or path_to_match == path_any:
+                for type_to_match in types:
+                    if isinstance(data, type_to_match):
                         return Repr(DataSerializer.object_type(data))
-                if path != path_any and strict:
+                if path_to_match != path_any and strict:
                     raise ValueError(
                         f"{data} at '{path_str}' of type {data.__class__} "
                         f"does not match any of the expected types {types}"

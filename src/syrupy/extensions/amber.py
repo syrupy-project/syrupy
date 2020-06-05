@@ -140,10 +140,10 @@ class DataSerializer:
             cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
             + "".join(
                 cls.serialize(
-                    d,
+                    data=d,
                     depth=depth + 1,
                     matcher=matcher,
-                    path=(*path, d),
+                    path=(*path, (d, type(d))),
                     visited=visited,
                 )
                 + ",\n"
@@ -171,7 +171,11 @@ class DataSerializer:
                     (
                         cls.serialize(**{"data": key, **kwargs}),
                         cls.serialize(
-                            **{"data": data[key], "path": (*path, key), **kwargs}
+                            **{
+                                "data": data[key],
+                                "path": (*path, (key, type(data[key]))),
+                                **kwargs,
+                            }
                         ),
                     )
                     for key in cls.sort(data.keys())
@@ -207,7 +211,7 @@ class DataSerializer:
                             data=getattr(data, name),
                             depth=depth + 1,
                             matcher=matcher,
-                            path=(*path, name),
+                            path=(*path, (name, type(getattr(data, name)))),
                             visited=visited,
                         ),
                     )
@@ -240,10 +244,10 @@ class DataSerializer:
             cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
             + "".join(
                 cls.serialize(
-                    d,
+                    data=d,
                     depth=depth + 1,
                     matcher=matcher,
-                    path=(*path, i),
+                    path=(*path, (i, type(d))),
                     visited=visited,
                 )
                 + ",\n"
@@ -276,7 +280,7 @@ class DataSerializer:
                             data=getattr(data, name),
                             depth=depth + 1,
                             matcher=matcher,
-                            path=(*path, name),
+                            path=(*path, (name, type(getattr(data, name)))),
                             visited=visited,
                         ),
                     )
@@ -301,8 +305,8 @@ class DataSerializer:
         data_id = id(data)
         if depth > cls._max_depth or data_id in visited:
             data = cls.MarkerDepthMax()
-        if matcher:
-            data = matcher(data, path)
+        elif matcher:
+            data = matcher(data=data, path=path)
         serialize_kwargs = {
             "data": data,
             "depth": depth,

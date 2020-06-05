@@ -90,35 +90,12 @@ For more persitent options see the [advanced usage](#advanced-usage).
 
 This allows you to match on a property path and value to control how specific object shapes are serialized.
 
-```py
-def my_matcher(value, path):
-    prop = path[-1]
-    if prop === 'id':
-        return Repr('ID(...)')
-    if isinstance(value, datetime):
-        return Repr('DATE(...)')
-    return value
+The matcher is a function that takes two keyword arguments:
 
-def test_bar(snapshot):
-    actual = {
-      "id": 1, # some auto generated id
-      "date_created": datetime.now(),
-      "value": "Some computed value!",
-    }
-    assert actual == snapshot(matcher=my_matcher)
-```
+- `data`: the current serializable value being matched on
+- `path`: the ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))`
 
-Results in
-
-```ambr
-<class 'dict'> {
-  'id': ID(...),
-  'date_created': DATE(...),
-  'value': 'Some computed value!',
-}
-```
-
-**NOTE:** Do not mutate the value recieved into the matcher and return the same value if nothing matches.
+**NOTE:** Do not mutate the value received as it could cause unintended side effects.
 
 ##### Built-In Matchers
 
@@ -126,23 +103,21 @@ Syrupy comes with a few built-in matcher presets that can be used to make easy w
 
 ###### `path_type(mapping, strict=True)`
 
-Easy way to build a matcher that uses the path and value type to replace serailized.
+Easy way to build a matcher that uses the path and value type to replace serialized.
 When strict, this will raise a `ValueError` if the types specified are not matched.
 
 ```py
 from syrupy.matchers import path_type
-
-my_matcher = path_type({
-  "date_created": (datetime,),
-  "nested.path.id": (int,),
-})
 
 def test_bar(snapshot):
     actual = {
       "date_created": datetime.now(),
       "value": "Some computed value!",
     }
-    assert actual == snapshot(matcher=my_matcher)
+    assert actual == snapshot(matcher=path_type({
+      "date_created": (datetime,),
+      "nested.path.id": (int,),
+    }))
 ```
 
 #### `extension_class`

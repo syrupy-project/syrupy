@@ -4,11 +4,14 @@ from typing import (
     Hashable,
     Optional,
     Tuple,
+    Type,
     Union,
 )
 
 
 SerializableData = Any
 SerializedData = Union[str, bytes]
-PropertyPath = Tuple[Hashable, ...]
-PropertyMatcher = Callable[[SerializableData, PropertyPath], Optional[SerializableData]]
+PropertyValueType = Type[Any]
+PropertyPathEntry = Tuple[Hashable, PropertyValueType]
+PropertyPath = Tuple[PropertyPathEntry, ...]
+PropertyMatcher = Callable[..., Optional[SerializableData]]

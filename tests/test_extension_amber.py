@@ -188,14 +188,14 @@ def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
 
 
 def test_non_deterministic_snapshots(snapshot):
-    def matcher(value, path):
-        if isinstance(value, uuid.UUID):
+    def matcher(data, path):
+        if isinstance(data, uuid.UUID):
             return Repr("UUID(...)")
-        if isinstance(value, datetime):
+        if isinstance(data, datetime):
             return Repr("datetime.datetime(...)")
-        if path[-2:] == ("c", 0):
+        if tuple(p for p, _ in path[-2:]) == ("c", 0):
             return "Your wish is my command"
-        return value
+        return data
 
     assert {
         "a": uuid.uuid4(),
