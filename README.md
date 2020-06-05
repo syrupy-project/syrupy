@@ -108,6 +108,12 @@ Syrupy comes with a few built-in matcher presets that can be used to make easy w
 Easy way to build a matcher that uses the path and value type to replace serialized.
 When strict, this will raise a `ValueError` if the types specified are not matched.
 
+| Argument  | Description                                          |
+| --------- | ---------------------------------------------------- |
+| `mapping` | Dict of path string to class type tuples             |
+| `types`   | The types to match if no mapped path does            |
+| `strict`  | If a path is matched but no type does raise an error |
+
 ```py
 from syrupy.matchers import path_type
 
@@ -122,11 +128,14 @@ def test_bar(snapshot):
     }))
 ```
 
-| Argument  | Description                                          |
-| --------- | ---------------------------------------------------- |
-| `mapping` | Dict of path string to class type tuples             |
-| `types`   | The types to match if no mapped path does            |
-| `strict`  | If a path is matched but no type does raise an error |
+```ambr
+# name: test_bar
+  <class 'dict'> {
+    'date_created': <class 'datetime'>,
+    'value': 'Some computed value!',
+  }
+---
+```
 
 #### `extension_class`
 

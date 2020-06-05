@@ -11,7 +11,7 @@ from typing import (
 
 SerializableData = Any
 SerializedData = Union[str, bytes]
-PropertyValueType = Type[Any]
+PropertyValueType = Type[SerializableData]
 PropertyPathEntry = Tuple[Hashable, PropertyValueType]
 PropertyPath = Tuple[PropertyPathEntry, ...]
 PropertyMatcher = Callable[..., Optional[SerializableData]]
