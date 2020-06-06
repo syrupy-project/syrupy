@@ -1,4 +1,5 @@
 from collections import namedtuple
+import random
 
 import pytest
 
@@ -108,6 +109,13 @@ def test_numbers(snapshot):
     assert snapshot == 3.5
     assert snapshot == 7
     assert snapshot == 2 / 6
+
+
+def test_iterable(snapshot):
+    def generator():
+        yield from random.sample(range(10), 10)
+
+    assert generator() == snapshot
 
 
 def test_list(snapshot):

@@ -167,6 +167,20 @@
 # name: test_empty_snapshot.1
   ''
 ---
+# name: test_iterable
+  <class 'generator'> (
+    7,
+    3,
+    5,
+    6,
+    0,
+    8,
+    9,
+    4,
+    2,
+    1,
+  )
+---
 # name: test_list
   <class 'list'> [
     1,
