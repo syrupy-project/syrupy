@@ -105,14 +105,14 @@ Syrupy comes with a few built-in matcher presets that can be used to make easy w
 
 ###### `path_type(mapping=None, *, types=(), strict=True)`
 
-Easy way to build a matcher that uses the path and value type to replace serialized.
+Easy way to build a matcher that uses the path and value type to replace serialized data.
 When strict, this will raise a `ValueError` if the types specified are not matched.
 
-| Argument  | Description                                          |
-| --------- | ---------------------------------------------------- |
-| `mapping` | Dict of path string to class type tuples             |
-| `types`   | The types to match if no mapped path does            |
-| `strict`  | If a path is matched but no type does raise an error |
+| Argument  | Description                                                                                                                   |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `mapping` | Dict of path string to tuples of class types                                                                                  |
+| `types`   | Tuple of class types used if none of the path strings from the mapping are matched                                            |
+| `strict`  | If a path is matched but the value at the path does not match one of the class types in the tuple then an exception is raised |
 
 ```py
 from syrupy.matchers import path_type
@@ -208,7 +208,9 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 This section is automatically generated via tagging the all-contributors bot in a PR:
 
 ```text
