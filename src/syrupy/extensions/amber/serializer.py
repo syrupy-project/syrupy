@@ -2,7 +2,6 @@ from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
-    Callable,
     Dict,
     Iterable,
     Optional,
@@ -282,7 +281,7 @@ class DataSerializer:
             "path": path,
             "visited": {*visited, data_id},
         }
-        serialize_method: Callable[..., str] = cls.serialize_unknown
+        serialize_method = cls.serialize_unknown
         if isinstance(data, str):
             serialize_method = cls.serialize_string
         elif isinstance(data, (int, float)):
