@@ -25,8 +25,8 @@ if TYPE_CHECKING:
 
 
 class Repr:
-    def __init__(self, repr_str: str):
-        self._repr = repr_str
+    def __init__(self, _repr: str):
+        self._repr = _repr
 
     def __repr__(self) -> str:
         return self._repr
