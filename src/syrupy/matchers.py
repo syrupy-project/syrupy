@@ -1,3 +1,4 @@
+from gettext import gettext
 from typing import (
     TYPE_CHECKING,
     Dict,
@@ -39,7 +40,7 @@ def path_type(
     Factory to create a matcher using path and type mapping
     """
     if not mapping and not types:
-        raise ValueError("Both mapping and types argument cannot be empty")
+        raise ValueError(gettext("Both mapping and types argument cannot be empty"))
 
     def path_type_matcher(
         data: "SerializableData", path: "PropertyPath"
@@ -53,8 +54,10 @@ def path_type(
                             return Repr(DataSerializer.object_type(data))
                     if strict:
                         raise ValueError(
-                            f"{data} at '{path_str}' of type {data.__class__} "
-                            f"does not match any of the expected types {types}"
+                            gettext(
+                                "{} at '{}' of type {} does not "
+                                "match any of the expected types: {}"
+                            ).format(data, path_str, data.__class__, types)
                         )
         for type_to_match in types:
             if isinstance(data, type_to_match):

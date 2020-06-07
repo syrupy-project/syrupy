@@ -1,3 +1,4 @@
+from gettext import gettext
 from importlib import import_module
 from pathlib import Path
 from typing import (
@@ -28,13 +29,19 @@ def import_module_member(path: str) -> Any:
 
     if not module_name:
         raise FailedToLoadModuleMember(
-            f"Cannot load member '{module_member_name}' without module path"
+            gettext("Cannot load member '{}' without module path").format(
+                module_member_name,
+            )
         )
     try:
         return getattr(import_module(module_name), module_member_name)
     except ModuleNotFoundError:
-        raise FailedToLoadModuleMember(f"Module '{module_name}' does not exist.")
+        raise FailedToLoadModuleMember(
+            gettext("Module '{}' does not exist.").format(module_name)
+        )
     except AttributeError:
         raise FailedToLoadModuleMember(
-            f"Member '{module_member_name}' not found in module '{module_name}'."
+            gettext("Member '{}' not found in module '{}'.").format(
+                module_member_name, module_name,
+            )
         )

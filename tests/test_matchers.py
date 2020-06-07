@@ -7,7 +7,7 @@ from syrupy.matchers import path_type
 
 
 def test_matcher_path_type_noop(snapshot):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="argument cannot be empty"):
         path_type()
 
 
@@ -39,5 +39,5 @@ def test_raises_unexpected_type(snapshot):
         "some_uuid": uuid.uuid4(),
     }
     assert actual == snapshot(matcher=path_type(**kwargs, strict=False))
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="does not match any of the expected"):
         assert actual == snapshot(matcher=path_type(**kwargs))
