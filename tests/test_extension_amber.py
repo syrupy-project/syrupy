@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytest
 
-from syrupy.matchers import Repr
+from syrupy.extensions.amber.serializer import Repr
 
 
 def test_non_snapshots(snapshot):

@@ -2,7 +2,6 @@ from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
     Iterable,
     Optional,
     Set,
@@ -25,15 +24,19 @@ if TYPE_CHECKING:
     )
 
 
+class Repr:
+    def __init__(self, repr_str: str):
+        self._repr = repr_str
+
+    def __repr__(self) -> str:
+        return self._repr
+
+
 class DataSerializer:
     _indent: str = "  "
     _max_depth: int = 99
     _marker_divider: str = "---"
     _marker_name: str = "# name:"
-
-    class MarkerDepthMax:
-        def __repr__(self) -> str:
-            return SYMBOL_ELLIPSIS
 
     @classmethod
     def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
@@ -146,17 +149,12 @@ class DataSerializer:
         open_tag: str,
         close_tag: str,
         depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
         separator: Optional[str] = None,
         serialize_key: bool = False,
+        **kwargs: Any,
     ) -> str:
-        kwargs: Dict[str, Any] = {
-            "depth": depth + 1,
-            "matcher": matcher,
-            "visited": visited,
-        }
+        kwargs["depth"] = depth + 1
 
         def key_str(key: "PropertyName") -> str:
             if separator is None:
@@ -168,9 +166,8 @@ class DataSerializer:
             ) + separator
 
         def value_str(key: "PropertyName", value: "SerializableData") -> str:
-            serialized = cls.serialize(
-                data=value, path=(*path, (key, type(value))), **kwargs
-            )
+            new_path = (*path, (key, type(value)))
+            serialized = cls.serialize(data=value, path=new_path, **kwargs)
             return serialized if separator is None else serialized.lstrip(cls._indent)
 
         return cls.__serialize_lines(
@@ -271,7 +268,7 @@ class DataSerializer:
         visited = visited if visited is not None else set()
         data_id = id(data)
         if depth > cls._max_depth or data_id in visited:
-            data = cls.MarkerDepthMax()
+            data = Repr(SYMBOL_ELLIPSIS)
         elif matcher:
             data = matcher(data=data, path=path)
         serialize_kwargs = {

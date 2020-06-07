@@ -6,7 +6,10 @@ from typing import (
     Tuple,
 )
 
-from syrupy.extensions.amber import DataSerializer
+from syrupy.extensions.amber.serializer import (
+    DataSerializer,
+    Repr,
+)
 
 
 if TYPE_CHECKING:
@@ -16,18 +19,6 @@ if TYPE_CHECKING:
         PropertyValueType,
         SerializableData,
     )
-
-
-class Repr:
-    """
-    Easily generate custom representation objects
-    """
-
-    def __init__(self, repr_str: str):
-        self._repr = repr_str
-
-    def __repr__(self) -> str:
-        return self._repr
 
 
 def path_type(
