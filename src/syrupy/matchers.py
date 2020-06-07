@@ -21,6 +21,10 @@ if TYPE_CHECKING:
     )
 
 
+class PathTypeError(TypeError):
+    pass
+
+
 def path_type(
     mapping: Optional[Dict[str, Tuple["PropertyValueType", ...]]] = None,
     *,
@@ -31,7 +35,7 @@ def path_type(
     Factory to create a matcher using path and type mapping
     """
     if not mapping and not types:
-        raise ValueError(gettext("Both mapping and types argument cannot be empty"))
+        raise PathTypeError(gettext("Both mapping and types argument cannot be empty"))
 
     def path_type_matcher(
         data: "SerializableData", path: "PropertyPath"
@@ -44,7 +48,7 @@ def path_type(
                         if isinstance(data, type_to_match):
                             return Repr(DataSerializer.object_type(data))
                     if strict:
-                        raise ValueError(
+                        raise PathTypeError(
                             gettext(
                                 "{} at '{}' of type {} does not "
                                 "match any of the expected types: {}"
