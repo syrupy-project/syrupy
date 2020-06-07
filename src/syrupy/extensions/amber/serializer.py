@@ -2,9 +2,12 @@ from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
+    Callable,
+    Dict,
     Iterable,
     Optional,
     Set,
+    Tuple,
 )
 
 from syrupy.constants import SYMBOL_ELLIPSIS
@@ -17,6 +20,7 @@ from syrupy.data import (
 if TYPE_CHECKING:
     from syrupy.types import (
         PropertyMatcher,
+        PropertyName,
         PropertyPath,
         SerializableData,
     )
@@ -94,95 +98,110 @@ class DataSerializer:
         return f"<class '{data.__class__.__name__}'>"
 
     @classmethod
-    def serialize_string(
+    def __serialize_lines(
         cls,
-        data: "SerializableData",
         *,
+        data: "SerializableData",
+        lines: Iterable[str],
+        open_tag: str,
+        close_tag: str,
         depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
+        include_type: bool = True,
+        ends: str = "\n",
+    ) -> str:
+        return (
+            f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
+        ) + f"{open_tag}\n{ends.join(lines)}\n{cls.with_indent(close_tag, depth)}"
+
+    @classmethod
+    def serialize_string(
+        cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
         if "\n" in data:
-            return (
-                cls.with_indent("'\n", depth)
-                + "".join(
+            return cls.__serialize_lines(
+                data=data,
+                lines=(
                     cls.with_indent(line, depth + 1 if depth else depth)
                     for line in str(data).splitlines(keepends=True)
-                )
-                + "\n"
-                + cls.with_indent("'", depth)
+                ),
+                depth=depth,
+                open_tag="'",
+                close_tag="'",
+                include_type=False,
+                ends="",
             )
         return cls.with_indent(repr(data), depth)
 
     @classmethod
     def serialize_number(
-        cls,
-        data: "SerializableData",
-        *,
-        depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
+        cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
-    def serialize_set(
+    def __serialize_iterable(
         cls,
-        data: "SerializableData",
         *,
+        data: "SerializableData",
+        entries: Iterable[Tuple["PropertyName", "SerializableData"]],
+        open_tag: str,
+        close_tag: str,
         depth: int = 0,
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
+        separator: Optional[str] = None,
+        serialize_key: bool = False,
     ) -> str:
-        return (
-            cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
-            + "".join(
-                cls.serialize(
-                    data=d,
-                    depth=depth + 1,
-                    matcher=matcher,
-                    path=(*path, (d, type(d))),
-                    visited=visited,
-                )
-                + ",\n"
-                for d in cls.sort(data)
+        kwargs: Dict[str, Any] = {
+            "depth": depth + 1,
+            "matcher": matcher,
+            "visited": visited,
+        }
+
+        def key_str(key: "PropertyName") -> str:
+            if separator is None:
+                return ""
+            return (
+                cls.serialize(data=key, **kwargs)
+                if serialize_key
+                else cls.with_indent(str(key), depth=depth + 1)
+            ) + separator
+
+        def value_str(key: "PropertyName", value: "SerializableData") -> str:
+            serialized = cls.serialize(
+                data=value, path=(*path, (key, type(value))), **kwargs
             )
-            + cls.with_indent("}", depth)
+            return serialized if separator is None else serialized.lstrip(cls._indent)
+
+        return cls.__serialize_lines(
+            data=data,
+            lines=(f"{key_str(key)}{value_str(key, value)}," for key, value in entries),
+            depth=depth,
+            open_tag=open_tag,
+            close_tag=close_tag,
         )
 
     @classmethod
-    def serialize_dict(
-        cls,
-        data: "SerializableData",
-        *,
-        depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
-    ) -> str:
-        kwargs = {"depth": depth + 1, "matcher": matcher, "visited": visited}
-        return (
-            cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
-            + "".join(
-                f"{serialized_key}: {serialized_value.lstrip(cls._indent)},\n"
-                for serialized_key, serialized_value in (
-                    (
-                        cls.serialize(**{"data": key, **kwargs}),
-                        cls.serialize(
-                            **{
-                                "data": data[key],
-                                "path": (*path, (key, type(data[key]))),
-                                **kwargs,
-                            }
-                        ),
-                    )
-                    for key in cls.sort(data.keys())
-                )
-            )
-            + cls.with_indent("}", depth)
+    def serialize_set(cls, data: "SerializableData", **kwargs: Any) -> str:
+        return cls.__serialize_iterable(
+            data=data,
+            entries=((d, d) for d in cls.sort(data)),
+            open_tag="{",
+            close_tag="}",
+            **kwargs,
+        )
+
+    @classmethod
+    def serialize_dict(cls, data: "SerializableData", **kwargs: Any) -> str:
+        return cls.__serialize_iterable(
+            data=data,
+            entries=((key, data[key]) for key in cls.sort(data.keys())),
+            open_tag="{",
+            close_tag="}",
+            separator=": ",
+            serialize_key=True,
+            **kwargs,
         )
 
     @classmethod
@@ -192,46 +211,18 @@ class DataSerializer:
         )
 
     @classmethod
-    def serialize_namedtuple(
-        cls,
-        data: Any,
-        *,
-        depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
-    ) -> str:
-        return (
-            cls.with_indent(f"{cls.object_type(data)} (\n", depth)
-            + "".join(
-                f"{serialized_key}={serialized_value.lstrip(cls._indent)},\n"
-                for serialized_key, serialized_value in (
-                    (
-                        cls.with_indent(name, depth=depth + 1),
-                        cls.serialize(
-                            data=getattr(data, name),
-                            depth=depth + 1,
-                            matcher=matcher,
-                            path=(*path, (name, type(getattr(data, name)))),
-                            visited=visited,
-                        ),
-                    )
-                    for name in cls.sort(data._fields)
-                )
-            )
-            + cls.with_indent(")", depth)
+    def serialize_namedtuple(cls, data: "SerializableData", **kwargs: Any) -> str:
+        return cls.__serialize_iterable(
+            data=data,
+            entries=((name, getattr(data, name)) for name in cls.sort(data._fields)),
+            open_tag="(",
+            close_tag=")",
+            separator="=",
+            **kwargs,
         )
 
     @classmethod
-    def serialize_iterable(
-        cls,
-        data: "SerializableData",
-        *,
-        depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
-    ) -> str:
+    def serialize_iterable(cls, data: "SerializableData", **kwargs: Any) -> str:
         open_paren, close_paren = next(
             parens
             for iter_type, parens in {
@@ -241,55 +232,31 @@ class DataSerializer:
             }.items()
             if isinstance(data, iter_type)
         )
-        return (
-            cls.with_indent(f"{cls.object_type(data)} {open_paren}\n", depth)
-            + "".join(
-                cls.serialize(
-                    data=d,
-                    depth=depth + 1,
-                    matcher=matcher,
-                    path=(*path, (i, type(d))),
-                    visited=visited,
-                )
-                + ",\n"
-                for i, d in enumerate(data)
-            )
-            + cls.with_indent(close_paren, depth)
+        return cls.__serialize_iterable(
+            data=data,
+            entries=enumerate(data),
+            open_tag=open_paren,
+            close_tag=close_paren,
+            **kwargs,
         )
 
     @classmethod
-    def serialize_unknown(
-        cls,
-        data: Any,
-        *,
-        depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
-    ) -> str:
+    def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
         if data.__class__.__repr__ != object.__repr__:
             return cls.with_indent(repr(data), depth)
 
-        return (
-            cls.with_indent(f"{cls.object_type(data)} {{\n", depth)
-            + "".join(
-                f"{serialized_key}={serialized_value.lstrip(cls._indent)},\n"
-                for serialized_key, serialized_value in (
-                    (
-                        cls.with_indent(name, depth=depth + 1),
-                        cls.serialize(
-                            data=getattr(data, name),
-                            depth=depth + 1,
-                            matcher=matcher,
-                            path=(*path, (name, type(getattr(data, name)))),
-                            visited=visited,
-                        ),
-                    )
-                    for name in cls.sort(dir(data))
-                    if not name.startswith("_") and not callable(getattr(data, name))
-                )
-            )
-            + cls.with_indent("}", depth)
+        return cls.__serialize_iterable(
+            data=data,
+            entries=(
+                (name, getattr(data, name))
+                for name in cls.sort(dir(data))
+                if not name.startswith("_") and not callable(getattr(data, name))
+            ),
+            depth=depth,
+            open_tag="{",
+            close_tag="}",
+            separator="=",
+            **kwargs,
         )
 
     @classmethod
@@ -315,7 +282,7 @@ class DataSerializer:
             "path": path,
             "visited": {*visited, data_id},
         }
-        serialize_method = cls.serialize_unknown
+        serialize_method: Callable[..., str] = cls.serialize_unknown
         if isinstance(data, str):
             serialize_method = cls.serialize_string
         elif isinstance(data, (int, float)):
