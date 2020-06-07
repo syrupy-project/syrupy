@@ -85,35 +85,48 @@ class DataSerializer:
         return snapshot_fossil
 
     @classmethod
-    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
-        try:
-            return sorted(iterable)
-        except TypeError:
-            return sorted(iterable, key=cls.serialize)
-
-    @classmethod
-    def with_indent(cls, string: str, depth: int) -> str:
-        return f"{cls._indent * depth}{string}"
-
-    @classmethod
-    def object_type(cls, data: "SerializableData") -> str:
-        return f"<class '{data.__class__.__name__}'>"
-
-    @classmethod
-    def __serialize_lines(
+    def serialize(
         cls,
-        *,
         data: "SerializableData",
-        lines: Iterable[str],
-        open_tag: str,
-        close_tag: str,
+        *,
         depth: int = 0,
-        include_type: bool = True,
-        ends: str = "\n",
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: Optional[Set[Any]] = None,
     ) -> str:
-        return (
-            f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
-        ) + f"{open_tag}\n{ends.join(lines)}\n{cls.with_indent(close_tag, depth)}"
+        visited = set() if visited is None else visited
+        data_id = id(data)
+        if depth > cls._max_depth or data_id in visited:
+            data = Repr(SYMBOL_ELLIPSIS)
+        elif matcher:
+            data = matcher(data=data, path=path)
+        serialize_kwargs = {
+            "data": data,
+            "depth": depth,
+            "matcher": matcher,
+            "path": path,
+            "visited": {*visited, data_id},
+        }
+        serialize_method = cls.serialize_unknown
+        if isinstance(data, str):
+            serialize_method = cls.serialize_string
+        elif isinstance(data, (int, float)):
+            serialize_method = cls.serialize_number
+        elif isinstance(data, (set, frozenset)):
+            serialize_method = cls.serialize_set
+        elif isinstance(data, dict):
+            serialize_method = cls.serialize_dict
+        elif cls.__is_namedtuple(data):
+            serialize_method = cls.serialize_namedtuple
+        elif isinstance(data, (list, tuple, GeneratorType)):
+            serialize_method = cls.serialize_iterable
+        return serialize_method(**serialize_kwargs)
+
+    @classmethod
+    def serialize_number(
+        cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
+    ) -> str:
+        return cls.with_indent(repr(data), depth)
 
     @classmethod
     def serialize_string(
@@ -135,10 +148,112 @@ class DataSerializer:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
-    def serialize_number(
-        cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
+    def serialize_iterable(cls, data: "SerializableData", **kwargs: Any) -> str:
+        open_paren, close_paren = next(
+            parens
+            for iter_type, parens in {
+                GeneratorType: ("(", ")"),
+                list: ("[", "]"),
+                tuple: ("(", ")"),
+            }.items()
+            if isinstance(data, iter_type)
+        )
+        return cls.__serialize_iterable(
+            data=data,
+            entries=enumerate(data),
+            open_tag=open_paren,
+            close_tag=close_paren,
+            **kwargs,
+        )
+
+    @classmethod
+    def serialize_set(cls, data: "SerializableData", **kwargs: Any) -> str:
+        return cls.__serialize_iterable(
+            data=data,
+            entries=((d, d) for d in cls.sort(data)),
+            open_tag="{",
+            close_tag="}",
+            **kwargs,
+        )
+
+    @classmethod
+    def serialize_namedtuple(cls, data: "SerializableData", **kwargs: Any) -> str:
+        return cls.__serialize_iterable(
+            data=data,
+            entries=((name, getattr(data, name)) for name in cls.sort(data._fields)),
+            open_tag="(",
+            close_tag=")",
+            separator="=",
+            **kwargs,
+        )
+
+    @classmethod
+    def serialize_dict(cls, data: "SerializableData", **kwargs: Any) -> str:
+        return cls.__serialize_iterable(
+            data=data,
+            entries=((key, data[key]) for key in cls.sort(data.keys())),
+            open_tag="{",
+            close_tag="}",
+            separator=": ",
+            serialize_key=True,
+            **kwargs,
+        )
+
+    @classmethod
+    def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
+        if data.__class__.__repr__ != object.__repr__:
+            return cls.with_indent(repr(data), depth)
+
+        return cls.__serialize_iterable(
+            data=data,
+            entries=(
+                (name, getattr(data, name))
+                for name in cls.sort(dir(data))
+                if not name.startswith("_") and not callable(getattr(data, name))
+            ),
+            depth=depth,
+            open_tag="{",
+            close_tag="}",
+            separator="=",
+            **kwargs,
+        )
+
+    @classmethod
+    def with_indent(cls, string: str, depth: int) -> str:
+        return f"{cls._indent * depth}{string}"
+
+    @classmethod
+    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
+        try:
+            return sorted(iterable)
+        except TypeError:
+            return sorted(iterable, key=cls.serialize)
+
+    @classmethod
+    def object_type(cls, data: "SerializableData") -> str:
+        return f"<class '{data.__class__.__name__}'>"
+
+    @classmethod
+    def __is_namedtuple(cls, obj: Any) -> bool:
+        return isinstance(obj, tuple) and all(
+            type(n) == str for n in getattr(obj, "_fields", [None])
+        )
+
+    @classmethod
+    def __serialize_lines(
+        cls,
+        *,
+        data: "SerializableData",
+        lines: Iterable[str],
+        open_tag: str,
+        close_tag: str,
+        depth: int = 0,
+        include_type: bool = True,
+        ends: str = "\n",
     ) -> str:
-        return cls.with_indent(repr(data), depth)
+        return (
+            f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
+        ) + f"{open_tag}\n{ends.join(lines)}\n{cls.with_indent(close_tag, depth)}"
 
     @classmethod
     def __serialize_iterable(
@@ -166,8 +281,8 @@ class DataSerializer:
             ) + separator
 
         def value_str(key: "PropertyName", value: "SerializableData") -> str:
-            new_path = (*path, (key, type(value)))
-            serialized = cls.serialize(data=value, path=new_path, **kwargs)
+            _path = (*path, (key, type(value)))
+            serialized = cls.serialize(data=value, path=_path, **kwargs)
             return serialized if separator is None else serialized.lstrip(cls._indent)
 
         return cls.__serialize_lines(
@@ -177,118 +292,3 @@ class DataSerializer:
             open_tag=open_tag,
             close_tag=close_tag,
         )
-
-    @classmethod
-    def serialize_set(cls, data: "SerializableData", **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
-            data=data,
-            entries=((d, d) for d in cls.sort(data)),
-            open_tag="{",
-            close_tag="}",
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_dict(cls, data: "SerializableData", **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
-            data=data,
-            entries=((key, data[key]) for key in cls.sort(data.keys())),
-            open_tag="{",
-            close_tag="}",
-            separator=": ",
-            serialize_key=True,
-            **kwargs,
-        )
-
-    @classmethod
-    def __is_namedtuple(cls, obj: Any) -> bool:
-        return isinstance(obj, tuple) and all(
-            type(n) == str for n in getattr(obj, "_fields", [None])
-        )
-
-    @classmethod
-    def serialize_namedtuple(cls, data: "SerializableData", **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
-            data=data,
-            entries=((name, getattr(data, name)) for name in cls.sort(data._fields)),
-            open_tag="(",
-            close_tag=")",
-            separator="=",
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_iterable(cls, data: "SerializableData", **kwargs: Any) -> str:
-        open_paren, close_paren = next(
-            parens
-            for iter_type, parens in {
-                GeneratorType: ("(", ")"),
-                list: ("[", "]"),
-                tuple: ("(", ")"),
-            }.items()
-            if isinstance(data, iter_type)
-        )
-        return cls.__serialize_iterable(
-            data=data,
-            entries=enumerate(data),
-            open_tag=open_paren,
-            close_tag=close_paren,
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
-        if data.__class__.__repr__ != object.__repr__:
-            return cls.with_indent(repr(data), depth)
-
-        return cls.__serialize_iterable(
-            data=data,
-            entries=(
-                (name, getattr(data, name))
-                for name in cls.sort(dir(data))
-                if not name.startswith("_") and not callable(getattr(data, name))
-            ),
-            depth=depth,
-            open_tag="{",
-            close_tag="}",
-            separator="=",
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize(
-        cls,
-        data: "SerializableData",
-        *,
-        depth: int = 0,
-        matcher: Optional["PropertyMatcher"] = None,
-        path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
-    ) -> str:
-        visited = visited if visited is not None else set()
-        data_id = id(data)
-        if depth > cls._max_depth or data_id in visited:
-            data = Repr(SYMBOL_ELLIPSIS)
-        elif matcher:
-            data = matcher(data=data, path=path)
-        serialize_kwargs = {
-            "data": data,
-            "depth": depth,
-            "matcher": matcher,
-            "path": path,
-            "visited": {*visited, data_id},
-        }
-        serialize_method = cls.serialize_unknown
-        if isinstance(data, str):
-            serialize_method = cls.serialize_string
-        elif isinstance(data, (int, float)):
-            serialize_method = cls.serialize_number
-        elif isinstance(data, (set, frozenset)):
-            serialize_method = cls.serialize_set
-        elif isinstance(data, dict):
-            serialize_method = cls.serialize_dict
-        elif cls.__is_namedtuple(data):
-            serialize_method = cls.serialize_namedtuple
-        elif isinstance(data, (list, tuple, GeneratorType)):
-            serialize_method = cls.serialize_iterable
-        return serialize_method(**serialize_kwargs)
