@@ -15,7 +15,11 @@ from syrupy.data import (
 
 
 if TYPE_CHECKING:
-    from syrupy.types import PropertyMatcher, PropertyPath, SerializableData
+    from syrupy.types import (
+        PropertyMatcher,
+        PropertyPath,
+        SerializableData,
+    )
 
 
 class DataSerializer:
