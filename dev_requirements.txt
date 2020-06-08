@@ -20,7 +20,7 @@ docutils==0.16            # via readme-renderer
 entrypoints==0.3          # via flake8
 flake8-bugbear==20.1.4    # via syrupy
 flake8-builtins==1.5.3    # via syrupy
-flake8-comprehensions==3.2.2  # via syrupy
+flake8-comprehensions==3.2.3  # via syrupy
 flake8-i18n==0.1.0        # via syrupy
 flake8==3.8.2             # via flake8-bugbear, flake8-builtins, flake8-comprehensions, flake8-i18n, syrupy
 idna==2.9                 # via requests
