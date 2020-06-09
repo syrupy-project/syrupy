@@ -84,24 +84,25 @@ These are the cli options exposed to `pytest` by the plugin.
 
 These are the options available on the `snapshot` assertion fixture.
 Use of these options are one shot and do not persist across assertions.
-For more persitent options see the [advanced usage](#advanced-usage).
+For more persistent options see [advanced usage](#advanced-usage).
 
 #### `matcher`
 
 This allows you to match on a property path and value to control how specific object shapes are serialized.
 
-The matcher is a function that takes two keyword arguments:
+The matcher is a function that takes two keyword arguments.
+It should return the replacement value to be serialized or the original unmutated value.
 
-| Argument | Description                                                                   |
-| -------- | ----------------------------------------------------------------------------- |
-| `data`   | Current serializable value being matched on                                   |
-| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` |
+| Argument | Description                                                                                                        |
+| -------- | ------------------------------------------------------------------------------------------------------------------ |
+| `data`   | Current serializable value being matched on                                                                       |
+| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }`} |
 
 **NOTE:** Do not mutate the value received as it could cause unintended side effects.
 
 ##### Built-In Matchers
 
-Syrupy comes with a few built-in matcher presets that can be used to make easy work of using property matchers.
+Syrupy comes with built-in helpers that can be used to make easy work of using property matchers.
 
 ###### `path_type(mapping=None, *, types=(), strict=True)`
 
@@ -110,7 +111,7 @@ When strict, this will raise a `ValueError` if the types specified are not match
 
 | Argument  | Description                                                                                                                        |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `mapping` | Dict of path string to tuples of class types                                                                                       |
+| `mapping` | Dict of path string to tuples of class types, including primitives e.g. (MyClass, UUID, datetime, int, str)                        |
 | `types`   | Tuple of class types used if none of the path strings from the mapping are matched                                                 |
 | `strict`  | If a path is matched but the value at the path does not match one of the class types in the tuple then a `PathTypeError` is raised |
 
