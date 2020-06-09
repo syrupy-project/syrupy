@@ -273,7 +273,7 @@ class DataSerializer:
         key_values = (
             (key, get_value(data, key))
             for key in keys
-            if not exclude or not exclude(key, path)
+            if not exclude or not exclude(prop=key, path=path)
         )
         entries = (
             entry
