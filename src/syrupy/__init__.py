@@ -67,12 +67,12 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
         assert_msg = reset(
             f"{snapshot_style(left.name)} {op} {received_style('received')}"
         )
-        return [assert_msg] + left.get_assert_diff(right)
+        return [assert_msg] + left.get_assert_diff()
     elif isinstance(right, SnapshotAssertion):
         assert_msg = reset(
             f"{received_style('received')} {op} {snapshot_style(right.name)}"
         )
-        return [assert_msg] + right.get_assert_diff(left)
+        return [assert_msg] + right.get_assert_diff()
     return None
 
 

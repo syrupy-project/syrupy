@@ -46,12 +46,14 @@ from syrupy.utils import walk_snapshot_dir
 
 if TYPE_CHECKING:
     from syrupy.location import TestLocation
-    from syrupy.types import SerializableData, SerializedData
+    from syrupy.types import PropertyMatcher, SerializableData, SerializedData
 
 
 class SnapshotSerializer(ABC):
     @abstractmethod
-    def serialize(self, data: "SerializableData") -> "SerializedData":
+    def serialize(
+        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
+    ) -> "SerializedData":
         """
         Serializes a python object / data structure into a string
         to be used for comparison with snapshot data from disk.
@@ -337,7 +339,7 @@ class SnapshotReporter(ABC):
         if num_lines:
             if num_lines > self._context_line_max:
                 count_leading_whitespace: Callable[[str], int] = (
-                    lambda s: len(s) - len(s.lstrip())  # noqa: E731
+                    lambda s: len(s) - len(s.lstrip())
                 )
                 if self._context_line_count:
                     num_space = (

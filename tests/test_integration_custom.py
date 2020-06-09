@@ -15,7 +15,7 @@ def testcases(testdir):
             def _file_extension(self):
                 return ""
 
-            def serialize(self, data):
+            def serialize(self, data, **kwargs):
                 return str(data)
 
             def get_snapshot_name(self, *, index = 0):
