@@ -152,7 +152,7 @@ It should return `true` or `false` if the property should be excluded or include
 
 ##### Built-In Filters
 
-Syrupy comes with built-in helpers that can be used to make easy work of using the exclude option.
+Syrupy comes with built-in helpers that can be used to make easy work of using the filter options.
 
 ###### `paths(path_string, *path_strings)`
 
