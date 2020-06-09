@@ -1,3 +1,11 @@
+# name: test_filters_error_prop
+  <class 'WithNested'> {
+    include_me='prop value',
+    nested=<class 'CustomClass'> {
+      include_me='prop value',
+    },
+  }
+---
 # name: test_filters_expected_path
   <class 'dict'> {
     'nested': <class 'dict'> {
