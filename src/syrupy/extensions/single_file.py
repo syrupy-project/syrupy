@@ -3,6 +3,7 @@ from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Optional,
     Set,
 )
@@ -16,13 +17,11 @@ from .base import AbstractSyrupyExtension
 
 
 if TYPE_CHECKING:
-    from syrupy.types import PropertyMatcher, SerializableData
+    from syrupy.types import SerializableData
 
 
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
-    def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
-    ) -> bytes:
+    def serialize(self, data: "SerializableData", **kwargs: Any) -> bytes:
         return bytes(data)
 
     def get_snapshot_name(self, *, index: int = 0) -> str:

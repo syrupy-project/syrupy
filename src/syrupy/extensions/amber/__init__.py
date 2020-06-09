@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Optional,
     Set,
 )
@@ -12,7 +13,7 @@ from .serializer import DataSerializer
 
 
 if TYPE_CHECKING:
-    from syrupy.types import PropertyMatcher, SerializableData
+    from syrupy.types import SerializableData
 
 
 class AmberSnapshotExtension(AbstractSyrupyExtension):
@@ -28,14 +29,12 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     ```
     """
 
-    def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None
-    ) -> str:
+    def serialize(self, data: "SerializableData", **kwargs: Any) -> str:
         """
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return DataSerializer.serialize(data, matcher=matcher)
+        return DataSerializer.serialize(data, **kwargs)
 
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]

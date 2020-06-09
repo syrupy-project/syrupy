@@ -17,4 +17,4 @@ def test_filters_expected_path(snapshot):
         "nested": {"id": 4, "other": "value"},
         "some_uuid": uuid.uuid4(),
     }
-    assert actual == snapshot(exclude=paths("date_created", "nested.id"))
+    assert actual == snapshot(exclude=paths("date_created", "nested.id", "some_uuid"))

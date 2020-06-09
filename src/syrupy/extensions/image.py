@@ -1,13 +1,13 @@
 from typing import (
     TYPE_CHECKING,
-    Optional,
+    Any,
 )
 
 from .single_file import SingleFileSnapshotExtension
 
 
 if TYPE_CHECKING:
-    from syrupy.types import PropertyMatcher, SerializableData
+    from syrupy.types import SerializableData
 
 
 class PNGImageSnapshotExtension(SingleFileSnapshotExtension):
@@ -21,7 +21,5 @@ class SVGImageSnapshotExtension(SingleFileSnapshotExtension):
     def _file_extension(self) -> str:
         return "svg"
 
-    def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
-    ) -> bytes:
+    def serialize(self, data: "SerializableData", **kwargs: Any) -> bytes:
         return str(data).encode("utf-8")

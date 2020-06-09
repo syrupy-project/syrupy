@@ -1,0 +1,7 @@
+# name: test_filters_expected_path
+  <class 'dict'> {
+    'nested': <class 'dict'> {
+      'other': 'value',
+    },
+  }
+---

@@ -46,13 +46,22 @@ from syrupy.utils import walk_snapshot_dir
 
 if TYPE_CHECKING:
     from syrupy.location import TestLocation
-    from syrupy.types import PropertyMatcher, SerializableData, SerializedData
+    from syrupy.types import (
+        PropertyFilter,
+        PropertyMatcher,
+        SerializableData,
+        SerializedData,
+    )
 
 
 class SnapshotSerializer(ABC):
     @abstractmethod
     def serialize(
-        self, data: "SerializableData", *, matcher: Optional["PropertyMatcher"] = None,
+        self,
+        data: "SerializableData",
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
         """
         Serializes a python object / data structure into a string
