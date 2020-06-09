@@ -8,6 +8,9 @@
 ---
 # name: test_filters_expected_path
   <class 'dict'> {
+    'list': <class 'list'> [
+      2,
+    ],
     'nested': <class 'dict'> {
       'other': 'value',
     },

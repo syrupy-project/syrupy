@@ -1,5 +1,4 @@
 import datetime
-import uuid
 
 import pytest
 
@@ -13,11 +12,12 @@ def test_filters_path_noop(snapshot):
 
 def test_filters_expected_path(snapshot):
     actual = {
-        "date_created": datetime.datetime.now(),
+        0: "some value",
+        "date": datetime.datetime.now(),
         "nested": {"id": 4, "other": "value"},
-        "some_uuid": uuid.uuid4(),
+        "list": [1, 2],
     }
-    assert actual == snapshot(exclude=paths("date_created", "nested.id", "some_uuid"))
+    assert actual == snapshot(exclude=paths("0", "date", "nested.id", "list.0"))
 
 
 def test_filters_error_prop(snapshot):
