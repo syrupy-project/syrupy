@@ -156,7 +156,7 @@ Syrupy comes with built-in helpers that can be used to make easy work of using t
 
 ###### `paths(path_string, *path_strings)`
 
-Easy way to build a filter that uses the path strings passed to exclude properties.
+Easy way to build a filter that uses full path strings delimited with `.`.
 
 Takes an argument list of path strings.
 
