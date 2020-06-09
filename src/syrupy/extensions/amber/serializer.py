@@ -17,6 +17,7 @@ from syrupy.data import (
 
 if TYPE_CHECKING:
     from syrupy.types import (
+        PropertyFilter,
         PropertyMatcher,
         PropertyName,
         PropertyPath,
@@ -90,6 +91,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
@@ -103,6 +105,7 @@ class DataSerializer:
         serialize_kwargs = {
             "data": data,
             "depth": depth,
+            "exclude": exclude,
             "matcher": matcher,
             "path": path,
             "visited": {*visited, data_id},
