@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [0.5.1](https://github.com/tophat/syrupy/compare/v0.5.0...v0.5.1) (2020-06-12)
+
+
+### Bug Fixes
+
+* support ignoring fields when serializing ([#262](https://github.com/tophat/syrupy/issues/262)) ([f67268e](https://github.com/tophat/syrupy/commit/f67268e23de477c6cc0912f34d6c6d0f70548683))
+
 # [0.5.0](https://github.com/tophat/syrupy/compare/v0.4.4...v0.5.0) (2020-06-09)
 
 
