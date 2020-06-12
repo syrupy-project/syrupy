@@ -1,6 +1,7 @@
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
+    Any,
     Callable,
     Dict,
     List,
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
     from .location import TestLocation
     from .extensions.base import AbstractSyrupyExtension
     from .session import SnapshotSession
-    from .types import PropertyMatcher, SerializableData, SerializedData
+    from .types import PropertyFilter, PropertyMatcher, SerializableData, SerializedData
 
 
 @attr.s
@@ -44,10 +45,11 @@ class SnapshotAssertion:
     _extension_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
+    _exclude: Optional["PropertyFilter"] = attr.ib(init=False, default=None)
     _extension: Optional["AbstractSyrupyExtension"] = attr.ib(init=False, default=None)
-    _matcher: Optional["PropertyMatcher"] = attr.ib(init=False, default=None)
     _executions: int = attr.ib(init=False, default=0)
     _execution_results: Dict[int, "AssertionResult"] = attr.ib(init=False, factory=dict)
+    _matcher: Optional["PropertyMatcher"] = attr.ib(init=False, default=None)
     _post_assert_actions: List[Callable[..., None]] = attr.ib(init=False, factory=list)
 
     def __attrs_post_init__(self) -> None:
@@ -90,7 +92,9 @@ class SnapshotAssertion:
         assert self == data
 
     def _serialize(self, data: "SerializableData") -> "SerializedData":
-        return self.extension.serialize(data, matcher=self._matcher)
+        return self.extension.serialize(
+            data, exclude=self._exclude, matcher=self._matcher
+        )
 
     def get_assert_diff(self) -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
@@ -103,29 +107,26 @@ class SnapshotAssertion:
             diff.extend(self.extension.diff_lines(serialized_data, snapshot_data or ""))
         return diff
 
+    def __with_prop(self, prop_name: str, prop_value: Any) -> None:
+        setattr(self, prop_name, prop_value)
+        self._post_assert_actions.append(lambda: setattr(self, prop_name, None))
+
     def __call__(
         self,
         *,
+        exclude: Optional["PropertyFilter"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
         """
+        if exclude:
+            self.__with_prop("_exclude", exclude)
         if extension_class:
-            self._extension = self.__init_extension(extension_class)
-
-            def clear_extension() -> None:
-                self._extension = None
-
-            self._post_assert_actions.append(clear_extension)
+            self.__with_prop("_extension", self.__init_extension(extension_class))
         if matcher:
-            self._matcher = matcher
-
-            def clear_matcher() -> None:
-                self._matcher = None
-
-            self._post_assert_actions.append(clear_matcher)
+            self.__with_prop("_matcher", matcher)
         return self
 
     def __repr__(self) -> str:

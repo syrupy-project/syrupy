@@ -2,6 +2,7 @@ from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
     Any,
+    Callable,
     Iterable,
     Optional,
     Set,
@@ -17,11 +18,20 @@ from syrupy.data import (
 
 if TYPE_CHECKING:
     from syrupy.types import (
+        PropertyFilter,
         PropertyMatcher,
         PropertyName,
         PropertyPath,
         SerializableData,
     )
+
+    PropertyValueFilter = Callable[[SerializableData], bool]
+    PropertyValueGetter = Callable[..., SerializableData]
+    IterableEntries = Tuple[
+        Iterable["PropertyName"],
+        "PropertyValueGetter",
+        Optional["PropertyValueFilter"],
+    ]
 
 
 class Repr:
@@ -90,6 +100,7 @@ class DataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
@@ -103,6 +114,7 @@ class DataSerializer:
         serialize_kwargs = {
             "data": data,
             "depth": depth,
+            "exclude": exclude,
             "matcher": matcher,
             "path": path,
             "visited": {*visited, data_id},
@@ -158,9 +170,10 @@ class DataSerializer:
             }.items()
             if isinstance(data, iter_type)
         )
+        values = list(data)
         return cls.__serialize_iterable(
             data=data,
-            entries=enumerate(data),
+            resolve_entries=(range(len(values)), lambda _, p: values[p], None),
             open_tag=open_paren,
             close_tag=close_paren,
             **kwargs,
@@ -170,7 +183,7 @@ class DataSerializer:
     def serialize_set(cls, data: "SerializableData", **kwargs: Any) -> str:
         return cls.__serialize_iterable(
             data=data,
-            entries=((d, d) for d in cls.sort(data)),
+            resolve_entries=(cls.sort(data), lambda _, p: p, None),
             open_tag="{",
             close_tag="}",
             **kwargs,
@@ -180,7 +193,7 @@ class DataSerializer:
     def serialize_namedtuple(cls, data: "SerializableData", **kwargs: Any) -> str:
         return cls.__serialize_iterable(
             data=data,
-            entries=((name, getattr(data, name)) for name in cls.sort(data._fields)),
+            resolve_entries=(cls.sort(data._fields), getattr, None),
             open_tag="(",
             close_tag=")",
             separator="=",
@@ -191,7 +204,7 @@ class DataSerializer:
     def serialize_dict(cls, data: "SerializableData", **kwargs: Any) -> str:
         return cls.__serialize_iterable(
             data=data,
-            entries=((key, data[key]) for key in cls.sort(data.keys())),
+            resolve_entries=(cls.sort(data.keys()), lambda d, p: d[p], None),
             open_tag="{",
             close_tag="}",
             separator=": ",
@@ -206,10 +219,10 @@ class DataSerializer:
 
         return cls.__serialize_iterable(
             data=data,
-            entries=(
-                (name, getattr(data, name))
-                for name in cls.sort(dir(data))
-                if not name.startswith("_") and not callable(getattr(data, name))
+            resolve_entries=(
+                (name for name in cls.sort(dir(data)) if not name.startswith("_")),
+                getattr,
+                lambda v: not callable(v),
             ),
             depth=depth,
             open_tag="{",
@@ -240,6 +253,58 @@ class DataSerializer:
         )
 
     @classmethod
+    def __serialize_iterable(
+        cls,
+        *,
+        data: "SerializableData",
+        resolve_entries: "IterableEntries",
+        open_tag: str,
+        close_tag: str,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        path: "PropertyPath" = (),
+        separator: Optional[str] = None,
+        serialize_key: bool = False,
+        **kwargs: Any,
+    ) -> str:
+        kwargs["depth"] = depth + 1
+
+        keys, get_value, include_value = resolve_entries
+        key_values = (
+            (key, get_value(data, key))
+            for key in keys
+            if not exclude or not exclude(prop=key, path=path)
+        )
+        entries = (
+            entry
+            for entry in key_values
+            if not include_value or include_value(entry[1])
+        )
+
+        def key_str(key: "PropertyName") -> str:
+            if separator is None:
+                return ""
+            return (
+                cls.serialize(data=key, **kwargs)
+                if serialize_key
+                else cls.with_indent(str(key), depth=depth + 1)
+            ) + separator
+
+        def value_str(key: "PropertyName", value: "SerializableData") -> str:
+            serialized = cls.serialize(
+                data=value, exclude=exclude, path=(*path, (key, type(value))), **kwargs
+            )
+            return serialized if separator is None else serialized.lstrip(cls._indent)
+
+        return cls.__serialize_lines(
+            data=data,
+            lines=(f"{key_str(key)}{value_str(key, value)}," for key, value in entries),
+            depth=depth,
+            open_tag=open_tag,
+            close_tag=close_tag,
+        )
+
+    @classmethod
     def __serialize_lines(
         cls,
         *,
@@ -254,41 +319,3 @@ class DataSerializer:
         return (
             f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
         ) + f"{open_tag}\n{ends.join(lines)}\n{cls.with_indent(close_tag, depth)}"
-
-    @classmethod
-    def __serialize_iterable(
-        cls,
-        *,
-        data: "SerializableData",
-        entries: Iterable[Tuple["PropertyName", "SerializableData"]],
-        open_tag: str,
-        close_tag: str,
-        depth: int = 0,
-        path: "PropertyPath" = (),
-        separator: Optional[str] = None,
-        serialize_key: bool = False,
-        **kwargs: Any,
-    ) -> str:
-        kwargs["depth"] = depth + 1
-
-        def key_str(key: "PropertyName") -> str:
-            if separator is None:
-                return ""
-            return (
-                cls.serialize(data=key, **kwargs)
-                if serialize_key
-                else cls.with_indent(str(key), depth=depth + 1)
-            ) + separator
-
-        def value_str(key: "PropertyName", value: "SerializableData") -> str:
-            _path = (*path, (key, type(value)))
-            serialized = cls.serialize(data=value, path=_path, **kwargs)
-            return serialized if separator is None else serialized.lstrip(cls._indent)
-
-        return cls.__serialize_lines(
-            data=data,
-            lines=(f"{key_str(key)}{value_str(key, value)}," for key, value in entries),
-            depth=depth,
-            open_tag=open_tag,
-            close_tag=close_tag,
-        )

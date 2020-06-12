@@ -95,7 +95,7 @@ It should return the replacement value to be serialized or the original unmutate
 
 | Argument | Description                                                                                                        |
 | -------- | ------------------------------------------------------------------------------------------------------------------ |
-| `data`   | Current serializable value being matched on                                                                       |
+| `data`   | Current serializable value being matched on                                                                        |
 | `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }`} |
 
 **NOTE:** Do not mutate the value received as it could cause unintended side effects.
@@ -134,6 +134,50 @@ def test_bar(snapshot):
   <class 'dict'> {
     'date_created': <class 'datetime'>,
     'value': 'Some computed value!',
+  }
+---
+```
+
+#### `exclude`
+
+This allows you to filter out object properties from the serialized snapshot.
+
+The exclude parameter takes a filter function that accepts two keyword arguments.
+It should return `true` or `false` if the property should be excluded or included respectively.
+
+| Argument | Description                                                                                                                                   |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prop`   | Current property on the object, could be any hashable value that can be used to retrieve a value e.g. `1`, `"prop_str"`, `SomeHashableObject` |
+| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }`}                            |
+
+##### Built-In Filters
+
+Syrupy comes with built-in helpers that can be used to make easy work of using the filter options.
+
+###### `paths(path_string, *path_strings)`
+
+Easy way to build a filter that uses full path strings delimited with `.`.
+
+Takes an argument list of path strings.
+
+```py
+from syrupy.filters import paths
+
+def test_bar(snapshot):
+    actual = {
+      "date": datetime.now(),
+      "list": [1,2,3],
+    }
+    assert actual == snapshot(exclude=paths("date_created", "list.1"))
+```
+
+```ambr
+# name: test_bar
+  <class 'dict'> {
+    'list': <class 'list'> [
+      1,
+      3,
+    ],
   }
 ---
 ```
