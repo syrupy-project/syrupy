@@ -23,7 +23,7 @@ flake8-builtins==1.5.3    # via syrupy
 flake8-comprehensions==3.2.3  # via syrupy
 flake8-i18n==0.1.0        # via syrupy
 flake8==3.8.3             # via flake8-bugbear, flake8-builtins, flake8-comprehensions, flake8-i18n, syrupy
-idna==2.9                 # via requests
+idna==2.10                 # via requests
 invoke==1.4.1             # via syrupy
 isort==4.3.21             # via syrupy
 keyring==21.2.1           # via twine
