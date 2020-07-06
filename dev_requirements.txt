@@ -64,4 +64,4 @@ wheel==0.34.2             # via syrupy
 wrapt==1.12.1             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==48.0.0        # via twine
+setuptools==49.1.0        # via twine
