@@ -76,6 +76,7 @@ ExampleTuple = namedtuple("ExampleTuple", ["a", "b", "c", "d"])
 def test_tuple(snapshot):
     assert snapshot == ("this", "is", ("a", "tuple"))
     assert snapshot == ExampleTuple(a="this", b="is", c="a", d={"named", "tuple"})
+    assert snapshot == ()
 
 
 @pytest.mark.parametrize(
@@ -85,6 +86,7 @@ def test_tuple(snapshot):
         {"contains", "frozen", frozenset({"1", "2"})},
         {"contains", "tuple", (1, 2)},
         {"contains", "namedtuple", ExampleTuple(a=1, b=2, c=3, d=4)},
+        set(),
     ],
 )
 def test_set(snapshot, actual):
@@ -102,6 +104,7 @@ def test_set(snapshot, actual):
             frozenset({"1", "2"}): ["1", 2],
             ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
         },
+        {},
     ],
 )
 def test_dict(snapshot, actual):
@@ -114,8 +117,17 @@ def test_numbers(snapshot):
     assert snapshot == 2 / 6
 
 
-def test_list(snapshot):
-    assert snapshot == [1, 2, "string", {"key": "value"}]
+@pytest.mark.parametrize(
+    "actual",
+    [
+        [],
+        ["this", "is", "a", "list"],
+        ["contains", "empty", []],
+        [1, 2, "string", {"key": "value"}],
+    ],
+)
+def test_list(snapshot, actual):
+    assert actual == snapshot
 
 
 list_cycle = [1, 2, 3]
