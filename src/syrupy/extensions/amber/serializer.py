@@ -316,6 +316,8 @@ class DataSerializer:
         include_type: bool = True,
         ends: str = "\n",
     ) -> str:
+        lines = ends.join(lines)
+        lines_end = "\n" if lines else ""
         return (
             f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
-        ) + f"{open_tag}\n{ends.join(lines)}\n{cls.with_indent(close_tag, depth)}"
+        ) + f"{open_tag}\n{lines}{lines_end}{cls.with_indent(close_tag, depth)}"
