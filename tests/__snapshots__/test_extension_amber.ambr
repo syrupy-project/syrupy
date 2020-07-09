@@ -155,6 +155,10 @@
     ],
   }
 ---
+# name: test_dict[actual3]
+  <class 'dict'> {
+  }
+---
 # name: test_doubly_parametrized[bar-foo]
   'foo'
 ---
@@ -167,7 +171,27 @@
 # name: test_empty_snapshot.1
   ''
 ---
-# name: test_list
+# name: test_list[actual0]
+  <class 'list'> [
+  ]
+---
+# name: test_list[actual1]
+  <class 'list'> [
+    'this',
+    'is',
+    'a',
+    'list',
+  ]
+---
+# name: test_list[actual2]
+  <class 'list'> [
+    'contains',
+    'empty',
+    <class 'list'> [
+    ],
+  ]
+---
+# name: test_list[actual3]
   <class 'list'> [
     1,
     2,
@@ -294,6 +318,10 @@
     ),
   }
 ---
+# name: test_set[actual4]
+  <class 'set'> {
+  }
+---
 # name: test_string[0]
   ''
 ---
@@ -354,5 +382,9 @@
       'named',
       'tuple',
     },
+  )
+---
+# name: test_tuple.2
+  <class 'tuple'> (
   )
 ---
