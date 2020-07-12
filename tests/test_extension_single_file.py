@@ -9,7 +9,6 @@ from syrupy.data import (
 )
 from syrupy.extensions.single_file import SingleFileSnapshotExtension
 
-
 if TYPE_CHECKING:
     from syrupy.assertion import SnapshotAssertion
 

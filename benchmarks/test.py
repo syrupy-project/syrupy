@@ -9,7 +9,6 @@ from syrupy.extensions.image import (
     SVGImageSnapshotExtension,
 )
 
-
 example_cycle_list = [1, 2, 3]
 example_cycle_list.append(example_cycle_list)
 example_cycle_dict = {"a": 1, "b": 2, "c": 3}

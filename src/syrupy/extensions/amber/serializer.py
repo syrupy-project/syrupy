@@ -15,7 +15,6 @@ from syrupy.data import (
     SnapshotFossil,
 )
 
-
 if TYPE_CHECKING:
     from syrupy.types import (
         PropertyFilter,

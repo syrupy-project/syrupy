@@ -7,7 +7,6 @@ from syrupy.extensions.image import (
     SVGImageSnapshotExtension,
 )
 
-
 actual_png = base64.b64decode(
     b"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMy"
     b"Wlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxA"

@@ -14,7 +14,6 @@ from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
 from .report import SnapshotReport
 
-
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
     from .extensions.base import AbstractSyrupyExtension

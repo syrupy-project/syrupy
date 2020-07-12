@@ -28,7 +28,6 @@ from .terminal import (
     warning_style,
 )
 
-
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
 

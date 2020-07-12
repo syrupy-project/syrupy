@@ -13,12 +13,16 @@ import attr
 
 from .exceptions import SnapshotDoesNotExist
 
-
 if TYPE_CHECKING:
-    from .location import TestLocation
     from .extensions.base import AbstractSyrupyExtension
+    from .location import TestLocation
     from .session import SnapshotSession
-    from .types import PropertyFilter, PropertyMatcher, SerializableData, SerializedData
+    from .types import (
+        PropertyFilter,
+        PropertyMatcher,
+        SerializableData,
+        SerializedData,
+    )
 
 
 @attr.s

@@ -6,7 +6,6 @@ from setuptools import (
     setup,
 )
 
-
 python_requires = ">=3.6"
 setup_requires = ["setuptools_scm"]
 install_requires = [

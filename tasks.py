@@ -1,6 +1,9 @@
 import os
 
-from invoke import exceptions, task
+from invoke import (
+    exceptions,
+    task,
+)
 
 import benchmarks
 
