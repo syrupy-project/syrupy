@@ -16,7 +16,6 @@ import pytest
 
 from syrupy.extensions.amber import AmberSnapshotExtension
 
-
 DIFFERENT_DIRECTORY = "__snaps_example__"
 
 

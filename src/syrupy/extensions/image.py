@@ -5,7 +5,6 @@ from typing import (
 
 from .single_file import SingleFileSnapshotExtension
 
-
 if TYPE_CHECKING:
     from syrupy.types import SerializableData
 

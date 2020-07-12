@@ -14,7 +14,6 @@ from .constants import (
     SNAPSHOT_UNKNOWN_FOSSIL_KEY,
 )
 
-
 if TYPE_CHECKING:
     from .types import SerializedData
 

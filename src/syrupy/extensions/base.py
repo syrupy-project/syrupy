@@ -43,7 +43,6 @@ from syrupy.terminal import (
 )
 from syrupy.utils import walk_snapshot_dir
 
-
 if TYPE_CHECKING:
     from syrupy.location import TestLocation
     from syrupy.types import (

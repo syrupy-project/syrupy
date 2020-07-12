@@ -11,7 +11,6 @@ from syrupy.extensions.amber.serializer import (
     Repr,
 )
 
-
 if TYPE_CHECKING:
     from syrupy.types import (
         PropertyMatcher,

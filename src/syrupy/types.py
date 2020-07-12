@@ -8,7 +8,6 @@ from typing import (
     Union,
 )
 
-
 SerializableData = Any
 SerializedData = Union[str, bytes]
 PropertyName = Hashable

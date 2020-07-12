@@ -14,9 +14,9 @@ from github import (
     UnknownObjectException,
 )
 
-
 if TYPE_CHECKING:
     from subprocess import CompletedProcess
+
     from github.Commit import Commit
 
 BENCH_COMMAND = "pytest benchmarks/test.py -qq --snapshot-update"
@@ -74,7 +74,7 @@ def report_pending(github: Optional["Github"] = None) -> None:
     if not github:
         return
     get_commit(github).create_status(
-        state="pending", description="Running benchmarks", context=GH_STATUS_CONTEXT,
+        state="pending", description="Running benchmarks", context=GH_STATUS_CONTEXT
     )
 
 
@@ -150,7 +150,7 @@ def fetch_ref_bench_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> b
 
 
 def compare_bench_status(
-    perf_file: str = BENCH_PERF_FILE, ref_file: str = BENCH_REF_FILE,
+    perf_file: str = BENCH_PERF_FILE, ref_file: str = BENCH_REF_FILE
 ) -> Tuple[str, bool]:
     """
     Compare benchmarks for current branch to reference and return results
