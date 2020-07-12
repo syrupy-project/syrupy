@@ -154,6 +154,34 @@ It should return `true` or `false` if the property should be excluded or include
 
 Syrupy comes with built-in helpers that can be used to make easy work of using the filter options.
 
+###### `props(prop_name, *prop_name)`
+
+Easy way to build a filter that excludes based on string based property names.
+
+Takes an argument list of property names, with support for indexed iterables.
+
+```py
+from syrupy.filters import props
+
+def test_bar(snapshot):
+    actual = {
+      "id": uuid.uuid4(),
+      "list": [1,2,3],
+    }
+    assert actual == snapshot(exclude=props("id", "1"))
+```
+
+```ambr
+# name: test_bar
+  <class 'dict'> {
+    'list': <class 'list'> [
+      1,
+      3,
+    ],
+  }
+---
+```
+
 ###### `paths(path_string, *path_strings)`
 
 Easy way to build a filter that uses full path strings delimited with `.`.
@@ -168,7 +196,7 @@ def test_bar(snapshot):
       "date": datetime.now(),
       "list": [1,2,3],
     }
-    assert actual == snapshot(exclude=paths("date_created", "list.1"))
+    assert actual == snapshot(exclude=paths("date", "list.1"))
 ```
 
 ```ambr
