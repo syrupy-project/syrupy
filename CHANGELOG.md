@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [0.6.0](https://github.com/tophat/syrupy/compare/v0.5.2...v0.6.0) (2020-07-12)
+
+
+### Features
+
+* add simple props filter helper ([#290](https://github.com/tophat/syrupy/issues/290)) ([d76cc07](https://github.com/tophat/syrupy/commit/d76cc07fa5b9eb7d6cbbbe4b7894e0ba29bd0df6))
+
 ## [0.5.2](https://github.com/tophat/syrupy/compare/v0.5.1...v0.5.2) (2020-07-09)
 
 
