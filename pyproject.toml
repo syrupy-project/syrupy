@@ -34,17 +34,19 @@ skip = '''
 syrupy.venv,
 build,
 dist,
-stubs,
 '''
+
+[tool.pytest.ini_options]
+addopts = '-p syrupy'
 
 [tool.coverage.run]
 source = [
-  "./src",
+  './src',
 ]
 
 [tool.coverage.report]
 exclude_lines = [
-  "pragma: no-cover",
-  "if TYPE_CHECKING:",
-  "@abstractmethod",
+  'pragma: no-cover',
+  'if TYPE_CHECKING:',
+  '@abstractmethod',
 ]
