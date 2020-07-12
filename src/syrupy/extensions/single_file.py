@@ -15,7 +15,6 @@ from syrupy.data import (
 
 from .base import AbstractSyrupyExtension
 
-
 if TYPE_CHECKING:
     from syrupy.types import SerializableData
 

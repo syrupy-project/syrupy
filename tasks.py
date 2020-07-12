@@ -37,7 +37,7 @@ def lint(ctx, fix=False):
     Check and fix syntax
     """
     lint_commands = {
-        "isort": f"python -m isort {'' if fix else '--check-only --diff'} -y",
+        "isort": f"python -m isort {'' if fix else '--check'} .",
         "black": f"python -m black {'' if fix else '--check'} .",
         "flake8": "python -m flake8 src tests benchmarks *.py",
         "mypy": "python -m mypy --strict src benchmarks",

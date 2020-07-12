@@ -24,8 +24,9 @@ exclude = '''
 '''
 
 [tool.isort]
-line_length = 88
+force_grid_wrap = 2
 known_first_party = 'syrupy'
+profile = 'black'
 skip = '''
 .eggs,
 .mypy_cache,
@@ -33,17 +34,19 @@ skip = '''
 syrupy.venv,
 build,
 dist,
-stubs,
 '''
+
+[tool.pytest.ini_options]
+addopts = '-p syrupy'
 
 [tool.coverage.run]
 source = [
-  "./src",
+  './src',
 ]
 
 [tool.coverage.report]
 exclude_lines = [
-  "pragma: no-cover",
-  "if TYPE_CHECKING:",
-  "@abstractmethod",
+  'pragma: no-cover',
+  'if TYPE_CHECKING:',
+  '@abstractmethod',
 ]
