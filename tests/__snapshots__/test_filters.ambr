@@ -1,4 +1,4 @@
-# name: test_filters_error_prop
+# name: test_filters_error_prop[path_filter]
   <class 'WithNested'> {
     include_me='prop value',
     nested=<class 'CustomClass'> {
@@ -6,7 +6,25 @@
     },
   }
 ---
-# name: test_filters_expected_path
+# name: test_filters_error_prop[prop_filter]
+  <class 'WithNested'> {
+    include_me='prop value',
+    nested=<class 'CustomClass'> {
+      include_me='prop value',
+    },
+  }
+---
+# name: test_filters_expected_paths
+  <class 'dict'> {
+    'list': <class 'list'> [
+      2,
+    ],
+    'nested': <class 'dict'> {
+      'other': 'value',
+    },
+  }
+---
+# name: test_filters_expected_props
   <class 'dict'> {
     'list': <class 'list'> [
       2,
