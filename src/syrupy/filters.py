@@ -2,7 +2,11 @@ from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
-    from syrupy.types import PropertyFilter, PropertyName, PropertyPath
+    from syrupy.types import (
+        PropertyFilter,
+        PropertyName,
+        PropertyPath,
+    )
 
 
 def paths(path_string: str, *path_strings: str) -> "PropertyFilter":
