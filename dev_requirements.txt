@@ -25,7 +25,7 @@ flake8-i18n==0.1.0        # via syrupy
 flake8==3.8.3             # via flake8-bugbear, flake8-builtins, flake8-comprehensions, flake8-i18n, syrupy
 idna==2.10                 # via requests
 invoke==1.4.1             # via syrupy
-isort==5.1.0             # via syrupy
+isort==5.1.1             # via syrupy
 keyring==21.2.1           # via twine
 mccabe==0.6.1             # via flake8
 more-itertools==8.4.0     # via pytest
