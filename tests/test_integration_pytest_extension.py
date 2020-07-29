@@ -6,15 +6,15 @@ def test_ignores_non_function_nodes(testdir):
         import pytest
 
         class CustomItem(pytest.Item, pytest.File):
-            def __init__(self, *args, **kwargs):
-                super().__init__(*args, **kwargs)
+            def __init__(self, *args, fspath, parent, **kwargs):
+                super().__init__(fspath, parent=parent)
                 self._nodeid += "::CUSTOM"
 
             def runtest(self):
                 pass
 
         def pytest_collect_file(path, parent):
-            return CustomItem(path, parent)
+            return CustomItem.from_parent(fspath=path, parent=parent)
         """
     testcase = """
         def test_example(snapshot):
