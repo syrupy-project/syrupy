@@ -41,7 +41,7 @@ py-githooks==1.1.0        # via syrupy
 py==1.9.0                 # via pytest
 pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
-pygithub==1.51            # via syrupy
+pygithub==1.52            # via syrupy
 pygments==2.6.1           # via readme-renderer
 pyjwt==1.7.1              # via pygithub
 pyparsing==2.4.7          # via packaging
