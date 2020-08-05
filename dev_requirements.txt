@@ -65,5 +65,5 @@ wheel==0.34.2             # via syrupy
 wrapt==1.12.1             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==20.2               # via pip-tools
+pip==20.2.1               # via pip-tools
 setuptools==49.2.1        # via twine
