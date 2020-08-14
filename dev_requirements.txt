@@ -61,7 +61,7 @@ typed-ast==1.4.1          # via black, mypy
 typing-extensions==3.7.4.2  # via mypy, syrupy
 urllib3==1.25.10          # via requests
 webencodings==0.5.1       # via bleach
-wheel==0.34.2             # via syrupy
+wheel==0.35.0             # via syrupy
 wrapt==1.12.1             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
