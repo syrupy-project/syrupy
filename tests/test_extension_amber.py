@@ -105,6 +105,9 @@ def test_set(snapshot, actual):
             ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
         },
         {},
+        {"key": ["line1\nline2"]},
+        {"key": [1, "line1\nline2", 2, "line3\nline4"]},
+        {"key": [1, ["line1\nline2"], 2]},
     ],
 )
 def test_dict(snapshot, actual):
