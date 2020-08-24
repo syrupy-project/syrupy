@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [0.7.0](https://github.com/tophat/syrupy/compare/v0.6.1...v0.7.0) (2020-08-24)
+
+
+### Features
+
+* bugfix, pass indent to multiline open tag, close [#332](https://github.com/tophat/syrupy/issues/332) ([#334](https://github.com/tophat/syrupy/issues/334)) ([3b06a98](https://github.com/tophat/syrupy/commit/3b06a98928a64729bad7c2113e6390136bfbc512))
+
 ## [0.6.1](https://github.com/tophat/syrupy/compare/v0.6.0...v0.6.1) (2020-07-29)
 
 
