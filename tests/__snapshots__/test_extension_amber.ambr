@@ -159,6 +159,46 @@
   <class 'dict'> {
   }
 ---
+# name: test_dict[actual4]
+  <class 'dict'> {
+    'key': <class 'list'> [
+      '
+        line1
+        line2
+      ',
+    ],
+  }
+---
+# name: test_dict[actual5]
+  <class 'dict'> {
+    'key': <class 'list'> [
+      1,
+      '
+        line1
+        line2
+      ',
+      2,
+      '
+        line3
+        line4
+      ',
+    ],
+  }
+---
+# name: test_dict[actual6]
+  <class 'dict'> {
+    'key': <class 'list'> [
+      1,
+      <class 'list'> [
+        '
+          line1
+          line2
+        ',
+      ],
+      2,
+    ],
+  }
+---
 # name: test_doubly_parametrized[bar-foo]
   'foo'
 ---
