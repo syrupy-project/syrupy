@@ -346,8 +346,8 @@ class SnapshotReporter(ABC):
         num_lines = len(lines)
         if num_lines:
             if num_lines > self._context_line_max:
-                count_leading_whitespace: Callable[[str], int] = (
-                    lambda s: len(s) - len(s.lstrip())
+                count_leading_whitespace: Callable[[str], int] = lambda s: len(s) - len(
+                    s.lstrip()
                 )
                 if self._context_line_count:
                     num_space = (
