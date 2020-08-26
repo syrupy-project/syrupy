@@ -27,7 +27,7 @@ idna==2.10                # via requests
 iniconfig==1.0.1          # via pytest
 invoke==1.4.1             # via syrupy
 isort==5.4.2              # via syrupy
-keyring==21.3.0           # via twine
+keyring==21.3.1           # via twine
 mccabe==0.6.1             # via flake8
 more-itertools==8.4.0     # via pytest
 mypy-extensions==0.4.3    # via mypy
