@@ -9,7 +9,7 @@ from setuptools import (
 python_requires = ">=3.6"
 setup_requires = ["setuptools_scm"]
 install_requires = [
-    "attrs>=18.2.0,<20.0.0",
+    "attrs>=18.2.0,<21.0.0",
     "colored>=1.3.92,<2.0.0",
     "typing_extensions>=3.6,<4.0.0",
     "pytest>=5.1.0,<7.0.0",
