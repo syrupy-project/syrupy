@@ -104,7 +104,9 @@ class TestClass:
         assert example_png == snapshot(extension_class=PNGImageSnapshotExtension)
 
     @pytest.mark.parametrize(
-        "actual", test_cases, ids=lambda x: "",
+        "actual",
+        test_cases,
+        ids=lambda x: "",
     )
     def test_parametrized_method(self, snapshot, actual):
         assert actual == snapshot
@@ -112,7 +114,9 @@ class TestClass:
         assert snapshot == actual
 
     @pytest.mark.parametrize(
-        "actual", test_cases, ids=lambda x: "",
+        "actual",
+        test_cases,
+        ids=lambda x: "",
     )
     class TestNestedParametrizedClass:
         def test_nested_method(self, snapshot, actual):

@@ -135,13 +135,17 @@ class SnapshotReport:
         if self.num_failed:
             summary_lines.append(
                 ngettext(
-                    "{} snapshot failed.", "{} snapshots failed.", self.num_failed,
+                    "{} snapshot failed.",
+                    "{} snapshots failed.",
+                    self.num_failed,
                 ).format(error_style(self.num_failed))
             )
         if self.num_matched:
             summary_lines.append(
                 ngettext(
-                    "{} snapshot passed.", "{} snapshots passed.", self.num_matched,
+                    "{} snapshot passed.",
+                    "{} snapshots passed.",
+                    self.num_matched,
                 ).format(success_style(self.num_matched))
             )
         if self.num_created:
@@ -155,7 +159,9 @@ class SnapshotReport:
         if self.num_updated:
             summary_lines.append(
                 ngettext(
-                    "{} snapshot updated.", "{} snapshots updated.", self.num_updated,
+                    "{} snapshot updated.",
+                    "{} snapshots updated.",
+                    self.num_updated,
                 ).format(green(self.num_updated))
             )
         if self.num_unused:

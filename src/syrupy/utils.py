@@ -42,6 +42,7 @@ def import_module_member(path: str) -> Any:
     except AttributeError:
         raise FailedToLoadModuleMember(
             gettext("Member '{}' not found in module '{}'.").format(
-                module_member_name, module_name,
+                module_member_name,
+                module_name,
             )
         )
