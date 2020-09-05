@@ -121,7 +121,7 @@ from syrupy.matchers import path_type
 def test_bar(snapshot):
     actual = {
       "date_created": datetime.now(),
-      "value": "Some computed value!",
+      "value": "Some computed value!!",
     }
     assert actual == snapshot(matcher=path_type({
       "date_created": (datetime,),
@@ -133,7 +133,7 @@ def test_bar(snapshot):
 # name: test_bar
   <class 'dict'> {
     'date_created': <class 'datetime'>,
-    'value': 'Some computed value!',
+    'value': 'Some computed value!!',
   }
 ---
 ```
