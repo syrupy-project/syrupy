@@ -21,7 +21,12 @@ def requirements(ctx, upgrade=False):
     """
     Build test & dev requirements lock file
     """
-    args = ["--no-emit-find-links", "--no-index", "--allow-unsafe", "--rebuild"]
+    args = [
+        "--no-emit-find-links",
+        "--no-emit-index-url",
+        "--allow-unsafe",
+        "--rebuild",
+    ]
     if upgrade:
         args.append("--upgrade")
     ctx.run(
