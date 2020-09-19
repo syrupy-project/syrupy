@@ -1,5 +1,6 @@
 import argparse
 import glob
+import os
 import sys
 from gettext import gettext
 from typing import (
@@ -11,6 +12,7 @@ from typing import (
 import pytest
 
 from .assertion import SnapshotAssertion
+from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
@@ -102,6 +104,8 @@ def pytest_sessionstart(session: Any) -> None:
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
     config = session.config
+    if config.option.no_colors:
+        os.environ[DISABLE_COLOR_ENV_VAR] = "true"
     config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,

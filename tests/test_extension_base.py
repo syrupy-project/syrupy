@@ -2,8 +2,6 @@ import pytest
 
 from syrupy.extensions.base import SnapshotReporter
 
-from .utils import clean_output
-
 
 class SnapshotReporterNoContext(SnapshotReporter):
     @property
@@ -27,5 +25,6 @@ class TestSnapshotReporter:
         ],
         ids=lambda _: "",
     )
-    def test_diff_lines(self, a, b, Reporter, snapshot):
-        assert "\n".join(map(clean_output, Reporter().diff_lines(a, b))) == snapshot
+    def test_diff_lines(self, a, b, Reporter, snapshot, osenv):
+        with osenv(NO_COLOR="true"):
+            assert "\n".join(Reporter().diff_lines(a, b)) == snapshot

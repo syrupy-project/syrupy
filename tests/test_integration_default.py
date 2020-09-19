@@ -2,11 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from .utils import clean_output
-
 
 def get_result_snapshot_summary(result: object) -> str:
-    result_stdout = clean_output(result.stdout.str())
+    result_stdout = result.stdout.str()
     start_idx = result_stdout.find("\n", result_stdout.find("---- snapshot report"))
     end_idx = result_stdout.find("====", start_idx)
     return result_stdout[start_idx:end_idx].strip()
@@ -120,7 +118,7 @@ def test_only_updates_targeted_snapshot_in_class_for_single_file(testdir):
 
     test_filepath = Path(testdir.tmpdir, "test_content.py")
     result = testdir.runpytest(str(test_filepath), "-v", "-k test_case_2")
-    result_stdout = clean_output(result.stdout.str())
+    result_stdout = result.stdout.str()
     assert "1 snapshot passed" in result_stdout
     assert "snapshot unused" not in result_stdout
 
@@ -144,7 +142,7 @@ def test_only_updates_targeted_snapshot_for_single_file(testdir):
 
     test_filepath = Path(testdir.tmpdir, "test_content.py")
     result = testdir.runpytest(str(test_filepath), "-v", "-k test_case_2")
-    result_stdout = clean_output(result.stdout.str())
+    result_stdout = result.stdout.str()
     assert "1 snapshot passed" in result_stdout
     assert "snapshot unused" not in result_stdout
 
@@ -161,7 +159,7 @@ def test_multiple_snapshots(testdir):
     testdir.makepyfile(test_content=test_content)
     result = testdir.runpytest("-v", "--snapshot-update")
 
-    result_stdout = clean_output(result.stdout.str())
+    result_stdout = result.stdout.str()
     assert "Can not relate snapshot name" not in result_stdout
 
 
@@ -305,8 +303,8 @@ def test_generated_snapshots(stubs, snapshot):
 def test_failing_snapshots_diff(stubs, testcases_updated, snapshot):
     testdir = stubs[1]
     testdir.makepyfile(test_file="\n\n".join(testcases_updated.values()))
-    result = testdir.runpytest("-vv")
-    result_stdout = clean_output(result.stdout.str())
+    result = testdir.runpytest("-vv", "--snapshot-no-colors")
+    result_stdout = result.stdout.str()
     start_index = result_stdout.find("\n", result_stdout.find("==== FAILURES"))
     end_index = result_stdout.find("\n", result_stdout.find("---- snapshot report"))
     assert result_stdout[start_index:end_index] == snapshot
@@ -426,7 +424,7 @@ def test_removed_hanging_snapshot_fossil(stubs, snapshot):
     hanging_filepath = Path(testdir.tmpdir, "__snapshots__/test_hanging.abc")
     assert hanging_filepath.exists()
     result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = clean_output(result.stdout.str())
+    result_stdout = result.stdout.str()
     assert str(Path(filepath).relative_to(Path.cwd())) not in result_stdout
     assert "1 unused snapshot deleted" in result_stdout
     assert "unknown snapshot" in result_stdout
@@ -464,7 +462,7 @@ def test_snapshot_default_extension_option_failure(testdir, testcases, snapshot)
         "--snapshot-default-extension",
         "syrupy.extensions.amber.DoesNotExistExtension",
     )
-    result_stderr = clean_output(result.stderr.str())
+    result_stderr = result.stderr.str()
     assert "error: argument --snapshot-default-extension" in result_stderr
     assert "Member 'DoesNotExistExtension' not found" in result_stderr
     assert result.ret

@@ -1,3 +1,5 @@
+import os
+from contextlib import contextmanager
 from gettext import gettext
 from importlib import import_module
 from pathlib import Path
@@ -46,3 +48,13 @@ def import_module_member(path: str) -> Any:
                 module_name,
             )
         )
+
+
+@contextmanager
+def env_context(**kwargs: str) -> Iterator[None]:
+    prev_env = {**os.environ}
+    try:
+        yield os.environ.update(kwargs)
+    finally:
+        os.environ.clear()
+        os.environ.update(prev_env)

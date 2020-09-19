@@ -6,10 +6,11 @@ from typing import (
 
 import colored
 
+from .constants import DISABLE_COLOR_ENV_VARS
+
 
 def _is_color_disabled() -> bool:
-    disable_color_env_vars = {"ANSI_COLORS_DISABLED", "NO_COLOR"}
-    for env_var_name in disable_color_env_vars:
+    for env_var_name in DISABLE_COLOR_ENV_VARS:
         if os.environ.get(env_var_name) is not None:
             return True
     return False
