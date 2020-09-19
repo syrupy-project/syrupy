@@ -9,15 +9,13 @@ attrs==20.2.0             # via flake8-bugbear, pytest, syrupy
 black==20.8b1             # via syrupy
 bleach==3.2.1             # via readme-renderer
 certifi==2020.6.20        # via requests
-cffi==1.14.2              # via cryptography
 chardet==3.0.4            # via requests
 click==7.1.2              # via black, pip-tools
 codecov==2.1.9            # via syrupy
 colorama==0.4.3           # via twine
 colored==1.4.2            # via syrupy
 configparser==5.0.0       # via py-githooks
-coverage[toml]==5.3     # via codecov, syrupy
-cryptography==3.1         # via secretstorage
+coverage[toml]==5.3       # via codecov, syrupy
 deprecated==1.2.10        # via pygithub
 docutils==0.16            # via readme-renderer
 flake8-bugbear==20.1.4    # via syrupy
@@ -29,7 +27,6 @@ idna==2.10                # via requests
 iniconfig==1.0.1          # via pytest
 invoke==1.4.1             # via syrupy
 isort==5.5.2              # via syrupy
-jeepney==0.4.3            # via keyring, secretstorage
 keyring==21.4.0           # via twine
 mccabe==0.6.1             # via flake8
 more-itertools==8.5.0     # via pytest
@@ -43,7 +40,6 @@ pluggy==0.13.1            # via pytest
 py-githooks==1.1.0        # via syrupy
 py==1.9.0                 # via pytest
 pycodestyle==2.6.0        # via flake8
-pycparser==2.20           # via cffi
 pyflakes==2.2.0           # via flake8
 pygithub==1.53            # via syrupy
 pygments==2.7.1           # via readme-renderer
@@ -56,9 +52,8 @@ regex==2020.7.14          # via black
 requests-toolbelt==0.9.1  # via twine
 requests==2.24.0          # via codecov, pygithub, requests-toolbelt, twine
 rfc3986==1.4.0            # via twine
-secretstorage==3.1.2      # via keyring
 semver==2.10.2            # via syrupy
-six==1.15.0               # via bleach, cryptography, packaging, pip-tools, readme-renderer
+six==1.15.0               # via bleach, packaging, pip-tools, readme-renderer
 toml==0.10.1              # via black, coverage, pytest
 tqdm==4.49.0              # via twine
 twine==3.2.0              # via syrupy

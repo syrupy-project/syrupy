@@ -1,26 +1,44 @@
-from typing import Union
+import os
+from typing import (
+    Any,
+    Union,
+)
 
 import colored
 
 
+def _is_color_disabled() -> bool:
+    disable_color_env_vars = {"ANSI_COLORS_DISABLED", "NO_COLOR"}
+    for env_var_name in disable_color_env_vars:
+        if os.environ.get(env_var_name) is not None:
+            return True
+    return False
+
+
+def _stylize(text: Union[str, int], *args: Any) -> str:
+    if _is_color_disabled():
+        return str(text)
+    return colored.stylize(text, *args)
+
+
 def reset(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.attr("reset"))
+    return _stylize(text, colored.attr("reset"))
 
 
 def red(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.fg("red"))
+    return _stylize(text, colored.fg("red"))
 
 
 def yellow(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.fg("yellow"))
+    return _stylize(text, colored.fg("yellow"))
 
 
 def green(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.fg("green"))
+    return _stylize(text, colored.fg("green"))
 
 
 def bold(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.attr("bold"))
+    return _stylize(text, colored.attr("bold"))
 
 
 def error_style(text: Union[str, int]) -> str:
@@ -36,20 +54,20 @@ def success_style(text: Union[str, int]) -> str:
 
 
 def snapshot_style(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.bg(225) + colored.fg(90))
+    return _stylize(text, colored.bg(225) + colored.fg(90))
 
 
 def snapshot_diff_style(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.bg(90) + colored.fg(225))
+    return _stylize(text, colored.bg(90) + colored.fg(225))
 
 
 def received_style(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.bg(195) + colored.fg(23))
+    return _stylize(text, colored.bg(195) + colored.fg(23))
 
 
 def received_diff_style(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.bg(23) + colored.fg(195))
+    return _stylize(text, colored.bg(23) + colored.fg(195))
 
 
 def context_style(text: Union[str, int]) -> str:
-    return colored.stylize(text, colored.attr("dim"))
+    return _stylize(text, colored.attr("dim"))
