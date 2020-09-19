@@ -1,3 +1,4 @@
+import json
 import os
 from contextlib import contextmanager
 from gettext import gettext
@@ -48,6 +49,13 @@ def import_module_member(path: str) -> Any:
                 module_name,
             )
         )
+
+
+def get_env_value(env_var_name: str) -> object:
+    try:
+        return json.loads(os.environ[env_var_name])
+    except (KeyError, TypeError, json.decoder.JSONDecodeError):
+        return os.environ.get(env_var_name)
 
 
 @contextmanager

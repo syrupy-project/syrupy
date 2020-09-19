@@ -1,4 +1,3 @@
-import os
 from typing import (
     Any,
     Union,
@@ -7,13 +6,11 @@ from typing import (
 import colored
 
 from .constants import DISABLE_COLOR_ENV_VARS
+from .utils import get_env_value
 
 
 def _is_color_disabled() -> bool:
-    for env_var_name in DISABLE_COLOR_ENV_VARS:
-        if os.environ.get(env_var_name) is not None:
-            return True
-    return False
+    return any(map(get_env_value, DISABLE_COLOR_ENV_VARS))
 
 
 def _stylize(text: Union[str, int], *args: Any) -> str:
