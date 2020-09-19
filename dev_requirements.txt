@@ -16,7 +16,7 @@ codecov==2.1.9            # via syrupy
 colorama==0.4.3           # via twine
 colored==1.4.2            # via syrupy
 configparser==5.0.0       # via py-githooks
-coverage[toml]==5.2.1     # via codecov, syrupy
+coverage[toml]==5.3     # via codecov, syrupy
 cryptography==3.1         # via secretstorage
 deprecated==1.2.10        # via pygithub
 docutils==0.16            # via readme-renderer
