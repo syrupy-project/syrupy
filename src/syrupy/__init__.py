@@ -1,10 +1,10 @@
 import argparse
 import glob
-import os
 import sys
 from gettext import gettext
 from typing import (
     Any,
+    ContextManager,
     List,
     Optional,
 )
@@ -22,7 +22,10 @@ from .terminal import (
     reset,
     snapshot_style,
 )
-from .utils import import_module_member
+from .utils import (
+    env_context,
+    import_module_member,
+)
 
 
 def __default_extension_option(value: str) -> Any:
@@ -68,21 +71,32 @@ def pytest_addoption(parser: Any) -> None:
     )
 
 
-def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
+def __terminal_color(config: Any) -> "ContextManager[None]":
+    env = {}
+    if config.option.no_colors:
+        env[DISABLE_COLOR_ENV_VAR] = "true"
+
+    return env_context(**env)
+
+
+def pytest_assertrepr_compare(
+    config: Any, op: str, left: Any, right: Any
+) -> Optional[List[str]]:
     """
     Return explanation for comparisons in failing assert expressions.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
-    if isinstance(left, SnapshotAssertion):
-        assert_msg = reset(
-            f"{snapshot_style(left.name)} {op} {received_style('received')}"
-        )
-        return [assert_msg] + left.get_assert_diff()
-    elif isinstance(right, SnapshotAssertion):
-        assert_msg = reset(
-            f"{received_style('received')} {op} {snapshot_style(right.name)}"
-        )
-        return [assert_msg] + right.get_assert_diff()
+    with __terminal_color(config):
+        if isinstance(left, SnapshotAssertion):
+            assert_msg = reset(
+                f"{snapshot_style(left.name)} {op} {received_style('received')}"
+            )
+            return [assert_msg] + left.get_assert_diff()
+        elif isinstance(right, SnapshotAssertion):
+            assert_msg = reset(
+                f"{received_style('received')} {op} {snapshot_style(right.name)}"
+            )
+            return [assert_msg] + right.get_assert_diff()
     return None
 
 
@@ -104,8 +118,6 @@ def pytest_sessionstart(session: Any) -> None:
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
     config = session.config
-    if config.option.no_colors:
-        os.environ[DISABLE_COLOR_ENV_VAR] = "true"
     config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
@@ -156,9 +168,10 @@ def pytest_terminal_summary(
     Add syrupy report to pytest.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_terminal_summary
     """
-    terminalreporter.write_sep("-", gettext("snapshot report summary"))
-    for line in terminalreporter.config._syrupy.report.lines:
-        terminalreporter.write_line(line)
+    with __terminal_color(config):
+        terminalreporter.write_sep("-", gettext("snapshot report summary"))
+        for line in terminalreporter.config._syrupy.report.lines:
+            terminalreporter.write_line(line)
 
 
 @pytest.fixture
