@@ -1,5 +1,6 @@
 import argparse
 import glob
+import sys
 from gettext import gettext
 from typing import (
     Any,
@@ -55,6 +56,13 @@ def pytest_addoption(parser: Any) -> None:
         default=DEFAULT_EXTENSION,
         dest="default_extension",
         help="Specify the default snapshot extension",
+    )
+    group.addoption(
+        "--snapshot-no-colors",
+        action="store_true",
+        default=not sys.stdout.isatty(),
+        dest="no_colors",
+        help="Disable test results output highlighting",
     )
 
 
