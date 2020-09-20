@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [0.7.2](https://github.com/tophat/syrupy/compare/v0.7.1...v0.7.2) (2020-09-20)
+
+
+### Bug Fixes
+
+* add support for no colors mode ([#359](https://github.com/tophat/syrupy/issues/359)) ([ec39b80](https://github.com/tophat/syrupy/commit/ec39b80b14189032b1b61a4959809737c56ea149))
+
 ## [0.7.1](https://github.com/tophat/syrupy/compare/v0.7.0...v0.7.1) (2020-09-05)
 
 
