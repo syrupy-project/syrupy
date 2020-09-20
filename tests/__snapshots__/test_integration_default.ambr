@@ -74,7 +74,7 @@
           you do not want to see this line
           or this line
           this line should show up because it changes\n
-          this line should show up because it changes color
+          [38;5;3mthis line should show up because it changes color[0m
           and this line does not exist in the first one
           '''
   E       AssertionError: assert snapshot == received

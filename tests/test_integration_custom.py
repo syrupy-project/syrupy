@@ -1,7 +1,5 @@
 import pytest
 
-from .utils import clean_output
-
 
 @pytest.fixture
 def testcases(testdir):
@@ -56,8 +54,8 @@ def testcases(testdir):
 
 def test_warns_on_snapshot_name(testdir, testcases):
     testdir.makepyfile(test_file=testcases["passed"])
-    result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = clean_output(result.stdout.str())
+    result = testdir.runpytest("-v", "--snapshot-update", "--snapshot-no-colors")
+    result_stdout = result.stdout.str()
     assert "2 snapshots generated" in result_stdout
     assert "Warning:" in result_stdout
     assert "Can not relate snapshot name" in result_stdout

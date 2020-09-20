@@ -1,3 +1,6 @@
+import json
+import os
+from contextlib import contextmanager
 from gettext import gettext
 from importlib import import_module
 from pathlib import Path
@@ -46,3 +49,20 @@ def import_module_member(path: str) -> Any:
                 module_name,
             )
         )
+
+
+def get_env_value(env_var_name: str) -> object:
+    try:
+        return json.loads(os.environ[env_var_name])
+    except (KeyError, TypeError, json.decoder.JSONDecodeError):
+        return os.environ.get(env_var_name)
+
+
+@contextmanager
+def env_context(**kwargs: str) -> Iterator[None]:
+    prev_env = {**os.environ}
+    try:
+        yield os.environ.update(kwargs)
+    finally:
+        os.environ.clear()
+        os.environ.update(prev_env)
