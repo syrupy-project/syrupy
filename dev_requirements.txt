@@ -55,7 +55,7 @@ rfc3986==1.4.0            # via twine
 semver==2.10.2            # via syrupy
 six==1.15.0               # via bleach, packaging, pip-tools, readme-renderer
 toml==0.10.1              # via black, coverage, pytest
-tqdm==4.50.0              # via twine
+tqdm==4.50.1              # via twine
 twine==3.2.0              # via syrupy
 typed-ast==1.4.1          # via black, mypy
 typing-extensions==3.7.4.3  # via black, mypy, syrupy
