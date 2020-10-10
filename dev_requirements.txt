@@ -31,7 +31,7 @@ keyring==21.4.0           # via twine
 mccabe==0.6.1             # via flake8
 more-itertools==8.5.0     # via pytest
 mypy-extensions==0.4.3    # via black, mypy
-mypy==0.782               # via syrupy
+mypy==0.790               # via syrupy
 packaging==20.4           # via bleach, pytest
 pathspec==0.8.0           # via black
 pip-tools==5.3.1          # via syrupy
