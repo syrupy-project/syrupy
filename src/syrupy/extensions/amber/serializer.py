@@ -1,3 +1,4 @@
+import os
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
@@ -78,15 +79,16 @@ class DataSerializer:
                 snapshot_data = ""
                 for line in f:
                     if line.startswith(cls._marker_name):
-                        test_name = line[name_marker_len:-1].strip(" \r\n")
+                        test_name = line[name_marker_len:].strip(f" {os.linesep}")
                         snapshot_data = ""
                         continue
                     elif test_name is not None:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
+                            test_data = snapshot_data.rstrip(os.linesep)
                             snapshot_fossil.add(
-                                Snapshot(name=test_name, data=snapshot_data[:-1])
+                                Snapshot(name=test_name, data=test_data)
                             )
         except FileNotFoundError:
             pass
@@ -317,10 +319,7 @@ class DataSerializer:
     ) -> str:
         lines = ends.join(lines)
         lines_end = "\n" if lines else ""
-        formatted_open_tag = (
-            open_tag if include_type else cls.with_indent(open_tag, depth)
-        )
+        maybe_obj_type = f"{cls.object_type(data)} " if include_type else ""
+        formatted_open_tag = cls.with_indent(f"{maybe_obj_type}{open_tag}", depth)
         formatted_close_tag = cls.with_indent(close_tag, depth)
-        return (
-            f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
-        ) + f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"
+        return f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"

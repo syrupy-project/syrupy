@@ -87,15 +87,16 @@ def pytest_assertrepr_compare(
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
     with __terminal_color(config):
+        recieved_name = received_style("[+ received]")
+
+        def snapshot_name(name: str) -> str:
+            return snapshot_style(f"[- {name}]")
+
         if isinstance(left, SnapshotAssertion):
-            assert_msg = reset(
-                f"{snapshot_style(left.name)} {op} {received_style('received')}"
-            )
+            assert_msg = reset(f"{snapshot_name(left.name)} {op} {recieved_name}")
             return [assert_msg] + left.get_assert_diff()
         elif isinstance(right, SnapshotAssertion):
-            assert_msg = reset(
-                f"{received_style('received')} {op} {snapshot_style(right.name)}"
-            )
+            assert_msg = reset(f"{recieved_name} {op} {snapshot_name(right.name)}")
             return [assert_msg] + right.get_assert_diff()
     return None
 

@@ -62,11 +62,11 @@ def testcases_updated(testcases):
     return {**testcases, **updated_testcases}
 
 
-def test_unsaved_snapshots(snapshot, testdir, testcases):
+def test_unsaved_snapshots(testdir, testcases):
     testdir.makepyfile(test_file=testcases["passed"])
     result = testdir.runpytest("-v")
     output = result.stdout.str()
-    assert "Snapshot does not exist" in output
+    assert "Snapshot 'test_passed_single' does not exist" in output
     assert "+ b'passed1'" in output
     assert result.ret == 1
 

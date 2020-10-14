@@ -7,7 +7,7 @@
   
       def test_updated_1(snapshot):
   >       assert snapshot == ['this', 'will', 'not', 'match']
-  E       AssertionError: assert snapshot == received
+  E       AssertionError: assert [- snapshot] == [+ received]
   E           <class 'list'> [
   E            ...
   E             'will',
@@ -24,7 +24,7 @@
   
       def test_updated_2(snapshot):
   >       assert ['this', 'will', 'fail'] == snapshot
-  E       AssertionError: assert received == snapshot
+  E       AssertionError: assert [+ received] == [- snapshot]
   E           <class 'list'> [
   E            ...
   E             'will',
@@ -40,7 +40,7 @@
   
       def test_updated_3(snapshot):
   >       assert snapshot == ['this', 'will', 'be', 'too', 'much']
-  E       AssertionError: assert snapshot == received
+  E       AssertionError: assert [- snapshot] == [+ received]
   E           <class 'list'> [
   E            ...
   E             'be',
@@ -56,7 +56,7 @@
   
       def test_updated_4(snapshot):
   >       assert snapshot == "sing line changeling"
-  E       AssertionError: assert snapshot == received
+  E       AssertionError: assert [- snapshot] == [+ received]
   E         - 'single line change'
   E         + 'sing line changeling'
   
@@ -77,7 +77,7 @@
           [38;5;3mthis line should show up because it changes color[0m
           and this line does not exist in the first one
           '''
-  E       AssertionError: assert snapshot == received
+  E       AssertionError: assert [- snapshot] == [+ received]
   E           '
   E             ...
   E               multiple line changes
