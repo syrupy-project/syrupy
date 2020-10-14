@@ -8,7 +8,7 @@ env:
 jobs:
   analysis:
     name: Code Analysis
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python 3.8
@@ -23,9 +23,10 @@ jobs:
         run: invoke lint
   tests:
     name: Tests
-    runs-on: ubuntu-18.04
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         python-version: [3.6, 3.7, 3.8]
       fail-fast: true
     steps:
@@ -44,7 +45,7 @@ jobs:
         run: invoke test --coverage
   build:
     name: Build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.8]
