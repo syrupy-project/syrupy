@@ -137,7 +137,7 @@ def release(ctx, dry_run=True):
         exit(1)
 
     # get version created in build
-    with open("version.txt", "r") as f:
+    with open("version.txt", "r", encoding="utf-8") as f:
         version = str(f.read())
 
     try:
