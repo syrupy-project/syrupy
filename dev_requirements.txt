@@ -24,7 +24,7 @@ flake8-comprehensions==3.2.3  # via syrupy
 flake8-i18n==0.1.0        # via syrupy
 flake8==3.8.4             # via flake8-bugbear, flake8-builtins, flake8-comprehensions, flake8-i18n, syrupy
 idna==2.10                # via requests
-iniconfig==1.0.1          # via pytest
+iniconfig==1.1.1          # via pytest
 invoke==1.4.1             # via syrupy
 isort==5.6.4              # via syrupy
 keyring==21.4.0           # via twine
