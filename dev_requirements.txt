@@ -48,7 +48,7 @@ pyparsing==2.4.7          # via packaging
 pyperf==2.0.0             # via syrupy
 pytest==6.1.1             # via syrupy
 readme-renderer==27.0     # via twine
-regex==2020.10.11          # via black
+regex==2020.10.15          # via black
 requests-toolbelt==0.9.1  # via twine
 requests==2.24.0          # via codecov, pygithub, requests-toolbelt, twine
 rfc3986==1.4.0            # via twine
