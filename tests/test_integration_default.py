@@ -32,7 +32,7 @@ def collection(testdir, snapshot):
     testdir.makepyfile(**tests)
     result = testdir.runpytest("-v", "--snapshot-update")
     assert get_result_snapshot_summary(result) == snapshot
-    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
+    testdir.makefile(".ambr", **{str(Path("__snapshots__", "other_snapfile")): ""})
     return testdir
 
 
@@ -52,8 +52,8 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection, snaps
     result = collection.runpytest("-v", "--snapshot-update", "-m", "parametrize")
     assert get_result_snapshot_summary(result) == snapshot
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
-    assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
+    assert Path(*snapshot_path, "test_not_collected.ambr").exists()
+    assert Path(*snapshot_path, "other_snapfile.ambr").exists()
 
 
 def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection, snapshot):
@@ -72,8 +72,8 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection, snaps
     result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
     assert get_result_snapshot_summary(result) == snapshot
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
-    assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
+    assert Path(*snapshot_path, "test_not_collected.ambr").exists()
+    assert Path(*snapshot_path, "other_snapfile.ambr").exists()
 
 
 def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(
@@ -94,8 +94,8 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(
     result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
     assert get_result_snapshot_summary(result) == snapshot
     snapshot_path = [collection.tmpdir, "__snapshots__"]
-    assert Path(*snapshot_path).joinpath("test_not_collected.ambr").exists()
-    assert Path(*snapshot_path).joinpath("other_snapfile.ambr").exists()
+    assert Path(*snapshot_path, "test_not_collected.ambr").exists()
+    assert Path(*snapshot_path, "other_snapfile.ambr").exists()
 
 
 def test_only_updates_targeted_snapshot_in_class_for_single_file(testdir):
@@ -336,7 +336,8 @@ def test_unused_snapshots_warning(stubs, snapshot):
 
 
 def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir, snapshot):
-    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
+    path_to_snap = Path("__snapshots__", "other_snapfile")
+    testdir.makefile(".ambr", **{str(path_to_snap): ""})
     testdir.makefile(
         ".py",
         test_life_uhh_finds_a_way=(
@@ -356,21 +357,23 @@ def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir, snaps
     )
     assert get_result_snapshot_summary(result) == snapshot
     assert result.ret == 0
-    assert Path("__snapshots__/other_snapfile.ambr").exists()
+    assert Path(f"{path_to_snap}.ambr").exists()
 
 
 def test_unused_snapshots_ignored_if_not_targeted_by_module_testfiles(stubs, snapshot):
     _, testdir, tests, _ = stubs
+    path_to_snap = Path("__snapshots__", "other_snapfile")
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
-    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
+    testdir.makefile(".ambr", **{str(path_to_snap): ""})
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
     assert get_result_snapshot_summary(result) == snapshot
     assert result.ret == 0
-    assert Path("__snapshots__/other_snapfile.ambr").exists()
+    assert Path(f"{path_to_snap}.ambr").exists()
 
 
 def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs, snapshot):
     _, testdir, _, _ = stubs
+    path_to_snap = Path("__snapshots__", "other_snapfile")
     testdir.makepyfile(
         test_file=(
             """
@@ -379,11 +382,11 @@ def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs, sn
             """
         ),
     )
-    testdir.makefile(".ambr", **{"__snapshots__/other_snapfile": ""})
+    testdir.makefile(".ambr", **{str(path_to_snap): ""})
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
     assert get_result_snapshot_summary(result) == snapshot
     assert result.ret == 0
-    assert Path("__snapshots__/other_snapfile.ambr").exists()
+    assert Path(f"{path_to_snap}.ambr").exists()
 
 
 def test_removed_snapshots(stubs, snapshot):
@@ -408,8 +411,9 @@ def test_removed_snapshot_fossil(stubs, snapshot):
 
 def test_removed_empty_snapshot_fossil_only(stubs, snapshot):
     _, testdir, _, filepath = stubs
-    testdir.makefile(".ambr", **{"__snapshots__/test_empty": ""})
-    empty_filepath = Path(testdir.tmpdir, "__snapshots__/test_empty.ambr")
+    path_to_snap = Path("__snapshots__", "test_empty")
+    testdir.makefile(".ambr", **{str(path_to_snap): ""})
+    empty_filepath = Path(testdir.tmpdir, f"{path_to_snap}.ambr")
     assert empty_filepath.exists()
     result = testdir.runpytest("-v", "--snapshot-update")
     assert get_result_snapshot_summary(result) == snapshot
@@ -420,8 +424,9 @@ def test_removed_empty_snapshot_fossil_only(stubs, snapshot):
 
 def test_removed_hanging_snapshot_fossil(stubs, snapshot):
     _, testdir, _, filepath = stubs
-    testdir.makefile(".abc", **{"__snapshots__/test_hanging": ""})
-    hanging_filepath = Path(testdir.tmpdir, "__snapshots__/test_hanging.abc")
+    path_to_snap = Path("__snapshots__", "test_hanging")
+    testdir.makefile(".abc", **{str(path_to_snap): ""})
+    hanging_filepath = Path(testdir.tmpdir, f"{path_to_snap}.abc")
     assert hanging_filepath.exists()
     result = testdir.runpytest("-v", "--snapshot-update")
     result_stdout = result.stdout.str()
@@ -450,7 +455,9 @@ def test_snapshot_default_extension_option(testdir, snapshot):
         "syrupy.extensions.single_file.SingleFileSnapshotExtension",
     )
     assert get_result_snapshot_summary(result) == snapshot
-    assert Path(testdir.tmpdir, "__snapshots__/test_file/test_default.raw").exists()
+    assert Path(
+        testdir.tmpdir, "__snapshots__", "test_file", "test_default.raw"
+    ).exists()
     assert result.ret == 0
 
 

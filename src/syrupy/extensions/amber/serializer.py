@@ -79,16 +79,18 @@ class DataSerializer:
                 snapshot_data = ""
                 for line in f:
                     if line.startswith(cls._marker_name):
-                        test_name = line[name_marker_len:].strip(f" {os.linesep}")
+                        test_name = line[name_marker_len:].strip(" \r\n")
                         snapshot_data = ""
                         continue
                     elif test_name is not None:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            test_data = snapshot_data.rstrip(os.linesep)
                             snapshot_fossil.add(
-                                Snapshot(name=test_name, data=test_data)
+                                Snapshot(
+                                    name=test_name,
+                                    data=snapshot_data.rstrip(os.linesep),
+                                )
                             )
         except FileNotFoundError:
             pass
