@@ -25,6 +25,9 @@ def test_newline_control_characters(snapshot):
     assert snapshot == "line 1\nline 2"
     assert snapshot == "line 1\r\nline 2"
     assert snapshot == "line 1\r\nline 2\r\n"
+    assert snapshot == "line 1\rline 2\r"
+    assert snapshot == "line 1\rline 2\n"
+    assert snapshot == "line 1\rline 2"
 
 
 def test_multiline_string_in_dict(snapshot):

@@ -47,6 +47,7 @@ class DataSerializer:
     _max_depth: int = 99
     _marker_divider: str = "---"
     _marker_name: str = "# name:"
+    _marker_crn: str = "\r\n"
 
     @classmethod
     def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
@@ -79,7 +80,7 @@ class DataSerializer:
                 snapshot_data = ""
                 for line in f:
                     if line.startswith(cls._marker_name):
-                        test_name = line[name_marker_len:].strip(" \r\n")
+                        test_name = line[name_marker_len:].strip(f" {cls._marker_crn}")
                         snapshot_data = ""
                         continue
                     elif test_name is not None:
@@ -112,7 +113,7 @@ class DataSerializer:
         should not break when running the tests on a unix based system and vice versa.
         """
         serialized = cls._serialize(data, exclude=exclude, matcher=matcher)
-        return serialized.replace("\r\n", "\n").replace("\r", "\n")
+        return serialized.replace(cls._marker_crn, "\n").replace("\r", "\n")
 
     @classmethod
     def _serialize(
@@ -164,7 +165,7 @@ class DataSerializer:
     def serialize_string(
         cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        if "\n" not in data:
+        if all(c not in data for c in cls._marker_crn):
             return cls.__serialize_plain(data=data, depth=depth)
 
         return cls.__serialize_lines(
