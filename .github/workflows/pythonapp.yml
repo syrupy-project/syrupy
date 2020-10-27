@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Install project dependencies.
+      - name: Install project dependencies
         run: |
           python -m pip install -U pip --no-cache-dir
           python -m pip install -e . -r dev_requirements.txt
@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install project dependencies.
+      - name: Install project dependencies
         run: |
           python -m pip install -U pip --no-cache-dir
           python -m pip install -e . -r dev_requirements.txt
@@ -46,22 +46,18 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
-      fail-fast: true
     needs: [analysis, tests]
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install project dependencies.
+          python-version: 3.8
+      - name: Install project dependencies
         run: |
           python -m pip install -U pip --no-cache-dir
           python -m pip install -e . -r dev_requirements.txt
-      - name: Release Python ${{ matrix.python-version }}
+      - name: Release Python
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}

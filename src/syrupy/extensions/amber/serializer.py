@@ -152,8 +152,7 @@ class DataSerializer:
             serialize_method = cls.serialize_namedtuple
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
-        serialized = serialize_method(**serialize_kwargs)
-        return serialized.replace("\r\n", "\n").replace("\r", "\n")
+        return serialize_method(**serialize_kwargs)
 
     @classmethod
     def serialize_number(
