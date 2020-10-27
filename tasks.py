@@ -8,12 +8,17 @@ from invoke import (
 import benchmarks
 
 
+def ctx_run(ctx, *args, **kwargs):
+    kwargs["pty"] = os.name == "posix"
+    return ctx.run(*args, **kwargs)
+
+
 @task
 def clean(ctx):
     """
     Remove build files e.g. package, distributable, compiled etc.
     """
-    ctx.run("rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
+    ctx_run(ctx, "rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
 
 
 @task
@@ -29,10 +34,10 @@ def requirements(ctx, upgrade=False):
     ]
     if upgrade:
         args.append("--upgrade")
-    ctx.run(
+    ctx_run(
+        ctx,
         f"echo '-e .[dev]' | python -m piptools compile "
         f"{' '.join(args)} - -qo- | sed '/^-e / d' > dev_requirements.txt",
-        pty=True,
     )
 
 
@@ -51,7 +56,7 @@ def lint(ctx, fix=False):
     for section, command in lint_commands.items():
         print(f"\033[1m[{section}]\033[0m")
         try:
-            ctx.run(command, pty=True)
+            ctx_run(ctx, command)
         except exceptions.Failure as ex:
             last_error = ex
         print()
@@ -64,7 +69,7 @@ def install(ctx):
     """
     Install the current development version of syrupy
     """
-    ctx.run("python -m pip install -U .", pty=True)
+    ctx_run(ctx, "python -m pip install -U .")
 
 
 @task(
@@ -95,12 +100,12 @@ def test(
     }
     coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
-    ctx.run(f"python -m {coverage_module}pytest {test_flags} .", env=env, pty=True)
+    ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} .", env=env)
     if coverage:
         if not os.environ.get("CI"):
-            ctx.run("coverage report", pty=True)
+            ctx_run(ctx, "coverage report")
         else:
-            ctx.run("codecov", pty=True)
+            ctx_run(ctx, "codecov")
 
 
 @task(help={"report": "Publish report as github status"})
@@ -113,7 +118,7 @@ def build(ctx):
     """
     Generate version from scm and build package distributable
     """
-    ctx.run("python setup.py sdist bdist_wheel")
+    ctx_run(ctx, "python setup.py sdist bdist_wheel")
 
 
 @task
@@ -122,7 +127,7 @@ def publish(ctx, dry_run=True):
     Upload built package to pypi
     """
     repo_url = "--repository-url https://test.pypi.org/legacy/" if dry_run else ""
-    ctx.run(f"twine upload --skip-existing {repo_url} dist/*")
+    ctx_run(ctx, f"twine upload --skip-existing {repo_url} dist/*")
 
 
 @task(pre=[build])
@@ -137,7 +142,7 @@ def release(ctx, dry_run=True):
         exit(1)
 
     # get version created in build
-    with open("version.txt", "r") as f:
+    with open("version.txt", "r", encoding="utf-8") as f:
         version = str(f.read())
 
     try:

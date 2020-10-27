@@ -1,3 +1,4 @@
+import os
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
@@ -46,6 +47,7 @@ class DataSerializer:
     _max_depth: int = 99
     _marker_divider: str = "---"
     _marker_name: str = "# name:"
+    _marker_crn: str = "\r\n"
 
     @classmethod
     def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
@@ -53,13 +55,13 @@ class DataSerializer:
         Writes the snapshot data into the snapshot file that be read later.
         """
         filepath = snapshot_fossil.location
-        with open(filepath, "w", encoding="utf-8", newline="") as f:
+        with open(filepath, "w", encoding="utf-8", newline=None) as f:
             for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
                     for data_line in snapshot_data.splitlines(keepends=True):
-                        f.write(f"{cls._indent}{data_line}")
+                        f.write(cls.with_indent(data_line, 1))
                     f.write(f"\n{cls._marker_divider}\n")
 
     @classmethod
@@ -73,12 +75,12 @@ class DataSerializer:
         indent_len = len(cls._indent)
         snapshot_fossil = SnapshotFossil(location=filepath)
         try:
-            with open(filepath, "r", encoding="utf-8", newline="") as f:
+            with open(filepath, "r", encoding="utf-8", newline=None) as f:
                 test_name = None
                 snapshot_data = ""
                 for line in f:
                     if line.startswith(cls._marker_name):
-                        test_name = line[name_marker_len:-1].strip(" \r\n")
+                        test_name = line[name_marker_len:].strip(f" {cls._marker_crn}")
                         snapshot_data = ""
                         continue
                     elif test_name is not None:
@@ -86,7 +88,10 @@ class DataSerializer:
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
                             snapshot_fossil.add(
-                                Snapshot(name=test_name, data=snapshot_data[:-1])
+                                Snapshot(
+                                    name=test_name,
+                                    data=snapshot_data.rstrip(os.linesep),
+                                )
                             )
         except FileNotFoundError:
             pass
@@ -95,6 +100,23 @@ class DataSerializer:
 
     @classmethod
     def serialize(
+        cls,
+        data: "SerializableData",
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+    ) -> str:
+        """
+        After serializing, new line control characters are normalised. This is needed
+        for interoperablity of snapshot matching between systems that do not use the
+        same new line control characters. Example snapshots generated on windows os
+        should not break when running the tests on a unix based system and vice versa.
+        """
+        serialized = cls._serialize(data, exclude=exclude, matcher=matcher)
+        return serialized.replace(cls._marker_crn, "\n").replace("\r", "\n")
+
+    @classmethod
+    def _serialize(
         cls,
         data: "SerializableData",
         *,
@@ -137,26 +159,27 @@ class DataSerializer:
     def serialize_number(
         cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        return cls.with_indent(repr(data), depth)
+        return cls.__serialize_plain(data=data, depth=depth)
 
     @classmethod
     def serialize_string(
         cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        if "\n" in data:
-            return cls.__serialize_lines(
-                data=data,
-                lines=(
-                    cls.with_indent(line, depth + 1 if depth else depth)
-                    for line in str(data).splitlines(keepends=True)
-                ),
-                depth=depth,
-                open_tag="'",
-                close_tag="'",
-                include_type=False,
-                ends="",
-            )
-        return cls.with_indent(repr(data), depth)
+        if all(c not in data for c in cls._marker_crn):
+            return cls.__serialize_plain(data=data, depth=depth)
+
+        return cls.__serialize_lines(
+            data=data,
+            lines=(
+                cls.with_indent(line, depth + 1 if depth else depth)
+                for line in str(data).splitlines(keepends=True)
+            ),
+            depth=depth,
+            open_tag="'",
+            close_tag="'",
+            include_type=False,
+            ends="",
+        )
 
     @classmethod
     def serialize_iterable(cls, data: "SerializableData", **kwargs: Any) -> str:
@@ -214,7 +237,7 @@ class DataSerializer:
     @classmethod
     def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
         if data.__class__.__repr__ != object.__repr__:
-            return cls.with_indent(repr(data), depth)
+            return cls.__serialize_plain(data=data, depth=depth)
 
         return cls.__serialize_iterable(
             data=data,
@@ -239,7 +262,7 @@ class DataSerializer:
         try:
             return sorted(iterable)
         except TypeError:
-            return sorted(iterable, key=cls.serialize)
+            return sorted(iterable, key=cls._serialize)
 
     @classmethod
     def object_type(cls, data: "SerializableData") -> str:
@@ -250,6 +273,15 @@ class DataSerializer:
         return isinstance(obj, tuple) and all(
             type(n) == str for n in getattr(obj, "_fields", [None])
         )
+
+    @classmethod
+    def __serialize_plain(
+        cls,
+        *,
+        data: "SerializableData",
+        depth: int = 0,
+    ) -> str:
+        return cls.with_indent(repr(data), depth)
 
     @classmethod
     def __serialize_iterable(
@@ -284,13 +316,13 @@ class DataSerializer:
             if separator is None:
                 return ""
             return (
-                cls.serialize(data=key, **kwargs)
+                cls._serialize(data=key, **kwargs)
                 if serialize_key
                 else cls.with_indent(str(key), depth=depth + 1)
             ) + separator
 
         def value_str(key: "PropertyName", value: "SerializableData") -> str:
-            serialized = cls.serialize(
+            serialized = cls._serialize(
                 data=value, exclude=exclude, path=(*path, (key, type(value))), **kwargs
             )
             return serialized if separator is None else serialized.lstrip(cls._indent)
@@ -317,10 +349,7 @@ class DataSerializer:
     ) -> str:
         lines = ends.join(lines)
         lines_end = "\n" if lines else ""
-        formatted_open_tag = (
-            open_tag if include_type else cls.with_indent(open_tag, depth)
-        )
+        maybe_obj_type = f"{cls.object_type(data)} " if include_type else ""
+        formatted_open_tag = cls.with_indent(f"{maybe_obj_type}{open_tag}", depth)
         formatted_close_tag = cls.with_indent(close_tag, depth)
-        return (
-            f"{cls.with_indent(cls.object_type(data), depth)} " if include_type else ""
-        ) + f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"
+        return f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"

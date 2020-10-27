@@ -103,7 +103,7 @@ def measure_perf(
         return
     repo = github.get_repo(GH_REPO)
     commit_sha = get_req_env("GITHUB_SHA")
-    with open(BENCH_PERF_FILE, "r") as bench_file:
+    with open(BENCH_PERF_FILE, "r", encoding="utf-8") as bench_file:
         try:
             repo.create_file(
                 path=get_commit_bench_path(commit_sha),
@@ -144,7 +144,7 @@ def fetch_ref_bench_json(github: "Github", ref_branch: str = GH_BRANCH_REF) -> b
     if not ref_json:
         return False
 
-    with open(BENCH_REF_FILE, "w") as ref_json_file:
+    with open(BENCH_REF_FILE, "w", encoding="utf-8") as ref_json_file:
         ref_json_file.write(ref_json)
     return True
 

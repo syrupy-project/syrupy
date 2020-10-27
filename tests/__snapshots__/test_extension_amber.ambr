@@ -277,6 +277,25 @@
   
   '
 ---
+# name: test_newline_control_characters.3
+  '
+  line 1
+  line 2
+  '
+---
+# name: test_newline_control_characters.4
+  '
+  line 1
+  line 2
+  
+  '
+---
+# name: test_newline_control_characters.5
+  '
+  line 1
+  line 2
+  '
+---
 # name: test_non_deterministic_snapshots
   <class 'dict'> {
     'a': UUID(...),
