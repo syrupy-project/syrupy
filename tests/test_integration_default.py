@@ -3,15 +3,8 @@ from pathlib import Path
 import pytest
 
 
-def get_result_snapshot_summary(result: object) -> str:
-    result_stdout = result.stdout.str()
-    start_idx = result_stdout.find("\n", result_stdout.find("---- snapshot report"))
-    end_idx = result_stdout.find("====", start_idx)
-    return result_stdout[start_idx:end_idx].strip()
-
-
 @pytest.fixture
-def collection(testdir, snapshot):
+def collection(testdir):
     tests = {
         "test_collected": (
             """
@@ -31,12 +24,12 @@ def collection(testdir, snapshot):
     }
     testdir.makepyfile(**tests)
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines((r"4 snapshots generated."))
     testdir.makefile(".ambr", **{str(Path("__snapshots__", "other_snapfile")): ""})
     return testdir
 
 
-def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection, snapshot):
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection):
     updated_tests = {
         "test_collected": (
             """
@@ -50,13 +43,18 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_m(collection, snaps
     }
     collection.makepyfile(**updated_tests)
     result = collection.runpytest("-v", "--snapshot-update", "-m", "parametrize")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"1 snapshot passed\. 1 snapshot updated\. 1 unused snapshot deleted\.",
+            r"Deleted test_collected\[3\] \(__snapshots__[\\/]test_collected.ambr\)",
+        )
+    )
     snapshot_path = [collection.tmpdir, "__snapshots__"]
     assert Path(*snapshot_path, "test_not_collected.ambr").exists()
     assert Path(*snapshot_path, "other_snapfile.ambr").exists()
 
 
-def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection, snapshot):
+def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection):
     updated_tests = {
         "test_collected": (
             """
@@ -70,15 +68,18 @@ def test_unused_snapshots_ignored_if_not_targeted_using_dash_k(collection, snaps
     }
     collection.makepyfile(**updated_tests)
     result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"1 snapshot passed\. 1 snapshot updated\. 1 unused snapshot deleted\.",
+            r"Deleted test_collected\[3\] \(__snapshots__[\\/]test_collected.ambr\)",
+        )
+    )
     snapshot_path = [collection.tmpdir, "__snapshots__"]
     assert Path(*snapshot_path, "test_not_collected.ambr").exists()
     assert Path(*snapshot_path, "other_snapfile.ambr").exists()
 
 
-def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(
-    collection, snapshot
-):
+def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(collection):
     updated_tests = {
         "test_collected": (
             """
@@ -92,7 +93,12 @@ def test_unused_parameterized_ignored_if_not_targeted_using_dash_k(
     }
     collection.makepyfile(**updated_tests)
     result = collection.runpytest("-v", "--snapshot-update", "-k", "test_collected[")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"2 snapshots passed\. 1 unused snapshot deleted\.",
+            r"Deleted test_collected\[3\] \(__snapshots__[\\/]test_collected\.ambr\)",
+        )
+    )
     snapshot_path = [collection.tmpdir, "__snapshots__"]
     assert Path(*snapshot_path, "test_not_collected.ambr").exists()
     assert Path(*snapshot_path, "other_snapfile.ambr").exists()
@@ -218,7 +224,7 @@ def testcases():
                 because when there are a lot of changes you only want to see changes
                 you do not want to see this line
                 or this line
-                this line should show up because it changes\\r\\n
+                this line should not show up because new lines are normalised\\r\\n
                 \x1b[38;5;1mthis line should show up because it changes color\x1b[0m
                 '''
             """
@@ -263,7 +269,7 @@ def testcases_updated(testcases):
                 cause when there are a lot of changes you only want to see what changed
                 you do not want to see this line
                 or this line
-                this line should show up because it changes\\n
+                this line should not show up because new lines are normalised\\n
                 \x1b[38;5;3mthis line should show up because it changes color\x1b[0m
                 and this line does not exist in the first one
                 '''
@@ -273,10 +279,10 @@ def testcases_updated(testcases):
     return {**testcases, **updated_testcases}
 
 
-def test_missing_snapshots(testdir, testcases, snapshot):
+def test_missing_snapshots(testdir, testcases):
     testdir.makepyfile(test_file=testcases["used"])
     result = testdir.runpytest("-v")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines((r"1 snapshot failed\."))
     assert result.ret == 1
 
 
@@ -294,48 +300,108 @@ def test_injected_fixture(stubs):
     assert result.ret == 0
 
 
-def test_generated_snapshots(stubs, snapshot):
+def test_generated_snapshots(stubs):
     result = stubs[0]
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines((r"7 snapshots generated\."))
     assert result.ret == 0
 
 
-def test_failing_snapshots_diff(stubs, testcases_updated, snapshot):
+def test_failing_snapshots_diff(stubs, testcases_updated):
     testdir = stubs[1]
     testdir.makepyfile(test_file="\n\n".join(testcases_updated.values()))
     result = testdir.runpytest("-vv", "--snapshot-no-colors")
-    result_stdout = result.stdout.str()
-    start_index = result_stdout.find("\n", result_stdout.find("==== FAILURES"))
-    end_index = result_stdout.find("\n", result_stdout.find("---- snapshot report"))
-    assert result_stdout[start_index:end_index] == snapshot
+    result.stdout.re_match_lines(
+        (
+            r".*assert snapshot == \['this', 'will', 'not', 'match'\]",
+            r".*AssertionError: assert \[- snapshot\] == \[\+ received\]",
+            r".*    <class 'list'> \[",
+            r".*     ...",
+            r".*      'will',",
+            r".*  -   'be',",
+            r".*  -   'updated',",
+            r".*  \+   'not',",
+            r".*  \+   'match',",
+            r".*    \]",
+            r".*assert \['this', 'will', 'fail'\] == snapshot",
+            r".*AssertionError: assert \[\+ received\] == \[- snapshot\]",
+            r".*    <class 'list'> \[",
+            r".*     ...",
+            r".*      'will',",
+            r".*  -   'be',",
+            r".*  \+   'fail',",
+            r".*  -   'updated',",
+            r".*    \]",
+            r".*assert snapshot == \['this', 'will', 'be', 'too', 'much'\]",
+            r".*AssertionError: assert \[- snapshot\] == \[\+ received\]",
+            r".*    <class 'list'> \[",
+            r".*     ...",
+            r".*      'be',",
+            r".*  -   'updated',",
+            r".*  \+   'too',",
+            r".*  \+   'much',",
+            r".*    \]",
+            r".*assert snapshot == \"sing line changeling\"",
+            r".*AssertionError: assert \[- snapshot\] == \[\+ received\]",
+            r".*  - 'single line change'",
+            r".*  \+ 'sing line changeling'",
+            r".*AssertionError: assert \[- snapshot\] == \[\+ received\]",
+            r".*    '",
+            r".*      ...",
+            r".*        multiple line changes",
+            r".*  -     with some lines staying the same",
+            r".*  \+     with some lines not staying the same",
+            r".*  -     intermittent changes that have to be ignore by the differ out",
+            r".*  \+     intermittent changes so unchanged lines have to be ignored b",
+            r".*  -     because when there are a lot of changes you only want to see ",
+            r".*  \+     cause when there are a lot of changes you only want to see w",
+            r".*        you do not want to see this line",
+            r".*      ...",
+            r".*    ",
+            r".*  -     \[38;5;1mthis line should show up because it changes color",
+            r".*  \+     \[38;5;3mthis line should show up because it changes color",
+            r".*  \+     and this line does not exist in the first one",
+            r".*        ",
+            r".*    '",
+        )
+    )
     assert result.ret == 1
 
 
-def test_updated_snapshots(stubs, testcases_updated, snapshot):
+def test_updated_snapshots(stubs, testcases_updated):
     testdir = stubs[1]
     testdir.makepyfile(test_file="\n\n".join(testcases_updated.values()))
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines((r"2 snapshots passed\. 5 snapshots updated\."))
     assert result.ret == 0
 
 
-def test_unused_snapshots(stubs, snapshot):
+def test_unused_snapshots(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"6 snapshots passed\. 1 snapshot unused\.",
+            r"Re-run pytest with --snapshot-update to delete unused snapshots\.",
+        )
+    )
     assert result.ret == 1
 
 
-def test_unused_snapshots_warning(stubs, snapshot):
+def test_unused_snapshots_warning(stubs):
     _, testdir, tests, _ = stubs
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v", "--snapshot-warn-unused")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"6 snapshots passed\. 1 snapshot unused\.",
+            r"Re-run pytest with --snapshot-update to delete unused snapshots\.",
+        )
+    )
     assert result.ret == 0
 
 
-def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir, snapshot):
+def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir):
     path_to_snap = Path("__snapshots__", "other_snapfile")
     testdir.makefile(".ambr", **{str(path_to_snap): ""})
     testdir.makefile(
@@ -355,23 +421,28 @@ def test_unused_snapshots_ignored_if_not_targeted_by_testnode_ids(testdir, snaps
     result = testdir.runpytest(
         f"{testfile}::test_life_always_finds_a_way", "-v", "--snapshot-update"
     )
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines((r"1 snapshot passed\."))
     assert result.ret == 0
     assert Path(f"{path_to_snap}.ambr").exists()
 
 
-def test_unused_snapshots_ignored_if_not_targeted_by_module_testfiles(stubs, snapshot):
+def test_unused_snapshots_ignored_if_not_targeted_by_module_testfiles(stubs):
     _, testdir, tests, _ = stubs
     path_to_snap = Path("__snapshots__", "other_snapfile")
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     testdir.makefile(".ambr", **{str(path_to_snap): ""})
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"6 snapshots passed\. 1 unused snapshot deleted\.",
+            r"Deleted test_unused \(__snapshots__[\\/]test_file\.ambr\)",
+        )
+    )
     assert result.ret == 0
     assert Path(f"{path_to_snap}.ambr").exists()
 
 
-def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs, snapshot):
+def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs):
     _, testdir, _, _ = stubs
     path_to_snap = Path("__snapshots__", "other_snapfile")
     testdir.makepyfile(
@@ -384,45 +455,69 @@ def test_unused_snapshots_cleaned_up_when_targeting_specific_testfiles(stubs, sn
     )
     testdir.makefile(".ambr", **{str(path_to_snap): ""})
     result = testdir.runpytest("-v", "--snapshot-update", "test_file.py")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines_random(
+        (
+            r"7 unused snapshots deleted\.",
+            r"Deleted test_unused, test_updated_1, test_updated_2, test_updated_3",
+            r".*test_updated_3, test_updated_4, test_updated_5, test_used",
+            r".*test_used \(__snapshots__[\\/]test_file.ambr\)",
+        )
+    )
     assert result.ret == 0
     assert Path(f"{path_to_snap}.ambr").exists()
 
 
-def test_removed_snapshots(stubs, snapshot):
+def test_removed_snapshots(stubs):
     _, testdir, tests, filepath = stubs
     assert Path(filepath).exists()
     testdir.makepyfile(test_file="\n\n".join(tests[k] for k in tests if k != "unused"))
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"6 snapshots passed\. 1 unused snapshot deleted\.",
+            r"Deleted test_unused \(__snapshots__[\\/]test_file\.ambr\)",
+        )
+    )
     assert result.ret == 0
     assert Path(filepath).exists()
 
 
-def test_removed_snapshot_fossil(stubs, snapshot):
+def test_removed_snapshot_fossil(stubs):
     _, testdir, tests, filepath = stubs
     assert Path(filepath).exists()
     testdir.makepyfile(test_file=tests["inject"])
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines_random(
+        (
+            r"7 unused snapshots deleted\.",
+            r"Deleted test_unused, test_updated_1, test_updated_2, test_updated_3",
+            r".*test_updated_3, test_updated_4, test_updated_5, test_used",
+            r".*test_used \(__snapshots__[\\/]test_file\.ambr\)",
+        )
+    )
     assert result.ret == 0
     assert not Path(filepath).exists()
 
 
-def test_removed_empty_snapshot_fossil_only(stubs, snapshot):
+def test_removed_empty_snapshot_fossil_only(stubs):
     _, testdir, _, filepath = stubs
     path_to_snap = Path("__snapshots__", "test_empty")
     testdir.makefile(".ambr", **{str(path_to_snap): ""})
     empty_filepath = Path(testdir.tmpdir, f"{path_to_snap}.ambr")
     assert empty_filepath.exists()
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines(
+        (
+            r"7 snapshots passed\. 1 unused snapshot deleted\.",
+            r"Deleted empty snapshot fossil \(__snapshots__[\\/]test_empty\.ambr\)",
+        )
+    )
     assert result.ret == 0
     assert Path(filepath).exists()
     assert not Path(empty_filepath).exists()
 
 
-def test_removed_hanging_snapshot_fossil(stubs, snapshot):
+def test_removed_hanging_snapshot_fossil(stubs):
     _, testdir, _, filepath = stubs
     path_to_snap = Path("__snapshots__", "test_hanging")
     testdir.makefile(".abc", **{str(path_to_snap): ""})
@@ -439,7 +534,7 @@ def test_removed_hanging_snapshot_fossil(stubs, snapshot):
     assert not Path(hanging_filepath).exists()
 
 
-def test_snapshot_default_extension_option(testdir, snapshot):
+def test_snapshot_default_extension_option(testdir):
     testdir.makepyfile(
         test_file=(
             """
@@ -454,14 +549,14 @@ def test_snapshot_default_extension_option(testdir, snapshot):
         "--snapshot-default-extension",
         "syrupy.extensions.single_file.SingleFileSnapshotExtension",
     )
-    assert get_result_snapshot_summary(result) == snapshot
+    result.stdout.re_match_lines((r"1 snapshot generated\."))
     assert Path(
         testdir.tmpdir, "__snapshots__", "test_file", "test_default.raw"
     ).exists()
     assert result.ret == 0
 
 
-def test_snapshot_default_extension_option_failure(testdir, testcases, snapshot):
+def test_snapshot_default_extension_option_failure(testdir, testcases):
     testdir.makepyfile(test_file=testcases["used"])
     result = testdir.runpytest(
         "-v",

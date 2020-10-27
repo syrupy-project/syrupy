@@ -54,7 +54,7 @@ class DataSerializer:
         Writes the snapshot data into the snapshot file that be read later.
         """
         filepath = snapshot_fossil.location
-        with open(filepath, "w", encoding="utf-8", newline="") as f:
+        with open(filepath, "w", encoding="utf-8", newline=None) as f:
             for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
@@ -74,7 +74,7 @@ class DataSerializer:
         indent_len = len(cls._indent)
         snapshot_fossil = SnapshotFossil(location=filepath)
         try:
-            with open(filepath, "r", encoding="utf-8", newline="") as f:
+            with open(filepath, "r", encoding="utf-8", newline=None) as f:
                 test_name = None
                 snapshot_data = ""
                 for line in f:
@@ -99,6 +99,23 @@ class DataSerializer:
 
     @classmethod
     def serialize(
+        cls,
+        data: "SerializableData",
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+    ) -> str:
+        """
+        After serializing, new line control characters are normalised. This is needed
+        for interoperablity of snapshot matching between systems that do not use the
+        same new line control characters. Example snapshots generated on windows os
+        should not break when running the tests on a unix based system and vice versa.
+        """
+        serialized = cls._serialize(data, exclude=exclude, matcher=matcher)
+        return serialized.replace("\r\n", "\n").replace("\r", "\n")
+
+    @classmethod
+    def _serialize(
         cls,
         data: "SerializableData",
         *,
@@ -135,7 +152,8 @@ class DataSerializer:
             serialize_method = cls.serialize_namedtuple
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
-        return serialize_method(**serialize_kwargs)
+        serialized = serialize_method(**serialize_kwargs)
+        return serialized.replace("\r\n", "\n").replace("\r", "\n")
 
     @classmethod
     def serialize_number(
@@ -244,7 +262,7 @@ class DataSerializer:
         try:
             return sorted(iterable)
         except TypeError:
-            return sorted(iterable, key=cls.serialize)
+            return sorted(iterable, key=cls._serialize)
 
     @classmethod
     def object_type(cls, data: "SerializableData") -> str:
@@ -298,13 +316,13 @@ class DataSerializer:
             if separator is None:
                 return ""
             return (
-                cls.serialize(data=key, **kwargs)
+                cls._serialize(data=key, **kwargs)
                 if serialize_key
                 else cls.with_indent(str(key), depth=depth + 1)
             ) + separator
 
         def value_str(key: "PropertyName", value: "SerializableData") -> str:
-            serialized = cls.serialize(
+            serialized = cls._serialize(
                 data=value, exclude=exclude, path=(*path, (key, type(value))), **kwargs
             )
             return serialized if separator is None else serialized.lstrip(cls._indent)
