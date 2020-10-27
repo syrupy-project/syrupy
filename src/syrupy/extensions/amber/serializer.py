@@ -141,26 +141,27 @@ class DataSerializer:
     def serialize_number(
         cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        return cls.with_indent(repr(data), depth)
+        return cls.__serialize_plain(data=data, depth=depth)
 
     @classmethod
     def serialize_string(
         cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        if "\n" in data:
-            return cls.__serialize_lines(
-                data=data,
-                lines=(
-                    cls.with_indent(line, depth + 1 if depth else depth)
-                    for line in str(data).splitlines(keepends=True)
-                ),
-                depth=depth,
-                open_tag="'",
-                close_tag="'",
-                include_type=False,
-                ends="",
-            )
-        return cls.with_indent(repr(data), depth)
+        if "\n" not in data:
+            return cls.__serialize_plain(data=data, depth=depth)
+
+        return cls.__serialize_lines(
+            data=data,
+            lines=(
+                cls.with_indent(line, depth + 1 if depth else depth)
+                for line in str(data).splitlines(keepends=True)
+            ),
+            depth=depth,
+            open_tag="'",
+            close_tag="'",
+            include_type=False,
+            ends="",
+        )
 
     @classmethod
     def serialize_iterable(cls, data: "SerializableData", **kwargs: Any) -> str:
@@ -218,7 +219,7 @@ class DataSerializer:
     @classmethod
     def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
         if data.__class__.__repr__ != object.__repr__:
-            return cls.with_indent(repr(data), depth)
+            return cls.__serialize_plain(data=data, depth=depth)
 
         return cls.__serialize_iterable(
             data=data,
@@ -254,6 +255,15 @@ class DataSerializer:
         return isinstance(obj, tuple) and all(
             type(n) == str for n in getattr(obj, "_fields", [None])
         )
+
+    @classmethod
+    def __serialize_plain(
+        cls,
+        *,
+        data: "SerializableData",
+        depth: int = 0,
+    ) -> str:
+        return cls.with_indent(repr(data), depth)
 
     @classmethod
     def __serialize_iterable(
