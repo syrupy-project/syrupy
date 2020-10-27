@@ -45,6 +45,8 @@
 ---
 # name: TestSnapshotReporter.test_diff_lines[-2-SnapshotReporterNoContext]
   '
+  - line 0␍
+  + line 0␤
     ...
   - line 2␍␤
   + line 2␤
@@ -55,7 +57,8 @@
 ---
 # name: TestSnapshotReporter.test_diff_lines[-2-SnapshotReporter]
   '
-    line 0
+  - line 0␍
+  + line 0␤
     line 1
   - line 2␍␤
   + line 2␤
