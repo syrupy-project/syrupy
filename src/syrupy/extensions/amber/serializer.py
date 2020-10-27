@@ -60,7 +60,7 @@ class DataSerializer:
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
                     for data_line in snapshot_data.splitlines(keepends=True):
-                        f.write(f"{cls._indent}{data_line}")
+                        f.write(cls.with_indent(data_line, 1))
                     f.write(f"\n{cls._marker_divider}\n")
 
     @classmethod
