@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [0.8.0](https://github.com/tophat/syrupy/compare/v0.7.2...v0.8.0) (2020-10-27)
+
+
+### Features
+
+* **amber:** normalise line endings between operating systems ([#377](https://github.com/tophat/syrupy/issues/377)) ([82b624d](https://github.com/tophat/syrupy/commit/82b624d94259422d2f5d5a4d955b615514d0d060))
+
 ## [0.7.2](https://github.com/tophat/syrupy/compare/v0.7.1...v0.7.2) (2020-09-20)
 
 
