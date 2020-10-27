@@ -13,6 +13,10 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 * **amber:** normalise line endings between operating systems ([#377](https://github.com/tophat/syrupy/issues/377)) ([82b624d](https://github.com/tophat/syrupy/commit/82b624d94259422d2f5d5a4d955b615514d0d060))
 
+### BREAKING CHANGES
+
+* Line control characters are normalised when snapshots are generated i.e. `\r` and `\n` characters are all written as `\n`. This is to allow interoperability of snapshots between operating systems that use disparate line control characters.
+
 ## [0.7.2](https://github.com/tophat/syrupy/compare/v0.7.1...v0.7.2) (2020-09-20)
 
 
