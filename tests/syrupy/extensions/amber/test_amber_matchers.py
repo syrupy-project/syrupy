@@ -3,6 +3,7 @@ import uuid
 
 import pytest
 
+from syrupy.extensions.amber.serializer import Repr
 from syrupy.matchers import (
     PathTypeError,
     path_type,
@@ -44,3 +45,28 @@ def test_raises_unexpected_type(snapshot):
     assert actual == snapshot(matcher=path_type(**kwargs, strict=False))
     with pytest.raises(PathTypeError, match="does not match any of the expected"):
         assert actual == snapshot(matcher=path_type(**kwargs))
+
+
+def test_non_deterministic_snapshots(snapshot):
+    def matcher(data, path):
+        if isinstance(data, uuid.UUID):
+            return Repr("UUID(...)")
+        if isinstance(data, datetime.datetime):
+            return Repr("datetime.datetime(...)")
+        if tuple(p for p, _ in path[-2:]) == ("c", 0):
+            return "Your wish is my command"
+        return data
+
+    assert {
+        "a": uuid.uuid4(),
+        "b": {"b_1": "This is deterministic", "b_2": datetime.datetime.now()},
+        "c": ["Replace this one", "Do not replace this one"],
+    } == snapshot(matcher=matcher)
+    assert {
+        "a": uuid.UUID("06335e84-2872-4914-8c5d-3ed07d2a2f16"),
+        "b": {
+            "b_1": "This is deterministic",
+            "b_2": datetime.datetime(year=2020, month=5, day=31),
+        },
+        "c": ["Replace this one", "Do not replace this one"],
+    } == snapshot
