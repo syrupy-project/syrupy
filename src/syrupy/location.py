@@ -8,7 +8,7 @@ from typing import (
 from syrupy.constants import PYTEST_NODE_SEP
 
 
-class NodeLocation:
+class PyTestLocation:
     def __init__(self, node: Any):
         self._node = node
         self.filepath = self._node.fspath

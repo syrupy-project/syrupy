@@ -8,18 +8,22 @@ from typing import (
     Dict,
     Iterator,
     List,
+    Optional,
+    Set,
+    Tuple,
 )
 
 import attr
-import pytest
+from _pytest.mark.expression import Expression
 
+from .constants import PYTEST_NODE_SEP
 from .data import (
     Snapshot,
     SnapshotFossil,
     SnapshotFossils,
     SnapshotUnknownFossil,
 )
-from .location import NodeLocation
+from .location import PyTestLocation
 from .terminal import (
     bold,
     error_style,
@@ -29,6 +33,8 @@ from .terminal import (
 )
 
 if TYPE_CHECKING:
+    import pytest
+
     from .assertion import SnapshotAssertion
 
 
@@ -38,8 +44,6 @@ class SnapshotReport:
     all_items: Dict["pytest.Item", bool] = attr.ib()
     ran_items: Dict["pytest.Item", bool] = attr.ib()
     update_snapshots: bool = attr.ib()
-    is_providing_paths: bool = attr.ib()
-    is_providing_nodes: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -48,8 +52,12 @@ class SnapshotReport:
     matched: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
+    _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
+    _provided_test_paths: Dict[str, List[str]] = attr.ib(factory=dict)
+    _keyword_expressions: Set["Expression"] = attr.ib(factory=set)
 
     def __attrs_post_init__(self) -> None:
+        self.__parse_invocation_args()
         for assertion in self.assertions:
             self.discovered.merge(assertion.extension.discover_snapshots())
             for result in assertion.executions.values():
@@ -66,6 +74,43 @@ class SnapshotReport:
                     self.matched.update(snapshot_fossil)
                 else:
                     self.failed.update(snapshot_fossil)
+
+    def __parse_invocation_args(self) -> None:
+        arg_groups: List[Tuple[Optional[str], str]] = []
+        path_as_package = False
+        maybe_opt_arg = None
+        for arg in self._invocation_args:
+            if arg.strip() == "--pyargs":
+                path_as_package = True
+            elif arg.startswith("-"):
+                if "=" in arg:
+                    arg0, arg1 = arg.split("=")
+                    arg_groups.append((arg0.strip(), arg1.strip()))
+                elif maybe_opt_arg is None:
+                    maybe_opt_arg = arg
+                    continue  # do not reset maybe_opt_arg
+            else:
+                arg_groups.append((maybe_opt_arg, arg.strip()))
+
+            maybe_opt_arg = None
+
+        for maybe_opt_arg, arg_value in arg_groups:
+            if maybe_opt_arg == "-k":  # or maybe_opt_arg == "-m":
+                self._keyword_expressions.add(Expression.compile(arg_value))
+            elif maybe_opt_arg is None:
+                import importlib
+
+                parts = arg_value.split(PYTEST_NODE_SEP)
+                package_or_filepath = parts[0].strip()
+                filepath = Path(
+                    importlib.import_module(package_or_filepath).__file__
+                    if path_as_package
+                    else package_or_filepath
+                )
+                filepath_abs = str(
+                    filepath if filepath.is_absolute() else filepath.absolute()
+                )
+                self._provided_test_paths[filepath_abs] = parts[1:]
 
     @property
     def num_created(self) -> int:
@@ -89,7 +134,7 @@ class SnapshotReport:
 
     @property
     def ran_all_collected_tests(self) -> bool:
-        return self.all_items == self.ran_items and not self.is_providing_nodes
+        return self.all_items == self.ran_items
 
     @property
     def unused(self) -> "SnapshotFossils":
@@ -98,23 +143,25 @@ class SnapshotReport:
             self.discovered, self.used
         ):
             snapshot_location = unused_snapshot_fossil.location
-            if self.is_providing_paths and not any(
-                NodeLocation(node).matches_snapshot_location(snapshot_location)
-                for node in self.ran_items
+            if self._provided_test_paths and not self._selected_items_match_location(
+                snapshot_location
             ):
+                # Paths/Packages were provided to pytest and the snapshot location
+                # does not match therefore ignore this unused snapshot fossil file
                 continue
 
-            if self.ran_all_collected_tests:
+            provided_nodes = self._get_matching_path_nodes(snapshot_location)
+            if self.ran_all_collected_tests and not any(provided_nodes):
+                # All collected tests were run and files were not filtered by ::node
+                # therefore the snapshot fossil file at this location can be deleted
                 unused_snapshots = {*unused_snapshot_fossil}
                 mark_for_removal = snapshot_location not in self.used
             else:
                 unused_snapshots = {
                     snapshot
                     for snapshot in unused_snapshot_fossil
-                    if any(
-                        NodeLocation(node).matches_snapshot_name(snapshot.name)
-                        for node in self.ran_items
-                    )
+                    if self._selected_items_match_name(snapshot.name)
+                    or self._provided_nodes_match_name(snapshot.name, provided_nodes)
                 }
                 mark_for_removal = False
 
@@ -217,3 +264,49 @@ class SnapshotReport:
 
     def _count_snapshots(self, snapshot_fossils: "SnapshotFossils") -> int:
         return sum(len(snapshot_fossil) for snapshot_fossil in snapshot_fossils)
+
+    def _is_matching_path(self, snapshot_location: str, provided_path: str) -> bool:
+        path = Path(provided_path)
+        return str(path if path.is_dir() else path.parent) in snapshot_location
+
+    def _get_matching_paths(self, snapshot_location: str) -> Set[str]:
+        return {
+            path
+            for path in self._provided_test_paths
+            if self._is_matching_path(snapshot_location, path)
+        }
+
+    def _get_matching_path_nodes(self, snapshot_location: str) -> List[List[str]]:
+        return [
+            self._provided_test_paths[matching_path]
+            for matching_path in self._get_matching_paths(snapshot_location)
+        ]
+
+    def _provided_nodes_match_name(
+        self, snapshot_name: str, provided_nodes: List[List[str]]
+    ) -> bool:
+        return any(snapshot_name in ".".join(node_path) for node_path in provided_nodes)
+
+    def _selected_items_match_location(self, snapshot_location: str) -> bool:
+        return any(
+            PyTestLocation(item).matches_snapshot_location(snapshot_location)
+            for item in self.ran_items
+        )
+
+    def _selected_items_match_name(self, snapshot_name: str) -> bool:
+        if self._keyword_expressions:
+            return self._provided_keywords_match_name(snapshot_name)
+        return self._ran_items_match_name(snapshot_name)
+
+    def _provided_keywords_match_name(self, snapshot_name: str) -> bool:
+        names = snapshot_name.split(".")
+        return any(
+            expr.evaluate(lambda subname: any(subname in name for name in names))
+            for expr in self._keyword_expressions
+        )
+
+    def _ran_items_match_name(self, snapshot_name: str) -> bool:
+        return any(
+            PyTestLocation(item).matches_snapshot_name(snapshot_name)
+            for item in self.ran_items
+        )

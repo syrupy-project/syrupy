@@ -1,8 +1,8 @@
 import argparse
-import glob
 import sys
 from gettext import gettext
 from typing import (
+    TYPE_CHECKING,
     Any,
     ContextManager,
     List,
@@ -12,13 +12,10 @@ from typing import (
 import pytest
 
 from .assertion import SnapshotAssertion
-from .constants import (
-    DISABLE_COLOR_ENV_VAR,
-    PYTEST_NODE_SEP,
-)
+from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
-from .location import NodeLocation
+from .location import PyTestLocation
 from .session import SnapshotSession
 from .terminal import (
     received_style,
@@ -29,6 +26,9 @@ from .utils import (
     env_context,
     import_module_member,
 )
+
+if TYPE_CHECKING:
+    from _pytest.config import Config
 
 
 def __default_extension_option(value: str) -> Any:
@@ -104,37 +104,19 @@ def pytest_assertrepr_compare(
     return None
 
 
-def __is_testpath(arg: str) -> bool:
-    return not arg.startswith("-") and bool(glob.glob(arg.split(PYTEST_NODE_SEP)[0]))
-
-
-def __is_testnode(arg: str) -> bool:
-    return __is_testpath(arg) and PYTEST_NODE_SEP in arg
-
-
-def __is_testmodule(arg: str) -> bool:
-    return arg == "--pyargs"
-
-
 def pytest_sessionstart(session: Any) -> None:
     """
     Initialize snapshot session before tests are collected and ran.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
-    config = session.config
-    config._syrupy = SnapshotSession(
+    config: "Config" = session.config
+    session.config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
-        base_dir=config.rootdir,
-        is_providing_paths=any(
-            __is_testpath(arg) or __is_testmodule(arg)
-            for arg in config.invocation_params.args
-        ),
-        is_providing_nodes=any(
-            __is_testnode(arg) for arg in config.invocation_params.args
-        ),
+        base_dir=str(config.rootpath),
+        invocation_args=config.invocation_params.args,
     )
-    config._syrupy.start()
+    session.config._syrupy.start()
 
 
 def pytest_collection_modifyitems(
@@ -183,6 +165,6 @@ def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
         extension_class=request.config.option.default_extension,
-        test_location=NodeLocation(request.node),
+        test_location=PyTestLocation(request.node),
         session=request.session.config._syrupy,
     )

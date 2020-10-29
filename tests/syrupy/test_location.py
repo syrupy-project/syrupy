@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 from _pytest.nodes import Item
 
-from syrupy.location import NodeLocation
+from syrupy.location import PyTestLocation
 
 
 def mock_pytest_item(node_id: str, method_name: str) -> Item:
@@ -53,7 +53,7 @@ def test_location_properties(
     expected_classname,
     expected_snapshotname,
 ):
-    location = NodeLocation(mock_pytest_item(node_id, method_name))
+    location = PyTestLocation(mock_pytest_item(node_id, method_name))
     assert location.classname == expected_classname
     assert location.filename == expected_filename
     assert location.snapshot_name == expected_snapshotname
@@ -98,7 +98,7 @@ def test_location_matching(
     expected_snapshot_matches,
     expected_snapshot_misses,
 ):
-    location = NodeLocation(mock_pytest_item(node_id, method_name))
+    location = PyTestLocation(mock_pytest_item(node_id, method_name))
 
     for location_match in expected_location_matches:
         assert location.matches_snapshot_location(location_match)
