@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.8
+      - uses: ./.github/actions/detect-python
+      - name: Setup Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.8
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install project dependencies
         run: |
           python -m pip install -U pip --no-cache-dir
@@ -27,7 +28,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9]
       fail-fast: false
     steps:
       - uses: actions/checkout@v1
@@ -49,15 +50,16 @@ jobs:
     needs: [analysis, tests]
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.8
+      - uses: ./.github/actions/detect-python
+      - name: Setup Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.8
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install project dependencies
         run: |
           python -m pip install -U pip --no-cache-dir
           python -m pip install -e . -r dev_requirements.txt
-      - name: Release Python 3.8
+      - name: Release
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}

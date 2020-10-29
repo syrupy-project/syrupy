@@ -11,7 +11,7 @@ setup_requires = ["setuptools_scm"]
 install_requires = [
     "attrs>=18.2.0,<21.0.0",
     "colored>=1.3.92,<2.0.0",
-    "typing_extensions>=3.6,<4.0.0",
+    "typing_extensions>=3.6,<4.0.0; python_version < '3.7.0'",
     "pytest>=5.1.0,<7.0.0",
 ]
 test_requires = [
@@ -78,6 +78,11 @@ if __name__ in ["__main__", "builtins"]:
             "Intended Audience :: Developers",
             "Operating System :: OS Independent",
             "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
             "Topic :: Software Development :: Libraries",
+            "Topic :: Software Development :: Testing",
         ],
     )
