@@ -12,7 +12,10 @@ from typing import (
 import pytest
 
 from .assertion import SnapshotAssertion
-from .constants import DISABLE_COLOR_ENV_VAR
+from .constants import (
+    DISABLE_COLOR_ENV_VAR,
+    PYTEST_NODE_SEP,
+)
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import TestLocation
@@ -102,11 +105,11 @@ def pytest_assertrepr_compare(
 
 
 def __is_testpath(arg: str) -> bool:
-    return not arg.startswith("-") and bool(glob.glob(arg.split("::")[0]))
+    return not arg.startswith("-") and bool(glob.glob(arg.split(PYTEST_NODE_SEP)[0]))
 
 
 def __is_testnode(arg: str) -> bool:
-    return __is_testpath(arg) and "::" in arg
+    return __is_testpath(arg) and PYTEST_NODE_SEP in arg
 
 
 def __is_testmodule(arg: str) -> bool:

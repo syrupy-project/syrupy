@@ -8,7 +8,7 @@ from syrupy.filters import (
 )
 
 
-def test_filters_path_noop(snapshot):
+def test_filters_path_noop():
     with pytest.raises(TypeError, match="required positional argument"):
         paths()
 
@@ -23,7 +23,7 @@ def test_filters_expected_paths(snapshot):
     assert actual == snapshot(exclude=paths("0", "date", "nested.id", "list.0"))
 
 
-def test_filters_prop_noop(snapshot):
+def test_filters_prop_noop():
     with pytest.raises(TypeError, match="required positional argument"):
         props()
 

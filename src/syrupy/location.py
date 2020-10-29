@@ -5,6 +5,8 @@ from typing import (
     Optional,
 )
 
+from syrupy.constants import PYTEST_NODE_SEP
+
 
 class TestLocation:
     def __init__(self, node: Any):
@@ -17,8 +19,7 @@ class TestLocation:
 
     @property
     def classname(self) -> Optional[str]:
-        _, __, qualname = self._node.location
-        return ".".join(list(self.__valid_ids(qualname))[:-1]) or None
+        return ".".join(self._node.nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
 
     @property
     def filename(self) -> str:
