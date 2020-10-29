@@ -70,4 +70,4 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def __clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
         max_filename_length = 255 - len(self._file_extension or "")
-        return re.sub(r"(?u)[^-\w.]", "", filename)[:max_filename_length]
+        return re.sub(r"(?u)[^-\w.\[\]]", "", filename)[:max_filename_length]
