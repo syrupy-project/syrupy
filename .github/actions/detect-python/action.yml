@@ -1,0 +1,7 @@
+name: detect-python
+runs:
+  using: "composite"
+  steps:
+    - name: Determine Python Version
+      run: echo PYTHON_VERSION=$(cat .python-version | tr -d '\n') >> $GITHUB_ENV
+      shell: bash
