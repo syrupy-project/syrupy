@@ -97,24 +97,23 @@ def generate_snapshots(testdir, testcases_initial):
 def test_unsaved_snapshots(testdir, testcases_initial):
     testdir.makepyfile(test_file=testcases_initial["passed"])
     result = testdir.runpytest("-v")
-    output = result.stdout.str()
-    assert "Snapshot 'test_passed_single' does not exist" in output
-    assert "+ b'passed1'" in output
+    result.stdout.re_match_lines(
+        (r".*Snapshot 'test_passed_single' does not exist!", r".*\+ b'passed1'")
+    )
     assert result.ret == 1
 
 
 def test_failed_snapshots(testdir, testcases_initial):
     testdir.makepyfile(test_file=testcases_initial["failed"])
     result = testdir.runpytest("-v", "--snapshot-update")
-    assert "2 snapshots failed" in result.stdout.str()
+    result.stdout.re_match_lines((r"2 snapshots failed\."))
     assert result.ret == 1
 
 
 def test_generated_snapshots(generate_snapshots):
     result = generate_snapshots[0]
-    result_stdout = result.stdout.str()
-    assert "4 snapshots generated" in result_stdout
-    assert "snapshots unused" not in result_stdout
+    result.stdout.re_match_lines((r"4 snapshots generated\."))
+    result.stdout.no_re_match_line(r".*snapshots unused.*")
     assert result.ret == 0
 
 
@@ -122,9 +121,7 @@ def test_unmatched_snapshots(generate_snapshots, testcases_updated):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=testcases_updated["passed"])
     result = testdir.runpytest("-v")
-    result_stdout = result.stdout.str()
-    assert "1 snapshot failed" in result_stdout
-    assert "2 snapshots unused" in result_stdout
+    result.stdout.re_match_lines((r"1 snapshot failed\. 2 snapshots unused\."))
     assert result.ret == 1
 
 
@@ -132,18 +129,18 @@ def test_updated_snapshots(generate_snapshots, testcases_updated):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=testcases_updated["passed"])
     result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = result.stdout.str()
-    assert "1 snapshot updated" in result_stdout
-    assert "2 unused snapshots deleted" in result_stdout
+    result.stdout.re_match_lines((r"1 snapshot updated\. 2 unused snapshots deleted\."))
     assert result.ret == 0
 
 
 def test_warns_on_snapshot_name(generate_snapshots):
     result = generate_snapshots[0]
-    result_stdout = result.stdout.str()
-    assert "4 snapshots generated" in result_stdout
-    assert "Warning:" in result_stdout
-    assert "Can not relate snapshot name" in result_stdout
-    assert "Can not relate snapshot location" in result_stdout
-    assert "test_passed_custom" in result_stdout
+    result.stdout.re_match_lines(
+        (
+            r".*Warning:\s+",
+            r"\s+Can not relate snapshot location",
+            r"\s+Can not relate snapshot name",
+            r"4 snapshots generated\.",
+        )
+    )
     assert result.ret == 0

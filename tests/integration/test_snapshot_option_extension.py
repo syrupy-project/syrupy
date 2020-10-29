@@ -23,8 +23,7 @@ def test_snapshot_default_extension_option_success(testfile):
         "--snapshot-default-extension",
         "syrupy.extensions.single_file.SingleFileSnapshotExtension",
     )
-    result_stdout = result.stdout.str()
-    assert "1 snapshot generated." in result_stdout
+    result.stdout.re_match_lines((r"1 snapshot generated\."))
     assert Path(
         testfile.tmpdir, "__snapshots__", "test_file", "test_default.raw"
     ).exists()
@@ -38,9 +37,12 @@ def test_snapshot_default_extension_option_failure(testfile):
         "--snapshot-default-extension",
         "syrupy.extensions.amber.DoesNotExistExtension",
     )
-    result_stderr = result.stderr.str()
-    assert "error: argument --snapshot-default-extension" in result_stderr
-    assert "Member 'DoesNotExistExtension' not found" in result_stderr
+    result.stderr.re_match_lines(
+        (
+            r".*error: argument --snapshot-default-extension"
+            r": Member 'DoesNotExistExtension' not found.*",
+        )
+    )
     assert not Path(
         testfile.tmpdir, "__snapshots__", "test_file", "test_default.raw"
     ).exists()

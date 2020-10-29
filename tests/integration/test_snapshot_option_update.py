@@ -288,9 +288,8 @@ def test_update_targets_only_selected_class_tests_dash_k(testdir):
     assert Path(testdir.tmpdir, "__snapshots__", "test_content.ambr").exists()
 
     result = testdir.runpytest("test_content.py", "-v", "-k test_case_2")
-    result_stdout = result.stdout.str()
-    assert "1 snapshot passed" in result_stdout
-    assert "snapshot unused" not in result_stdout
+    result.stdout.re_match_lines((r"1 snapshot passed\."))
+    result.stdout.no_re_match_line(r".*snapshot unused.*")
 
 
 def test_update_targets_only_selected_module_tests_dash_k(testdir):
@@ -309,9 +308,8 @@ def test_update_targets_only_selected_module_tests_dash_k(testdir):
     assert Path(testdir.tmpdir, "__snapshots__", "test_content.ambr").exists()
 
     result = testdir.runpytest("test_content.py", "-v", "-k test_case_2")
-    result_stdout = result.stdout.str()
-    assert "1 snapshot passed" in result_stdout
-    assert "snapshot unused" not in result_stdout
+    result.stdout.re_match_lines((r"1 snapshot passed\."))
+    result.stdout.no_re_match_line(r".*snapshot unused.*")
 
 
 def test_update_targets_only_selected_module_tests_nodes(run_testcases):
@@ -389,7 +387,7 @@ def test_update_removes_empty_snapshot_fossil_only(run_testcases):
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            r"Deleted empty snapshot fossil \(__snapshots__[\\/]empty_snapfile\.ambr\)",
+            rf"Deleted empty snapshot fossil \({snapfile_empty}\)",
         )
     )
     assert result.ret == 0
@@ -404,11 +402,13 @@ def test_update_removes_hanging_snapshot_fossil_file(run_testcases):
     testdir.makefile(".abc", **{str(snapfile_hanging): ""})
     assert snapfile_hanging.exists()
     result = testdir.runpytest("-v", "--snapshot-update")
-    result_stdout = result.stdout.str()
-    assert str(snapfile_used) not in result_stdout
-    assert "1 unused snapshot deleted" in result_stdout
-    assert "unknown snapshot" in result_stdout
-    assert str(snapfile_hanging) in result_stdout
+    result.stdout.re_match_lines(
+        (
+            r"10 snapshots passed\. 1 unused snapshot deleted\.",
+            rf"Deleted unknown snapshot fossil \({snapfile_hanging}\)",
+        )
+    )
+    result.stdout.no_re_match_line(rf".*{snapfile_used}.*")
     assert result.ret == 0
     assert snapfile_used.exists()
     assert not snapfile_hanging.exists()
