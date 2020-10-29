@@ -18,7 +18,7 @@ from .constants import (
 )
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
-from .location import TestLocation
+from .location import NodeLocation
 from .session import SnapshotSession
 from .terminal import (
     received_style,
@@ -183,6 +183,6 @@ def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
         extension_class=request.config.option.default_extension,
-        test_location=TestLocation(request.node),
+        test_location=NodeLocation(request.node),
         session=request.session.config._syrupy,
     )

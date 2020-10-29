@@ -44,7 +44,7 @@ from syrupy.terminal import (
 from syrupy.utils import walk_snapshot_dir
 
 if TYPE_CHECKING:
-    from syrupy.location import TestLocation
+    from syrupy.location import NodeLocation
     from syrupy.types import (
         PropertyFilter,
         PropertyMatcher,
@@ -72,7 +72,7 @@ class SnapshotSerializer(ABC):
 class SnapshotFossilizer(ABC):
     @property
     @abstractmethod
-    def test_location(self) -> "TestLocation":
+    def test_location(self) -> "NodeLocation":
         raise NotImplementedError
 
     def get_snapshot_name(self, *, index: int = 0) -> str:
@@ -374,9 +374,9 @@ class SnapshotReporter(ABC):
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
-    def __init__(self, test_location: "TestLocation"):
+    def __init__(self, test_location: "NodeLocation"):
         self._test_location = test_location
 
     @property
-    def test_location(self) -> "TestLocation":
+    def test_location(self) -> "NodeLocation":
         return self._test_location

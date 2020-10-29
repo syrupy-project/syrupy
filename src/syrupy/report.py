@@ -19,7 +19,7 @@ from .data import (
     SnapshotFossils,
     SnapshotUnknownFossil,
 )
-from .location import TestLocation
+from .location import NodeLocation
 from .terminal import (
     bold,
     error_style,
@@ -99,7 +99,7 @@ class SnapshotReport:
         ):
             snapshot_location = unused_snapshot_fossil.location
             if self.is_providing_paths and not any(
-                TestLocation(node).matches_snapshot_location(snapshot_location)
+                NodeLocation(node).matches_snapshot_location(snapshot_location)
                 for node in self.ran_items
             ):
                 continue
@@ -112,7 +112,7 @@ class SnapshotReport:
                     snapshot
                     for snapshot in unused_snapshot_fossil
                     if any(
-                        TestLocation(node).matches_snapshot_name(snapshot.name)
+                        NodeLocation(node).matches_snapshot_name(snapshot.name)
                         for node in self.ran_items
                     )
                 }
