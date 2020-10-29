@@ -7,7 +7,7 @@
     'some_uuid': <class 'UUID'>,
   }
 ---
-# name: test_non_deterministic_snapshots
+# name: test_matches_non_deterministic_snapshots
   <class 'dict'> {
     'a': UUID(...),
     'b': <class 'dict'> {
@@ -20,7 +20,7 @@
     ],
   }
 ---
-# name: test_non_deterministic_snapshots.1
+# name: test_matches_non_deterministic_snapshots.1
   <class 'dict'> {
     'a': UUID('06335e84-2872-4914-8c5d-3ed07d2a2f16'),
     'b': <class 'dict'> {

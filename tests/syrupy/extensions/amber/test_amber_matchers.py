@@ -47,7 +47,7 @@ def test_raises_unexpected_type(snapshot):
         assert actual == snapshot(matcher=path_type(**kwargs))
 
 
-def test_non_deterministic_snapshots(snapshot):
+def test_matches_non_deterministic_snapshots(snapshot):
     def matcher(data, path):
         if isinstance(data, uuid.UUID):
             return Repr("UUID(...)")

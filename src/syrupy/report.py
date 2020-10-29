@@ -269,34 +269,17 @@ class SnapshotReport:
         path = Path(provided_path)
         return str(path if path.is_dir() else path.parent) in snapshot_location
 
-    def _get_matching_paths(self, snapshot_location: str) -> Set[str]:
-        return {
-            path
-            for path in self._provided_test_paths
-            if self._is_matching_path(snapshot_location, path)
-        }
-
     def _get_matching_path_nodes(self, snapshot_location: str) -> List[List[str]]:
         return [
-            self._provided_test_paths[matching_path]
-            for matching_path in self._get_matching_paths(snapshot_location)
+            self._provided_test_paths[path]
+            for path in self._provided_test_paths
+            if self._is_matching_path(snapshot_location, path)
         ]
 
     def _provided_nodes_match_name(
         self, snapshot_name: str, provided_nodes: List[List[str]]
     ) -> bool:
         return any(snapshot_name in ".".join(node_path) for node_path in provided_nodes)
-
-    def _selected_items_match_location(self, snapshot_location: str) -> bool:
-        return any(
-            PyTestLocation(item).matches_snapshot_location(snapshot_location)
-            for item in self.ran_items
-        )
-
-    def _selected_items_match_name(self, snapshot_name: str) -> bool:
-        if self._keyword_expressions:
-            return self._provided_keywords_match_name(snapshot_name)
-        return self._ran_items_match_name(snapshot_name)
 
     def _provided_keywords_match_name(self, snapshot_name: str) -> bool:
         names = snapshot_name.split(".")
@@ -308,5 +291,16 @@ class SnapshotReport:
     def _ran_items_match_name(self, snapshot_name: str) -> bool:
         return any(
             PyTestLocation(item).matches_snapshot_name(snapshot_name)
+            for item in self.ran_items
+        )
+
+    def _selected_items_match_name(self, snapshot_name: str) -> bool:
+        if self._keyword_expressions:
+            return self._provided_keywords_match_name(snapshot_name)
+        return self._ran_items_match_name(snapshot_name)
+
+    def _selected_items_match_location(self, snapshot_location: str) -> bool:
+        return any(
+            PyTestLocation(item).matches_snapshot_location(snapshot_location)
             for item in self.ran_items
         )
