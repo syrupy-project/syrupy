@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 import pytest
@@ -110,6 +111,7 @@ def testcases_updated(testcases_initial):
 
 @pytest.fixture
 def run_testcases(testdir, testcases_initial):
+    sys.path.append(str(testdir.tmpdir))
     testdir.makepyfile(**testcases_initial)
     result = testdir.runpytest("-v", "--snapshot-update")
     result.stdout.re_match_lines((r"10 snapshots generated."))
@@ -314,6 +316,24 @@ def test_update_targets_only_selected_module_tests_nodes(run_testcases):
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
     testfile = Path(testdir.tmpdir, "test_used.py")
     result = testdir.runpytest(f"{testfile}::test_used", "-v", "--snapshot-update")
+    result.stdout.re_match_lines((r"3 snapshots passed\."))
+    result.stdout.no_re_match_line(r".*unused.*")
+    result.stdout.no_re_match_line(r".*updated.*")
+    result.stdout.no_re_match_line(r".*deleted.*")
+    assert result.ret == 0
+    assert snapfile_empty.exists()
+
+
+def test_update_targets_only_selected_module_tests_nodes_pyargs(run_testcases):
+    testdir = run_testcases[1]
+    snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
+    testdir.makefile(".ambr", **{str(snapfile_empty): ""})
+    result = testdir.runpytest(
+        "-v",
+        "--snapshot-update",
+        "--pyargs",
+        "test_used::test_used",
+    )
     result.stdout.re_match_lines((r"3 snapshots passed\."))
     result.stdout.no_re_match_line(r".*unused.*")
     result.stdout.no_re_match_line(r".*updated.*")
