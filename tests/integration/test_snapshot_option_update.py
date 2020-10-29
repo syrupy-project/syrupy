@@ -223,7 +223,7 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
             """
             import pytest
 
-            @pytest.mark.parametrize("actual", [1, "2"])
+            @pytest.mark.parametrize("actual", [1, "2", 3])
             def test_used(snapshot, actual):
                 assert snapshot == actual
             """
@@ -231,13 +231,9 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
     }
     testdir = run_testcases[1]
     testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_used[")
-    result.stdout.re_match_lines(
-        (
-            r"1 snapshot passed\. 1 snapshot updated\. 1 unused snapshot deleted\.",
-            r"Deleted test_used\[3\] \(__snapshots__[\\/]test_used.ambr\)",
-        )
-    )
+    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_used[2]")
+    result.stdout.re_match_lines((r"1 snapshot updated\."))
+    result.stdout.no_fnmatch_line("*Deleted*")
     snapshot_path = [testdir.tmpdir, "__snapshots__"]
     assert Path(*snapshot_path, "test_used.ambr").exists()
     assert Path(*snapshot_path, "test_updated_1.ambr").exists()
@@ -353,7 +349,7 @@ def test_update_targets_only_selected_module_tests_file_for_update(run_testcases
     assert Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_targets_only_selected_module_test_file_for_removal(run_testcases):
+def test_update_targets_only_selected_module_tests_file_for_removal(run_testcases):
     testdir = run_testcases[1]
     testdir.makepyfile(
         test_used=(
