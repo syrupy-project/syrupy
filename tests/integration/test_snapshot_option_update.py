@@ -387,7 +387,7 @@ def test_update_removes_empty_snapshot_fossil_only(run_testcases):
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            rf"Deleted empty snapshot fossil \({snapfile_empty}\)",
+            r"Deleted empty snapshot fossil \(__snapshots__[\\/]empty_snapfile\.ambr\)",
         )
     )
     assert result.ret == 0
@@ -405,7 +405,8 @@ def test_update_removes_hanging_snapshot_fossil_file(run_testcases):
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            rf"Deleted unknown snapshot fossil \({snapfile_hanging}\)",
+            r"Deleted unknown snapshot fossil "
+            r"\(__snapshots__[\\/]hanging_snapfile\.abc\)",
         )
     )
     result.stdout.no_re_match_line(rf".*{snapfile_used}.*")

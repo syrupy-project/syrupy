@@ -83,7 +83,8 @@ class SnapshotFossilizer(ABC):
     def get_location(self, *, index: int) -> str:
         """Returns full location where snapshot data is stored."""
         basename = self._get_file_basename(index=index)
-        return str(Path(self._dirname).joinpath(f"{basename}.{self._file_extension}"))
+        fileext = f".{self._file_extension}" if self._file_extension else ""
+        return str(Path(self._dirname).joinpath(f"{basename}{fileext}"))
 
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
