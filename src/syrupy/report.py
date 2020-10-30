@@ -6,7 +6,9 @@ from gettext import (
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Callable,
     Dict,
+    FrozenSet,
     Iterator,
     List,
     Optional,
@@ -15,7 +17,6 @@ from typing import (
 )
 
 import attr
-from _pytest.mark.expression import Expression
 
 from .constants import PYTEST_NODE_SEP
 from .data import (
@@ -118,7 +119,7 @@ class SnapshotReport:
 
         for maybe_opt_arg, arg_value in arg_groups:
             if maybe_opt_arg == "-k":  # or maybe_opt_arg == "-m":
-                self._keyword_expressions.add(Expression.compile(arg_value))
+                self._keyword_expressions.add(Expression.compose(arg_value))
             elif maybe_opt_arg is None:
                 parts = arg_value.split(PYTEST_NODE_SEP)
                 package_or_filepath = parts[0].strip()
@@ -378,3 +379,26 @@ class SnapshotReport:
             PyTestLocation(item).matches_snapshot_location(snapshot_location)
             for item in self.ran_items
         )
+
+
+@attr.s(frozen=True)
+class Expression:
+    """
+    Dumbed down version of _pytest.mark.expression.Expression not available in < 6.0
+    https://github.com/pytest-dev/pytest/blob/6.0.x/src/_pytest/mark/expression.py
+    Added for pared down support on older pytest version and because the expression
+    module is not public. This only supports inclusion based on simple string matching.
+    """
+
+    code: FrozenSet[str] = attr.ib(factory=frozenset)
+
+    def evaluate(self, matcher: Callable[[str], bool]) -> bool:
+        return any(map(matcher, self.code))
+
+    @staticmethod
+    def compose(value: str) -> "Expression":
+        delim = " "
+        replace_str = {" or ", " and ", " not ", "(", ")"}
+        for r in replace_str:
+            value = value.replace(f" {r} ", delim)
+        return Expression(code=frozenset(value.split(delim)))
