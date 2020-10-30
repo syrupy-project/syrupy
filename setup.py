@@ -68,7 +68,7 @@ if __name__ in ["__main__", "builtins"]:
         packages=find_packages("./src"),
         zip_safe=False,
         entry_points={"pytest11": ["syrupy = syrupy"]},
-        extras_require={"dev": dev_requires},
+        extras_require={"dev": dev_requires, "test": test_requires},
         install_requires=install_requires,
         setup_requires=setup_requires,
         python_requires=python_requires,

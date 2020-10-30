@@ -1,4 +1,5 @@
 import os
+import re
 
 from invoke import (
     exceptions,
@@ -6,6 +7,7 @@ from invoke import (
 )
 
 import benchmarks
+from setup import install_requires
 
 
 def ctx_run(ctx, *args, **kwargs):
@@ -19,6 +21,18 @@ def clean(ctx):
     Remove build files e.g. package, distributable, compiled etc.
     """
     ctx_run(ctx, "rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
+
+
+def _parse_min_versions(requirements):
+    result = []
+    for req in sorted(requirements):
+        match = re.match(r"([\w_]+)>=([^,]+),.*", req)
+        if match is None:
+            continue
+        pkg_name = match.group(1)
+        min_version = match.group(2)
+        result.append(f"{pkg_name}=={min_version}")
+    return result
 
 
 @task
@@ -39,6 +53,11 @@ def requirements(ctx, upgrade=False):
         f"echo '-e .[dev]' | python -m piptools compile "
         f"{' '.join(args)} - -qo- | sed '/^-e / d' > dev_requirements.txt",
     )
+
+    with open("min_requirements.txt", "w", encoding="utf-8") as f:
+        min_requirements = _parse_min_versions(install_requires)
+        f.write("\n".join(min_requirements))
+        f.write("\n")
 
 
 @task
