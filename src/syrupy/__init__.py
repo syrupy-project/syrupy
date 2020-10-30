@@ -2,7 +2,6 @@ import argparse
 import sys
 from gettext import gettext
 from typing import (
-    TYPE_CHECKING,
     Any,
     ContextManager,
     List,
@@ -26,9 +25,6 @@ from .utils import (
     env_context,
     import_module_member,
 )
-
-if TYPE_CHECKING:
-    from _pytest.config import Config
 
 
 def __default_extension_option(value: str) -> Any:
@@ -109,14 +105,14 @@ def pytest_sessionstart(session: Any) -> None:
     Initialize snapshot session before tests are collected and ran.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
-    config: "Config" = session.config
-    session.config._syrupy = SnapshotSession(
+    config = session.config
+    config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
         base_dir=str(config.rootpath),
         invocation_args=config.invocation_params.args,
     )
-    session.config._syrupy.start()
+    config._syrupy.start()
 
 
 def pytest_collection_modifyitems(

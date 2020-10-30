@@ -2,13 +2,12 @@ from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
-from _pytest.nodes import Item
 
 from syrupy.location import PyTestLocation
 
 
-def mock_pytest_item(node_id: str, method_name: str) -> Item:
-    mock_node = MagicMock(spec=Item)
+def mock_pytest_item(node_id: str, method_name: str) -> "pytest.Item":
+    mock_node = MagicMock(spec=pytest.Item)
     mock_node.nodeid = node_id
     [filepath, *_, nodename] = node_id.split("::")
     mock_node.name = nodename
