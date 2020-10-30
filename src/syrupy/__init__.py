@@ -127,8 +127,7 @@ def pytest_collection_modifyitems(
     After tests are collected and before any modification is performed.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_modifyitems
     """
-    for item in config._syrupy.filter_valid_items(items):
-        config._syrupy._all_items[item] = True
+    config._syrupy.collect_items(items)
 
 
 def pytest_collection_finish(session: Any) -> None:
@@ -136,8 +135,7 @@ def pytest_collection_finish(session: Any) -> None:
     After collection has been performed and modified.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_finish
     """
-    for item in session.config._syrupy.filter_valid_items(session.items):
-        session.config._syrupy._ran_items[item] = False
+    session.config._syrupy.select_items(session.items)
 
 
 def pytest_runtest_logfinish(nodeid: str) -> None:
@@ -146,12 +144,8 @@ def pytest_runtest_logfinish(nodeid: str) -> None:
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_runtest_logfinish
     """
     global _syrupy
-    if not _syrupy:
-        return
-    for item in _syrupy._ran_items:
-        if getattr(item, "nodeid", None) == nodeid:
-            _syrupy._ran_items[item] = True
-            return
+    if _syrupy:
+        _syrupy.ran_item(nodeid)
 
 
 def pytest_sessionfinish(session: Any, exitstatus: int) -> None:

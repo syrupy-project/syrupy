@@ -49,8 +49,8 @@ class SnapshotReport:
     """
 
     base_dir: str = attr.ib()
-    all_items: Dict["pytest.Item", bool] = attr.ib()
-    ran_items: Dict["pytest.Item", bool] = attr.ib()
+    collected_items: Set["pytest.Item"] = attr.ib()
+    selected_items: Dict[str, bool] = attr.ib()
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
@@ -63,9 +63,15 @@ class SnapshotReport:
     _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     _provided_test_paths: Dict[str, List[str]] = attr.ib(factory=dict)
     _keyword_expressions: Set["Expression"] = attr.ib(factory=set)
+    _collected_items_by_nodeid: Dict[str, "pytest.Item"] = attr.ib(
+        factory=dict, init=False
+    )
 
     def __attrs_post_init__(self) -> None:
         self.__parse_invocation_args()
+        self._collected_items_by_nodeid = {
+            getattr(item, "nodeid", None): item for item in self.collected_items
+        }
         for assertion in self.assertions:
             self.discovered.merge(assertion.extension.discover_snapshots())
             for result in assertion.executions.values():
@@ -154,8 +160,16 @@ class SnapshotReport:
         return self._count_snapshots(self.unused)
 
     @property
-    def ran_all_collected_tests(self) -> bool:
-        return self.all_items == self.ran_items
+    def selected_all_collected_items(self) -> bool:
+        return self._collected_items_by_nodeid.keys() == self.selected_items.keys()
+
+    @property
+    def ran_items(self) -> Iterator["pytest.Item"]:
+        return (
+            self._collected_items_by_nodeid[nodeid]
+            for nodeid in self.selected_items
+            if self.selected_items[nodeid]
+        )
 
     @property
     def unused(self) -> "SnapshotFossils":
@@ -172,15 +186,15 @@ class SnapshotReport:
             self.discovered, self.used
         ):
             snapshot_location = unused_snapshot_fossil.location
-            if self._provided_test_paths and not self._selected_items_match_location(
+            if self._provided_test_paths and not self._ran_items_match_location(
                 snapshot_location
             ):
-                # Paths/Packages were provided to pytest and the snapshot location
-                # does not match therefore ignore this unused snapshot fossil file
+                # Paths/Packages were provided to pytest and the snapshot location does
+                # not match any of ran tests therefore ignore this unused snapshot file
                 continue
 
             provided_nodes = self._get_matching_path_nodes(snapshot_location)
-            if self.ran_all_collected_tests and not any(provided_nodes):
+            if self.selected_all_collected_items and not any(provided_nodes):
                 # All collected tests were run and files were not filtered by ::node
                 # therefore the snapshot fossil file at this location can be deleted
                 unused_snapshots = {*unused_snapshot_fossil}
@@ -358,7 +372,6 @@ class SnapshotReport:
         return any(
             PyTestLocation(item).matches_snapshot_name(snapshot_name)
             for item in self.ran_items
-            if self.ran_items[item]
         )
 
     def _selected_items_match_name(self, snapshot_name: str) -> bool:
@@ -370,16 +383,15 @@ class SnapshotReport:
             return self._provided_keywords_match_name(snapshot_name)
         return self._ran_items_match_name(snapshot_name)
 
-    def _selected_items_match_location(self, snapshot_location: str) -> bool:
+    def _ran_items_match_location(self, snapshot_location: str) -> bool:
         """
-        Check that a snapshot fossil location should is selected by the current session
+        Check if any test run in the current session should match the snapshot location
         This being true means that if no snapshot in the fossil was used then it should
         be discarded as obsolete
         """
         return any(
             PyTestLocation(item).matches_snapshot_location(snapshot_location)
             for item in self.ran_items
-            if self.ran_items[item]
         )
 
 

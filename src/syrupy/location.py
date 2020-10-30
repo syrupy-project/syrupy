@@ -1,19 +1,29 @@
 from pathlib import Path
 from typing import (
-    Any,
     Iterator,
     Optional,
 )
 
+import attr
+import pytest
+
 from syrupy.constants import PYTEST_NODE_SEP
 
 
+@attr.s
 class PyTestLocation:
-    def __init__(self, node: Any):
-        self._node = node
-        self.filepath = self._node.fspath
-        self.modulename = self._node.obj.__module__
-        self.methodname = self._node.obj.__name__
+    _node: "pytest.Item" = attr.ib()
+    nodename: str = attr.ib(init=False)
+    testname: str = attr.ib(init=False)
+    methodname: str = attr.ib(init=False)
+    modulename: str = attr.ib(init=False)
+    filepath: str = attr.ib(init=False)
+
+    def __attrs_post_init__(self) -> None:
+        self.filepath = getattr(self._node, "fspath", None)
+        obj = getattr(self._node, "obj", None)
+        self.modulename = obj.__module__
+        self.methodname = obj.__name__
         self.nodename = getattr(self._node, "name", None)
         self.testname = self.nodename or self.methodname
 
@@ -23,7 +33,8 @@ class PyTestLocation:
         Pytest node names contain file path and module members delimited by `::`
         Example tests/grouping/test_file.py::TestClass::TestSubClass::test_method
         """
-        return ".".join(self._node.nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
+        nodeid: str = getattr(self._node, "nodeid", None)
+        return ".".join(nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
 
     @property
     def filename(self) -> str:

@@ -5,6 +5,7 @@ from typing import (
     Iterable,
     List,
     Optional,
+    Set,
     Tuple,
 )
 
@@ -28,25 +29,35 @@ class SnapshotSession:
     _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     report: Optional["SnapshotReport"] = attr.ib(default=None)
     # All the collected test items
-    _all_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
+    _collected_items: Set["pytest.Item"] = attr.ib(factory=set)
     # All the selected test items. Will be set to False until the test item is run.
-    _ran_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
+    _selected_items: Dict[str, bool] = attr.ib(factory=dict)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
 
+    def collect_items(self, items: List["pytest.Item"]) -> None:
+        self._collected_items.update(self.filter_valid_items(items))
+
+    def select_items(self, items: List["pytest.Item"]) -> None:
+        for item in self.filter_valid_items(items):
+            self._selected_items[getattr(item, "nodeid", None)] = False
+
     def start(self) -> None:
         self.report = None
-        self._all_items = {}
-        self._ran_items = {}
+        self._collected_items = set()
+        self._selected_items = {}
         self._assertions = []
         self._extensions = {}
+
+    def ran_item(self, nodeid: str) -> None:
+        self._selected_items[nodeid] = True
 
     def finish(self) -> int:
         exitstatus = 0
         self.report = SnapshotReport(
             base_dir=self.base_dir,
-            all_items=self._all_items,
-            ran_items=self._ran_items,
+            collected_items=self._collected_items,
+            selected_items=self._selected_items,
             assertions=self._assertions,
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
