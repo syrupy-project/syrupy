@@ -41,6 +41,12 @@ if TYPE_CHECKING:
 
 @attr.s
 class SnapshotReport:
+    """
+    This class is responsible for determining the test summary and post execution
+    results. It will provide the lines of the report to be printed as well as the
+    information used for removal of unused or orphaned snapshots and fossils.
+    """
+
     base_dir: str = attr.ib()
     all_items: Dict["pytest.Item", bool] = attr.ib()
     ran_items: Dict["pytest.Item", bool] = attr.ib()
@@ -77,6 +83,21 @@ class SnapshotReport:
                     self.failed.update(snapshot_fossil)
 
     def __parse_invocation_args(self) -> None:
+        """
+        Parse the invocation arguments to extract some information for test selection
+        This compiles and saves values from `-k`, `--pyargs` and test dir path
+
+        https://docs.pytest.org/en/stable/reference.html#command-line-flags
+        https://docs.pytest.org/en/stable/reference.html#config
+
+        Summary
+        -k: is evaluated and used to match against snapshot names when present
+        -m: is ignored for now as markers are not matched to snapshot names
+        --pyargs: arguments are imported to get their file locations
+        [args]: a path provided e.g. tests/test_file.py::TestClass::test_method
+        would result in `"tests/test_file.py"` being stored as the location in a
+        dictionary with `["TestClass", "test_method"]` being the test node path
+        """
         arg_groups: List[Tuple[Optional[str], str]] = []
         path_as_package = False
         maybe_opt_arg = None
@@ -137,6 +158,14 @@ class SnapshotReport:
 
     @property
     def unused(self) -> "SnapshotFossils":
+        """
+        Iterate over each snapshot that was discovered but never used and compute
+        if the snapshot was unused because the test attached to it was never run,
+        or if the snapshot is obsolete and therefore is a candidate for removal.
+
+        Summary, if a snapshot was supposed to be run based on the invocation args
+        and it was not, then it should be marked as unused otherwise ignored.
+        """
         unused_fossils = SnapshotFossils()
         for unused_snapshot_fossil in self._diff_snapshot_fossils(
             self.discovered, self.used
@@ -177,6 +206,14 @@ class SnapshotReport:
 
     @property
     def lines(self) -> Iterator[str]:
+        """
+        These are the lines printed at the end of a test run. Example:
+        ```
+        2 snaphots passed. 5 snapshots generated. 1 unused snapshot deleted.
+
+        Re-run pytest with --snapshot-update to delete unused snapshots.
+        ```
+        """
         summary_lines: List[str] = []
         if self.num_failed:
             summary_lines.append(
@@ -249,6 +286,13 @@ class SnapshotReport:
     def _diff_snapshot_fossils(
         self, snapshot_fossils1: "SnapshotFossils", snapshot_fossils2: "SnapshotFossils"
     ) -> "SnapshotFossils":
+        """
+        Find the difference between two collections of snapshot fossils. While
+        preserving the location site to all fossils in the first collections. That is
+        a collection with fossil sites {A{1,2}, B{3,4}, C{5,6}} with snapshot fossils
+        when diffed with another collection with snapshots {A{1,2}, B{3,4}, D{7,8}}
+        will result in a collection with the contents {A{}, B{}, C{5,6}}.
+        """
         diffed_snapshot_fossils: "SnapshotFossils" = SnapshotFossils()
         for snapshot_fossil1 in snapshot_fossils1:
             snapshot_fossil2 = snapshot_fossils2.get(
@@ -262,13 +306,25 @@ class SnapshotReport:
         return diffed_snapshot_fossils
 
     def _count_snapshots(self, snapshot_fossils: "SnapshotFossils") -> int:
+        """
+        Count all the snapshots at all the locations in the snapshot fossil collection
+        """
         return sum(len(snapshot_fossil) for snapshot_fossil in snapshot_fossils)
 
     def _is_matching_path(self, snapshot_location: str, provided_path: str) -> bool:
+        """
+        Check if a snapshot location matches the path provided by checking that the
+        provided path folder is in a parent position relative to the snapshot location
+        """
         path = Path(provided_path)
         return str(path if path.is_dir() else path.parent) in snapshot_location
 
     def _get_matching_path_nodes(self, snapshot_location: str) -> List[List[str]]:
+        """
+        For the snapshot location provided, get the nodes of the test paths provided to
+        pytest on invocation. If there were no paths provided then this list should be
+        empty. If there are paths without nodes provided then this is a list of empties
+        """
         return [
             self._provided_test_paths[path]
             for path in self._provided_test_paths
@@ -278,9 +334,16 @@ class SnapshotReport:
     def _provided_nodes_match_name(
         self, snapshot_name: str, provided_nodes: List[List[str]]
     ) -> bool:
+        """
+        Check that a snapshot name matches the node paths provided
+        """
         return any(snapshot_name in ".".join(node_path) for node_path in provided_nodes)
 
     def _provided_keywords_match_name(self, snapshot_name: str) -> bool:
+        """
+        Check that a snapshot name would have been included by the keyword
+        expression parsed from the invocation arguments
+        """
         names = snapshot_name.split(".")
         return any(
             expr.evaluate(lambda subname: any(subname in name for name in names))
@@ -288,17 +351,29 @@ class SnapshotReport:
         )
 
     def _ran_items_match_name(self, snapshot_name: str) -> bool:
+        """
+        Check that a snapshot name would match a test node using the Pytest location
+        """
         return any(
             PyTestLocation(item).matches_snapshot_name(snapshot_name)
             for item in self.ran_items
         )
 
     def _selected_items_match_name(self, snapshot_name: str) -> bool:
+        """
+        Check that a snapshot name should be treated as selected by the current session
+        This being true means that if the snapshot was not used then it will be deleted
+        """
         if self._keyword_expressions:
             return self._provided_keywords_match_name(snapshot_name)
         return self._ran_items_match_name(snapshot_name)
 
     def _selected_items_match_location(self, snapshot_location: str) -> bool:
+        """
+        Check that a snapshot fossil location should is selected by the current session
+        This being true means that if no snapshot in the fossil was used then it should
+        be discarded as obsolete
+        """
         return any(
             PyTestLocation(item).matches_snapshot_location(snapshot_location)
             for item in self.ran_items

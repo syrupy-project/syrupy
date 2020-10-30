@@ -74,6 +74,10 @@ class SnapshotSession:
         unused_snapshot_fossils: "SnapshotFossils",
         used_snapshot_fossils: "SnapshotFossils",
     ) -> None:
+        """
+        Remove all unused snapshots using the registed extension for the fossil file
+        If there is not registered extension and the location is unused delete the file
+        """
         for unused_snapshot_fossil in unused_snapshot_fossils:
             snapshot_location = unused_snapshot_fossil.location
 
