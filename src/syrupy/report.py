@@ -164,6 +164,14 @@ class SnapshotReport:
         return self._collected_items_by_nodeid.keys() == self.selected_items.keys()
 
     @property
+    def ran_items(self) -> Iterator["pytest.Item"]:
+        return (
+            self._collected_items_by_nodeid[nodeid]
+            for nodeid in self.selected_items
+            if self.selected_items[nodeid]
+        )
+
+    @property
     def unused(self) -> "SnapshotFossils":
         """
         Iterate over each snapshot that was discovered but never used and compute
@@ -362,11 +370,8 @@ class SnapshotReport:
         Check that a snapshot name would match a test node using the Pytest location
         """
         return any(
-            PyTestLocation(
-                self._collected_items_by_nodeid[nodeid]
-            ).matches_snapshot_name(snapshot_name)
-            for nodeid in self.selected_items
-            if self.selected_items[nodeid]
+            PyTestLocation(item).matches_snapshot_name(snapshot_name)
+            for item in self.ran_items
         )
 
     def _selected_items_match_name(self, snapshot_name: str) -> bool:
@@ -380,16 +385,13 @@ class SnapshotReport:
 
     def _ran_items_match_location(self, snapshot_location: str) -> bool:
         """
-        Check that a snapshot fossil location should is selected by the current session
+        Check if any test run in the current session should match the snapshot location
         This being true means that if no snapshot in the fossil was used then it should
         be discarded as obsolete
         """
         return any(
-            PyTestLocation(
-                self._collected_items_by_nodeid[nodeid]
-            ).matches_snapshot_location(snapshot_location)
-            for nodeid in self.selected_items
-            if self.selected_items[nodeid]
+            PyTestLocation(item).matches_snapshot_location(snapshot_location)
+            for item in self.ran_items
         )
 
 
