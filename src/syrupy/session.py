@@ -31,11 +31,7 @@ class SnapshotSession:
     # All the collected test items
     _collected_items: Set["pytest.Item"] = attr.ib(factory=set)
     # All the selected test items. Will be set to False until the test item is run.
-    _selected_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
-    # Used to optimise the look up of selected test items when marking them as ran.
-    _selected_items_by_nodeid: Dict[str, "pytest.Item"] = attr.ib(
-        factory=dict, init=False
-    )
+    _selected_items: Dict[str, bool] = attr.ib(factory=dict)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
 
@@ -44,9 +40,7 @@ class SnapshotSession:
 
     def select_items(self, items: List["pytest.Item"]) -> None:
         for item in self.filter_valid_items(items):
-            self._selected_items[item] = False
-            nodeid = getattr(item, "nodeid", None)
-            self._selected_items_by_nodeid[nodeid] = item
+            self._selected_items[getattr(item, "nodeid", None)] = False
 
     def start(self) -> None:
         self.report = None
@@ -56,8 +50,7 @@ class SnapshotSession:
         self._extensions = {}
 
     def ran_item(self, nodeid: str) -> None:
-        if nodeid in self._selected_items_by_nodeid:
-            self._selected_items[self._selected_items_by_nodeid[nodeid]] = True
+        self._selected_items[nodeid] = True
 
     def finish(self) -> int:
         exitstatus = 0

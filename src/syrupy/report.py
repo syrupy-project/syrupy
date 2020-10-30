@@ -50,7 +50,7 @@ class SnapshotReport:
 
     base_dir: str = attr.ib()
     collected_items: Set["pytest.Item"] = attr.ib()
-    selected_items: Dict["pytest.Item", bool] = attr.ib()
+    selected_items: Dict[str, bool] = attr.ib()
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
@@ -63,9 +63,15 @@ class SnapshotReport:
     _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     _provided_test_paths: Dict[str, List[str]] = attr.ib(factory=dict)
     _keyword_expressions: Set["Expression"] = attr.ib(factory=set)
+    _collected_items_by_nodeid: Dict[str, "pytest.Item"] = attr.ib(
+        factory=dict, init=False
+    )
 
     def __attrs_post_init__(self) -> None:
         self.__parse_invocation_args()
+        self._collected_items_by_nodeid = {
+            getattr(item, "nodeid", None): item for item in self.collected_items
+        }
         for assertion in self.assertions:
             self.discovered.merge(assertion.extension.discover_snapshots())
             for result in assertion.executions.values():
@@ -154,8 +160,8 @@ class SnapshotReport:
         return self._count_snapshots(self.unused)
 
     @property
-    def ran_all_collected_tests(self) -> bool:
-        return self.collected_items == self.selected_items.keys()
+    def selected_all_collected_items(self) -> bool:
+        return self._collected_items_by_nodeid.keys() == self.selected_items.keys()
 
     @property
     def unused(self) -> "SnapshotFossils":
@@ -180,7 +186,7 @@ class SnapshotReport:
                 continue
 
             provided_nodes = self._get_matching_path_nodes(snapshot_location)
-            if self.ran_all_collected_tests and not any(provided_nodes):
+            if self.selected_all_collected_items and not any(provided_nodes):
                 # All collected tests were run and files were not filtered by ::node
                 # therefore the snapshot fossil file at this location can be deleted
                 unused_snapshots = {*unused_snapshot_fossil}
@@ -356,9 +362,11 @@ class SnapshotReport:
         Check that a snapshot name would match a test node using the Pytest location
         """
         return any(
-            PyTestLocation(item).matches_snapshot_name(snapshot_name)
-            for item in self.selected_items
-            if self.selected_items[item]
+            PyTestLocation(
+                self._collected_items_by_nodeid[nodeid]
+            ).matches_snapshot_name(snapshot_name)
+            for nodeid in self.selected_items
+            if self.selected_items[nodeid]
         )
 
     def _selected_items_match_name(self, snapshot_name: str) -> bool:
@@ -377,9 +385,11 @@ class SnapshotReport:
         be discarded as obsolete
         """
         return any(
-            PyTestLocation(item).matches_snapshot_location(snapshot_location)
-            for item in self.selected_items
-            if self.selected_items[item]
+            PyTestLocation(
+                self._collected_items_by_nodeid[nodeid]
+            ).matches_snapshot_location(snapshot_location)
+            for nodeid in self.selected_items
+            if self.selected_items[nodeid]
         )
 
 
