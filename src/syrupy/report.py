@@ -49,8 +49,8 @@ class SnapshotReport:
     """
 
     base_dir: str = attr.ib()
-    all_items: Dict["pytest.Item", bool] = attr.ib()
-    ran_items: Dict["pytest.Item", bool] = attr.ib()
+    collected_items: Set["pytest.Item"] = attr.ib()
+    selected_items: Dict["pytest.Item", bool] = attr.ib()
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
@@ -155,7 +155,7 @@ class SnapshotReport:
 
     @property
     def ran_all_collected_tests(self) -> bool:
-        return self.all_items == self.ran_items
+        return self.collected_items == self.selected_items.keys()
 
     @property
     def unused(self) -> "SnapshotFossils":
@@ -172,11 +172,11 @@ class SnapshotReport:
             self.discovered, self.used
         ):
             snapshot_location = unused_snapshot_fossil.location
-            if self._provided_test_paths and not self._selected_items_match_location(
+            if self._provided_test_paths and not self._ran_items_match_location(
                 snapshot_location
             ):
-                # Paths/Packages were provided to pytest and the snapshot location
-                # does not match therefore ignore this unused snapshot fossil file
+                # Paths/Packages were provided to pytest and the snapshot location does
+                # not match any of ran tests therefore ignore this unused snapshot file
                 continue
 
             provided_nodes = self._get_matching_path_nodes(snapshot_location)
@@ -357,8 +357,8 @@ class SnapshotReport:
         """
         return any(
             PyTestLocation(item).matches_snapshot_name(snapshot_name)
-            for item in self.ran_items
-            if self.ran_items[item]
+            for item in self.selected_items
+            if self.selected_items[item]
         )
 
     def _selected_items_match_name(self, snapshot_name: str) -> bool:
@@ -370,7 +370,7 @@ class SnapshotReport:
             return self._provided_keywords_match_name(snapshot_name)
         return self._ran_items_match_name(snapshot_name)
 
-    def _selected_items_match_location(self, snapshot_location: str) -> bool:
+    def _ran_items_match_location(self, snapshot_location: str) -> bool:
         """
         Check that a snapshot fossil location should is selected by the current session
         This being true means that if no snapshot in the fossil was used then it should
@@ -378,8 +378,8 @@ class SnapshotReport:
         """
         return any(
             PyTestLocation(item).matches_snapshot_location(snapshot_location)
-            for item in self.ran_items
-            if self.ran_items[item]
+            for item in self.selected_items
+            if self.selected_items[item]
         )
 
 
