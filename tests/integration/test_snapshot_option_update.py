@@ -115,7 +115,7 @@ def run_testcases(testdir, testcases_initial):
     testdir.makepyfile(**testcases_initial)
     result = testdir.runpytest("-v", "--snapshot-update")
     result.stdout.re_match_lines((r"10 snapshots generated."))
-    result.stdout.no_re_match_line(r".*Can not relate snapshot name.*")
+    assert "Can not relate snapshot name" not in result.stdout.str()
 
     return result, testdir, testcases_initial
 
@@ -235,7 +235,7 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
     testdir.makepyfile(**updated_tests)
     result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_used[2]")
     result.stdout.re_match_lines((r"1 snapshot updated\."))
-    result.stdout.no_fnmatch_line("*Deleted*")
+    assert "Deleted" not in result.stdout.str()
     snapshot_path = [testdir.tmpdir, "__snapshots__"]
     assert Path(*snapshot_path, "test_used.ambr").exists()
     assert Path(*snapshot_path, "test_updated_1.ambr").exists()
@@ -287,7 +287,7 @@ def test_update_targets_only_selected_class_tests_dash_k(testdir):
 
     result = testdir.runpytest("test_content.py", "-v", "-k test_case_2")
     result.stdout.re_match_lines((r"1 snapshot passed\."))
-    result.stdout.no_re_match_line(r".*snapshot unused.*")
+    assert "snaphot unused" not in result.stdout.str()
 
 
 def test_update_targets_only_selected_module_tests_dash_k(testdir):
@@ -307,7 +307,7 @@ def test_update_targets_only_selected_module_tests_dash_k(testdir):
 
     result = testdir.runpytest("test_content.py", "-v", "-k test_case_2")
     result.stdout.re_match_lines((r"1 snapshot passed\."))
-    result.stdout.no_re_match_line(r".*snapshot unused.*")
+    assert "snaphot unused" not in result.stdout.str()
 
 
 def test_update_targets_only_selected_module_tests_nodes(run_testcases):
@@ -317,9 +317,9 @@ def test_update_targets_only_selected_module_tests_nodes(run_testcases):
     testfile = Path(testdir.tmpdir, "test_used.py")
     result = testdir.runpytest(f"{testfile}::test_used", "-v", "--snapshot-update")
     result.stdout.re_match_lines((r"3 snapshots passed\."))
-    result.stdout.no_re_match_line(r".*unused.*")
-    result.stdout.no_re_match_line(r".*updated.*")
-    result.stdout.no_re_match_line(r".*deleted.*")
+    assert "unused" not in result.stdout.str()
+    assert "updated" not in result.stdout.str()
+    assert "deleted" not in result.stdout.str()
     assert result.ret == 0
     assert snapfile_empty.exists()
 
@@ -335,9 +335,9 @@ def test_update_targets_only_selected_module_tests_nodes_pyargs(run_testcases):
         "test_used::test_used",
     )
     result.stdout.re_match_lines((r"3 snapshots passed\."))
-    result.stdout.no_re_match_line(r".*unused.*")
-    result.stdout.no_re_match_line(r".*updated.*")
-    result.stdout.no_re_match_line(r".*deleted.*")
+    assert "unused" not in result.stdout.str()
+    assert "updated" not in result.stdout.str()
+    assert "deleted" not in result.stdout.str()
     assert result.ret == 0
     assert snapfile_empty.exists()
 
@@ -425,7 +425,7 @@ def test_update_removes_hanging_snapshot_fossil_file(run_testcases):
             r"\(__snapshots__[\\/]hanging_snapfile\.abc\)",
         )
     )
-    result.stdout.no_re_match_line(rf".*{snapfile_used}.*")
+    assert f"{snapfile_used}" not in result.stdout.str()
     assert result.ret == 0
     assert snapfile_used.exists()
     assert not snapfile_hanging.exists()

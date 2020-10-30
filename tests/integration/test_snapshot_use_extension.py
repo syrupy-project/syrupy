@@ -113,7 +113,7 @@ def test_failed_snapshots(testdir, testcases_initial):
 def test_generated_snapshots(generate_snapshots):
     result = generate_snapshots[0]
     result.stdout.re_match_lines((r"4 snapshots generated\."))
-    result.stdout.no_re_match_line(r".*snapshots unused.*")
+    assert "snapshots unused" not in result.stdout.str()
     assert result.ret == 0
 
 
