@@ -26,6 +26,9 @@ from .utils import (
     import_module_member,
 )
 
+# Global to have access to the session in `pytest_runtest_logfinish` hook
+_syrupy: Optional["SnapshotSession"] = None
+
 
 def __default_extension_option(value: str) -> Any:
     try:
@@ -112,6 +115,8 @@ def pytest_sessionstart(session: Any) -> None:
         base_dir=config.rootdir,
         invocation_args=config.invocation_params.args,
     )
+    global _syrupy
+    _syrupy = config._syrupy
     config._syrupy.start()
 
 
@@ -132,7 +137,21 @@ def pytest_collection_finish(session: Any) -> None:
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_finish
     """
     for item in session.config._syrupy.filter_valid_items(session.items):
-        session.config._syrupy._ran_items[item] = True
+        session.config._syrupy._ran_items[item] = False
+
+
+def pytest_runtest_logfinish(nodeid: str) -> None:
+    """
+    At the end of running the runtest protocol for a single item.
+    https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_runtest_logfinish
+    """
+    global _syrupy
+    if not _syrupy:
+        return
+    for item in _syrupy._ran_items:
+        if getattr(item, "nodeid", None) == nodeid:
+            _syrupy._ran_items[item] = True
+            return
 
 
 def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
