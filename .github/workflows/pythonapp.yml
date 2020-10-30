@@ -44,8 +44,7 @@ jobs:
       - name: Test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          invoke test --coverage
+        run: invoke test --coverage
   version_checks:
     name: Dependency Version Constraint Checks
     runs-on: ubuntu-latest
