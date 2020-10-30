@@ -102,7 +102,6 @@ def install(ctx):
 def test(
     ctx,
     coverage=False,
-    dev=False,
     test_pattern=None,
     update_snapshots=False,
     verbose=False,
@@ -110,7 +109,6 @@ def test(
     """
     Run entire test suite
     """
-    env = {"PYTHONPATH": "./src"} if dev else {}
     flags = {
         "-s -vv": verbose,
         f"-k {test_pattern}": test_pattern,
@@ -118,7 +116,7 @@ def test(
     }
     coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
-    ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} .", env=env)
+    ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} .")
     if coverage:
         if not os.environ.get("CI"):
             ctx_run(ctx, "coverage report")
