@@ -358,6 +358,7 @@ class SnapshotReport:
         return any(
             PyTestLocation(item).matches_snapshot_name(snapshot_name)
             for item in self.ran_items
+            if self.ran_items[item]
         )
 
     def _selected_items_match_name(self, snapshot_name: str) -> bool:
@@ -378,6 +379,7 @@ class SnapshotReport:
         return any(
             PyTestLocation(item).matches_snapshot_location(snapshot_location)
             for item in self.ran_items
+            if self.ran_items[item]
         )
 
 
