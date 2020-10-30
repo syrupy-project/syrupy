@@ -115,14 +115,17 @@ class SnapshotAssertion:
     def get_assert_diff(self) -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         if assertion_result.exception:
-            return [
+            lines = [
                 line
-                for lines in traceback.format_exception_only(
+                for lines in traceback.format_exception(
                     assertion_result.exception.__class__,
                     assertion_result.exception,
+                    assertion_result.exception.__traceback__,
                 )
                 for line in lines.splitlines()
             ]
+            # Rotate to place exception with message at first line
+            return lines[-1:] + lines[:-1]
         snapshot_data = assertion_result.recalled_data
         serialized_data = assertion_result.asserted_data or ""
         diff: List[str] = []
