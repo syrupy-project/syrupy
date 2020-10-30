@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [0.8.3](https://github.com/tophat/syrupy/compare/v0.8.2...v0.8.3) (2020-10-30)
+
+
+### Bug Fixes
+
+* assertion exception shows error at correct location ([#402](https://github.com/tophat/syrupy/issues/402)) ([d46bba4](https://github.com/tophat/syrupy/commit/d46bba430fa74ec016402d3f521c4812baf07bf4))
+* only perform session finish on test items ran ([#401](https://github.com/tophat/syrupy/issues/401)) ([61a670f](https://github.com/tophat/syrupy/commit/61a670f83ba07de148ae005573676f4507391ce4))
+
 ## [0.8.2](https://github.com/tophat/syrupy/compare/v0.8.1...v0.8.2) (2020-10-30)
 
 
