@@ -17,8 +17,6 @@ from typing import (
     Set,
 )
 
-from typing_extensions import final
-
 from syrupy.constants import (
     SNAPSHOT_DIRNAME,
     SYMBOL_CARRIAGE,
@@ -107,14 +105,14 @@ class SnapshotFossilizer(ABC):
 
         return discovered
 
-    @final
     def read_snapshot(self, *, index: int) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `_pre_read`, then perform `read` and finally `post_read`,
         returning the contents parsed from the `read` method.
 
-        Override `_read_snapshot_data_from_location` in subclass to change behaviour
+        This method is _final_, do not override. You can override
+        `_read_snapshot_data_from_location` in a subclass to change behaviour.
         """
         try:
             self._pre_read(index=index)
@@ -129,13 +127,13 @@ class SnapshotFossilizer(ABC):
         finally:
             self._post_read(index=index)
 
-    @final
     def write_snapshot(self, *, data: "SerializedData", index: int) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `_pre_write`, then perform `write` and finally `_post_write`.
 
-        Override `_write_snapshot_fossil` in subclass to change behaviour
+        This method is _final_, do not override. You can override
+        `_write_snapshot_fossil` in a subclass to change behaviour.
         """
         self._pre_write(data=data, index=index)
         snapshot_location = self.get_location(index=index)
