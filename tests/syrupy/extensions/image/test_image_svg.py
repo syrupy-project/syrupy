@@ -1,19 +1,7 @@
-import base64
-
 import pytest
 
-from syrupy.extensions.image import (
-    PNGImageSnapshotExtension,
-    SVGImageSnapshotExtension,
-)
+from syrupy.extensions.image import SVGImageSnapshotExtension
 
-actual_png = base64.b64decode(
-    b"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMy"
-    b"Wlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxA"
-    b"GVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAE"
-    b"QEi0WXYEiMCOCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVO"
-    b"RK5CYII="
-)
 actual_svg = (
     '<?xml version="1.0" encoding="UTF-8"?>'
     '<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">'
@@ -28,19 +16,12 @@ actual_svg = (
 
 
 @pytest.fixture
-def snapshot_png(snapshot):
-    return snapshot.use_extension(PNGImageSnapshotExtension)
+def snapshot_svg(snapshot):
+    return snapshot.use_extension(SVGImageSnapshotExtension)
 
 
-def test_image(snapshot_png):
-    assert actual_png == snapshot_png
-
-
-def test_image_vector(snapshot):
-    """
-    Example of creating a previewable svg snapshot
-    """
-    assert snapshot(extension_class=SVGImageSnapshotExtension) == actual_svg
+def test_image(snapshot_svg):
+    assert actual_svg == snapshot_svg
 
 
 def test_multiple_snapshot_extensions(snapshot):
@@ -51,5 +32,4 @@ def test_multiple_snapshot_extensions(snapshot):
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
     assert actual_svg == snapshot()  # uses initial extension class
     assert snapshot._extension is not None
-    assert actual_png == snapshot(extension_class=PNGImageSnapshotExtension)
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)

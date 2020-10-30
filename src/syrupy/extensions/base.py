@@ -42,7 +42,7 @@ from syrupy.terminal import (
 from syrupy.utils import walk_snapshot_dir
 
 if TYPE_CHECKING:
-    from syrupy.location import TestLocation
+    from syrupy.location import PyTestLocation
     from syrupy.types import (
         PropertyFilter,
         PropertyMatcher,
@@ -70,7 +70,7 @@ class SnapshotSerializer(ABC):
 class SnapshotFossilizer(ABC):
     @property
     @abstractmethod
-    def test_location(self) -> "TestLocation":
+    def test_location(self) -> "PyTestLocation":
         raise NotImplementedError
 
     def get_snapshot_name(self, *, index: int = 0) -> str:
@@ -81,7 +81,8 @@ class SnapshotFossilizer(ABC):
     def get_location(self, *, index: int) -> str:
         """Returns full location where snapshot data is stored."""
         basename = self._get_file_basename(index=index)
-        return str(Path(self._dirname).joinpath(f"{basename}.{self._file_extension}"))
+        fileext = f".{self._file_extension}" if self._file_extension else ""
+        return str(Path(self._dirname).joinpath(f"{basename}{fileext}"))
 
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
@@ -371,9 +372,9 @@ class SnapshotReporter(ABC):
 
 
 class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
-    def __init__(self, test_location: "TestLocation"):
+    def __init__(self, test_location: "PyTestLocation"):
         self._test_location = test_location
 
     @property
-    def test_location(self) -> "TestLocation":
+    def test_location(self) -> "PyTestLocation":
         return self._test_location

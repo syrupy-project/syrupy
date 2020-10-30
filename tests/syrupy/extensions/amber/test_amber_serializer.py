@@ -1,10 +1,6 @@
-import uuid
 from collections import namedtuple
-from datetime import datetime
 
 import pytest
-
-from syrupy.extensions.amber.serializer import Repr
 
 
 def test_non_snapshots(snapshot):
@@ -203,28 +199,3 @@ def test_parameter_with_dot(parameter_with_dot, snapshot):
 def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
     assert parameter_1 == snapshot
     assert parameter_2 == snapshot
-
-
-def test_non_deterministic_snapshots(snapshot):
-    def matcher(data, path):
-        if isinstance(data, uuid.UUID):
-            return Repr("UUID(...)")
-        if isinstance(data, datetime):
-            return Repr("datetime.datetime(...)")
-        if tuple(p for p, _ in path[-2:]) == ("c", 0):
-            return "Your wish is my command"
-        return data
-
-    assert {
-        "a": uuid.uuid4(),
-        "b": {"b_1": "This is deterministic", "b_2": datetime.now()},
-        "c": ["Replace this one", "Do not replace this one"],
-    } == snapshot(matcher=matcher)
-    assert {
-        "a": uuid.UUID("06335e84-2872-4914-8c5d-3ed07d2a2f16"),
-        "b": {
-            "b_1": "This is deterministic",
-            "b_2": datetime(year=2020, month=5, day=31),
-        },
-        "c": ["Replace this one", "Do not replace this one"],
-    } == snapshot

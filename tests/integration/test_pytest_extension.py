@@ -26,6 +26,5 @@ def test_ignores_non_function_nodes(testdir):
     testdir.makepyfile(conftest=conftest)
     testdir.makepyfile(test_file=testcase)
     result = testdir.runpytest("test_file.py", "-v", "--snapshot-update")
-    result_stdout = result.stdout.str()
+    result.stdout.re_match_lines((r".*test_file.py::CUSTOM.*"))
     assert result.ret == 0
-    assert "test_file.py::CUSTOM" in result_stdout

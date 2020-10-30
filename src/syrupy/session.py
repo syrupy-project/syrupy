@@ -5,6 +5,7 @@ from typing import (
     Iterable,
     List,
     Optional,
+    Tuple,
 )
 
 import attr
@@ -24,8 +25,7 @@ class SnapshotSession:
     base_dir: str = attr.ib()
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
-    is_providing_paths: bool = attr.ib()
-    is_providing_nodes: bool = attr.ib()
+    _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     report: Optional["SnapshotReport"] = attr.ib(default=None)
     _all_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
     _ran_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
@@ -48,8 +48,7 @@ class SnapshotSession:
             assertions=self._assertions,
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
-            is_providing_paths=self.is_providing_paths,
-            is_providing_nodes=self.is_providing_nodes,
+            invocation_args=self._invocation_args,
         )
         if self.report.num_unused:
             if self.update_snapshots:
@@ -75,6 +74,10 @@ class SnapshotSession:
         unused_snapshot_fossils: "SnapshotFossils",
         used_snapshot_fossils: "SnapshotFossils",
     ) -> None:
+        """
+        Remove all unused snapshots using the registed extension for the fossil file
+        If there is not registered extension and the location is unused delete the file
+        """
         for unused_snapshot_fossil in unused_snapshot_fossils:
             snapshot_location = unused_snapshot_fossil.location
 

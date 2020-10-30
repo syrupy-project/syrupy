@@ -15,7 +15,7 @@ from .exceptions import SnapshotDoesNotExist
 
 if TYPE_CHECKING:
     from .extensions.base import AbstractSyrupyExtension
-    from .location import TestLocation
+    from .location import PyTestLocation
     from .session import SnapshotSession
     from .types import (
         PropertyFilter,
@@ -47,7 +47,7 @@ class SnapshotAssertion:
     name: str = attr.ib(default="snapshot")
     _session: "SnapshotSession" = attr.ib(kw_only=True)
     _extension_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
-    _test_location: "TestLocation" = attr.ib(kw_only=True)
+    _test_location: "PyTestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
     _exclude: Optional["PropertyFilter"] = attr.ib(
         init=False, default=None, kw_only=True

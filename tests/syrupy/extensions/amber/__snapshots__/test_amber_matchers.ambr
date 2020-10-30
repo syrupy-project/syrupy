@@ -1,0 +1,45 @@
+# name: test_matches_expected_type
+  <class 'dict'> {
+    'date_created': <class 'datetime'>,
+    'nested': <class 'dict'> {
+      'id': <class 'int'>,
+    },
+    'some_uuid': <class 'UUID'>,
+  }
+---
+# name: test_matches_non_deterministic_snapshots
+  <class 'dict'> {
+    'a': UUID(...),
+    'b': <class 'dict'> {
+      'b_1': 'This is deterministic',
+      'b_2': datetime.datetime(...),
+    },
+    'c': <class 'list'> [
+      'Your wish is my command',
+      'Do not replace this one',
+    ],
+  }
+---
+# name: test_matches_non_deterministic_snapshots.1
+  <class 'dict'> {
+    'a': UUID('06335e84-2872-4914-8c5d-3ed07d2a2f16'),
+    'b': <class 'dict'> {
+      'b_1': 'This is deterministic',
+      'b_2': datetime.datetime(2020, 5, 31, 0, 0),
+    },
+    'c': <class 'list'> [
+      'Replace this one',
+      'Do not replace this one',
+    ],
+  }
+---
+# name: test_raises_unexpected_type
+  <class 'dict'> {
+    'date_created': <class 'datetime'>,
+    'date_updated': datetime.date(2020, 6, 1),
+    'nested': <class 'dict'> {
+      'id': <class 'int'>,
+    },
+    'some_uuid': <class 'UUID'>,
+  }
+---
