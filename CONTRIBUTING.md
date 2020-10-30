@@ -75,7 +75,6 @@ Have an issue to submit code changes for? See below.
 
 - Clone the repository
 - Run `. script/bootstrap` to ensure you're working from the correct environment
-  - Ensure you do not have syrupy installed locally by running `pip uninstall syrupy -y`
 - Run `inv test` to verify enviroment is correctly setup
 - Checkout a new branch and add code changes
 - Add tests to verify code changes and rerun `inv test`
