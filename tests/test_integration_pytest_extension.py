@@ -1,3 +1,9 @@
+import pytest
+
+pytest_version = tuple(int(v) for v in pytest.__version__.split("."))
+
+
+@pytest.mark.skipif(pytest_version < (6, 0), reason="at least pytest 6 required")
 def test_ignores_non_function_nodes(testdir):
     conftest = """
         import pytest

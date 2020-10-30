@@ -4,6 +4,7 @@ on: [push]
 
 env:
   CI: 1
+  VENV: .venv
 
 jobs:
   analysis:
@@ -17,11 +18,11 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install project dependencies
-        run: |
-          python -m pip install -U pip --no-cache-dir
-          python -m pip install -e . -r dev_requirements.txt
+        run: . script/bootstrap
       - name: Lint
-        run: invoke lint
+        run: |
+          . $VENV/bin/activate
+          invoke lint
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
@@ -44,10 +45,11 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: invoke test --coverage
-  build:
-    name: Build
+  version_checks:
+    name: Dependency Version Constraint Checks
     runs-on: ubuntu-latest
-    needs: [analysis, tests]
+    env:
+      SKIP_DEPS: 1
     steps:
       - uses: actions/checkout@v1
       - uses: ./.github/actions/detect-python
@@ -57,14 +59,35 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install project dependencies
         run: |
-          python -m pip install -U pip --no-cache-dir
-          python -m pip install -e . -r dev_requirements.txt
+          . script/bootstrap
+          python -m pip install -e .[test] -r min_requirements.txt
+      - name: Test
+        run: |
+          . $VENV/bin/activate
+          invoke test
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [analysis, tests, version_checks]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/detect-python
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install project dependencies
+        run: . script/bootstrap
       - name: Release
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-        run: invoke release --no-dry-run
+        run: |
+          . $VENV/bin/activate
+          invoke release --no-dry-run
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: invoke benchmark --report
+        run: |
+          . $VENV/bin/activate
+          invoke benchmark --report

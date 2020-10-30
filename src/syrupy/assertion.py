@@ -49,12 +49,22 @@ class SnapshotAssertion:
     _extension_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
     _test_location: "TestLocation" = attr.ib(kw_only=True)
     _update_snapshots: bool = attr.ib(kw_only=True)
-    _exclude: Optional["PropertyFilter"] = attr.ib(init=False, default=None)
-    _extension: Optional["AbstractSyrupyExtension"] = attr.ib(init=False, default=None)
-    _executions: int = attr.ib(init=False, default=0)
-    _execution_results: Dict[int, "AssertionResult"] = attr.ib(init=False, factory=dict)
-    _matcher: Optional["PropertyMatcher"] = attr.ib(init=False, default=None)
-    _post_assert_actions: List[Callable[..., None]] = attr.ib(init=False, factory=list)
+    _exclude: Optional["PropertyFilter"] = attr.ib(
+        init=False, default=None, kw_only=True
+    )
+    _extension: Optional["AbstractSyrupyExtension"] = attr.ib(
+        init=False, default=None, kw_only=True
+    )
+    _executions: int = attr.ib(init=False, default=0, kw_only=True)
+    _execution_results: Dict[int, "AssertionResult"] = attr.ib(
+        init=False, factory=dict, kw_only=True
+    )
+    _matcher: Optional["PropertyMatcher"] = attr.ib(
+        init=False, default=None, kw_only=True
+    )
+    _post_assert_actions: List[Callable[..., None]] = attr.ib(
+        init=False, factory=list, kw_only=True
+    )
 
     def __attrs_post_init__(self) -> None:
         self._session.register_request(self)
