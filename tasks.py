@@ -6,7 +6,6 @@ from invoke import (
     task,
 )
 
-import benchmarks
 from setup import install_requires
 
 
@@ -129,6 +128,8 @@ def test(
 
 @task(help={"report": "Publish report as github status"})
 def benchmark(ctx, report=False):
+    import benchmarks
+
     benchmarks.main(report=report)
 
 
