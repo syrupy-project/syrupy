@@ -27,7 +27,9 @@ class SnapshotSession:
     warn_unused_snapshots: bool = attr.ib()
     _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     report: Optional["SnapshotReport"] = attr.ib(default=None)
+    # All the collected test items
     _all_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
+    # All the selected test items. Will be set to False until the test item is run.
     _ran_items: Dict["pytest.Item", bool] = attr.ib(factory=dict)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
