@@ -20,7 +20,9 @@ jobs:
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Lint
-        run: invoke lint
+        run: |
+          . $VENV/bin/activate
+          invoke lint
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
@@ -40,7 +42,9 @@ jobs:
       - name: Test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: invoke test --coverage
+        run: |
+          . $VENV/bin/activate
+          invoke test --coverage
   version_checks:
     name: Dependency Version Constraint Checks
     runs-on: ubuntu-latest
@@ -58,7 +62,9 @@ jobs:
           . script/bootstrap
           python -m pip install -e .[test] -r min_requirements.txt
       - name: Test
-        run: invoke test
+        run: |
+          . $VENV/bin/activate
+          invoke test
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -76,8 +82,12 @@ jobs:
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-        run: invoke release --no-dry-run
+        run: |
+          . $VENV/bin/activate
+          invoke release --no-dry-run
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: invoke benchmark --report
+        run: |
+          . $VENV/bin/activate
+          invoke benchmark --report
