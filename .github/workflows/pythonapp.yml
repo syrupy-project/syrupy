@@ -38,12 +38,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install project dependencies
-        run: . script/bootstrap
+        run: |
+          python -m pip install -U pip --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
       - name: Test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
-          . $VENV/bin/activate
           invoke test --coverage
   version_checks:
     name: Dependency Version Constraint Checks

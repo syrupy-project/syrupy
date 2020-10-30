@@ -26,12 +26,12 @@ def clean(ctx):
 def _parse_min_versions(requirements):
     result = []
     for req in sorted(requirements):
-        match = re.match(r"([\w_]+)>=([^,]+),.*", req)
+        match = re.match(r"([\w_]+)>=([^,]+),.*(;.*)", req)
         if match is None:
             continue
         pkg_name = match.group(1)
         min_version = match.group(2)
-        result.append(f"{pkg_name}=={min_version}")
+        result.append(f"{pkg_name}=={min_version}{match.group(3) or ''}")
     return result
 
 
