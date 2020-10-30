@@ -1,3 +1,4 @@
+import importlib
 from gettext import (
     gettext,
     ngettext,
@@ -98,8 +99,6 @@ class SnapshotReport:
             if maybe_opt_arg == "-k":  # or maybe_opt_arg == "-m":
                 self._keyword_expressions.add(Expression.compile(arg_value))
             elif maybe_opt_arg is None:
-                import importlib
-
                 parts = arg_value.split(PYTEST_NODE_SEP)
                 package_or_filepath = parts[0].strip()
                 filepath = Path(
