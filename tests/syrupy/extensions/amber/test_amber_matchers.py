@@ -43,7 +43,7 @@ def test_raises_unexpected_type(snapshot):
         "some_uuid": uuid.uuid4(),
     }
     assert actual == snapshot(matcher=path_type(**kwargs, strict=False))
-    with pytest.raises(PathTypeError, match="does not match any of the expected"):
+    with pytest.raises(AssertionError, match="does not match any of the expected"):
         assert actual == snapshot(matcher=path_type(**kwargs))
 
 

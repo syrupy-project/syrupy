@@ -1,3 +1,4 @@
+import traceback
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
@@ -34,6 +35,7 @@ class AssertionResult:
     created: bool = attr.ib()
     updated: bool = attr.ib()
     success: bool = attr.ib()
+    exception: Optional[Exception] = attr.ib()
 
     @property
     def final_data(self) -> Optional["SerializedData"]:
@@ -112,6 +114,15 @@ class SnapshotAssertion:
 
     def get_assert_diff(self) -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
+        if assertion_result.exception:
+            return [
+                line
+                for lines in traceback.format_exception_only(
+                    assertion_result.exception.__class__,
+                    assertion_result.exception,
+                )
+                for line in lines.splitlines()
+            ]
         snapshot_data = assertion_result.recalled_data
         serialized_data = assertion_result.asserted_data or ""
         diff: List[str] = []
@@ -162,6 +173,7 @@ class SnapshotAssertion:
         serialized_data: Optional["SerializedData"] = None
         matches = False
         assertion_success = False
+        assertion_exception = None
         try:
             snapshot_data = self._recall_data(index=self.num_executions)
             serialized_data = self._serialize(data)
@@ -173,6 +185,9 @@ class SnapshotAssertion:
                 )
                 assertion_success = True
             return assertion_success
+        except Exception as e:
+            assertion_exception = e
+            return False
         finally:
             snapshot_created = snapshot_data is None and assertion_success
             snapshot_updated = matches is False and assertion_success
@@ -184,6 +199,7 @@ class SnapshotAssertion:
                 success=assertion_success,
                 created=snapshot_created,
                 updated=snapshot_updated,
+                exception=assertion_exception,
             )
             self._executions += 1
             self._post_assert()
