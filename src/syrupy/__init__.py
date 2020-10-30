@@ -109,7 +109,7 @@ def pytest_sessionstart(session: Any) -> None:
     config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
-        base_dir=str(config.rootpath),
+        base_dir=config.rootdir,
         invocation_args=config.invocation_params.args,
     )
     config._syrupy.start()
