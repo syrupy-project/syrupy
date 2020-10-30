@@ -22,7 +22,12 @@ test -d $VENV || python3 -m venv $VENV || return
 python -m pip install -U pip --no-cache-dir
 
 if [[ -z $SKIP_DEPS ]]; then
-    python -m pip install -e . -r dev_requirements.txt
+    if [[ -z $CI ]]; then
+        export PYTHONPATH="./src:$PYTHONPATH"
+    else
+        python -m pip install -e .
+    fi
+    python -m pip install -r dev_requirements.txt
 fi
 
 if [[ -z $CI ]]; then
