@@ -27,4 +27,8 @@ fi
 
 if [[ -z $CI ]]; then
     python -m python_githooks
+
+    if ! complete -p invoke &>/dev/null; then
+        source <(inv --print-completion-script bash)
+    fi
 fi
