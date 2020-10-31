@@ -16,14 +16,14 @@ tell application "Terminal"
     my execInput({"mkdir ", 27, "p ~/syrupy_example"}, 1)
     my execInput({"cd ~/syrupy_example"}, 1)
     -- Activate venv
-    my execPythonCmd({"venv venv"}, 2)
+    my execPythonCmd({"venv venv"}, 4)
     my execInput({"source venv/bin/activate"}, 1)
     my clearScreen(1)
     -- Start recording
-    my execInput({"asciinema rec demo", 47, "cast"}, 5)
+    my execInput({"asciinema rec demo", 47, "cast"}, 3)
     my clearScreen(1)
     -- Install pytest and syrupy
-    my execPipInstall("pytest syrupy", 5)
+    my execPipInstall("pytest syrupy", 2)
     -- Write initial snapshot test file
     my createTestFile()
     my execPytestVerbose()
@@ -46,7 +46,7 @@ tell application "Terminal"
     -- Stop recording
     my execInput({"exit"}, 1)
     my sendInput({"cat demo", 47, "cast | svg", 27, "term "}, 1)
-    my execInput({27, 27, "out usage_demo", 47, "svg"}, 0)
+    my execInput({27, 27, "window ", 27, 27, "out usage_demo", 47, "svg"}, 0)
 end tell
 
 on clearScreen(wait)
@@ -57,6 +57,10 @@ on clearScreen(wait)
     end tell
     delay wait
 end clearScreen
+
+on inputDelay(n)
+    delay random number from 0.003 to 0.1
+end inputDelay
 
 on sendInput(input, n)
     set inputs to {}
@@ -69,10 +73,13 @@ on sendInput(input, n)
             repeat with input in inputs
                 if class of input is integer then
                     key code input
+                    my inputDelay(n)
                 else
-                    keystroke input
+                    repeat with char in input
+                        keystroke char
+                        my inputDelay(n)
+                    end repeat
                 end if
-                delay ((random number from 0.25 to 0.33) / n)
             end repeat
         end tell
     end tell
