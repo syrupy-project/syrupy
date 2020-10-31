@@ -1,21 +1,29 @@
-#!/usr/bin/osascript
+#!/usr/bin/env osascript
+
+-- Dependencies
+-- python
+-- pip
+-- venv
+-- asciinema
+-- svg-term-cli
 
 tell application "Terminal"
     activate
     delay 1
     my clearScreen(1)
-    -- Ensure folder is ready and is current working
+    -- Ensure folder is ready and reset
+    my execInput({"rm ", 27, "r ~/syrupy_example"}, 1)
     my execInput({"mkdir ", 27, "p ~/syrupy_example"}, 1)
     my execInput({"cd ~/syrupy_example"}, 1)
-    -- Remove last demo run from folder if exists
-    my execInput({"rm ", 27, "f test_file", 47, "py"}, 1)
-    my execInput({"rm ", 27, "r __snapshots__"}, 1)
-    my clearScreen(1)
-    -- Ensure venv is ready with pytest and syrupy
+    -- Activate venv
     my execPythonCmd({"venv venv"}, 2)
     my execInput({"source venv/bin/activate"}, 1)
     my clearScreen(1)
-    my execPipInstall("pytest syrupy", 3)
+    -- Start recording
+    my execInput({"asciinema rec demo", 47, "cast"}, 5)
+    my clearScreen(1)
+    -- Install pytest and syrupy
+    my execPipInstall("pytest syrupy", 5)
     -- Write initial snapshot test file
     my createTestFile()
     my execPytestVerbose()
@@ -35,6 +43,10 @@ tell application "Terminal"
     -- Show updated snapshots
     my readTestFileSnapshot()
     my clearScreen(1)
+    -- Stop recording
+    my execInput({"exit"}, 1)
+    my sendInput({"cat demo", 47, "cast | svg", 27, "term "}, 1)
+    my execInput({27, 27, "out usage_demo", 47, "svg"}, 0)
 end tell
 
 on clearScreen(wait)
@@ -60,10 +72,10 @@ on sendInput(input, n)
                 else
                     keystroke input
                 end if
+                delay ((random number from 0.25 to 0.33) / n)
             end repeat
         end tell
     end tell
-    delay 0.3
 end sendInput
 
 on execInput(cmds, wait)
@@ -81,7 +93,7 @@ on execListFiles(folder)
 end execListFiles
 
 on execPythonCmd(cmd, wait)
-    execInput({"python", 49, 27, 46, 49} & cmd, wait)
+    execInput({"python ", 27, "m "} & cmd, wait)
 end execPythonCmd
 
 on execPipInstall(packages, wait)
