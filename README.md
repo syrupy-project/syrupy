@@ -57,7 +57,7 @@ pytest --snapshot-update
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
 
-![Usage Demo](./assets/usage_demo.gif)
+[![Usage Demo](https://tophat.github.io/syrupy/assets/usage_demo.gif)](https://asciinema.org/a/369462)
 
 #### Custom Objects
 
