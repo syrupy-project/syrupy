@@ -35,8 +35,6 @@ pip uninstall snapshottest -y;
 find . -type d ! -path '*/\.*' -name 'snapshots' | xargs rm -r
 ```
 
-![there can only be one](https://media.giphy.com/media/9Jmb2idg10qJSygvTQ/giphy.gif)
-
 ## Usage
 
 ### Basic Usage
