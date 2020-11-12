@@ -18,6 +18,16 @@ def snapshot_single(snapshot):
     return snapshot.use_extension(SingleFileSnapshotExtension)
 
 
+class SingleFileUTF8SnapshotExtension(SingleFileSnapshotExtension):
+    def serialize(self, data, **kwargs) -> bytes:
+        return bytes(data, "utf8")
+
+
+@pytest.fixture
+def snapshot_utf8(snapshot):
+    return snapshot.use_extension(SingleFileUTF8SnapshotExtension)
+
+
 def test_does_not_write_non_binary(testdir, snapshot_single: "SnapshotAssertion"):
     snapshot_fossil = SnapshotFossil(
         location=str(Path(testdir.tmpdir).joinpath("snapshot_fossil.raw")),
@@ -37,3 +47,23 @@ class TestClass:
     @pytest.mark.parametrize("content", [b"x", b"y", b"z"])
     def test_class_method_parametrized(self, snapshot_single, content):
         assert snapshot_single == content
+
+
+def test_underscore(snapshot_single):
+    assert snapshot_single == b"apple"
+
+
+def test_____underscore(snapshot_single):
+    assert snapshot_single == b"orange"
+
+
+@pytest.mark.parametrize(
+    "content", [b"", b"_", b"a?", b"space space", b".123~!@#$%^&*()/[]{}|"]
+)
+def test_special_characters(snapshot_single, content):
+    assert snapshot_single == content
+
+
+@pytest.mark.parametrize("content", ["greek ῴ"])
+def test_unicode(snapshot_utf8, content):
+    assert snapshot_utf8 == "apple"
