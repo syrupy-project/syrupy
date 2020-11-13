@@ -69,7 +69,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
     def __clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
-        exclude_chars = '\\/:*"<>|?'
+        exclude_chars = '\\/?%*:|"<>,;='
         exclude_categ = ("C",)
         cleaned_filename = "".join(
             c
