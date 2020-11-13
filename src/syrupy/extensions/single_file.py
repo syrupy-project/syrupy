@@ -68,9 +68,8 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             f.write(data)
 
     def __clean_filename(self, filename: str) -> str:
-        filename = str(filename).strip().replace(" ", "_")
         max_filename_length = 255 - len(self._file_extension or "")
-        exclude_chars = '\\/?%*:|"<>,;='
+        exclude_chars = '\\/?*:|"<>'
         exclude_categ = ("C",)
         cleaned_filename = "".join(
             c
