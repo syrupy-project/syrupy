@@ -1,4 +1,3 @@
-import re
 from gettext import gettext
 from pathlib import Path
 from typing import (
@@ -7,6 +6,7 @@ from typing import (
     Optional,
     Set,
 )
+from unicodedata import category
 
 from syrupy.data import (
     Snapshot,
@@ -69,5 +69,12 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
     def __clean_filename(self, filename: str) -> str:
         filename = str(filename).strip().replace(" ", "_")
-        max_filename_length = 255 - len(self._file_extension or "")
-        return re.sub(r"(?u)[^-\w.\[\]]", "", filename)[:max_filename_length]
+        exclude_chars = '\\/:*"<>|?'
+        exclude_categ = ("C",)
+        cleaned_filename = "".join(
+            c
+            for c in filename
+            if c not in exclude_chars
+            and not any(categ in category(c) for categ in exclude_categ)
+        )
+        return cleaned_filename[:255]  # maximum filename length
