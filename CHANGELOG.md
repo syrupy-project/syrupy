@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes will be indicated via a minor release, while all other changes will fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [0.8.5](https://github.com/tophat/syrupy/compare/v0.8.4...v0.8.5) (2020-11-13)
+
+
+### Bug Fixes
+
+* expand single filename legal characters ([#398](https://github.com/tophat/syrupy/issues/398)) ([14a9667](https://github.com/tophat/syrupy/commit/14a96675dad78ca2452e33c222570866060d78ff))
+
 ## [0.8.4](https://github.com/tophat/syrupy/compare/v0.8.3...v0.8.4) (2020-10-30)
 
 
