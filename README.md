@@ -231,17 +231,17 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 
 ### Advanced Usage
 
-By overriding the provided [`AbstractSnapshotExtension`](./src/syrupy/extensions/base.py) you can implement varied custom behaviours.
+By overriding the provided [`AbstractSnapshotExtension`](https://github.com/tophat/syrupy/tree/master/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
 
-See examples of how syrupy can be used and extended in the [test examples](./tests/examples).
+See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/master/tests/examples).
 
 ### Extending Syrupy
 
-- [Custom snapshot directory](./tests/examples/test_custom_snapshot_directory.py)
-- [Custom snapshot name](./tests/examples/test_custom_snapshot_name.py)
-- [Custom object snapshots](./tests/examples/test_custom_object_repr.py)
-- [JPEG image extension](./tests/examples/test_custom_image_extension.py)
-- [Built-in image extensions](./tests/test_extension_image.py)
+- [Custom snapshot directory](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot name](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_name.py)
+- [Custom object snapshots](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_object_repr.py)
+- [JPEG image extension](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_image_extension.py)
+- [Built-in image extensions](https://github.com/tophat/syrupy/blob/master/tests/syrupy/extensions/image/test_image_svg.py)
 
 ## Uninstalling
 
@@ -257,7 +257,7 @@ Feel free to open a PR or GitHub issue. Contributions welcome!
 
 To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --list` to see available commands.
 
-### See contributing [guide](./CONTRIBUTING.md)
+### See contributing [guide](https://github.com/tophat/syrupy/tree/master/CONTRIBUTING.md)
 
 ## Contributors
 
@@ -292,4 +292,4 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## License
 
-Syrupy is licensed under [Apache License Version 2.0](./LICENSE).
+Syrupy is licensed under [Apache License Version 2.0](https://github.com/tophat/syrupy/tree/master/LICENSE).
