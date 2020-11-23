@@ -36,7 +36,7 @@ mypy-extensions==0.4.3    # via black, mypy
 mypy==0.790               # via syrupy
 packaging==20.4           # via bleach, pytest
 pathspec==0.8.1           # via black
-pip-tools==5.3.1          # via syrupy
+pip-tools==5.4.0          # via syrupy
 pkginfo==1.6.1            # via twine
 pluggy==0.13.1            # via pytest
 py-githooks==1.1.0        # via syrupy
