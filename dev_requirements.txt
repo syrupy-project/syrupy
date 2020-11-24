@@ -55,7 +55,7 @@ regex==2020.11.13         # via black
 requests-toolbelt==0.9.1  # via twine
 requests==2.25.0          # via codecov, pygithub, requests-toolbelt, twine
 rfc3986==1.4.0            # via twine
-secretstorage==3.2.0      # via keyring
+secretstorage==3.3.0      # via keyring
 semver==2.13.0            # via syrupy
 six==1.15.0               # via bleach, cryptography, packaging, pip-tools, readme-renderer
 toml==0.10.2              # via black, coverage, pytest
