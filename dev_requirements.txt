@@ -59,7 +59,7 @@ secretstorage==3.3.0      # via keyring
 semver==2.13.0            # via syrupy
 six==1.15.0               # via bleach, cryptography, packaging, pip-tools, readme-renderer
 toml==0.10.2              # via black, coverage, pytest
-tqdm==4.53.0              # via twine
+tqdm==4.54.0              # via twine
 twine==3.2.0              # via syrupy
 typed-ast==1.4.1          # via black, mypy
 typing-extensions==3.7.4.3  # via black, mypy
