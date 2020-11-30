@@ -34,7 +34,7 @@ keyring==21.5.0           # via twine
 mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.3    # via black, mypy
 mypy==0.790               # via syrupy
-packaging==20.4           # via bleach, pytest
+packaging==20.7           # via bleach, pytest
 pathspec==0.8.1           # via black
 pip-tools==5.4.0          # via syrupy
 pkginfo==1.6.1            # via twine
