@@ -64,6 +64,7 @@ if __name__ in ["__main__", "builtins"]:
             "write_to": "version.txt",
         },
         package_dir={"": "src"},
+        package_data={"": ["py.typed"]},
         packages=find_packages("./src"),
         zip_safe=False,
         entry_points={"pytest11": ["syrupy = syrupy"]},
