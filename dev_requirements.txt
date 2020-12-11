@@ -8,7 +8,7 @@ appdirs==1.4.4            # via black
 attrs==20.3.0             # via flake8-bugbear, pytest, syrupy
 black==20.8b1             # via syrupy
 bleach==3.2.1             # via readme-renderer
-certifi==2020.11.8        # via requests
+certifi==2020.12.5        # via requests
 cffi==1.14.4              # via cryptography
 chardet==3.0.4            # via requests
 click==7.1.2              # via black, pip-tools
@@ -17,7 +17,7 @@ colorama==0.4.4           # via twine
 colored==1.4.2            # via syrupy
 configparser==5.0.1       # via py-githooks
 coverage[toml]==5.3       # via codecov, syrupy
-cryptography==3.2.1       # via secretstorage
+cryptography==3.3.1       # via secretstorage
 deprecated==1.2.10        # via pygithub
 docutils==0.16            # via readme-renderer
 flake8-bugbear==20.11.1    # via syrupy
@@ -34,7 +34,7 @@ keyring==21.5.0           # via twine
 mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.3    # via black, mypy
 mypy==0.790               # via syrupy
-packaging==20.4           # via bleach, pytest
+packaging==20.7           # via bleach, pytest
 pathspec==0.8.1           # via black
 pip-tools==5.4.0          # via syrupy
 pkginfo==1.6.1            # via twine
@@ -59,15 +59,15 @@ secretstorage==3.3.0      # via keyring
 semver==2.13.0            # via syrupy
 six==1.15.0               # via bleach, cryptography, packaging, pip-tools, readme-renderer
 toml==0.10.2              # via black, coverage, pytest
-tqdm==4.54.0              # via twine
+tqdm==4.54.1              # via twine
 twine==3.2.0              # via syrupy
 typed-ast==1.4.1          # via black, mypy
 typing-extensions==3.7.4.3  # via black, mypy
 urllib3==1.26.2          # via requests
 webencodings==0.5.1       # via bleach
-wheel==0.35.1             # via syrupy
+wheel==0.36.1             # via syrupy
 wrapt==1.12.1             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==20.2.4               # via pip-tools
+pip==20.3.1               # via pip-tools
 setuptools==50.3.2        # via twine

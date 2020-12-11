@@ -276,12 +276,12 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/arturbalabanov"><img src="https://avatars1.githubusercontent.com/u/3062003?v=4" width="100px;" alt=""/><br /><sub><b>Artur Balabanov</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=arturbalabanov" title="Code">💻</a></td>
+    <td align="center"><a href="http://huonw.github.io/"><img src="https://avatars1.githubusercontent.com/u/1203825?v=4" width="100px;" alt=""/><br /><sub><b>Huon Wilson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=huonw" title="Code">💻</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This section is automatically generated via tagging the all-contributors bot in a PR:

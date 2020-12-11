@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [1.1.0](https://github.com/tophat/syrupy/compare/v1.0.0...v1.1.0) (2020-12-01)
+
+
+### Features
+
+* add PEP-561 py.typed file for downstream type checkers ([#440](https://github.com/tophat/syrupy/issues/440)) ([fe15bdb](https://github.com/tophat/syrupy/commit/fe15bdb88371848fc72ab1f63a577ac7b05637cb)), closes [#439](https://github.com/tophat/syrupy/issues/439)
+
 # [1.0.0](https://github.com/tophat/syrupy/compare/v0.9.0...v1.0.0) (2020-11-13)
 
 
