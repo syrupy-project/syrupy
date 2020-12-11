@@ -53,7 +53,7 @@ def requirements(ctx, upgrade=False):
         f"{' '.join(args)} - -qo- | sed '/^-e / d' > dev_requirements.txt",
     )
 
-    with open("min_requirements.txt", "w", encoding="utf-8") as f:
+    with open("min_requirements.constraints", "w", encoding="utf-8") as f:
         min_requirements = _parse_min_versions(install_requires)
         f.write("\n".join(min_requirements))
         f.write("\n")
