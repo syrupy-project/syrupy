@@ -9,7 +9,6 @@ attrs==20.3.0             # via flake8-bugbear, pytest, syrupy
 black==20.8b1             # via syrupy
 bleach==3.2.1             # via readme-renderer
 certifi==2020.12.5        # via requests
-cffi==1.14.4              # via cryptography
 chardet==3.0.4            # via requests
 click==7.1.2              # via black, pip-tools
 codecov==2.1.10           # via syrupy
@@ -17,10 +16,9 @@ colorama==0.4.4           # via twine
 colored==1.4.2            # via syrupy
 configparser==5.0.1       # via py-githooks
 coverage[toml]==5.3       # via codecov, syrupy
-cryptography==3.3.1       # via secretstorage
 deprecated==1.2.10        # via pygithub
 docutils==0.16            # via readme-renderer
-flake8-bugbear==20.11.1    # via syrupy
+flake8-bugbear==20.11.1   # via syrupy
 flake8-builtins==1.5.3    # via syrupy
 flake8-comprehensions==3.3.0  # via syrupy
 flake8-i18n==0.1.0        # via syrupy
@@ -29,7 +27,6 @@ idna==2.10                # via requests
 iniconfig==1.1.1          # via pytest
 invoke==1.4.1             # via syrupy
 isort==5.6.4              # via syrupy
-jeepney==0.6.0            # via keyring, secretstorage
 keyring==21.5.0           # via twine
 mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.3    # via black, mypy
@@ -42,10 +39,9 @@ pluggy==0.13.1            # via pytest
 py-githooks==1.1.0        # via syrupy
 py==1.9.0                 # via pytest
 pycodestyle==2.6.0        # via flake8
-pycparser==2.20           # via cffi
 pyflakes==2.2.0           # via flake8
-pygithub==1.53            # via syrupy
-pygments==2.7.2           # via readme-renderer
+pygithub==1.54            # via syrupy
+pygments==2.7.3           # via readme-renderer
 pyjwt==1.7.1              # via pygithub
 pyparsing==2.4.7          # via packaging
 pyperf==2.0.0             # via syrupy
@@ -53,21 +49,20 @@ pytest==6.1.2             # via syrupy
 readme-renderer==28.0     # via twine
 regex==2020.11.13         # via black
 requests-toolbelt==0.9.1  # via twine
-requests==2.25.0          # via codecov, pygithub, requests-toolbelt, twine
+requests==2.24.0          # via codecov, pygithub, requests-toolbelt, twine
 rfc3986==1.4.0            # via twine
-secretstorage==3.3.0      # via keyring
 semver==2.13.0            # via syrupy
-six==1.15.0               # via bleach, cryptography, packaging, pip-tools, readme-renderer
+six==1.15.0               # via bleach, pip-tools, readme-renderer
 toml==0.10.2              # via black, coverage, pytest
 tqdm==4.54.1              # via twine
 twine==3.2.0              # via syrupy
 typed-ast==1.4.1          # via black, mypy
 typing-extensions==3.7.4.3  # via black, mypy
-urllib3==1.26.2          # via requests
+urllib3==1.25.11          # via requests
 webencodings==0.5.1       # via bleach
 wheel==0.36.1             # via syrupy
 wrapt==1.12.1             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
 pip==20.3.1               # via pip-tools
-setuptools==50.3.2        # via twine
+setuptools==51.0.0        # via twine
