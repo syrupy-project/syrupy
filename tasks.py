@@ -93,7 +93,6 @@ def install(ctx):
 @task(
     help={
         "coverage": "Build and report on test coverage",
-        "dev": "Use syrupy development version",
         "test-pattern": "Pattern used to select test files to run",
         "update-snapshots": "Create, update or delete snapshot files",
         "verbose": "Verbose output e.g. non captured logs etc.",
