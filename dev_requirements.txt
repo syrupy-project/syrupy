@@ -55,7 +55,7 @@ flake8==3.8.4
     #   flake8-comprehensions
     #   flake8-i18n
     #   syrupy
-idna==2.10
+idna==3.1
     # via requests
 iniconfig==1.1.1
     # via pytest
