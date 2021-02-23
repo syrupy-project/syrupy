@@ -97,7 +97,7 @@ pygithub==1.54.1
     # via syrupy
 pygments==2.8.0
     # via readme-renderer
-pyjwt==1.7.1
+pyjwt==2.0.1
     # via pygithub
 pyparsing==2.4.7
     # via packaging
