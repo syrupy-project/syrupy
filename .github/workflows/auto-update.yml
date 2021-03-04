@@ -1,0 +1,57 @@
+name: Update Dependencies
+on:
+  schedule:
+    # 9am EST, every 3rd day
+    - cron: '0 14 * * 0/3'
+  workflow_dispatch:
+
+env:
+  CI: 1
+  VENV: .venv
+
+jobs:
+  check:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install project dependencies
+        run: |
+          python -m pip install -U pip --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
+      - name: Update Requirements
+        run: |
+          invoke requirements -u
+      - name: Re-install project dependencies
+        run: |
+          python -m pip install -U pip --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
+      - name: Lint Fixer
+        run: |
+          invoke lint --fix
+      - name: Basic Tests
+        run: |
+          invoke test
+      - name: Configure Git
+        run: |
+          git config user.name tophat-opensource-bot
+          git config user.email opensource-leads+bot@tophatmonocle.com
+      - name: Open PR
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: 'chore: auto-update dependencies'
+          branch: update-deps/patch
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          title: 'chore: auto-update dependencies'
+          body: |
+            Auto-update dependencies.
+      - name: Print Results
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
