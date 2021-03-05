@@ -96,6 +96,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "eaculb",
+      "name": "Elizabeth Culbertson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31480498?v=4",
+      "profile": "https://github.com/eaculb",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
