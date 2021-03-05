@@ -75,6 +75,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | Option                         | Description                                                                                                                    | Default                                          |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ |
 | `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                          |
+| `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                          |
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                          |
 | `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | `syrupy.extensions.amber.AmberSnapshotExtension` |
 | `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.          |
