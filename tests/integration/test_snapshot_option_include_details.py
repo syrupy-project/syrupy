@@ -115,7 +115,7 @@ def test_unused_snapshots_details_multiple_locations(
     )
 
     result = testdir.runpytest("-v", "--snapshot-details")
-    result.stdout.re_match_lines(
+    result.stdout.re_match_lines_random(
         (
             r"2 snapshots passed\. 2 snapshots unused\.",
             r"Unused test_extra_b \(__snapshots__[\\/]test_second_file.ambr\)",
