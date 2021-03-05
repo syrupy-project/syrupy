@@ -26,6 +26,7 @@ class SnapshotSession:
     base_dir: str = attr.ib()
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
+    include_snapshot_details: bool = attr.ib()
     _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     report: Optional["SnapshotReport"] = attr.ib(default=None)
     # All the collected test items
@@ -61,6 +62,7 @@ class SnapshotSession:
             assertions=self._assertions,
             update_snapshots=self.update_snapshots,
             warn_unused_snapshots=self.warn_unused_snapshots,
+            include_snapshot_details=self.include_snapshot_details,
             invocation_args=self._invocation_args,
         )
         if self.report.num_unused:

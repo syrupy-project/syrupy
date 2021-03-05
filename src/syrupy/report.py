@@ -53,6 +53,7 @@ class SnapshotReport:
     selected_items: Dict[str, bool] = attr.ib()
     update_snapshots: bool = attr.ib()
     warn_unused_snapshots: bool = attr.ib()
+    include_snapshot_details: bool = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -280,16 +281,17 @@ class SnapshotReport:
 
         if self.num_unused:
             yield ""
-            if self.update_snapshots:
+            if self.update_snapshots or self.include_snapshot_details:
+                base_message = "Deleted" if self.update_snapshots else "Unused"
                 for snapshot_fossil in self.unused:
                     filepath = snapshot_fossil.location
                     snapshots = (snapshot.name for snapshot in snapshot_fossil)
                     path_to_file = str(Path(filepath).relative_to(self.base_dir))
-                    deleted_snapshots = ", ".join(map(bold, sorted(snapshots)))
-                    yield warning_style(gettext("Deleted")) + " {} ({})".format(
-                        deleted_snapshots, path_to_file
+                    unused_snapshots = ", ".join(map(bold, sorted(snapshots)))
+                    yield warning_style(gettext(base_message)) + " {} ({})".format(
+                        unused_snapshots, path_to_file
                     )
-            else:
+            if not self.update_snapshots:
                 message = gettext(
                     "Re-run pytest with --snapshot-update to delete unused snapshots."
                 )
