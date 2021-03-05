@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master
@@ -19,4 +22,4 @@ jobs:
             @semantic-release/changelog
             @semantic-release/git
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
