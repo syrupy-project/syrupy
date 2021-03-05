@@ -58,6 +58,13 @@ def pytest_addoption(parser: Any) -> None:
         help="Do not fail on unused snapshots",
     )
     group.addoption(
+        "--snapshot-details",
+        action="store_true",
+        default=False,
+        dest="include_snapshot_details",
+        help="Include details of unused snapshots in the final report",
+    )
+    group.addoption(
         "--snapshot-default-extension",
         type=__default_extension_option,
         default=DEFAULT_EXTENSION,
@@ -112,6 +119,7 @@ def pytest_sessionstart(session: Any) -> None:
     config._syrupy = SnapshotSession(
         warn_unused_snapshots=config.option.warn_unused_snapshots,
         update_snapshots=config.option.update_snapshots,
+        include_snapshot_details=config.option.include_snapshot_details,
         base_dir=config.rootdir,
         invocation_args=config.invocation_params.args,
     )
