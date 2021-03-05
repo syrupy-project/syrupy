@@ -53,11 +53,23 @@ def run_testfiles_with_update(testdir):
     return run_testfiles_with_update_impl
 
 
-def test_unused_snapshots_details(run_testfiles_with_update, testcases):
+@pytest.mark.parametrize(
+    (
+        "options",
+        "expected_status_code",
+    ),
+    (
+        (("-v", "--snapshot-details"), 1),
+        (("-v", "--snapshot-details", "--snapshot-warn-unused"), 0),
+    ),
+)
+def test_unused_snapshots_details(
+    options, expected_status_code, run_testfiles_with_update, testcases
+):
     testdir = run_testfiles_with_update(test_file=testcases)
     testdir.makepyfile(test_file=testcases["used"])
 
-    result = testdir.runpytest("-v", "--snapshot-details")
+    result = testdir.runpytest(*options)
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 snapshot unused\.",
@@ -65,7 +77,7 @@ def test_unused_snapshots_details(run_testfiles_with_update, testcases):
             r"Re-run pytest with --snapshot-update to delete unused snapshots\.",
         )
     )
-    assert result.ret == 1
+    assert result.ret == expected_status_code
 
 
 def test_unused_snapshots_details_multiple_tests(
