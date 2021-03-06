@@ -18,6 +18,8 @@ bleach==3.3.0
     # via readme-renderer
 certifi==2020.12.5
     # via requests
+cffi==1.14.5
+    # via cryptography
 chardet==4.0.0
     # via requests
 click==7.1.2
@@ -36,6 +38,8 @@ coverage[toml]==5.5
     # via
     #   codecov
     #   syrupy
+cryptography==3.4.6
+    # via secretstorage
 deprecated==1.2.11
     # via pygithub
 docutils==0.16
@@ -63,6 +67,10 @@ invoke==1.5.0
     # via syrupy
 isort==5.7.0
     # via syrupy
+jeepney==0.6.0
+    # via
+    #   keyring
+    #   secretstorage
 keyring==22.3.0
     # via twine
 mccabe==0.6.1
@@ -91,6 +99,8 @@ py==1.10.0
     # via pytest
 pycodestyle==2.6.0
     # via flake8
+pycparser==2.20
+    # via cffi
 pyflakes==2.2.0
     # via flake8
 pygithub==1.54.1
@@ -119,6 +129,8 @@ requests==2.25.1
     #   twine
 rfc3986==1.4.0
     # via twine
+secretstorage==3.3.1
+    # via keyring
 semver==2.13.0
     # via syrupy
 six==1.15.0
@@ -130,7 +142,7 @@ toml==0.10.2
     #   black
     #   coverage
     #   pytest
-tqdm==4.58.0
+tqdm==4.59.0
     # via twine
 twine==3.3.0
     # via syrupy
@@ -154,5 +166,5 @@ wrapt==1.12.1
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.0.1
     # via pip-tools
-setuptools==54.0.0
+setuptools==54.1.0
     # via twine
