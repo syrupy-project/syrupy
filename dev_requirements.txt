@@ -40,7 +40,7 @@ coverage[toml]==5.5
     #   syrupy
 cryptography==3.4.6
     # via secretstorage
-deprecated==1.2.11
+deprecated==1.2.12
     # via pygithub
 docutils==0.16
     # via readme-renderer
@@ -89,7 +89,7 @@ packaging==20.9
     #   pytest
 pathspec==0.8.1
     # via black
-pip-tools==5.5.0
+pip-tools==6.0.0
     # via syrupy
 pkginfo==1.7.0
     # via twine
