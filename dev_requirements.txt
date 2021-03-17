@@ -52,7 +52,7 @@ flake8-comprehensions==3.3.1
     # via syrupy
 flake8-i18n==0.1.0
     # via syrupy
-flake8==3.8.4
+flake8==3.9.0
     # via
     #   flake8-bugbear
     #   flake8-builtins
@@ -61,8 +61,10 @@ flake8==3.8.4
     #   syrupy
 idna==2.10
     # via requests
-importlib-metadata==3.7.2
-    # via keyring
+importlib-metadata==3.7.3
+    # via
+    #   keyring
+    #   twine
 iniconfig==1.1.1
     # via pytest
 invoke==1.5.0
@@ -89,7 +91,9 @@ packaging==20.9
     #   pytest
 pathspec==0.8.1
     # via black
-pip-tools==6.0.0
+pep517==0.10.0
+    # via pip-tools
+pip-tools==6.0.1
     # via syrupy
 pkginfo==1.7.0
     # via twine
@@ -99,11 +103,11 @@ py-githooks==1.1.0
     # via syrupy
 py==1.10.0
     # via pytest
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via flake8
 pycparser==2.20
     # via cffi
-pyflakes==2.2.0
+pyflakes==2.3.0
     # via flake8
 pygithub==1.54.1
     # via syrupy
@@ -143,10 +147,11 @@ toml==0.10.2
     # via
     #   black
     #   coverage
+    #   pep517
     #   pytest
 tqdm==4.59.0
     # via twine
-twine==3.3.0
+twine==3.4.1
     # via syrupy
 typed-ast==1.4.2
     # via
@@ -156,7 +161,7 @@ typing-extensions==3.7.4.3
     # via
     #   black
     #   mypy
-urllib3==1.26.3
+urllib3==1.26.4
     # via requests
 webencodings==0.5.1
     # via bleach
@@ -170,5 +175,3 @@ zipp==3.4.1
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.0.1
     # via pip-tools
-setuptools==54.1.1
-    # via twine
