@@ -88,26 +88,19 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install project dependencies
         run: . script/bootstrap
-      - name: Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - name: Dry Release
+        if: github.event_name == 'pull_request'
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
           . $VENV/bin/activate
-          invoke release --no-dry-run
-      - name: Benchmark (Dry Run)
+          invoke release --dry-run
+      - name: Benchmark
         if: github.event_name == 'pull_request'
         run: |
           . $VENV/bin/activate
           invoke benchmark
-      - name: Benchmark
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          . $VENV/bin/activate
-          invoke benchmark --report
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -118,6 +111,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: ./.github/actions/detect-python
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master
@@ -127,3 +125,18 @@ jobs:
             @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Install project dependencies
+        run: . script/bootstrap
+      - name: Release
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+        run: |
+          . $VENV/bin/activate
+          invoke release --no-dry-run
+      - name: Benchmark
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          . $VENV/bin/activate
+          invoke benchmark --report
