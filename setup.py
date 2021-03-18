@@ -46,6 +46,12 @@ def readme() -> str:
         return f.read()
 
 
+def version_scheme(v):
+    if v.exact:
+        return v.format_with("{tag}")
+    return datetime.now().strftime("%Y.%m.%d.%H%M%S%f")
+
+
 if __name__ in ["__main__", "builtins"]:
     setup(
         name="syrupy",
@@ -58,9 +64,7 @@ if __name__ in ["__main__", "builtins"]:
         long_description_content_type="text/markdown",
         use_scm_version={
             "local_scheme": lambda _: "",
-            "version_scheme": lambda v: v.format_with("{tag}")
-            if v.exact
-            else datetime.now().strftime("%Y.%m.%d.%H%M%S%f"),
+            "version_scheme": version_scheme,
             "write_to": "version.txt",
         },
         package_dir={"": "src"},
