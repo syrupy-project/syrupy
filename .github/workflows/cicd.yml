@@ -86,11 +86,6 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install project dependencies
         run: . script/bootstrap
-      - name: Release (Dry Run)
-        if: github.event_name == 'pull_request'
-        run: |
-          . $VENV/bin/activate
-          invoke release --dry-run
       - name: Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         env:
