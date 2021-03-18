@@ -1,7 +1,10 @@
 name: Syrupy CICD
 
 on:
-  - pull_request
+  push:
+    branches:
+      - master
+  pull_request:
 
 env:
   CI: 1
@@ -11,6 +14,7 @@ jobs:
   analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/detect-python
@@ -27,6 +31,7 @@ jobs:
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -49,6 +54,7 @@ jobs:
   version_checks:
     name: Dependency Version Constraint Checks
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     env:
       SKIP_DEPS: 1
     steps:
@@ -70,7 +76,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: [analysis, tests, version_checks]
-    if: github.event.pull_request.head.repo.full_name == 'tophat/syrupy'
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/detect-python
@@ -81,15 +87,41 @@ jobs:
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
           . $VENV/bin/activate
           invoke release --no-dry-run
+      - name: Benchmark (Dry Run)
+        if: github.event_name == 'pull_request'
+        run: |
+          . $VENV/bin/activate
+          invoke benchmark
       - name: Benchmark
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip ci]')
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cycjimmy/semantic-release-action@v2
+        with:
+          branch: master
+          dry_run: false
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
