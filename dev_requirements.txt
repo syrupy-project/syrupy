@@ -48,7 +48,7 @@ flake8-bugbear==21.3.2
     # via syrupy
 flake8-builtins==1.5.3
     # via syrupy
-flake8-comprehensions==3.3.1
+flake8-comprehensions==3.4.0
     # via syrupy
 flake8-i18n==0.1.0
     # via syrupy
@@ -123,7 +123,7 @@ pytest==6.2.2
     # via syrupy
 readme-renderer==29.0
     # via twine
-regex==2020.11.13
+regex==2021.3.17
     # via black
 requests-toolbelt==0.9.1
     # via twine
