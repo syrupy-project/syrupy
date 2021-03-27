@@ -38,7 +38,7 @@ coverage[toml]==5.5
     # via
     #   codecov
     #   syrupy
-cryptography==3.4.6
+cryptography==3.4.7
     # via secretstorage
 deprecated==1.2.12
     # via pygithub
@@ -61,7 +61,7 @@ flake8==3.9.0
     #   syrupy
 idna==2.10
     # via requests
-importlib-metadata==3.7.3
+importlib-metadata==3.8.0
     # via
     #   keyring
     #   twine
@@ -75,7 +75,7 @@ jeepney==0.6.0
     # via
     #   keyring
     #   secretstorage
-keyring==23.0.0
+keyring==23.0.1
     # via twine
 mccabe==0.6.1
     # via flake8
@@ -107,7 +107,7 @@ pycodestyle==2.7.0
     # via flake8
 pycparser==2.20
     # via cffi
-pyflakes==2.3.0
+pyflakes==2.3.1
     # via flake8
 pygithub==1.54.1
     # via syrupy
@@ -117,7 +117,7 @@ pyjwt==1.7.1
     # via pygithub
 pyparsing==2.4.7
     # via packaging
-pyperf==2.1.0
+pyperf==2.2.0
     # via syrupy
 pytest==6.2.2
     # via syrupy
