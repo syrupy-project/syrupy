@@ -124,7 +124,7 @@ jobs:
             @semantic-release/changelog
             @semantic-release/git
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Release
@@ -136,7 +136,7 @@ jobs:
           invoke release --no-dry-run
       - name: Benchmark
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
