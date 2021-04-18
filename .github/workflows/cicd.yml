@@ -129,8 +129,8 @@ jobs:
         run: . script/bootstrap
       - name: Release
         env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_USERNAME: _token_
+          TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
         run: |
           . $VENV/bin/activate
           invoke release --no-dry-run
