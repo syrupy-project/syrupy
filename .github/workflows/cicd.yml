@@ -91,8 +91,8 @@ jobs:
       - name: Dry Release
         if: github.event_name == 'pull_request'
         env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_USERNAME: _token_
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
         run: |
           . $VENV/bin/activate
           invoke release --dry-run
