@@ -12,7 +12,7 @@ attrs==20.3.0
     #   flake8-bugbear
     #   pytest
     #   syrupy
-black==21.5b0
+black==21.5b1
     # via syrupy
 bleach==3.3.0
     # via readme-renderer
@@ -24,7 +24,7 @@ cffi==1.14.5
     #   pynacl
 chardet==4.0.0
     # via requests
-click==7.1.2
+click==8.0.0
     # via
     #   black
     #   pip-tools
@@ -50,7 +50,7 @@ flake8-bugbear==21.4.3
     # via syrupy
 flake8-builtins==1.5.3
     # via syrupy
-flake8-comprehensions==3.4.0
+flake8-comprehensions==3.5.0
     # via syrupy
 flake8-i18n==0.1.0
     # via syrupy
