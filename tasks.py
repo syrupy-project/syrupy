@@ -168,7 +168,7 @@ def release(ctx, dry_run=True):
         should_publish_to_pypi = False
 
     # publish to test to verify builds
-    if not dry_run:
+    if dry_run:
         publish(ctx, dry_run=True)
 
     # publish to pypi if test succeeds
