@@ -144,7 +144,7 @@ def publish(ctx, dry_run=True):
     Upload built package to pypi
     """
     repo_url = "--repository-url https://test.pypi.org/legacy/" if dry_run else ""
-    ctx_run(ctx, f"twine upload --skip-existing --verbose {repo_url} dist/*")
+    ctx_run(ctx, f"twine upload --skip-existing {repo_url} dist/*")
 
 
 @task(pre=[build])

@@ -91,7 +91,7 @@ jobs:
       - name: Dry Release
         if: github.event_name == 'pull_request'
         env:
-          TWINE_USERNAME: _token_
+          TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
         run: |
           . $VENV/bin/activate
@@ -129,7 +129,7 @@ jobs:
         run: . script/bootstrap
       - name: Release
         env:
-          TWINE_USERNAME: _token_
+          TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
         run: |
           . $VENV/bin/activate
