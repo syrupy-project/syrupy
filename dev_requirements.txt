@@ -24,7 +24,7 @@ cffi==1.14.5
     #   pynacl
 chardet==4.0.0
     # via requests
-click==8.0.0
+click==8.0.1
     # via
     #   black
     #   pip-tools
