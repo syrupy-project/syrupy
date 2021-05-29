@@ -63,7 +63,7 @@ flake8==3.9.2
     #   syrupy
 idna==2.10
     # via requests
-importlib-metadata==4.0.1
+importlib-metadata==4.3.1
     # via
     #   keyring
     #   twine
@@ -154,7 +154,7 @@ toml==0.10.2
     #   coverage
     #   pep517
     #   pytest
-tqdm==4.60.0
+tqdm==4.61.0
     # via twine
 twine==3.4.1
     # via syrupy
@@ -162,7 +162,7 @@ typed-ast==1.4.3
     # via mypy
 typing-extensions==3.10.0.0
     # via mypy
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 webencodings==0.5.1
     # via bleach
