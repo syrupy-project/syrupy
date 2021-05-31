@@ -61,12 +61,44 @@ A snapshot file should be generated under a `__snapshots__` directory in the sam
 
 The default serializer supports all python built-in types and provides a sensible default for custom objects.
 
+#### Representation
+
 If you need to customise your object snapshot, it is as easy as overriding the default `__repr__` implementation.
 
 ```python
 def __repr__(self) -> str:
     return "MyCustomClass(...)"
 ```
+
+#### Attributes
+
+If you want to limit what properties are serialized at a class type level you could either:
+
+**A**. Provide a filter function to the snapshot [exclude](#exclude) configuration option.
+
+```py
+def limit_foo_attrs(prop, path):
+  allowed_foo_attrs = {"only", "serialize", "these", "attrs"}
+  return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
+
+def test_bar(snapshot):
+    actual = new Foo(...)
+    assert actual == snapshot(exclude=limit_foo_attrs)
+```
+
+**B**. Or override the `__dir__` implementation to control the attribute list.
+
+```py
+class Foo:
+  def __dir__(self):
+    return ["only", "serialize", "these", "attrs"]
+
+def test_bar(snapshot):
+    actual = new Foo(...)
+    assert actual == snapshot
+```
+
+Both options will generate equivalent snapshots but the latter is only viable when you have control over the class implementation and do not need to share the exclusion logic with other objects.
 
 ### CLI Options
 
