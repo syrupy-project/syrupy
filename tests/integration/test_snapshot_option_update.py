@@ -315,7 +315,7 @@ def test_update_targets_only_selected_module_tests_nodes(run_testcases):
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
     testfile = Path(testdir.tmpdir, "test_used.py")
-    result = testdir.runpytest(f"{testfile}::test_used", "-v", "--snapshot-update")
+    result = testdir.runpytest("-v", f"{testfile}::test_used", "--snapshot-update")
     result.stdout.re_match_lines((r"3 snapshots passed\."))
     assert "unused" not in result.stdout.str()
     assert "updated" not in result.stdout.str()
@@ -357,7 +357,7 @@ def test_update_targets_only_selected_module_tests_file_for_update(run_testcases
             """
         )
     )
-    result = testdir.runpytest("-v", "--snapshot-update", "test_used.py")
+    result = testdir.runpytest("-v", "test_used.py", "--snapshot-update")
     result.stdout.re_match_lines(
         (
             r"3 snapshots passed\. 2 unused snapshots deleted\.",
@@ -381,7 +381,7 @@ def test_update_targets_only_selected_module_tests_file_for_removal(run_testcase
     )
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
-    result = testdir.runpytest("-v", "--snapshot-update", "test_used.py")
+    result = testdir.runpytest("-v", "test_used.py", "--snapshot-update")
     result.stdout.re_match_lines(
         (
             r"5 unused snapshots deleted\.",

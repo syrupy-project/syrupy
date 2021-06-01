@@ -11,9 +11,7 @@ from typing import (
     FrozenSet,
     Iterator,
     List,
-    Optional,
     Set,
-    Tuple,
 )
 
 import attr
@@ -35,6 +33,8 @@ from .terminal import (
 )
 
 if TYPE_CHECKING:
+    import argparse
+
     import pytest
 
     from .assertion import SnapshotAssertion
@@ -51,9 +51,7 @@ class SnapshotReport:
     base_dir: str = attr.ib()
     collected_items: Set["pytest.Item"] = attr.ib()
     selected_items: Dict[str, bool] = attr.ib()
-    update_snapshots: bool = attr.ib()
-    warn_unused_snapshots: bool = attr.ib()
-    include_snapshot_details: bool = attr.ib()
+    options: "argparse.Namespace" = attr.ib()
     assertions: List["SnapshotAssertion"] = attr.ib()
     discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
@@ -61,12 +59,23 @@ class SnapshotReport:
     matched: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
     used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
     _provided_test_paths: Dict[str, List[str]] = attr.ib(factory=dict)
     _keyword_expressions: Set["Expression"] = attr.ib(factory=set)
     _collected_items_by_nodeid: Dict[str, "pytest.Item"] = attr.ib(
         factory=dict, init=False
     )
+
+    @property
+    def update_snapshots(self) -> bool:
+        return bool(self.options.update_snapshots)
+
+    @property
+    def warn_unused_snapshots(self) -> bool:
+        return bool(self.options.warn_unused_snapshots)
+
+    @property
+    def include_snapshot_details(self) -> bool:
+        return bool(self.options.include_snapshot_details)
 
     def __attrs_post_init__(self) -> None:
         self.__parse_invocation_args()
@@ -106,39 +115,24 @@ class SnapshotReport:
         would result in `"tests/test_file.py"` being stored as the location in a
         dictionary with `["TestClass", "test_method"]` being the test node path
         """
-        arg_groups: List[Tuple[Optional[str], str]] = []
-        path_as_package = False
-        maybe_opt_arg = None
-        for arg in self._invocation_args:
-            if arg.strip() == "--pyargs":
-                path_as_package = True
-            elif arg.startswith("-"):
-                if "=" in arg:
-                    arg0, arg1 = arg.split("=")
-                    arg_groups.append((arg0.strip(), arg1.strip()))
-                elif maybe_opt_arg is None:
-                    maybe_opt_arg = arg
-                    continue  # do not reset maybe_opt_arg
-            else:
-                arg_groups.append((maybe_opt_arg, arg.strip()))
 
-            maybe_opt_arg = None
-
-        for maybe_opt_arg, arg_value in arg_groups:
-            if maybe_opt_arg == "-k":  # or maybe_opt_arg == "-m":
-                self._keyword_expressions.add(Expression.compose(arg_value))
-            elif maybe_opt_arg is None:
-                parts = arg_value.split(PYTEST_NODE_SEP)
-                package_or_filepath = parts[0].strip()
-                filepath = Path(
-                    importlib.import_module(package_or_filepath).__file__
-                    if path_as_package
-                    else package_or_filepath
-                )
-                filepath_abs = str(
-                    filepath if filepath.is_absolute() else filepath.absolute()
-                )
-                self._provided_test_paths[filepath_abs] = parts[1:]
+        if self.options.keyword:
+            self._keyword_expressions.add(Expression.compose(self.options.keyword))
+        for file_or_dir in self.options.file_or_dir:
+            parts = file_or_dir.split(PYTEST_NODE_SEP)
+            package_or_filepath = parts[0].strip()
+            filepath = Path(package_or_filepath)
+            if self.options.pyargs:
+                try:
+                    filepath = Path(
+                        importlib.import_module(package_or_filepath).__file__
+                    )
+                except Exception:
+                    pass
+            filepath_abs = str(
+                filepath if filepath.is_absolute() else filepath.absolute()
+            )
+            self._provided_test_paths[filepath_abs] = parts[1:]
 
     @property
     def num_created(self) -> int:

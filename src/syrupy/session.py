@@ -1,12 +1,12 @@
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Dict,
     Iterable,
     List,
     Optional,
     Set,
-    Tuple,
 )
 
 import attr
@@ -23,11 +23,9 @@ if TYPE_CHECKING:
 
 @attr.s
 class SnapshotSession:
-    base_dir: str = attr.ib()
-    update_snapshots: bool = attr.ib()
-    warn_unused_snapshots: bool = attr.ib()
-    include_snapshot_details: bool = attr.ib()
-    _invocation_args: Tuple[str, ...] = attr.ib(factory=tuple)
+    # pytest.Session
+    _pytest_session: Any = attr.ib()
+    # Snapshot report generated on finish
     report: Optional["SnapshotReport"] = attr.ib(default=None)
     # All the collected test items
     _collected_items: Set["pytest.Item"] = attr.ib(factory=set)
@@ -35,6 +33,14 @@ class SnapshotSession:
     _selected_items: Dict[str, bool] = attr.ib(factory=dict)
     _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
     _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
+
+    @property
+    def update_snapshots(self) -> bool:
+        return bool(self._pytest_session.config.option.update_snapshots)
+
+    @property
+    def warn_unused_snapshots(self) -> bool:
+        return bool(self._pytest_session.config.option.warn_unused_snapshots)
 
     def collect_items(self, items: List["pytest.Item"]) -> None:
         self._collected_items.update(self.filter_valid_items(items))
@@ -56,14 +62,11 @@ class SnapshotSession:
     def finish(self) -> int:
         exitstatus = 0
         self.report = SnapshotReport(
-            base_dir=self.base_dir,
+            base_dir=self._pytest_session.config.rootdir,
             collected_items=self._collected_items,
             selected_items=self._selected_items,
             assertions=self._assertions,
-            update_snapshots=self.update_snapshots,
-            warn_unused_snapshots=self.warn_unused_snapshots,
-            include_snapshot_details=self.include_snapshot_details,
-            invocation_args=self._invocation_args,
+            options=self._pytest_session.config.option,
         )
         if self.report.num_unused:
             if self.update_snapshots:
