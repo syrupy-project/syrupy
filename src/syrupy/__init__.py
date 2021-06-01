@@ -115,17 +115,10 @@ def pytest_sessionstart(session: Any) -> None:
     Initialize snapshot session before tests are collected and ran.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
-    config = session.config
-    config._syrupy = SnapshotSession(
-        warn_unused_snapshots=config.option.warn_unused_snapshots,
-        update_snapshots=config.option.update_snapshots,
-        include_snapshot_details=config.option.include_snapshot_details,
-        base_dir=config.rootdir,
-        invocation_args=config.invocation_params.args,
-    )
+    session.config._syrupy = SnapshotSession(pytest_session=session)
     global _syrupy
-    _syrupy = config._syrupy
-    config._syrupy.start()
+    _syrupy = session.config._syrupy
+    session.config._syrupy.start()
 
 
 def pytest_collection_modifyitems(
