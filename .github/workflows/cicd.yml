@@ -49,7 +49,7 @@ jobs:
           python -m pip install -e . -r dev_requirements.txt
       - name: Test
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          CODECOV_TOKEN: ${{ matrix.python-version == '3.9' ? secrets.CODECOV_TOKEN : '' }}
         run: invoke test --coverage
   version_checks:
     name: Dependency Version Constraint Checks
