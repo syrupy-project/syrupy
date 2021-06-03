@@ -23,8 +23,21 @@ def test_ignores_non_function_nodes(testdir):
         def test_example(snapshot):
             assert snapshot == 1
         """
-    testdir.makepyfile(conftest=conftest)
+    testdir.makeconftest(conftest)
     testdir.makepyfile(test_file=testcase)
     result = testdir.runpytest("test_file.py", "-v", "--snapshot-update")
     result.stdout.re_match_lines((r".*test_file.py::CUSTOM.*"))
+    assert result.ret == 0
+
+
+def test_handles_pyargs_non_module_when_both_given(testdir):
+    testdir.makeconftest("")
+    testcase = """
+        def test_example(snapshot):
+            assert snapshot == 1
+        """
+    testdir.makepyfile(test_file=testcase)
+    result = testdir.runpytest(
+        "-v", "test_file.py", "--pyargs", "test_file", "--snapshot-update"
+    )
     assert result.ret == 0
