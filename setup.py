@@ -14,6 +14,7 @@ install_requires = [
     "pytest>=5.1.0,<7.0.0",
 ]
 test_requires = [
+    "codecov",
     "coverage[toml]",
     "invoke",
 ]

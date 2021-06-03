@@ -57,10 +57,6 @@ jobs:
       SKIP_DEPS: 1
     steps:
       - uses: actions/checkout@v2
-        with:
-          # Fetch depth needed for codecov action
-          # https://community.codecov.io/t/codecov-commit-status-check-missing-for-pr-when-using-codecov-action/1813/28
-          fetch-depth: 2
       - uses: ./.github/actions/detect-python
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -71,14 +67,11 @@ jobs:
           . script/bootstrap
           python -m pip install -e .[test] -r min_requirements.constraints
       - name: Test
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
           . $VENV/bin/activate
-          invoke test
-      - uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: .coverage
-
+          invoke test --coverage
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -149,6 +142,7 @@ jobs:
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          COMMIT_SHA: ${{ env.GITHUB_SHA }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
