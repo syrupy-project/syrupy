@@ -32,7 +32,4 @@ def test(
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
     ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} .")
     if coverage:
-        if not os.environ.get("CI") or not os.environ.get("CODECOV_TOKEN"):
-            ctx_run(ctx, "coverage report")
-        else:
-            ctx_run(ctx, "codecov")
+        ctx_run(ctx, "coverage report")
