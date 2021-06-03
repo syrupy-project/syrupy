@@ -106,6 +106,9 @@ jobs:
         if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Github pull request event has the merge commit as the HEAD on checkout
+          # https://github.com/actions/checkout/issues/261
+          GITHUB_SHA: ${{ github.event.after }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
