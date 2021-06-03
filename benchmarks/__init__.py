@@ -45,7 +45,7 @@ def get_commit(github: "Github") -> "Commit":
     """
     Get current commit the github ci run is for
     """
-    github_sha = get_req_env("GITHUB_SHA")
+    github_sha = get_req_env("COMMIT_SHA")
     return github.get_repo(GH_REPO).get_commit(github_sha)
 
 
@@ -63,7 +63,7 @@ def get_target_url() -> str:
     """
     repo_url = f"https://github.com/{GH_REPO}"
     all_results_url = f"{repo_url}/tree/{GH_BENCH_BRANCH}/{GH_BENCH_FILE_PATH}"
-    commit_sha = get_req_env("GITHUB_SHA")
+    commit_sha = get_req_env("COMMIT_SHA")
     return all_results_url + (f"/{commit_sha}" if commit_sha else "")
 
 
@@ -102,7 +102,7 @@ def measure_perf(
     if not github:
         return
     repo = github.get_repo(GH_REPO)
-    commit_sha = get_req_env("GITHUB_SHA")
+    commit_sha = get_req_env("COMMIT_SHA")
     with open(BENCH_PERF_FILE, "r", encoding="utf-8") as bench_file:
         try:
             repo.create_file(

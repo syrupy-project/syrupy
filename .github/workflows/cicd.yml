@@ -17,10 +17,6 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v2
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - uses: ./.github/actions/detect-python
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -82,7 +78,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: .coverage
-          verbose: true
 
   build:
     name: Build
@@ -114,7 +109,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Github pull request event has the merge commit as the HEAD on checkout
           # https://github.com/actions/checkout/issues/261
-          GITHUB_SHA: ${{ github.event.after }}
+          COMMIT_SHA: ${{ github.event.after }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
