@@ -98,9 +98,11 @@ jobs:
           invoke release --dry-run
       - name: Benchmark
         if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           . $VENV/bin/activate
-          invoke benchmark
+          invoke benchmark --report
   release:
     name: Release
     runs-on: ubuntu-latest
