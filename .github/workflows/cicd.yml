@@ -61,6 +61,10 @@ jobs:
       SKIP_DEPS: 1
     steps:
       - uses: actions/checkout@v2
+        with:
+          # Fetch depth needed for codecov action
+          # https://community.codecov.io/t/codecov-commit-status-check-missing-for-pr-when-using-codecov-action/1813/28
+          fetch-depth: 2
       - uses: ./.github/actions/detect-python
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -77,6 +81,8 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: .coverage
+          verbose: true
 
   build:
     name: Build
