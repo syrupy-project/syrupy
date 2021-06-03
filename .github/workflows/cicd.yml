@@ -98,9 +98,14 @@ jobs:
           invoke release --dry-run
       - name: Benchmark
         if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Github pull request event has the merge commit as the HEAD on checkout
+          # https://github.com/actions/checkout/issues/261
+          COMMIT_SHA: ${{ github.event.after }}
         run: |
           . $VENV/bin/activate
-          invoke benchmark
+          invoke benchmark --report
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -137,6 +142,7 @@ jobs:
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          COMMIT_SHA: ${{ env.GITHUB_SHA }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
