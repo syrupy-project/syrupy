@@ -140,7 +140,7 @@ jobs:
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-          COMMIT_SHA: ${{ env.GITHUB_SHA }}
+          COMMIT_SHA: ${{ github.event.after }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report

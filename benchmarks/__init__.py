@@ -45,8 +45,8 @@ def get_commit(github: "Github") -> "Commit":
     """
     Get current commit the github ci run is for
     """
-    github_sha = get_req_env("COMMIT_SHA")
-    return github.get_repo(GH_REPO).get_commit(github_sha)
+    commit_sha = get_req_env("COMMIT_SHA")
+    return github.get_repo(GH_REPO).get_commit(commit_sha)
 
 
 def get_branch() -> Optional[str]:
