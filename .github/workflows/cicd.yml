@@ -72,11 +72,11 @@ jobs:
         run: |
           . $VENV/bin/activate
           invoke test --coverage
-  build:
+  dry_run:
     name: Build
     runs-on: ubuntu-latest
-    needs: [analysis, tests, version_checks]
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    # Checks to run only on PRs does not need to wait for others
+    if: github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')
     steps:
       - uses: actions/checkout@v2
         with:
@@ -89,7 +89,6 @@ jobs:
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Dry Release
-        if: github.event_name == 'pull_request'
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
@@ -97,7 +96,6 @@ jobs:
           . $VENV/bin/activate
           invoke release --dry-run
       - name: Benchmark
-        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Github pull request event has the merge commit as the HEAD on checkout
@@ -109,7 +107,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [analysis, tests, version_checks]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip ci]')
     steps:
       - uses: actions/checkout@v2
