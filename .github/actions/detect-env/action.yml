@@ -8,5 +8,5 @@ runs:
     - name: Determine Commit Sha
       # Github pull request event has the merge commit as the HEAD on checkout
       # https://github.com/actions/checkout/issues/261
-      run: echo COMMIT_SHA=$(jq -r ".pull_request.head.sha // .check_run.head_sha // .after" $EVENT_PAYLOAD_FILE) >> $GITHUB_ENV
+      run: echo COMMIT_SHA=$(jq -r ".pull_request.head.sha // .check_run.head_sha // .after" $GITHUB_EVENT_PATH) >> $GITHUB_ENV
       shell: bash

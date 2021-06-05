@@ -36,7 +36,7 @@ def get_req_env(var_name: str) -> str:
     """
     env_msg = f"required environment variable '{var_name}'"
     try:
-        print(f"Getting {env_msg}': {os.environ[var_name]}'")
+        print(f"Getting {env_msg}: {os.environ[var_name]}'")
         return os.environ[var_name]
     except KeyError:
         print(f"Missing {env_msg}.")

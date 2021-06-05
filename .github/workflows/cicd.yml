@@ -83,7 +83,6 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/detect-env
       - run: env
-      - run: echo $COMMIT_SHA
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
