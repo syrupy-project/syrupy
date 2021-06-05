@@ -4,10 +4,13 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
+    Dict,
     Iterable,
+    NamedTuple,
     Optional,
     Set,
     Tuple,
+    Union,
 )
 
 from syrupy.constants import SYMBOL_ELLIPSIS
@@ -25,8 +28,10 @@ if TYPE_CHECKING:
         SerializableData,
     )
 
-    PropertyValueFilter = Callable[[SerializableData], bool]
-    PropertyValueGetter = Callable[..., SerializableData]
+    PropertyValueFilter = Callable[["PropertyName"], bool]
+    PropertyValueGetter = Callable[
+        ["SerializableData", "PropertyName"], "SerializableData"
+    ]
     IterableEntries = Tuple[
         Iterable["PropertyName"],
         "PropertyValueGetter",
@@ -42,11 +47,20 @@ class Repr:
         return self._repr
 
 
+def attr_getter(o: "SerializableData", p: "PropertyName") -> "SerializableData":
+    return getattr(o, str(p))
+
+
+def item_getter(o: "SerializableData", p: "PropertyName") -> "SerializableData":
+    return o[p]
+
+
 class DataSerializer:
     _indent: str = "  "
     _max_depth: int = 99
+    _marker_comment: str = "# "
     _marker_divider: str = "---"
-    _marker_name: str = "# name:"
+    _marker_name: str = f"{_marker_comment}name:"
     _marker_crn: str = "\r\n"
 
     @classmethod
@@ -157,14 +171,12 @@ class DataSerializer:
 
     @classmethod
     def serialize_number(
-        cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
+        cls, data: Union[int, float], *, depth: int = 0, **kwargs: Any
     ) -> str:
         return cls.__serialize_plain(data=data, depth=depth)
 
     @classmethod
-    def serialize_string(
-        cls, data: "SerializableData", *, depth: int = 0, **kwargs: Any
-    ) -> str:
+    def serialize_string(cls, data: str, *, depth: int = 0, **kwargs: Any) -> str:
         if all(c not in data for c in cls._marker_crn):
             return cls.__serialize_plain(data=data, depth=depth)
 
@@ -182,7 +194,9 @@ class DataSerializer:
         )
 
     @classmethod
-    def serialize_iterable(cls, data: "SerializableData", **kwargs: Any) -> str:
+    def serialize_iterable(
+        cls, data: Iterable["SerializableData"], **kwargs: Any
+    ) -> str:
         open_paren, close_paren = next(
             parens
             for iter_type, parens in {
@@ -195,14 +209,14 @@ class DataSerializer:
         values = list(data)
         return cls.__serialize_iterable(
             data=data,
-            resolve_entries=(range(len(values)), lambda _, p: values[p], None),
+            resolve_entries=(range(len(values)), item_getter, None),
             open_tag=open_paren,
             close_tag=close_paren,
             **kwargs,
         )
 
     @classmethod
-    def serialize_set(cls, data: "SerializableData", **kwargs: Any) -> str:
+    def serialize_set(cls, data: Set["SerializableData"], **kwargs: Any) -> str:
         return cls.__serialize_iterable(
             data=data,
             resolve_entries=(cls.sort(data), lambda _, p: p, None),
@@ -212,10 +226,10 @@ class DataSerializer:
         )
 
     @classmethod
-    def serialize_namedtuple(cls, data: "SerializableData", **kwargs: Any) -> str:
+    def serialize_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> str:
         return cls.__serialize_iterable(
             data=data,
-            resolve_entries=(cls.sort(data._fields), getattr, None),
+            resolve_entries=(cls.sort(data._fields), attr_getter, None),
             open_tag="(",
             close_tag=")",
             separator="=",
@@ -223,10 +237,12 @@ class DataSerializer:
         )
 
     @classmethod
-    def serialize_dict(cls, data: "SerializableData", **kwargs: Any) -> str:
+    def serialize_dict(
+        cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
+    ) -> str:
         return cls.__serialize_iterable(
             data=data,
-            resolve_entries=(cls.sort(data.keys()), lambda d, p: d[p], None),
+            resolve_entries=(cls.sort(data.keys()), item_getter, None),
             open_tag="{",
             close_tag="}",
             separator=": ",
@@ -243,7 +259,7 @@ class DataSerializer:
             data=data,
             resolve_entries=(
                 (name for name in cls.sort(dir(data)) if not name.startswith("_")),
-                getattr,
+                attr_getter,
                 lambda v: not callable(v),
             ),
             depth=depth,

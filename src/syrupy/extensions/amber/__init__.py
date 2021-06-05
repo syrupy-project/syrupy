@@ -18,14 +18,6 @@ if TYPE_CHECKING:
 class AmberSnapshotExtension(AbstractSyrupyExtension):
     """
     An amber snapshot file stores data in the following format:
-
-    ```
-    # name: test_name_1
-      data
-    ---
-    # name: test_name_2
-      data
-    ```
     """
 
     def serialize(self, data: "SerializableData", **kwargs: Any) -> str:

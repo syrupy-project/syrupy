@@ -136,6 +136,11 @@
 ---
 # name: test_dict[actual2]
   <class 'dict'> {
+    '
+      multi
+      line
+      key
+    ': 'Some morre text.',
     'a': 'Some ttext.',
     1: True,
     <class 'ExampleTuple'> (
@@ -309,7 +314,10 @@
   'value.with.dot'
 ---
 # name: test_reflection
-  SnapshotAssertion(name='snapshot', num_executions=0)
+  <class 'SnapshotAssertion'> {
+    name='snapshot',
+    num_executions=0,
+  }
 ---
 # name: test_set[actual0]
   <class 'set'> {
@@ -354,6 +362,14 @@
 # name: test_set[actual4]
   <class 'set'> {
   }
+---
+# name: test_snapshot_markers
+  '
+  # 
+    # 
+  ---
+  # name:
+  '
 ---
 # name: test_string[0]
   ''
