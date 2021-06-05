@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [1.3.0](https://github.com/tophat/syrupy/compare/v1.2.4...v1.3.0) (2021-06-05)
+
+
+### Features
+
+* **types:** explicit property matcher and filter types kwargs ([#515](https://github.com/tophat/syrupy/issues/515)) ([8dddebf](https://github.com/tophat/syrupy/commit/8dddebf6c217abe64b81137ad78561e0f7e8ab61))
+
 ## [1.2.4](https://github.com/tophat/syrupy/compare/v1.2.3...v1.2.4) (2021-06-01)
 
 
