@@ -37,7 +37,7 @@ def path_type(
         raise PathTypeError(gettext("Both mapping and types argument cannot be empty"))
 
     def path_type_matcher(
-        data: "SerializableData", path: "PropertyPath"
+        *, data: "SerializableData", path: "PropertyPath"
     ) -> Optional["SerializableData"]:
         path_str = ".".join(str(p) for p, _ in path)
         if mapping:

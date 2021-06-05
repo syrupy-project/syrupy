@@ -4,7 +4,7 @@ import pytest
 
 from syrupy.utils import env_context
 
-typing.TYPE_CHECKING = True
+typing.TYPE_CHECKING = False
 pytest_plugins = "pytester"
 
 
