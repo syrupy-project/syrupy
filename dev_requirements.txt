@@ -63,7 +63,7 @@ flake8==3.9.2
     #   syrupy
 idna==2.10
     # via requests
-importlib-metadata==4.4.0
+importlib-metadata==4.5.0
     # via
     #   keyring
     #   twine
