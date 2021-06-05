@@ -1,0 +1,12 @@
+name: detect-env
+runs:
+  using: "composite"
+  steps:
+    - name: Determine Python Version
+      run: echo PYTHON_VERSION=$(cat .python-version | tr -d '\n') >> $GITHUB_ENV
+      shell: bash
+    - name: Determine Commit Sha
+      # Github pull request event has the merge commit as the HEAD on checkout
+      # https://github.com/actions/checkout/issues/261
+      run: echo COMMIT_SHA=$(jq -r ".pull_request.head.sha // .check_run.head_sha // .after" $GITHUB_EVENT_PATH) >> $GITHUB_ENV
+      shell: bash
