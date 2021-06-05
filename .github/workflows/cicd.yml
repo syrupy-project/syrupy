@@ -28,6 +28,7 @@ jobs:
         run: |
           . $VENV/bin/activate
           invoke lint
+      - run: cat $GITHUB_EVENT_PATH
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
