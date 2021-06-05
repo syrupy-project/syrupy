@@ -45,8 +45,9 @@ class Repr:
 class DataSerializer:
     _indent: str = "  "
     _max_depth: int = 99
+    _marker_comment: str = "# "
     _marker_divider: str = "---"
-    _marker_name: str = "# name:"
+    _marker_name: str = f"{_marker_comment}name:"
     _marker_crn: str = "\r\n"
 
     @classmethod

@@ -2,6 +2,8 @@ from collections import namedtuple
 
 import pytest
 
+from syrupy.extensions.amber.serializer import DataSerializer
+
 
 def test_non_snapshots(snapshot):
     with pytest.raises(AssertionError):
@@ -15,6 +17,19 @@ def test_reflection(snapshot):
 def test_empty_snapshot(snapshot):
     assert snapshot == None  # noqa: E711
     assert snapshot == ""
+
+
+def test_snapshot_markers(snapshot):
+    """
+    Test snapshot markers do not break serialization when in snapshot data
+    """
+    marker_strings = (
+        DataSerializer._marker_comment,
+        f"{DataSerializer._indent}{DataSerializer._marker_comment}",
+        DataSerializer._marker_divider,
+        DataSerializer._marker_name,
+    )
+    assert snapshot == "\n".join(marker_strings)
 
 
 def test_newline_control_characters(snapshot):
@@ -100,6 +115,7 @@ def test_set(snapshot, actual):
         {
             1: True,
             "a": "Some ttext.",
+            "multi\nline\nkey": "Some morre text.",
             frozenset({"1", "2"}): ["1", 2],
             ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
         },

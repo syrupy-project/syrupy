@@ -161,10 +161,8 @@ class SnapshotAssertion:
             self.__with_prop("_matcher", matcher)
         return self
 
-    def __repr__(self) -> str:
-        attrs_to_repr = ["name", "num_executions"]
-        attrs_repr = ", ".join(f"{a}={repr(getattr(self, a))}" for a in attrs_to_repr)
-        return f"SnapshotAssertion({attrs_repr})"
+    def __dir__(self) -> List[str]:
+        return ["name", "num_executions"]
 
     def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)
