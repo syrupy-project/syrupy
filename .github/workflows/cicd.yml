@@ -82,6 +82,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/detect-env
+      - run: env
+      - run: echo $COMMIT_SHA
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -98,6 +100,7 @@ jobs:
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_SHA: ${{ env.COMMIT_SHA }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
@@ -137,6 +140,7 @@ jobs:
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          COMMIT_SHA: ${{ env.COMMIT_SHA }}
         run: |
           . $VENV/bin/activate
           invoke benchmark --report
