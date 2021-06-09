@@ -85,7 +85,7 @@ mypy-extensions==0.4.3
     # via
     #   black
     #   mypy
-mypy==0.812
+mypy==0.901
     # via syrupy
 packaging==20.9
     # via
@@ -152,14 +152,13 @@ toml==0.10.2
     # via
     #   black
     #   coverage
+    #   mypy
     #   pep517
     #   pytest
 tqdm==4.61.0
     # via twine
 twine==3.4.1
     # via syrupy
-typed-ast==1.4.3
-    # via mypy
 typing-extensions==3.10.0.0
     # via mypy
 urllib3==1.26.5
