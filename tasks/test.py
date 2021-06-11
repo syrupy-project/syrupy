@@ -37,7 +37,7 @@ def test(
     ARTIFACT_DIR = os.environ.get("ARTIFACT_DIR", "./artifacts")
     if coverage:
         if CI:
-            coverage_path = Path(ARTIFACT_DIR, "coverage.json").absolute()
-            ctx_run(ctx, f"coverage json -o {coverage_path}")
+            coverage_path = Path(ARTIFACT_DIR, "coverage.xml").absolute()
+            ctx_run(ctx, f"coverage xml -o {coverage_path}")
         else:
             ctx_run(ctx, "coverage report")
