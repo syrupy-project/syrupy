@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from invoke import task
 
@@ -31,8 +32,12 @@ def test(
     coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
     ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} .")
+
+    CI = os.environ.get("CI")
+    ARTIFACT_DIR = os.environ.get("ARTIFACT_DIR", "./artifacts")
     if coverage:
-        if not os.environ.get("CI") or not os.environ.get("CODECOV_TOKEN"):
-            ctx_run(ctx, "coverage report")
+        if CI:
+            coverage_path = Path(ARTIFACT_DIR, "coverage.json").absolute()
+            ctx_run(ctx, f"coverage json -o {coverage_path}")
         else:
-            ctx_run(ctx, "codecov")
+            ctx_run(ctx, "coverage report")
