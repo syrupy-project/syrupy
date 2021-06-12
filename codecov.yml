@@ -8,3 +8,8 @@ codecov:
     layout: "diff"
 
   github_checks: true
+
+  status:
+    project:
+      default:
+        target: auto
