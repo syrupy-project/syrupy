@@ -75,12 +75,6 @@ jobs:
           invoke test --coverage
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v1
-        with:
-          verbose: true
-          #      - name: Upload Coverage Report
-          #        run: ./.github/codecov.sh $GITHUB_EVENT_PATH
-          #        env:
-          #          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
