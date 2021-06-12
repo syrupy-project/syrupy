@@ -1,10 +1,10 @@
 codecov:
   require_ci_to_pass: false
 
-  notify:
-    wait_for_ci: false
+notify:
+  wait_for_ci: false
 
-  comment:
-    layout: "diff"
+comment:
+  layout: "diff"
 
-  github_checks: true
+github_checks: true
