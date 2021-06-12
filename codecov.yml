@@ -4,6 +4,12 @@ codecov:
   notify:
     wait_for_ci: false
 
+coverage:
+  status:
+    project:
+      default:
+        only_pulls: false
+
 comment:
   layout: "diff"
 
