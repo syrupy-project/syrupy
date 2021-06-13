@@ -8,6 +8,7 @@ from typing import (
     Union,
 )
 
+SnapshotIndex = Union[int, str]
 SerializableData = Any
 SerializedData = Union[str, bytes]
 PropertyName = Hashable

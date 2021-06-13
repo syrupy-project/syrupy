@@ -6,6 +6,7 @@ from importlib import import_module
 from pathlib import Path
 from typing import (
     Any,
+    Dict,
     Iterator,
 )
 
@@ -66,3 +67,17 @@ def env_context(**kwargs: str) -> Iterator[None]:
     finally:
         os.environ.clear()
         os.environ.update(prev_env)
+
+
+def set_attrs(obj: Any, attrs: Dict[str, Any]) -> Any:
+    for k in attrs:
+        setattr(obj, k, attrs[k])
+
+
+@contextmanager
+def obj_attrs(obj: Any, attrs: Dict[str, Any]) -> Iterator[None]:
+    prev_attrs = {k: getattr(obj, k, None) for k in attrs}
+    try:
+        yield set_attrs(obj, attrs)
+    finally:
+        set_attrs(obj, prev_attrs)

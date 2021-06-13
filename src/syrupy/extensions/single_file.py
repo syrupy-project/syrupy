@@ -4,7 +4,6 @@ from typing import (
     TYPE_CHECKING,
     Optional,
     Set,
-    Union,
 )
 from unicodedata import category
 
@@ -21,6 +20,7 @@ if TYPE_CHECKING:
         PropertyMatcher,
         SerializableData,
         SerializedData,
+        SnapshotIndex,
     )
 
 
@@ -34,7 +34,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> "SerializedData":
         return bytes(data)
 
-    def get_snapshot_name(self, *, index: Union[str, int] = 0) -> str:
+    def get_snapshot_name(self, *, index: "SnapshotIndex" = 0) -> str:
         return self.__clean_filename(
             super(SingleFileSnapshotExtension, self).get_snapshot_name(index=index)
         )
@@ -48,7 +48,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def _file_extension(self) -> str:
         return "raw"
 
-    def _get_file_basename(self, *, index: Union[str, int]) -> str:
+    def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
         return self.get_snapshot_name(index=index)
 
     @property

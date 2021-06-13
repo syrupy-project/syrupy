@@ -1,0 +1,112 @@
+# name: test_snapshot_diff
+  dict({
+    'field_0': True,
+    'field_1': 'no_value',
+    'nested': dict({
+      'field_0': 1,
+    }),
+  })
+# ---
+# name: test_snapshot_diff.1
+      ...
+  -   'field_1': 'no_value',
+  +   'field_1': 'yes_value',
+      ...
+# ---
+# name: test_snapshot_diff.2
+      ...
+  -   'field_1': 'no_value',
+  +   'field_1': 'yes_value',
+      ...
+  -     'field_0': 1,
+  +     'field_0': 2,
+    ...
+# ---
+# name: test_snapshot_diff_id.1
+      ...
+  -   'field_1': 'no_value',
+  +   'field_1': 'yes_value',
+      ...
+  -     True,
+        ...
+  -     None,
+  +     False,
+      ...
+  -     'no',
+  +     'yes',
+  -     False,
+  +     0,
+      ...
+# ---
+# name: test_snapshot_diff_id[case3]
+        ...
+  -   'nested_0': dict({
+  +   'nested_0': mappingproxy({
+  -     'field_0': True,
+  +     'field_0': 2,
+          ...
+  -   'nested_1': dict({
+  +   'nested_1': mappingproxy({
+  -     'field_0': True,
+  +     'field_0': 2,
+          ...
+# ---
+# name: test_snapshot_diff_id[large snapshot]
+  dict({
+    'field_0': True,
+    'field_1': 'no_value',
+    'field_2': 0,
+    'field_3': None,
+    'field_4': 1,
+    'field_5': False,
+    'field_6': tuple(
+      True,
+      'hey',
+      2,
+      None,
+    ),
+    'field_7': set({
+      'no',
+      False,
+      None,
+    }),
+    'nested_0': dict({
+      'field_0': True,
+      'field_1': 'no_value',
+      'field_2': 0,
+      'field_3': None,
+      'field_4': 1,
+      'field_5': False,
+      'field_6': tuple(
+        True,
+        'hey',
+        2,
+        None,
+      ),
+      'field_7': set({
+        'no',
+        False,
+        None,
+      }),
+    }),
+    'nested_1': dict({
+      'field_0': True,
+      'field_1': 'no_value',
+      'field_2': 0,
+      'field_3': None,
+      'field_4': 1,
+      'field_5': False,
+      'field_6': tuple(
+        True,
+        'hey',
+        2,
+        None,
+      ),
+      'field_7': set({
+        'no',
+        False,
+        None,
+      }),
+    }),
+  })
+# ---
