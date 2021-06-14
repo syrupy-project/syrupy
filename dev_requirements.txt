@@ -19,15 +19,15 @@ bleach==3.3.0
 certifi==2021.5.30
     # via requests
 cffi==1.14.5
-    # via
-    #   cryptography
-    #   pynacl
+    # via pynacl
 chardet==4.0.0
     # via requests
 click==8.0.1
     # via
     #   black
     #   pip-tools
+codecov==2.1.11
+    # via syrupy
 colorama==0.4.4
     # via twine
 colored==1.4.2
@@ -35,9 +35,9 @@ colored==1.4.2
 configparser==5.0.2
     # via py-githooks
 coverage[toml]==5.5
-    # via syrupy
-cryptography==3.4.7
-    # via secretstorage
+    # via
+    #   codecov
+    #   syrupy
 deprecated==1.2.12
     # via pygithub
 docutils==0.17.1
@@ -69,10 +69,6 @@ invoke==1.5.0
     # via syrupy
 isort==5.8.0
     # via syrupy
-jeepney==0.6.0
-    # via
-    #   keyring
-    #   secretstorage
 keyring==23.0.1
     # via twine
 mccabe==0.6.1
@@ -129,13 +125,12 @@ requests-toolbelt==0.9.1
     # via twine
 requests==2.25.1
     # via
+    #   codecov
     #   pygithub
     #   requests-toolbelt
     #   twine
 rfc3986==1.5.0
     # via twine
-secretstorage==3.3.1
-    # via keyring
 semver==2.13.0
     # via syrupy
 six==1.16.0

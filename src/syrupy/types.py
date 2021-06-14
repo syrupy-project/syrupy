@@ -1,5 +1,6 @@
 from typing import (
     Any,
+    Callable,
     Hashable,
     Optional,
     Tuple,
@@ -14,23 +15,23 @@ PropertyValueType = Type[SerializableData]
 PropertyPathEntry = Tuple[PropertyName, PropertyValueType]
 PropertyPath = Tuple[PropertyPathEntry, ...]
 try:
-    # Python minimum version 3.8
-    # https://docs.python.org/3/library/typing.html#typing.Protocol
-    from typing import Protocol
+    from mypy_extensions import NamedArg
 
-    class PropertyMatcher(Protocol):
-        def __call__(
-            self,
-            *,
-            data: "SerializableData",
-            path: "PropertyPath",
-        ) -> Optional["SerializableData"]:
-            ...
-
-    class PropertyFilter(Protocol):
-        def __call__(self, *, prop: "PropertyName", path: "PropertyPath") -> bool:
-            ...
-
+    PropertyMatcher = Callable[
+        [
+            NamedArg(SerializableData, "data"),  # noqa: F821
+            NamedArg(PropertyPath, "path"),  # noqa: F821
+        ],
+        Optional[SerializableData],
+    ]
+    PropertyFilter = Callable[
+        [
+            NamedArg(PropertyName, "prop"),  # noqa: F821
+            NamedArg(PropertyPath, "path"),  # noqa: F821
+        ],
+        bool,
+    ]
 
 except ImportError:
-    pass
+    globals()["PropertyMatcher"] = Callable[..., Optional[SerializableData]]
+    globals()["PropertyFilter"] = Callable[..., bool]

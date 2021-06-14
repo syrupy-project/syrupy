@@ -37,7 +37,6 @@ pip-delete-this-directory.txt
 .mypy_cache/
 .coverage
 htmlcov/
-artifacts
 
 # Environments
 .env
