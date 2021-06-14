@@ -1,0 +1,37 @@
+# name: DocTestClass
+  DocTestClass(
+    obj_attr='test class attr',
+  )
+# ---
+# name: DocTestClass.1
+  DocTestClass(
+    obj_attr='test class attr',
+  )
+# ---
+# name: DocTestClass.NestedDocTestClass
+  NestedDocTestClass(
+    nested_obj_attr='nested doc test class attr',
+  )
+# ---
+# name: DocTestClass.NestedDocTestClass.doctest_method
+  'nested doc test method return value'
+# ---
+# name: DocTestClass.doctest_method
+  'doc test method return value'
+# ---
+# name: doctest_fn
+  'doc test fn return value'
+# ---
+# name: test_doctest.txt
+  'There must be a break after every snapshot assertion'
+# ---
+# name: test_doctest.txt.1
+  'constant value'
+# ---
+# name: test_doctest.txt.2
+  set({
+    1,
+    2,
+    3,
+  })
+# ---
