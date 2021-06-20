@@ -7,7 +7,7 @@
     # via -r -
 appdirs==1.4.4
     # via black
-attrs==20.3.0
+attrs==21.2.0
     # via
     #   flake8-bugbear
     #   pytest
@@ -19,7 +19,9 @@ bleach==3.3.0
 certifi==2021.5.30
     # via requests
 cffi==1.14.5
-    # via pynacl
+    # via
+    #   cryptography
+    #   pynacl
 chardet==4.0.0
     # via requests
 click==8.0.1
@@ -38,6 +40,8 @@ coverage[toml]==5.5
     # via
     #   codecov
     #   syrupy
+cryptography==3.4.7
+    # via secretstorage
 deprecated==1.2.12
     # via pygithub
 docutils==0.17.1
@@ -69,6 +73,10 @@ invoke==1.5.0
     # via syrupy
 isort==5.8.0
     # via syrupy
+jeepney==0.6.0
+    # via
+    #   keyring
+    #   secretstorage
 keyring==23.0.1
     # via twine
 mccabe==0.6.1
@@ -131,6 +139,8 @@ requests==2.25.1
     #   twine
 rfc3986==1.5.0
     # via twine
+secretstorage==3.3.1
+    # via keyring
 semver==2.13.0
     # via syrupy
 six==1.16.0
