@@ -70,3 +70,25 @@ def test_matches_non_deterministic_snapshots(snapshot):
         },
         "c": ["Replace this one", "Do not replace this one"],
     } == snapshot
+
+
+def test_matches_regex_in_regex_mode(snapshot):
+    my_matcher = path_type(
+        {
+            r"data\.list\..*\.date_created": (datetime.datetime,),
+            r"any_number": (int,),
+        },
+        regex=True,
+    )
+    actual = {
+        "data": {
+            "list": [
+                {"k": "1", "date_created": datetime.datetime.now()},
+                {"k": "2", "date_created": datetime.datetime.now()},
+            ],
+        },
+        "any_number": 3,
+        "any_number_adjacent": "hi",
+        "specific_number": 5,
+    }
+    assert actual == snapshot(matcher=my_matcher)

@@ -33,6 +33,25 @@
     ],
   }
 ---
+# name: test_matches_regex_in_regex_mode
+  <class 'dict'> {
+    'any_number': <class 'int'>,
+    'any_number_adjacent': 'hi',
+    'data': <class 'dict'> {
+      'list': <class 'list'> [
+        <class 'dict'> {
+          'date_created': <class 'datetime'>,
+          'k': '1',
+        },
+        <class 'dict'> {
+          'date_created': <class 'datetime'>,
+          'k': '2',
+        },
+      ],
+    },
+    'specific_number': 5,
+  }
+---
 # name: test_raises_unexpected_type
   <class 'dict'> {
     'date_created': <class 'datetime'>,
