@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [1.4.0](https://github.com/tophat/syrupy/compare/v1.3.1...v1.4.0) (2021-08-02)
+
+
+### Features
+
+* support regex path type matching ([#532](https://github.com/tophat/syrupy/issues/532)) ([0ff4acf](https://github.com/tophat/syrupy/commit/0ff4acffa082634247855e479114c2d0daecb63c))
+
 ## [1.3.1](https://github.com/tophat/syrupy/compare/v1.3.0...v1.3.1) (2021-06-20)
 
 
