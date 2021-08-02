@@ -1,3 +1,4 @@
+import re
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
@@ -29,6 +30,7 @@ def path_type(
     *,
     types: Tuple["PropertyValueType", ...] = (),
     strict: bool = True,
+    regex: bool = False,
 ) -> "PropertyMatcher":
     """
     Factory to create a matcher using path and type mapping
@@ -36,14 +38,19 @@ def path_type(
     if not mapping and not types:
         raise PathTypeError(gettext("Both mapping and types argument cannot be empty"))
 
+    def _path_match(path: str, pattern: str) -> bool:
+        if regex:
+            return re.fullmatch(pattern, path) is not None
+        return path == pattern
+
     def path_type_matcher(
         *, data: "SerializableData", path: "PropertyPath"
     ) -> Optional["SerializableData"]:
         path_str = ".".join(str(p) for p, _ in path)
         if mapping:
-            for path_to_match in mapping:
-                if path_to_match == path_str:
-                    for type_to_match in mapping[path_to_match]:
+            for pattern in mapping:
+                if _path_match(path_str, pattern):
+                    for type_to_match in mapping[pattern]:
                         if isinstance(data, type_to_match):
                             return Repr(DataSerializer.object_type(data))
                     if strict:
@@ -51,7 +58,7 @@ def path_type(
                             gettext(
                                 "{} at '{}' of type {} does not "
                                 "match any of the expected types: {}"
-                            ).format(data, path_str, data.__class__, types)
+                            ).format(data, path_str, data.__class__, mapping[pattern])
                         )
         for type_to_match in types:
             if isinstance(data, type_to_match):
