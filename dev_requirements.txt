@@ -14,7 +14,7 @@ attrs==21.2.0
     #   syrupy
 black==21.7b0
     # via syrupy
-bleach==3.3.1
+bleach==4.0.0
     # via readme-renderer
 certifi==2021.5.30
     # via requests
@@ -28,7 +28,7 @@ click==8.0.1
     # via
     #   black
     #   pip-tools
-codecov==2.1.11
+codecov==2.1.12
     # via syrupy
 colorama==0.4.4
     # via twine
@@ -127,7 +127,7 @@ pytest==6.2.4
     # via syrupy
 readme-renderer==29.0
     # via twine
-regex==2021.7.6
+regex==2021.8.3
     # via black
 requests==2.26.0
     # via
@@ -153,7 +153,7 @@ toml==0.10.2
     #   coverage
     #   mypy
     #   pytest
-tomli==1.2.0
+tomli==1.2.1
     # via
     #   black
     #   pep517
@@ -177,7 +177,7 @@ zipp==3.5.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==21.2.2
+pip==21.2.3
     # via pip-tools
 setuptools==57.4.0
     # via pip-tools
