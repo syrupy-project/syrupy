@@ -57,13 +57,13 @@ flake8-bugbear==21.4.3
     # via syrupy
 flake8-builtins==1.5.3
     # via syrupy
-flake8-comprehensions==3.5.0
+flake8-comprehensions==3.6.1
     # via syrupy
 flake8-i18n==0.1.0
     # via syrupy
 idna==3.2
     # via requests
-importlib-metadata==4.6.3
+importlib-metadata==4.6.4
     # via
     #   keyring
     #   twine
@@ -77,7 +77,7 @@ jeepney==0.7.1
     # via
     #   keyring
     #   secretstorage
-keyring==23.0.1
+keyring==23.1.0
     # via twine
 mccabe==0.6.1
     # via flake8
@@ -113,7 +113,7 @@ pyflakes==2.3.1
     # via flake8
 pygithub==1.55
     # via syrupy
-pygments==2.9.0
+pygments==2.10.0
     # via readme-renderer
 pyjwt==2.1.0
     # via pygithub
@@ -157,7 +157,7 @@ tomli==1.2.1
     # via
     #   black
     #   pep517
-tqdm==4.62.0
+tqdm==4.62.1
     # via twine
 twine==3.4.2
     # via syrupy
@@ -167,7 +167,7 @@ urllib3==1.26.6
     # via requests
 webencodings==0.5.1
     # via bleach
-wheel==0.36.2
+wheel==0.37.0
     # via
     #   pip-tools
     #   syrupy
@@ -177,7 +177,7 @@ zipp==3.5.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==21.2.3
+pip==21.2.4
     # via pip-tools
 setuptools==57.4.0
     # via pip-tools
