@@ -1,4 +1,5 @@
 import importlib
+from collections import defaultdict
 from gettext import (
     gettext,
     ngettext,
@@ -6,7 +7,9 @@ from gettext import (
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Callable,
+    DefaultDict,
     Dict,
     FrozenSet,
     Iterator,
@@ -82,8 +85,16 @@ class SnapshotReport:
         self._collected_items_by_nodeid = {
             getattr(item, "nodeid", None): item for item in self.collected_items
         }
+
+        # We only need to discover snapshots once per test file, not once per assertion.
+        locations_discovered: DefaultDict[str, Set[Any]] = defaultdict(set)
         for assertion in self.assertions:
-            self.discovered.merge(assertion.extension.discover_snapshots())
+            test_location = assertion.extension.test_location.filepath
+            extension_class = assertion.extension.__class__
+            if extension_class not in locations_discovered[test_location]:
+                locations_discovered[test_location].add(extension_class)
+                self.discovered.merge(assertion.extension.discover_snapshots())
+
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(
