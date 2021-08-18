@@ -19,6 +19,7 @@ def test(
     test_pattern=None,
     update_snapshots=False,
     verbose=False,
+    debug=False,
 ):
     """
     Run entire test suite
@@ -27,6 +28,7 @@ def test(
         "-s -vv": verbose,
         f"-k {test_pattern}": test_pattern,
         "--snapshot-update": update_snapshots,
+        "--pdb": debug,
     }
     coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)

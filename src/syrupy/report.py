@@ -1,4 +1,5 @@
 import importlib
+from collections import defaultdict
 from gettext import (
     gettext,
     ngettext,
@@ -6,7 +7,9 @@ from gettext import (
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Callable,
+    DefaultDict,
     Dict,
     FrozenSet,
     Iterator,
@@ -82,8 +85,16 @@ class SnapshotReport:
         self._collected_items_by_nodeid = {
             getattr(item, "nodeid", None): item for item in self.collected_items
         }
+
+        # We only need to discover snapshots once per test file, not once per assertion.
+        locations_discovered: DefaultDict[str, Set[Any]] = defaultdict(set)
         for assertion in self.assertions:
-            self.discovered.merge(assertion.extension.discover_snapshots())
+            test_location = assertion.extension.test_location.filepath
+            extension_class = assertion.extension.__class__
+            if extension_class not in locations_discovered[test_location]:
+                locations_discovered[test_location].add(extension_class)
+                self.discovered.merge(assertion.extension.discover_snapshots())
+
             for result in assertion.executions.values():
                 snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
                 snapshot_fossil.add(
@@ -198,8 +209,14 @@ class SnapshotReport:
                 unused_snapshots = {
                     snapshot
                     for snapshot in unused_snapshot_fossil
-                    if self._selected_items_match_name(snapshot.name)
-                    or self._provided_nodes_match_name(snapshot.name, provided_nodes)
+                    if self._selected_items_match_name(
+                        snapshot_location=snapshot_location, snapshot_name=snapshot.name
+                    )
+                    and self._provided_nodes_match_name(
+                        snapshot_location=snapshot_location,
+                        snapshot_name=snapshot.name,
+                        provided_nodes=provided_nodes,
+                    )
                 }
                 mark_for_removal = False
 
@@ -343,12 +360,22 @@ class SnapshotReport:
         ]
 
     def _provided_nodes_match_name(
-        self, snapshot_name: str, provided_nodes: List[List[str]]
+        self,
+        snapshot_location: str,
+        snapshot_name: str,
+        provided_nodes: List[List[str]],
     ) -> bool:
         """
-        Check that a snapshot name matches the node paths provided
+        Check that a snapshot name matches the node paths provided.
+        If no nodes are filtered, provided_nodes is empty, which means
+        all nodes should be matched.
         """
-        return any(snapshot_name in ".".join(node_path) for node_path in provided_nodes)
+        if not provided_nodes:
+            return True
+        for node_path in provided_nodes:
+            if snapshot_name in ".".join(node_path):
+                return True
+        return False
 
     def _provided_keywords_match_name(self, snapshot_name: str) -> bool:
         """
@@ -361,23 +388,30 @@ class SnapshotReport:
             for expr in self._keyword_expressions
         )
 
-    def _ran_items_match_name(self, snapshot_name: str) -> bool:
+    def _ran_items_match_name(self, snapshot_location: str, snapshot_name: str) -> bool:
         """
         Check that a snapshot name would match a test node using the Pytest location
         """
-        return any(
-            PyTestLocation(item).matches_snapshot_name(snapshot_name)
-            for item in self.ran_items
-        )
+        for item in self.ran_items:
+            location = PyTestLocation(item)
+            if location.matches_snapshot_location(
+                snapshot_location
+            ) and location.matches_snapshot_name(snapshot_name):
+                return True
+        return False
 
-    def _selected_items_match_name(self, snapshot_name: str) -> bool:
+    def _selected_items_match_name(
+        self, snapshot_location: str, snapshot_name: str
+    ) -> bool:
         """
         Check that a snapshot name should be treated as selected by the current session
         This being true means that if the snapshot was not used then it will be deleted
         """
         if self._keyword_expressions:
             return self._provided_keywords_match_name(snapshot_name)
-        return self._ran_items_match_name(snapshot_name)
+        return self._ran_items_match_name(
+            snapshot_location=snapshot_location, snapshot_name=snapshot_name
+        )
 
     def _ran_items_match_location(self, snapshot_location: str) -> bool:
         """
