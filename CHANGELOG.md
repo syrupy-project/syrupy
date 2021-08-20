@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [1.4.4](https://github.com/tophat/syrupy/compare/v1.4.3...v1.4.4) (2021-08-20)
+
+
+### Performance Improvements
+
+* memoise DataSerializer.read_file results ([#543](https://github.com/tophat/syrupy/issues/543)) ([df5b516](https://github.com/tophat/syrupy/commit/df5b5166bbe1ccf1fa492707f009541460813295))
+
 ## [1.4.3](https://github.com/tophat/syrupy/compare/v1.4.2...v1.4.3) (2021-08-20)
 
 
