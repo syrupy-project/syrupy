@@ -12,6 +12,7 @@ from typing import (
     Tuple,
     Union,
 )
+import functools
 
 from syrupy.constants import SYMBOL_ELLIPSIS
 from syrupy.data import (
@@ -79,6 +80,7 @@ class DataSerializer:
                     f.write(f"\n{cls._marker_divider}\n")
 
     @classmethod
+    @functools.lru_cache
     def read_file(cls, filepath: str) -> "SnapshotFossil":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
