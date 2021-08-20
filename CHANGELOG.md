@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [1.4.3](https://github.com/tophat/syrupy/compare/v1.4.2...v1.4.3) (2021-08-20)
+
+
+### Performance Improvements
+
+* cache session snapshot extension discovery ([#542](https://github.com/tophat/syrupy/issues/542)) ([10cfc90](https://github.com/tophat/syrupy/commit/10cfc9052afea119e3e62636bcb338bd3ace09c3))
+
 ## [1.4.2](https://github.com/tophat/syrupy/compare/v1.4.1...v1.4.2) (2021-08-18)
 
 
