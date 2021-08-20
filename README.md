@@ -310,7 +310,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/arturbalabanov"><img src="https://avatars1.githubusercontent.com/u/3062003?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Artur Balabanov</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=arturbalabanov" title="Code">💻</a></td>
-    <td align="center"><a href="http://huonw.github.io/"><img src="https://avatars1.githubusercontent.com/u/1203825?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Huon Wilson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=huonw" title="Code">💻</a></td>
+    <td align="center"><a href="http://huonw.github.io/"><img src="https://avatars1.githubusercontent.com/u/1203825?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Huon Wilson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=huonw" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/issues?q=author%3Ahuonw" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/eaculb"><img src="https://avatars.githubusercontent.com/u/31480498?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elizabeth Culbertson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=eaculb" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=eaculb" title="Tests">⚠️</a></td>
   </tr>
 </table>
