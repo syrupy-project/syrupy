@@ -127,7 +127,7 @@ pytest==6.2.4
     # via syrupy
 readme-renderer==29.0
     # via twine
-regex==2021.8.3
+regex==2021.8.21
     # via black
 requests==2.26.0
     # via
@@ -157,7 +157,7 @@ tomli==1.2.1
     # via
     #   black
     #   pep517
-tqdm==4.62.1
+tqdm==4.62.2
     # via twine
 twine==3.4.2
     # via syrupy
