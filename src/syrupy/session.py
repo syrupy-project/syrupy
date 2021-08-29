@@ -64,7 +64,8 @@ class SnapshotSession:
         self._locations_discovered = defaultdict(set)
 
     def ran_item(self, nodeid: str) -> None:
-        self._selected_items[nodeid] = True
+        if nodeid in self._selected_items:
+            self._selected_items[nodeid] = True
 
     def finish(self) -> int:
         exitstatus = 0
