@@ -264,6 +264,7 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`SingleFileSnapshotExtension`**: Unlike the `AmberSnapshotExtension`, which groups all tests within a single test file into a singular snapshot file, this extension creates one `.raw` file per test case.
 - **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
 - **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
+- **`JSONSnapshotExtension`**: Another extension of single file. This produces `.json` files from dictionaries and lists.
 
 #### `name`
 
@@ -282,6 +283,57 @@ def test_case(snapshot):
 By overriding the provided [`AbstractSnapshotExtension`](https://github.com/tophat/syrupy/tree/master/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
 
 See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/master/tests/examples).
+
+#### JSONSnapshotExtension
+
+This extension can be useful when testing API responses, or when you have to deal
+with long dictionaries that are cumbersome to validate inside a test. For example:
+
+```python
+import pytest
+
+from syrupy.extensions.json import JSONSnapshotExtension
+
+@pytest.fixture
+def snapshot_json(snapshot):
+    return snapshot.use_extension(JSONSnapshotExtension) 
+
+
+def test_api_call(client, snapshot_json):
+    resp = client.post("/endpoint")
+    assert resp.status_code == 200
+    assert snapshot_json == resp.json()
+```
+
+API responses often contain dynamic data, like IDs or dates. 
+You can still validate and store other data of a response by leveraging syrupy matchers.
+For example:
+
+```py
+from datetime import datetime
+
+from syrupy.matchers import path_name_str
+
+def test_api_call(client, snapshot_json):
+    resp = client.post("/user", json={"name": "Jane"})
+    assert resp.status_code == 201
+
+    matcher = path_name_str({
+      "id": (int,),
+      "registeredAt": (datetime,)
+    })
+    assert snapshot_json(matcher=matcher) == resp.json()
+```
+
+Resulted snapshot will look like:
+
+```json
+{
+  "id": "<INT>",
+  "registeredAt": "<DATETIME>",
+  "name": "Jane"
+}
+```
 
 ### Extending Syrupy
 
