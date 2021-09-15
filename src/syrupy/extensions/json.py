@@ -4,7 +4,6 @@ from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Any,
     Optional,
 )
 
@@ -18,6 +17,7 @@ if TYPE_CHECKING:
         PropertyMatcher,
         PropertyPath,
         SerializableData,
+        SerializedData,
     )
 
 
@@ -57,11 +57,11 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
 
     def serialize(
         self,
-        data: SerializableData,
+        data: "SerializableData",
+        *,
         exclude: Optional["PropertyFilter"] = None,
-        matcher: Optional[PropertyMatcher] = None,
-        **kwargs: Any,
-    ) -> str:
+        matcher: Optional["PropertyMatcher"] = None,
+    ) -> "SerializedData":
         data = self._filter(data, {}, path=(), exclude=exclude, matcher=matcher)
         return json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
 

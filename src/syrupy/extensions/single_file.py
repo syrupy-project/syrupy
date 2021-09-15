@@ -2,7 +2,6 @@ from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Any,
     Optional,
     Set,
 )
@@ -16,11 +15,22 @@ from syrupy.data import (
 from .base import AbstractSyrupyExtension
 
 if TYPE_CHECKING:
-    from syrupy.types import SerializableData
+    from syrupy.types import (
+        PropertyFilter,
+        PropertyMatcher,
+        SerializableData,
+        SerializedData,
+    )
 
 
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
-    def serialize(self, data: "SerializableData", **kwargs: Any) -> bytes:
+    def serialize(
+        self,
+        data: "SerializableData",
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+    ) -> "SerializedData":
         return bytes(data)
 
     def get_snapshot_name(self, *, index: int = 0) -> str:
