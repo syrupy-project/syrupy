@@ -48,3 +48,4 @@ ENV/
 env.bak/
 venv.bak/
 .vscode
+.idea
