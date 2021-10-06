@@ -2,7 +2,6 @@ from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Any,
     Optional,
     Set,
 )
@@ -16,11 +15,22 @@ from syrupy.data import (
 from .base import AbstractSyrupyExtension
 
 if TYPE_CHECKING:
-    from syrupy.types import SerializableData
+    from syrupy.types import (
+        PropertyFilter,
+        PropertyMatcher,
+        SerializableData,
+        SerializedData,
+    )
 
 
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
-    def serialize(self, data: "SerializableData", **kwargs: Any) -> bytes:
+    def serialize(
+        self,
+        data: "SerializableData",
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+    ) -> SerializedData:
         return bytes(data)
 
     def get_snapshot_name(self, *, index: int = 0) -> str:
@@ -62,7 +72,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
         filepath, data = snapshot_fossil.location, next(iter(snapshot_fossil)).data
         if not isinstance(data, bytes):
-            error_text = gettext("Can write non binary data. Expected '{}', got '{}'")
+            error_text = gettext("Can't write non binary data. Expected '{}', got '{}'")
             raise TypeError(error_text.format(bytes.__name__, type(data).__name__))
         with open(filepath, "wb") as f:
             f.write(data)
