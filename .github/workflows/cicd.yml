@@ -50,8 +50,8 @@ jobs:
         run: |
           python -m venv .venv
           . .venv/bin/activate
-          python -m pip install --no-use-pep517 -U pip --no-cache-dir
-          python -m pip install --no-use-pep517 -e . -r dev_requirements.txt
+          python -m pip install -U pip~=21.2.4 --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
           invoke test --coverage
       - name: Install project dependencies and run tests (windows)
         if: ${{ matrix.os }} == 'windows-latest'
@@ -60,8 +60,8 @@ jobs:
         run: |
           python -m venv .venv
           .venv\Scripts\activate.bat
-          python -m pip install --no-use-pep517 -U pip --no-cache-dir
-          python -m pip install --no-use-pep517 -e . -r dev_requirements.txt
+          python -m pip install -U pip~=21.2.4 --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
           invoke test --coverage
   version_checks:
     name: Dependency Version Constraint Checks
@@ -79,7 +79,7 @@ jobs:
       - name: Install project dependencies
         run: |
           . script/bootstrap
-          python -m pip install --no-use-pep517 -e .[test] -r min_requirements.constraints
+          python -m pip install -e .[test] -r min_requirements.constraints
       - name: Test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
