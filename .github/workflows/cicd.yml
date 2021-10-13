@@ -43,14 +43,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install project dependencies
-        run: |
-          python -m pip install -U pip --no-cache-dir
-          python -m pip install -e . -r dev_requirements.txt
-      - name: Test
+      - name: Install project dependencies and run tests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: invoke test --coverage
+        run: |
+          python -m pip install -U 'pip<21.3' --no-cache-dir
+          python -m pip install -e . -r dev_requirements.txt
+          invoke test --coverage
   version_checks:
     name: Dependency Version Constraint Checks
     runs-on: ubuntu-latest
