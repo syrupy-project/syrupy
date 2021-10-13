@@ -30,7 +30,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         *,
         exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
-    ) -> SerializedData:
+    ) -> "SerializedData":
         return bytes(data)
 
     def get_snapshot_name(self, *, index: int = 0) -> str:
