@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [1.4.7](https://github.com/tophat/syrupy/compare/v1.4.6...v1.4.7) (2021-10-13)
+
+
+### Bug Fixes
+
+* NameError when importing SingleFileSnapshotExtension ([#557](https://github.com/tophat/syrupy/issues/557)) ([935e256](https://github.com/tophat/syrupy/commit/935e2563b55dc295821619d4eac318d8035296e5))
+
 ## [1.4.6](https://github.com/tophat/syrupy/compare/v1.4.5...v1.4.6) (2021-10-06)
 
 
