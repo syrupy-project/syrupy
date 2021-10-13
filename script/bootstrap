@@ -19,7 +19,7 @@ VENV="${VENV:-syrupy.venv}"
 test -d $VENV || python3 -m venv $VENV || return
 . $VENV/bin/activate
 
-python -m pip install -U pip~=21.2.4 --no-cache-dir
+python -m pip install -U 'pip<21.3' --no-cache-dir
 
 if [[ -z $SKIP_DEPS ]]; then
     python -m pip install -e . -r dev_requirements.txt

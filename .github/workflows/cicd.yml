@@ -50,7 +50,7 @@ jobs:
         run: |
           python -m venv .venv
           . .venv/bin/activate
-          python -m pip install -U pip~=21.2.4 --no-cache-dir
+          python -m pip install -U 'pip<21.3' --no-cache-dir
           python -m pip install -e . -r dev_requirements.txt
           invoke test --coverage
       - name: Install project dependencies and run tests (windows)
@@ -60,7 +60,7 @@ jobs:
         run: |
           python -m venv .venv
           .venv\Scripts\activate.bat
-          python -m pip install -U pip~=21.2.4 --no-cache-dir
+          python -m pip install -U 'pip<21.3' --no-cache-dir
           python -m pip install -e . -r dev_requirements.txt
           invoke test --coverage
   version_checks:
