@@ -33,9 +33,13 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> "SerializedData":
         return bytes(data)
 
-    def get_snapshot_name(self, *, index: int = 0) -> str:
+    def get_snapshot_name(
+        self, *, index: int = 0, snapshot_name_suffix: str = ""
+    ) -> str:
         return self.__clean_filename(
-            super(SingleFileSnapshotExtension, self).get_snapshot_name(index=index)
+            super(SingleFileSnapshotExtension, self).get_snapshot_name(
+                index=index, snapshot_name_suffix=snapshot_name_suffix
+            )
         )
 
     def delete_snapshots(

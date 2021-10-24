@@ -73,9 +73,15 @@ class SnapshotFossilizer(ABC):
     def test_location(self) -> "PyTestLocation":
         raise NotImplementedError
 
-    def get_snapshot_name(self, *, index: int = 0) -> str:
+    def get_snapshot_name(
+        self, *, index: int = 0, snapshot_name_suffix: str = ""
+    ) -> str:
         """Get the snapshot name for the assertion index in a test location"""
-        index_suffix = f".{index}" if index > 0 else ""
+        index_suffix = (
+            f".{snapshot_name_suffix or index}"
+            if index > 0 or snapshot_name_suffix
+            else ""
+        )
         return f"{self.test_location.snapshot_name}{index_suffix}"
 
     def get_location(self, *, index: int) -> str:
@@ -105,7 +111,9 @@ class SnapshotFossilizer(ABC):
 
         return discovered
 
-    def read_snapshot(self, *, index: int) -> "SerializedData":
+    def read_snapshot(
+        self, *, index: int, snapshot_name_suffix: str
+    ) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `_pre_read`, then perform `read` and finally `post_read`,
@@ -117,7 +125,9 @@ class SnapshotFossilizer(ABC):
         try:
             self._pre_read(index=index)
             snapshot_location = self.get_location(index=index)
-            snapshot_name = self.get_snapshot_name(index=index)
+            snapshot_name = self.get_snapshot_name(
+                index=index, snapshot_name_suffix=snapshot_name_suffix
+            )
             snapshot_data = self._read_snapshot_data_from_location(
                 snapshot_location=snapshot_location, snapshot_name=snapshot_name
             )
@@ -127,7 +137,9 @@ class SnapshotFossilizer(ABC):
         finally:
             self._post_read(index=index)
 
-    def write_snapshot(self, *, data: "SerializedData", index: int) -> None:
+    def write_snapshot(
+        self, *, data: "SerializedData", index: int, snapshot_name_suffix: str
+    ) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `_pre_write`, then perform `write` and finally `_post_write`.
@@ -147,7 +159,9 @@ class SnapshotFossilizer(ABC):
                 line_end="\n",
             )
             warnings.warn(warning_msg)
-        snapshot_name = self.get_snapshot_name(index=index)
+        snapshot_name = self.get_snapshot_name(
+            index=index, snapshot_name_suffix=snapshot_name_suffix
+        )
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = gettext(
                 "{line_end}Can not relate snapshot name '{}' to the test location."
