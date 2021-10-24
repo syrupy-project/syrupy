@@ -92,7 +92,7 @@ class SnapshotAssertion:
         return self._execution_results
 
     @property
-    def snapshot_name_suffix(self) -> Optional[str]:
+    def snapshot_name_suffix(self) -> str:
         return self._snapshot_name_suffix
 
     def use_extension(
