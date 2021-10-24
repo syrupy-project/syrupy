@@ -176,7 +176,9 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_location = self.extension.get_location(index=self.num_executions)
+        snapshot_location = self.extension.get_location(
+            index=self.num_executions, snapshot_name_suffix=self.snapshot_name_suffix
+        )
         snapshot_name = self.extension.get_snapshot_name(
             index=self.num_executions, snapshot_name_suffix=self.snapshot_name_suffix
         )

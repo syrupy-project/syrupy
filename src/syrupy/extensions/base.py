@@ -84,9 +84,11 @@ class SnapshotFossilizer(ABC):
         )
         return f"{self.test_location.snapshot_name}{index_suffix}"
 
-    def get_location(self, *, index: int) -> str:
+    def get_location(self, *, index: int, snapshot_name_suffix: str) -> str:
         """Returns full location where snapshot data is stored."""
-        basename = self._get_file_basename(index=index)
+        basename = self._get_file_basename(
+            index=index, snapshot_name_suffix=snapshot_name_suffix
+        )
         fileext = f".{self._file_extension}" if self._file_extension else ""
         return str(Path(self._dirname).joinpath(f"{basename}{fileext}"))
 
@@ -124,7 +126,9 @@ class SnapshotFossilizer(ABC):
         """
         try:
             self._pre_read(index=index)
-            snapshot_location = self.get_location(index=index)
+            snapshot_location = self.get_location(
+                index=index, snapshot_name_suffix=snapshot_name_suffix
+            )
             snapshot_name = self.get_snapshot_name(
                 index=index, snapshot_name_suffix=snapshot_name_suffix
             )
@@ -147,8 +151,12 @@ class SnapshotFossilizer(ABC):
         This method is _final_, do not override. You can override
         `_write_snapshot_fossil` in a subclass to change behaviour.
         """
-        self._pre_write(data=data, index=index)
-        snapshot_location = self.get_location(index=index)
+        self._pre_write(
+            data=data, index=index, snapshot_name_suffix=snapshot_name_suffix
+        )
+        snapshot_location = self.get_location(
+            index=index, snapshot_name_suffix=snapshot_name_suffix
+        )
         if not self.test_location.matches_snapshot_location(snapshot_location):
             warning_msg = gettext(
                 "{line_end}Can not relate snapshot location '{}' to the test location."
@@ -193,8 +201,12 @@ class SnapshotFossilizer(ABC):
     def _post_read(self, *, index: int = 0) -> None:
         pass
 
-    def _pre_write(self, *, data: "SerializedData", index: int = 0) -> None:
-        self.__ensure_snapshot_dir(index=index)
+    def _pre_write(
+        self, *, data: "SerializedData", index: int = 0, snapshot_name_suffix: str = ""
+    ) -> None:
+        self.__ensure_snapshot_dir(
+            index=index, snapshot_name_suffix=snapshot_name_suffix
+        )
 
     def _post_write(self, *, data: "SerializedData", index: int = 0) -> None:
         pass
@@ -232,16 +244,20 @@ class SnapshotFossilizer(ABC):
     def _file_extension(self) -> str:
         raise NotImplementedError
 
-    def _get_file_basename(self, *, index: int) -> str:
+    def _get_file_basename(self, *, index: int, snapshot_name_suffix: str) -> str:
         """Returns file basename without extension. Used to create full filepath."""
         return self.test_location.filename
 
-    def __ensure_snapshot_dir(self, *, index: int) -> None:
+    def __ensure_snapshot_dir(self, *, index: int, snapshot_name_suffix: str) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """
         try:
-            Path(self.get_location(index=index)).parent.mkdir(parents=True)
+            Path(
+                self.get_location(
+                    index=index, snapshot_name_suffix=snapshot_name_suffix
+                )
+            ).parent.mkdir(parents=True)
         except FileExistsError:
             pass
 

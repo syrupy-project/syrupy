@@ -27,7 +27,7 @@ def testcases_initial(testdir):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 
-            def _get_file_basename(self, *, index = 0):
+            def _get_file_basename(self, *, index = 0, snapshot_name_suffix = ""):
                 return self.test_location.filename[::-1]
 
         @pytest.fixture
