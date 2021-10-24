@@ -7,9 +7,11 @@ from syrupy.extensions.amber import AmberSnapshotExtension
 
 
 class CanadianNameExtension(AmberSnapshotExtension):
-    def get_snapshot_name(self, *, index: int = 0) -> str:
+    def get_snapshot_name(
+        self, *, index: int = 0, snapshot_name_suffix: str = ""
+    ) -> str:
         original_name = super(CanadianNameExtension, self).get_snapshot_name(
-            index=index
+            index=index, snapshot_name_suffix=snapshot_name_suffix
         )
         return f"{original_name}🇨🇦"
 
