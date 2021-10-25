@@ -154,7 +154,7 @@ class SnapshotAssertion:
         exclude: Optional["PropertyFilter"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
-        snapshot_name_suffix: str = "",
+        snapshot_name_suffix: Optional[str] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options

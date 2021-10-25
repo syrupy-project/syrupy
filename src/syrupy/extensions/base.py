@@ -142,7 +142,7 @@ class SnapshotFossilizer(ABC):
             self._post_read(index=index)
 
     def write_snapshot(
-        self, *, data: "SerializedData", index: int, snapshot_name_suffix: str
+        self, *, data: "SerializedData", index: int, snapshot_name_suffix: Optional[str]
     ) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
@@ -202,7 +202,7 @@ class SnapshotFossilizer(ABC):
         pass
 
     def _pre_write(
-        self, *, data: "SerializedData", index: int = 0, snapshot_name_suffix: str = ""
+        self, *, data: "SerializedData", index: int = 0, snapshot_name_suffix: Optional[str] = None
     ) -> None:
         self.__ensure_snapshot_dir(
             index=index, snapshot_name_suffix=snapshot_name_suffix
