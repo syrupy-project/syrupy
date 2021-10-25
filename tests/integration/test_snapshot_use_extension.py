@@ -23,11 +23,11 @@ def testcases_initial(testdir):
             def serialize(self, data, **kwargs):
                 return str(data)
 
-            def get_snapshot_name(self, *, index = 0, snapshot_name_suffix = ""):
+            def get_snapshot_name(self, *, snapshot_name_suffix = ""):
                 testname = self._test_location.testname[::-1]
-                return f"{testname}.{index}"
+                return f"{testname}.{snapshot_name_suffix}"
 
-            def _get_file_basename(self, *, index = 0, snapshot_name_suffix = ""):
+            def _get_file_basename(self, *, snapshot_name_suffix = ""):
                 return self.test_location.filename[::-1]
 
         @pytest.fixture

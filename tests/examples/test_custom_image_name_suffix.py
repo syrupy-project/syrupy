@@ -19,5 +19,5 @@ def test_png_image_with_custom_name_suffix(snapshot):
         b"MQEAAAABQUYtvpD+dUzuTKozqc6kOpPqBjg+Ad2g/BLMAAAAAElFTkSuQmCC"
     )
 
-    assert blueish_square == snapshot(snapshot_name_suffix="blueish")
-    assert reddish_square == snapshot(snapshot_name_suffix="reddish")
+    assert blueish_square == snapshot(name="blueish")
+    assert reddish_square == snapshot(name="reddish")

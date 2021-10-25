@@ -33,12 +33,10 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> "SerializedData":
         return bytes(data)
 
-    def get_snapshot_name(
-        self, *, index: int = 0, snapshot_name_suffix: str = ""
-    ) -> str:
+    def get_snapshot_name(self, *, snapshot_name_suffix: str = "") -> str:
         return self.__clean_filename(
             super(SingleFileSnapshotExtension, self).get_snapshot_name(
-                index=index, snapshot_name_suffix=snapshot_name_suffix
+                snapshot_name_suffix=snapshot_name_suffix
             )
         )
 
@@ -51,10 +49,8 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def _file_extension(self) -> str:
         return "raw"
 
-    def _get_file_basename(self, *, index: int, snapshot_name_suffix: str) -> str:
-        return self.get_snapshot_name(
-            index=index, snapshot_name_suffix=snapshot_name_suffix
-        )
+    def _get_file_basename(self, *, snapshot_name_suffix: str) -> str:
+        return self.get_snapshot_name(snapshot_name_suffix=snapshot_name_suffix)
 
     @property
     def _dirname(self) -> str:
