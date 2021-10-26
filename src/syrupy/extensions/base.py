@@ -15,6 +15,7 @@ from typing import (
     List,
     Optional,
     Set,
+    Union,
 )
 
 from syrupy.constants import (
@@ -73,13 +74,14 @@ class SnapshotFossilizer(ABC):
     def test_location(self) -> "PyTestLocation":
         raise NotImplementedError
 
-    def get_snapshot_name(self, *, snapshot_name_suffix: str) -> str:
-        """Get the snapshot name for the snapshot_name_suffix in a test location"""
-        return f"{self.test_location.snapshot_name}{snapshot_name_suffix}"
+    def get_snapshot_name(self, *, index: Union[str, int] = 0) -> str:
+        """Get the snapshot name for the assertion index in a test location"""
+        index_suffix = f".{index}" if index else ""
+        return f"{self.test_location.snapshot_name}{index_suffix}"
 
-    def get_location(self, *, snapshot_name_suffix: str) -> str:
+    def get_location(self, *, index: Union[str, int]) -> str:
         """Returns full location where snapshot data is stored."""
-        basename = self._get_file_basename(snapshot_name_suffix=snapshot_name_suffix)
+        basename = self._get_file_basename(index=index)
         fileext = f".{self._file_extension}" if self._file_extension else ""
         return str(Path(self._dirname).joinpath(f"{basename}{fileext}"))
 
@@ -104,7 +106,7 @@ class SnapshotFossilizer(ABC):
 
         return discovered
 
-    def read_snapshot(self, *, snapshot_name_suffix: str) -> "SerializedData":
+    def read_snapshot(self, *, index: Union[str, int]) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `_pre_read`, then perform `read` and finally `post_read`,
@@ -114,13 +116,9 @@ class SnapshotFossilizer(ABC):
         `_read_snapshot_data_from_location` in a subclass to change behaviour.
         """
         try:
-            self._pre_read(snapshot_name_suffix=snapshot_name_suffix)
-            snapshot_location = self.get_location(
-                snapshot_name_suffix=snapshot_name_suffix
-            )
-            snapshot_name = self.get_snapshot_name(
-                snapshot_name_suffix=snapshot_name_suffix
-            )
+            self._pre_read(index=index)
+            snapshot_location = self.get_location(index=index)
+            snapshot_name = self.get_snapshot_name(index=index)
             snapshot_data = self._read_snapshot_data_from_location(
                 snapshot_location=snapshot_location, snapshot_name=snapshot_name
             )
@@ -128,11 +126,9 @@ class SnapshotFossilizer(ABC):
                 raise SnapshotDoesNotExist()
             return snapshot_data
         finally:
-            self._post_read(snapshot_name_suffix=snapshot_name_suffix)
+            self._post_read(index=index)
 
-    def write_snapshot(
-        self, *, data: "SerializedData", snapshot_name_suffix: str
-    ) -> None:
+    def write_snapshot(self, *, data: "SerializedData", index: Union[str, int]) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `_pre_write`, then perform `write` and finally `_post_write`.
@@ -140,8 +136,8 @@ class SnapshotFossilizer(ABC):
         This method is _final_, do not override. You can override
         `_write_snapshot_fossil` in a subclass to change behaviour.
         """
-        self._pre_write(data=data, snapshot_name_suffix=snapshot_name_suffix)
-        snapshot_location = self.get_location(snapshot_name_suffix=snapshot_name_suffix)
+        self._pre_write(data=data, index=index)
+        snapshot_location = self.get_location(index=index)
         if not self.test_location.matches_snapshot_location(snapshot_location):
             warning_msg = gettext(
                 "{line_end}Can not relate snapshot location '{}' to the test location."
@@ -152,9 +148,7 @@ class SnapshotFossilizer(ABC):
                 line_end="\n",
             )
             warnings.warn(warning_msg)
-        snapshot_name = self.get_snapshot_name(
-            snapshot_name_suffix=snapshot_name_suffix
-        )
+        snapshot_name = self.get_snapshot_name(index=index)
         if not self.test_location.matches_snapshot_name(snapshot_name):
             warning_msg = gettext(
                 "{line_end}Can not relate snapshot name '{}' to the test location."
@@ -168,7 +162,7 @@ class SnapshotFossilizer(ABC):
         snapshot_fossil = SnapshotFossil(location=snapshot_location)
         snapshot_fossil.add(Snapshot(name=snapshot_name, data=data))
         self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
-        self._post_write(data=data, snapshot_name_suffix=snapshot_name_suffix)
+        self._post_write(data=data, index=index)
 
     @abstractmethod
     def delete_snapshots(
@@ -180,16 +174,18 @@ class SnapshotFossilizer(ABC):
         """
         raise NotImplementedError
 
-    def _pre_read(self, *, snapshot_name_suffix: str) -> None:
+    def _pre_read(self, *, index: Union[str, int] = 0) -> None:
         pass
 
-    def _post_read(self, *, snapshot_name_suffix: str) -> None:
+    def _post_read(self, *, index: Union[str, int] = 0) -> None:
         pass
 
-    def _pre_write(self, *, data: "SerializedData", snapshot_name_suffix: str) -> None:
-        self.__ensure_snapshot_dir(snapshot_name_suffix=snapshot_name_suffix)
+    def _pre_write(self, *, data: "SerializedData", index: Union[str, int] = 0) -> None:
+        self.__ensure_snapshot_dir(index=index)
 
-    def _post_write(self, *, data: "SerializedData", snapshot_name_suffix: str) -> None:
+    def _post_write(
+        self, *, data: "SerializedData", index: Union[str, int] = 0
+    ) -> None:
         pass
 
     @abstractmethod
@@ -225,18 +221,16 @@ class SnapshotFossilizer(ABC):
     def _file_extension(self) -> str:
         raise NotImplementedError
 
-    def _get_file_basename(self, *, snapshot_name_suffix: str) -> str:
+    def _get_file_basename(self, *, index: Union[str, int]) -> str:
         """Returns file basename without extension. Used to create full filepath."""
         return self.test_location.filename
 
-    def __ensure_snapshot_dir(self, *, snapshot_name_suffix: str) -> None:
+    def __ensure_snapshot_dir(self, *, index: Union[str, int]) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """
         try:
-            Path(
-                self.get_location(snapshot_name_suffix=snapshot_name_suffix)
-            ).parent.mkdir(parents=True)
+            Path(self.get_location(index=index)).parent.mkdir(parents=True)
         except FileExistsError:
             pass
 
