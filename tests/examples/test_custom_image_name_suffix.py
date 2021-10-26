@@ -1,6 +1,8 @@
-from syrupy.extensions.image import PNGImageSnapshotExtension
 import base64
+
 import pytest
+
+from syrupy.extensions.image import PNGImageSnapshotExtension
 
 
 @pytest.fixture
