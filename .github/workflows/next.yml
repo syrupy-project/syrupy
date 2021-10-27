@@ -1,0 +1,23 @@
+name: Next Version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update:
+    name: Update Next
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'next'
+      - name: Configure Git
+        run: |
+          git config user.name tophat-opensource-bot
+          git config user.email opensource-leads+bot@tophatmonocle.com
+      - name: Commit Changes
+        run: |
+          git merge origin/master
+          git push

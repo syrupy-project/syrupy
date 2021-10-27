@@ -8,6 +8,8 @@
 
 ![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
 
+![Next Status](https://github.com/tophat/syrupy/workflows/Next%20Version/badge.svg)
+
 ## Overview
 
 Syrupy is a [pytest](https://docs.pytest.org/en/latest/) snapshot plugin. It enables developers to write tests which assert immutability of computed results.

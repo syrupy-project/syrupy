@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - next
   pull_request:
 
 env:
@@ -76,8 +77,8 @@ jobs:
   dry_run:
     name: Build
     runs-on: ubuntu-latest
-    # Checks to run only on PRs does not need to wait for others
-    if: github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')
+    # Dry run check does not need to wait for others
+    if: (github.event_name == 'pull_request' || github.ref == 'refs/heads/next') && !contains(github.event.head_commit.message, '[skip ci]')
     steps:
       - uses: actions/checkout@v2
         with:
