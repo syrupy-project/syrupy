@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: 'next'
+          ref: next
       - name: Configure Git
         run: |
           git config user.name tophat-opensource-bot
@@ -21,4 +21,8 @@ jobs:
         run: |
           git remote add origin git@github.com:tophat/syrupy.git
           git merge origin/master
-          git push
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          branch: next
