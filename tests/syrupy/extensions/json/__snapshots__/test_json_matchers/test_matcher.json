@@ -1,8 +1,8 @@
 {
-  "date": "<class 'datetime'>",
+  "date": "datetime",
   "foo": {
-    "another_date": "<class 'datetime'>",
+    "another_date": "datetime",
     "x": "y"
   },
-  "int": "<class 'int'>"
+  "int": "int"
 }
