@@ -15,6 +15,7 @@ from typing import (
     List,
     Optional,
     Set,
+    Union,
 )
 
 from syrupy.constants import (
@@ -73,12 +74,16 @@ class SnapshotFossilizer(ABC):
     def test_location(self) -> "PyTestLocation":
         raise NotImplementedError
 
-    def get_snapshot_name(self, *, index: int = 0) -> str:
+    def get_snapshot_name(self, *, index: Union[str, int] = 0) -> str:
         """Get the snapshot name for the assertion index in a test location"""
-        index_suffix = f".{index}" if index > 0 else ""
+        index_suffix = ""
+        if isinstance(index, (str,)):
+            index_suffix = f"[{index}]"
+        elif index:
+            index_suffix = f".{index}"
         return f"{self.test_location.snapshot_name}{index_suffix}"
 
-    def get_location(self, *, index: int) -> str:
+    def get_location(self, *, index: Union[str, int]) -> str:
         """Returns full location where snapshot data is stored."""
         basename = self._get_file_basename(index=index)
         fileext = f".{self._file_extension}" if self._file_extension else ""
@@ -105,7 +110,7 @@ class SnapshotFossilizer(ABC):
 
         return discovered
 
-    def read_snapshot(self, *, index: int) -> "SerializedData":
+    def read_snapshot(self, *, index: Union[str, int]) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `_pre_read`, then perform `read` and finally `post_read`,
@@ -127,7 +132,7 @@ class SnapshotFossilizer(ABC):
         finally:
             self._post_read(index=index)
 
-    def write_snapshot(self, *, data: "SerializedData", index: int) -> None:
+    def write_snapshot(self, *, data: "SerializedData", index: Union[str, int]) -> None:
         """
         Utility method for writing the contents of a snapshot assertion.
         Will call `_pre_write`, then perform `write` and finally `_post_write`.
@@ -173,16 +178,18 @@ class SnapshotFossilizer(ABC):
         """
         raise NotImplementedError
 
-    def _pre_read(self, *, index: int = 0) -> None:
+    def _pre_read(self, *, index: Union[str, int] = 0) -> None:
         pass
 
-    def _post_read(self, *, index: int = 0) -> None:
+    def _post_read(self, *, index: Union[str, int] = 0) -> None:
         pass
 
-    def _pre_write(self, *, data: "SerializedData", index: int = 0) -> None:
+    def _pre_write(self, *, data: "SerializedData", index: Union[str, int] = 0) -> None:
         self.__ensure_snapshot_dir(index=index)
 
-    def _post_write(self, *, data: "SerializedData", index: int = 0) -> None:
+    def _post_write(
+        self, *, data: "SerializedData", index: Union[str, int] = 0
+    ) -> None:
         pass
 
     @abstractmethod
@@ -218,11 +225,11 @@ class SnapshotFossilizer(ABC):
     def _file_extension(self) -> str:
         raise NotImplementedError
 
-    def _get_file_basename(self, *, index: int) -> str:
+    def _get_file_basename(self, *, index: Union[str, int]) -> str:
         """Returns file basename without extension. Used to create full filepath."""
         return self.test_location.filename
 
-    def __ensure_snapshot_dir(self, *, index: int) -> None:
+    def __ensure_snapshot_dir(self, *, index: Union[str, int]) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """

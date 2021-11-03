@@ -265,6 +265,18 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
 - **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 
+#### `name`
+
+By default, if you make multiple snapshot assertions within a single test case, an auto-increment identifier will be used to index the snapshots. You can override this behaviour by specifying a custom snapshot name to use in place of the auto-increment number.
+
+```py
+def test_case(snapshot):
+    assert "actual" == snapshot(name="case_a")
+    assert "other" == snapshot(name="case_b")
+```
+
+> _Warning_: If you use a custom name, you must make sure the name is not re-used within a test case.
+
 ### Advanced Usage
 
 By overriding the provided [`AbstractSnapshotExtension`](https://github.com/tophat/syrupy/tree/master/src/syrupy/extensions/base.py) you can implement varied custom behaviours.

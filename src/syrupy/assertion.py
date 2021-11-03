@@ -8,6 +8,7 @@ from typing import (
     List,
     Optional,
     Type,
+    Union,
 )
 
 import attr
@@ -54,6 +55,7 @@ class SnapshotAssertion:
     _exclude: Optional["PropertyFilter"] = attr.ib(
         init=False, default=None, kw_only=True
     )
+    _custom_index: Optional[str] = attr.ib(init=False, default=None, kw_only=True)
     _extension: Optional["AbstractSyrupyExtension"] = attr.ib(
         init=False, default=None, kw_only=True
     )
@@ -89,6 +91,12 @@ class SnapshotAssertion:
     @property
     def executions(self) -> Dict[int, AssertionResult]:
         return self._execution_results
+
+    @property
+    def index(self) -> Union[str, int]:
+        if self._custom_index:
+            return self._custom_index
+        return self.num_executions
 
     def use_extension(
         self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None
@@ -149,6 +157,7 @@ class SnapshotAssertion:
         exclude: Optional["PropertyFilter"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
+        name: Optional[str] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
@@ -159,6 +168,8 @@ class SnapshotAssertion:
             self.__with_prop("_extension", self.__init_extension(extension_class))
         if matcher:
             self.__with_prop("_matcher", matcher)
+        if name:
+            self.__with_prop("_custom_index", name)
         return self
 
     def __dir__(self) -> List[str]:
@@ -168,21 +179,22 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_location = self.extension.get_location(index=self.num_executions)
-        snapshot_name = self.extension.get_snapshot_name(index=self.num_executions)
+        snapshot_location = self.extension.get_location(index=self.index)
+        snapshot_name = self.extension.get_snapshot_name(index=self.index)
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         matches = False
         assertion_success = False
         assertion_exception = None
         try:
-            snapshot_data = self._recall_data(index=self.num_executions)
+            snapshot_data = self._recall_data()
             serialized_data = self._serialize(data)
             matches = snapshot_data is not None and serialized_data == snapshot_data
             assertion_success = matches
             if not matches and self._update_snapshots:
                 self.extension.write_snapshot(
-                    data=serialized_data, index=self.num_executions
+                    data=serialized_data,
+                    index=self.index,
                 )
                 assertion_success = True
             return assertion_success
@@ -212,8 +224,8 @@ class SnapshotAssertion:
         while self._post_assert_actions:
             self._post_assert_actions.pop()()
 
-    def _recall_data(self, index: int) -> Optional["SerializableData"]:
+    def _recall_data(self) -> Optional["SerializableData"]:
         try:
-            return self.extension.read_snapshot(index=index)
+            return self.extension.read_snapshot(index=self.index)
         except SnapshotDoesNotExist:
             return None

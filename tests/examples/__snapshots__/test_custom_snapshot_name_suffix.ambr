@@ -1,0 +1,6 @@
+# name: test_snapshot_custom_snapshot_name_suffix[test_is_amazing]
+  'Syrupy is amazing!'
+---
+# name: test_snapshot_custom_snapshot_name_suffix[test_is_awesome]
+  'Syrupy is awesome!'
+---
