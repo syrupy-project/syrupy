@@ -58,6 +58,6 @@ def test_update(run_testcases):
         "-v",
         "--snapshot-update",
     )
+    assert "Can not relate snapshot name" not in str(result.stdout)
     result.stdout.re_match_lines("1 snapshot passed. 1 snapshot updated.")
-    result.stdout.no_re_match_line("Can not relate snapshot name")
     assert result.ret == 0
