@@ -1,0 +1,25 @@
+name: Next Version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update:
+    name: Update Next
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          fetch-depth: 0
+          ref: next
+      - name: Configure Git
+        run: |
+          git config user.name tophat-opensource-bot
+          git config user.email opensource-leads+bot@tophatmonocle.com
+      - name: Commit Changes
+        run: |
+          git merge origin/master --no-verify --no-edit
+          git push
