@@ -76,7 +76,11 @@ class SnapshotFossilizer(ABC):
 
     def get_snapshot_name(self, *, index: Union[str, int] = 0) -> str:
         """Get the snapshot name for the assertion index in a test location"""
-        index_suffix = f".{index}" if index else ""
+        index_suffix = ""
+        if isinstance(index, (str,)):
+            index_suffix = f"[{index}]"
+        elif index:
+            index_suffix = f".{index}"
         return f"{self.test_location.snapshot_name}{index_suffix}"
 
     def get_location(self, *, index: Union[str, int]) -> str:
