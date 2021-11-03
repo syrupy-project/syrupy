@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [1.5.0](https://github.com/tophat/syrupy/compare/v1.4.7...v1.5.0) (2021-11-03)
+
+
+### Features
+
+* add support for custom snapshot names, close [#555](https://github.com/tophat/syrupy/issues/555) ([#563](https://github.com/tophat/syrupy/issues/563)) ([81a8a45](https://github.com/tophat/syrupy/commit/81a8a455ca13b88c9420cae7ce54a93baffed7e0))
+
 ## [1.4.7](https://github.com/tophat/syrupy/compare/v1.4.6...v1.4.7) (2021-10-13)
 
 
