@@ -379,6 +379,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
     <td align="center"><a href="https://github.com/joakimnordling"><img src="https://avatars.githubusercontent.com/u/6637576?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joakim Nordling</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Ajoakimnordling" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/bendidi"><img src="https://avatars.githubusercontent.com/u/22003440?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ouail</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=bendidi" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/fbjorn"><img src="https://avatars.githubusercontent.com/u/9670990?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Denis</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=fbjorn" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/N0124"><img src="https://avatars.githubusercontent.com/u/29734397?v=4?s=100" width="100px;" alt=""/><br /><sub><b>N0124</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=N0124" title="Code">💻</a></td>
   </tr>
 </table>
 
