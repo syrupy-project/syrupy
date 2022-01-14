@@ -378,7 +378,23 @@ class SnapshotReporter(ABC):
         return line.rstrip("".join(self._ends.keys()))
 
 
-class AbstractSyrupyExtension(SnapshotSerializer, SnapshotFossilizer, SnapshotReporter):
+class SnapshotComparator(ABC):
+    def matches(
+        self,
+        *,
+        serialized_data: "SerializableData",
+        snapshot_data: "SerializableData",
+    ) -> bool:
+        """
+        Compares serialized data and snapshot data and returns
+        whether they match.
+        """
+        return bool(serialized_data == snapshot_data)
+
+
+class AbstractSyrupyExtension(
+    SnapshotSerializer, SnapshotFossilizer, SnapshotReporter, SnapshotComparator
+):
     def __init__(self, test_location: "PyTestLocation"):
         self._test_location = test_location
 
