@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [1.6.0](https://github.com/tophat/syrupy/compare/v1.5.0...v1.6.0) (2022-01-14)
+
+
+### Features
+
+* allow extensions to override snapshot equality check ([#548](https://github.com/tophat/syrupy/issues/548)) ([a44f1b9](https://github.com/tophat/syrupy/commit/a44f1b97a8b14bab57c3eed1c09cf19ec3bbbb32))
+
 # [1.5.0](https://github.com/tophat/syrupy/compare/v1.4.7...v1.5.0) (2021-11-03)
 
 
