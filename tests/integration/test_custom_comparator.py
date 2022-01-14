@@ -34,6 +34,7 @@ def testcases_initial(testdir):
         "failed": (
             """
             def test_passed_custom(snapshot_custom):
+                # this comment is required or the test breaks
                 assert snapshot_custom == 4.0
             """
         ),
