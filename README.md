@@ -378,6 +378,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
     <td align="center"><a href="https://github.com/eaculb"><img src="https://avatars.githubusercontent.com/u/31480498?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elizabeth Culbertson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=eaculb" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=eaculb" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/joakimnordling"><img src="https://avatars.githubusercontent.com/u/6637576?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joakim Nordling</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Ajoakimnordling" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/bendidi"><img src="https://avatars.githubusercontent.com/u/22003440?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ouail</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=bendidi" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/fbjorn"><img src="https://avatars.githubusercontent.com/u/9670990?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Denis</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=fbjorn" title="Code">💻</a></td>
   </tr>
 </table>
 
