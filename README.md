@@ -288,6 +288,7 @@ See examples of how syrupy can be used and extended in the [test examples](https
 - [Custom snapshot directory](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory.py)
 - [Custom snapshot name](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_name.py)
 - [Custom object snapshots](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_object_repr.py)
+- [Custom comparator](https://github.com/tophat/syrupy/tree/master/tests/integration/test_custom_comparator.py)
 - [JPEG image extension](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_image_extension.py)
 - [Built-in image extensions](https://github.com/tophat/syrupy/blob/master/tests/syrupy/extensions/image/test_image_svg.py)
 
