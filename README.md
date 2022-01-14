@@ -286,8 +286,7 @@ See examples of how syrupy can be used and extended in the [test examples](https
 
 #### JSONSnapshotExtension
 
-This extension can be useful when testing API responses, or when you have to deal
-with long dictionaries that are cumbersome to validate inside a test. For example:
+This extension can be useful when testing API responses, or when you have to deal with long dictionaries that are cumbersome to validate inside a test. For example:
 
 ```python
 import pytest
@@ -305,14 +304,12 @@ def test_api_call(client, snapshot_json):
     assert snapshot_json == resp.json()
 ```
 
-API responses often contain dynamic data, like IDs or dates. 
-You can still validate and store other data of a response by leveraging syrupy matchers.
-For example:
+API responses often contain dynamic data, like IDs or dates. You can still validate and store other data of a response by leveraging syrupy matchers. For example:
 
 ```py
 from datetime import datetime
 
-from syrupy.matchers import path_name_str
+from syrupy.matchers import path_type
 
 def test_api_call(client, snapshot_json):
     resp = client.post("/user", json={"name": "Jane"})
@@ -325,12 +322,12 @@ def test_api_call(client, snapshot_json):
     assert snapshot_json(matcher=matcher) == resp.json()
 ```
 
-Resulted snapshot will look like:
+The generated snapshot:
 
 ```json
 {
-  "id": "<INT>",
-  "registeredAt": "<DATETIME>",
+  "id": "<class 'int'>",
+  "registeredAt": "<class 'datetime'>",
   "name": "Jane"
 }
 ```

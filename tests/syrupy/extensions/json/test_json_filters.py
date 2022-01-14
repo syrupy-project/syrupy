@@ -1,9 +1,7 @@
 import datetime
-import random
 
 import pytest
 
-import syrupy.matchers
 from syrupy.extensions.json import JSONSnapshotExtension
 from syrupy.filters import (
     paths,
@@ -72,23 +70,3 @@ def test_exclude_in_json_with_empty_values(snapshot_json):
         "empty_list": [],
     }
     assert snapshot_json(exclude=props("foo")) == content
-
-
-@pytest.mark.parametrize("matcher_type", ("path_type", "path_name_str"))
-def test_matcher(snapshot_json, matcher_type):
-    content = {
-        "int": random.randint(1, 100),
-        "date": datetime.datetime.utcnow(),
-        "foo": {
-            "x": "y",
-            "another_date": datetime.datetime.utcnow(),
-        },
-    }
-    matcher = getattr(syrupy.matchers, matcher_type)(
-        {
-            "int": (int,),
-            "date": (datetime.date,),
-            "foo.another_date": (dict, datetime.datetime),
-        }
-    )
-    assert snapshot_json(matcher=matcher) == content
