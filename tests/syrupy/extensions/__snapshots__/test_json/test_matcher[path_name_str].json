@@ -1,8 +1,0 @@
-{
-  "date": "<DATETIME>",
-  "foo": {
-    "another_date": "<DATETIME>",
-    "x": "y"
-  },
-  "int": "<INT>"
-}
