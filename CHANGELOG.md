@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [1.7.0](https://github.com/tophat/syrupy/compare/v1.6.0...v1.7.0) (2022-01-14)
+
+
+### Bug Fixes
+
+* ignore, this commit is to force a release ([effeadb](https://github.com/tophat/syrupy/commit/effeadb751d16841222c147c6a383cca4dcf4003))
+
+
+### Features
+
+* add JSON extension as alternative to amber ([b366082](https://github.com/tophat/syrupy/commit/b3660826439a7cdd0ca84abe307b711a4a283cd9))
+
 # [1.6.0](https://github.com/tophat/syrupy/compare/v1.5.0...v1.6.0) (2022-01-14)
 
 
