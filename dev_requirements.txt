@@ -5,22 +5,26 @@
 #    pip-compile --allow-unsafe --no-emit-find-links --no-emit-index-url --output-file=- -
 #
     # via -r -
-attrs==21.4.0
+appdirs==1.4.4
+    # via black
+attrs==21.2.0
     # via
     #   flake8-bugbear
     #   pytest
     #   syrupy
-black==21.12b0
+black==21.7b0
     # via syrupy
-bleach==4.1.0
+bleach==4.0.0
     # via readme-renderer
-certifi==2021.10.8
+certifi==2021.5.30
     # via requests
-cffi==1.15.0
-    # via pynacl
-charset-normalizer==2.0.10
+cffi==1.14.6
+    # via
+    #   cryptography
+    #   pynacl
+charset-normalizer==2.0.4
     # via requests
-click==8.0.3
+click==8.0.1
     # via
     #   black
     #   pip-tools
@@ -28,38 +32,38 @@ codecov==2.1.12
     # via syrupy
 colorama==0.4.4
     # via twine
-colored==1.4.3
+colored==1.4.2
     # via syrupy
-configparser==5.2.0
+configparser==5.0.2
     # via py-githooks
-coverage[toml]==6.2
+coverage[toml]==5.5
     # via
     #   codecov
     #   syrupy
-deprecated==1.2.13
+cryptography==3.4.7
+    # via secretstorage
+deprecated==1.2.12
     # via pygithub
-docutils==0.18.1
+docutils==0.17.1
     # via readme-renderer
-flake8==4.0.1
+flake8==3.9.2
     # via
     #   flake8-bugbear
     #   flake8-builtins
     #   flake8-comprehensions
     #   flake8-i18n
     #   syrupy
-flake8-bugbear==22.1.11
+flake8-bugbear==21.4.3
     # via syrupy
 flake8-builtins==1.5.3
     # via syrupy
-flake8-comprehensions==3.8.0
+flake8-comprehensions==3.6.1
     # via syrupy
 flake8-i18n==0.1.0
     # via syrupy
-flaky==3.7.0
-    # via syrupy
-idna==3.3
+idna==3.2
     # via requests
-importlib-metadata==4.10.1
+importlib-metadata==4.6.4
     # via
     #   keyring
     #   twine
@@ -67,61 +71,65 @@ iniconfig==1.1.1
     # via pytest
 invoke==1.6.0
     # via syrupy
-isort==5.10.1
+isort==5.9.3
     # via syrupy
-keyring==23.5.0
+jeepney==0.7.1
+    # via
+    #   keyring
+    #   secretstorage
+keyring==23.1.0
     # via twine
 mccabe==0.6.1
     # via flake8
-mypy==0.931
+mypy==0.910
     # via syrupy
 mypy-extensions==0.4.3
     # via
     #   black
     #   mypy
-packaging==21.3
+packaging==21.0
     # via
     #   bleach
     #   pytest
 pathspec==0.9.0
     # via black
-pep517==0.12.0
+pep517==0.11.0
     # via pip-tools
-pip-tools==6.4.0
+pip-tools==6.2.0
     # via syrupy
-pkginfo==1.8.2
+pkginfo==1.7.1
     # via twine
-platformdirs==2.4.1
-    # via black
-pluggy==1.0.0
+pluggy==0.13.1
     # via pytest
-py==1.11.0
+py==1.10.0
     # via pytest
 py-githooks==1.1.0
     # via syrupy
-pycodestyle==2.8.0
+pycodestyle==2.7.0
     # via flake8
-pycparser==2.21
+pycparser==2.20
     # via cffi
-pyflakes==2.4.0
+pyflakes==2.3.1
     # via flake8
 pygithub==1.55
     # via syrupy
-pygments==2.11.2
+pygments==2.10.0
     # via readme-renderer
-pyjwt==2.3.0
+pyjwt==2.1.0
     # via pygithub
-pynacl==1.5.0
+pynacl==1.4.0
     # via pygithub
-pyparsing==3.0.7
+pyparsing==2.4.7
     # via packaging
-pyperf==2.3.0
+pyperf==2.2.0
     # via syrupy
-pytest==6.2.5
+pytest==6.2.4
     # via syrupy
-readme-renderer==32.0
+readme-renderer==29.0
     # via twine
-requests==2.27.1
+regex==2021.8.21
+    # via black
+requests==2.26.0
     # via
     #   codecov
     #   pygithub
@@ -129,43 +137,47 @@ requests==2.27.1
     #   twine
 requests-toolbelt==0.9.1
     # via twine
-rfc3986==2.0.0
+rfc3986==1.5.0
     # via twine
+secretstorage==3.3.1
+    # via keyring
 semver==2.13.0
     # via syrupy
 six==1.16.0
-    # via bleach
-toml==0.10.2
-    # via pytest
-tomli==1.2.3
     # via
-    #   black
+    #   bleach
+    #   pynacl
+    #   readme-renderer
+toml==0.10.2
+    # via
     #   coverage
     #   mypy
-    #   pep517
-tqdm==4.62.3
-    # via twine
-twine==3.7.1
-    # via syrupy
-typing-extensions==4.0.1
+    #   pytest
+tomli==1.2.1
     # via
     #   black
-    #   mypy
-urllib3==1.26.8
+    #   pep517
+tqdm==4.62.2
+    # via twine
+twine==3.4.2
+    # via syrupy
+typing-extensions==3.10.0.0
+    # via mypy
+urllib3==1.26.6
     # via requests
 webencodings==0.5.1
     # via bleach
-wheel==0.37.1
+wheel==0.37.0
     # via
     #   pip-tools
     #   syrupy
-wrapt==1.13.3
+wrapt==1.12.1
     # via deprecated
-zipp==3.7.0
+zipp==3.5.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==21.3.1
+pip==21.2.4
     # via pip-tools
-setuptools==60.5.0
+setuptools==57.4.0
     # via pip-tools
