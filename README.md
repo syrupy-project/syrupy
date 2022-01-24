@@ -315,7 +315,7 @@ def test_api_call(client, snapshot_json):
     resp = client.post("/user", json={"name": "Jane"})
     assert resp.status_code == 201
 
-    matcher = path_name_str({
+    matcher = path_type({
       "id": (int,),
       "registeredAt": (datetime,)
     })
