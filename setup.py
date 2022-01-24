@@ -25,6 +25,7 @@ dev_requires = [
     "flake8-comprehensions",
     "flake8-i18n",
     "flake8",
+    "flaky",
     "isort",
     "mypy",
     "pip-tools",

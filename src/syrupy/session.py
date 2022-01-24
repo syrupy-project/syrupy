@@ -53,7 +53,7 @@ class SnapshotSession:
 
     def select_items(self, items: List["pytest.Item"]) -> None:
         for item in self.filter_valid_items(items):
-            self._selected_items[getattr(item, "nodeid", None)] = False
+            self._selected_items[getattr(item, "nodeid")] = False  # noqa: B009
 
     def start(self) -> None:
         self.report = None

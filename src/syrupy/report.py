@@ -83,7 +83,7 @@ class SnapshotReport:
     def __attrs_post_init__(self) -> None:
         self.__parse_invocation_args()
         self._collected_items_by_nodeid = {
-            getattr(item, "nodeid", None): item for item in self.collected_items
+            getattr(item, "nodeid"): item for item in self.collected_items  # noqa: B009
         }
 
         # We only need to discover snapshots once per test file, not once per assertion.
@@ -135,9 +135,9 @@ class SnapshotReport:
             filepath = Path(package_or_filepath)
             if self.options.pyargs:
                 try:
-                    filepath = Path(
-                        importlib.import_module(package_or_filepath).__file__
-                    )
+                    mod = importlib.import_module(package_or_filepath)
+                    if mod.__file__ is not None:
+                        filepath = Path(mod.__file__)
                 except Exception:
                     pass
             filepath_abs = str(

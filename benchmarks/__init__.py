@@ -125,9 +125,9 @@ def fetch_branch_bench_json(github: "Github", branch: str) -> Optional[str]:
     try:
         content_file = repo.get_contents(commit_bench_path, GH_BENCH_BRANCH)
         if isinstance(content_file, list):
-            raise UnknownObjectException
+            raise Exception
         return str(content_file.decoded_content.decode())
-    except UnknownObjectException:
+    except (UnknownObjectException, Exception):
         print("Unable to retrieve benchmark results from repo")
         return None
 
