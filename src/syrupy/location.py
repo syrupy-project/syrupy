@@ -13,15 +13,15 @@ from syrupy.constants import PYTEST_NODE_SEP
 @attr.s
 class PyTestLocation:
     _node: "pytest.Item" = attr.ib()
-    nodename: str = attr.ib(init=False)
+    nodename: Optional[str] = attr.ib(init=False)
     testname: str = attr.ib(init=False)
     methodname: str = attr.ib(init=False)
     modulename: str = attr.ib(init=False)
     filepath: str = attr.ib(init=False)
 
     def __attrs_post_init__(self) -> None:
-        self.filepath = getattr(self._node, "fspath", None)
-        obj = getattr(self._node, "obj", None)
+        self.filepath = getattr(self._node, "fspath")  # noqa: B009
+        obj = getattr(self._node, "obj")  # noqa: B009
         self.modulename = obj.__module__
         self.methodname = obj.__name__
         self.nodename = getattr(self._node, "name", None)
@@ -33,7 +33,9 @@ class PyTestLocation:
         Pytest node names contain file path and module members delimited by `::`
         Example tests/grouping/test_file.py::TestClass::TestSubClass::test_method
         """
-        nodeid: str = getattr(self._node, "nodeid", None)
+        nodeid: Optional[str] = getattr(self._node, "nodeid", None)
+        if nodeid is None:
+            return None
         return ".".join(nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
 
     @property

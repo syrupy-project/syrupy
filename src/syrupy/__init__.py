@@ -149,6 +149,7 @@ def pytest_runtest_logfinish(nodeid: str) -> None:
         _syrupy.ran_item(nodeid)
 
 
+@pytest.hookimpl(tryfirst=True)
 def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
     """
     Finish session run and set exit status.

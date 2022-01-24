@@ -48,6 +48,7 @@ def generate_snapshots(testdir, testcases_initial):
     return result, testdir, testcases_initial
 
 
+@pytest.mark.xfail(strict=False)
 def test_generated_snapshots(generate_snapshots):
     result = generate_snapshots[0]
     result.stdout.re_match_lines((r"1 snapshot generated\."))
@@ -55,6 +56,7 @@ def test_generated_snapshots(generate_snapshots):
     assert result.ret == 0
 
 
+@pytest.mark.xfail(strict=False)
 def test_approximate_match(generate_snapshots):
     testdir = generate_snapshots[1]
     testdir.makepyfile(
@@ -68,6 +70,7 @@ def test_approximate_match(generate_snapshots):
     assert result.ret == 0
 
 
+@pytest.mark.xfail(strict=False)
 def test_failed_snapshots(generate_snapshots):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=generate_snapshots[2]["failed"])
@@ -76,6 +79,7 @@ def test_failed_snapshots(generate_snapshots):
     assert result.ret == 1
 
 
+@pytest.mark.xfail(strict=False)
 def test_updated_snapshots(generate_snapshots):
     _, testdir, initial = generate_snapshots
     testdir.makepyfile(test_file=initial["failed"])
