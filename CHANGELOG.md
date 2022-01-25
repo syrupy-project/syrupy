@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [1.7.2](https://github.com/tophat/syrupy/compare/v1.7.1...v1.7.2) (2022-01-25)
+
+
+### Bug Fixes
+
+* **json:** use forward references for py3.7 compatibility ([#586](https://github.com/tophat/syrupy/issues/586)) ([8f0db02](https://github.com/tophat/syrupy/commit/8f0db02037be83527881927552663f5d9aeb4d10))
+
 ## [1.7.1](https://github.com/tophat/syrupy/compare/v1.7.0...v1.7.1) (2022-01-25)
 
 
