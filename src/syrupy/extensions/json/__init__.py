@@ -54,9 +54,9 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         data: "SerializableData",
         *,
         depth: int = 0,
-        path: PropertyPath,
+        path: "PropertyPath",
         exclude: Optional["PropertyFilter"] = None,
-        matcher: Optional[PropertyMatcher] = None,
+        matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> "SerializableData":
         data_id = id(data)
