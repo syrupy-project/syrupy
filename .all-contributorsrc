@@ -143,6 +143,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "dtczest",
+      "name": "dtczest",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97055299?v=4",
+      "profile": "https://github.com/dtczest",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
