@@ -51,14 +51,14 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
     @classmethod
     def _filter(
         cls,
-        data: SerializableData,
+        data: "SerializableData",
         *,
         depth: int = 0,
         path: PropertyPath,
         exclude: Optional["PropertyFilter"] = None,
         matcher: Optional[PropertyMatcher] = None,
         visited: Optional[Set[Any]] = None,
-    ) -> SerializableData:
+    ) -> "SerializableData":
         data_id = id(data)
         visited = set() if visited is None else visited
         if depth > cls._max_depth or data_id in visited:
@@ -141,7 +141,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
 
     def _read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str
-    ) -> Optional[SerializableData]:
+    ) -> Optional["SerializableData"]:
         try:
             return Path(snapshot_location).read_text(encoding="utf-8")
         except FileNotFoundError:
