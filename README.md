@@ -334,7 +334,8 @@ The generated snapshot:
 
 ### Extending Syrupy
 
-- [Custom snapshot directory](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot directory 1](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot directory 2](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory_2.py)
 - [Custom snapshot name](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_name.py)
 - [Custom object snapshots](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_object_repr.py)
 - [Custom comparator](https://github.com/tophat/syrupy/tree/master/tests/integration/test_custom_comparator.py)
