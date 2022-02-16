@@ -1,3 +1,58 @@
+[tool.poetry]
+name = 'syrupy'
+license = 'Apache-2.0'
+version = '1.7.3'
+description = 'PyTest Snapshot Test Utility'
+authors = ['Top Hat Open Source <opensource@tophat.com>']
+readme = 'README.md'
+packages = [{ include = 'syrupy', from = "src" }]
+classifiers = [
+  'Development Status :: 5 - Production/Stable',
+  'Framework :: Pytest',
+  'Intended Audience :: Developers',
+  'Operating System :: OS Independent',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Topic :: Software Development :: Libraries',
+  'Topic :: Software Development :: Testing',
+]
+repository = 'https://github.com/tophat/syrupy'
+include = ['src/syrupy/py.typed']
+
+[tool.poetry.plugins.pytest11]
+syrupy = 'syrupy'
+
+[tool.poetry.dependencies]
+python = '>=3.6,<4'
+attrs = '>=18.2.0,<22.0.0'
+colored = '>=1.3.92,<2.0.0'
+pytest = '>=5.1.0,<8.0.0'
+
+[tool.poetry.group.test.dependencies]
+codecov = '^2.1.12'
+invoke = '^1.6.0'
+coverage = { version = '^5.0.0', extras = ['toml'] }
+
+[tool.poetry.group.dev.dependencies]
+isort = { version = '^5.10.1', python = '>=3.7,<4' }
+black = { version = '^22.1.0', python = '>=3.7,<4' }
+mypy = '^0.931'
+py-githooks = '^1.1.0'
+pyperf = '^2.3.1'
+flake8 = '^3.9.2'
+flake8-bugbear = '^21.4.3'
+flake8-builtins = '^1.5.3'
+flake8-i18n = '^0.1.0'
+flake8-comprehensions = { version = '^3.6.1', python = '>=3.7,<4' }
+twine = "^3.8.0"
+semver = "^2.13.0"
+setuptools-scm = "^6.4.2"
+PyGithub = "^1.55"
+
 [tool.black]
 line-length = 88
 target-version = ['py36']
@@ -40,13 +95,11 @@ dist,
 addopts = '-p syrupy'
 
 [tool.coverage.run]
-source = [
-  './src',
-]
+source = ['./src']
 
 [tool.coverage.report]
-exclude_lines = [
-  'pragma: no-cover',
-  'if TYPE_CHECKING:',
-  '@abstractmethod',
-]
+exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

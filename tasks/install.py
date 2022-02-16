@@ -8,4 +8,4 @@ def dev(ctx):
     """
     Install the current development version of syrupy
     """
-    ctx_run(ctx, "python -m pip install -U .")
+    ctx_run(ctx, "poetry install")

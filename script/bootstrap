@@ -15,14 +15,15 @@ else
     fi
 fi
 
-VENV="${VENV:-syrupy.venv}"
-test -d $VENV || python3 -m venv $VENV || return
-. $VENV/bin/activate
 
-python -m pip install -U 'pip<21.3' --no-cache-dir
+if [[ -z $CI ]]; then
+    # FIXME: There must be a better way to install this per project rather than globally?
+    curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0a2
+    poetry shell
+fi
 
 if [[ -z $SKIP_DEPS ]]; then
-    python -m pip install -e . -r dev_requirements.txt
+    poetry install --with=dev --with=test --no-interaction
 fi
 
 if [[ -z $CI ]]; then
