@@ -27,10 +27,11 @@ def patch_min_requirements(ctx):
         'pytest': '5.1.0',
     }
     def _update(line: str) -> str:
-        (name,) = line.split('=')
-        min_value = mins.get(name.strip(), None)
+        (name,*ignore) = line.split('=')
+        name = name.strip()
+        min_value = mins.get(name, None)
         if min_value is not None:
-            return f"'{min_value}'"
+            return f"{name} = '{min_value}'"
         return line
 
     with open('pyproject.toml', mode='r') as f:
