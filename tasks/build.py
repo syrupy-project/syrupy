@@ -26,18 +26,25 @@ def patch_min_requirements(ctx):
         'colored': '1.3.92',
         'pytest': '5.1.0',
     }
-    def _update(line: str) -> str:
+    def _strip(line: str) -> str:
         (name,*ignore) = line.split('=')
         name = name.strip()
         min_value = mins.get(name, None)
         if min_value is not None:
-            return f"{name} = '{min_value}'"
+            return None
         return line
 
     with open('pyproject.toml', mode='r') as f:
-        lines = [_update(line) for line in f.readlines()]
+        lines = filter(None, [_strip(line) for line in f.readlines()])
+
+    # insert new group
+    lines.append("[tool.poetry.group.min.dependencies]\n")
+    for (name, value) in mins.items():
+        lines.append(f"{name} = '{value}'\n")
+
     with open('pyproject.toml', mode='w') as f:
         f.writelines(lines)
+
     ctx_run(ctx, f"poetry update")
 
 
