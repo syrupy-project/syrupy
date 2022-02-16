@@ -43,11 +43,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install project dependencies and run tests
+      - name: Install project dependencies
+        run: . script/bootstrap
+      - name: Run tests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
-          poetry install --with=dev --with=test
           poetry run invoke test --coverage
 # # Temporarily disabled until we figure out how to test with lower bound versions using Poetry.
   # version_checks:
