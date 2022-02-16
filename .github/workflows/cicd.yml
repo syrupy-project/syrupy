@@ -19,16 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/detect-env
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Setup Environment
+        uses: ./.github/actions/python
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.3.0
-        with:
-          version: 1.2.0a2
-          virtualenvs-create: true
-          virtualenvs-in-project: true
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Lint
@@ -45,16 +39,10 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - name: Setup Environment
+        uses: ./.github/actions/python
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.3.0
-        with:
-          version: 1.2.0a2
-          virtualenvs-create: true
-          virtualenvs-in-project: true
       - name: Install project dependencies
         run: . script/bootstrap
         shell: bash
@@ -98,16 +86,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/detect-env
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Setup Environment
+        uses: ./.github/actions/python
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.3.0
-        with:
-          version: 1.2.0a2
-          virtualenvs-create: true
-          virtualenvs-in-project: true
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Dry Release
@@ -132,16 +114,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: ./.github/actions/detect-env
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Setup Environment
+        uses: ./.github/actions/python
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.3.0
-        with:
-          version: 1.2.0a2
-          virtualenvs-create: true
-          virtualenvs-in-project: true
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master

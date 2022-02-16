@@ -1,0 +1,19 @@
+name: python
+description: Setup python environment
+inputs:
+  python-version:
+    description: Version of python
+    required: true
+runs:
+  using: "composite"
+  steps:
+      - name: Set up Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.3.0
+        with:
+          version: 1.2.0a2
+          virtualenvs-create: true
+          virtualenvs-in-project: true

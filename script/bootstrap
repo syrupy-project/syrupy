@@ -23,7 +23,7 @@ if [[ -z $CI ]]; then
 fi
 
 if [[ -z $SKIP_DEPS ]]; then
-    poetry install --with=dev --with=test
+    poetry install --with=dev --with=test --no-interaction
 fi
 
 if [[ -z $CI ]]; then
