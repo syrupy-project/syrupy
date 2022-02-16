@@ -38,9 +38,8 @@ invoke = '^1.6.0'
 coverage = { version = '^5.0.0', extras = ['toml'] }
 
 [tool.poetry.group.dev.dependencies]
-isort = { version = '^5.10.1', python = '>=3.6.1' }
-black = { version = '^22.1.0', python = '>=3.6.2,<4' }
-dataclasses = { version = "0.7", python = ">=3.6,<3.7" }
+isort = { version = '^5.10.1', python = '>=3.7,<4' }
+black = { version = '^22.1.0', python = '>=3.7,<4' }
 mypy = '^0.931'
 py-githooks = '^1.1.0'
 pyperf = '^2.3.1'
