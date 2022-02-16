@@ -27,8 +27,7 @@ jobs:
         run: . script/bootstrap
       - name: Lint
         run: |
-          . $VENV/bin/activate
-          invoke lint
+          poetry run invoke lint
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
@@ -49,7 +48,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
           poetry install --with=dev --with=test
-          invoke test --coverage
+          poetry run invoke test --coverage
 # # Temporarily disabled until we figure out how to test with lower bound versions using Poetry.
   # version_checks:
   #   name: Dependency Version Constraint Checks
@@ -73,7 +72,7 @@ jobs:
   #         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   #       run: |
   #         . $VENV/bin/activate
-  #         invoke test --coverage
+  #         poetry run invoke test --coverage
   dry_run:
     name: Build
     runs-on: ubuntu-latest
@@ -95,14 +94,12 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
         run: |
-          . $VENV/bin/activate
-          invoke release --dry-run
+          poetry run invoke release --dry-run
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          . $VENV/bin/activate
-          invoke benchmark --report
+          poetry run invoke benchmark --report
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -134,11 +131,9 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
         run: |
-          . $VENV/bin/activate
-          invoke release --no-dry-run
+          poetry run invoke release --no-dry-run
       - name: Benchmark
         env:
           GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
         run: |
-          . $VENV/bin/activate
-          invoke benchmark --report
+          poetry run invoke benchmark --report
