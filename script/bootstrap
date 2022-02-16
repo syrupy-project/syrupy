@@ -15,10 +15,10 @@ else
     fi
 fi
 
-# FIXME: There must be a better way to install this per project rather than globally?
-curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0a2
 
 if [[ -z $CI ]]; then
+    # FIXME: There must be a better way to install this per project rather than globally?
+    curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0a2
     poetry shell
 fi
 
