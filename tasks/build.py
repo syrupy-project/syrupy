@@ -33,8 +33,9 @@ def patch_min_requirements(ctx):
             return f"'{min_value}'"
         return line
 
-    with open('pyproject.toml', mode='rw') as f:
+    with open('pyproject.toml', mode='r') as f:
         lines = [_update(line) for line in f.readlines()]
+    with open('pyproject.toml', mode='w') as f:
         f.writelines(lines)
     ctx_run(ctx, f"poetry update")
 
