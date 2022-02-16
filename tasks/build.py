@@ -1,23 +1,9 @@
 import os
-import re
+from datetime import datetime
 
 from invoke import task
 
-from setup import install_requires
-
 from .utils import ctx_run
-
-
-def _parse_min_versions(requirements):
-    result = []
-    for req in sorted(requirements):
-        match = re.match(r"([\w_]+)>=([^,]+),.*", req)
-        if match is None:
-            continue
-        pkg_name = match.group(1)
-        min_version = match.group(2)
-        result.append(f"{pkg_name}=={min_version}")
-    return result
 
 
 @task
@@ -25,24 +11,10 @@ def requirements(ctx, upgrade=False):
     """
     Build test & dev requirements lock file
     """
-    args = [
-        "--no-emit-find-links",
-        "--no-emit-index-url",
-        "--allow-unsafe",
-        "--rebuild",
-    ]
     if upgrade:
-        args.append("--upgrade")
-    ctx_run(
-        ctx,
-        f"echo '-e .[dev]' | python -m piptools compile "
-        f"{' '.join(args)} - -qo- | sed '/^-e / d' > dev_requirements.txt",
-    )
-
-    with open("min_requirements.constraints", "w", encoding="utf-8") as f:
-        min_requirements = _parse_min_versions(install_requires)
-        f.write("\n".join(min_requirements))
-        f.write("\n")
+        ctx_run(ctx, f"poetry update")
+    else:
+        ctx_run(ctx, f"poetry install")
 
 
 @task
@@ -53,12 +25,22 @@ def clean(ctx):
     ctx_run(ctx, "rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
 
 
+def version_scheme(v):
+    if v.exact:
+        return v.format_with("{tag}")
+    return datetime.now().strftime("%Y.%m.%d.%H%M%S%f")
+
+
 @task(pre=[clean])
 def dist(ctx):
     """
     Generate version from scm and build package distributable
     """
-    ctx_run(ctx, "python setup.py sdist bdist_wheel")
+    from setuptools_scm import get_version
+
+    version = get_version(version_scheme=version_scheme, local_scheme=lambda _: "")
+    ctx_run(ctx, f"poetry version {version}")
+    ctx_run(ctx, "poetry build")
 
 
 @task
@@ -81,9 +63,7 @@ def release(ctx, dry_run=True):
         print("This is a CI only command")
         exit(1)
 
-    # get version created in build
-    with open("version.txt", "r", encoding="utf-8") as f:
-        version = str(f.read())
+    version = ctx_run(ctx, "poetry version --short").stdout.strip()
 
     try:
         should_publish_to_pypi = not dry_run and parse_version_info(version)
