@@ -16,6 +16,28 @@ def requirements(ctx, upgrade=False):
     else:
         ctx_run(ctx, f"poetry install")
 
+@task
+def patch_min_requirements(ctx):
+    """
+    Install min. requirements. Mutates the pyproject.toml. Destructive action.
+    """
+    mins = {
+        'attrs': '18.2.0',
+        'colored': '1.3.92',
+        'pytest': '5.1.0',
+    }
+    def _update(line: str) -> str:
+        (name,) = line.split('=')
+        min_value = mins.get(name.strip(), None)
+        if min_value is not None:
+            return f"'{min_value}'"
+        return line
+
+    with open('pyproject.toml', mode='rw') as f:
+        lines = [_update(line) for line in f.readlines()]
+        f.writelines(lines)
+    ctx_run(ctx, f"poetry update")
+
 
 @task
 def clean(ctx):
