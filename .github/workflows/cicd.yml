@@ -57,9 +57,11 @@ jobs:
           virtualenvs-in-project: true
       - name: Install project dependencies
         run: . script/bootstrap
+        shell: bash
       - name: Run tests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        shell: bash
         run: |
           poetry run invoke test --coverage
 # # Temporarily disabled until we figure out how to test with lower bound versions using Poetry.
