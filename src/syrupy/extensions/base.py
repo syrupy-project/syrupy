@@ -273,15 +273,16 @@ class SnapshotReporter(ABC):
     def __diff_lines(self, a: str, b: str) -> Iterator[str]:
         for line in self.__diffed_lines(a, b):
             show_ends = (
-                self.__strip_ends(line.a[1:]) == self.__strip_ends(line.b[1:])
+                self.__strip_ends(line.a[1:] if line.a is not None else "")
+                == self.__strip_ends(line.b[1:] if line.b is not None else "")
                 if line.is_complete
                 else False
             )
-            if line.has_snapshot:
+            if line.has_snapshot and line.a is not None:
                 yield self.__format_line(
                     line.a, line.diff_a, snapshot_style, snapshot_diff_style, show_ends
                 )
-            if line.has_received:
+            if line.has_received and line.b is not None:
                 yield self.__format_line(
                     line.b, line.diff_b, received_style, received_diff_style, show_ends
                 )
