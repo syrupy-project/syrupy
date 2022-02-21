@@ -1,4 +1,8 @@
 from collections import defaultdict
+from dataclasses import (
+    dataclass,
+    field,
+)
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
@@ -11,7 +15,6 @@ from typing import (
     Set,
 )
 
-import attr
 import pytest
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
@@ -23,30 +26,30 @@ if TYPE_CHECKING:
     from .extensions.base import AbstractSyrupyExtension
 
 
-@attr.s
+@dataclass
 class SnapshotSession:
     # pytest.Session
-    _pytest_session: Any = attr.ib()
+    pytest_session: Any
     # Snapshot report generated on finish
-    report: Optional["SnapshotReport"] = attr.ib(default=None)
+    report: Optional["SnapshotReport"] = None
     # All the collected test items
-    _collected_items: Set["pytest.Item"] = attr.ib(factory=set)
+    _collected_items: Set["pytest.Item"] = field(default_factory=set)
     # All the selected test items. Will be set to False until the test item is run.
-    _selected_items: Dict[str, bool] = attr.ib(factory=dict)
-    _assertions: List["SnapshotAssertion"] = attr.ib(factory=list)
-    _extensions: Dict[str, "AbstractSyrupyExtension"] = attr.ib(factory=dict)
+    _selected_items: Dict[str, bool] = field(default_factory=dict)
+    _assertions: List["SnapshotAssertion"] = field(default_factory=list)
+    _extensions: Dict[str, "AbstractSyrupyExtension"] = field(default_factory=dict)
 
-    _locations_discovered: DefaultDict[str, Set[Any]] = attr.ib(
-        factory=lambda: defaultdict(set)
+    _locations_discovered: DefaultDict[str, Set[Any]] = field(
+        default_factory=lambda: defaultdict(set)
     )
 
     @property
     def update_snapshots(self) -> bool:
-        return bool(self._pytest_session.config.option.update_snapshots)
+        return bool(self.pytest_session.config.option.update_snapshots)
 
     @property
     def warn_unused_snapshots(self) -> bool:
-        return bool(self._pytest_session.config.option.warn_unused_snapshots)
+        return bool(self.pytest_session.config.option.warn_unused_snapshots)
 
     def collect_items(self, items: List["pytest.Item"]) -> None:
         self._collected_items.update(self.filter_valid_items(items))
@@ -70,11 +73,11 @@ class SnapshotSession:
     def finish(self) -> int:
         exitstatus = 0
         self.report = SnapshotReport(
-            base_dir=self._pytest_session.config.rootdir,
+            base_dir=self.pytest_session.config.rootdir,
             collected_items=self._collected_items,
             selected_items=self._selected_items,
             assertions=self._assertions,
-            options=self._pytest_session.config.option,
+            options=self.pytest_session.config.option,
         )
         if self.report.num_unused:
             if self.update_snapshots:
