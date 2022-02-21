@@ -1,5 +1,9 @@
 import importlib
 from collections import defaultdict
+from dataclasses import (
+    dataclass,
+    field,
+)
 from gettext import (
     gettext,
     ngettext,
@@ -16,8 +20,6 @@ from typing import (
     List,
     Set,
 )
-
-import attr
 
 from .constants import PYTEST_NODE_SEP
 from .data import (
@@ -43,7 +45,7 @@ if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
 
 
-@attr.s
+@dataclass
 class SnapshotReport:
     """
     This class is responsible for determining the test summary and post execution
@@ -51,21 +53,21 @@ class SnapshotReport:
     information used for removal of unused or orphaned snapshots and fossils.
     """
 
-    base_dir: str = attr.ib()
-    collected_items: Set["pytest.Item"] = attr.ib()
-    selected_items: Dict[str, bool] = attr.ib()
-    options: "argparse.Namespace" = attr.ib()
-    assertions: List["SnapshotAssertion"] = attr.ib()
-    discovered: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    created: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    failed: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    matched: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    updated: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    used: "SnapshotFossils" = attr.ib(factory=SnapshotFossils)
-    _provided_test_paths: Dict[str, List[str]] = attr.ib(factory=dict)
-    _keyword_expressions: Set["Expression"] = attr.ib(factory=set)
-    _collected_items_by_nodeid: Dict[str, "pytest.Item"] = attr.ib(
-        factory=dict, init=False
+    base_dir: str
+    collected_items: Set["pytest.Item"]
+    selected_items: Dict[str, bool]
+    options: "argparse.Namespace"
+    assertions: List["SnapshotAssertion"]
+    discovered: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    created: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    failed: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    matched: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    updated: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    used: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    _provided_test_paths: Dict[str, List[str]] = field(default_factory=dict)
+    _keyword_expressions: Set["Expression"] = field(default_factory=set)
+    _collected_items_by_nodeid: Dict[str, "pytest.Item"] = field(
+        default_factory=dict, init=False
     )
 
     @property
@@ -80,7 +82,7 @@ class SnapshotReport:
     def include_snapshot_details(self) -> bool:
         return bool(self.options.include_snapshot_details)
 
-    def __attrs_post_init__(self) -> None:
+    def __post_init__(self) -> None:
         self.__parse_invocation_args()
         self._collected_items_by_nodeid = {
             getattr(item, "nodeid"): item for item in self.collected_items  # noqa: B009
@@ -425,7 +427,7 @@ class SnapshotReport:
         )
 
 
-@attr.s(frozen=True)
+@dataclass(frozen=True)
 class Expression:
     """
     Dumbed down version of _pytest.mark.expression.Expression not available in < 6.0
@@ -434,7 +436,7 @@ class Expression:
     module is not public. This only supports inclusion based on simple string matching.
     """
 
-    code: FrozenSet[str] = attr.ib(factory=frozenset)
+    code: FrozenSet[str] = field(default_factory=frozenset)
 
     def evaluate(self, matcher: Callable[[str], bool]) -> bool:
         return any(map(matcher, self.code))
