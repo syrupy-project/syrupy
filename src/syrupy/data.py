@@ -1,4 +1,7 @@
-from types import MappingProxyType
+from dataclasses import (
+    dataclass,
+    field,
+)
 from typing import (
     TYPE_CHECKING,
     Dict,
@@ -6,8 +9,6 @@ from typing import (
     List,
     Optional,
 )
-
-import attr
 
 from .constants import (
     SNAPSHOT_EMPTY_FOSSIL_KEY,
@@ -18,28 +19,28 @@ if TYPE_CHECKING:
     from .types import SerializedData
 
 
-@attr.s(frozen=True)
+@dataclass(frozen=True)
 class Snapshot:
-    name: str = attr.ib()
-    data: Optional["SerializedData"] = attr.ib(default=None)
+    name: str
+    data: Optional["SerializedData"] = None
 
 
-@attr.s(frozen=True)
+@dataclass(frozen=True)
 class SnapshotEmpty(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_EMPTY_FOSSIL_KEY, init=False)
+    name: str = SNAPSHOT_EMPTY_FOSSIL_KEY
 
 
-@attr.s(frozen=True)
+@dataclass(frozen=True)
 class SnapshotUnknown(Snapshot):
-    name: str = attr.ib(default=SNAPSHOT_UNKNOWN_FOSSIL_KEY, init=False)
+    name: str = SNAPSHOT_UNKNOWN_FOSSIL_KEY
 
 
-@attr.s
+@dataclass
 class SnapshotFossil:
     """A collection of snapshots at a save location"""
 
-    location: str = attr.ib()
-    _snapshots: Dict[str, "Snapshot"] = attr.ib(factory=dict)
+    location: str
+    _snapshots: Dict[str, "Snapshot"] = field(default_factory=dict)
 
     @property
     def has_snapshots(self) -> bool:
@@ -67,31 +68,31 @@ class SnapshotFossil:
         return iter(self._snapshots.values())
 
 
-SNAPSHOTS_EMPTY = MappingProxyType({SnapshotEmpty().name: SnapshotEmpty()})
-SNAPSHOTS_UNKNOWN = MappingProxyType({SnapshotUnknown().name: SnapshotUnknown()})
-
-
-@attr.s(frozen=True)
+@dataclass
 class SnapshotEmptyFossil(SnapshotFossil):
     """This is a saved fossil that is known to be empty and thus can be removed"""
 
-    _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_EMPTY, init=False)
+    _snapshots: Dict[str, "Snapshot"] = field(
+        default_factory=lambda: {SnapshotEmpty().name: SnapshotEmpty()}
+    )
 
     @property
     def has_snapshots(self) -> bool:
         return False
 
 
-@attr.s(frozen=True)
+@dataclass
 class SnapshotUnknownFossil(SnapshotFossil):
     """This is a saved fossil that is unclaimed by any extension currently in use"""
 
-    _snapshots: Dict[str, "Snapshot"] = attr.ib(default=SNAPSHOTS_UNKNOWN, init=False)
+    _snapshots: Dict[str, "Snapshot"] = field(
+        default_factory=lambda: {SnapshotUnknown().name: SnapshotUnknown()}
+    )
 
 
-@attr.s
+@dataclass
 class SnapshotFossils:
-    _snapshot_fossils: Dict[str, "SnapshotFossil"] = attr.ib(factory=dict)
+    _snapshot_fossils: Dict[str, "SnapshotFossil"] = field(default_factory=dict)
 
     def get(self, location: str) -> Optional["SnapshotFossil"]:
         return self._snapshot_fossils.get(location)
@@ -119,13 +120,13 @@ class SnapshotFossils:
         return key in self._snapshot_fossils
 
 
-@attr.s
+@dataclass
 class DiffedLine:
-    a: str = attr.ib(default=None)
-    b: str = attr.ib(default=None)
-    c: List[str] = attr.ib(factory=list)
-    diff_a: str = attr.ib(default="")
-    diff_b: str = attr.ib(default="")
+    a: Optional[str] = None
+    b: Optional[str] = None
+    c: List[str] = field(default_factory=list)
+    diff_a: str = ""
+    diff_b: str = ""
 
     @property
     def has_snapshot(self) -> bool:
