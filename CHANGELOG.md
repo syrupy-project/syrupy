@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [2.0.0](https://github.com/tophat/syrupy/compare/v1.7.4...v2.0.0) (2022-04-10)
+
+
+### Features
+
+* **amber:** change serialization to be py syntax like ([#505](https://github.com/tophat/syrupy/issues/505)) ([b64b965](https://github.com/tophat/syrupy/commit/b64b965720768d787eded154d4dba256e0734620))
+* release syrupy v2 ([#575](https://github.com/tophat/syrupy/issues/575)) ([bc8b3a9](https://github.com/tophat/syrupy/commit/bc8b3a909bf5b75b581f16247c12c8bdd087dd9f))
+
+
+### BREAKING CHANGES
+
+* **amber:** update to serialization requires regeneration of snapshots
+
+Migration Guide
+* `pytest --snapshot-update` to regenerate amber snapshots
+
 ## [1.7.4](https://github.com/tophat/syrupy/compare/v1.7.3...v1.7.4) (2022-02-16)
 
 
