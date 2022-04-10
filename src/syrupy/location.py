@@ -1,25 +1,28 @@
+from dataclasses import (
+    dataclass,
+    field,
+)
 from pathlib import Path
 from typing import (
     Iterator,
     Optional,
 )
 
-import attr
 import pytest
 
 from syrupy.constants import PYTEST_NODE_SEP
 
 
-@attr.s
+@dataclass
 class PyTestLocation:
-    _node: "pytest.Item" = attr.ib()
-    nodename: Optional[str] = attr.ib(init=False)
-    testname: str = attr.ib(init=False)
-    methodname: str = attr.ib(init=False)
-    modulename: str = attr.ib(init=False)
-    filepath: str = attr.ib(init=False)
+    _node: "pytest.Item"
+    nodename: Optional[str] = field(init=False)
+    testname: str = field(init=False)
+    methodname: str = field(init=False)
+    modulename: str = field(init=False)
+    filepath: str = field(init=False)
 
-    def __attrs_post_init__(self) -> None:
+    def __post_init__(self) -> None:
         self.filepath = getattr(self._node, "fspath")  # noqa: B009
         obj = getattr(self._node, "obj")  # noqa: B009
         self.modulename = obj.__module__

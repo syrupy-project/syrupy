@@ -1,4 +1,8 @@
 import traceback
+from dataclasses import (
+    dataclass,
+    field,
+)
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
@@ -10,8 +14,6 @@ from typing import (
     Type,
     Union,
 )
-
-import attr
 
 from .exceptions import SnapshotDoesNotExist
 
@@ -27,16 +29,16 @@ if TYPE_CHECKING:
     )
 
 
-@attr.s
+@dataclass
 class AssertionResult:
-    snapshot_location: str = attr.ib()
-    snapshot_name: str = attr.ib()
-    asserted_data: Optional["SerializedData"] = attr.ib()
-    recalled_data: Optional["SerializedData"] = attr.ib()
-    created: bool = attr.ib()
-    updated: bool = attr.ib()
-    success: bool = attr.ib()
-    exception: Optional[Exception] = attr.ib()
+    snapshot_location: str
+    snapshot_name: str
+    asserted_data: Optional["SerializedData"]
+    recalled_data: Optional["SerializedData"]
+    created: bool
+    updated: bool
+    success: bool
+    exception: Optional[Exception]
 
     @property
     def final_data(self) -> Optional["SerializedData"]:
@@ -45,43 +47,56 @@ class AssertionResult:
         return self.recalled_data
 
 
-@attr.s(cmp=False, repr=False)
+@dataclass(eq=False, order=False, repr=False)
 class SnapshotAssertion:
-    name: str = attr.ib(default="snapshot")
-    _session: "SnapshotSession" = attr.ib(kw_only=True)
-    _extension_class: Type["AbstractSyrupyExtension"] = attr.ib(kw_only=True)
-    _test_location: "PyTestLocation" = attr.ib(kw_only=True)
-    _update_snapshots: bool = attr.ib(kw_only=True)
-    _exclude: Optional["PropertyFilter"] = attr.ib(
-        init=False, default=None, kw_only=True
+    session: "SnapshotSession"
+    extension_class: Type["AbstractSyrupyExtension"]
+    test_location: "PyTestLocation"
+    update_snapshots: bool
+
+    name: str = "snapshot"
+
+    _exclude: Optional["PropertyFilter"] = field(
+        init=False,
+        default=None,
     )
-    _custom_index: Optional[str] = attr.ib(init=False, default=None, kw_only=True)
-    _extension: Optional["AbstractSyrupyExtension"] = attr.ib(
-        init=False, default=None, kw_only=True
+    _custom_index: Optional[str] = field(
+        init=False,
+        default=None,
     )
-    _executions: int = attr.ib(init=False, default=0, kw_only=True)
-    _execution_results: Dict[int, "AssertionResult"] = attr.ib(
-        init=False, factory=dict, kw_only=True
+    _extension: Optional["AbstractSyrupyExtension"] = field(
+        init=False,
+        default=None,
     )
-    _matcher: Optional["PropertyMatcher"] = attr.ib(
-        init=False, default=None, kw_only=True
+    _executions: int = field(
+        init=False,
+        default=0,
     )
-    _post_assert_actions: List[Callable[..., None]] = attr.ib(
-        init=False, factory=list, kw_only=True
+    _execution_results: Dict[int, "AssertionResult"] = field(
+        init=False,
+        default_factory=dict,
+    )
+    _matcher: Optional["PropertyMatcher"] = field(
+        init=False,
+        default=None,
+    )
+    _post_assert_actions: List[Callable[..., None]] = field(
+        init=False,
+        default_factory=list,
     )
 
-    def __attrs_post_init__(self) -> None:
-        self._session.register_request(self)
+    def __post_init__(self) -> None:
+        self.session.register_request(self)
 
     def __init_extension(
         self, extension_class: Type["AbstractSyrupyExtension"]
     ) -> "AbstractSyrupyExtension":
-        return extension_class(test_location=self._test_location)
+        return extension_class(test_location=self.test_location)
 
     @property
     def extension(self) -> "AbstractSyrupyExtension":
         if not self._extension:
-            self._extension = self.__init_extension(self._extension_class)
+            self._extension = self.__init_extension(self.extension_class)
         return self._extension
 
     @property
@@ -106,10 +121,10 @@ class SnapshotAssertion:
         specified extension class. This does not preserve assertion index or state.
         """
         return self.__class__(
-            update_snapshots=self._update_snapshots,
-            test_location=self._test_location,
-            extension_class=extension_class or self._extension_class,
-            session=self._session,
+            update_snapshots=self.update_snapshots,
+            test_location=self.test_location,
+            extension_class=extension_class or self.extension_class,
+            session=self.session,
         )
 
     def assert_match(self, data: "SerializableData") -> None:
@@ -193,7 +208,7 @@ class SnapshotAssertion:
                 serialized_data=serialized_data, snapshot_data=snapshot_data
             )
             assertion_success = matches
-            if not matches and self._update_snapshots:
+            if not matches and self.update_snapshots:
                 self.extension.write_snapshot(
                     data=serialized_data,
                     index=self.index,
