@@ -1,5 +1,6 @@
-import datetime
 import json
+from datetime import datetime
+from numbers import Number
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
@@ -8,11 +9,13 @@ from typing import (
     Iterable,
     List,
     Optional,
-    Set,
+    Union,
 )
 
-from syrupy.constants import SYMBOL_ELLIPSIS
-from syrupy.extensions.amber.serializer import Repr
+from syrupy.extensions.amber.serializer import (
+    DataSerializer,
+    PreppedData,
+)
 from syrupy.extensions.single_file import (
     SingleFileSnapshotExtension,
     WriteMode,
@@ -36,98 +39,6 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
     def _file_extension(self) -> str:
         return "json"
 
-    @classmethod
-    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
-        try:
-            return sorted(iterable)
-        except TypeError:
-            return sorted(iterable, key=str)
-
-    @classmethod
-    def __is_namedtuple(cls, obj: Any) -> bool:
-        return isinstance(obj, tuple) and all(
-            type(n) == str for n in getattr(obj, "_fields", [None])
-        )
-
-    @classmethod
-    def _filter(
-        cls,
-        data: "SerializableData",
-        *,
-        depth: int = 0,
-        path: "PropertyPath",
-        exclude: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
-        visited: Optional[Set[Any]] = None,
-    ) -> "SerializableData":
-        data_id = id(data)
-        visited = set() if visited is None else visited
-        if depth > cls._max_depth or data_id in visited:
-            data = Repr(SYMBOL_ELLIPSIS)
-        elif matcher:
-            data = matcher(data=data, path=path)
-
-        if isinstance(data, (int, float, str)):
-            return data
-
-        filtered_dct: Dict[Any, Any]
-        if isinstance(data, (dict,)):
-            filtered_dct = {}
-            for key, value in data.items():
-                if exclude and exclude(prop=key, path=path):
-                    continue
-                if not isinstance(key, (str,)):
-                    continue
-                filtered_dct[key] = cls._filter(
-                    data=value,
-                    depth=depth + 1,
-                    path=(*path, (key, type(value))),
-                    exclude=exclude,
-                    matcher=matcher,
-                    visited={*visited, data_id},
-                )
-            return filtered_dct
-
-        if cls.__is_namedtuple(data):
-            filtered_dct = {}
-            for key in cls.sort(data._fields):
-                value = getattr(data, key)
-                filtered_dct[key] = cls._filter(
-                    data=value,
-                    depth=depth + 1,
-                    path=(*path, (key, type(value))),
-                    exclude=exclude,
-                    matcher=matcher,
-                    visited={*visited, data_id},
-                )
-            return filtered_dct
-
-        if isinstance(data, (set, frozenset, list, tuple, GeneratorType)):
-            filtered_lst: List[Any] = []
-            iterable = (
-                cls.sort(data) if isinstance(data, (set, frozenset)) else list(data)
-            )
-            for key, value in enumerate(iterable):
-                filtered_lst.append(
-                    cls._filter(
-                        data=value,
-                        depth=depth + 1,
-                        path=(*path, (key, type(value))),
-                        exclude=exclude,
-                        matcher=matcher,
-                        visited={*visited, data_id},
-                    )
-                )
-            return filtered_lst
-
-        if isinstance(data, (datetime.datetime,)):
-            return data.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-
-        if data.__class__.__repr__ != object.__repr__:
-            return repr(data)
-
-        return f"<class '{data.__class__.__name__}'>"
-
     def serialize(
         self,
         data: "SerializableData",
@@ -135,7 +46,57 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
-        data = self._filter(
-            data=data, depth=0, path=(), exclude=exclude, matcher=matcher
+        def matcher_with_datetime(
+            *, data: "SerializableData", path: "PropertyPath"
+        ) -> Optional[SerializableData]:
+            matched_data = matcher(data=data, path=path) if matcher else data
+            if data is not matched_data:
+                return matched_data
+            if isinstance(data, (datetime,)):
+                return data.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+            return data
+
+        prepped_data = DataSerializer._prepare(
+            data=data, exclude=exclude, matcher=matcher_with_datetime
         )
-        return json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+        return (
+            json.dumps(
+                prepped_data,
+                indent=2,
+                ensure_ascii=False,
+                sort_keys=True,
+                cls=JSONSnapshotEncoder,
+            )
+            + "\n"
+        )
+
+
+JSONValue = Union[str, Number, bool, None, List[Any], Dict[str, Any]]
+PyJSONArray = (frozenset, list, set, tuple, GeneratorType)
+
+
+class JSONSnapshotEncoder(json.JSONEncoder):
+    def default(self, o: Any) -> Any:
+        if isinstance(o, PreppedData):
+            return self.prep_data_as_json(o)
+        return super().default(o)
+
+    def prep_data_as_json(self, o: "PreppedData") -> "JSONValue":
+        if isinstance(o.value, (bool,)) or o.value is None:
+            return o.value
+
+        if isinstance(o.value, str):
+            if issubclass(o.value_type, (Number,)):
+                return o.value_type(o.value)  # type: ignore
+            return o.value
+
+        if isinstance(o.value, Iterable):
+            prepped_data = (item for item in o.value if isinstance(item, PreppedData))
+            if issubclass(o.value_type, (str,)):
+                return "".join(str(item.value) for item in prepped_data)
+            if issubclass(o.value_type, PyJSONArray) and not o.is_namedtuple:
+                return [self.default(item) for item in o.value]
+
+            return {str(item.key): self.default(item) for item in prepped_data}
+
+        return None

@@ -1,4 +1,12 @@
 {
+  "1": true,
+  "ExampleTuple(a=1, b=2, c=3, d=4)": {
+    "e": false
+  },
   "a": "Some ttext.",
+  "frozenset({'1', '2'})": [
+    "1",
+    2
+  ],
   "multi\nline\nkey": "Some morre text."
 }

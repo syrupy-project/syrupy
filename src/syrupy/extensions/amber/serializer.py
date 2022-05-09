@@ -13,6 +13,7 @@ from typing import (
     Dict,
     Hashable,
     Iterable,
+    Iterator,
     NamedTuple,
     Optional,
     Set,
@@ -51,19 +52,29 @@ if TYPE_CHECKING:
     ]
 
 
+PreppedRaw = Union[str, bool, None]  # Prepped values that can be printed as is
+PreppedItem = Union["PreppedRaw", "PreppedData"]  # Prepped single value entries
+
+
 @dataclass
 class PreppedData(object):
+    """
+    Object representing data that should be serialized.
+    Contains either printable or iterable prepped values.
+    """
+
     value_type: Type[object]
-    # When value is a string it is ready to print as is
-    value: Union[Optional[str], Iterable["PreppedData"]]
+    value: Union["PreppedRaw", Iterable["PreppedData"]]
     key: Optional[Hashable] = None
+    is_namedtuple: bool = False
 
     def with_key(self, key: Optional[Hashable]) -> "PreppedData":
         self.key = key
         return self
 
-
-PreppedValue = Union[Optional[str], "PreppedData"]
+    def with_is_namedtuple(self, is_namedtuple: bool) -> "PreppedData":
+        self.is_namedtuple = is_namedtuple
+        return self
 
 
 class Repr:
@@ -184,10 +195,12 @@ class DataSerializer:
             "visited": {*visited, data_id},
         }
         prep_method = cls._prep_unknown
-        if isinstance(data, str):
-            prep_method = cls._prep_string
+        if isinstance(data, bool):
+            return PreppedData(value_type=type(data), value=bool(data))
         elif isinstance(data, Number):
-            prep_method = cls._prep_number
+            return PreppedData(value_type=type(data), value=str(data))
+        elif isinstance(data, str):
+            prep_method = cls._prep_string
         elif isinstance(data, (set, frozenset)):
             prep_method = cls._prep_set
         elif isinstance(data, (dict, MappingProxyType)):
@@ -199,64 +212,144 @@ class DataSerializer:
         return prep_method(**prep_kwargs)
 
     @classmethod
-    def _serialize(
-        cls,
-        data: "PreppedValue",
-        *,
-        depth: int = 0,
-    ) -> str:
-        if isinstance(data, (str,)) or data is None:
-            return str(data)
-        serialize_method = cls.serialize_iterable
-        if issubclass(data.value_type, str):
-            serialize_method = cls.serialize_string
-        elif issubclass(data.value_type, Number):
-            serialize_method = cls.serialize_number
-        return serialize_method(data=data, depth=depth)
+    def _prep_string(self, data: str, **kwargs: Any) -> "PreppedData":
+        if all(c not in data for c in self._marker_crn):
+            return PreppedData(value_type=str, value=data)
 
-    @classmethod
-    def serialize_number(
-        cls, data: "PreppedData", *, depth: int = 0, **kwargs: Any
-    ) -> str:
-        return cls.with_indent(str(data.value), depth=depth)
-
-    @classmethod
-    def serialize_string(
-        cls, data: "PreppedData", *, depth: int = 0, **kwargs: Any
-    ) -> str:
-        if data.value is None:
-            raise Exception("Attempting to serialize None as string")
-        if isinstance(data.value, (str,)):
-            return cls.with_indent(str(data.value), depth=depth)
-
-        return cls.__serialize_lines(
-            lines=(
-                cls.with_indent(str(line.value), depth + 1 if depth else depth)
-                for line in data.value
+        return PreppedData(
+            value_type=str,
+            value=(
+                PreppedData(
+                    value_type=str,
+                    value=line,
+                )
+                for line in str(data).splitlines(keepends=True)
             ),
-            depth=depth,
-            open_tag="'''",
-            close_tag="'''",
-            ends="",
         )
 
     @classmethod
-    def serialize_iterable(
-        cls, data: "PreppedData", *, depth: int = 0, **kwargs: Any
-    ) -> str:
-        if isinstance(data.value, (str,)) or data.value is None:
-            return cls.with_indent(str(data.value), depth=depth)
+    def _prep_iterable(
+        cls, data: Iterable["SerializableData"], **kwargs: Any
+    ) -> "PreppedData":
+        values = list(data)
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(range(len(values)), item_getter, None),
+            **kwargs,
+        )
 
+    @classmethod
+    def _prep_set(cls, data: Set["SerializableData"], **kwargs: Any) -> "PreppedData":
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(cls.sort(data), lambda _, p: p, None),
+            **kwargs,
+        )
+
+    @classmethod
+    def _prep_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> "PreppedData":
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(cls.sort(data._fields), attr_getter, None),
+            **kwargs,
+        ).with_is_namedtuple(True)
+
+    @classmethod
+    def _prep_dict(
+        cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
+    ) -> "PreppedData":
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(cls.sort(data.keys()), item_getter, None),
+            **kwargs,
+        )
+
+    @classmethod
+    def _prep_unknown(cls, data: Any, **kwargs: Any) -> "PreppedData":
+        if data.__class__.__repr__ != object.__repr__:
+            return PreppedData(value_type=type(data), value=repr(data))
+
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(
+                (name for name in cls.sort(dir(data)) if not name.startswith("_")),
+                attr_getter,
+                lambda v: not callable(v),
+            ),
+            **kwargs,
+        )
+
+    @classmethod
+    def __prep_iterable(
+        cls,
+        *,
+        data: "SerializableData",
+        resolve_entries: "IterableEntries",
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        path: "PropertyPath" = (),
+        **kwargs: Any,
+    ) -> "PreppedData":
+        kwargs["depth"] = depth + 1
+
+        keys, get_value, include_value = resolve_entries
+        key_values = (
+            (key, get_value(data, key))
+            for key in keys
+            if not exclude or not exclude(prop=key, path=path)
+        )
+        return PreppedData(
+            value_type=type(data),
+            value=(
+                cls._prepare(
+                    data=value,
+                    exclude=exclude,
+                    path=(*path, (key, type(value))),
+                    **kwargs,
+                ).with_key(key)
+                for key, value in key_values
+                if not include_value or include_value(value)
+            ),
+        )
+
+    @classmethod
+    def _serialize(
+        cls,
+        data: "PreppedItem",
+        *,
+        depth: int = 0,
+    ) -> str:
+        if isinstance(data, (str, bool)) or data is None:
+            return str(data)
+        # Serialize single line object i.e strings, numbers
+        elif not isinstance(data.value, (Iterator,)):
+            return cls.with_indent(
+                repr(data.value)
+                if issubclass(data.value_type, str)
+                else str(data.value),
+                depth=depth,
+            )
+        # Serialize multiple line string
+        elif issubclass(data.value_type, (str,)):
+            return cls.__serialize_lines(
+                lines=(
+                    cls.with_indent(str(line.value), depth + 1 if depth else depth)
+                    for line in data.value
+                ),
+                depth=depth,
+                open_tag="'''",
+                close_tag="'''",
+                ends="",
+            )
+        # Serialize multiple line nested objects
         open_paren, close_paren, separator, serialize_key = (None, None, None, False)
         if issubclass(data.value_type, list):
             open_paren, close_paren = ("[", "]")
         elif issubclass(data.value_type, (set, frozenset)):
             open_paren, close_paren = ("{", "}")
-        elif issubclass(data.value_type, dict):
+        elif issubclass(data.value_type, (dict, MappingProxyType)):
             open_paren, close_paren, separator, serialize_key = ("{", "}", ": ", True)
-        elif issubclass(data.value_type, tuple) and data.value_type == tuple:
-            pass
-        else:
+        elif not issubclass(data.value_type, tuple) or data.is_namedtuple:
             separator = "="
 
         return cls.__serialize_iterable(
@@ -266,7 +359,6 @@ class DataSerializer:
             depth=depth,
             separator=separator,
             serialize_key=serialize_key,
-            **kwargs,
         )
 
     @classmethod
@@ -321,19 +413,19 @@ class DataSerializer:
                 else cls.with_indent(str(key), depth=kwargs["depth"])
             ) + separator
 
-        def value_str(value: "PreppedValue") -> str:
+        def value_str(value: "PreppedItem") -> str:
             serialized = cls._serialize(data=value, **kwargs)
             return serialized if separator is None else serialized.lstrip(cls._indent)
 
-        if not data or not data.value or isinstance(data.value, str):
+        if not data or not data.value or isinstance(data.value, (str, bool)):
             raise Exception(f"Attempting to serialize non iterable: {data.value}")
 
         return cls.__serialize_lines(
+            obj_type=data.value_type.__name__,
             lines=(f"{key_str(item.key)}{value_str(item)}," for item in data.value),
             depth=depth,
             open_tag=f"({open_paren or ''}",
             close_tag=f"{close_paren or ''})",
-            obj_type=data.value_type.__name__,
         )
 
     @classmethod
@@ -353,111 +445,3 @@ class DataSerializer:
         formatted_open_tag = cls.with_indent(f"{maybe_obj_type}{open_tag}", depth)
         formatted_close_tag = cls.with_indent(close_tag, depth)
         return f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"
-
-    @classmethod
-    def _prep_number(self, data: Number, **kwargs: Any) -> "PreppedData":
-        return PreppedData(value_type=type(data), value=str(data))
-
-    @classmethod
-    def _prep_string(self, data: str, **kwargs: Any) -> "PreppedData":
-        if all(c not in data for c in self._marker_crn):
-            return PreppedData(value_type=str, value=repr(data))
-
-        return PreppedData(
-            value_type=str,
-            value=(
-                PreppedData(
-                    value_type=str,
-                    value=line,
-                )
-                for line in str(data).splitlines(keepends=True)
-            ),
-        )
-
-    @classmethod
-    def _prep_iterable(
-        cls, data: Iterable["SerializableData"], **kwargs: Any
-    ) -> "PreppedData":
-        values = list(data)
-        return cls.__prep_iterable(
-            data=data,
-            resolve_entries=(range(len(values)), item_getter, None),
-            include_keys=False,
-            **kwargs,
-        )
-
-    @classmethod
-    def _prep_set(cls, data: Set["SerializableData"], **kwargs: Any) -> "PreppedData":
-        return cls.__prep_iterable(
-            data=data,
-            resolve_entries=(cls.sort(data), lambda _, p: p, None),
-            include_keys=False,
-            **kwargs,
-        )
-
-    @classmethod
-    def _prep_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> "PreppedData":
-        return cls.__prep_iterable(
-            data=data,
-            resolve_entries=(cls.sort(data._fields), attr_getter, None),
-            **kwargs,
-        )
-
-    @classmethod
-    def _prep_dict(
-        cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
-    ) -> "PreppedData":
-        return cls.__prep_iterable(
-            data=data,
-            resolve_entries=(cls.sort(data.keys()), item_getter, None),
-            **kwargs,
-        )
-
-    @classmethod
-    def _prep_unknown(cls, data: Any, **kwargs: Any) -> "PreppedData":
-        if data.__class__.__repr__ != object.__repr__:
-            return PreppedData(value_type=type(data), value=repr(data))
-
-        return cls.__prep_iterable(
-            data=data,
-            resolve_entries=(
-                (name for name in cls.sort(dir(data)) if not name.startswith("_")),
-                attr_getter,
-                lambda v: not callable(v),
-            ),
-            **kwargs,
-        )
-
-    @classmethod
-    def __prep_iterable(
-        cls,
-        *,
-        data: "SerializableData",
-        resolve_entries: "IterableEntries",
-        depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        path: "PropertyPath" = (),
-        include_keys: bool = False,
-        **kwargs: Any,
-    ) -> "PreppedData":
-        kwargs["depth"] = depth + 1
-
-        keys, get_value, include_value = resolve_entries
-        key_values = (
-            (key, get_value(data, key))
-            for key in keys
-            if not exclude or not exclude(prop=key, path=path)
-        )
-        return PreppedData(
-            value_type=type(data),
-            value=(
-                cls._prepare(
-                    data=value,
-                    exclude=exclude,
-                    path=(*path, (key, type(value))),
-                    **kwargs,
-                ).with_key(None if include_keys else key)
-                for key, value in key_values
-                if not include_value or include_value(value)
-            ),
-        )
