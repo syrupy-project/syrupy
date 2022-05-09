@@ -3,6 +3,7 @@ from typing import (
     Callable,
     Hashable,
     Optional,
+    Protocol,
     Tuple,
     Type,
     Union,
@@ -36,3 +37,11 @@ try:
 except ImportError:
     globals()["PropertyMatcher"] = Callable[..., Optional[SerializableData]]
     globals()["PropertyFilter"] = Callable[..., bool]
+
+
+class SupportsRichComparison(Protocol):
+    def __lt__(self, __other: Any) -> bool:
+        ...
+
+    def __gt__(self, __other: Any) -> bool:
+        ...

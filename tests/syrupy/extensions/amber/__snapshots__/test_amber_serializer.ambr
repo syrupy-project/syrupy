@@ -301,6 +301,12 @@
   line 2
   '''
 # ---
+# name: test_none_in_dict
+  dict({
+    'one': None,
+    None: 1,
+  })
+# ---
 # name: test_numbers
   3.5
 # ---

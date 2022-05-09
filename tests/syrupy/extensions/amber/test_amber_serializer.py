@@ -49,6 +49,14 @@ def test_multiline_string_in_dict(snapshot):
     assert {"value": lines} == snapshot
 
 
+def test_none_in_dict(snapshot):
+    actual = {
+        None: 1,
+        "one": None,
+    }
+    assert actual == snapshot
+
+
 def test_deeply_nested_multiline_string_in_dict(snapshot):
     lines = "\n".join(["line 1", "line 2", "line 3"])
     d = {"value_a": {"value_b": lines}}

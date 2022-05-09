@@ -1,5 +1,7 @@
 import functools
 import os
+from dataclasses import dataclass
+from numbers import Number
 from types import (
     GeneratorType,
     MappingProxyType,
@@ -9,11 +11,13 @@ from typing import (
     Any,
     Callable,
     Dict,
+    Hashable,
     Iterable,
     NamedTuple,
     Optional,
     Set,
     Tuple,
+    Type,
     Union,
 )
 
@@ -33,6 +37,7 @@ if TYPE_CHECKING:
         PropertyName,
         PropertyPath,
         SerializableData,
+        SupportsRichComparison,
     )
 
     PropertyValueFilter = Callable[["PropertyName"], bool]
@@ -44,6 +49,21 @@ if TYPE_CHECKING:
         "PropertyValueGetter",
         Optional["PropertyValueFilter"],
     ]
+
+
+@dataclass
+class PreppedData(object):
+    value_type: Type[object]
+    # When value is a string it is ready to print as is
+    value: Union[Optional[str], Iterable["PreppedData"]]
+    key: Optional[Hashable] = None
+
+    def with_key(self, key: Optional[Hashable]) -> "PreppedData":
+        self.key = key
+        return self
+
+
+PreppedValue = Union[Optional[str], "PreppedData"]
 
 
 class Repr:
@@ -134,11 +154,12 @@ class DataSerializer:
         same new line control characters. Example snapshots generated on windows os
         should not break when running the tests on a unix based system and vice versa.
         """
-        serialized = cls._serialize(data, exclude=exclude, matcher=matcher)
+        prepped = cls._prepare(data, exclude=exclude, matcher=matcher)
+        serialized = cls._serialize(prepped)
         return serialized.replace(cls._marker_crn, "\n").replace("\r", "\n")
 
     @classmethod
-    def _serialize(
+    def _prepare(
         cls,
         data: "SerializableData",
         *,
@@ -147,14 +168,14 @@ class DataSerializer:
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
-    ) -> str:
+    ) -> "PreppedData":
         visited = set() if visited is None else visited
         data_id = id(data)
         if depth > cls._max_depth or data_id in visited:
             data = Repr(SYMBOL_ELLIPSIS)
         elif matcher:
             data = matcher(data=data, path=path)
-        serialize_kwargs = {
+        prep_kwargs = {
             "data": data,
             "depth": depth,
             "exclude": exclude,
@@ -162,109 +183,89 @@ class DataSerializer:
             "path": path,
             "visited": {*visited, data_id},
         }
-        serialize_method = cls.serialize_unknown
+        prep_method = cls._prep_unknown
         if isinstance(data, str):
-            serialize_method = cls.serialize_string
-        elif isinstance(data, (int, float)):
-            serialize_method = cls.serialize_number
+            prep_method = cls._prep_string
+        elif isinstance(data, Number):
+            prep_method = cls._prep_number
         elif isinstance(data, (set, frozenset)):
-            serialize_method = cls.serialize_set
+            prep_method = cls._prep_set
         elif isinstance(data, (dict, MappingProxyType)):
-            serialize_method = cls.serialize_dict
+            prep_method = cls._prep_dict
         elif cls.__is_namedtuple(data):
-            serialize_method = cls.serialize_namedtuple
+            prep_method = cls._prep_namedtuple
         elif isinstance(data, (list, tuple, GeneratorType)):
-            serialize_method = cls.serialize_iterable
-        return serialize_method(**serialize_kwargs)
+            prep_method = cls._prep_iterable
+        return prep_method(**prep_kwargs)
+
+    @classmethod
+    def _serialize(
+        cls,
+        data: "PreppedValue",
+        *,
+        depth: int = 0,
+    ) -> str:
+        if isinstance(data, (str,)) or data is None:
+            return str(data)
+        serialize_method = cls.serialize_iterable
+        if issubclass(data.value_type, str):
+            serialize_method = cls.serialize_string
+        elif issubclass(data.value_type, Number):
+            serialize_method = cls.serialize_number
+        return serialize_method(data=data, depth=depth)
 
     @classmethod
     def serialize_number(
-        cls, data: Union[int, float], *, depth: int = 0, **kwargs: Any
+        cls, data: "PreppedData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        return cls.__serialize_plain(data=data, depth=depth)
+        return cls.with_indent(str(data.value), depth=depth)
 
     @classmethod
-    def serialize_string(cls, data: str, *, depth: int = 0, **kwargs: Any) -> str:
-        if all(c not in data for c in cls._marker_crn):
-            return cls.__serialize_plain(data=data, depth=depth)
+    def serialize_string(
+        cls, data: "PreppedData", *, depth: int = 0, **kwargs: Any
+    ) -> str:
+        if data.value is None:
+            raise Exception("Attempting to serialize None as string")
+        if isinstance(data.value, (str,)):
+            return cls.with_indent(str(data.value), depth=depth)
 
         return cls.__serialize_lines(
-            data=data,
             lines=(
-                cls.with_indent(line, depth + 1 if depth else depth)
-                for line in str(data).splitlines(keepends=True)
+                cls.with_indent(str(line.value), depth + 1 if depth else depth)
+                for line in data.value
             ),
             depth=depth,
             open_tag="'''",
             close_tag="'''",
-            include_type=False,
             ends="",
         )
 
     @classmethod
     def serialize_iterable(
-        cls, data: Iterable["SerializableData"], **kwargs: Any
+        cls, data: "PreppedData", *, depth: int = 0, **kwargs: Any
     ) -> str:
-        open_paren, close_paren = (None, None)
-        if isinstance(data, list):
-            open_paren, close_paren = ("[", "]")
+        if isinstance(data.value, (str,)) or data.value is None:
+            return cls.with_indent(str(data.value), depth=depth)
 
-        values = list(data)
+        open_paren, close_paren, separator, serialize_key = (None, None, None, False)
+        if issubclass(data.value_type, list):
+            open_paren, close_paren = ("[", "]")
+        elif issubclass(data.value_type, (set, frozenset)):
+            open_paren, close_paren = ("{", "}")
+        elif issubclass(data.value_type, dict):
+            open_paren, close_paren, separator, serialize_key = ("{", "}", ": ", True)
+        elif issubclass(data.value_type, tuple) and data.value_type == tuple:
+            pass
+        else:
+            separator = "="
+
         return cls.__serialize_iterable(
             data=data,
-            resolve_entries=(range(len(values)), item_getter, None),
             open_paren=open_paren,
             close_paren=close_paren,
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_set(cls, data: Set["SerializableData"], **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
-            data=data,
-            resolve_entries=(cls.sort(data), lambda _, p: p, None),
-            open_paren="{",
-            close_paren="}",
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
-            data=data,
-            resolve_entries=(cls.sort(data._fields), attr_getter, None),
-            separator="=",
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_dict(
-        cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
-    ) -> str:
-        return cls.__serialize_iterable(
-            data=data,
-            resolve_entries=(cls.sort(data.keys()), item_getter, None),
-            open_paren="{",
-            close_paren="}",
-            separator=": ",
-            serialize_key=True,
-            **kwargs,
-        )
-
-    @classmethod
-    def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
-        if data.__class__.__repr__ != object.__repr__:
-            return cls.__serialize_plain(data=data, depth=depth)
-
-        return cls.__serialize_iterable(
-            data=data,
-            resolve_entries=(
-                (name for name in cls.sort(dir(data)) if not name.startswith("_")),
-                attr_getter,
-                lambda v: not callable(v),
-            ),
             depth=depth,
-            separator="=",
+            separator=separator,
+            serialize_key=serialize_key,
             **kwargs,
         )
 
@@ -273,11 +274,16 @@ class DataSerializer:
         return f"{cls._indent * depth}{string}"
 
     @classmethod
-    def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
+    def sort(
+        cls,
+        iterable: Iterable[Any],
+        *,
+        key: Optional[Callable[[Any], "SupportsRichComparison"]] = None,
+    ) -> Iterable[Any]:
         try:
             return sorted(iterable)
         except TypeError:
-            return sorted(iterable, key=cls._serialize)
+            return sorted(iterable, key=(key or cls.serialize))
 
     @classmethod
     def object_type(cls, data: "SerializableData") -> str:
@@ -290,29 +296,150 @@ class DataSerializer:
         )
 
     @classmethod
-    def __serialize_plain(
-        cls,
-        *,
-        data: "SerializableData",
-        depth: int = 0,
-    ) -> str:
-        return cls.with_indent(repr(data), depth)
-
-    @classmethod
     def __serialize_iterable(
         cls,
         *,
-        data: "SerializableData",
-        resolve_entries: "IterableEntries",
+        data: "PreppedData",
         open_paren: Optional[str] = None,
         close_paren: Optional[str] = None,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        path: "PropertyPath" = (),
         separator: Optional[str] = None,
         serialize_key: bool = False,
         **kwargs: Any,
     ) -> str:
+        kwargs["depth"] = depth + 1
+
+        def key_str(key: Optional[Hashable]) -> str:
+            if separator is None:
+                return ""
+            return (
+                cls._serialize(
+                    data=cls._prepare(key, **kwargs),
+                    **kwargs,
+                )
+                if serialize_key
+                else cls.with_indent(str(key), depth=kwargs["depth"])
+            ) + separator
+
+        def value_str(value: "PreppedValue") -> str:
+            serialized = cls._serialize(data=value, **kwargs)
+            return serialized if separator is None else serialized.lstrip(cls._indent)
+
+        if not data or not data.value or isinstance(data.value, str):
+            raise Exception(f"Attempting to serialize non iterable: {data.value}")
+
+        return cls.__serialize_lines(
+            lines=(f"{key_str(item.key)}{value_str(item)}," for item in data.value),
+            depth=depth,
+            open_tag=f"({open_paren or ''}",
+            close_tag=f"{close_paren or ''})",
+            obj_type=data.value_type.__name__,
+        )
+
+    @classmethod
+    def __serialize_lines(
+        cls,
+        *,
+        lines: Iterable[str],
+        open_tag: str,
+        close_tag: str,
+        depth: int = 0,
+        obj_type: Optional[str] = None,
+        ends: str = "\n",
+    ) -> str:
+        lines = ends.join(lines)
+        lines_end = "\n" if lines else ""
+        maybe_obj_type = f"{obj_type}" if obj_type else ""
+        formatted_open_tag = cls.with_indent(f"{maybe_obj_type}{open_tag}", depth)
+        formatted_close_tag = cls.with_indent(close_tag, depth)
+        return f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"
+
+    @classmethod
+    def _prep_number(self, data: Number, **kwargs: Any) -> "PreppedData":
+        return PreppedData(value_type=type(data), value=str(data))
+
+    @classmethod
+    def _prep_string(self, data: str, **kwargs: Any) -> "PreppedData":
+        if all(c not in data for c in self._marker_crn):
+            return PreppedData(value_type=str, value=repr(data))
+
+        return PreppedData(
+            value_type=str,
+            value=(
+                PreppedData(
+                    value_type=str,
+                    value=line,
+                )
+                for line in str(data).splitlines(keepends=True)
+            ),
+        )
+
+    @classmethod
+    def _prep_iterable(
+        cls, data: Iterable["SerializableData"], **kwargs: Any
+    ) -> "PreppedData":
+        values = list(data)
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(range(len(values)), item_getter, None),
+            include_keys=False,
+            **kwargs,
+        )
+
+    @classmethod
+    def _prep_set(cls, data: Set["SerializableData"], **kwargs: Any) -> "PreppedData":
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(cls.sort(data), lambda _, p: p, None),
+            include_keys=False,
+            **kwargs,
+        )
+
+    @classmethod
+    def _prep_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> "PreppedData":
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(cls.sort(data._fields), attr_getter, None),
+            **kwargs,
+        )
+
+    @classmethod
+    def _prep_dict(
+        cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
+    ) -> "PreppedData":
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(cls.sort(data.keys()), item_getter, None),
+            **kwargs,
+        )
+
+    @classmethod
+    def _prep_unknown(cls, data: Any, **kwargs: Any) -> "PreppedData":
+        if data.__class__.__repr__ != object.__repr__:
+            return PreppedData(value_type=type(data), value=repr(data))
+
+        return cls.__prep_iterable(
+            data=data,
+            resolve_entries=(
+                (name for name in cls.sort(dir(data)) if not name.startswith("_")),
+                attr_getter,
+                lambda v: not callable(v),
+            ),
+            **kwargs,
+        )
+
+    @classmethod
+    def __prep_iterable(
+        cls,
+        *,
+        data: "SerializableData",
+        resolve_entries: "IterableEntries",
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        path: "PropertyPath" = (),
+        include_keys: bool = False,
+        **kwargs: Any,
+    ) -> "PreppedData":
         kwargs["depth"] = depth + 1
 
         keys, get_value, include_value = resolve_entries
@@ -321,50 +448,16 @@ class DataSerializer:
             for key in keys
             if not exclude or not exclude(prop=key, path=path)
         )
-        entries = (
-            entry
-            for entry in key_values
-            if not include_value or include_value(entry[1])
+        return PreppedData(
+            value_type=type(data),
+            value=(
+                cls._prepare(
+                    data=value,
+                    exclude=exclude,
+                    path=(*path, (key, type(value))),
+                    **kwargs,
+                ).with_key(None if include_keys else key)
+                for key, value in key_values
+                if not include_value or include_value(value)
+            ),
         )
-
-        def key_str(key: "PropertyName") -> str:
-            if separator is None:
-                return ""
-            return (
-                cls._serialize(data=key, **kwargs)
-                if serialize_key
-                else cls.with_indent(str(key), depth=depth + 1)
-            ) + separator
-
-        def value_str(key: "PropertyName", value: "SerializableData") -> str:
-            serialized = cls._serialize(
-                data=value, exclude=exclude, path=(*path, (key, type(value))), **kwargs
-            )
-            return serialized if separator is None else serialized.lstrip(cls._indent)
-
-        return cls.__serialize_lines(
-            data=data,
-            lines=(f"{key_str(key)}{value_str(key, value)}," for key, value in entries),
-            depth=depth,
-            open_tag=f"({open_paren or ''}",
-            close_tag=f"{close_paren or ''})",
-        )
-
-    @classmethod
-    def __serialize_lines(
-        cls,
-        *,
-        data: "SerializableData",
-        lines: Iterable[str],
-        open_tag: str,
-        close_tag: str,
-        depth: int = 0,
-        include_type: bool = True,
-        ends: str = "\n",
-    ) -> str:
-        lines = ends.join(lines)
-        lines_end = "\n" if lines else ""
-        maybe_obj_type = f"{cls.object_type(data)}" if include_type else ""
-        formatted_open_tag = cls.with_indent(f"{maybe_obj_type}{open_tag}", depth)
-        formatted_close_tag = cls.with_indent(close_tag, depth)
-        return f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"
