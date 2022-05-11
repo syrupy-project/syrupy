@@ -12,7 +12,6 @@ from typing import (
     List,
     Optional,
     Type,
-    Union,
 )
 
 from .exceptions import SnapshotDoesNotExist
@@ -109,7 +108,7 @@ class SnapshotAssertion:
         return self._execution_results
 
     @property
-    def index(self) -> Union[str, int]:
+    def index(self) -> "SnapshotIndex":
         if self._custom_index:
             return self._custom_index
         return self.num_executions

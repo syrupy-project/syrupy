@@ -1,15 +1,14 @@
 """
 Example: Custom Snapshot Name
 """
-from typing import Union
-
 import pytest
 
 from syrupy.extensions.amber import AmberSnapshotExtension
+from syrupy.types import SnapshotIndex
 
 
 class CanadianNameExtension(AmberSnapshotExtension):
-    def get_snapshot_name(self, *, index: Union[str, int]) -> str:
+    def get_snapshot_name(self, *, index: "SnapshotIndex") -> str:
         original_name = super(CanadianNameExtension, self).get_snapshot_name(
             index=index
         )
