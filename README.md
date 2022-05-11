@@ -255,6 +255,23 @@ def test_foo(snapshot):
     assert actual_svg == snapshot(extension_class=SVGImageSnapshotExtension)
 ```
 
+#### `diff`
+
+This is an option to snapshot only the diff between the actual object and a previous snapshot, with the `diff` argument being the previous snapshot `index`/`name`.
+
+```py
+def test_diff(snapshot):
+    actual0 = [1,2,3,4]
+    actual1 = [0,1,3,4]
+
+    assert actual0 == snapshot
+    assert actual1 == snapshot(diff=0)
+    # This is equivalent to the lines above
+    # Must use the index name to diff when given
+    assert actual0 == snapshot(name='snap_name')
+    assert actual1 == snapshot(diff='snap_name')
+```
+
 ##### Built-In Extensions
 
 Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the `AbstractSyrupyExtension` if your project has a need not captured by one our built-ins.
@@ -295,7 +312,7 @@ from syrupy.extensions.json import JSONSnapshotExtension
 
 @pytest.fixture
 def snapshot_json(snapshot):
-    return snapshot.use_extension(JSONSnapshotExtension) 
+    return snapshot.use_extension(JSONSnapshotExtension)
 
 
 def test_api_call(client, snapshot_json):
@@ -399,6 +416,5 @@ This section is automatically generated via tagging the all-contributors bot in 
 ```
 
 ## License
-
 
 Syrupy is licensed under [Apache License Version 2.0](https://github.com/tophat/syrupy/tree/master/LICENSE).
