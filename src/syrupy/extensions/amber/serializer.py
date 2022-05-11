@@ -1,6 +1,9 @@
 import functools
 import os
-from types import GeneratorType
+from types import (
+    GeneratorType,
+    MappingProxyType,
+)
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -163,7 +166,7 @@ class DataSerializer:
             serialize_method = cls.serialize_number
         elif isinstance(data, (set, frozenset)):
             serialize_method = cls.serialize_set
-        elif isinstance(data, dict):
+        elif isinstance(data, (dict, MappingProxyType)):
             serialize_method = cls.serialize_dict
         elif cls.__is_namedtuple(data):
             serialize_method = cls.serialize_namedtuple

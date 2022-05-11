@@ -12,7 +12,6 @@ from typing import (
     List,
     Optional,
     Type,
-    Union,
 )
 
 from .exceptions import SnapshotDoesNotExist
@@ -26,6 +25,7 @@ if TYPE_CHECKING:
         PropertyMatcher,
         SerializableData,
         SerializedData,
+        SnapshotIndex,
     )
 
 
@@ -108,7 +108,7 @@ class SnapshotAssertion:
         return self._execution_results
 
     @property
-    def index(self) -> Union[str, int]:
+    def index(self) -> "SnapshotIndex":
         if self._custom_index:
             return self._custom_index
         return self.num_executions
@@ -169,10 +169,11 @@ class SnapshotAssertion:
     def __call__(
         self,
         *,
+        diff: Optional["SnapshotIndex"] = None,
         exclude: Optional["PropertyFilter"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
-        name: Optional[str] = None,
+        name: Optional["SnapshotIndex"] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
@@ -185,6 +186,8 @@ class SnapshotAssertion:
             self.__with_prop("_matcher", matcher)
         if name:
             self.__with_prop("_custom_index", name)
+        if diff is not None:
+            self.__with_prop("_snapshot_diff", diff)
         return self
 
     def __dir__(self) -> List[str]:
@@ -202,8 +205,17 @@ class SnapshotAssertion:
         assertion_success = False
         assertion_exception = None
         try:
-            snapshot_data = self._recall_data()
+            snapshot_data = self._recall_data(index=self.index)
             serialized_data = self._serialize(data)
+            snapshot_diff = getattr(self, "_snapshot_diff", None)
+            if snapshot_diff is not None:
+                snapshot_data_diff = self._recall_data(index=snapshot_diff)
+                if snapshot_data_diff is None:
+                    raise SnapshotDoesNotExist()
+                serialized_data = self.extension.diff_snapshots(
+                    serialized_data=serialized_data,
+                    snapshot_data=snapshot_data_diff,
+                )
             matches = snapshot_data is not None and self.extension.matches(
                 serialized_data=serialized_data, snapshot_data=snapshot_data
             )
@@ -241,8 +253,8 @@ class SnapshotAssertion:
         while self._post_assert_actions:
             self._post_assert_actions.pop()()
 
-    def _recall_data(self) -> Optional["SerializableData"]:
+    def _recall_data(self, index: "SnapshotIndex") -> Optional["SerializableData"]:
         try:
-            return self.extension.read_snapshot(index=self.index)
+            return self.extension.read_snapshot(index=index)
         except SnapshotDoesNotExist:
             return None
