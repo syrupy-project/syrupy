@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
+    Hashable,
     Iterable,
     List,
     Optional,
@@ -97,6 +98,15 @@ class JSONSnapshotEncoder(json.JSONEncoder):
             if issubclass(o.value_type, PyJSONArray) and not o.is_namedtuple:
                 return [self.default(item) for item in o.value]
 
-            return {str(item.key): self.default(item) for item in prepped_data}
+            def serialize_key(key: Union[Hashable, None]) -> str:
+                if key is None or isinstance(key, str):
+                    return str(key)
+                return "".join(
+                    line.strip() for line in DataSerializer.serialize(key).splitlines()
+                )
+
+            return {
+                serialize_key(item.key): self.default(item) for item in prepped_data
+            }
 
         return None
