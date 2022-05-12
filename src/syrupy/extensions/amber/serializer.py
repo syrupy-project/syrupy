@@ -156,6 +156,7 @@ class DataSerializer:
         cls,
         data: "SerializableData",
         *,
+        depth: int = 0,
         exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> str:
@@ -166,7 +167,7 @@ class DataSerializer:
         should not break when running the tests on a unix based system and vice versa.
         """
         prepped = cls._prepare(data, exclude=exclude, matcher=matcher)
-        serialized = cls._serialize(prepped)
+        serialized = cls._serialize(prepped, depth=depth)
         return serialized.replace(cls._marker_crn, "\n").replace("\r", "\n")
 
     @classmethod
@@ -405,10 +406,7 @@ class DataSerializer:
             if separator is None:
                 return ""
             return (
-                cls._serialize(
-                    data=cls._prepare(key, **kwargs),
-                    **kwargs,
-                )
+                cls.serialize(key, **kwargs)
                 if serialize_key
                 else cls.with_indent(str(key), depth=kwargs["depth"])
             ) + separator
