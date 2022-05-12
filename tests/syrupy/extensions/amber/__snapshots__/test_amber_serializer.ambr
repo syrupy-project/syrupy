@@ -313,9 +313,15 @@
 # name: test_parameter_with_dot[value.with.dot]
   'value.with.dot'
 # ---
-# name: test_reflection
+# name: test_reflection.1
   SnapshotAssertion(
-    name='snapshot',
+    name='reflectionA',
+    num_executions=0,
+  )
+# ---
+# name: test_reflection[reflectionA]
+  SnapshotAssertion(
+    name='reflectionA',
     num_executions=0,
   )
 # ---

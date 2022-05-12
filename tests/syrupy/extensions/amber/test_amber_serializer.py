@@ -11,7 +11,10 @@ def test_non_snapshots(snapshot):
 
 
 def test_reflection(snapshot):
+    """assert [expected|snapshot] == [actual|received]"""
+    assert snapshot(name="reflectionA") == snapshot
     assert snapshot == snapshot
+    assert snapshot == snapshot(name="reflectionA")
 
 
 def test_empty_snapshot(snapshot):
