@@ -23,6 +23,11 @@ class PyTestLocation:
     filepath: str = field(init=False)
 
     def __post_init__(self) -> None:
+        if self.is_doctest:
+            return self.__attrs_post_init_doc__()
+        self.__attrs_post_init_def__()
+
+    def __attrs_post_init_def__(self) -> None:
         self.filepath = getattr(self._node, "fspath")  # noqa: B009
         obj = getattr(self._node, "obj")  # noqa: B009
         self.modulename = obj.__module__
@@ -30,16 +35,35 @@ class PyTestLocation:
         self.nodename = getattr(self._node, "name", None)
         self.testname = self.nodename or self.methodname
 
+    def __attrs_post_init_doc__(self) -> None:
+        doctest = getattr(self._node, "dtest")  # noqa: B009
+        self.filepath = doctest.filename
+        test_relfile, test_node = self.nodeid.split(PYTEST_NODE_SEP)
+        test_relpath = Path(test_relfile)
+        self.modulename = ".".join([*test_relpath.parent.parts, test_relpath.stem])
+        self.nodename = test_node.replace(f"{self.modulename}.", "")
+        self.testname = self.nodename or self.methodname
+
     @property
     def classname(self) -> Optional[str]:
+        if self.is_doctest:
+            return None
+        return ".".join(self.nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
+
+    @property
+    def nodeid(self) -> str:
         """
         Pytest node names contain file path and module members delimited by `::`
-        Example tests/grouping/test_file.py::TestClass::TestSubClass::test_method
+
+        Examples:
+        - tests/grouping/test_file.py::TestClass::TestSubClass::test_method
+        - tests/grouping/test_file.py::DocTestClass.doc_test_method
+        - tests/grouping/test_file.py::doctestfile.txt
+
+        :raises: `AttributeError` if node has no node id
+        :return: test node id
         """
-        nodeid: Optional[str] = getattr(self._node, "nodeid", None)
-        if nodeid is None:
-            return None
-        return ".".join(nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
+        return str(getattr(self._node, "nodeid"))  # noqa: B009
 
     @property
     def filename(self) -> str:
@@ -50,6 +74,13 @@ class PyTestLocation:
         if self.classname is not None:
             return f"{self.classname}.{self.testname}"
         return str(self.testname)
+
+    @property
+    def is_doctest(self) -> bool:
+        return self.__is_doctest(self._node)
+
+    def __is_doctest(self, node: "pytest.Item") -> bool:
+        return hasattr(node, "dtest")
 
     def __valid_id(self, name: str) -> str:
         """

@@ -92,7 +92,10 @@ dist,
 '''
 
 [tool.pytest.ini_options]
-addopts = '-p syrupy'
+addopts = '-p syrupy --doctest-modules'
+testpaths = [
+  "tests",
+]
 
 [tool.coverage.run]
 source = ['./src']
