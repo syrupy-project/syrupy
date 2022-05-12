@@ -80,7 +80,9 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self, *, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
         try:
-            with open(snapshot_location, f"r{self._write_mode}") as f:
+            with open(
+                snapshot_location, f"r{self._write_mode}", encoding=self._write_encoding
+            ) as f:
                 return f.read()
         except FileNotFoundError:
             return None
@@ -90,6 +92,12 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         if self._write_mode == WriteMode.TEXT:
             return str
         return bytes
+
+    @property
+    def _write_encoding(self) -> Optional[str]:
+        if self._write_mode == WriteMode.TEXT:
+            return TEXT_ENCODING
+        return None
 
     def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
         filepath, data = snapshot_fossil.location, next(iter(snapshot_fossil)).data
@@ -102,7 +110,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
                     self._supported_dataclass.__name__, type(data).__name__
                 )
             )
-        with open(filepath, f"w{self._write_mode}") as f:
+        with open(filepath, f"w{self._write_mode}", encoding=self._write_encoding) as f:
             f.write(data)
 
     def __clean_filename(self, filename: str) -> str:
