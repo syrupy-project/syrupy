@@ -1,4 +1,5 @@
 import traceback
+from collections import namedtuple
 from dataclasses import (
     dataclass,
     field,
@@ -15,6 +16,7 @@ from typing import (
 )
 
 from .exceptions import SnapshotDoesNotExist
+from .extensions.amber.serializer import Repr
 
 if TYPE_CHECKING:
     from .extensions.base import AbstractSyrupyExtension
@@ -54,8 +56,6 @@ class SnapshotAssertion:
     test_location: "PyTestLocation"
     update_snapshots: bool
 
-    name: str = "snapshot"
-
     _exclude: Optional["PropertyFilter"] = field(
         init=False,
         default=None,
@@ -75,6 +75,9 @@ class SnapshotAssertion:
     _execution_results: Dict[int, "AssertionResult"] = field(
         init=False,
         default_factory=dict,
+    )
+    _execution_name_index: Dict["SnapshotIndex", int] = field(
+        init=False, default_factory=dict
     )
     _matcher: Optional["PropertyMatcher"] = field(
         init=False,
@@ -104,7 +107,7 @@ class SnapshotAssertion:
         return int(self._executions)
 
     @property
-    def executions(self) -> Dict[int, AssertionResult]:
+    def executions(self) -> Dict[int, "AssertionResult"]:
         return self._execution_results
 
     @property
@@ -112,6 +115,44 @@ class SnapshotAssertion:
         if self._custom_index:
             return self._custom_index
         return self.num_executions
+
+    @property
+    def name(self) -> str:
+        return self._custom_index or "snapshot"
+
+    @property
+    def __repr(self) -> "SerializableData":
+        SnapshotAssertionRepr = namedtuple(  # type: ignore
+            "SnapshotAssertion", ["name", "num_executions"]
+        )
+        assertion_result = self.executions.get(
+            (self._custom_index and self._execution_name_index.get(self._custom_index))
+            or self.num_executions - 1
+        )
+        return (
+            Repr(str(assertion_result.final_data))
+            if assertion_result
+            else SnapshotAssertionRepr(
+                name=self.name,
+                num_executions=self.num_executions,
+            )
+        )
+
+    @property
+    def __matcher(self) -> "PropertyMatcher":
+        """
+        Get matcher that replaces `SnapshotAssertion` with one that can be serialized
+        """
+
+        def _matcher(**kwargs: Any) -> Optional["SerializableData"]:
+            maybe_assertion = kwargs.get("data")
+            if isinstance(maybe_assertion, SnapshotAssertion):
+                return maybe_assertion.__repr
+            if self._matcher:
+                return self._matcher(**kwargs)
+            return maybe_assertion
+
+        return _matcher
 
     def use_extension(
         self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None
@@ -132,7 +173,7 @@ class SnapshotAssertion:
 
     def _serialize(self, data: "SerializableData") -> "SerializedData":
         return self.extension.serialize(
-            data, exclude=self._exclude, matcher=self._matcher
+            data, exclude=self._exclude, matcher=self.__matcher
         )
 
     def get_assert_diff(self) -> List[str]:
@@ -190,8 +231,8 @@ class SnapshotAssertion:
             self.__with_prop("_snapshot_diff", diff)
         return self
 
-    def __dir__(self) -> List[str]:
-        return ["name", "num_executions"]
+    def __repr__(self) -> str:
+        return str(self._serialize(self.__repr))
 
     def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)
@@ -233,6 +274,7 @@ class SnapshotAssertion:
         finally:
             snapshot_created = snapshot_data is None and assertion_success
             snapshot_updated = matches is False and assertion_success
+            self._execution_name_index[self.index] = self._executions
             self._execution_results[self._executions] = AssertionResult(
                 snapshot_location=snapshot_location,
                 snapshot_name=snapshot_name,
