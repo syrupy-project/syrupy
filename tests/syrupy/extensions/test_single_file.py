@@ -7,7 +7,10 @@ from syrupy.data import (
     Snapshot,
     SnapshotFossil,
 )
-from syrupy.extensions.single_file import SingleFileSnapshotExtension
+from syrupy.extensions.single_file import (
+    SingleFileSnapshotExtension,
+    WriteMode,
+)
 
 if TYPE_CHECKING:
     from syrupy.assertion import SnapshotAssertion
@@ -19,7 +22,7 @@ def snapshot_single(snapshot):
 
 
 class SingleFileUTF8SnapshotExtension(SingleFileSnapshotExtension):
-    _write_mode = "t"
+    _write_mode = WriteMode.TEXT
 
 
 @pytest.fixture

@@ -1,8 +1,8 @@
+from enum import Enum
 from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Literal,
     Optional,
     Set,
     Type,
@@ -28,9 +28,17 @@ if TYPE_CHECKING:
     )
 
 
+class WriteMode(Enum):
+    BINARY = "b"
+    TEXT = "t"
+
+    def __str__(self) -> str:
+        return self.value
+
+
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     _text_encoding = TEXT_ENCODING
-    _write_mode: Literal["b", "t"] = "b"
+    _write_mode = WriteMode.BINARY
 
     def serialize(
         self,
@@ -72,14 +80,14 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self, *, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
         try:
-            with open(snapshot_location, "r" + self._write_mode) as f:
+            with open(snapshot_location, f"r{self._write_mode}") as f:
                 return f.read()
         except FileNotFoundError:
             return None
 
     @property
     def _supported_dataclass(self) -> Union[Type[str], Type[bytes]]:
-        if self._write_mode == "t":
+        if self._write_mode == WriteMode.TEXT:
             return str
         return bytes
 
@@ -94,7 +102,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
                     self._supported_dataclass.__name__, type(data).__name__
                 )
             )
-        with open(filepath, "w" + self._write_mode) as f:
+        with open(filepath, f"w{self._write_mode}") as f:
             f.write(data)
 
     def __clean_filename(self, filename: str) -> str:

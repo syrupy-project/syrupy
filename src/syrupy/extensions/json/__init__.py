@@ -7,14 +7,16 @@ from typing import (
     Dict,
     Iterable,
     List,
-    Literal,
     Optional,
     Set,
 )
 
 from syrupy.constants import SYMBOL_ELLIPSIS
 from syrupy.extensions.amber.serializer import Repr
-from syrupy.extensions.single_file import SingleFileSnapshotExtension
+from syrupy.extensions.single_file import (
+    SingleFileSnapshotExtension,
+    WriteMode,
+)
 
 if TYPE_CHECKING:
     from syrupy.types import (
@@ -28,7 +30,7 @@ if TYPE_CHECKING:
 
 class JSONSnapshotExtension(SingleFileSnapshotExtension):
     _max_depth: int = 99
-    _write_mode: Literal["b", "t"] = "t"
+    _write_mode = WriteMode.TEXT
 
     @property
     def _file_extension(self) -> str:
