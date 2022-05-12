@@ -1,0 +1,14 @@
+>>> "There must be a break after every snapshot assertion" == getfixture('snapshot')
+True
+
+doctest x
+
+doctest y
+>>> y = "constant value"
+>>> y == getfixture('snapshot')
+True
+
+doctest z
+>>> z = {1, 2, 3}
+>>> z == getfixture('snapshot')
+True
