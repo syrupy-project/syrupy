@@ -19,8 +19,7 @@ def snapshot_single(snapshot):
 
 
 class SingleFileUTF8SnapshotExtension(SingleFileSnapshotExtension):
-    def serialize(self, data, **kwargs) -> bytes:
-        return bytes(data, "utf8")
+    _write_mode = "t"
 
 
 @pytest.fixture

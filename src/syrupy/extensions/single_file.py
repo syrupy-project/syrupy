@@ -2,11 +2,15 @@ from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Literal,
     Optional,
     Set,
+    Type,
+    Union,
 )
 from unicodedata import category
 
+from syrupy.constants import TEXT_ENCODING
 from syrupy.data import (
     Snapshot,
     SnapshotFossil,
@@ -25,6 +29,9 @@ if TYPE_CHECKING:
 
 
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
+    _text_encoding = TEXT_ENCODING
+    _write_mode: Literal["b", "t"] = "b"
+
     def serialize(
         self,
         data: "SerializableData",
@@ -32,7 +39,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
-        return bytes(data)
+        return self._supported_dataclass(data)
 
     def get_snapshot_name(self, *, index: "SnapshotIndex" = 0) -> str:
         return self.__clean_filename(
@@ -65,17 +72,29 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self, *, snapshot_location: str, snapshot_name: str
     ) -> Optional["SerializableData"]:
         try:
-            with open(snapshot_location, "rb") as f:
+            with open(snapshot_location, "r" + self._write_mode) as f:
                 return f.read()
         except FileNotFoundError:
             return None
 
+    @property
+    def _supported_dataclass(self) -> Union[Type[str], Type[bytes]]:
+        if self._write_mode == "t":
+            return str
+        return bytes
+
     def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
         filepath, data = snapshot_fossil.location, next(iter(snapshot_fossil)).data
-        if not isinstance(data, bytes):
-            error_text = gettext("Can't write non binary data. Expected '{}', got '{}'")
-            raise TypeError(error_text.format(bytes.__name__, type(data).__name__))
-        with open(filepath, "wb") as f:
+        if not isinstance(data, self._supported_dataclass):
+            error_text = gettext(
+                "Can't write non supported data. Expected '{}', got '{}'"
+            )
+            raise TypeError(
+                error_text.format(
+                    self._supported_dataclass.__name__, type(data).__name__
+                )
+            )
+        with open(filepath, "w" + self._write_mode) as f:
             f.write(data)
 
     def __clean_filename(self, filename: str) -> str:
