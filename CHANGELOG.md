@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [2.2.0](https://github.com/tophat/syrupy/compare/v2.1.0...v2.2.0) (2022-05-12)
+
+
+### Features
+
+* support snapshots in doc tests ([#525](https://github.com/tophat/syrupy/issues/525)) ([97256e3](https://github.com/tophat/syrupy/commit/97256e3091e78fefa4d3d89533a95adeee78fdb5))
+
 # [2.1.0](https://github.com/tophat/syrupy/compare/v2.0.0...v2.1.0) (2022-05-11)
 
 
