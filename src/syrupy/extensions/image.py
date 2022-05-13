@@ -3,6 +3,8 @@ from typing import (
     Any,
 )
 
+from syrupy.constants import TEXT_ENCODING
+
 from .single_file import SingleFileSnapshotExtension
 
 if TYPE_CHECKING:
@@ -21,4 +23,4 @@ class SVGImageSnapshotExtension(SingleFileSnapshotExtension):
         return "svg"
 
     def serialize(self, data: "SerializableData", **kwargs: Any) -> bytes:
-        return str(data).encode("utf-8")
+        return str(data).encode(TEXT_ENCODING)

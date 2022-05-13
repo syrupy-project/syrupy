@@ -17,7 +17,10 @@ from typing import (
     Union,
 )
 
-from syrupy.constants import SYMBOL_ELLIPSIS
+from syrupy.constants import (
+    SYMBOL_ELLIPSIS,
+    TEXT_ENCODING,
+)
 from syrupy.data import (
     Snapshot,
     SnapshotFossil,
@@ -73,7 +76,7 @@ class DataSerializer:
         Writes the snapshot data into the snapshot file that be read later.
         """
         filepath = snapshot_fossil.location
-        with open(filepath, "w", encoding="utf-8", newline=None) as f:
+        with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
             for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
@@ -94,7 +97,7 @@ class DataSerializer:
         indent_len = len(cls._indent)
         snapshot_fossil = SnapshotFossil(location=filepath)
         try:
-            with open(filepath, "r", encoding="utf-8", newline=None) as f:
+            with open(filepath, "r", encoding=TEXT_ENCODING, newline=None) as f:
                 test_name = None
                 snapshot_data = ""
                 for line in f:
