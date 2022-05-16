@@ -84,7 +84,7 @@ def limit_foo_attrs(prop, path):
   return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
 
 def test_bar(snapshot):
-    actual = new Foo(...)
+    actual = Foo(...)
     assert actual == snapshot(exclude=limit_foo_attrs)
 ```
 
@@ -96,7 +96,7 @@ class Foo:
     return ["only", "serialize", "these", "attrs"]
 
 def test_bar(snapshot):
-    actual = new Foo(...)
+    actual = Foo(...)
     assert actual == snapshot
 ```
 
