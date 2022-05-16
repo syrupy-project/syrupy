@@ -152,6 +152,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "spagh-eddie",
+      "name": "Eddie Darling",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58013020?v=4",
+      "profile": "https://github.com/spagh-eddie",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
