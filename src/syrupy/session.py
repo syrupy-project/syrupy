@@ -13,6 +13,7 @@ from typing import (
     List,
     Optional,
     Set,
+    Tuple,
 )
 
 import pytest
@@ -20,6 +21,10 @@ import pytest
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
 from .report import SnapshotReport
+from .types import (
+    SerializedData,
+    SnapshotIndex,
+)
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
@@ -42,6 +47,26 @@ class SnapshotSession:
     _locations_discovered: DefaultDict[str, Set[Any]] = field(
         default_factory=lambda: defaultdict(set)
     )
+
+    _queued_snapshot_writes: Dict[
+        "AbstractSyrupyExtension", List[Tuple["SerializedData", "SnapshotIndex"]]
+    ] = field(default_factory=dict)
+
+    def queue_snapshot_write(
+        self,
+        extension: "AbstractSyrupyExtension",
+        data: "SerializedData",
+        index: "SnapshotIndex",
+    ) -> None:
+        queue = self._queued_snapshot_writes.get(extension, [])
+        queue.append((data, index))
+        self._queued_snapshot_writes[extension] = queue
+
+    def flush_snapshot_write_queue(self) -> None:
+        for extension, queued_write in self._queued_snapshot_writes.items():
+            if queued_write:
+                extension.write_snapshot_batch(snapshots=queued_write)
+        self._queued_snapshot_writes = {}
 
     @property
     def update_snapshots(self) -> bool:
@@ -72,6 +97,7 @@ class SnapshotSession:
 
     def finish(self) -> int:
         exitstatus = 0
+        self.flush_snapshot_write_queue()
         self.report = SnapshotReport(
             base_dir=self.pytest_session.config.rootdir,
             collected_items=self._collected_items,
