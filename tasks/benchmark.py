@@ -6,6 +6,6 @@ def benchmark(ctx, report=False):
     """
     Run and generate benchmarks for current code
     """
-    import benchmarks
+    from benchmarks.main import main
 
-    benchmarks.main(report=report)
+    main(report=report)
