@@ -12,7 +12,6 @@ classifiers = [
   'Intended Audience :: Developers',
   'Operating System :: OS Independent',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.6',
   'Programming Language :: Python :: 3.7',
   'Programming Language :: Python :: 3.8',
   'Programming Language :: Python :: 3.9',
@@ -27,35 +26,34 @@ include = ['src/syrupy/py.typed']
 syrupy = 'syrupy'
 
 [tool.poetry.dependencies]
-python = '>=3.6,<4'
+python = '>=3.7,<4'
 colored = '>=1.3.92,<2.0.0'
 pytest = '>=5.1.0,<8.0.0'
-dataclasses = { version = '^0.8.0', python = '>=3.6,<3.7' }
 
 [tool.poetry.group.test.dependencies]
-codecov = '^2.1.12'
-invoke = '^1.6.0'
-coverage = { version = '^5.0.0', extras = ['toml'] }
+codecov = "^2.1.12"
+invoke = "^1.7.1"
+coverage = { version = '^6.0.0', extras = ['toml'] }
 
 [tool.poetry.group.dev.dependencies]
-isort = { version = '^5.10.1', python = '>=3.7,<4' }
-black = { version = '^22.1.0', python = '>=3.7,<4' }
-mypy = '^0.931'
+isort = "^5.10.1"
+black = "^22.3.0"
+mypy = "^0.960"
 py-githooks = '^1.1.0'
-pyperf = '^2.3.1'
+pyperf = "^2.3.1"
 flake8 = '^3.9.2'
 flake8-bugbear = '^21.4.3'
 flake8-builtins = '^1.5.3'
 flake8-i18n = '^0.1.0'
-flake8-comprehensions = { version = '^3.6.1', python = '>=3.7,<4' }
-twine = "^3.8.0"
+flake8-comprehensions = '^3.6.1'
+twine = '^4.0.0'
 semver = "^2.13.0"
 setuptools-scm = "^6.4.2"
 PyGithub = "^1.55"
 
 [tool.black]
 line-length = 88
-target-version = ['py36']
+target-version = ['py37']
 include = '\.pyi?$'
 exclude = '''
 (
