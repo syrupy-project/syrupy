@@ -77,7 +77,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         return snapshot_fossil
 
     def _read_snapshot_data_from_location(
-        self, *, snapshot_location: str, snapshot_name: str
+        self, *, snapshot_location: str, snapshot_name: str, session_id: str
     ) -> Optional["SerializableData"]:
         try:
             with open(
