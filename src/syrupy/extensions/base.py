@@ -3,6 +3,7 @@ from abc import (
     ABC,
     abstractmethod,
 )
+from collections import defaultdict
 from difflib import ndiff
 from gettext import gettext
 from itertools import zip_longest
@@ -10,11 +11,13 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Callable,
+    DefaultDict,
     Dict,
     Iterator,
     List,
     Optional,
     Set,
+    Tuple,
 )
 
 from syrupy.constants import (
@@ -115,7 +118,9 @@ class SnapshotFossilizer(ABC):
 
         return discovered
 
-    def read_snapshot(self, *, index: "SnapshotIndex") -> "SerializedData":
+    def read_snapshot(
+        self, *, index: "SnapshotIndex", session_id: str
+    ) -> "SerializedData":
         """
         Utility method for reading the contents of a snapshot assertion.
         Will call `_pre_read`, then perform `read` and finally `post_read`,
@@ -129,7 +134,9 @@ class SnapshotFossilizer(ABC):
             snapshot_location = self.get_location(index=index)
             snapshot_name = self.get_snapshot_name(index=index)
             snapshot_data = self._read_snapshot_data_from_location(
-                snapshot_location=snapshot_location, snapshot_name=snapshot_name
+                snapshot_location=snapshot_location,
+                snapshot_name=snapshot_name,
+                session_id=session_id,
             )
             if snapshot_data is None:
                 raise SnapshotDoesNotExist()
@@ -145,33 +152,66 @@ class SnapshotFossilizer(ABC):
         This method is _final_, do not override. You can override
         `_write_snapshot_fossil` in a subclass to change behaviour.
         """
-        self._pre_write(data=data, index=index)
-        snapshot_location = self.get_location(index=index)
-        if not self.test_location.matches_snapshot_location(snapshot_location):
-            warning_msg = gettext(
-                "{line_end}Can not relate snapshot location '{}' to the test location."
-                "{line_end}Consider adding '{}' to the generated location."
-            ).format(
-                snapshot_location,
-                self.test_location.filename,
-                line_end="\n",
-            )
-            warnings.warn(warning_msg)
-        snapshot_name = self.get_snapshot_name(index=index)
-        if not self.test_location.matches_snapshot_name(snapshot_name):
-            warning_msg = gettext(
-                "{line_end}Can not relate snapshot name '{}' to the test location."
-                "{line_end}Consider adding '{}' to the generated name."
-            ).format(
-                snapshot_name,
-                self.test_location.testname,
-                line_end="\n",
-            )
-            warnings.warn(warning_msg)
-        snapshot_fossil = SnapshotFossil(location=snapshot_location)
-        snapshot_fossil.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
-        self._post_write(data=data, index=index)
+        self.write_snapshot_batch(snapshots=[(data, index)])
+
+    def write_snapshot_batch(
+        self, *, snapshots: List[Tuple["SerializedData", "SnapshotIndex"]]
+    ) -> None:
+        """
+        Utility method for writing the contents of multiple snapshot assertions.
+        Will call `_pre_write` per snapshot, then perform `write` per snapshot
+        and finally `_post_write`.
+
+        This method is _final_, do not override. You can override
+        `_write_snapshot_fossil` in a subclass to change behaviour.
+        """
+        # First we group by location since it'll let us batch by file on disk.
+        # Not as useful for single file snapshots, but useful for the standard
+        # Amber extension.
+        locations: DefaultDict[str, List["Snapshot"]] = defaultdict(list)
+        for data, index in snapshots:
+            location = self.get_location(index=index)
+            snapshot_name = self.get_snapshot_name(index=index)
+            locations[location].append(Snapshot(name=snapshot_name, data=data))
+
+            # Is there a better place to do the pre-writes?
+            # Or can we remove the pre-write concept altogether?
+            self._pre_write(data=data, index=index)
+
+        for location, location_snapshots in locations.items():
+            snapshot_fossil = SnapshotFossil(location=location)
+
+            if not self.test_location.matches_snapshot_location(location):
+                warning_msg = gettext(
+                    "{line_end}Can not relate snapshot location '{}' "
+                    "to the test location.{line_end}"
+                    "Consider adding '{}' to the generated location."
+                ).format(
+                    location,
+                    self.test_location.filename,
+                    line_end="\n",
+                )
+                warnings.warn(warning_msg)
+
+            for snapshot in location_snapshots:
+                snapshot_fossil.add(snapshot)
+
+                if not self.test_location.matches_snapshot_name(snapshot.name):
+                    warning_msg = gettext(
+                        "{line_end}Can not relate snapshot name '{}' "
+                        "to the test location.{line_end}"
+                        "Consider adding '{}' to the generated name."
+                    ).format(
+                        snapshot.name,
+                        self.test_location.testname,
+                        line_end="\n",
+                    )
+                    warnings.warn(warning_msg)
+
+            self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
+
+        for data, index in snapshots:
+            self._post_write(data=data, index=index)
 
     @abstractmethod
     def delete_snapshots(
@@ -206,7 +246,7 @@ class SnapshotFossilizer(ABC):
 
     @abstractmethod
     def _read_snapshot_data_from_location(
-        self, *, snapshot_location: str, snapshot_name: str
+        self, *, snapshot_location: str, snapshot_name: str, session_id: str
     ) -> Optional["SerializedData"]:
         """
         Get only the snapshot data from location for assertion

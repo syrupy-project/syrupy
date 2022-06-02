@@ -1,4 +1,3 @@
-import functools
 import os
 from types import (
     GeneratorType,
@@ -71,11 +70,16 @@ class DataSerializer:
     _marker_crn: str = "\r\n"
 
     @classmethod
-    def write_file(cls, snapshot_fossil: "SnapshotFossil") -> None:
+    def write_file(cls, snapshot_fossil: "SnapshotFossil", merge: bool = False) -> None:
         """
-        Writes the snapshot data into the snapshot file that be read later.
+        Writes the snapshot data into the snapshot file that can be read later.
         """
         filepath = snapshot_fossil.location
+        if merge:
+            base_snapshot = cls.read_file(filepath)
+            base_snapshot.merge(snapshot_fossil)
+            snapshot_fossil = base_snapshot
+
         with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
             for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
@@ -86,7 +90,6 @@ class DataSerializer:
                     f.write(f"\n{cls._marker_divider}\n")
 
     @classmethod
-    @functools.lru_cache()
     def read_file(cls, filepath: str) -> "SnapshotFossil":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
