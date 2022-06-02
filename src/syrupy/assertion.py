@@ -262,7 +262,8 @@ class SnapshotAssertion:
             )
             assertion_success = matches
             if not matches and self.update_snapshots:
-                self.extension.write_snapshot(
+                self.session.queue_snapshot_write(
+                    extension=self.extension,
                     data=serialized_data,
                     index=self.index,
                 )
@@ -297,6 +298,8 @@ class SnapshotAssertion:
 
     def _recall_data(self, index: "SnapshotIndex") -> Optional["SerializableData"]:
         try:
-            return self.extension.read_snapshot(index=index)
+            return self.extension.read_snapshot(
+                index=index, session_id=str(id(self.session))
+            )
         except SnapshotDoesNotExist:
             return None

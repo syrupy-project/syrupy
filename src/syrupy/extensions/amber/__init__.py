@@ -1,3 +1,4 @@
+from functools import lru_cache
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
@@ -46,16 +47,23 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def _read_snapshot_fossil(self, snapshot_location: str) -> "SnapshotFossil":
         return DataSerializer.read_file(snapshot_location)
 
+    @lru_cache()
+    def __cacheable_read_snapshot(
+        self, snapshot_location: str, cache_key: str
+    ) -> "SnapshotFossil":
+        return DataSerializer.read_file(snapshot_location)
+
     def _read_snapshot_data_from_location(
-        self, snapshot_location: str, snapshot_name: str
+        self, snapshot_location: str, snapshot_name: str, session_id: str
     ) -> Optional["SerializableData"]:
-        snapshot = self._read_snapshot_fossil(snapshot_location).get(snapshot_name)
+        snapshots = self.__cacheable_read_snapshot(
+            snapshot_location=snapshot_location, cache_key=session_id
+        )
+        snapshot = snapshots.get(snapshot_name)
         return snapshot.data if snapshot else None
 
     def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
-        snapshot_fossil_to_update = DataSerializer.read_file(snapshot_fossil.location)
-        snapshot_fossil_to_update.merge(snapshot_fossil)
-        DataSerializer.write_file(snapshot_fossil_to_update)
+        DataSerializer.write_file(snapshot_fossil, merge=True)
 
 
 __all__ = ["AmberSnapshotExtension", "DataSerializer"]
