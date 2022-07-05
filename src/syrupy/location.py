@@ -114,4 +114,9 @@ class PyTestLocation:
         return self.__parse(self.snapshot_name) == self.__parse(snapshot_name)
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
-        return self.filename in snapshot_location
+        loc = Path(snapshot_location)
+        # "test_file" should match_"test_file.ext" or "test_file/whatever.ext", but not
+        # "test_file_suffix.ext"
+        return self.filename == loc.stem or any(
+            self.filename == parent.name for parent in loc.parents
+        )

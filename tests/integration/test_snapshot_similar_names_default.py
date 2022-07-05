@@ -22,16 +22,18 @@ def testcases():
 @pytest.fixture
 def run_testcases(testdir, testcases):
     pyfile_content = "\n\n".join(testcases.values())
-    testdir.makepyfile(test_1=pyfile_content, test_2=pyfile_content)
+    testdir.makepyfile(
+        test_1=pyfile_content, test_2=pyfile_content, test_1_with_suffix=pyfile_content
+    )
     result = testdir.runpytest("-v", "--snapshot-update")
-    result.stdout.re_match_lines((r"4 snapshots generated\."))
+    result.stdout.re_match_lines((r"6 snapshots generated\."))
     return testdir, testcases
 
 
 def test_run_all(run_testcases):
     testdir, testcases = run_testcases
     result = testdir.runpytest("-v")
-    result.stdout.re_match_lines("4 snapshots passed")
+    result.stdout.re_match_lines("6 snapshots passed")
     assert result.ret == 0
 
 
