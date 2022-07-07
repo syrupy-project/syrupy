@@ -73,6 +73,8 @@ def test_location_properties(
                 "test_file_extra.snap",
                 "__snapshots__/test_file_extra",
                 "test_file_extra/1.snap",
+                "test_file/extra/1.snap",
+                "__snapshots__/test_file/extra/even/more/1.snap",
             ),
             (
                 "TestClass.method_name",
@@ -91,6 +93,8 @@ def test_location_properties(
                 "test_file_extra.snap",
                 "__snapshots__/test_file_extra",
                 "test_file_extra/1.snap",
+                "test_file/extra/1.snap",
+                "__snapshots__/test_file/extra/even/more/1.snap",
             ),
             (
                 "TestClass.method_name",

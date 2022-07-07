@@ -117,6 +117,4 @@ class PyTestLocation:
         loc = Path(snapshot_location)
         # "test_file" should match_"test_file.ext" or "test_file/whatever.ext", but not
         # "test_file_suffix.ext"
-        return self.filename == loc.stem or any(
-            self.filename == parent.name for parent in loc.parents
-        )
+        return self.filename == loc.stem or self.filename == loc.parent.name
