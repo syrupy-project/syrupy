@@ -16,20 +16,28 @@ def testcases():
                 assert snapshot == b"b"
             """
         ),
+        "a_suffix": (
+            """
+            def test_a_suffix(snapshot):
+                assert snapshot == b"a_suffix"
+            """
+        ),
     }
 
 
 @pytest.fixture
 def run_testcases(testdir, testcases):
     pyfile_content = "\n\n".join(testcases.values())
-    testdir.makepyfile(test_1=pyfile_content, test_2=pyfile_content)
+    testdir.makepyfile(
+        test_1=pyfile_content, test_2=pyfile_content, test_1_suffix=pyfile_content
+    )
     result = testdir.runpytest(
         "-v",
         "--snapshot-update",
         "--snapshot-default-extension",
         "syrupy.extensions.single_file.SingleFileSnapshotExtension",
     )
-    result.stdout.re_match_lines((r"4 snapshots generated\."))
+    result.stdout.re_match_lines((r"9 snapshots generated\."))
     return testdir, testcases
 
 
@@ -40,7 +48,7 @@ def test_run_all(run_testcases):
         "--snapshot-default-extension",
         "syrupy.extensions.single_file.SingleFileSnapshotExtension",
     )
-    result.stdout.re_match_lines("4 snapshots passed")
+    result.stdout.re_match_lines("9 snapshots passed")
     assert result.ret == 0
 
 
@@ -52,7 +60,7 @@ def test_run_single_file(run_testcases):
         "syrupy.extensions.single_file.SingleFileSnapshotExtension",
         "test_1.py",
     )
-    result.stdout.re_match_lines("2 snapshots passed")
+    result.stdout.re_match_lines("3 snapshots passed")
     assert result.ret == 0
 
 
@@ -78,7 +86,7 @@ def test_run_all_but_one(run_testcases):
         "test_1.py",
         "test_2.py::test_a",
     )
-    result.stdout.re_match_lines("3 snapshots passed")
+    result.stdout.re_match_lines("4 snapshots passed")
     assert result.ret == 0
 
 
