@@ -67,7 +67,15 @@ def test_location_properties(
             "/tests/module/test_file.py::TestClass::method_name",
             "method_name",
             ("test_file.snap", "__snapshots__/test_file", "test_file/1.snap"),
-            ("test.snap", "__others__/test/file.snap"),
+            (
+                "test.snap",
+                "__others__/test/file.snap",
+                "test_file_extra.snap",
+                "__snapshots__/test_file_extra",
+                "test_file_extra/1.snap",
+                "test_file/extra/1.snap",
+                "__snapshots__/test_file/extra/even/more/1.snap",
+            ),
             (
                 "TestClass.method_name",
                 "TestClass.method_name[1]",
@@ -79,7 +87,15 @@ def test_location_properties(
             "/tests/module/test_file.py::TestClass::method_name[1]",
             "method_name",
             ("test_file.snap", "__snapshots__/test_file", "test_file/1.snap"),
-            ("test.snap", "__others__/test/file.snap"),
+            (
+                "test.snap",
+                "__others__/test/file.snap",
+                "test_file_extra.snap",
+                "__snapshots__/test_file_extra",
+                "test_file_extra/1.snap",
+                "test_file/extra/1.snap",
+                "__snapshots__/test_file/extra/even/more/1.snap",
+            ),
             (
                 "TestClass.method_name",
                 "TestClass.method_name[1]",
