@@ -28,11 +28,21 @@ def test(
         "-s -vv": verbose,
         f"-k {test_pattern}": test_pattern,
         "--snapshot-update": update_snapshots,
-        "--pdb": debug,
     }
     coverage_module = "coverage run -m " if coverage else ""
     test_flags = " ".join(flag for flag, enabled in flags.items() if enabled)
-    ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} .")
+
+    if debug and coverage:
+        raise Exception("The debug and coverage options are mutually exclusive.")
+
+    if debug:
+        ctx_run(
+            ctx,
+            f"python -m debugpy --listen 5678 --wait-for-client -m pytest {test_flags} ./tests",
+        )
+    else:
+        ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} ./tests")
+
     if coverage:
         if not os.environ.get("CI") or not os.environ.get("CODECOV_TOKEN"):
             ctx_run(ctx, "coverage report")

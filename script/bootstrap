@@ -6,24 +6,29 @@
 if [[ -z $CI ]]; then
     # pyenv update
     pyenv install --skip-existing || return
-else
-    if [[ ! -f `pwd`/.python-version ]]; then
-        echo "You are missing a .python-version file."
-        echo "pyenv will give you bizarre errors without this!"
-        echo "You need to create this file to continue."
-        return
-    fi
 fi
 
+POETRY_HOME=`pwd`/.poetry
+POETRY_BIN="$POETRY_HOME/bin/poetry"
+if [[ ! -z $CI ]]; then
+    POETRY_BIN=poetry
+fi
 
 if [[ -z $CI ]]; then
     # FIXME: There must be a better way to install this per project rather than globally?
-    curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0a2
-    . ./.venv/bin/activate
+    curl -sSL https://install.python-poetry.org | POETRY_HOME="$POETRY_HOME" python3 - --version $(cat .poetry-version)
+    $POETRY_BIN env use $(cat .python-version)
 fi
 
 if [[ -z $SKIP_DEPS ]]; then
-    poetry install --with=dev --with=test --no-interaction
+    $POETRY_BIN install --with=dev --with=test --no-interaction
+fi
+
+if [[ -z $CI ]]; then
+    . ./.venv/bin/activate
+    if [[ ! "$PATH" =~ "$POETRY_HOME" ]]; then
+        export PATH="$POETRY_HOME/bin:$PATH"
+    fi
 fi
 
 if [[ -z $CI ]]; then
