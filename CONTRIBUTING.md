@@ -22,6 +22,7 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 - [Suggesting Enhancements](#suggesting-enhancements)
 - [Your First Code Contribution](#your-first-code-contribution)
 - [Pull Requests](#pull-requests)
+- [Debugging](#debugging)
 
 [Styleguides](#styleguides)
 
@@ -85,6 +86,10 @@ Have an issue to submit code changes for? See below.
 Creating a pull request uses our template using the GitHub web interface.
 
 Fill in the relevant sections, clearly linking the issue the change is attemping to resolve.
+
+### Debugging
+
+`debugpy` is installed in local development. A VSCode launch config is provided. Run `inv test -v -d` to enable the debugger (`-d` for debug). It'll then wait for you to attach your VSCode debugging client.
 
 ## Styleguides
 

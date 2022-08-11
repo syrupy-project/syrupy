@@ -7,13 +7,14 @@ from .utils import ctx_run
 
 
 @task
-def requirements(ctx, upgrade=False):
+def install(ctx, upgrade=False):
     """
-    Build test & dev requirements lock file
+    Install dependencies and update lock file.
     """
     if upgrade:
         ctx_run(ctx, f"poetry update")
     else:
+        ctx_run(ctx, f"poetry lock")
         ctx_run(ctx, f"poetry install")
 
 
