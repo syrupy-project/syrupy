@@ -11,9 +11,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Determine Commit Sha
-      shell: bash
-      run: echo COMMIT_SHA=$(jq -r ".pull_request.head.sha // .check_run.head_sha // .after" $GITHUB_EVENT_PATH) >> $GITHUB_ENV
     - name: Detect Python Version
       id: detect-python
       run: |
