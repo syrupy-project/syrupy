@@ -35,13 +35,13 @@ pytest = '>=5.1.0,<8.0.0'
 codecov = '^2.1.12'
 invoke = '^1.7.1'
 coverage = { version = '^6.0.0', extras = ['toml'] }
+pytest-benchmark = '^3.4.1'
 
 [tool.poetry.group.dev.dependencies]
 isort = '^5.10.1'
 black = '^22.6.0'
 mypy = '^0.960'
 py-githooks = '^1.1.0'
-pyperf = '^2.3.1'
 flake8 = '^3.9.2'
 flake8-bugbear = '^21.4.3'
 flake8-builtins = '^1.5.3'
@@ -50,7 +50,6 @@ flake8-comprehensions = '^3.6.1'
 twine = '^4.0.1'
 semver = '^2.13.0'
 setuptools-scm = '^7.0.5'
-PyGithub = '^1.55'
 debugpy = '^1.6.2'
 
 [tool.black]

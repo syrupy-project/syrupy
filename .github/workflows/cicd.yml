@@ -77,6 +77,32 @@ jobs:
   #       run: |
   #         . $VENV/bin/activate
   #         poetry run invoke test --coverage
+
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
+    needs: [tests]
+    steps:
+      - uses: actions/checkout@v3.0.2
+      - name: Setup Environment
+        uses: ./.github/actions/setup-env
+      - name: Install project dependencies
+        run: . script/bootstrap
+      - name: Benchmark
+        run: poetry run invoke benchmark
+      - name: Publish Benchmark Results
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'pytest'
+          output-file-path: benchmarks.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: false
+          alert-threshold: '200%'
+          comment-on-alert: true
+          fail-on-alert: false
+          comment-always: true
+
   dry_run:
     name: Build
     runs-on: ubuntu-latest
@@ -96,11 +122,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
         run: |
           poetry run invoke release --dry-run
-      - name: Benchmark
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          poetry run invoke benchmark --report
+
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -130,8 +152,3 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
         run: |
           poetry run invoke release --no-dry-run
-      - name: Benchmark
-        env:
-          GH_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-        run: |
-          poetry run invoke benchmark --report

@@ -38,7 +38,7 @@ pip-delete-this-directory.txt
 .mypy_cache/
 .coverage
 htmlcov/
-benchmarks/__snapshots__
+benchmarks/test_cases/__snapshots__
 
 # Environments
 .env
