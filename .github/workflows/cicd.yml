@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - next
   pull_request:
 
 env:
@@ -104,10 +103,10 @@ jobs:
           comment-always: true
 
   dry_run:
-    name: Build
+    name: Release Test Package
     runs-on: ubuntu-latest
     # Dry run check does not need to wait for others
-    if: (github.event_name == 'pull_request' || github.ref == 'refs/heads/next') && !contains(github.event.head_commit.message, '[skip ci]')
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'next' && !contains(github.event.head_commit.message, '[skip ci]')
     steps:
       - uses: actions/checkout@v3.0.2
         with:
