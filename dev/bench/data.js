@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660252252220,
+  "lastUpdate": 1660253324979,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -135,6 +135,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.10171100440099168",
             "extra": "mean: 1.590301283000008 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a73fac2bec0c1ac0bb985911b45b5900ab3e18c6",
+          "message": "chore: only run workflow once for next (#616)",
+          "timestamp": "2022-08-11T17:24:58-04:00",
+          "tree_id": "a9abfb877162ab2e93d983acf3a3f6c4ab945b29",
+          "url": "https://github.com/tophat/syrupy/commit/a73fac2bec0c1ac0bb985911b45b5900ab3e18c6"
+        },
+        "date": 1660253323490,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6743524675517246,
+            "unit": "iter/sec",
+            "range": "stddev: 0.078243655327627",
+            "extra": "mean: 1.4829040422000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6422536691526739,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2328981030183329",
+            "extra": "mean: 1.5570171849999723 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.635550832760935,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09141909305056715",
+            "extra": "mean: 1.5734382655999979 sec\nrounds: 5"
           }
         ]
       }
