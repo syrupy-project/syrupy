@@ -37,7 +37,7 @@ coverage = { version = '^6.0.0', extras = ['toml'] }
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.10.1"
-black = "^22.3.0"
+black = "^22.6.0"
 mypy = "^0.960"
 py-githooks = '^1.1.0'
 pyperf = "^2.3.1"
@@ -46,15 +46,15 @@ flake8-bugbear = '^21.4.3'
 flake8-builtins = '^1.5.3'
 flake8-i18n = '^0.1.0'
 flake8-comprehensions = '^3.6.1'
-twine = '^4.0.0'
+twine = '^4.0.1'
 semver = "^2.13.0"
-setuptools-scm = "^6.4.2"
+setuptools-scm = "^7.0.5"
 PyGithub = "^1.55"
 debugpy = "^1.6.0"
 
 [tool.black]
 line-length = 88
-target-version = ['py37']
+target-version = ['py310']
 include = '\.pyi?$'
 exclude = '''
 (
@@ -66,6 +66,7 @@ exclude = '''
     | \.tox
     | \.vscode
     | \.venv
+    | \.poetry
     | syrupy.venv
     | _build
     | buck-out
@@ -86,6 +87,7 @@ skip = '''
 .mypy_cache,
 .venv,
 syrupy.venv,
+.poetry,
 build,
 dist,
 '''
@@ -103,5 +105,5 @@ source = ['./src']
 exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
 
 [build-system]
-requires = ["poetry-core>=1.1.0b2"]
+requires = ["poetry-core>=1.1.0b3"]
 build-backend = "poetry.core.masonry.api"

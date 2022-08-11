@@ -1,0 +1,40 @@
+name: setup-env
+description: Setup Environment
+inputs:
+  python-version:
+    description: Version of python
+    required: true
+outputs:
+  python-version:
+    value: ${{ steps.detect-python.outputs.version }}
+    description: Detected Python version.
+runs:
+  using: "composite"
+  steps:
+    - name: Determine Commit Sha
+      shell: bash
+      run: echo COMMIT_SHA=$(jq -r ".pull_request.head.sha // .check_run.head_sha // .after" $GITHUB_EVENT_PATH) >> $GITHUB_ENV
+    - name: Detect Python Version
+      id: detect-python
+      run: |
+        if [[ -z "${{ inputs.python-version }}" ]]; then
+          echo "::set-output name=version::$(cat .python-version | tr -d '\n')"
+        else
+          echo "::set-output name=version::${{ inputs.python-version }}"
+        fi
+      shell: bash
+    - name: Detect Poetry Version
+      id: detect-poetry
+      run: |
+        echo "::set-output name=version::$(cat .poetry-version | tr -d '\n')"
+      shell: bash
+    - name: Set up Python ${{ inputs.python-version }}
+      uses: actions/setup-python@v4.2.0
+      with:
+        python-version: ${{ inputs.python-version }}
+    - name: Install Poetry
+      uses: snok/install-poetry@v1.3.1
+      with:
+        version: ${{ steps.detect-poetry.outputs.version }}
+        virtualenvs-create: true
+        virtualenvs-in-project: true
