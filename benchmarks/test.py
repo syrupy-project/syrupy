@@ -121,3 +121,7 @@ class TestClass:
     class TestNestedParametrizedClass:
         def test_nested_method(self, snapshot, actual):
             assert snapshot == actual
+
+@pytest.mark.parametrize("x", range(1000))
+def test_performance(x, snapshot):
+    assert x == snapshot
