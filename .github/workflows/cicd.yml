@@ -17,12 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/detect-env
+      - uses: actions/checkout@v3.0.2
       - name: Setup Environment
-        uses: ./.github/actions/python
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+        uses: ./.github/actions/setup-env
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Lint
@@ -38,9 +35,9 @@ jobs:
         python-version: ['3.7', '3.8', '3.9', '3.10']
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.0.2
       - name: Setup Environment
-        uses: ./.github/actions/python
+        uses: ./.github/actions/setup-env
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install project dependencies
@@ -60,11 +57,10 @@ jobs:
   #   env:
   #     SKIP_DEPS: 1
   #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: ./.github/actions/detect-env
-  #     - name: Setup Environment
-  #       uses: ./.github/actions/python
-  #       with:
+  #    - uses: actions/checkout@v3.0.2
+  #    - name: Setup Environment
+  #      uses: ./.github/actions/setup-env
+  #      with:
   #         python-version: 3.7 # it's min, so we'll use an older version of python
   #     - name: Install project dependencies
   #       run: |
@@ -82,14 +78,11 @@ jobs:
     # Dry run check does not need to wait for others
     if: (github.event_name == 'pull_request' || github.ref == 'refs/heads/next') && !contains(github.event.head_commit.message, '[skip ci]')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.0.2
         with:
           fetch-depth: 0
-      - uses: ./.github/actions/detect-env
       - name: Setup Environment
-        uses: ./.github/actions/python
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+        uses: ./.github/actions/setup-env
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Dry Release
@@ -109,15 +102,12 @@ jobs:
     needs: [analysis, tests] # [version_checks]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip ci]')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: ./.github/actions/detect-env
       - name: Setup Environment
-        uses: ./.github/actions/python
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+        uses: ./.github/actions/setup-env
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master
