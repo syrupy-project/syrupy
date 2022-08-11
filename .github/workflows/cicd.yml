@@ -135,6 +135,14 @@ jobs:
           persist-credentials: false
       - name: Setup Environment
         uses: ./.github/actions/setup-env
+      - name: Install project dependencies
+        run: . script/bootstrap
+      - name: Release
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
+        run: |
+          poetry run invoke release --no-dry-run
       - uses: cycjimmy/semantic-release-action@v2
         with:
           branch: master
@@ -144,11 +152,3 @@ jobs:
             @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
-      - name: Install project dependencies
-        run: . script/bootstrap
-      - name: Release
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
-        run: |
-          poetry run invoke release --no-dry-run
