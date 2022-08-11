@@ -367,6 +367,10 @@ pip uninstall syrupy
 
 If you have decided not to use Syrupy for your project after giving us a try, we'd love to get your feedback. Please create a GitHub issue if applicable, or drop a comment in our [Discord server](https://discord.gg/YhK3GFcZrk).
 
+## Benchmarks
+
+Benchmarks are automatically published to https://tophat.github.io/syrupy/dev/bench/.
+
 ## Contributing
 
 Feel free to open a PR or GitHub issue. Contributions welcome!
