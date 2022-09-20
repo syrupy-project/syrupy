@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660253500712,
+  "lastUpdate": 1663679720774,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -225,6 +225,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.10959872907861361",
             "extra": "mean: 1.8101946345999864 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "huon@exoflare.io",
+            "name": "Huon Wilson",
+            "username": "huonw"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f2b2e774b6055fde887a36d2a995ebb284ebc76e",
+          "message": "fix: avoid reporting crash for snapshot dir outside pytest dir (#621)",
+          "timestamp": "2022-09-20T09:11:47-04:00",
+          "tree_id": "bc2bcdc0bab4e65554ccec7686b65c1e263edb10",
+          "url": "https://github.com/tophat/syrupy/commit/f2b2e774b6055fde887a36d2a995ebb284ebc76e"
+        },
+        "date": 1663679719408,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.4820492496535262,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11977233617181143",
+            "extra": "mean: 2.0744768314000113 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.45807324605881017,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24841780381063927",
+            "extra": "mean: 2.183056986200006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.424082402577015,
+            "unit": "iter/sec",
+            "range": "stddev: 0.33641448922170325",
+            "extra": "mean: 2.3580322926000123 sec\nrounds: 5"
           }
         ]
       }
