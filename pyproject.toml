@@ -1,7 +1,7 @@
 [tool.poetry]
 name = 'syrupy'
 license = 'Apache-2.0'
-version = '1.7.3'
+version = "2022.09.20.132433057486"
 description = 'PyTest Snapshot Test Utility'
 authors = ['Top Hat Open Source <opensource@tophat.com>']
 readme = 'README.md'
