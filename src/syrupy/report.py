@@ -299,7 +299,14 @@ class SnapshotReport:
                 for snapshot_fossil in self.unused:
                     filepath = snapshot_fossil.location
                     snapshots = (snapshot.name for snapshot in snapshot_fossil)
-                    path_to_file = str(Path(filepath).relative_to(self.base_dir))
+
+                    try:
+                        path_to_file = str(Path(filepath).relative_to(self.base_dir))
+                    except ValueError:
+                        # this is just used for display, so better to fallback to
+                        # something vaguely reasonable (the full path) than give up
+                        path_to_file = filepath
+
                     unused_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     yield warning_style(gettext(base_message)) + " {} ({})".format(
                         unused_snapshots, path_to_file
