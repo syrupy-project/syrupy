@@ -2,7 +2,7 @@
 name = 'syrupy'
 license = 'Apache-2.0'
 version = "3.0.1"
-description = 'PyTest Snapshot Test Utility'
+description = 'Pytest Snapshot Test Utility'
 authors = ['Top Hat Open Source <opensource@tophat.com>']
 readme = 'README.md'
 packages = [{ include = 'syrupy', from = 'src' }]
@@ -19,6 +19,7 @@ classifiers = [
     'Programming Language :: Python :: 3.11',
     'Topic :: Software Development :: Libraries',
     'Topic :: Software Development :: Testing',
+    'Topic :: Utilities',
 ]
 repository = 'https://github.com/tophat/syrupy'
 include = ['src/syrupy/py.typed']
