@@ -64,6 +64,9 @@ def release(ctx, dry_run=True, version=None):
         print("This is a CI only command")
         exit(1)
 
+    if dry_run and not version:
+        version = ctx_run(ctx, "poetry version --short").stdout.strip()
+
     if not version:
         print("Missing version.")
         exit(1)
