@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1663937957534,
+  "lastUpdate": 1663939935035,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -315,6 +315,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.24107036647694174",
             "extra": "mean: 1.7192455407999887 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "07a1490ae683c97f384b9f68669c4be34f96f2ff",
+          "message": "refactor: update poetry version in pyproject.toml",
+          "timestamp": "2022-09-23T09:29:01-04:00",
+          "tree_id": "f8b833a44d048c206738e45fb50050c1a67ffb6d",
+          "url": "https://github.com/tophat/syrupy/commit/07a1490ae683c97f384b9f68669c4be34f96f2ff"
+        },
+        "date": 1663939934105,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.533536829971345,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07121052751687179",
+            "extra": "mean: 1.8742848549999962 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5073418177705352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.355825872291898",
+            "extra": "mean: 1.9710577069999942 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4466190630324451,
+            "unit": "iter/sec",
+            "range": "stddev: 0.34604416735238924",
+            "extra": "mean: 2.239044597000003 sec\nrounds: 5"
           }
         ]
       }
