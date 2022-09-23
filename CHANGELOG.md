@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [3.0.1](https://github.com/tophat/syrupy/compare/v3.0.0...v3.0.1) (2022-09-23)
+
+
+### Bug Fixes
+
+* avoid reporting crash for snapshot dir outside pytest dir ([#621](https://github.com/tophat/syrupy/issues/621)) ([f2b2e77](https://github.com/tophat/syrupy/commit/f2b2e774b6055fde887a36d2a995ebb284ebc76e))
+
 # [3.0.0](https://github.com/tophat/syrupy/compare/v2.3.1...v3.0.0) (2022-08-11)
 
 
