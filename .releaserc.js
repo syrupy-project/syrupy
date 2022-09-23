@@ -10,6 +10,7 @@ module.exports = {
             },
         ],
         ["@semantic-release/exec", {
+            prepareCmd: "poetry version -n ${nextRelease.version}",
             publishCmd: "poetry run invoke release --no-dry-run --version ${nextRelease.version}"
         }],
         ["@semantic-release/git", { assets: ["CHANGELOG.md", "pyproject.toml"] }],
