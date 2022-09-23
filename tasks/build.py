@@ -54,7 +54,7 @@ def publish(ctx, dry_run=True):
 
 
 @task(pre=[dist])
-def release(ctx, dry_run=True):
+def release(ctx, dry_run=True, version=None):
     """
     Build and publish package to pypi index based on scm version
     """
@@ -64,7 +64,9 @@ def release(ctx, dry_run=True):
         print("This is a CI only command")
         exit(1)
 
-    version = ctx_run(ctx, "poetry version --short").stdout.strip()
+    if not version:
+        print("Missing version.")
+        exit(1)
 
     try:
         should_publish_to_pypi = not dry_run and parse_version_info(version)
