@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1663679720774,
+  "lastUpdate": 1663937957534,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.33641448922170325",
             "extra": "mean: 2.3580322926000123 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "e078c8a44d5cc60d2b28ed2c0322d60aa09ee723",
+          "message": "refactor: support dry-release mode",
+          "timestamp": "2022-09-23T08:56:30-04:00",
+          "tree_id": "0496d435bc0774ed5cca7bf534fc2247737dfae2",
+          "url": "https://github.com/tophat/syrupy/commit/e078c8a44d5cc60d2b28ed2c0322d60aa09ee723"
+        },
+        "date": 1663937956674,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6653167122673878,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09970989125664284",
+            "extra": "mean: 1.5030435604000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6269378562934125,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2580210492542531",
+            "extra": "mean: 1.595054421999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5816504834642097,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24107036647694174",
+            "extra": "mean: 1.7192455407999887 sec\nrounds: 5"
           }
         ]
       }
