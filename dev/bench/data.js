@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1667506355032,
+  "lastUpdate": 1667510116250,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -585,6 +585,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.16742175000112403",
             "extra": "mean: 1.4920022109999878 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "48190261f31ee801d60daab046e37d6a910b3efc",
+          "message": "fix: update poetry build backend (#631)",
+          "timestamp": "2022-11-03T17:13:24-04:00",
+          "tree_id": "661393675ade57362a2974e8b0054bc9f8ffa014",
+          "url": "https://github.com/tophat/syrupy/commit/48190261f31ee801d60daab046e37d6a910b3efc"
+        },
+        "date": 1667510115139,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7731687150709737,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06315633775745262",
+            "extra": "mean: 1.293378767799993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7412417590036489,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1658742045504701",
+            "extra": "mean: 1.3490875114000118 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6790983820866824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15597016006618394",
+            "extra": "mean: 1.4725406898000188 sec\nrounds: 5"
           }
         ]
       }
