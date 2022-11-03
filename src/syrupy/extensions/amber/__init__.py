@@ -47,9 +47,10 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def _read_snapshot_fossil(self, snapshot_location: str) -> "SnapshotFossil":
         return DataSerializer.read_file(snapshot_location)
 
+    @staticmethod
     @lru_cache()
     def __cacheable_read_snapshot(
-        self, snapshot_location: str, cache_key: str
+        snapshot_location: str, cache_key: str
     ) -> "SnapshotFossil":
         return DataSerializer.read_file(snapshot_location)
 
