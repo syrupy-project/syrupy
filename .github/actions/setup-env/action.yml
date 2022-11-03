@@ -15,22 +15,22 @@ runs:
       id: detect-python
       run: |
         if [[ -z "${{ inputs.python-version }}" ]]; then
-          echo "::set-output name=version::$(cat .python-version | tr -d '\n')"
+          echo "version=$(cat .python-version | tr -d '\n')" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=version::${{ inputs.python-version }}"
+          echo "version=${{ inputs.python-version }}" >> $GITHUB_OUTPUT
         fi
       shell: bash
     - name: Detect Poetry Version
       id: detect-poetry
       run: |
-        echo "::set-output name=version::$(cat .poetry-version | tr -d '\n')"
+        echo "version=$(cat .poetry-version | tr -d '\n')" >> $GITHUB_OUTPUT
       shell: bash
     - name: Set up Python ${{ inputs.python-version }}
-      uses: actions/setup-python@v4.2.0
+      uses: actions/setup-python@v4.3.0
       with:
         python-version: ${{ inputs.python-version }}
     - name: Install Poetry
-      uses: snok/install-poetry@v1.3.1
+      uses: snok/install-poetry@v1.3.3
       with:
         version: ${{ steps.detect-poetry.outputs.version }}
         virtualenvs-create: true
