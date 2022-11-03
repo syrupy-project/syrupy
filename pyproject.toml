@@ -22,7 +22,7 @@ classifiers = [
     'Topic :: Utilities',
 ]
 repository = 'https://github.com/tophat/syrupy'
-include = ['src/syrupy/py.typed']
+include = ['src/syrupy/**/*']
 
 [tool.poetry.plugins.pytest11]
 syrupy = 'syrupy'
