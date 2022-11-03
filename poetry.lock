@@ -260,17 +260,6 @@ flake8 = ">=3.0,<3.2.0 || >3.2.0"
 importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
 
 [[package]]
-name = "flake8-i18n"
-version = "0.1.0"
-description = "Warns about incorrect gettext usage."
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-flake8 = ">=3.0.0"
-
-[[package]]
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -793,7 +782,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 
 [metadata]
 lock-version = "1.1"
 python-versions = '>=3.7,<4'
-content-hash = "2d3b07d6b2c42210ee91610f3f48abb9ba50a648ff08547d596c3a4790af4b47"
+content-hash = "2ed68d88af75375a50926fb5821f1402ed5263432c78df1b6c01266a4c97aa23"
 
 [metadata.files]
 attrs = [
@@ -1048,9 +1037,6 @@ flake8-builtins = [
 flake8-comprehensions = [
     {file = "flake8-comprehensions-3.10.1.tar.gz", hash = "sha256:412052ac4a947f36b891143430fef4859705af11b2572fbb689f90d372cf26ab"},
     {file = "flake8_comprehensions-3.10.1-py3-none-any.whl", hash = "sha256:d763de3c74bc18a79c039a7ec732e0a1985b0c79309ceb51e56401ad0a2cd44e"},
-]
-flake8-i18n = [
-    {file = "flake8-i18n-0.1.0.tar.gz", hash = "sha256:6f17e780cb302b8532558d71abf0c99ca5fcc8df3e53ed34c74f0066404d466b"},
 ]
 idna = [
     {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
