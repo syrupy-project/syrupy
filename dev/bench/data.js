@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1667497103292,
+  "lastUpdate": 1667506355032,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -540,6 +540,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.24457666896872546",
             "extra": "mean: 1.720000725600005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f444787e13bab0ddeb291655b051c2bda5dd0f4b",
+          "message": "chore: remove broken and outdated flake8-i18n (#630)",
+          "timestamp": "2022-11-03T16:09:24-04:00",
+          "tree_id": "8d3a26c4e14ca78ac4d13946a74fe6b8dbce3962",
+          "url": "https://github.com/tophat/syrupy/commit/f444787e13bab0ddeb291655b051c2bda5dd0f4b"
+        },
+        "date": 1667506354113,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7711612546899341,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06665926014198113",
+            "extra": "mean: 1.2967456468000023 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7337313469199126,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17533425630210533",
+            "extra": "mean: 1.3628966571999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6702402936318492,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16742175000112403",
+            "extra": "mean: 1.4920022109999878 sec\nrounds: 5"
           }
         ]
       }
