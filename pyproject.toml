@@ -36,7 +36,7 @@ pytest = '>=5.1.0,<8.0.0'
 codecov = '^2.1.12'
 invoke = '^1.7.1'
 coverage = { version = '^6.0.0', extras = ['toml'] }
-pytest-benchmark = '^3.4.1'
+pytest-benchmark = '^4.0.0'
 
 [tool.poetry.group.dev.dependencies]
 isort = '^5.10.1'
