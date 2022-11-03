@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1667496485044,
+  "lastUpdate": 1667496659743,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -450,6 +450,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.24224036865828522",
             "extra": "mean: 1.964450353999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6a766e78d72fd3e74cc7725fead46b7f839b468a",
+          "message": "fix: use more expressive glob when building whl (#627)",
+          "timestamp": "2022-11-03T13:26:32-04:00",
+          "tree_id": "11b351478c20391f68f021ab2aa6bb0c979b72c5",
+          "url": "https://github.com/tophat/syrupy/commit/6a766e78d72fd3e74cc7725fead46b7f839b468a"
+        },
+        "date": 1667496658757,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6708924501291043,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09433337308793241",
+            "extra": "mean: 1.4905518758000085 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6334903287117528,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23211612472399185",
+            "extra": "mean: 1.5785560642000178 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5879955294633928,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22142337773556642",
+            "extra": "mean: 1.700693202400032 sec\nrounds: 5"
           }
         ]
       }
