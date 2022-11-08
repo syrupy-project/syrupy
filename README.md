@@ -279,8 +279,8 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported.
   - Line control characters are normalised when snapshots are generated i.e. `\r` and `\n` characters are all written as `\n`. This is to allow interoperability of snapshots between operating systems that use disparate line control characters.
 - **`SingleFileSnapshotExtension`**: Unlike the `AmberSnapshotExtension`, which groups all tests within a single test file into a singular snapshot file, this extension creates one `.raw` file per test case.
-- **`PNGSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
-- **`SVGSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
+- **`PNGImageSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
+- **`SVGImageSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 - **`JSONSnapshotExtension`**: Another extension of single file. This produces `.json` files from dictionaries and lists.
 
 #### `name`
