@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [3.0.5](https://github.com/tophat/syrupy/compare/v3.0.4...v3.0.5) (2022-11-08)
+
+
+### Bug Fixes
+
+* only instantiate colored objects if color is not disabled ([#634](https://github.com/tophat/syrupy/issues/634)) ([7f0fe22](https://github.com/tophat/syrupy/commit/7f0fe2255e56cafbad86f6e505019b8e507afd00))
+
 ## [3.0.4](https://github.com/tophat/syrupy/compare/v3.0.3...v3.0.4) (2022-11-03)
 
 
