@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1667510116250,
+  "lastUpdate": 1667931377034,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -630,6 +630,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.15597016006618394",
             "extra": "mean: 1.4725406898000188 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "57612883+mhwaage@users.noreply.github.com",
+            "name": "Magnus Heskestad Waage",
+            "username": "mhwaage"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f0fe2255e56cafbad86f6e505019b8e507afd00",
+          "message": "fix: only instantiate colored objects if color is not disabled (#634)",
+          "timestamp": "2022-11-08T13:13:56-05:00",
+          "tree_id": "119410f81f3e2dc3d1819003e0d25d49a35c792e",
+          "url": "https://github.com/tophat/syrupy/commit/7f0fe2255e56cafbad86f6e505019b8e507afd00"
+        },
+        "date": 1667931375280,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5633271033576926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06506650388290493",
+            "extra": "mean: 1.7751675607999915 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5359620889728962,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26055523471472447",
+            "extra": "mean: 1.8658036091999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5007340426575037,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24671916369182198",
+            "extra": "mean: 1.9970681335999927 sec\nrounds: 5"
           }
         ]
       }
