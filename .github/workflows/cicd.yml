@@ -3,7 +3,7 @@ name: Syrupy CICD
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 env:
@@ -126,7 +126,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: [analysis, tests] # [version_checks]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip ci]')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip ci]')
     env:
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
@@ -142,7 +142,7 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v3.1.1
         with:
-          branch: master
+          branch: main
           dry_run: false
           extra_plugins: |
             @semantic-release/changelog

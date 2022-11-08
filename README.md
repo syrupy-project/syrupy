@@ -6,7 +6,7 @@
 
 ![Pytest>=5.1.0,<8.0.0](https://img.shields.io/badge/pytest-%3E%3D5.1.0,%20%3C8.0.0-green) [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
 
-![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/master/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
+![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/main/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
 
 ![Next Status](https://github.com/tophat/syrupy/workflows/Next%20Version/badge.svg)
 
@@ -111,7 +111,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                          |
 | `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                          |
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                          |
-| `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/tophat/syrupy/blob/master/src/syrupy/extensions/amber/__init__.py) |
+| `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/tophat/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
 | `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.          |
 
 ### Assertion Options
@@ -297,9 +297,9 @@ def test_case(snapshot):
 
 ### Advanced Usage
 
-By overriding the provided [`AbstractSnapshotExtension`](https://github.com/tophat/syrupy/tree/master/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
+By overriding the provided [`AbstractSnapshotExtension`](https://github.com/tophat/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
 
-See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/master/tests/examples).
+See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/main/tests/examples).
 
 #### JSONSnapshotExtension
 
@@ -351,13 +351,13 @@ The generated snapshot:
 
 ### Extending Syrupy
 
-- [Custom snapshot directory 1](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory.py)
-- [Custom snapshot directory 2](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_directory_2.py)
-- [Custom snapshot name](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_snapshot_name.py)
-- [Custom object snapshots](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_object_repr.py)
-- [Custom comparator](https://github.com/tophat/syrupy/tree/master/tests/integration/test_custom_comparator.py)
-- [JPEG image extension](https://github.com/tophat/syrupy/tree/master/tests/examples/test_custom_image_extension.py)
-- [Built-in image extensions](https://github.com/tophat/syrupy/blob/master/tests/syrupy/extensions/image/test_image_svg.py)
+- [Custom snapshot directory 1](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot directory 2](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory_2.py)
+- [Custom snapshot name](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_name.py)
+- [Custom object snapshots](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_object_repr.py)
+- [Custom comparator](https://github.com/tophat/syrupy/tree/main/tests/integration/test_custom_comparator.py)
+- [JPEG image extension](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
+- [Built-in image extensions](https://github.com/tophat/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
 
 ## Uninstalling
 
@@ -377,7 +377,7 @@ Feel free to open a PR or GitHub issue. Contributions welcome!
 
 To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --list` to see available commands.
 
-### See contributing [guide](https://github.com/tophat/syrupy/tree/master/CONTRIBUTING.md)
+### See contributing [guide](https://github.com/tophat/syrupy/tree/main/CONTRIBUTING.md)
 
 ## Contributors
 
@@ -422,4 +422,4 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## License
 
-Syrupy is licensed under [Apache License Version 2.0](https://github.com/tophat/syrupy/tree/master/LICENSE).
+Syrupy is licensed under [Apache License Version 2.0](https://github.com/tophat/syrupy/tree/main/LICENSE).

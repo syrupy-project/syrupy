@@ -26,7 +26,7 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v3.1.1
         with:
-          branch: master
+          branch: main
           dry_run: false
           extra_plugins: |
             @semantic-release/changelog
