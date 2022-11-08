@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1667931377034,
+  "lastUpdate": 1667934308921,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -675,6 +675,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.24671916369182198",
             "extra": "mean: 1.9970681335999927 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "darrenburns@users.noreply.github.com",
+            "name": "darrenburns",
+            "username": "darrenburns"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "aded3ee51646f0fe83b2c55479c63c816fd17fb8",
+          "message": "docs: update names of image snapshot extension classes (#635)",
+          "timestamp": "2022-11-08T14:02:46-05:00",
+          "tree_id": "96577981001e85b88bac82703fd7951e634d2a2e",
+          "url": "https://github.com/tophat/syrupy/commit/aded3ee51646f0fe83b2c55479c63c816fd17fb8"
+        },
+        "date": 1667934307315,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5142446202575975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06374579386963966",
+            "extra": "mean: 1.944599827799999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.48855129949798093,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22598445680515478",
+            "extra": "mean: 2.046867956400007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4615636634825626,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2136260609033771",
+            "extra": "mean: 2.166548364000016 sec\nrounds: 5"
           }
         ]
       }
