@@ -408,6 +408,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center"><a href="https://github.com/dtczest"><img src="https://avatars.githubusercontent.com/u/97055299?v=4?s=100" width="100px;" alt="dtczest"/><br /><sub><b>dtczest</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Adtczest" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://github.com/spagh-eddie"><img src="https://avatars.githubusercontent.com/u/58013020?v=4?s=100" width="100px;" alt="Eddie Darling"/><br /><sub><b>Eddie Darling</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=spagh-eddie" title="Documentation">📖</a></td>
       <td align="center"><a href="https://github.com/darrenburns"><img src="https://avatars.githubusercontent.com/u/5740731?v=4?s=100" width="100px;" alt="darrenburns"/><br /><sub><b>darrenburns</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=darrenburns" title="Documentation">📖</a></td>
+      <td align="center"><a href="https://github.com/mhwaage"><img src="https://avatars.githubusercontent.com/u/57612883?v=4?s=100" width="100px;" alt="Magnus Heskestad Waage"/><br /><sub><b>Magnus Heskestad Waage</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Amhwaage" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
