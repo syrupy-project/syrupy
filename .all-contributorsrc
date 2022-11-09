@@ -170,6 +170,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mhwaage",
+      "name": "Magnus Heskestad Waage",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57612883?v=4",
+      "profile": "https://github.com/mhwaage",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
