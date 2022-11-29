@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1669684923124,
+  "lastUpdate": 1669732489234,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -945,6 +945,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1005678664957945",
             "extra": "mean: 1.816951479599993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "14ab21a3930b78ad43c5eb96bcc0ecb3df516283",
+          "message": "chore: change semantic commit type to chore (#648)",
+          "timestamp": "2022-11-29T09:22:34-05:00",
+          "tree_id": "4c492f2570afef43628edd4f16e927a2dc13b034",
+          "url": "https://github.com/tophat/syrupy/commit/14ab21a3930b78ad43c5eb96bcc0ecb3df516283"
+        },
+        "date": 1669732487325,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.4868036230165678,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06723656379899748",
+            "extra": "mean: 2.0542164288000095 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4710462758160044,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2479902322595474",
+            "extra": "mean: 2.1229336720000105 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.46062740035125915,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11862908886411708",
+            "extra": "mean: 2.1709520520000183 sec\nrounds: 5"
           }
         ]
       }
