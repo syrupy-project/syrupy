@@ -1,3 +1,4 @@
 {
-    "extends": ["github>tophat/new-project-kit//.github/renovate"]
+    "extends": ["github>tophat/new-project-kit//.github/renovate"],
+    "semanticCommitType": "chore"
 }
