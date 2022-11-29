@@ -40,7 +40,7 @@ pytest-benchmark = '^4.0.0'
 
 [tool.poetry.group.dev.dependencies]
 isort = '^5.10.1'
-black = '^22.6.0'
+black = '^22.10.0'
 mypy = '^0.960'
 py-githooks = '^1.1.1'
 flake8 = '^3.9.2'
