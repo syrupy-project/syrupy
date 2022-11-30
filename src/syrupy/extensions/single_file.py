@@ -69,7 +69,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     @property
     def _dirname(self) -> str:
         original_dirname = super(SingleFileSnapshotExtension, self)._dirname
-        return str(Path(original_dirname).joinpath(self.test_location.filename))
+        return str(Path(original_dirname).joinpath(self.test_location.basename))
 
     def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
         snapshot_fossil = SnapshotFossil(location=snapshot_location)

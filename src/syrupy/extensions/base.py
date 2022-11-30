@@ -188,7 +188,7 @@ class SnapshotFossilizer(ABC):
                     "Consider adding '{}' to the generated location."
                 ).format(
                     location,
-                    self.test_location.filename,
+                    self.test_location.basename,
                     line_end="\n",
                 )
                 warnings.warn(warning_msg)
@@ -272,7 +272,7 @@ class SnapshotFossilizer(ABC):
 
     def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return self.test_location.filename
+        return self.test_location.basename
 
     def __ensure_snapshot_dir(self, *, index: "SnapshotIndex") -> None:
         """
