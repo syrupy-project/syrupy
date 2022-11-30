@@ -82,14 +82,16 @@ class SnapshotFossilizer(ABC):
     def test_location(self) -> "PyTestLocation":
         raise NotImplementedError
 
-    def get_snapshot_name(self, *, index: "SnapshotIndex" = 0) -> str:
+    def get_snapshot_name(
+        self, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
+    ) -> str:
         """Get the snapshot name for the assertion index in a test location"""
         index_suffix = ""
         if isinstance(index, (str,)):
             index_suffix = f"[{index}]"
         elif index:
             index_suffix = f".{index}"
-        return f"{self.test_location.snapshot_name}{index_suffix}"
+        return f"{test_location.snapshot_name}{index_suffix}"
 
     def get_location(self, *, index: "SnapshotIndex") -> str:
         """Returns full location where snapshot data is stored."""
@@ -132,7 +134,9 @@ class SnapshotFossilizer(ABC):
         try:
             self._pre_read(index=index)
             snapshot_location = self.get_location(index=index)
-            snapshot_name = self.get_snapshot_name(index=index)
+            snapshot_name = self.get_snapshot_name(
+                test_location=self.test_location, index=index
+            )
             snapshot_data = self._read_snapshot_data_from_location(
                 snapshot_location=snapshot_location,
                 snapshot_name=snapshot_name,
@@ -171,7 +175,9 @@ class SnapshotFossilizer(ABC):
         locations: DefaultDict[str, List["Snapshot"]] = defaultdict(list)
         for data, index in snapshots:
             location = self.get_location(index=index)
-            snapshot_name = self.get_snapshot_name(index=index)
+            snapshot_name = self.get_snapshot_name(
+                test_location=self.test_location, index=index
+            )
             locations[location].append(Snapshot(name=snapshot_name, data=data))
 
             # Is there a better place to do the pre-writes?

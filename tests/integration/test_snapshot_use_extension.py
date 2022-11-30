@@ -23,7 +23,7 @@ def testcases_initial(testdir):
             def serialize(self, data, **kwargs):
                 return str(data)
 
-            def get_snapshot_name(self, *, index):
+            def get_snapshot_name(self, *, test_location, index):
                 testname = self._test_location.testname[::-1]
                 return f"{testname}.{index}"
 

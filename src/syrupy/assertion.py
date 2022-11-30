@@ -239,7 +239,9 @@ class SnapshotAssertion:
 
     def _assert(self, data: "SerializableData") -> bool:
         snapshot_location = self.extension.get_location(index=self.index)
-        snapshot_name = self.extension.get_snapshot_name(index=self.index)
+        snapshot_name = self.extension.get_snapshot_name(
+            test_location=self.test_location, index=self.index
+        )
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         matches = False

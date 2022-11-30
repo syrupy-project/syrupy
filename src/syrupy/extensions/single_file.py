@@ -15,6 +15,7 @@ from syrupy.data import (
     Snapshot,
     SnapshotFossil,
 )
+from syrupy.location import PyTestLocation
 
 from .base import AbstractSyrupyExtension
 
@@ -49,9 +50,13 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> "SerializedData":
         return self._supported_dataclass(data)
 
-    def get_snapshot_name(self, *, index: "SnapshotIndex" = 0) -> str:
+    def get_snapshot_name(
+        self, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
+    ) -> str:
         return self.__clean_filename(
-            super(SingleFileSnapshotExtension, self).get_snapshot_name(index=index)
+            super(SingleFileSnapshotExtension, self).get_snapshot_name(
+                test_location=test_location, index=index
+            )
         )
 
     def delete_snapshots(
@@ -64,7 +69,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         return "raw"
 
     def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
-        return self.get_snapshot_name(index=index)
+        return self.get_snapshot_name(test_location=self.test_location, index=index)
 
     @property
     def _dirname(self) -> str:
