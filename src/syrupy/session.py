@@ -126,7 +126,9 @@ class SnapshotSession:
             self._locations_discovered[test_location].add(extension_class)
             discovered_extensions = {
                 discovered.location: assertion.extension
-                for discovered in assertion.extension.discover_snapshots()
+                for discovered in assertion.extension.discover_snapshots(
+                    test_location=assertion.extension.test_location
+                )
                 if discovered.has_snapshots
             }
             self._extensions.update(discovered_extensions)

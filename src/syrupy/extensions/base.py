@@ -110,14 +110,14 @@ class SnapshotCollectionStorage(ABC):
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
-    def discover_snapshots(self) -> "SnapshotCollections":
+    def discover_snapshots(
+        self, *, test_location: "PyTestLocation"
+    ) -> "SnapshotCollections":
         """
         Returns all snapshot collections in test site
         """
         discovered: "SnapshotCollections" = SnapshotCollections()
-        for filepath in walk_snapshot_dir(
-            self.dirname(test_location=self.test_location)
-        ):
+        for filepath in walk_snapshot_dir(self.dirname(test_location=test_location)):
             if self.is_snapshot_location(location=filepath):
                 snapshot_collection = self._read_snapshot_collection(
                     snapshot_location=filepath

@@ -95,7 +95,11 @@ class SnapshotReport:
             extension_class = assertion.extension.__class__
             if extension_class not in locations_discovered[test_location]:
                 locations_discovered[test_location].add(extension_class)
-                self.discovered.merge(assertion.extension.discover_snapshots())
+                self.discovered.merge(
+                    assertion.extension.discover_snapshots(
+                        test_location=assertion.extension.test_location
+                    )
+                )
 
             for result in assertion.executions.values():
                 snapshot_collection = SnapshotCollection(
