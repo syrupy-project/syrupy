@@ -14,9 +14,7 @@ from syrupy.extensions.single_file import SingleFileSnapshotExtension
 
 
 class JPEGImageExtension(SingleFileSnapshotExtension):
-    @property
-    def _file_extension(self) -> str:
-        return "jpg"
+    _file_extension = "jpg"
 
 
 @pytest.fixture

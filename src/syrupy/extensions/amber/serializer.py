@@ -22,7 +22,7 @@ from syrupy.constants import (
 )
 from syrupy.data import (
     Snapshot,
-    SnapshotFossil,
+    SnapshotCollection,
 )
 
 if TYPE_CHECKING:
@@ -70,18 +70,20 @@ class DataSerializer:
     _marker_crn: str = "\r\n"
 
     @classmethod
-    def write_file(cls, snapshot_fossil: "SnapshotFossil", merge: bool = False) -> None:
+    def write_file(
+        cls, snapshot_collection: "SnapshotCollection", merge: bool = False
+    ) -> None:
         """
         Writes the snapshot data into the snapshot file that can be read later.
         """
-        filepath = snapshot_fossil.location
+        filepath = snapshot_collection.location
         if merge:
             base_snapshot = cls.read_file(filepath)
-            base_snapshot.merge(snapshot_fossil)
-            snapshot_fossil = base_snapshot
+            base_snapshot.merge(snapshot_collection)
+            snapshot_collection = base_snapshot
 
         with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
-            for snapshot in sorted(snapshot_fossil, key=lambda s: s.name):
+            for snapshot in sorted(snapshot_collection, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_name} {snapshot.name}\n")
@@ -90,7 +92,7 @@ class DataSerializer:
                     f.write(f"\n{cls._marker_divider}\n")
 
     @classmethod
-    def read_file(cls, filepath: str) -> "SnapshotFossil":
+    def read_file(cls, filepath: str) -> "SnapshotCollection":
         """
         Read the raw snapshot data (str) from the snapshot file into a dict
         of snapshot name to raw data. This does not attempt any deserialization
@@ -98,7 +100,7 @@ class DataSerializer:
         """
         name_marker_len = len(cls._marker_name)
         indent_len = len(cls._indent)
-        snapshot_fossil = SnapshotFossil(location=filepath)
+        snapshot_collection = SnapshotCollection(location=filepath)
         try:
             with open(filepath, "r", encoding=TEXT_ENCODING, newline=None) as f:
                 test_name = None
@@ -112,7 +114,7 @@ class DataSerializer:
                         if line.startswith(cls._indent):
                             snapshot_data += line[indent_len:]
                         elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshot_fossil.add(
+                            snapshot_collection.add(
                                 Snapshot(
                                     name=test_name,
                                     data=snapshot_data.rstrip(os.linesep),
@@ -121,7 +123,7 @@ class DataSerializer:
         except FileNotFoundError:
             pass
 
-        return snapshot_fossil
+        return snapshot_collection
 
     @classmethod
     def serialize(

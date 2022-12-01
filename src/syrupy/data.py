@@ -36,7 +36,7 @@ class SnapshotUnknown(Snapshot):
 
 
 @dataclass
-class SnapshotFossil:
+class SnapshotCollection:
     """A collection of snapshots at a save location"""
 
     location: str
@@ -54,8 +54,8 @@ class SnapshotFossil:
         if snapshot.name != SNAPSHOT_EMPTY_FOSSIL_KEY:
             self.remove(SNAPSHOT_EMPTY_FOSSIL_KEY)
 
-    def merge(self, snapshot_fossil: "SnapshotFossil") -> None:
-        for snapshot in snapshot_fossil:
+    def merge(self, snapshot_collection: "SnapshotCollection") -> None:
+        for snapshot in snapshot_collection:
             self.add(snapshot)
 
     def remove(self, snapshot_name: str) -> None:
@@ -69,8 +69,8 @@ class SnapshotFossil:
 
 
 @dataclass
-class SnapshotEmptyFossil(SnapshotFossil):
-    """This is a saved fossil that is known to be empty and thus can be removed"""
+class SnapshotEmptyCollection(SnapshotCollection):
+    """This is a saved collection that is known to be empty and thus can be removed"""
 
     _snapshots: Dict[str, "Snapshot"] = field(
         default_factory=lambda: {SnapshotEmpty().name: SnapshotEmpty()}
@@ -82,8 +82,8 @@ class SnapshotEmptyFossil(SnapshotFossil):
 
 
 @dataclass
-class SnapshotUnknownFossil(SnapshotFossil):
-    """This is a saved fossil that is unclaimed by any extension currently in use"""
+class SnapshotUnknownCollection(SnapshotCollection):
+    """This is a saved collection that is unclaimed by any extension currently in use"""
 
     _snapshots: Dict[str, "Snapshot"] = field(
         default_factory=lambda: {SnapshotUnknown().name: SnapshotUnknown()}
@@ -91,33 +91,33 @@ class SnapshotUnknownFossil(SnapshotFossil):
 
 
 @dataclass
-class SnapshotFossils:
-    _snapshot_fossils: Dict[str, "SnapshotFossil"] = field(default_factory=dict)
+class SnapshotCollections:
+    _snapshot_collections: Dict[str, "SnapshotCollection"] = field(default_factory=dict)
 
-    def get(self, location: str) -> Optional["SnapshotFossil"]:
-        return self._snapshot_fossils.get(location)
+    def get(self, location: str) -> Optional["SnapshotCollection"]:
+        return self._snapshot_collections.get(location)
 
-    def add(self, snapshot_fossil: "SnapshotFossil") -> None:
-        self._snapshot_fossils[snapshot_fossil.location] = snapshot_fossil
+    def add(self, snapshot_collection: "SnapshotCollection") -> None:
+        self._snapshot_collections[snapshot_collection.location] = snapshot_collection
 
-    def update(self, snapshot_fossil: "SnapshotFossil") -> None:
-        snapshot_fossil_to_update = self.get(snapshot_fossil.location)
-        if snapshot_fossil_to_update is None:
-            snapshot_fossil_to_update = SnapshotFossil(
-                location=snapshot_fossil.location
+    def update(self, snapshot_collection: "SnapshotCollection") -> None:
+        snapshot_collection_to_update = self.get(snapshot_collection.location)
+        if snapshot_collection_to_update is None:
+            snapshot_collection_to_update = SnapshotCollection(
+                location=snapshot_collection.location
             )
-            self.add(snapshot_fossil_to_update)
-        snapshot_fossil_to_update.merge(snapshot_fossil)
+            self.add(snapshot_collection_to_update)
+        snapshot_collection_to_update.merge(snapshot_collection)
 
-    def merge(self, snapshot_fossils: "SnapshotFossils") -> None:
-        for snapshot_fossil in snapshot_fossils:
-            self.update(snapshot_fossil)
+    def merge(self, snapshot_collections: "SnapshotCollections") -> None:
+        for snapshot_collection in snapshot_collections:
+            self.update(snapshot_collection)
 
-    def __iter__(self) -> Iterator["SnapshotFossil"]:
-        return iter(self._snapshot_fossils.values())
+    def __iter__(self) -> Iterator["SnapshotCollection"]:
+        return iter(self._snapshot_collections.values())
 
     def __contains__(self, key: str) -> bool:
-        return key in self._snapshot_fossils
+        return key in self._snapshot_collections
 
 
 @dataclass
