@@ -69,10 +69,11 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
         return self.get_snapshot_name(test_location=self.test_location, index=index)
 
-    @property
-    def _dirname(self) -> str:
-        original_dirname = super(SingleFileSnapshotExtension, self)._dirname
-        return str(Path(original_dirname).joinpath(self.test_location.basename))
+    def dirname(self, *, test_location: "PyTestLocation") -> str:
+        original_dirname = super(SingleFileSnapshotExtension, self).dirname(
+            test_location=test_location
+        )
+        return str(Path(original_dirname).joinpath(test_location.basename))
 
     def _read_snapshot_collection(
         self, *, snapshot_location: str

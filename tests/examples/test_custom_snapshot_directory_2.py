@@ -15,14 +15,14 @@ from pathlib import Path
 import pytest
 
 from syrupy.extensions.json import JSONSnapshotExtension
+from syrupy.location import PyTestLocation
 
 
 def create_versioned_fixture(version: int):
     class VersionedJSONExtension(JSONSnapshotExtension):
-        @property
-        def _dirname(self) -> str:
+        def dirname(self, *, test_location: "PyTestLocation") -> str:
             return str(
-                Path(self.test_location.filepath).parent.joinpath(
+                Path(test_location.filepath).parent.joinpath(
                     "__snapshots__", f"v{version}"
                 )
             )

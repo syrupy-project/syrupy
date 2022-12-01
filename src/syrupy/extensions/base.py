@@ -100,7 +100,11 @@ class SnapshotCollectionStorage(ABC):
         """Returns full location where snapshot data is stored."""
         basename = self._get_file_basename(index=index)
         fileext = f".{self._file_extension}" if self._file_extension else ""
-        return str(Path(self._dirname).joinpath(f"{basename}{fileext}"))
+        return str(
+            Path(self.dirname(test_location=self.test_location)).joinpath(
+                f"{basename}{fileext}"
+            )
+        )
 
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
@@ -111,7 +115,9 @@ class SnapshotCollectionStorage(ABC):
         Returns all snapshot collections in test site
         """
         discovered: "SnapshotCollections" = SnapshotCollections()
-        for filepath in walk_snapshot_dir(self._dirname):
+        for filepath in walk_snapshot_dir(
+            self.dirname(test_location=self.test_location)
+        ):
             if self.is_snapshot_location(location=filepath):
                 snapshot_collection = self._read_snapshot_collection(
                     snapshot_location=filepath
@@ -239,9 +245,8 @@ class SnapshotCollectionStorage(ABC):
         """
         raise NotImplementedError
 
-    @property
-    def _dirname(self) -> str:
-        test_dir = Path(self.test_location.filepath).parent
+    def dirname(self, *, test_location: "PyTestLocation") -> str:
+        test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
 
     def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
