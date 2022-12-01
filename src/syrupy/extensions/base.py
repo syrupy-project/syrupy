@@ -30,9 +30,9 @@ from syrupy.constants import (
 from syrupy.data import (
     DiffedLine,
     Snapshot,
-    SnapshotEmptyFossil,
-    SnapshotFossil,
-    SnapshotFossils,
+    SnapshotCollection,
+    SnapshotCollections,
+    SnapshotEmptyCollection,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
@@ -76,7 +76,7 @@ class SnapshotSerializer(ABC):
         raise NotImplementedError
 
 
-class SnapshotFossilizer(ABC):
+class SnapshotCollectionStorage(ABC):
     _file_extension = ""
 
     @property
@@ -106,20 +106,22 @@ class SnapshotFossilizer(ABC):
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
-    def discover_snapshots(self) -> "SnapshotFossils":
+    def discover_snapshots(self) -> "SnapshotCollections":
         """
-        Returns all snapshot fossils in test site
+        Returns all snapshot collections in test site
         """
-        discovered: "SnapshotFossils" = SnapshotFossils()
+        discovered: "SnapshotCollections" = SnapshotCollections()
         for filepath in walk_snapshot_dir(self._dirname):
             if self.is_snapshot_location(location=filepath):
-                snapshot_fossil = self._read_snapshot_fossil(snapshot_location=filepath)
-                if not snapshot_fossil.has_snapshots:
-                    snapshot_fossil = SnapshotEmptyFossil(location=filepath)
+                snapshot_collection = self._read_snapshot_collection(
+                    snapshot_location=filepath
+                )
+                if not snapshot_collection.has_snapshots:
+                    snapshot_collection = SnapshotEmptyCollection(location=filepath)
             else:
-                snapshot_fossil = SnapshotFossil(location=filepath)
+                snapshot_collection = SnapshotCollection(location=filepath)
 
-            discovered.add(snapshot_fossil)
+            discovered.add(snapshot_collection)
 
         return discovered
 
@@ -146,7 +148,7 @@ class SnapshotFossilizer(ABC):
     def write_snapshot(self, *, data: "SerializedData", index: "SnapshotIndex") -> None:
         """
         This method is _final_, do not override. You can override
-        `_write_snapshot_fossil` in a subclass to change behaviour.
+        `_write_snapshot_collection` in a subclass to change behaviour.
         """
         self.write_snapshot_batch(snapshots=[(data, index)])
 
@@ -155,7 +157,7 @@ class SnapshotFossilizer(ABC):
     ) -> None:
         """
         This method is _final_, do not override. You can override
-        `_write_snapshot_fossil` in a subclass to change behaviour.
+        `_write_snapshot_collection` in a subclass to change behaviour.
         """
         # First we group by location since it'll let us batch by file on disk.
         # Not as useful for single file snapshots, but useful for the standard
@@ -171,7 +173,7 @@ class SnapshotFossilizer(ABC):
             self.__ensure_snapshot_dir(index=index)
 
         for location, location_snapshots in locations.items():
-            snapshot_fossil = SnapshotFossil(location=location)
+            snapshot_collection = SnapshotCollection(location=location)
 
             if not self.test_location.matches_snapshot_location(location):
                 warning_msg = gettext(
@@ -186,7 +188,7 @@ class SnapshotFossilizer(ABC):
                 warnings.warn(warning_msg)
 
             for snapshot in location_snapshots:
-                snapshot_fossil.add(snapshot)
+                snapshot_collection.add(snapshot)
 
                 if not self.test_location.matches_snapshot_name(snapshot.name):
                     warning_msg = gettext(
@@ -200,7 +202,7 @@ class SnapshotFossilizer(ABC):
                     )
                     warnings.warn(warning_msg)
 
-            self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
+            self._write_snapshot_collection(snapshot_collection=snapshot_collection)
 
     @abstractmethod
     def delete_snapshots(
@@ -213,9 +215,11 @@ class SnapshotFossilizer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
+    def _read_snapshot_collection(
+        self, *, snapshot_location: str
+    ) -> "SnapshotCollection":
         """
-        Read the snapshot location and construct a snapshot fossil object
+        Read the snapshot location and construct a snapshot collection object
         """
         raise NotImplementedError
 
@@ -229,9 +233,11 @@ class SnapshotFossilizer(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
+    def _write_snapshot_collection(
+        self, *, snapshot_collection: "SnapshotCollection"
+    ) -> None:
         """
-        Adds the snapshot data to the snapshots in fossil location
+        Adds the snapshot data to the snapshots in collection location
         """
         raise NotImplementedError
 
@@ -415,7 +421,7 @@ class SnapshotComparator(ABC):
 
 
 class AbstractSyrupyExtension(
-    SnapshotSerializer, SnapshotFossilizer, SnapshotReporter, SnapshotComparator
+    SnapshotSerializer, SnapshotCollectionStorage, SnapshotReporter, SnapshotComparator
 ):
     def __init__(self, test_location: "PyTestLocation"):
         self._test_location = test_location

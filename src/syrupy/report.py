@@ -24,9 +24,9 @@ from typing import (
 from .constants import PYTEST_NODE_SEP
 from .data import (
     Snapshot,
-    SnapshotFossil,
-    SnapshotFossils,
-    SnapshotUnknownFossil,
+    SnapshotCollection,
+    SnapshotCollections,
+    SnapshotUnknownCollection,
 )
 from .location import PyTestLocation
 from .terminal import (
@@ -50,7 +50,7 @@ class SnapshotReport:
     """
     This class is responsible for determining the test summary and post execution
     results. It will provide the lines of the report to be printed as well as the
-    information used for removal of unused or orphaned snapshots and fossils.
+    information used for removal of unused or orphaned snapshots and collections.
     """
 
     base_dir: str
@@ -58,12 +58,12 @@ class SnapshotReport:
     selected_items: Dict[str, bool]
     options: "argparse.Namespace"
     assertions: List["SnapshotAssertion"]
-    discovered: "SnapshotFossils" = field(default_factory=SnapshotFossils)
-    created: "SnapshotFossils" = field(default_factory=SnapshotFossils)
-    failed: "SnapshotFossils" = field(default_factory=SnapshotFossils)
-    matched: "SnapshotFossils" = field(default_factory=SnapshotFossils)
-    updated: "SnapshotFossils" = field(default_factory=SnapshotFossils)
-    used: "SnapshotFossils" = field(default_factory=SnapshotFossils)
+    discovered: "SnapshotCollections" = field(default_factory=SnapshotCollections)
+    created: "SnapshotCollections" = field(default_factory=SnapshotCollections)
+    failed: "SnapshotCollections" = field(default_factory=SnapshotCollections)
+    matched: "SnapshotCollections" = field(default_factory=SnapshotCollections)
+    updated: "SnapshotCollections" = field(default_factory=SnapshotCollections)
+    used: "SnapshotCollections" = field(default_factory=SnapshotCollections)
     _provided_test_paths: Dict[str, List[str]] = field(default_factory=dict)
     _keyword_expressions: Set["Expression"] = field(default_factory=set)
     _collected_items_by_nodeid: Dict[str, "pytest.Item"] = field(
@@ -98,19 +98,21 @@ class SnapshotReport:
                 self.discovered.merge(assertion.extension.discover_snapshots())
 
             for result in assertion.executions.values():
-                snapshot_fossil = SnapshotFossil(location=result.snapshot_location)
-                snapshot_fossil.add(
+                snapshot_collection = SnapshotCollection(
+                    location=result.snapshot_location
+                )
+                snapshot_collection.add(
                     Snapshot(name=result.snapshot_name, data=result.final_data)
                 )
-                self.used.update(snapshot_fossil)
+                self.used.update(snapshot_collection)
                 if result.created:
-                    self.created.update(snapshot_fossil)
+                    self.created.update(snapshot_collection)
                 elif result.updated:
-                    self.updated.update(snapshot_fossil)
+                    self.updated.update(snapshot_collection)
                 elif result.success:
-                    self.matched.update(snapshot_fossil)
+                    self.matched.update(snapshot_collection)
                 else:
-                    self.failed.update(snapshot_fossil)
+                    self.failed.update(snapshot_collection)
 
     def __parse_invocation_args(self) -> None:
         """
@@ -180,7 +182,7 @@ class SnapshotReport:
         )
 
     @property
-    def unused(self) -> "SnapshotFossils":
+    def unused(self) -> "SnapshotCollections":
         """
         Iterate over each snapshot that was discovered but never used and compute
         if the snapshot was unused because the test attached to it was never run,
@@ -189,11 +191,11 @@ class SnapshotReport:
         Summary, if a snapshot was supposed to be run based on the invocation args
         and it was not, then it should be marked as unused otherwise ignored.
         """
-        unused_fossils = SnapshotFossils()
-        for unused_snapshot_fossil in self._diff_snapshot_fossils(
+        unused_collections = SnapshotCollections()
+        for unused_snapshot_collection in self._diff_snapshot_collections(
             self.discovered, self.used
         ):
-            snapshot_location = unused_snapshot_fossil.location
+            snapshot_location = unused_snapshot_collection.location
             if self._provided_test_paths and not self._ran_items_match_location(
                 snapshot_location
             ):
@@ -204,13 +206,13 @@ class SnapshotReport:
             provided_nodes = self._get_matching_path_nodes(snapshot_location)
             if self.selected_all_collected_items and not any(provided_nodes):
                 # All collected tests were run and files were not filtered by ::node
-                # therefore the snapshot fossil file at this location can be deleted
-                unused_snapshots = {*unused_snapshot_fossil}
+                # therefore the snapshot collection file at this location can be deleted
+                unused_snapshots = {*unused_snapshot_collection}
                 mark_for_removal = snapshot_location not in self.used
             else:
                 unused_snapshots = {
                     snapshot
-                    for snapshot in unused_snapshot_fossil
+                    for snapshot in unused_snapshot_collection
                     if self._selected_items_match_name(
                         snapshot_location=snapshot_location, snapshot_name=snapshot.name
                     )
@@ -223,15 +225,17 @@ class SnapshotReport:
                 mark_for_removal = False
 
             if unused_snapshots:
-                marked_unused_snapshot_fossil = SnapshotFossil(
+                marked_unused_snapshot_collection = SnapshotCollection(
                     location=snapshot_location
                 )
                 for snapshot in unused_snapshots:
-                    marked_unused_snapshot_fossil.add(snapshot)
-                unused_fossils.add(marked_unused_snapshot_fossil)
+                    marked_unused_snapshot_collection.add(snapshot)
+                unused_collections.add(marked_unused_snapshot_collection)
             elif mark_for_removal:
-                unused_fossils.add(SnapshotUnknownFossil(location=snapshot_location))
-        return unused_fossils
+                unused_collections.add(
+                    SnapshotUnknownCollection(location=snapshot_location)
+                )
+        return unused_collections
 
     @property
     def lines(self) -> Iterator[str]:
@@ -296,9 +300,9 @@ class SnapshotReport:
             yield ""
             if self.update_snapshots or self.include_snapshot_details:
                 base_message = "Deleted" if self.update_snapshots else "Unused"
-                for snapshot_fossil in self.unused:
-                    filepath = snapshot_fossil.location
-                    snapshots = (snapshot.name for snapshot in snapshot_fossil)
+                for snapshot_collection in self.unused:
+                    filepath = snapshot_collection.location
+                    snapshots = (snapshot.name for snapshot in snapshot_collection)
 
                     try:
                         path_to_file = str(Path(filepath).relative_to(self.base_dir))
@@ -320,33 +324,40 @@ class SnapshotReport:
                 else:
                     yield error_style(message)
 
-    def _diff_snapshot_fossils(
-        self, snapshot_fossils1: "SnapshotFossils", snapshot_fossils2: "SnapshotFossils"
-    ) -> "SnapshotFossils":
+    def _diff_snapshot_collections(
+        self,
+        snapshot_collections1: "SnapshotCollections",
+        snapshot_collections2: "SnapshotCollections",
+    ) -> "SnapshotCollections":
         """
-        Find the difference between two collections of snapshot fossils. While
-        preserving the location site to all fossils in the first collections. That is
-        a collection with fossil sites {A{1,2}, B{3,4}, C{5,6}} with snapshot fossils
-        when diffed with another collection with snapshots {A{1,2}, B{3,4}, D{7,8}}
-        will result in a collection with the contents {A{}, B{}, C{5,6}}.
+        Find the difference between two collections of snapshot collections. While
+        preserving the location site to all collections in the first collections.
+        That is a collection with collection sites {A{1,2}, B{3,4}, C{5,6}} with
+        snapshot collections when diffed with another collection with snapshots
+        {A{1,2}, B{3,4}, D{7,8}}  will result in a collection with the contents
+        {A{}, B{}, C{5,6}}.
         """
-        diffed_snapshot_fossils: "SnapshotFossils" = SnapshotFossils()
-        for snapshot_fossil1 in snapshot_fossils1:
-            snapshot_fossil2 = snapshot_fossils2.get(
-                snapshot_fossil1.location
-            ) or SnapshotFossil(location=snapshot_fossil1.location)
-            diffed_snapshot_fossil = SnapshotFossil(location=snapshot_fossil1.location)
-            for snapshot in snapshot_fossil1:
-                if not snapshot_fossil2.get(snapshot.name):
-                    diffed_snapshot_fossil.add(snapshot)
-            diffed_snapshot_fossils.add(diffed_snapshot_fossil)
-        return diffed_snapshot_fossils
+        diffed_snapshot_collections: "SnapshotCollections" = SnapshotCollections()
+        for snapshot_collection1 in snapshot_collections1:
+            snapshot_collection2 = snapshot_collections2.get(
+                snapshot_collection1.location
+            ) or SnapshotCollection(location=snapshot_collection1.location)
+            diffed_snapshot_collection = SnapshotCollection(
+                location=snapshot_collection1.location
+            )
+            for snapshot in snapshot_collection1:
+                if not snapshot_collection2.get(snapshot.name):
+                    diffed_snapshot_collection.add(snapshot)
+            diffed_snapshot_collections.add(diffed_snapshot_collection)
+        return diffed_snapshot_collections
 
-    def _count_snapshots(self, snapshot_fossils: "SnapshotFossils") -> int:
+    def _count_snapshots(self, snapshot_collections: "SnapshotCollections") -> int:
         """
-        Count all the snapshots at all the locations in the snapshot fossil collection
+        Count all the snapshots at all the locations in the snapshot collections
         """
-        return sum(len(snapshot_fossil) for snapshot_fossil in snapshot_fossils)
+        return sum(
+            len(snapshot_collection) for snapshot_collection in snapshot_collections
+        )
 
     def _is_matching_path(self, snapshot_location: str, provided_path: str) -> bool:
         """
@@ -425,8 +436,8 @@ class SnapshotReport:
     def _ran_items_match_location(self, snapshot_location: str) -> bool:
         """
         Check if any test run in the current session should match the snapshot location
-        This being true means that if no snapshot in the fossil was used then it should
-        be discarded as obsolete
+        This being true means that if no snapshot in the collection was used then it
+        should be discarded as obsolete
         """
         return any(
             PyTestLocation(item).matches_snapshot_location(snapshot_location)

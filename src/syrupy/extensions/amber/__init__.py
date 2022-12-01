@@ -7,7 +7,7 @@ from typing import (
     Set,
 )
 
-from syrupy.data import SnapshotFossil
+from syrupy.data import SnapshotCollection
 from syrupy.extensions.base import AbstractSyrupyExtension
 
 from .serializer import DataSerializer
@@ -33,23 +33,23 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
-        snapshot_fossil_to_update = DataSerializer.read_file(snapshot_location)
+        snapshot_collection_to_update = DataSerializer.read_file(snapshot_location)
         for snapshot_name in snapshot_names:
-            snapshot_fossil_to_update.remove(snapshot_name)
+            snapshot_collection_to_update.remove(snapshot_name)
 
-        if snapshot_fossil_to_update.has_snapshots:
-            DataSerializer.write_file(snapshot_fossil_to_update)
+        if snapshot_collection_to_update.has_snapshots:
+            DataSerializer.write_file(snapshot_collection_to_update)
         else:
             Path(snapshot_location).unlink()
 
-    def _read_snapshot_fossil(self, snapshot_location: str) -> "SnapshotFossil":
+    def _read_snapshot_collection(self, snapshot_location: str) -> "SnapshotCollection":
         return DataSerializer.read_file(snapshot_location)
 
     @staticmethod
     @lru_cache()
     def __cacheable_read_snapshot(
         snapshot_location: str, cache_key: str
-    ) -> "SnapshotFossil":
+    ) -> "SnapshotCollection":
         return DataSerializer.read_file(snapshot_location)
 
     def _read_snapshot_data_from_location(
@@ -61,8 +61,10 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         snapshot = snapshots.get(snapshot_name)
         return snapshot.data if snapshot else None
 
-    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
-        DataSerializer.write_file(snapshot_fossil, merge=True)
+    def _write_snapshot_collection(
+        self, *, snapshot_collection: "SnapshotCollection"
+    ) -> None:
+        DataSerializer.write_file(snapshot_collection, merge=True)
 
 
 __all__ = ["AmberSnapshotExtension", "DataSerializer"]

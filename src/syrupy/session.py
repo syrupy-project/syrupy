@@ -19,7 +19,7 @@ from typing import (
 import pytest
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
-from .data import SnapshotFossils
+from .data import SnapshotCollections
 from .report import SnapshotReport
 from .types import (
     SerializedData,
@@ -108,8 +108,8 @@ class SnapshotSession:
         if self.report.num_unused:
             if self.update_snapshots:
                 self.remove_unused_snapshots(
-                    unused_snapshot_fossils=self.report.unused,
-                    used_snapshot_fossils=self.report.used,
+                    unused_snapshot_collections=self.report.unused,
+                    used_snapshot_collections=self.report.used,
                 )
             elif not self.warn_unused_snapshots:
                 exitstatus |= EXIT_STATUS_FAIL_UNUSED
@@ -131,25 +131,25 @@ class SnapshotSession:
 
     def remove_unused_snapshots(
         self,
-        unused_snapshot_fossils: "SnapshotFossils",
-        used_snapshot_fossils: "SnapshotFossils",
+        unused_snapshot_collections: "SnapshotCollections",
+        used_snapshot_collections: "SnapshotCollections",
     ) -> None:
         """
-        Remove all unused snapshots using the registed extension for the fossil file
+        Remove all unused snapshots using the registed extension for the collection file
         If there is not registered extension and the location is unused delete the file
         """
-        for unused_snapshot_fossil in unused_snapshot_fossils:
-            snapshot_location = unused_snapshot_fossil.location
+        for unused_snapshot_collection in unused_snapshot_collections:
+            snapshot_location = unused_snapshot_collection.location
 
             extension = self._extensions.get(snapshot_location)
             if extension:
                 extension.delete_snapshots(
                     snapshot_location=snapshot_location,
                     snapshot_names={
-                        snapshot.name for snapshot in unused_snapshot_fossil
+                        snapshot.name for snapshot in unused_snapshot_collection
                     },
                 )
-            elif snapshot_location not in used_snapshot_fossils:
+            elif snapshot_location not in used_snapshot_collections:
                 Path(snapshot_location).unlink()
 
     @staticmethod

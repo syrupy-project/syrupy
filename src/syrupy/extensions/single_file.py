@@ -13,7 +13,7 @@ from unicodedata import category
 from syrupy.constants import TEXT_ENCODING
 from syrupy.data import (
     Snapshot,
-    SnapshotFossil,
+    SnapshotCollection,
 )
 from syrupy.location import PyTestLocation
 
@@ -74,10 +74,12 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         original_dirname = super(SingleFileSnapshotExtension, self)._dirname
         return str(Path(original_dirname).joinpath(self.test_location.basename))
 
-    def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
-        snapshot_fossil = SnapshotFossil(location=snapshot_location)
-        snapshot_fossil.add(Snapshot(name=Path(snapshot_location).stem))
-        return snapshot_fossil
+    def _read_snapshot_collection(
+        self, *, snapshot_location: str
+    ) -> "SnapshotCollection":
+        snapshot_collection = SnapshotCollection(location=snapshot_location)
+        snapshot_collection.add(Snapshot(name=Path(snapshot_location).stem))
+        return snapshot_collection
 
     def _read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str, session_id: str
@@ -102,8 +104,13 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             return TEXT_ENCODING
         return None
 
-    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
-        filepath, data = snapshot_fossil.location, next(iter(snapshot_fossil)).data
+    def _write_snapshot_collection(
+        self, *, snapshot_collection: "SnapshotCollection"
+    ) -> None:
+        filepath, data = (
+            snapshot_collection.location,
+            next(iter(snapshot_collection)).data,
+        )
         if not isinstance(data, self._supported_dataclass):
             error_text = gettext(
                 "Can't write non supported data. Expected '{}', got '{}'"
