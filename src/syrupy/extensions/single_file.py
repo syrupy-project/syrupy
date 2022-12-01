@@ -40,6 +40,7 @@ class WriteMode(Enum):
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     _text_encoding = TEXT_ENCODING
     _write_mode = WriteMode.BINARY
+    _file_extension = "raw"
 
     def serialize(
         self,
@@ -50,11 +51,12 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> "SerializedData":
         return self._supported_dataclass(data)
 
+    @classmethod
     def get_snapshot_name(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
     ) -> str:
-        return self.__clean_filename(
-            super(SingleFileSnapshotExtension, self).get_snapshot_name(
+        return cls.__clean_filename(
+            AbstractSyrupyExtension.get_snapshot_name(
                 test_location=test_location, index=index
             )
         )
@@ -63,10 +65,6 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self, *, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
         Path(snapshot_location).unlink()
-
-    @property
-    def _file_extension(self) -> str:
-        return "raw"
 
     def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
         return self.get_snapshot_name(test_location=self.test_location, index=index)
@@ -118,8 +116,9 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         with open(filepath, f"w{self._write_mode}", encoding=self._write_encoding) as f:
             f.write(data)
 
-    def __clean_filename(self, filename: str) -> str:
-        max_filename_length = 255 - len(self._file_extension or "")
+    @classmethod
+    def __clean_filename(cls, filename: str) -> str:
+        max_filename_length = 255 - len(cls._file_extension or "")
         exclude_chars = '\\/?*:|"<>'
         exclude_categ = ("C",)
         cleaned_filename = "".join(

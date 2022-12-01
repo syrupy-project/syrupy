@@ -21,6 +21,8 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     An amber snapshot file stores data in the following format:
     """
 
+    _file_extension = "ambr"
+
     def serialize(self, data: "SerializableData", **kwargs: Any) -> str:
         """
         Returns the serialized form of 'data' to be compared
@@ -39,10 +41,6 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
             DataSerializer.write_file(snapshot_fossil_to_update)
         else:
             Path(snapshot_location).unlink()
-
-    @property
-    def _file_extension(self) -> str:
-        return "ambr"
 
     def _read_snapshot_fossil(self, snapshot_location: str) -> "SnapshotFossil":
         return DataSerializer.read_file(snapshot_location)

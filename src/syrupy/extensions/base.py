@@ -77,13 +77,16 @@ class SnapshotSerializer(ABC):
 
 
 class SnapshotFossilizer(ABC):
+    _file_extension = ""
+
     @property
     @abstractmethod
     def test_location(self) -> "PyTestLocation":
         raise NotImplementedError
 
+    @classmethod
     def get_snapshot_name(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
     ) -> str:
         """Get the snapshot name for the assertion index in a test location"""
         index_suffix = ""
@@ -270,11 +273,6 @@ class SnapshotFossilizer(ABC):
     def _dirname(self) -> str:
         test_dir = Path(self.test_location.filepath).parent
         return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
-
-    @property
-    @abstractmethod
-    def _file_extension(self) -> str:
-        raise NotImplementedError
 
     def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
         """Returns file basename without extension. Used to create full filepath."""

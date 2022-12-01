@@ -16,15 +16,14 @@ def testcases_initial(testdir):
 
 
         class CustomSnapshotExtension(AmberSnapshotExtension):
-            @property
-            def _file_extension(self):
-                return ""
+            _file_extension = ""
 
             def serialize(self, data, **kwargs):
                 return str(data)
 
-            def get_snapshot_name(self, *, test_location, index):
-                testname = self._test_location.testname[::-1]
+            @classmethod
+            def get_snapshot_name(cls, *, test_location, index):
+                testname = test_location.testname[::-1]
                 return f"{testname}.{index}"
 
             def _get_file_basename(self, *, index):

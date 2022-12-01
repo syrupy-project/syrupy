@@ -9,10 +9,11 @@ from syrupy.types import SnapshotIndex
 
 
 class CanadianNameExtension(AmberSnapshotExtension):
+    @classmethod
     def get_snapshot_name(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
     ) -> str:
-        original_name = super(CanadianNameExtension, self).get_snapshot_name(
+        original_name = AmberSnapshotExtension.get_snapshot_name(
             test_location=test_location, index=index
         )
         return f"{original_name}🇨🇦"
