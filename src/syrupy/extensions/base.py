@@ -403,7 +403,7 @@ class SnapshotReporter(ABC):
         return line.rstrip("".join(self._ends.keys()))
 
 
-class SnapshotComparator(ABC):
+class SnapshotComparator:
     def matches(
         self,
         *,
