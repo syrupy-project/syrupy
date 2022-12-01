@@ -96,14 +96,15 @@ class SnapshotCollectionStorage(ABC):
             index_suffix = f".{index}"
         return f"{test_location.snapshot_name}{index_suffix}"
 
+    @classmethod
     def get_location(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
     ) -> str:
-        """Returns full location where snapshot data is stored."""
-        basename = self._get_file_basename(test_location=test_location, index=index)
-        fileext = f".{self._file_extension}" if self._file_extension else ""
+        """Returns full filepath where snapshot data is stored."""
+        basename = cls._get_file_basename(test_location=test_location, index=index)
+        fileext = f".{cls._file_extension}" if cls._file_extension else ""
         return str(
-            Path(self.dirname(test_location=test_location)).joinpath(
+            Path(cls.dirname(test_location=test_location)).joinpath(
                 f"{basename}{fileext}"
             )
         )
@@ -155,8 +156,9 @@ class SnapshotCollectionStorage(ABC):
             raise SnapshotDoesNotExist()
         return snapshot_data
 
+    @classmethod
     def write_snapshot(
-        self,
+        cls,
         *,
         test_location: "PyTestLocation",
         snapshots: List[Tuple["SerializedData", "SnapshotIndex"]],
@@ -170,13 +172,19 @@ class SnapshotCollectionStorage(ABC):
         # Amber extension.
         locations: DefaultDict[str, List["Snapshot"]] = defaultdict(list)
         for data, index in snapshots:
-            location = self.get_location(test_location=test_location, index=index)
-            snapshot_name = self.get_snapshot_name(
+            location = cls.get_location(test_location=test_location, index=index)
+            snapshot_name = cls.get_snapshot_name(
                 test_location=test_location, index=index
             )
             locations[location].append(Snapshot(name=snapshot_name, data=data))
 
-            self.__ensure_snapshot_dir(test_location=test_location, index=index)
+            # Ensures the folder path for the snapshot file exists.
+            try:
+                Path(
+                    cls.get_location(test_location=test_location, index=index)
+                ).parent.mkdir(parents=True)
+            except FileExistsError:
+                pass
 
         for location, location_snapshots in locations.items():
             snapshot_collection = SnapshotCollection(location=location)
@@ -208,7 +216,7 @@ class SnapshotCollectionStorage(ABC):
                     )
                     warnings.warn(warning_msg)
 
-            self._write_snapshot_collection(snapshot_collection=snapshot_collection)
+            cls._write_snapshot_collection(snapshot_collection=snapshot_collection)
 
     @abstractmethod
     def delete_snapshots(
@@ -238,37 +246,27 @@ class SnapshotCollectionStorage(ABC):
         """
         raise NotImplementedError
 
+    @classmethod
     @abstractmethod
     def _write_snapshot_collection(
-        self, *, snapshot_collection: "SnapshotCollection"
+        cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
         """
         Adds the snapshot data to the snapshots in collection location
         """
         raise NotImplementedError
 
-    def dirname(self, *, test_location: "PyTestLocation") -> str:
+    @classmethod
+    def dirname(cls, *, test_location: "PyTestLocation") -> str:
         test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
 
+    @classmethod
     def _get_file_basename(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
     ) -> str:
         """Returns file basename without extension. Used to create full filepath."""
         return test_location.basename
-
-    def __ensure_snapshot_dir(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
-    ) -> None:
-        """
-        Ensures the folder path for the snapshot file exists.
-        """
-        try:
-            Path(
-                self.get_location(test_location=test_location, index=index)
-            ).parent.mkdir(parents=True)
-        except FileExistsError:
-            pass
 
 
 class SnapshotReporter(ABC):

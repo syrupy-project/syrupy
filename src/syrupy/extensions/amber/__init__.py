@@ -61,8 +61,9 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         snapshot = snapshots.get(snapshot_name)
         return snapshot.data if snapshot else None
 
+    @classmethod
     def _write_snapshot_collection(
-        self, *, snapshot_collection: "SnapshotCollection"
+        cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
         DataSerializer.write_file(snapshot_collection, merge=True)
 

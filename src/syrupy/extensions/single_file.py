@@ -49,7 +49,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         exclude: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
-        return self._supported_dataclass(data)
+        return self.get_supported_dataclass()(data)
 
     @classmethod
     def get_snapshot_name(
@@ -66,15 +66,15 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> None:
         Path(snapshot_location).unlink()
 
+    @classmethod
     def _get_file_basename(
-        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
     ) -> str:
-        return self.get_snapshot_name(test_location=test_location, index=index)
+        return cls.get_snapshot_name(test_location=test_location, index=index)
 
-    def dirname(self, *, test_location: "PyTestLocation") -> str:
-        original_dirname = super(SingleFileSnapshotExtension, self).dirname(
-            test_location=test_location
-        )
+    @classmethod
+    def dirname(cls, *, test_location: "PyTestLocation") -> str:
+        original_dirname = AbstractSyrupyExtension.dirname(test_location=test_location)
         return str(Path(original_dirname).joinpath(test_location.basename))
 
     def _read_snapshot_collection(
@@ -89,41 +89,46 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> Optional["SerializableData"]:
         try:
             with open(
-                snapshot_location, f"r{self._write_mode}", encoding=self._write_encoding
+                snapshot_location,
+                f"r{self._write_mode}",
+                encoding=self.get_write_encoding(),
             ) as f:
                 return f.read()
         except FileNotFoundError:
             return None
 
-    @property
-    def _supported_dataclass(self) -> Union[Type[str], Type[bytes]]:
-        if self._write_mode == WriteMode.TEXT:
+    @classmethod
+    def get_supported_dataclass(cls) -> Union[Type[str], Type[bytes]]:
+        if cls._write_mode == WriteMode.TEXT:
             return str
         return bytes
 
-    @property
-    def _write_encoding(self) -> Optional[str]:
-        if self._write_mode == WriteMode.TEXT:
+    @classmethod
+    def get_write_encoding(cls) -> Optional[str]:
+        if cls._write_mode == WriteMode.TEXT:
             return TEXT_ENCODING
         return None
 
+    @classmethod
     def _write_snapshot_collection(
-        self, *, snapshot_collection: "SnapshotCollection"
+        cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
         filepath, data = (
             snapshot_collection.location,
             next(iter(snapshot_collection)).data,
         )
-        if not isinstance(data, self._supported_dataclass):
+        if not isinstance(data, cls.get_supported_dataclass()):
             error_text = gettext(
                 "Can't write non supported data. Expected '{}', got '{}'"
             )
             raise TypeError(
                 error_text.format(
-                    self._supported_dataclass.__name__, type(data).__name__
+                    cls.get_supported_dataclass().__name__, type(data).__name__
                 )
             )
-        with open(filepath, f"w{self._write_mode}", encoding=self._write_encoding) as f:
+        with open(
+            filepath, f"w{cls._write_mode}", encoding=cls.get_write_encoding()
+        ) as f:
             f.write(data)
 
     @classmethod

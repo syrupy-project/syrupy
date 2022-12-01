@@ -21,7 +21,8 @@ DIFFERENT_DIRECTORY = "__snaps_example__"
 
 
 class DifferentDirectoryExtension(AmberSnapshotExtension):
-    def dirname(self, *, test_location: "PyTestLocation") -> str:
+    @classmethod
+    def dirname(cls, *, test_location: "PyTestLocation") -> str:
         return str(Path(test_location.filepath).parent.joinpath(DIFFERENT_DIRECTORY))
 
 
