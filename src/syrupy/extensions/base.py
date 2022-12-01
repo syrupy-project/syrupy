@@ -127,35 +127,24 @@ class SnapshotFossilizer(ABC):
         self, *, index: "SnapshotIndex", session_id: str
     ) -> "SerializedData":
         """
-        Utility method for reading the contents of a snapshot assertion.
-        Will call `_pre_read`, then perform `read` and finally `post_read`,
-        returning the contents parsed from the `read` method.
-
         This method is _final_, do not override. You can override
         `_read_snapshot_data_from_location` in a subclass to change behaviour.
         """
-        try:
-            self._pre_read(index=index)
-            snapshot_location = self.get_location(index=index)
-            snapshot_name = self.get_snapshot_name(
-                test_location=self.test_location, index=index
-            )
-            snapshot_data = self._read_snapshot_data_from_location(
-                snapshot_location=snapshot_location,
-                snapshot_name=snapshot_name,
-                session_id=session_id,
-            )
-            if snapshot_data is None:
-                raise SnapshotDoesNotExist()
-            return snapshot_data
-        finally:
-            self._post_read(index=index)
+        snapshot_location = self.get_location(index=index)
+        snapshot_name = self.get_snapshot_name(
+            test_location=self.test_location, index=index
+        )
+        snapshot_data = self._read_snapshot_data_from_location(
+            snapshot_location=snapshot_location,
+            snapshot_name=snapshot_name,
+            session_id=session_id,
+        )
+        if snapshot_data is None:
+            raise SnapshotDoesNotExist()
+        return snapshot_data
 
     def write_snapshot(self, *, data: "SerializedData", index: "SnapshotIndex") -> None:
         """
-        Utility method for writing the contents of a snapshot assertion.
-        Will call `_pre_write`, then perform `write` and finally `_post_write`.
-
         This method is _final_, do not override. You can override
         `_write_snapshot_fossil` in a subclass to change behaviour.
         """
@@ -165,10 +154,6 @@ class SnapshotFossilizer(ABC):
         self, *, snapshots: List[Tuple["SerializedData", "SnapshotIndex"]]
     ) -> None:
         """
-        Utility method for writing the contents of multiple snapshot assertions.
-        Will call `_pre_write` per snapshot, then perform `write` per snapshot
-        and finally `_post_write`.
-
         This method is _final_, do not override. You can override
         `_write_snapshot_fossil` in a subclass to change behaviour.
         """
@@ -183,9 +168,7 @@ class SnapshotFossilizer(ABC):
             )
             locations[location].append(Snapshot(name=snapshot_name, data=data))
 
-            # Is there a better place to do the pre-writes?
-            # Or can we remove the pre-write concept altogether?
-            self._pre_write(data=data, index=index)
+            self.__ensure_snapshot_dir(index=index)
 
         for location, location_snapshots in locations.items():
             snapshot_fossil = SnapshotFossil(location=location)
@@ -219,9 +202,6 @@ class SnapshotFossilizer(ABC):
 
             self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
 
-        for data, index in snapshots:
-            self._post_write(data=data, index=index)
-
     @abstractmethod
     def delete_snapshots(
         self, *, snapshot_location: str, snapshot_names: Set[str]
@@ -231,20 +211,6 @@ class SnapshotFossilizer(ABC):
         If the snapshot file will be empty remove the entire file.
         """
         raise NotImplementedError
-
-    def _pre_read(self, *, index: "SnapshotIndex" = 0) -> None:
-        pass
-
-    def _post_read(self, *, index: "SnapshotIndex" = 0) -> None:
-        pass
-
-    def _pre_write(self, *, data: "SerializedData", index: "SnapshotIndex" = 0) -> None:
-        self.__ensure_snapshot_dir(index=index)
-
-    def _post_write(
-        self, *, data: "SerializedData", index: "SnapshotIndex" = 0
-    ) -> None:
-        pass
 
     @abstractmethod
     def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
