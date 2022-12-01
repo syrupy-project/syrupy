@@ -94,7 +94,7 @@ class SnapshotAssertion:
     def __init_extension(
         self, extension_class: Type["AbstractSyrupyExtension"]
     ) -> "AbstractSyrupyExtension":
-        return extension_class(test_location=self.test_location)
+        return extension_class()
 
     @property
     def extension(self) -> "AbstractSyrupyExtension":
@@ -268,6 +268,7 @@ class SnapshotAssertion:
             if not matches and self.update_snapshots:
                 self.session.queue_snapshot_write(
                     extension=self.extension,
+                    test_location=self.test_location,
                     data=serialized_data,
                     index=self.index,
                 )

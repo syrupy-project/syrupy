@@ -3,7 +3,6 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from collections import defaultdict
 from difflib import ndiff
 from gettext import gettext
 from itertools import zip_longest
@@ -11,7 +10,6 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Callable,
-    DefaultDict,
     Dict,
     Iterator,
     List,
@@ -78,11 +76,6 @@ class SnapshotSerializer(ABC):
 
 class SnapshotCollectionStorage(ABC):
     _file_extension = ""
-
-    @property
-    @abstractmethod
-    def test_location(self) -> "PyTestLocation":
-        raise NotImplementedError
 
     @classmethod
     def get_snapshot_name(
@@ -160,63 +153,58 @@ class SnapshotCollectionStorage(ABC):
     def write_snapshot(
         cls,
         *,
-        test_location: "PyTestLocation",
-        snapshots: List[Tuple["SerializedData", "SnapshotIndex"]],
+        snapshot_location: str,
+        snapshots: List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
     ) -> None:
         """
         This method is _final_, do not override. You can override
         `_write_snapshot_collection` in a subclass to change behaviour.
         """
+        if not snapshots:
+            return
+
         # First we group by location since it'll let us batch by file on disk.
         # Not as useful for single file snapshots, but useful for the standard
         # Amber extension.
-        locations: DefaultDict[str, List["Snapshot"]] = defaultdict(list)
-        for data, index in snapshots:
-            location = cls.get_location(test_location=test_location, index=index)
+        snapshot_collection = SnapshotCollection(location=snapshot_location)
+        for data, test_location, index in snapshots:
             snapshot_name = cls.get_snapshot_name(
                 test_location=test_location, index=index
             )
-            locations[location].append(Snapshot(name=snapshot_name, data=data))
+            snapshot = Snapshot(name=snapshot_name, data=data)
+            snapshot_collection.add(snapshot)
 
-            # Ensures the folder path for the snapshot file exists.
-            try:
-                Path(
-                    cls.get_location(test_location=test_location, index=index)
-                ).parent.mkdir(parents=True)
-            except FileExistsError:
-                pass
-
-        for location, location_snapshots in locations.items():
-            snapshot_collection = SnapshotCollection(location=location)
-
-            if not test_location.matches_snapshot_location(location):
+            if not test_location.matches_snapshot_location(snapshot_location):
                 warning_msg = gettext(
                     "{line_end}Can not relate snapshot location '{}' "
                     "to the test location.{line_end}"
                     "Consider adding '{}' to the generated location."
                 ).format(
-                    location,
+                    snapshot_location,
                     test_location.basename,
                     line_end="\n",
                 )
                 warnings.warn(warning_msg)
 
-            for snapshot in location_snapshots:
-                snapshot_collection.add(snapshot)
+            if not test_location.matches_snapshot_name(snapshot.name):
+                warning_msg = gettext(
+                    "{line_end}Can not relate snapshot name '{}' "
+                    "to the test location.{line_end}"
+                    "Consider adding '{}' to the generated name."
+                ).format(
+                    snapshot.name,
+                    test_location.testname,
+                    line_end="\n",
+                )
+                warnings.warn(warning_msg)
 
-                if not test_location.matches_snapshot_name(snapshot.name):
-                    warning_msg = gettext(
-                        "{line_end}Can not relate snapshot name '{}' "
-                        "to the test location.{line_end}"
-                        "Consider adding '{}' to the generated name."
-                    ).format(
-                        snapshot.name,
-                        test_location.testname,
-                        line_end="\n",
-                    )
-                    warnings.warn(warning_msg)
+        # Ensures the folder path for the snapshot file exists.
+        try:
+            Path(snapshot_location).parent.mkdir(parents=True)
+        except FileExistsError:
+            pass
 
-            cls._write_snapshot_collection(snapshot_collection=snapshot_collection)
+        cls._write_snapshot_collection(snapshot_collection=snapshot_collection)
 
     @abstractmethod
     def delete_snapshots(
@@ -432,9 +420,4 @@ class SnapshotComparator(ABC):
 class AbstractSyrupyExtension(
     SnapshotSerializer, SnapshotCollectionStorage, SnapshotReporter, SnapshotComparator
 ):
-    def __init__(self, test_location: "PyTestLocation"):
-        self._test_location = test_location
-
-    @property
-    def test_location(self) -> "PyTestLocation":
-        return self._test_location
+    pass

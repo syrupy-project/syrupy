@@ -14,9 +14,12 @@ from typing import (
     Optional,
     Set,
     Tuple,
+    Type,
 )
 
 import pytest
+
+from syrupy.location import PyTestLocation
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotCollections
@@ -49,24 +52,33 @@ class SnapshotSession:
     )
 
     _queued_snapshot_writes: Dict[
-        "AbstractSyrupyExtension", List[Tuple["SerializedData", "SnapshotIndex"]]
+        Tuple[Type["AbstractSyrupyExtension"], str],
+        List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
     ] = field(default_factory=dict)
 
     def queue_snapshot_write(
         self,
         extension: "AbstractSyrupyExtension",
+        test_location: "PyTestLocation",
         data: "SerializedData",
         index: "SnapshotIndex",
     ) -> None:
-        queue = self._queued_snapshot_writes.get(extension, [])
-        queue.append((data, index))
-        self._queued_snapshot_writes[extension] = queue
+        snapshot_location = extension.get_location(
+            test_location=test_location, index=index
+        )
+        key = (extension.__class__, snapshot_location)
+        queue = self._queued_snapshot_writes.get(key, [])
+        queue.append((data, test_location, index))
+        self._queued_snapshot_writes[key] = queue
 
     def flush_snapshot_write_queue(self) -> None:
-        for extension, queued_write in self._queued_snapshot_writes.items():
+        for (
+            extension_class,
+            snapshot_location,
+        ), queued_write in self._queued_snapshot_writes.items():
             if queued_write:
-                extension.write_snapshot(
-                    test_location=extension.test_location, snapshots=queued_write
+                extension_class.write_snapshot(
+                    snapshot_location=snapshot_location, snapshots=queued_write
                 )
         self._queued_snapshot_writes = {}
 
