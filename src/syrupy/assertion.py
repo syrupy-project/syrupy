@@ -301,7 +301,9 @@ class SnapshotAssertion:
     def _recall_data(self, index: "SnapshotIndex") -> Optional["SerializableData"]:
         try:
             return self.extension.read_snapshot(
-                index=index, session_id=str(id(self.session))
+                test_location=self.extension.test_location,
+                index=index,
+                session_id=str(id(self.session)),
             )
         except SnapshotDoesNotExist:
             return None

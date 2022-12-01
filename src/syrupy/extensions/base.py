@@ -126,16 +126,18 @@ class SnapshotCollectionStorage(ABC):
         return discovered
 
     def read_snapshot(
-        self, *, index: "SnapshotIndex", session_id: str
+        self,
+        *,
+        test_location: "PyTestLocation",
+        index: "SnapshotIndex",
+        session_id: str,
     ) -> "SerializedData":
         """
         This method is _final_, do not override. You can override
         `_read_snapshot_data_from_location` in a subclass to change behaviour.
         """
         snapshot_location = self.get_location(index=index)
-        snapshot_name = self.get_snapshot_name(
-            test_location=self.test_location, index=index
-        )
+        snapshot_name = self.get_snapshot_name(test_location=test_location, index=index)
         snapshot_data = self._read_snapshot_data_from_location(
             snapshot_location=snapshot_location,
             snapshot_name=snapshot_name,
