@@ -96,12 +96,14 @@ class SnapshotCollectionStorage(ABC):
             index_suffix = f".{index}"
         return f"{test_location.snapshot_name}{index_suffix}"
 
-    def get_location(self, *, index: "SnapshotIndex") -> str:
+    def get_location(
+        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+    ) -> str:
         """Returns full location where snapshot data is stored."""
-        basename = self._get_file_basename(index=index)
+        basename = self._get_file_basename(test_location=test_location, index=index)
         fileext = f".{self._file_extension}" if self._file_extension else ""
         return str(
-            Path(self.dirname(test_location=self.test_location)).joinpath(
+            Path(self.dirname(test_location=test_location)).joinpath(
                 f"{basename}{fileext}"
             )
         )
@@ -142,7 +144,7 @@ class SnapshotCollectionStorage(ABC):
         This method is _final_, do not override. You can override
         `_read_snapshot_data_from_location` in a subclass to change behaviour.
         """
-        snapshot_location = self.get_location(index=index)
+        snapshot_location = self.get_location(test_location=test_location, index=index)
         snapshot_name = self.get_snapshot_name(test_location=test_location, index=index)
         snapshot_data = self._read_snapshot_data_from_location(
             snapshot_location=snapshot_location,
@@ -168,13 +170,13 @@ class SnapshotCollectionStorage(ABC):
         # Amber extension.
         locations: DefaultDict[str, List["Snapshot"]] = defaultdict(list)
         for data, index in snapshots:
-            location = self.get_location(index=index)
+            location = self.get_location(test_location=test_location, index=index)
             snapshot_name = self.get_snapshot_name(
                 test_location=test_location, index=index
             )
             locations[location].append(Snapshot(name=snapshot_name, data=data))
 
-            self.__ensure_snapshot_dir(index=index)
+            self.__ensure_snapshot_dir(test_location=test_location, index=index)
 
         for location, location_snapshots in locations.items():
             snapshot_collection = SnapshotCollection(location=location)
@@ -249,16 +251,22 @@ class SnapshotCollectionStorage(ABC):
         test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
 
-    def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
+    def _get_file_basename(
+        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+    ) -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return self.test_location.basename
+        return test_location.basename
 
-    def __ensure_snapshot_dir(self, *, index: "SnapshotIndex") -> None:
+    def __ensure_snapshot_dir(
+        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+    ) -> None:
         """
         Ensures the folder path for the snapshot file exists.
         """
         try:
-            Path(self.get_location(index=index)).parent.mkdir(parents=True)
+            Path(
+                self.get_location(test_location=test_location, index=index)
+            ).parent.mkdir(parents=True)
         except FileExistsError:
             pass
 

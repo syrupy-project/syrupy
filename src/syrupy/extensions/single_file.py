@@ -66,8 +66,10 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> None:
         Path(snapshot_location).unlink()
 
-    def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
-        return self.get_snapshot_name(test_location=self.test_location, index=index)
+    def _get_file_basename(
+        self, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+    ) -> str:
+        return self.get_snapshot_name(test_location=test_location, index=index)
 
     def dirname(self, *, test_location: "PyTestLocation") -> str:
         original_dirname = super(SingleFileSnapshotExtension, self).dirname(

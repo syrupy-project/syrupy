@@ -238,7 +238,9 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_location = self.extension.get_location(index=self.index)
+        snapshot_location = self.extension.get_location(
+            test_location=self.test_location, index=self.index
+        )
         snapshot_name = self.extension.get_snapshot_name(
             test_location=self.test_location, index=self.index
         )
@@ -301,7 +303,7 @@ class SnapshotAssertion:
     def _recall_data(self, index: "SnapshotIndex") -> Optional["SerializableData"]:
         try:
             return self.extension.read_snapshot(
-                test_location=self.extension.test_location,
+                test_location=self.test_location,
                 index=index,
                 session_id=str(id(self.session)),
             )

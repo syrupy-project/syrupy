@@ -120,14 +120,14 @@ class SnapshotSession:
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
 
-        test_location = assertion.extension.test_location.filepath
+        test_location = assertion.test_location.filepath
         extension_class = assertion.extension.__class__
         if extension_class not in self._locations_discovered[test_location]:
             self._locations_discovered[test_location].add(extension_class)
             discovered_extensions = {
                 discovered.location: assertion.extension
                 for discovered in assertion.extension.discover_snapshots(
-                    test_location=assertion.extension.test_location
+                    test_location=assertion.test_location
                 )
                 if discovered.has_snapshots
             }

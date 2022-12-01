@@ -91,13 +91,13 @@ class SnapshotReport:
         # We only need to discover snapshots once per test file, not once per assertion.
         locations_discovered: DefaultDict[str, Set[Any]] = defaultdict(set)
         for assertion in self.assertions:
-            test_location = assertion.extension.test_location.filepath
+            test_location = assertion.test_location.filepath
             extension_class = assertion.extension.__class__
             if extension_class not in locations_discovered[test_location]:
                 locations_discovered[test_location].add(extension_class)
                 self.discovered.merge(
                     assertion.extension.discover_snapshots(
-                        test_location=assertion.extension.test_location
+                        test_location=assertion.test_location
                     )
                 )
 
