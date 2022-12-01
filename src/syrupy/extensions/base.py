@@ -147,15 +147,11 @@ class SnapshotCollectionStorage(ABC):
             raise SnapshotDoesNotExist()
         return snapshot_data
 
-    def write_snapshot(self, *, data: "SerializedData", index: "SnapshotIndex") -> None:
-        """
-        This method is _final_, do not override. You can override
-        `_write_snapshot_collection` in a subclass to change behaviour.
-        """
-        self.write_snapshot_batch(snapshots=[(data, index)])
-
-    def write_snapshot_batch(
-        self, *, snapshots: List[Tuple["SerializedData", "SnapshotIndex"]]
+    def write_snapshot(
+        self,
+        *,
+        test_location: "PyTestLocation",
+        snapshots: List[Tuple["SerializedData", "SnapshotIndex"]],
     ) -> None:
         """
         This method is _final_, do not override. You can override
@@ -168,7 +164,7 @@ class SnapshotCollectionStorage(ABC):
         for data, index in snapshots:
             location = self.get_location(index=index)
             snapshot_name = self.get_snapshot_name(
-                test_location=self.test_location, index=index
+                test_location=test_location, index=index
             )
             locations[location].append(Snapshot(name=snapshot_name, data=data))
 
@@ -177,14 +173,14 @@ class SnapshotCollectionStorage(ABC):
         for location, location_snapshots in locations.items():
             snapshot_collection = SnapshotCollection(location=location)
 
-            if not self.test_location.matches_snapshot_location(location):
+            if not test_location.matches_snapshot_location(location):
                 warning_msg = gettext(
                     "{line_end}Can not relate snapshot location '{}' "
                     "to the test location.{line_end}"
                     "Consider adding '{}' to the generated location."
                 ).format(
                     location,
-                    self.test_location.basename,
+                    test_location.basename,
                     line_end="\n",
                 )
                 warnings.warn(warning_msg)
@@ -192,14 +188,14 @@ class SnapshotCollectionStorage(ABC):
             for snapshot in location_snapshots:
                 snapshot_collection.add(snapshot)
 
-                if not self.test_location.matches_snapshot_name(snapshot.name):
+                if not test_location.matches_snapshot_name(snapshot.name):
                     warning_msg = gettext(
                         "{line_end}Can not relate snapshot name '{}' "
                         "to the test location.{line_end}"
                         "Consider adding '{}' to the generated name."
                     ).format(
                         snapshot.name,
-                        self.test_location.testname,
+                        test_location.testname,
                         line_end="\n",
                     )
                     warnings.warn(warning_msg)

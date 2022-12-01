@@ -65,7 +65,9 @@ class SnapshotSession:
     def flush_snapshot_write_queue(self) -> None:
         for extension, queued_write in self._queued_snapshot_writes.items():
             if queued_write:
-                extension.write_snapshot_batch(snapshots=queued_write)
+                extension.write_snapshot(
+                    test_location=extension.test_location, snapshots=queued_write
+                )
         self._queued_snapshot_writes = {}
 
     @property
