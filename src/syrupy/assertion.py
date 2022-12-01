@@ -94,7 +94,7 @@ class SnapshotAssertion:
     def __init_extension(
         self, extension_class: Type["AbstractSyrupyExtension"]
     ) -> "AbstractSyrupyExtension":
-        return extension_class(test_location=self.test_location)
+        return extension_class()
 
     @property
     def extension(self) -> "AbstractSyrupyExtension":
@@ -238,8 +238,12 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_location = self.extension.get_location(index=self.index)
-        snapshot_name = self.extension.get_snapshot_name(index=self.index)
+        snapshot_location = self.extension.get_location(
+            test_location=self.test_location, index=self.index
+        )
+        snapshot_name = self.extension.get_snapshot_name(
+            test_location=self.test_location, index=self.index
+        )
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         matches = False
@@ -264,6 +268,7 @@ class SnapshotAssertion:
             if not matches and self.update_snapshots:
                 self.session.queue_snapshot_write(
                     extension=self.extension,
+                    test_location=self.test_location,
                     data=serialized_data,
                     index=self.index,
                 )
@@ -299,7 +304,9 @@ class SnapshotAssertion:
     def _recall_data(self, index: "SnapshotIndex") -> Optional["SerializableData"]:
         try:
             return self.extension.read_snapshot(
-                index=index, session_id=str(id(self.session))
+                test_location=self.test_location,
+                index=index,
+                session_id=str(id(self.session)),
             )
         except SnapshotDoesNotExist:
             return None

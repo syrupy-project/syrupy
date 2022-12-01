@@ -15,16 +15,15 @@ from pathlib import Path
 import pytest
 
 from syrupy.extensions.amber import AmberSnapshotExtension
+from syrupy.location import PyTestLocation
 
 DIFFERENT_DIRECTORY = "__snaps_example__"
 
 
 class DifferentDirectoryExtension(AmberSnapshotExtension):
-    @property
-    def _dirname(self) -> str:
-        return str(
-            Path(self.test_location.filepath).parent.joinpath(DIFFERENT_DIRECTORY)
-        )
+    @classmethod
+    def dirname(cls, *, test_location: "PyTestLocation") -> str:
+        return str(Path(test_location.filepath).parent.joinpath(DIFFERENT_DIRECTORY))
 
 
 @pytest.fixture

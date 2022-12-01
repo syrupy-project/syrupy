@@ -54,7 +54,7 @@ def test_location_properties(
 ):
     location = PyTestLocation(mock_pytest_item(node_id, method_name))
     assert location.classname == expected_classname
-    assert location.filename == expected_filename
+    assert location.basename == expected_filename
     assert location.snapshot_name == expected_snapshotname
 
 

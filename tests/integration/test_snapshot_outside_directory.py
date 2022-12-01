@@ -11,8 +11,8 @@ def testcases(testdir, tmp_path):
         from syrupy.extensions.amber import AmberSnapshotExtension
 
         class CustomSnapshotExtension(AmberSnapshotExtension):
-            @property
-            def _dirname(self):
+            @classmethod
+            def dirname(cls, *, test_location):
                 return {str(dirname)!r}
 
         @pytest.fixture
