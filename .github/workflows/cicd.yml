@@ -32,7 +32,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11-dev']
-      fail-fast: false
+      fail-fast: true
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Setup Environment
