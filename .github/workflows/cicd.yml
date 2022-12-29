@@ -32,7 +32,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11-dev']
-      fail-fast: false
+      fail-fast: true
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Setup Environment
@@ -43,16 +43,15 @@ jobs:
         run: . script/bootstrap
         shell: bash
       - name: Run Tests
+        if: "!(matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest')"
+        shell: bash
+        run: poetry run invoke test
+      - name: Run Tests (with coverage)
+        if: matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         shell: bash
-        if: matrix.python-version != '3.11-dev'
         run: poetry run invoke test --coverage
-      # pyinvoke doesn't support python 3.11 yet
-      - name: Run Tests (skip invoke)
-        shell: bash
-        if: matrix.python-version == '3.11-dev'
-        run: poetry run pytest ./tests
 # # TODO: How to do this with poetry?
   # version_checks:
   #   name: Dependency Version Constraint Checks
