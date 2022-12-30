@@ -199,10 +199,7 @@ class SnapshotCollectionStorage(ABC):
                 warnings.warn(warning_msg)
 
         # Ensures the folder path for the snapshot file exists.
-        try:
-            Path(snapshot_location).parent.mkdir(parents=True)
-        except FileExistsError:
-            pass
+        Path(snapshot_location).parent.mkdir(parents=True, exist_ok=True)
 
         cls._write_snapshot_collection(snapshot_collection=snapshot_collection)
 

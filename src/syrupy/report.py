@@ -4,6 +4,7 @@ from dataclasses import (
     dataclass,
     field,
 )
+from functools import cached_property
 from gettext import (
     gettext,
     ngettext,
@@ -69,9 +70,6 @@ class SnapshotReport:
     used: "SnapshotCollections" = field(default_factory=SnapshotCollections)
     _provided_test_paths: Dict[str, List[str]] = field(default_factory=dict)
     _keyword_expressions: Set["Expression"] = field(default_factory=set)
-    _collected_items_by_nodeid: Dict[str, "pytest.Item"] = field(
-        default_factory=dict, init=False
-    )
 
     @property
     def update_snapshots(self) -> bool:
@@ -85,11 +83,14 @@ class SnapshotReport:
     def include_snapshot_details(self) -> bool:
         return bool(self.options.include_snapshot_details)
 
-    def __post_init__(self) -> None:
-        self.__parse_invocation_args()
-        self._collected_items_by_nodeid = {
+    @cached_property
+    def _collected_items_by_nodeid(self) -> Dict[str, "pytest.Item"]:
+        return {
             getattr(item, "nodeid"): item for item in self.collected_items  # noqa: B009
         }
+
+    def __post_init__(self) -> None:
+        self.__parse_invocation_args()
 
         # We only need to discover snapshots once per test file, not once per assertion.
         locations_discovered: DefaultDict[str, Set[Any]] = defaultdict(set)

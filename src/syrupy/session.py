@@ -20,6 +20,10 @@ from typing import (
 import pytest
 
 from syrupy.location import PyTestLocation
+from syrupy.utils import (
+    is_xdist_controller,
+    is_xdist_worker,
+)
 
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotCollections
