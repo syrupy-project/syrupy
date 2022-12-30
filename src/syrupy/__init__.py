@@ -31,7 +31,7 @@ from .utils import (
 _syrupy: Optional["SnapshotSession"] = None
 
 
-@lru_cache
+@lru_cache(maxsize=1)
 def __import_extension(value: Optional[str]) -> Any:
     if not value:
         return DEFAULT_EXTENSION
