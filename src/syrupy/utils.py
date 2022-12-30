@@ -14,6 +14,16 @@ from .constants import SNAPSHOT_DIRNAME
 from .exceptions import FailedToLoadModuleMember
 
 
+def is_xdist_worker() -> bool:
+    worker_name = os.getenv("PYTEST_XDIST_WORKER")
+    return bool(worker_name and worker_name != "master")
+
+
+def is_xdist_controller() -> bool:
+    worker_count = os.getenv("PYTEST_XDIST_WORKER_COUNT")
+    return bool(worker_count and int(worker_count) > 0 and not is_xdist_worker())
+
+
 def in_snapshot_dir(path: Path) -> bool:
     return SNAPSHOT_DIRNAME in path.parts
 

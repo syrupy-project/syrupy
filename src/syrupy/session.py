@@ -20,6 +20,10 @@ import pytest
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotFossils
 from .report import SnapshotReport
+from .utils import (
+    is_xdist_controller,
+    is_xdist_worker,
+)
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
@@ -79,6 +83,18 @@ class SnapshotSession:
             assertions=self._assertions,
             options=self.pytest_session.config.option,
         )
+
+        if is_xdist_worker():
+            # TODO: If we're in a pytest-xdist worker, we need to combine the reports
+            # of all the workers so that the controller can handle unused
+            # snapshot removal.
+            return exitstatus
+        elif is_xdist_controller():
+            # TODO: If we're in a pytest-xdist controller, merge all the reports.
+            # Until this is implemented, running syrupy with pytest-xdist is only
+            # partially functional.
+            return exitstatus
+
         if self.report.num_unused:
             if self.update_snapshots:
                 self.remove_unused_snapshots(
