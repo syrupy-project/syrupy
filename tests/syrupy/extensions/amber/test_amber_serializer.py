@@ -1,4 +1,7 @@
-from collections import namedtuple
+from collections import (
+    OrderedDict,
+    namedtuple,
+)
 
 import pytest
 
@@ -218,3 +221,10 @@ def test_parameter_with_dot(parameter_with_dot, snapshot):
 def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
     assert parameter_1 == snapshot
     assert parameter_2 == snapshot
+
+
+def test_ordered_dict(snapshot):
+    d = OrderedDict()
+    d["b"] = 0
+    d["a"] = 1
+    assert snapshot == d
