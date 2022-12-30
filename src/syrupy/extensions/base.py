@@ -183,16 +183,16 @@ class SnapshotFossilizer(ABC):
         """
         raise NotImplementedError
 
-    def _pre_read(self, *, index: "SnapshotIndex" = 0) -> None:
+    def _pre_read(self, *, index: "SnapshotIndex" = 0) -> None:  # noqa: B027
         pass
 
-    def _post_read(self, *, index: "SnapshotIndex" = 0) -> None:
+    def _post_read(self, *, index: "SnapshotIndex" = 0) -> None:  # noqa: B027
         pass
 
     def _pre_write(self, *, data: "SerializedData", index: "SnapshotIndex" = 0) -> None:
         self.__ensure_snapshot_dir(index=index)
 
-    def _post_write(
+    def _post_write(  # noqa: B027
         self, *, data: "SerializedData", index: "SnapshotIndex" = 0
     ) -> None:
         pass
@@ -390,7 +390,7 @@ class SnapshotReporter(ABC):
         return line.rstrip("".join(self._ends.keys()))
 
 
-class SnapshotComparator(ABC):
+class SnapshotComparator:
     def matches(
         self,
         *,
