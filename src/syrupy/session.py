@@ -19,22 +19,17 @@ from typing import (
 
 import pytest
 
-from syrupy.location import PyTestLocation
-from syrupy.utils import (
-    is_xdist_controller,
-    is_xdist_worker,
-)
-
 from .constants import EXIT_STATUS_FAIL_UNUSED
 from .data import SnapshotCollections
+from .location import PyTestLocation
 from .report import SnapshotReport
-from .utils import (
-    is_xdist_controller,
-    is_xdist_worker,
-)
 from .types import (
     SerializedData,
     SnapshotIndex,
+)
+from .utils import (
+    is_xdist_controller,
+    is_xdist_worker,
 )
 
 if TYPE_CHECKING:
