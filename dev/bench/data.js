@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1672424286406,
+  "lastUpdate": 1672424901193,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1395,6 +1395,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.26213611433462386",
             "extra": "mean: 1.5785600036000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "02abef59992487d669aa29f0bef93cbeb114d68a",
+          "message": "chore: remove ABC from SnapshotComparator (#671)",
+          "timestamp": "2022-12-30T13:26:40-05:00",
+          "tree_id": "852ff70dc0c8b6b78d8f007410a8a55eecdffd89",
+          "url": "https://github.com/tophat/syrupy/commit/02abef59992487d669aa29f0bef93cbeb114d68a"
+        },
+        "date": 1672424900354,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8381195242511715,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04240394140227035",
+            "extra": "mean: 1.1931472433999943 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8626650008455868,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05153168408309042",
+            "extra": "mean: 1.159198529000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7465173870618954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1502009356924296",
+            "extra": "mean: 1.3395535285999813 sec\nrounds: 5"
           }
         ]
       }
