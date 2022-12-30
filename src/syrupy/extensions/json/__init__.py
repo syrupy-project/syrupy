@@ -64,7 +64,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         elif matcher:
             data = matcher(data=data, path=path)
 
-        if isinstance(data, (int, float, str)):
+        if isinstance(data, (int, float, str)) or data is None:
             return data
 
         filtered_dct: Dict[Any, Any]
