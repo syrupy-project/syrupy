@@ -1,4 +1,5 @@
 import os
+from collections import OrderedDict
 from types import (
     GeneratorType,
     MappingProxyType,
@@ -246,9 +247,13 @@ class DataSerializer:
     def serialize_dict(
         cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
     ) -> str:
+        keys = (
+            data.keys() if isinstance(data, (OrderedDict,)) else cls.sort(data.keys())
+        )
+
         return cls.__serialize_iterable(
             data=data,
-            resolve_entries=(cls.sort(data.keys()), item_getter, None),
+            resolve_entries=(keys, item_getter, None),
             open_paren="{",
             close_paren="}",
             separator=": ",

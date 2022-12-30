@@ -1,4 +1,7 @@
-from collections import namedtuple
+from collections import (
+    OrderedDict,
+    namedtuple,
+)
 
 import pytest
 
@@ -222,3 +225,10 @@ def test_parameter_with_dot(parameter_with_dot, snapshot_json):
 def test_doubly_parametrized(parameter_1, parameter_2, snapshot_json):
     assert parameter_1 == snapshot_json
     assert parameter_2 == snapshot_json
+
+
+def test_ordered_dict(snapshot_json):
+    d = OrderedDict()
+    d["b"] = 0
+    d["a"] = OrderedDict(b=True, a=False)
+    assert snapshot_json == d
