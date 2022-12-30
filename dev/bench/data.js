@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1669811567359,
+  "lastUpdate": 1672423107952,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1305,6 +1305,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0923523543680502",
             "extra": "mean: 1.5833810495999927 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a74e57eed8c6b1ed39cf2e286066cc41b058381e",
+          "message": "Merge pull request #669 from tophat/xdist_improvements\n\npytest-xdist compatibility improvements",
+          "timestamp": "2022-12-30T12:56:36-05:00",
+          "tree_id": "5d18b6a68b2f6deceb24f99ec61a6a2bf85f188a",
+          "url": "https://github.com/tophat/syrupy/commit/a74e57eed8c6b1ed39cf2e286066cc41b058381e"
+        },
+        "date": 1672423107152,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6613239119922573,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06946618661061309",
+            "extra": "mean: 1.512118315800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6270476940824629,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20891100295390286",
+            "extra": "mean: 1.594775021800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6195362479531112,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07838133500038841",
+            "extra": "mean: 1.6141105598000194 sec\nrounds: 5"
           }
         ]
       }
