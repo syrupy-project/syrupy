@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [3.0.6](https://github.com/tophat/syrupy/compare/v3.0.5...v3.0.6) (2022-12-30)
+
+
+### Bug Fixes
+
+* ensure all pytest options are serializable ([#667](https://github.com/tophat/syrupy/issues/667)) ([e320d7b](https://github.com/tophat/syrupy/commit/e320d7b799b7890df5a63eda59a1382a3d73f39b))
+* improve pytest-xdist compatibility ([8739194](https://github.com/tophat/syrupy/commit/87391946af859bbe9a63c5ac297cfc7b169c7742))
+
 ## [3.0.5](https://github.com/tophat/syrupy/compare/v3.0.4...v3.0.5) (2022-11-08)
 
 
