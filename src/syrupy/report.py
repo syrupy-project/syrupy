@@ -53,11 +53,14 @@ class SnapshotReport:
     information used for removal of unused or orphaned snapshots and fossils.
     """
 
+    # Initial arguments to the report
     base_dir: str
     collected_items: Set["pytest.Item"]
     selected_items: Dict[str, bool]
     options: "argparse.Namespace"
     assertions: List["SnapshotAssertion"]
+
+    # All of these are derived from the initial arguments and via walking the filesystem
     discovered: "SnapshotFossils" = field(default_factory=SnapshotFossils)
     created: "SnapshotFossils" = field(default_factory=SnapshotFossils)
     failed: "SnapshotFossils" = field(default_factory=SnapshotFossils)

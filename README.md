@@ -371,6 +371,14 @@ If you have decided not to use Syrupy for your project after giving us a try, we
 
 Benchmarks are automatically published to https://tophat.github.io/syrupy/dev/bench/.
 
+## Known Limitations
+
+- `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/tophat/syrupy/issues/535) for more information.
+- _Extremely_ large snapshots may fail due to a known Python core library bug. See [#577](https://github.com/tophat/syrupy/issues/577) and [cpython #65452](https://github.com/python/cpython/issues/65452).
+
+_We welcome contributions to patch these known limitations._
+
+
 ## Contributing
 
 Feel free to open a PR or GitHub issue. Contributions welcome!

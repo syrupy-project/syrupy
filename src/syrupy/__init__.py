@@ -1,5 +1,6 @@
 import argparse
 import sys
+from functools import lru_cache
 from gettext import gettext
 from typing import (
     Any,
@@ -30,11 +31,19 @@ from .utils import (
 _syrupy: Optional["SnapshotSession"] = None
 
 
-def __default_extension_option(value: str) -> Any:
+@lru_cache(maxsize=1)
+def __import_extension(value: Optional[str]) -> Any:
+    if not value:
+        return DEFAULT_EXTENSION
     try:
         return import_module_member(value)
     except FailedToLoadModuleMember as e:
         raise argparse.ArgumentTypeError(e)
+
+
+def __default_extension_option(value: Optional[str]) -> Any:
+    __import_extension(value)
+    return value
 
 
 def pytest_addoption(parser: Any) -> None:
@@ -64,13 +73,17 @@ def pytest_addoption(parser: Any) -> None:
         dest="include_snapshot_details",
         help="Include details of unused snapshots in the final report",
     )
+
+    # We lazy evaluate the default extension since pytest-xdist requires
+    # all pytest options to be serializable.
     group.addoption(
         "--snapshot-default-extension",
         type=__default_extension_option,
-        default=DEFAULT_EXTENSION,
+        default=None,
         dest="default_extension",
         help="Specify the default snapshot extension",
     )
+
     group.addoption(
         "--snapshot-no-colors",
         action="store_true",
@@ -175,7 +188,7 @@ def pytest_terminal_summary(
 def snapshot(request: Any) -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
-        extension_class=request.config.option.default_extension,
+        extension_class=__import_extension(request.config.option.default_extension),
         test_location=PyTestLocation(request.node),
         session=request.session.config._syrupy,
     )
