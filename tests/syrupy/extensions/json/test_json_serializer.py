@@ -124,6 +124,7 @@ def test_set(snapshot_json, actual):
             "multi\nline\nkey": "Some morre text.",
             frozenset({"1", "2"}): ["1", 2],
             ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
+            "key": None,
         },
         {},
         {"key": ["line1\nline2"]},
