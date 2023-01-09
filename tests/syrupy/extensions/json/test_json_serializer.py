@@ -33,10 +33,10 @@ def test_snapshot_markers(snapshot_json):
     Test snapshot markers do not break serialization when in snapshot data
     """
     marker_strings = (
-        DataSerializer._marker_comment,
-        f"{DataSerializer._indent}{DataSerializer._marker_comment}",
-        DataSerializer._marker_divider,
-        DataSerializer._marker_name,
+        DataSerializer.Marker.Comment,
+        f"{DataSerializer._indent}{DataSerializer.Marker.Comment}",
+        f"{DataSerializer.Marker.Comment}{DataSerializer.Marker.Divider}",
+        f"{DataSerializer.Marker.Comment}{DataSerializer.Marker.Name}:",
     )
     assert snapshot_json == "\n".join(marker_strings)
 

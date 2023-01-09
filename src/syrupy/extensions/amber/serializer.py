@@ -9,6 +9,7 @@ from typing import (
     Any,
     Callable,
     Dict,
+    Generator,
     Iterable,
     NamedTuple,
     Optional,
@@ -65,10 +66,11 @@ def item_getter(o: "SerializableData", p: "PropertyName") -> "SerializableData":
 class DataSerializer:
     _indent: str = "  "
     _max_depth: int = 99
-    _marker_comment: str = "# "
-    _marker_divider: str = f"{_marker_comment}---"
-    _marker_name: str = f"{_marker_comment}name:"
-    _marker_crn: str = "\r\n"
+
+    class Marker:
+        Comment = "# "
+        Name = "name"
+        Divider = "---"
 
     @classmethod
     def write_file(
@@ -87,10 +89,48 @@ class DataSerializer:
             for snapshot in sorted(snapshot_collection, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
-                    f.write(f"{cls._marker_name} {snapshot.name}\n")
+                    f.write(f"{cls.Marker.Comment}{cls.Marker.Name}: {snapshot.name}\n")
                     for data_line in snapshot_data.splitlines(keepends=True):
                         f.write(cls.with_indent(data_line, 1))
-                    f.write(f"\n{cls._marker_divider}\n")
+                    f.write(f"\n{cls.Marker.Comment}{cls.Marker.Divider}\n")
+
+    @classmethod
+    def __read_file_with_markers(
+        cls, filepath: str
+    ) -> Generator["Snapshot", None, None]:
+        marker_offset = len(cls.Marker.Comment)
+        indent_len = len(cls._indent)
+
+        test_name = None
+        snapshot_data = ""
+
+        try:
+            with open(filepath, "r", encoding=TEXT_ENCODING, newline=None) as f:
+                for line in f:
+                    if line.startswith(cls.Marker.Comment):
+                        marker_key, *marker_rest = line[marker_offset:].split(
+                            ":", maxsplit=1
+                        )
+                        marker_key = marker_key.rstrip(" \r\n")
+                        marker_value = marker_rest[0] if marker_rest else None
+
+                        if marker_key == cls.Marker.Name:
+                            if not marker_value:
+                                raise Exception("Malformed amber file.")
+                            test_name = marker_value.strip(" \r\n")
+                            continue
+                        if marker_key == cls.Marker.Divider:
+                            if test_name and snapshot_data:
+                                yield Snapshot(
+                                    name=test_name,
+                                    data=snapshot_data.rstrip(os.linesep),
+                                )
+                            test_name = None
+                            snapshot_data = ""
+                    elif test_name is not None and line.startswith(cls._indent):
+                        snapshot_data += line[indent_len:]
+        except FileNotFoundError:
+            pass
 
     @classmethod
     def read_file(cls, filepath: str) -> "SnapshotCollection":
@@ -99,30 +139,9 @@ class DataSerializer:
         of snapshot name to raw data. This does not attempt any deserialization
         of the snapshot data.
         """
-        name_marker_len = len(cls._marker_name)
-        indent_len = len(cls._indent)
         snapshot_collection = SnapshotCollection(location=filepath)
-        try:
-            with open(filepath, "r", encoding=TEXT_ENCODING, newline=None) as f:
-                test_name = None
-                snapshot_data = ""
-                for line in f:
-                    if line.startswith(cls._marker_name):
-                        test_name = line[name_marker_len:].strip(f" {cls._marker_crn}")
-                        snapshot_data = ""
-                        continue
-                    elif test_name is not None:
-                        if line.startswith(cls._indent):
-                            snapshot_data += line[indent_len:]
-                        elif line.startswith(cls._marker_divider) and snapshot_data:
-                            snapshot_collection.add(
-                                Snapshot(
-                                    name=test_name,
-                                    data=snapshot_data.rstrip(os.linesep),
-                                )
-                            )
-        except FileNotFoundError:
-            pass
+        for snapshot in cls.__read_file_with_markers(filepath):
+            snapshot_collection.add(snapshot)
 
         return snapshot_collection
 
@@ -141,7 +160,7 @@ class DataSerializer:
         should not break when running the tests on a unix based system and vice versa.
         """
         serialized = cls._serialize(data, exclude=exclude, matcher=matcher)
-        return serialized.replace(cls._marker_crn, "\n").replace("\r", "\n")
+        return serialized.replace("\r\n", "\n").replace("\r", "\n")
 
     @classmethod
     def _serialize(
@@ -191,7 +210,7 @@ class DataSerializer:
 
     @classmethod
     def serialize_string(cls, data: str, *, depth: int = 0, **kwargs: Any) -> str:
-        if all(c not in data for c in cls._marker_crn):
+        if all(c not in data for c in "\r\n"):
             return cls.__serialize_plain(data=data, depth=depth)
 
         return cls.__serialize_lines(
