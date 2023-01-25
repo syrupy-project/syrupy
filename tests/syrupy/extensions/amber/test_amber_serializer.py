@@ -5,7 +5,7 @@ from collections import (
 
 import pytest
 
-from syrupy.extensions.amber.serializer import DataSerializer
+from syrupy.extensions.amber.serializer import AmberDataSerializer
 
 
 def test_non_snapshots(snapshot):
@@ -30,10 +30,10 @@ def test_snapshot_markers(snapshot):
     Test snapshot markers do not break serialization when in snapshot data
     """
     marker_strings = (
-        DataSerializer.Marker.Comment,
-        f"{DataSerializer._indent}{DataSerializer.Marker.Comment}",
-        f"{DataSerializer.Marker.Comment}{DataSerializer.Marker.Divider}",
-        f"{DataSerializer.Marker.Comment}{DataSerializer.Marker.Name}:",
+        AmberDataSerializer._marker_prefix,
+        f"{AmberDataSerializer._indent}{AmberDataSerializer._marker_prefix}",
+        f"{AmberDataSerializer._marker_prefix}{AmberDataSerializer.Marker.Divider}",
+        f"{AmberDataSerializer._marker_prefix}{AmberDataSerializer.Marker.Name}:",
     )
     assert snapshot == "\n".join(marker_strings)
 

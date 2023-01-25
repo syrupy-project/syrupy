@@ -63,12 +63,27 @@ def item_getter(o: "SerializableData", p: "PropertyName") -> "SerializableData":
     return o[p]
 
 
-class DataSerializer:
+class MalformedAmberFile(Exception):
+    """
+    The Amber file is malformed. It should be deleted and regenerated.
+    """
+
+
+class MissingVersionError(Exception):
+    """
+    Missing Amber version marker.
+    """
+
+
+class AmberDataSerializer:
+    VERSION = 1
+
     _indent: str = "  "
     _max_depth: int = 99
+    _marker_prefix = "# "
 
     class Marker:
-        Comment = "# "
+        Version = "serializer version"
         Name = "name"
         Divider = "---"
 
@@ -86,37 +101,51 @@ class DataSerializer:
             snapshot_collection = base_snapshot
 
         with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
+            f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
             for snapshot in sorted(snapshot_collection, key=lambda s: s.name):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
-                    f.write(f"{cls.Marker.Comment}{cls.Marker.Name}: {snapshot.name}\n")
+                    f.write(f"{cls._marker_prefix}{cls.Marker.Name}: {snapshot.name}\n")
                     for data_line in snapshot_data.splitlines(keepends=True):
                         f.write(cls.with_indent(data_line, 1))
-                    f.write(f"\n{cls.Marker.Comment}{cls.Marker.Divider}\n")
+                    f.write(f"\n{cls._marker_prefix}{cls.Marker.Divider}\n")
 
     @classmethod
     def __read_file_with_markers(
         cls, filepath: str
     ) -> Generator["Snapshot", None, None]:
-        marker_offset = len(cls.Marker.Comment)
+        marker_offset = len(cls._marker_prefix)
         indent_len = len(cls._indent)
 
         test_name = None
         snapshot_data = ""
+        tainted = False
+        missing_version = True
 
         try:
             with open(filepath, "r", encoding=TEXT_ENCODING, newline=None) as f:
-                for line in f:
-                    if line.startswith(cls.Marker.Comment):
+                for line_no, line in enumerate(f):
+                    if line.startswith(cls._marker_prefix):
                         marker_key, *marker_rest = line[marker_offset:].split(
                             ":", maxsplit=1
                         )
                         marker_key = marker_key.rstrip(" \r\n")
                         marker_value = marker_rest[0] if marker_rest else None
 
+                        if marker_key == cls.Marker.Version:
+                            if line_no:
+                                raise MalformedAmberFile(
+                                    "Version must be specified at the top of the file."
+                                )
+                            if not marker_value or int(marker_value) != cls.VERSION:
+                                tainted = True
+                                continue
+                            missing_version = False
+
                         if marker_key == cls.Marker.Name:
                             if not marker_value:
-                                raise Exception("Malformed amber file.")
+                                raise MalformedAmberFile("Missing snapshot name.")
+
                             test_name = marker_value.strip(" \r\n")
                             continue
                         if marker_key == cls.Marker.Divider:
@@ -124,6 +153,7 @@ class DataSerializer:
                                 yield Snapshot(
                                     name=test_name,
                                     data=snapshot_data.rstrip(os.linesep),
+                                    tainted=tainted,
                                 )
                             test_name = None
                             snapshot_data = ""
@@ -131,6 +161,9 @@ class DataSerializer:
                         snapshot_data += line[indent_len:]
         except FileNotFoundError:
             pass
+        else:
+            if missing_version:
+                raise MissingVersionError
 
     @classmethod
     def read_file(cls, filepath: str) -> "SnapshotCollection":
@@ -140,8 +173,13 @@ class DataSerializer:
         of the snapshot data.
         """
         snapshot_collection = SnapshotCollection(location=filepath)
-        for snapshot in cls.__read_file_with_markers(filepath):
-            snapshot_collection.add(snapshot)
+        try:
+            for snapshot in cls.__read_file_with_markers(filepath):
+                if snapshot.tainted:
+                    snapshot_collection.tainted = True
+                snapshot_collection.add(snapshot)
+        except MissingVersionError:
+            snapshot_collection.tainted = True
 
         return snapshot_collection
 

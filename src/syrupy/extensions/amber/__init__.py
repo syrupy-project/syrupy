@@ -8,9 +8,10 @@ from typing import (
 )
 
 from syrupy.data import SnapshotCollection
+from syrupy.exceptions import TaintedSnapshotError
 from syrupy.extensions.base import AbstractSyrupyExtension
 
-from .serializer import DataSerializer
+from .serializer import AmberDataSerializer
 
 if TYPE_CHECKING:
     from syrupy.types import SerializableData
@@ -28,29 +29,29 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return DataSerializer.serialize(data, **kwargs)
+        return AmberDataSerializer.serialize(data, **kwargs)
 
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]
     ) -> None:
-        snapshot_collection_to_update = DataSerializer.read_file(snapshot_location)
+        snapshot_collection_to_update = AmberDataSerializer.read_file(snapshot_location)
         for snapshot_name in snapshot_names:
             snapshot_collection_to_update.remove(snapshot_name)
 
         if snapshot_collection_to_update.has_snapshots:
-            DataSerializer.write_file(snapshot_collection_to_update)
+            AmberDataSerializer.write_file(snapshot_collection_to_update)
         else:
             Path(snapshot_location).unlink()
 
     def _read_snapshot_collection(self, snapshot_location: str) -> "SnapshotCollection":
-        return DataSerializer.read_file(snapshot_location)
+        return AmberDataSerializer.read_file(snapshot_location)
 
     @staticmethod
     @lru_cache()
     def __cacheable_read_snapshot(
         snapshot_location: str, cache_key: str
     ) -> "SnapshotCollection":
-        return DataSerializer.read_file(snapshot_location)
+        return AmberDataSerializer.read_file(snapshot_location)
 
     def _read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str, session_id: str
@@ -59,13 +60,17 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
             snapshot_location=snapshot_location, cache_key=session_id
         )
         snapshot = snapshots.get(snapshot_name)
-        return snapshot.data if snapshot else None
+        tainted = bool(snapshots.tainted or (snapshot and snapshot.tainted))
+        data = snapshot.data if snapshot else None
+        if tainted:
+            raise TaintedSnapshotError(snapshot_data=data)
+        return data
 
     @classmethod
     def _write_snapshot_collection(
         cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
-        DataSerializer.write_file(snapshot_collection, merge=True)
+        AmberDataSerializer.write_file(snapshot_collection, merge=True)
 
 
-__all__ = ["AmberSnapshotExtension", "DataSerializer"]
+__all__ = ["AmberSnapshotExtension", "AmberDataSerializer"]
