@@ -77,7 +77,7 @@ class SnapshotSession:
     def finish(self) -> int:
         exitstatus = 0
         self.report = SnapshotReport(
-            base_dir=self.pytest_session.config.rootdir,
+            base_dir=self.pytest_session.config.rootpath,
             collected_items=self._collected_items,
             selected_items=self._selected_items,
             assertions=self._assertions,
