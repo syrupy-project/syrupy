@@ -4,11 +4,6 @@
     obj_attr='test class attr',
   )
 # ---
-# name: DocTestClass.1
-  DocTestClass(
-    obj_attr='test class attr',
-  )
-# ---
 # name: DocTestClass.NestedDocTestClass
   NestedDocTestClass(
     nested_obj_attr='nested doc test class attr',
@@ -19,6 +14,11 @@
 # ---
 # name: DocTestClass.doctest_method
   'doc test method return value'
+# ---
+# name: DocTestClass.1
+  DocTestClass(
+    obj_attr='test class attr',
+  )
 # ---
 # name: doctest_fn
   'doc test fn return value'

@@ -228,3 +228,8 @@ def test_ordered_dict(snapshot):
     d["b"] = 0
     d["a"] = 1
     assert snapshot == d
+
+
+def test_many_sorted(snapshot):
+    for i in range(25):
+        assert i == snapshot
