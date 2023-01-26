@@ -1,13 +1,4 @@
 # serializer version: 1
-# name: TestClass.TestNestedClass.test_nested_class_method[x]
-  'parameterized nested class method x'
-# ---
-# name: TestClass.TestNestedClass.test_nested_class_method[y]
-  'parameterized nested class method y'
-# ---
-# name: TestClass.TestNestedClass.test_nested_class_method[z]
-  'parameterized nested class method z'
-# ---
 # name: TestClass.test_class_method_name
   'this is in a test class'
 # ---
@@ -20,13 +11,13 @@
 # name: TestClass.test_class_method_parametrized[c]
   'c'
 # ---
-# name: TestSubClass.TestNestedClass.test_nested_class_method[x]
+# name: TestClass.TestNestedClass.test_nested_class_method[x]
   'parameterized nested class method x'
 # ---
-# name: TestSubClass.TestNestedClass.test_nested_class_method[y]
+# name: TestClass.TestNestedClass.test_nested_class_method[y]
   'parameterized nested class method y'
 # ---
-# name: TestSubClass.TestNestedClass.test_nested_class_method[z]
+# name: TestClass.TestNestedClass.test_nested_class_method[z]
   'parameterized nested class method z'
 # ---
 # name: TestSubClass.test_class_method_name
@@ -40,6 +31,15 @@
 # ---
 # name: TestSubClass.test_class_method_parametrized[c]
   'c'
+# ---
+# name: TestSubClass.TestNestedClass.test_nested_class_method[x]
+  'parameterized nested class method x'
+# ---
+# name: TestSubClass.TestNestedClass.test_nested_class_method[y]
+  'parameterized nested class method y'
+# ---
+# name: TestSubClass.TestNestedClass.test_nested_class_method[z]
+  'parameterized nested class method z'
 # ---
 # name: test_bool[False]
   False

@@ -11,7 +11,6 @@ from typing import (
     Dict,
     Generator,
     Iterable,
-    List,
     NamedTuple,
     Optional,
     Set,
@@ -104,8 +103,15 @@ class AmberDataSerializer:
     @classmethod
     def __snapshot_sort_key(
         cls, snapshot: "Snapshot"
-    ) -> List[Tuple[int, Union[str, int]]]:
-        return [cls.__maybe_int(part) for part in snapshot.name.split(".")]
+    ) -> Tuple[Tuple[int, Union[str, int]], ...]:
+        # we only need to sort the last part of the snapshot name
+        index = snapshot.name.rfind(".") + 1
+        if index:
+            return (
+                (0, snapshot.name[: index - 1]),
+                cls.__maybe_int(snapshot.name[index:]),
+            )
+        return ((0, snapshot.name),)
 
     @classmethod
     def write_file(
