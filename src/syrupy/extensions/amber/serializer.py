@@ -11,6 +11,7 @@ from typing import (
     Dict,
     Generator,
     Iterable,
+    List,
     NamedTuple,
     Optional,
     Set,
@@ -88,6 +89,25 @@ class AmberDataSerializer:
         Divider = "---"
 
     @classmethod
+    def __maybe_int(cls, part: str) -> Tuple[int, Union[str, int]]:
+        try:
+            # cast to int only if the string is the exact representation of the int
+            # for example, '012' != str(int('012'))
+            i = int(part)
+            if str(i) == part:
+                return (1, i)
+            return (0, part)
+        except ValueError:
+            # the nested tuple is to prevent comparing a str to an int
+            return (0, part)
+
+    @classmethod
+    def __snapshot_sort_key(
+        cls, snapshot: "Snapshot"
+    ) -> List[Tuple[int, Union[str, int]]]:
+        return [cls.__maybe_int(part) for part in snapshot.name.split(".")]
+
+    @classmethod
     def write_file(
         cls, snapshot_collection: "SnapshotCollection", merge: bool = False
     ) -> None:
@@ -102,7 +122,9 @@ class AmberDataSerializer:
 
         with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
             f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
-            for snapshot in sorted(snapshot_collection, key=lambda s: s.name):
+            for snapshot in sorted(
+                snapshot_collection, key=lambda s: cls.__snapshot_sort_key(s)
+            ):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_prefix}{cls.Marker.Name}: {snapshot.name}\n")
