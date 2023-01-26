@@ -8,7 +8,7 @@ from typing import (
 )
 
 from syrupy.extensions.amber.serializer import (
-    DataSerializer,
+    AmberDataSerializer,
     Repr,
 )
 
@@ -52,7 +52,7 @@ def path_type(
                 if _path_match(path_str, pattern):
                     for type_to_match in mapping[pattern]:
                         if isinstance(data, type_to_match):
-                            return Repr(DataSerializer.object_type(data))
+                            return Repr(AmberDataSerializer.object_type(data))
                     if strict:
                         raise PathTypeError(
                             gettext(
@@ -62,7 +62,7 @@ def path_type(
                         )
         for type_to_match in types:
             if isinstance(data, type_to_match):
-                return Repr(DataSerializer.object_type(data))
+                return Repr(AmberDataSerializer.object_type(data))
         return data
 
     return path_type_matcher

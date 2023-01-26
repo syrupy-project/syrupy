@@ -23,6 +23,8 @@ if TYPE_CHECKING:
 class Snapshot:
     name: str
     data: Optional["SerializedData"] = None
+    # A tainted snapshot needs to be regenerated
+    tainted: Optional[bool] = field(default=None)
 
 
 @dataclass(frozen=True)
@@ -41,6 +43,9 @@ class SnapshotCollection:
 
     location: str
     _snapshots: Dict[str, "Snapshot"] = field(default_factory=dict)
+
+    # A tainted collection needs to be regenerated
+    tainted: Optional[bool] = field(default=None)
 
     @property
     def has_snapshots(self) -> bool:
