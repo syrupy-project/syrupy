@@ -11,7 +11,6 @@ from typing import (
     Dict,
     Generator,
     Iterable,
-    List,
     NamedTuple,
     Optional,
     Set,
@@ -89,23 +88,11 @@ class AmberDataSerializer:
         Divider = "---"
 
     @classmethod
-    def __maybe_int(cls, part: str) -> Tuple[int, Union[str, int]]:
-        try:
-            # cast to int only if the string is the exact representation of the int
-            # for example, '012' != str(int('012'))
-            i = int(part)
-            if str(i) == part:
-                return (1, i)
-            return (0, part)
-        except ValueError:
-            # the nested tuple is to prevent comparing a str to an int
-            return (0, part)
-
-    @classmethod
-    def __snapshot_sort_key(
-        cls, snapshot: "Snapshot"
-    ) -> List[Tuple[int, Union[str, int]]]:
-        return [cls.__maybe_int(part) for part in snapshot.name.split(".")]
+    def __snapshot_sort_key(cls, snapshot: "Snapshot") -> str:
+        if "." in snapshot.name:
+            index = snapshot.name.rfind(".") + 1
+            return f"{snapshot.name[:index-1]}.{snapshot.name[index:].zfill(4)}"
+        return snapshot.name
 
     @classmethod
     def write_file(
