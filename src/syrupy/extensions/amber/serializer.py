@@ -11,7 +11,6 @@ from typing import (
     Dict,
     Generator,
     Iterable,
-    List,
     NamedTuple,
     Optional,
     Set,
@@ -77,7 +76,13 @@ class MissingVersionError(Exception):
 
 
 class AmberDataSerializer:
-    VERSION = 1
+    """
+    If extending the serializer, change the VERSION property to some unique value
+    for your iteration of the serializer so as to force invalidation of existing
+    snapshots.
+    """
+
+    VERSION = "1"
 
     _indent: str = "  "
     _max_depth: int = 99
@@ -89,23 +94,8 @@ class AmberDataSerializer:
         Divider = "---"
 
     @classmethod
-    def __maybe_int(cls, part: str) -> Tuple[int, Union[str, int]]:
-        try:
-            # cast to int only if the string is the exact representation of the int
-            # for example, '012' != str(int('012'))
-            i = int(part)
-            if str(i) == part:
-                return (1, i)
-            return (0, part)
-        except ValueError:
-            # the nested tuple is to prevent comparing a str to an int
-            return (0, part)
-
-    @classmethod
-    def __snapshot_sort_key(
-        cls, snapshot: "Snapshot"
-    ) -> List[Tuple[int, Union[str, int]]]:
-        return [cls.__maybe_int(part) for part in snapshot.name.split(".")]
+    def _snapshot_sort_key(cls, snapshot: "Snapshot") -> Any:
+        return snapshot.name
 
     @classmethod
     def write_file(
@@ -123,7 +113,7 @@ class AmberDataSerializer:
         with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
             f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
             for snapshot in sorted(
-                snapshot_collection, key=lambda s: cls.__snapshot_sort_key(s)
+                snapshot_collection, key=lambda s: cls._snapshot_sort_key(s)  # type: ignore # noqa: E501
             ):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
@@ -152,14 +142,14 @@ class AmberDataSerializer:
                             ":", maxsplit=1
                         )
                         marker_key = marker_key.rstrip(" \r\n")
-                        marker_value = marker_rest[0] if marker_rest else None
+                        marker_value = marker_rest[0].strip() if marker_rest else None
 
                         if marker_key == cls.Marker.Version:
                             if line_no:
                                 raise MalformedAmberFile(
                                     "Version must be specified at the top of the file."
                                 )
-                            if not marker_value or int(marker_value) != cls.VERSION:
+                            if not marker_value or marker_value != cls.VERSION:
                                 tainted = True
                                 continue
                             missing_version = False
@@ -457,3 +447,28 @@ class AmberDataSerializer:
         formatted_open_tag = cls.with_indent(f"{maybe_obj_type}{open_tag}", depth)
         formatted_close_tag = cls.with_indent(close_tag, depth)
         return f"{formatted_open_tag}\n{lines}{lines_end}{formatted_close_tag}"
+
+
+class AmberDataSerializerSorted(AmberDataSerializer):
+    """
+    This is an experimental serializer with known performance issues.
+    """
+
+    VERSION = f"{AmberDataSerializer.VERSION}-sorted"
+
+    @classmethod
+    def __maybe_int(cls, part: str) -> Tuple[int, Union[str, int]]:
+        try:
+            # cast to int only if the string is the exact representation of the int
+            # for example, '012' != str(int('012'))
+            i = int(part)
+            if str(i) == part:
+                return (1, i)
+            return (0, part)
+        except ValueError:
+            # the nested tuple is to prevent comparing a str to an int
+            return (0, part)
+
+    @classmethod
+    def _snapshot_sort_key(cls, snapshot: "Snapshot") -> Any:
+        return [cls.__maybe_int(part) for part in snapshot.name.split(".")]
