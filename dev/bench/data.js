@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675381451452,
+  "lastUpdate": 1675381555599,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1620,6 +1620,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1789742797799624",
             "extra": "mean: 1.954375325799998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b7c9f4ad0c89b0f048924396ae5d35f01e002e25",
+          "message": "chore: update dependency black to ^22.12.0 (#674)",
+          "timestamp": "2023-02-02T18:41:21-05:00",
+          "tree_id": "c557e30b247adcb07fc8aa56ab48836e26d2b46e",
+          "url": "https://github.com/tophat/syrupy/commit/b7c9f4ad0c89b0f048924396ae5d35f01e002e25"
+        },
+        "date": 1675381554755,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8218555291330201,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04870635481045464",
+            "extra": "mean: 1.216758863999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8294772444505106,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045070389067531164",
+            "extra": "mean: 1.2055785817999776 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7323042026181422,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17119781242605997",
+            "extra": "mean: 1.3655527258000006 sec\nrounds: 5"
           }
         ]
       }
