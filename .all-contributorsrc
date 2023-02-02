@@ -179,6 +179,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "herb",
+      "name": "Herbert Ho",
+      "avatar_url": "https://avatars.githubusercontent.com/u/139780?v=4",
+      "profile": "https://github.com/herb",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
