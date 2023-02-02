@@ -12,10 +12,14 @@ from typing import (
     Dict,
     List,
     Optional,
+    Tuple,
     Type,
 )
 
-from .exceptions import SnapshotDoesNotExist
+from .exceptions import (
+    SnapshotDoesNotExist,
+    TaintedSnapshotError,
+)
 from .extensions.amber.serializer import Repr
 
 if TYPE_CHECKING:
@@ -94,7 +98,7 @@ class SnapshotAssertion:
     def __init_extension(
         self, extension_class: Type["AbstractSyrupyExtension"]
     ) -> "AbstractSyrupyExtension":
-        return extension_class(test_location=self.test_location)
+        return extension_class()
 
     @property
     def extension(self) -> "AbstractSyrupyExtension":
@@ -125,13 +129,15 @@ class SnapshotAssertion:
         SnapshotAssertionRepr = namedtuple(  # type: ignore
             "SnapshotAssertion", ["name", "num_executions"]
         )
-        assertion_result = self.executions.get(
-            (self._custom_index and self._execution_name_index.get(self._custom_index))
-            or self.num_executions - 1
-        )
+        execution_index = (
+            self._custom_index and self._execution_name_index.get(self._custom_index)
+        ) or self.num_executions - 1
+        assertion_result = self.executions.get(execution_index)
         return (
             Repr(str(assertion_result.final_data))
-            if assertion_result
+            if execution_index in self.executions
+            and assertion_result
+            and assertion_result.final_data is not None
             else SnapshotAssertionRepr(
                 name=self.name,
                 num_executions=self.num_executions,
@@ -179,15 +185,23 @@ class SnapshotAssertion:
     def get_assert_diff(self) -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         if assertion_result.exception:
-            lines = [
-                line
-                for lines in traceback.format_exception(
-                    assertion_result.exception.__class__,
-                    assertion_result.exception,
-                    assertion_result.exception.__traceback__,
-                )
-                for line in lines.splitlines()
-            ]
+            if isinstance(assertion_result.exception, (TaintedSnapshotError,)):
+                lines = [
+                    gettext(
+                        "This snapshot needs to be regenerated. "
+                        "This is typically due to a major Syrupy update."
+                    )
+                ]
+            else:
+                lines = [
+                    line
+                    for lines in traceback.format_exception(
+                        assertion_result.exception.__class__,
+                        assertion_result.exception,
+                        assertion_result.exception.__traceback__,
+                    )
+                    for line in lines.splitlines()
+                ]
             # Rotate to place exception with message at first line
             return lines[-1:] + lines[:-1]
         snapshot_data = assertion_result.recalled_data
@@ -232,41 +246,54 @@ class SnapshotAssertion:
         return self
 
     def __repr__(self) -> str:
-        return str(self._serialize(self.__repr))
+        return str(self.__repr)
 
     def __eq__(self, other: "SerializableData") -> bool:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_location = self.extension.get_location(index=self.index)
-        snapshot_name = self.extension.get_snapshot_name(index=self.index)
+        snapshot_location = self.extension.get_location(
+            test_location=self.test_location, index=self.index
+        )
+        snapshot_name = self.extension.get_snapshot_name(
+            test_location=self.test_location, index=self.index
+        )
         snapshot_data: Optional["SerializedData"] = None
         serialized_data: Optional["SerializedData"] = None
         matches = False
         assertion_success = False
         assertion_exception = None
         try:
-            snapshot_data = self._recall_data(index=self.index)
+            snapshot_data, tainted = self._recall_data(index=self.index)
             serialized_data = self._serialize(data)
             snapshot_diff = getattr(self, "_snapshot_diff", None)
             if snapshot_diff is not None:
-                snapshot_data_diff = self._recall_data(index=snapshot_diff)
+                snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
                 if snapshot_data_diff is None:
                     raise SnapshotDoesNotExist()
                 serialized_data = self.extension.diff_snapshots(
                     serialized_data=serialized_data,
                     snapshot_data=snapshot_data_diff,
                 )
-            matches = snapshot_data is not None and self.extension.matches(
-                serialized_data=serialized_data, snapshot_data=snapshot_data
+            matches = (
+                not tainted
+                and snapshot_data is not None
+                and self.extension.matches(
+                    serialized_data=serialized_data, snapshot_data=snapshot_data
+                )
             )
             assertion_success = matches
-            if not matches and self.update_snapshots:
-                self.extension.write_snapshot(
-                    data=serialized_data,
-                    index=self.index,
-                )
-                assertion_success = True
+            if not matches:
+                if self.update_snapshots:
+                    self.session.queue_snapshot_write(
+                        extension=self.extension,
+                        test_location=self.test_location,
+                        data=serialized_data,
+                        index=self.index,
+                    )
+                    assertion_success = True
+                elif tainted:
+                    raise TaintedSnapshotError
             return assertion_success
         except Exception as e:
             assertion_exception = e
@@ -295,8 +322,19 @@ class SnapshotAssertion:
         while self._post_assert_actions:
             self._post_assert_actions.pop()()
 
-    def _recall_data(self, index: "SnapshotIndex") -> Optional["SerializableData"]:
+    def _recall_data(
+        self, index: "SnapshotIndex"
+    ) -> Tuple[Optional["SerializableData"], bool]:
         try:
-            return self.extension.read_snapshot(index=index)
+            return (
+                self.extension.read_snapshot(
+                    test_location=self.test_location,
+                    index=index,
+                    session_id=str(id(self.session)),
+                ),
+                False,
+            )
         except SnapshotDoesNotExist:
-            return None
+            return None, False
+        except TaintedSnapshotError as e:
+            return e.snapshot_data, True

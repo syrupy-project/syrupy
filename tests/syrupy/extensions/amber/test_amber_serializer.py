@@ -1,8 +1,11 @@
-from collections import namedtuple
+from collections import (
+    OrderedDict,
+    namedtuple,
+)
 
 import pytest
 
-from syrupy.extensions.amber.serializer import DataSerializer
+from syrupy.extensions.amber.serializer import AmberDataSerializer
 
 
 def test_non_snapshots(snapshot):
@@ -27,10 +30,10 @@ def test_snapshot_markers(snapshot):
     Test snapshot markers do not break serialization when in snapshot data
     """
     marker_strings = (
-        DataSerializer._marker_comment,
-        f"{DataSerializer._indent}{DataSerializer._marker_comment}",
-        DataSerializer._marker_divider,
-        DataSerializer._marker_name,
+        AmberDataSerializer._marker_prefix,
+        f"{AmberDataSerializer._indent}{AmberDataSerializer._marker_prefix}",
+        f"{AmberDataSerializer._marker_prefix}{AmberDataSerializer.Marker.Divider}",
+        f"{AmberDataSerializer._marker_prefix}{AmberDataSerializer.Marker.Name}:",
     )
     assert snapshot == "\n".join(marker_strings)
 
@@ -218,3 +221,15 @@ def test_parameter_with_dot(parameter_with_dot, snapshot):
 def test_doubly_parametrized(parameter_1, parameter_2, snapshot):
     assert parameter_1 == snapshot
     assert parameter_2 == snapshot
+
+
+def test_ordered_dict(snapshot):
+    d = OrderedDict()
+    d["b"] = 0
+    d["a"] = 1
+    assert snapshot == d
+
+
+def test_many_sorted(snapshot):
+    for i in range(25):
+        assert i == snapshot

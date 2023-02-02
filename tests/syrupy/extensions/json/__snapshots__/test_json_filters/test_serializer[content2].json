@@ -7,6 +7,6 @@
   "datetime": "2021-01-31T23:59:00.000000",
   "float": 4.2,
   "int": -1,
-  "null": "None",
+  "null": null,
   "str": "foo"
 }

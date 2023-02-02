@@ -15,6 +15,7 @@ from typing import (
     List,
     Optional,
     Set,
+    Tuple,
 )
 
 from syrupy.constants import (
@@ -27,9 +28,9 @@ from syrupy.constants import (
 from syrupy.data import (
     DiffedLine,
     Snapshot,
-    SnapshotEmptyFossil,
-    SnapshotFossil,
-    SnapshotFossils,
+    SnapshotCollection,
+    SnapshotCollections,
+    SnapshotEmptyCollection,
 )
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
@@ -73,105 +74,134 @@ class SnapshotSerializer(ABC):
         raise NotImplementedError
 
 
-class SnapshotFossilizer(ABC):
-    @property
-    @abstractmethod
-    def test_location(self) -> "PyTestLocation":
-        raise NotImplementedError
+class SnapshotCollectionStorage(ABC):
+    _file_extension = ""
 
-    def get_snapshot_name(self, *, index: "SnapshotIndex" = 0) -> str:
+    @classmethod
+    def get_snapshot_name(
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex" = 0
+    ) -> str:
         """Get the snapshot name for the assertion index in a test location"""
         index_suffix = ""
         if isinstance(index, (str,)):
             index_suffix = f"[{index}]"
         elif index:
             index_suffix = f".{index}"
-        return f"{self.test_location.snapshot_name}{index_suffix}"
+        return f"{test_location.snapshot_name}{index_suffix}"
 
-    def get_location(self, *, index: "SnapshotIndex") -> str:
-        """Returns full location where snapshot data is stored."""
-        basename = self._get_file_basename(index=index)
-        fileext = f".{self._file_extension}" if self._file_extension else ""
-        return str(Path(self._dirname).joinpath(f"{basename}{fileext}"))
+    @classmethod
+    def get_location(
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+    ) -> str:
+        """Returns full filepath where snapshot data is stored."""
+        basename = cls._get_file_basename(test_location=test_location, index=index)
+        fileext = f".{cls._file_extension}" if cls._file_extension else ""
+        return str(
+            Path(cls.dirname(test_location=test_location)).joinpath(
+                f"{basename}{fileext}"
+            )
+        )
 
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self._file_extension)
 
-    def discover_snapshots(self) -> "SnapshotFossils":
+    def discover_snapshots(
+        self, *, test_location: "PyTestLocation"
+    ) -> "SnapshotCollections":
         """
-        Returns all snapshot fossils in test site
+        Returns all snapshot collections in test site
         """
-        discovered: "SnapshotFossils" = SnapshotFossils()
-        for filepath in walk_snapshot_dir(self._dirname):
+        discovered: "SnapshotCollections" = SnapshotCollections()
+        for filepath in walk_snapshot_dir(self.dirname(test_location=test_location)):
             if self.is_snapshot_location(location=filepath):
-                snapshot_fossil = self._read_snapshot_fossil(snapshot_location=filepath)
-                if not snapshot_fossil.has_snapshots:
-                    snapshot_fossil = SnapshotEmptyFossil(location=filepath)
+                snapshot_collection = self._read_snapshot_collection(
+                    snapshot_location=filepath
+                )
+                if not snapshot_collection.has_snapshots:
+                    snapshot_collection = SnapshotEmptyCollection(location=filepath)
             else:
-                snapshot_fossil = SnapshotFossil(location=filepath)
+                snapshot_collection = SnapshotCollection(location=filepath)
 
-            discovered.add(snapshot_fossil)
+            discovered.add(snapshot_collection)
 
         return discovered
 
-    def read_snapshot(self, *, index: "SnapshotIndex") -> "SerializedData":
+    def read_snapshot(
+        self,
+        *,
+        test_location: "PyTestLocation",
+        index: "SnapshotIndex",
+        session_id: str,
+    ) -> "SerializedData":
         """
-        Utility method for reading the contents of a snapshot assertion.
-        Will call `_pre_read`, then perform `read` and finally `post_read`,
-        returning the contents parsed from the `read` method.
-
         This method is _final_, do not override. You can override
         `_read_snapshot_data_from_location` in a subclass to change behaviour.
         """
-        try:
-            self._pre_read(index=index)
-            snapshot_location = self.get_location(index=index)
-            snapshot_name = self.get_snapshot_name(index=index)
-            snapshot_data = self._read_snapshot_data_from_location(
-                snapshot_location=snapshot_location, snapshot_name=snapshot_name
-            )
-            if snapshot_data is None:
-                raise SnapshotDoesNotExist()
-            return snapshot_data
-        finally:
-            self._post_read(index=index)
+        snapshot_location = self.get_location(test_location=test_location, index=index)
+        snapshot_name = self.get_snapshot_name(test_location=test_location, index=index)
+        snapshot_data = self._read_snapshot_data_from_location(
+            snapshot_location=snapshot_location,
+            snapshot_name=snapshot_name,
+            session_id=session_id,
+        )
+        if snapshot_data is None:
+            raise SnapshotDoesNotExist()
+        return snapshot_data
 
-    def write_snapshot(self, *, data: "SerializedData", index: "SnapshotIndex") -> None:
+    @classmethod
+    def write_snapshot(
+        cls,
+        *,
+        snapshot_location: str,
+        snapshots: List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
+    ) -> None:
         """
-        Utility method for writing the contents of a snapshot assertion.
-        Will call `_pre_write`, then perform `write` and finally `_post_write`.
-
         This method is _final_, do not override. You can override
-        `_write_snapshot_fossil` in a subclass to change behaviour.
+        `_write_snapshot_collection` in a subclass to change behaviour.
         """
-        self._pre_write(data=data, index=index)
-        snapshot_location = self.get_location(index=index)
-        if not self.test_location.matches_snapshot_location(snapshot_location):
-            warning_msg = gettext(
-                "{line_end}Can not relate snapshot location '{}' to the test location."
-                "{line_end}Consider adding '{}' to the generated location."
-            ).format(
-                snapshot_location,
-                self.test_location.filename,
-                line_end="\n",
+        if not snapshots:
+            return
+
+        # First we group by location since it'll let us batch by file on disk.
+        # Not as useful for single file snapshots, but useful for the standard
+        # Amber extension.
+        snapshot_collection = SnapshotCollection(location=snapshot_location)
+        for data, test_location, index in snapshots:
+            snapshot_name = cls.get_snapshot_name(
+                test_location=test_location, index=index
             )
-            warnings.warn(warning_msg)
-        snapshot_name = self.get_snapshot_name(index=index)
-        if not self.test_location.matches_snapshot_name(snapshot_name):
-            warning_msg = gettext(
-                "{line_end}Can not relate snapshot name '{}' to the test location."
-                "{line_end}Consider adding '{}' to the generated name."
-            ).format(
-                snapshot_name,
-                self.test_location.testname,
-                line_end="\n",
-            )
-            warnings.warn(warning_msg)
-        snapshot_fossil = SnapshotFossil(location=snapshot_location)
-        snapshot_fossil.add(Snapshot(name=snapshot_name, data=data))
-        self._write_snapshot_fossil(snapshot_fossil=snapshot_fossil)
-        self._post_write(data=data, index=index)
+            snapshot = Snapshot(name=snapshot_name, data=data)
+            snapshot_collection.add(snapshot)
+
+            if not test_location.matches_snapshot_location(snapshot_location):
+                warning_msg = gettext(
+                    "{line_end}Can not relate snapshot location '{}' "
+                    "to the test location.{line_end}"
+                    "Consider adding '{}' to the generated location."
+                ).format(
+                    snapshot_location,
+                    test_location.basename,
+                    line_end="\n",
+                )
+                warnings.warn(warning_msg)
+
+            if not test_location.matches_snapshot_name(snapshot.name):
+                warning_msg = gettext(
+                    "{line_end}Can not relate snapshot name '{}' "
+                    "to the test location.{line_end}"
+                    "Consider adding '{}' to the generated name."
+                ).format(
+                    snapshot.name,
+                    test_location.testname,
+                    line_end="\n",
+                )
+                warnings.warn(warning_msg)
+
+        # Ensures the folder path for the snapshot file exists.
+        Path(snapshot_location).parent.mkdir(parents=True, exist_ok=True)
+
+        cls._write_snapshot_collection(snapshot_collection=snapshot_collection)
 
     @abstractmethod
     def delete_snapshots(
@@ -183,65 +213,45 @@ class SnapshotFossilizer(ABC):
         """
         raise NotImplementedError
 
-    def _pre_read(self, *, index: "SnapshotIndex" = 0) -> None:  # noqa: B027
-        pass
-
-    def _post_read(self, *, index: "SnapshotIndex" = 0) -> None:  # noqa: B027
-        pass
-
-    def _pre_write(self, *, data: "SerializedData", index: "SnapshotIndex" = 0) -> None:
-        self.__ensure_snapshot_dir(index=index)
-
-    def _post_write(  # noqa: B027
-        self, *, data: "SerializedData", index: "SnapshotIndex" = 0
-    ) -> None:
-        pass
-
     @abstractmethod
-    def _read_snapshot_fossil(self, *, snapshot_location: str) -> "SnapshotFossil":
+    def _read_snapshot_collection(
+        self, *, snapshot_location: str
+    ) -> "SnapshotCollection":
         """
-        Read the snapshot location and construct a snapshot fossil object
+        Read the snapshot location and construct a snapshot collection object
         """
         raise NotImplementedError
 
     @abstractmethod
     def _read_snapshot_data_from_location(
-        self, *, snapshot_location: str, snapshot_name: str
+        self, *, snapshot_location: str, snapshot_name: str, session_id: str
     ) -> Optional["SerializedData"]:
         """
         Get only the snapshot data from location for assertion
         """
         raise NotImplementedError
 
+    @classmethod
     @abstractmethod
-    def _write_snapshot_fossil(self, *, snapshot_fossil: "SnapshotFossil") -> None:
+    def _write_snapshot_collection(
+        cls, *, snapshot_collection: "SnapshotCollection"
+    ) -> None:
         """
-        Adds the snapshot data to the snapshots in fossil location
+        Adds the snapshot data to the snapshots in collection location
         """
         raise NotImplementedError
 
-    @property
-    def _dirname(self) -> str:
-        test_dir = Path(self.test_location.filepath).parent
+    @classmethod
+    def dirname(cls, *, test_location: "PyTestLocation") -> str:
+        test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
 
-    @property
-    @abstractmethod
-    def _file_extension(self) -> str:
-        raise NotImplementedError
-
-    def _get_file_basename(self, *, index: "SnapshotIndex") -> str:
+    @classmethod
+    def _get_file_basename(
+        cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
+    ) -> str:
         """Returns file basename without extension. Used to create full filepath."""
-        return self.test_location.filename
-
-    def __ensure_snapshot_dir(self, *, index: "SnapshotIndex") -> None:
-        """
-        Ensures the folder path for the snapshot file exists.
-        """
-        try:
-            Path(self.get_location(index=index)).parent.mkdir(parents=True)
-        except FileExistsError:
-            pass
+        return test_location.basename
 
 
 class SnapshotReporter(ABC):
@@ -405,11 +415,6 @@ class SnapshotComparator:
 
 
 class AbstractSyrupyExtension(
-    SnapshotSerializer, SnapshotFossilizer, SnapshotReporter, SnapshotComparator
+    SnapshotSerializer, SnapshotCollectionStorage, SnapshotReporter, SnapshotComparator
 ):
-    def __init__(self, test_location: "PyTestLocation"):
-        self._test_location = test_location
-
-    @property
-    def test_location(self) -> "PyTestLocation":
-        return self._test_location
+    pass

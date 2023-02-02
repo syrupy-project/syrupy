@@ -28,7 +28,8 @@ class PyTestLocation:
         self.__attrs_post_init_def__()
 
     def __attrs_post_init_def__(self) -> None:
-        self.filepath = getattr(self._node, "fspath")  # noqa: B009
+        node_path: Path = getattr(self._node, "path")  # noqa: B009
+        self.filepath = str(node_path.absolute())
         obj = getattr(self._node, "obj")  # noqa: B009
         self.modulename = obj.__module__
         self.methodname = obj.__name__
@@ -66,7 +67,7 @@ class PyTestLocation:
         return str(getattr(self._node, "nodeid"))  # noqa: B009
 
     @property
-    def filename(self) -> str:
+    def basename(self) -> str:
         return Path(self.filepath).stem
 
     @property
@@ -117,4 +118,4 @@ class PyTestLocation:
         loc = Path(snapshot_location)
         # "test_file" should match_"test_file.ext" or "test_file/whatever.ext", but not
         # "test_file_suffix.ext"
-        return self.filename == loc.stem or self.filename == loc.parent.name
+        return self.basename == loc.stem or self.basename == loc.parent.name

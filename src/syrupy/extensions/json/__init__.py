@@ -1,5 +1,6 @@
 import datetime
 import json
+from collections import OrderedDict
 from types import GeneratorType
 from typing import (
     TYPE_CHECKING,
@@ -31,10 +32,7 @@ if TYPE_CHECKING:
 class JSONSnapshotExtension(SingleFileSnapshotExtension):
     _max_depth: int = 99
     _write_mode = WriteMode.TEXT
-
-    @property
-    def _file_extension(self) -> str:
-        return "json"
+    _file_extension = "json"
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
@@ -67,13 +65,19 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         elif matcher:
             data = matcher(data=data, path=path)
 
-        if isinstance(data, (int, float, str)):
+        if isinstance(data, (int, float, str)) or data is None:
             return data
 
         filtered_dct: Dict[Any, Any]
         if isinstance(data, (dict,)):
-            filtered_dct = {}
-            for key, value in data.items():
+            filtered_dct = OrderedDict()
+            keys = (
+                cls.sort(data.keys())
+                if not isinstance(data, (OrderedDict,))
+                else data.keys()
+            )
+            for key in keys:
+                value = data[key]
                 if exclude and exclude(prop=key, path=path):
                     continue
                 if not isinstance(key, (str,)):
@@ -89,7 +93,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
             return filtered_dct
 
         if cls.__is_namedtuple(data):
-            filtered_dct = {}
+            filtered_dct = OrderedDict()
             for key in cls.sort(data._fields):
                 value = getattr(data, key)
                 filtered_dct[key] = cls._filter(
@@ -138,4 +142,4 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         data = self._filter(
             data=data, depth=0, path=(), exclude=exclude, matcher=matcher
         )
-        return json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+        return json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False) + "\n"

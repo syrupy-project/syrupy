@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: DocTestClass
   DocTestClass(
     obj_attr='test class attr',

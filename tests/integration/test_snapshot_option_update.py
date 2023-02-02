@@ -394,7 +394,7 @@ def test_update_targets_only_selected_module_tests_file_for_removal(run_testcase
     assert not Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_removes_empty_snapshot_fossil_only(run_testcases):
+def test_update_removes_empty_snapshot_collection_only(run_testcases):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
@@ -403,7 +403,8 @@ def test_update_removes_empty_snapshot_fossil_only(run_testcases):
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            r"Deleted empty snapshot fossil \(__snapshots__[\\/]empty_snapfile\.ambr\)",
+            r"Deleted empty snapshot collection "
+            r"\(__snapshots__[\\/]empty_snapfile\.ambr\)",
         )
     )
     assert result.ret == 0
@@ -411,7 +412,7 @@ def test_update_removes_empty_snapshot_fossil_only(run_testcases):
     assert Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_removes_hanging_snapshot_fossil_file(run_testcases):
+def test_update_removes_hanging_snapshot_collection_file(run_testcases):
     testdir = run_testcases[1]
     snapfile_used = Path("__snapshots__", "test_used.ambr")
     snapfile_hanging = Path("__snapshots__", "hanging_snapfile.abc")
@@ -421,7 +422,7 @@ def test_update_removes_hanging_snapshot_fossil_file(run_testcases):
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            r"Deleted unknown snapshot fossil "
+            r"Deleted unknown snapshot collection "
             r"\(__snapshots__[\\/]hanging_snapfile\.abc\)",
         )
     )

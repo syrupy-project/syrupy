@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: test_matches_expected_type
   dict({
     'date_created': datetime,

@@ -162,13 +162,13 @@ def pytest_runtest_logfinish(nodeid: str) -> None:
         _syrupy.ran_item(nodeid)
 
 
-@pytest.hookimpl(tryfirst=True)
-def pytest_sessionfinish(session: Any, exitstatus: int) -> None:
+@pytest.hookimpl(tryfirst=True)  # type: ignore[misc]
+def pytest_sessionfinish(session: "pytest.Session", exitstatus: int) -> None:
     """
     Finish session run and set exit status.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish
     """
-    session.exitstatus |= exitstatus | session.config._syrupy.finish()
+    session.exitstatus |= exitstatus | session.config._syrupy.finish()  # type: ignore[attr-defined]  # noqa: E501
 
 
 def pytest_terminal_summary(

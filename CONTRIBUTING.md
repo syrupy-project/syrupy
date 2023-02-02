@@ -91,6 +91,30 @@ Fill in the relevant sections, clearly linking the issue the change is attemping
 
 `debugpy` is installed in local development. A VSCode launch config is provided. Run `inv test -v -d` to enable the debugger (`-d` for debug). It'll then wait for you to attach your VSCode debugging client.
 
+#### Debugging Performance Issues
+
+You can run `inv benchmark` to run the full benchmark suite. Alternatively, write a test file, e.g.:
+
+```py
+# test_performance.py
+import pytest
+import os
+
+SIZE = int(os.environ.get("SIZE", 1000))
+
+@pytest.mark.parametrize("x", range(SIZE))
+def test_performance(x, snapshot):
+    assert x == snapshot
+```
+
+and then run:
+
+```sh
+SIZE=1000 python -m cProfile -s cumtime -m pytest test_performance.py --snapshot-update -s > profile.log
+```
+
+See the cProfile docs for metric sorting options.
+
 ## Styleguides
 
 ### Commit Messages

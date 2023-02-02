@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: TestClass.TestNestedClass.test_nested_class_method[x]
   'parameterized nested class method x'
 # ---
@@ -246,6 +247,81 @@
     }),
   ])
 # ---
+# name: test_many_sorted
+  0
+# ---
+# name: test_many_sorted.1
+  1
+# ---
+# name: test_many_sorted.10
+  10
+# ---
+# name: test_many_sorted.11
+  11
+# ---
+# name: test_many_sorted.12
+  12
+# ---
+# name: test_many_sorted.13
+  13
+# ---
+# name: test_many_sorted.14
+  14
+# ---
+# name: test_many_sorted.15
+  15
+# ---
+# name: test_many_sorted.16
+  16
+# ---
+# name: test_many_sorted.17
+  17
+# ---
+# name: test_many_sorted.18
+  18
+# ---
+# name: test_many_sorted.19
+  19
+# ---
+# name: test_many_sorted.2
+  2
+# ---
+# name: test_many_sorted.20
+  20
+# ---
+# name: test_many_sorted.21
+  21
+# ---
+# name: test_many_sorted.22
+  22
+# ---
+# name: test_many_sorted.23
+  23
+# ---
+# name: test_many_sorted.24
+  24
+# ---
+# name: test_many_sorted.3
+  3
+# ---
+# name: test_many_sorted.4
+  4
+# ---
+# name: test_many_sorted.5
+  5
+# ---
+# name: test_many_sorted.6
+  6
+# ---
+# name: test_many_sorted.7
+  7
+# ---
+# name: test_many_sorted.8
+  8
+# ---
+# name: test_many_sorted.9
+  9
+# ---
 # name: test_multiline_string_in_dict
   dict({
     'value': '''
@@ -309,6 +385,12 @@
 # ---
 # name: test_numbers.2
   0.3333333333333333
+# ---
+# name: test_ordered_dict
+  OrderedDict({
+    'b': 0,
+    'a': 1,
+  })
 # ---
 # name: test_parameter_with_dot[value.with.dot]
   'value.with.dot'

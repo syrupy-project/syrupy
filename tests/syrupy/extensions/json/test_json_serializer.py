@@ -1,8 +1,11 @@
-from collections import namedtuple
+from collections import (
+    OrderedDict,
+    namedtuple,
+)
 
 import pytest
 
-from syrupy.extensions.amber.serializer import DataSerializer
+from syrupy.extensions.amber.serializer import AmberDataSerializer
 from syrupy.extensions.json import JSONSnapshotExtension
 
 
@@ -30,10 +33,10 @@ def test_snapshot_markers(snapshot_json):
     Test snapshot markers do not break serialization when in snapshot data
     """
     marker_strings = (
-        DataSerializer._marker_comment,
-        f"{DataSerializer._indent}{DataSerializer._marker_comment}",
-        DataSerializer._marker_divider,
-        DataSerializer._marker_name,
+        AmberDataSerializer._marker_prefix,
+        f"{AmberDataSerializer._indent}{AmberDataSerializer._marker_prefix}",
+        f"{AmberDataSerializer._marker_prefix}{AmberDataSerializer.Marker.Divider}",
+        f"{AmberDataSerializer._marker_prefix}{AmberDataSerializer.Marker.Name}:",
     )
     assert snapshot_json == "\n".join(marker_strings)
 
@@ -124,6 +127,7 @@ def test_set(snapshot_json, actual):
             "multi\nline\nkey": "Some morre text.",
             frozenset({"1", "2"}): ["1", 2],
             ExampleTuple(a=1, b=2, c=3, d=4): {"e": False},
+            "key": None,
         },
         {},
         {"key": ["line1\nline2"]},
@@ -221,3 +225,10 @@ def test_parameter_with_dot(parameter_with_dot, snapshot_json):
 def test_doubly_parametrized(parameter_1, parameter_2, snapshot_json):
     assert parameter_1 == snapshot_json
     assert parameter_2 == snapshot_json
+
+
+def test_ordered_dict(snapshot_json):
+    d = OrderedDict()
+    d["b"] = 0
+    d["a"] = OrderedDict(b=True, a=False)
+    assert snapshot_json == d
