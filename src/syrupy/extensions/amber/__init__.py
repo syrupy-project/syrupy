@@ -5,12 +5,14 @@ from typing import (
     Any,
     Optional,
     Set,
+    Type,
 )
 
 from syrupy.data import SnapshotCollection
 from syrupy.exceptions import TaintedSnapshotError
 from syrupy.extensions.base import AbstractSyrupyExtension
 
+from .serializer import AmberDataSerializerSorted  # noqa: F401 # re-exported
 from .serializer import AmberDataSerializer
 
 if TYPE_CHECKING:
@@ -24,12 +26,14 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
 
     _file_extension = "ambr"
 
+    serializer_class: Type["AmberDataSerializer"] = AmberDataSerializer
+
     def serialize(self, data: "SerializableData", **kwargs: Any) -> str:
         """
         Returns the serialized form of 'data' to be compared
         with the snapshot data written to disk.
         """
-        return AmberDataSerializer.serialize(data, **kwargs)
+        return self.serializer_class.serialize(data, **kwargs)
 
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: Set[str]
@@ -39,19 +43,19 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
             snapshot_collection_to_update.remove(snapshot_name)
 
         if snapshot_collection_to_update.has_snapshots:
-            AmberDataSerializer.write_file(snapshot_collection_to_update)
+            self.serializer_class.write_file(snapshot_collection_to_update)
         else:
             Path(snapshot_location).unlink()
 
     def _read_snapshot_collection(self, snapshot_location: str) -> "SnapshotCollection":
-        return AmberDataSerializer.read_file(snapshot_location)
+        return self.serializer_class.read_file(snapshot_location)
 
-    @staticmethod
+    @classmethod
     @lru_cache()
     def __cacheable_read_snapshot(
-        snapshot_location: str, cache_key: str
+        cls, snapshot_location: str, cache_key: str
     ) -> "SnapshotCollection":
-        return AmberDataSerializer.read_file(snapshot_location)
+        return cls.serializer_class.read_file(snapshot_location)
 
     def _read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str, session_id: str
@@ -70,7 +74,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def _write_snapshot_collection(
         cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
-        AmberDataSerializer.write_file(snapshot_collection, merge=True)
+        cls.serializer_class.write_file(snapshot_collection, merge=True)
 
 
 __all__ = ["AmberSnapshotExtension", "AmberDataSerializer"]

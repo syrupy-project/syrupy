@@ -253,30 +253,6 @@
 # name: test_many_sorted.1
   1
 # ---
-# name: test_many_sorted.2
-  2
-# ---
-# name: test_many_sorted.3
-  3
-# ---
-# name: test_many_sorted.4
-  4
-# ---
-# name: test_many_sorted.5
-  5
-# ---
-# name: test_many_sorted.6
-  6
-# ---
-# name: test_many_sorted.7
-  7
-# ---
-# name: test_many_sorted.8
-  8
-# ---
-# name: test_many_sorted.9
-  9
-# ---
 # name: test_many_sorted.10
   10
 # ---
@@ -307,6 +283,9 @@
 # name: test_many_sorted.19
   19
 # ---
+# name: test_many_sorted.2
+  2
+# ---
 # name: test_many_sorted.20
   20
 # ---
@@ -321,6 +300,27 @@
 # ---
 # name: test_many_sorted.24
   24
+# ---
+# name: test_many_sorted.3
+  3
+# ---
+# name: test_many_sorted.4
+  4
+# ---
+# name: test_many_sorted.5
+  5
+# ---
+# name: test_many_sorted.6
+  6
+# ---
+# name: test_many_sorted.7
+  7
+# ---
+# name: test_many_sorted.8
+  8
+# ---
+# name: test_many_sorted.9
+  9
 # ---
 # name: test_multiline_string_in_dict
   dict({
