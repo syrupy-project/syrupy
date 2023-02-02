@@ -6,6 +6,67 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [4.0.0](https://github.com/tophat/syrupy/compare/v3.0.6...v4.0.0) (2023-02-02)
+
+
+### Bug Fixes
+
+* defer snapshot writes until end of session ([#606](https://github.com/tophat/syrupy/issues/606)) ([68f1d5f](https://github.com/tophat/syrupy/commit/68f1d5f4ecb1cefab1a0b26fd7f1626e6c8a1b71))
+* ensure all pytest options are serializable ([#667](https://github.com/tophat/syrupy/issues/667)) ([e8ed9f2](https://github.com/tophat/syrupy/commit/e8ed9f2e3548f6493349bda2666698f165596f3a))
+* improve pytest-xdist compatibility ([9b9090f](https://github.com/tophat/syrupy/commit/9b9090f1d139ada1d12e89e002d48bc35c191d41))
+* lru_cache on snapshot reads ([#629](https://github.com/tophat/syrupy/issues/629)) ([c1a675f](https://github.com/tophat/syrupy/commit/c1a675f0960608ff3655d6ba67387940964064db))
+* remove legacy path usage to support no:legacypath, closes [#677](https://github.com/tophat/syrupy/issues/677) ([#684](https://github.com/tophat/syrupy/issues/684)) ([6385979](https://github.com/tophat/syrupy/commit/6385979084958f33365c4c544e7583569bb24e06))
+
+
+### Code Refactoring
+
+* simplify data serializer for ambr ([#676](https://github.com/tophat/syrupy/issues/676)) ([3d296e1](https://github.com/tophat/syrupy/commit/3d296e1e524e90a6f2d22f550a6e7847d4805c92))
+* write performance improvements, api clarity ([#645](https://github.com/tophat/syrupy/issues/645)) ([2c31c39](https://github.com/tophat/syrupy/commit/2c31c39fa2430ad42190a0ac3f80181ced803b82))
+
+
+### Features
+
+* **json:** serialize None as null, close [#622](https://github.com/tophat/syrupy/issues/622) ([c330680](https://github.com/tophat/syrupy/commit/c33068030bc1cb296c1b6f36d3e67d6d55e484fc))
+* numerically sort snapshots if possible, close [#657](https://github.com/tophat/syrupy/issues/657) ([4ca0716](https://github.com/tophat/syrupy/commit/4ca071641f9508b21c29df244639c9db61032cb1))
+* **serializer:** preserve key ordering of OrderedDict ([0a2289a](https://github.com/tophat/syrupy/commit/0a2289a53b03bf36f55149eee51fd6890af13659))
+* support overriding the amber serializer class ([#683](https://github.com/tophat/syrupy/issues/683)) ([662c93f](https://github.com/tophat/syrupy/commit/662c93f18619245d3d8d7c0ac30830d7c4587a2a))
+* update python version, pytest version ([#658](https://github.com/tophat/syrupy/issues/658)) ([c360b95](https://github.com/tophat/syrupy/commit/c360b95192607ba55421076487b533f8afe8253b))
+
+
+### BREAKING CHANGES
+
+* Serializers may now throw a TaintedSnapshotError which will tell the user to regenerate the snapshot even if the underlying data has not changed. This is to support rolling out more subtle changes to the serializers, such as the introduction of serializer metadata.
+* Renamed DataSerializer to AmberDataSerializer.
+* **serializer:** Key order is now preserved if using OrderedDict in both the Amber serializer and JSON serializer.
+* **json:** The JSONSnapshotExtension now serializes Python's None as "null" rather than "None".
+* Raise minimum python version to 3.8.1 and min. pytest version to v7.
+* PyTestLocation.filename has been renamed to .basename
+
+* refactor: add test_location kwarg to get_snapshot_name
+
+* refactor: get_snapshot_name is now static as a classmethod
+
+* refactor: remove pre and post read/write hooks
+* Pre and post read/write hooks have been removed without replacement to make internal refactor simpler. Please open a GitHub issue if you have a use case for these hooks.
+
+* refactor: rename Fossil to Collection
+* The term 'fossil' has been replaced by the clearer term 'collection'.
+
+* refactor: pass test_location to read_snapshot
+
+* refactor: remove singular write_snapshot method
+
+* refactor: dirname property to method
+
+* refactor: pass test_location to discover_snapshots
+
+* refactor: remove usage of self.test_location
+
+* refactor: make write_snapshot a classmethod
+
+* refactor: do not instantiate extension with test_location
+* Numerous instance methods have been refactored as classmethods.
+
 ## [3.0.6](https://github.com/tophat/syrupy/compare/v3.0.5...v3.0.6) (2022-12-30)
 
 
