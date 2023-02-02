@@ -93,7 +93,7 @@ dist,
 '''
 
 [tool.pytest.ini_options]
-addopts = '-p syrupy --doctest-modules'
+addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
 testpaths = ['tests']
 
 [tool.coverage.run]

@@ -39,8 +39,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class SnapshotSession:
-    # pytest.Session
-    pytest_session: Any
+    pytest_session: "pytest.Session"
     # Snapshot report generated on finish
     report: Optional["SnapshotReport"] = None
     # All the collected test items
@@ -116,7 +115,7 @@ class SnapshotSession:
         exitstatus = 0
         self.flush_snapshot_write_queue()
         self.report = SnapshotReport(
-            base_dir=self.pytest_session.config.rootdir,
+            base_dir=self.pytest_session.config.rootpath,
             collected_items=self._collected_items,
             selected_items=self._selected_items,
             assertions=self._assertions,

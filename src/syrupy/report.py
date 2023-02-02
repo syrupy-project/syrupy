@@ -55,7 +55,7 @@ class SnapshotReport:
     """
 
     # Initial arguments to the report
-    base_dir: str
+    base_dir: Path
     collected_items: Set["pytest.Item"]
     selected_items: Dict[str, bool]
     options: "argparse.Namespace"
