@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675381083918,
+  "lastUpdate": 1675381356621,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1530,6 +1530,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.12486732726109595",
             "extra": "mean: 1.2790301834000162 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6f63c360b2e6a11c17fbb1c4b19bf03fbcb2e689",
+          "message": "chore: update dependency twine to ^4.0.2 (#663)",
+          "timestamp": "2023-02-02T18:40:21-05:00",
+          "tree_id": "f1bb701515c2dbcf67cd78768dc481076bab71b1",
+          "url": "https://github.com/tophat/syrupy/commit/6f63c360b2e6a11c17fbb1c4b19bf03fbcb2e689"
+        },
+        "date": 1675381355676,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5538915285924507,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08196607951684563",
+            "extra": "mean: 1.805407644600018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5362515253596856,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08322507773834141",
+            "extra": "mean: 1.8647965604000092 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4855304033426754,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20233347526330112",
+            "extra": "mean: 2.059603256800017 sec\nrounds: 5"
           }
         ]
       }
