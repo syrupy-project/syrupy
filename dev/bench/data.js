@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675368680268,
+  "lastUpdate": 1675381083918,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1485,6 +1485,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.21397077226596534",
             "extra": "mean: 2.068092408199999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4b9b7d16512ded762f3c94ef8f075bc9adebfc7c",
+          "message": "chore: update dependency flake8-bugbear to ^22.12.6 (#686)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-02T18:36:26-05:00",
+          "tree_id": "e24b6774cadde0dc1b9017ca1714ef4928de7b59",
+          "url": "https://github.com/tophat/syrupy/commit/4b9b7d16512ded762f3c94ef8f075bc9adebfc7c"
+        },
+        "date": 1675381082893,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8685318578232368,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03719902244972196",
+            "extra": "mean: 1.1513682440000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8629443042309985,
+            "unit": "iter/sec",
+            "range": "stddev: 0.038943126152893054",
+            "extra": "mean: 1.1588233390000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7818423779036421,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12486732726109595",
+            "extra": "mean: 1.2790301834000162 sec\nrounds: 5"
           }
         ]
       }
