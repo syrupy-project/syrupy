@@ -11,7 +11,7 @@ def mock_pytest_item(node_id: str, method_name: str) -> "pytest.Item":
     mock_node.nodeid = node_id
     [filepath, *_, nodename] = node_id.split("::")
     mock_node.name = nodename
-    mock_node.fspath = filepath
+    mock_node.path = Path(filepath)
     mock_node.obj = MagicMock()
     mock_node.obj.__module__ = Path(filepath).stem
     mock_node.obj.__name__ = method_name

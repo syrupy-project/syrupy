@@ -28,7 +28,8 @@ class PyTestLocation:
         self.__attrs_post_init_def__()
 
     def __attrs_post_init_def__(self) -> None:
-        self.filepath = getattr(self._node, "fspath")  # noqa: B009
+        node_path: Path = getattr(self._node, "path")  # noqa: B009
+        self.filepath = str(node_path.absolute())
         obj = getattr(self._node, "obj")  # noqa: B009
         self.modulename = obj.__module__
         self.methodname = obj.__name__
