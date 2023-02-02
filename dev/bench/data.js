@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1672424901193,
+  "lastUpdate": 1675368680268,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1440,6 +1440,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1502009356924296",
             "extra": "mean: 1.3395535285999813 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5eee3d845cd3d3c4a47ea981911e5d4f8ebe83e0",
+          "message": "Merge pull request #605 from tophat/next\n\nGraduate Syrupy v4 pre-release.",
+          "timestamp": "2023-02-02T15:08:58-05:00",
+          "tree_id": "7a2283ec8bf2a68aa3a821130aef5d0993da31d3",
+          "url": "https://github.com/tophat/syrupy/commit/5eee3d845cd3d3c4a47ea981911e5d4f8ebe83e0"
+        },
+        "date": 1675368678568,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5308695012724054,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08240487393124026",
+            "extra": "mean: 1.883702110600001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5160934616849223,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07159902297368662",
+            "extra": "mean: 1.9376335377999907 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4835373874179867,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21397077226596534",
+            "extra": "mean: 2.068092408199999 sec\nrounds: 5"
           }
         ]
       }
