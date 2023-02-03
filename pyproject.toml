@@ -39,18 +39,18 @@ pytest-benchmark = '^4.0.0'
 pytest-xdist = '^3.1.0'
 
 [tool.poetry.group.dev.dependencies]
-isort = '^5.11.4'
-black = '^22.12.0'
+isort = '^5.12.0'
+black = '^23.1.0'
 mypy = '^0.991'
 py-githooks = '^1.1.1'
 flake8 = '^6.0.0'
-flake8-bugbear = '^22.12.6'
+flake8-bugbear = '^23.1.20'
 flake8-builtins = '^2.1.0'
 flake8-comprehensions = '^3.10.1'
 twine = '^4.0.2'
 semver = '^2.13.0'
 setuptools-scm = '^7.1.0'
-debugpy = '^1.6.5'
+debugpy = '^1.6.6'
 
 [tool.black]
 line-length = 88
