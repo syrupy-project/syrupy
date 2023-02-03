@@ -49,7 +49,7 @@ flake8-builtins = '^2.1.0'
 flake8-comprehensions = '^3.10.1'
 twine = '^4.0.2'
 semver = '^2.13.0'
-setuptools-scm = '^7.0.5'
+setuptools-scm = '^7.1.0'
 debugpy = '^1.6.5'
 
 [tool.black]
