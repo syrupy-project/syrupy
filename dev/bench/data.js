@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675456097148,
+  "lastUpdate": 1675457332225,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1935,6 +1935,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1827628608131666",
             "extra": "mean: 1.8312929240000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c0568c28158789eef76d14fc9968218cc49fa08f",
+          "message": "chore: update dev dependencies (#698)",
+          "timestamp": "2023-02-03T15:47:17-05:00",
+          "tree_id": "db052abbb25ba40c98db8506dacbcda2e9f88716",
+          "url": "https://github.com/tophat/syrupy/commit/c0568c28158789eef76d14fc9968218cc49fa08f"
+        },
+        "date": 1675457331373,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8721822446597747,
+            "unit": "iter/sec",
+            "range": "stddev: 0.039573595913622674",
+            "extra": "mean: 1.1465493664000064 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8653525900831389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.034032946071262477",
+            "extra": "mean: 1.155598320799993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7871895291257989,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12050103403575309",
+            "extra": "mean: 1.27034210060001 sec\nrounds: 5"
           }
         ]
       }
