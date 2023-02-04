@@ -29,7 +29,7 @@ syrupy = 'syrupy'
 [tool.poetry.dependencies]
 python = '>=3.8.1,<4'
 colored = '>=1.3.92,<2.0.0'
-pytest = '>=7.0.0,<8.0.0'
+pytest = '>=7.2.1,<8.0.0'
 
 [tool.poetry.group.test.dependencies]
 codecov = '^2.1.12'
