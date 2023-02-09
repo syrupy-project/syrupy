@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675971193426,
+  "lastUpdate": 1675971757220,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -2205,6 +2205,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.22524260393547457",
             "extra": "mean: 2.0085543826000047 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "266da13ff22a600c84b9ce2c6b140bdddcec9f47",
+          "message": "chore(deps): bump cryptography from 39.0.0 to 39.0.1 (#702)\n\n* chore(deps): bump cryptography from 39.0.0 to 39.0.1\r\n\r\nBumps [cryptography](https://github.com/pyca/cryptography) from 39.0.0 to 39.0.1.\r\n- [Release notes](https://github.com/pyca/cryptography/releases)\r\n- [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)\r\n- [Commits](https://github.com/pyca/cryptography/compare/39.0.0...39.0.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: cryptography\r\n  dependency-type: indirect\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\n* chore(deps): update lock file\r\n\r\n---------\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\r\nCo-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com>",
+          "timestamp": "2023-02-09T14:40:46-05:00",
+          "tree_id": "9f1121f95b3554588cc8d50ce842c31e783aee78",
+          "url": "https://github.com/tophat/syrupy/commit/266da13ff22a600c84b9ce2c6b140bdddcec9f47"
+        },
+        "date": 1675971756338,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7669822697311539,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05802613690011905",
+            "extra": "mean: 1.3038111042000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7660710393397627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05951735207537321",
+            "extra": "mean: 1.305361968599999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6824267091593954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1876703598787301",
+            "extra": "mean: 1.4653588239999977 sec\nrounds: 5"
           }
         ]
       }
