@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675969888814,
+  "lastUpdate": 1675970497618,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -2025,6 +2025,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1292373300171719",
             "extra": "mean: 1.3056563085999868 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "967cab8a1ea22377983280e47d9b7d36438fe01a",
+          "message": "chore: update dependency invoke to v2 (#701)\n\n* chore: update dependency invoke to v2\r\n\r\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\r\nCo-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com>",
+          "timestamp": "2023-02-09T19:19:52Z",
+          "tree_id": "c6013b3b25078044a204d22f86a7b6c5f9d50f2c",
+          "url": "https://github.com/tophat/syrupy/commit/967cab8a1ea22377983280e47d9b7d36438fe01a"
+        },
+        "date": 1675970495706,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8498359286869936,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0478411700008997",
+            "extra": "mean: 1.176697720399997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8436281630994096,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04094433094491234",
+            "extra": "mean: 1.1853563498000057 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7604871007305798,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1507718255254209",
+            "extra": "mean: 1.3149466953999962 sec\nrounds: 5"
           }
         ]
       }
