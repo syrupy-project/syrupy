@@ -1,4 +1,7 @@
 {
     "extends": ["github>tophat/new-project-kit//.github/renovate"],
-    "semanticCommitType": "chore"
+    "semanticCommitType": "chore",
+    "rangeStrategy": "update-lockfile",
+    "stabilityDays": 7,
+    "labels": ["dependencies"]
 }
