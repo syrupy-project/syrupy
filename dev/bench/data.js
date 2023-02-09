@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675970982095,
+  "lastUpdate": 1675971193426,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -2160,6 +2160,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.23014109374718014",
             "extra": "mean: 2.0533476539999924 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "03cc361858d2ae74297572300259e71f6847a1c8",
+          "message": "chore: consistency with dependabot (#708)",
+          "timestamp": "2023-02-09T14:30:57-05:00",
+          "tree_id": "0f206fb07210f39487ec675d42f857447f5c79bb",
+          "url": "https://github.com/tophat/syrupy/commit/03cc361858d2ae74297572300259e71f6847a1c8"
+        },
+        "date": 1675971191677,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5503772735546203,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06110293979727681",
+            "extra": "mean: 1.8169354878000035 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5436381906570457,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09537139896031895",
+            "extra": "mean: 1.839458701000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4978705125750861,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22524260393547457",
+            "extra": "mean: 2.0085543826000047 sec\nrounds: 5"
           }
         ]
       }
