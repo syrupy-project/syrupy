@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675457332225,
+  "lastUpdate": 1675969888814,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -1980,6 +1980,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.12050103403575309",
             "extra": "mean: 1.27034210060001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f1934ea4470fe487aa2ccd3c081edfeb2955723d",
+          "message": "chore: add deps label to renovate PRs, change range strategy (#705)",
+          "timestamp": "2023-02-09T14:09:45-05:00",
+          "tree_id": "f4c418bbc87ea7fc2bd6a798f78df38547ce34c2",
+          "url": "https://github.com/tophat/syrupy/commit/f1934ea4470fe487aa2ccd3c081edfeb2955723d"
+        },
+        "date": 1675969887060,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8551507047556702,
+            "unit": "iter/sec",
+            "range": "stddev: 0.041231405351750613",
+            "extra": "mean: 1.1693845241999952 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8483173278585645,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03640567423487899",
+            "extra": "mean: 1.1788041657999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7658983404846162,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1292373300171719",
+            "extra": "mean: 1.3056563085999868 sec\nrounds: 5"
           }
         ]
       }
