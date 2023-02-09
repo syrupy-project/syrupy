@@ -33,7 +33,7 @@ pytest = '>=7.0.0,<8.0.0'
 
 [tool.poetry.group.test.dependencies]
 codecov = '^2.1.12'
-invoke = '^1.7.3'
+invoke = '^2.0.0'
 coverage = { version = '^7.0.5', extras = ['toml'] }
 pytest-benchmark = '^4.0.0'
 pytest-xdist = '^3.1.0'
