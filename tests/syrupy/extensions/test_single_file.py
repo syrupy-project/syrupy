@@ -69,3 +69,16 @@ def test_special_characters(snapshot_single, content):
 @pytest.mark.parametrize("content", ["greek ῴ"])
 def test_unicode(snapshot_utf8, content):
     assert snapshot_utf8 == "apple"
+
+
+class DotInFileExtension(SingleFileSnapshotExtension):
+    _file_extension = "ext2.ext1"
+
+
+@pytest.fixture
+def snapshot_dot_in_file_extension(snapshot):
+    return snapshot.use_extension(DotInFileExtension)
+
+
+def test_dot_in_file_extension(snapshot_dot_in_file_extension):
+    assert b"expected_data" == snapshot_dot_in_file_extension

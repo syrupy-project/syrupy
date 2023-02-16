@@ -81,7 +81,14 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self, *, snapshot_location: str
     ) -> "SnapshotCollection":
         snapshot_collection = SnapshotCollection(location=snapshot_location)
-        snapshot_collection.add(Snapshot(name=Path(snapshot_location).stem))
+        # custom file extensions can have multiple parts, such as 'snapshot.tar.gz'
+        # in that case we need to 'stem' as many times as the number of extension parts
+        # i.e. for 'tar.gz' we need one 'stem' call for 'gz' and another for 'tar'.
+        num_extentions = len(Path(self._file_extension).suffixes) + 1
+        stemmed_location = snapshot_location
+        for _ in range(num_extentions):
+            stemmed_location = Path(stemmed_location).stem
+        snapshot_collection.add(Snapshot(name=stemmed_location))
         return snapshot_collection
 
     def _read_snapshot_data_from_location(
