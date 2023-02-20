@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def test_multiple_file_extensions(testdir):
     file_extension = "ext2.ext1"
 
@@ -25,7 +26,12 @@ def test_multiple_file_extensions(testdir):
     assert "snapshots unused" not in result.stdout.str()
     assert result.ret == 0
 
-    snapshot_file = (Path(test_file).parent / "__snapshots__" / "test_file" / f"test_dot_in_filename.{file_extension}")
+    snapshot_file = (
+        Path(test_file).parent
+        / "__snapshots__"
+        / "test_file"
+        / f"test_dot_in_filename.{file_extension}"
+    )
     assert snapshot_file.exists()
 
     result = testdir.runpytest("-v")
