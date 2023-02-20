@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1675977733266,
+  "lastUpdate": 1676937577432,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -2295,6 +2295,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.207632681483958",
             "extra": "mean: 2.0198800391999954 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "794719+tolgaeren@users.noreply.github.com",
+            "name": "Tolga Eren",
+            "username": "tolgaeren"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "efe687e263647b1efa2673847372389ea90961eb",
+          "message": "fix(serializer): handling of multi-part file extensions in SingleFileExtension (#710)\n\nCo-authored-by: tolga.eren <tolga.eren@adevinta.com>\r\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2023-02-20T18:57:14-05:00",
+          "tree_id": "5d2337b5c1fd6a3cf8c2219d3861ec5474081aae",
+          "url": "https://github.com/tophat/syrupy/commit/efe687e263647b1efa2673847372389ea90961eb"
+        },
+        "date": 1676937575879,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5673304534145591,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03897020002283442",
+            "extra": "mean: 1.7626411449999864 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5639545547386794,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07884229350116835",
+            "extra": "mean: 1.773192523399996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5052809751869447,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18403436484223545",
+            "extra": "mean: 1.9790968770000064 sec\nrounds: 5"
           }
         ]
       }
