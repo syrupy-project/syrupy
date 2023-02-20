@@ -429,6 +429,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/darrenburns"><img src="https://avatars.githubusercontent.com/u/5740731?v=4?s=100" width="100px;" alt="darrenburns"/><br /><sub><b>darrenburns</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=darrenburns" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mhwaage"><img src="https://avatars.githubusercontent.com/u/57612883?v=4?s=100" width="100px;" alt="Magnus Heskestad Waage"/><br /><sub><b>Magnus Heskestad Waage</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Amhwaage" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/herb"><img src="https://avatars.githubusercontent.com/u/139780?v=4?s=100" width="100px;" alt="Herbert Ho"/><br /><sub><b>Herbert Ho</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Aherb" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tolgaeren"><img src="https://avatars.githubusercontent.com/u/794719?v=4?s=100" width="100px;" alt="Tolga Eren"/><br /><sub><b>Tolga Eren</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Atolgaeren" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
