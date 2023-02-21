@@ -184,7 +184,7 @@ class SnapshotCollectionStorage(ABC):
                     test_location.basename,
                     line_end="\n",
                 )
-                warnings.warn(warning_msg)
+                warnings.warn(warning_msg, stacklevel=1)
 
             if not test_location.matches_snapshot_name(snapshot.name):
                 warning_msg = gettext(
@@ -196,7 +196,7 @@ class SnapshotCollectionStorage(ABC):
                     test_location.testname,
                     line_end="\n",
                 )
-                warnings.warn(warning_msg)
+                warnings.warn(warning_msg, stacklevel=1)
 
         # Ensures the folder path for the snapshot file exists.
         Path(snapshot_location).parent.mkdir(parents=True, exist_ok=True)
