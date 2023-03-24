@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1679670357801,
+  "lastUpdate": 1679670364597,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -2610,6 +2610,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.18972903912063885",
             "extra": "mean: 1.4505337577999966 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ffef974aec669cf6a19e68208c54ea0094834438",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v3.4.0 (#724)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-24T11:03:42-04:00",
+          "tree_id": "a08b676cd6d1fb02a4cdb1116db587795b8cf627",
+          "url": "https://github.com/tophat/syrupy/commit/ffef974aec669cf6a19e68208c54ea0094834438"
+        },
+        "date": 1679670362976,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5693588594455413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05495942555334164",
+            "extra": "mean: 1.7563615343999914 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5697458452414049,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055264611751760825",
+            "extra": "mean: 1.7551685691999979 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.514851297082002,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20342481628996337",
+            "extra": "mean: 1.9423084017999996 sec\nrounds: 5"
           }
         ]
       }
