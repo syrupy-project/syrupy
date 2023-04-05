@@ -41,11 +41,6 @@ def __import_extension(value: Optional[str]) -> Any:
         raise argparse.ArgumentTypeError(e)
 
 
-def __default_extension_option(value: Optional[str]) -> Any:
-    __import_extension(value)
-    return value
-
-
 def pytest_addoption(parser: Any) -> None:
     """
     Exposes snapshot plugin configuration to pytest.
@@ -78,7 +73,6 @@ def pytest_addoption(parser: Any) -> None:
     # all pytest options to be serializable.
     group.addoption(
         "--snapshot-default-extension",
-        type=__default_extension_option,
         default=None,
         dest="default_extension",
         help="Specify the default snapshot extension",
