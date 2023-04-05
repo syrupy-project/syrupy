@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Based on conventions from https://github.com/github/scripts-to-rule-them-all
 # script/bootstrap: Resolve all dependencies that the application requires to
 # run.
