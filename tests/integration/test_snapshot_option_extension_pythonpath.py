@@ -6,6 +6,7 @@ import pytest
 @pytest.fixture
 def testfile(testdir):
     testdir.makepyfile(
+        __init__="",
         extension_file=(
             """
             import syrupy
@@ -26,10 +27,16 @@ def testfile(testdir):
 
 
 def test_snapshot_default_extension_option_success(testfile):
+    testfile.makeini(
+        f"""
+        [pytest]
+        pythonpath =
+            {testfile.tmpdir}
+    """
+    )
+
     result = testfile.runpytest(
         "-v",
-        "--pythonpath",
-        testfile.tmpdir,
         "--snapshot-update",
         "--snapshot-default-extension",
         "extension_file.MySingleFileExtension",
@@ -63,10 +70,16 @@ def test_snapshot_default_extension_option_module_not_found(testfile):
 
 
 def test_snapshot_default_extension_option_failure(testfile):
+    testfile.makeini(
+        f"""
+        [pytest]
+        pythonpath =
+            {testfile.tmpdir}
+    """
+    )
+
     result = testfile.runpytest(
         "-v",
-        "--pythonpath",
-        testfile.tmpdir,
         "--snapshot-update",
         "--snapshot-default-extension",
         "extension_file.DoesNotExistExtension",
