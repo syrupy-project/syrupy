@@ -52,7 +52,7 @@ def test_snapshot_default_extension_option_module_not_found(testfile):
         "-v",
         "--snapshot-update",
         "--snapshot-default-extension",
-        "extension_file.MySingleFileExtensions",
+        "extension_file.MySingleFileExtension",
     )
     result.stdout.re_match_lines((r".*: Module 'extension_file' does not exist.*",))
     assert not Path(
