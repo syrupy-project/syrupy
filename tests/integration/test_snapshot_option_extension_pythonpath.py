@@ -1,27 +1,37 @@
+import textwrap
 from pathlib import Path
 
 import pytest
 
+SUBDIR = "subdir_not_on_default_path"
+
 
 @pytest.fixture
 def testfile(testdir):
-    testdir.makepyfile(
-        extension_file=(
+    subdir = testdir.mkdir(SUBDIR)
+
+    Path(
+        subdir,
+        "extension_file.py",
+    ).write_text(
+        textwrap.dedent(
             """
-            import syrupy
-            class MySingleFileExtension(
-                syrupy.extensions.single_file.SingleFileSnapshotExtension
-            ):
+            from syrupy.extensions.single_file import SingleFileSnapshotExtension
+            class MySingleFileExtension(SingleFileSnapshotExtension):
                 pass
             """
-        ),
+        )
+    )
+
+    testdir.makepyfile(
         test_file=(
             """
             def test_default(snapshot):
                 assert b"default extension serializer" == snapshot
             """
-        ),
+        )
     )
+
     return testdir
 
 
@@ -30,7 +40,7 @@ def test_snapshot_default_extension_option_success(testfile):
         f"""
         [pytest]
         pythonpath =
-            {testfile.tmpdir}
+            {Path(testfile.tmpdir, SUBDIR)}
     """
     )
 
@@ -66,7 +76,7 @@ def test_snapshot_default_extension_option_failure(testfile):
         f"""
         [pytest]
         pythonpath =
-            {testfile.tmpdir}
+            {Path(testfile.tmpdir, SUBDIR)}
     """
     )
 
