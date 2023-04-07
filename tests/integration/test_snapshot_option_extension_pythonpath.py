@@ -3,7 +3,14 @@ from pathlib import Path
 
 import pytest
 
+import syrupy
+
 SUBDIR = "subdir_not_on_default_path"
+
+
+@pytest.fixture(autouse=True)
+def cache_clear():
+    syrupy.__import_extension.cache_clear()
 
 
 @pytest.fixture
