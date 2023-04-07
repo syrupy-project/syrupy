@@ -6,7 +6,6 @@ import pytest
 @pytest.fixture
 def testfile(testdir):
     testdir.makepyfile(
-        __init__="",
         extension_file=(
             """
             import syrupy
