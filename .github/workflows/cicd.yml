@@ -48,10 +48,15 @@ jobs:
         run: poetry run invoke test
       - name: Run Tests (with coverage)
         if: matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: poetry run invoke test --coverage
+      - name: Upload Coverage
+        if: matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         shell: bash
-        run: poetry run invoke test --coverage
+        run: ./.github/codecov.sh $GITHUB_EVENT_PATH
+
 # # TODO: How to do this with poetry?
   # version_checks:
   #   name: Dependency Version Constraint Checks
