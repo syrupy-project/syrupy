@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1680180989571,
+  "lastUpdate": 1681319543439,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -2835,6 +2835,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.2167004402622668",
             "extra": "mean: 1.929581874799993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c51afa9d831282d9151e7ce1e9d8d0844cf51092",
+          "message": "chore: remove codecov package (#735)",
+          "timestamp": "2023-04-12T13:10:31-04:00",
+          "tree_id": "72d6354d96fdeb2c172f83dc853649a98aeb8494",
+          "url": "https://github.com/tophat/syrupy/commit/c51afa9d831282d9151e7ce1e9d8d0844cf51092"
+        },
+        "date": 1681319542078,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7682827293818367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056987957075827746",
+            "extra": "mean: 1.301604164400004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7527335943515198,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057284532748958",
+            "extra": "mean: 1.3284912583999926 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7119076455788897,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07115046844919795",
+            "extra": "mean: 1.4046765843999993 sec\nrounds: 5"
           }
         ]
       }
