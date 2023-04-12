@@ -24,7 +24,7 @@ jobs:
       - name: Install project dependencies
         run: . script/bootstrap
       - name: Release
-        uses: cycjimmy/semantic-release-action@v3.4.0
+        uses: cycjimmy/semantic-release-action@v3.4.2
         with:
           branch: main
           dry_run: false
