@@ -14,8 +14,8 @@ def cache_clear():
 
 
 @pytest.fixture
-def testfile(testdir):
-    subdir = testdir.mkpydir(SUBDIR)
+def testfile(pytester):
+    subdir = pytester.mkpydir(SUBDIR)
 
     Path(
         subdir,
@@ -31,7 +31,7 @@ def testfile(testdir):
         encoding="utf-8",
     )
 
-    testdir.makepyfile(
+    pytester.makepyfile(
         test_file=(
             """
             def test_default(snapshot):
@@ -40,7 +40,7 @@ def testfile(testdir):
         )
     )
 
-    return testdir
+    return pytester
 
 
 def test_snapshot_default_extension_option_success(testfile):
@@ -48,7 +48,7 @@ def test_snapshot_default_extension_option_success(testfile):
         f"""
         [pytest]
         pythonpath =
-            {Path(testfile.tmpdir, SUBDIR)}
+            {Path(testfile.path, SUBDIR)}
     """
     )
 
@@ -60,7 +60,7 @@ def test_snapshot_default_extension_option_success(testfile):
     )
     result.stdout.re_match_lines((r"1 snapshot generated\."))
     assert Path(
-        testfile.tmpdir, "__snapshots__", "test_file", "test_default.raw"
+        testfile.path, "__snapshots__", "test_file", "test_default.raw"
     ).exists()
     assert not result.ret
 
@@ -74,7 +74,7 @@ def test_snapshot_default_extension_option_module_not_found(testfile):
     )
     result.stdout.re_match_lines((r".*: Module 'extension_file' does not exist.*",))
     assert not Path(
-        testfile.tmpdir, "__snapshots__", "test_file", "test_default.raw"
+        testfile.path, "__snapshots__", "test_file", "test_default.raw"
     ).exists()
     assert result.ret
 
@@ -84,7 +84,7 @@ def test_snapshot_default_extension_option_failure(testfile):
         f"""
         [pytest]
         pythonpath =
-            {Path(testfile.tmpdir, SUBDIR)}
+            {Path(testfile.path, SUBDIR)}
     """
     )
 
@@ -96,6 +96,6 @@ def test_snapshot_default_extension_option_failure(testfile):
     )
     result.stdout.re_match_lines((r".*: Member 'DoesNotExistExtension' not found.*",))
     assert not Path(
-        testfile.tmpdir, "__snapshots__", "test_file", "test_default.raw"
+        testfile.path, "__snapshots__", "test_file", "test_default.raw"
     ).exists()
     assert result.ret
