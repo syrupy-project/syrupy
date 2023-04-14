@@ -15,19 +15,20 @@ def cache_clear():
 
 @pytest.fixture
 def testfile(testdir):
-    subdir = testdir.mkdir(SUBDIR)
+    subdir = testdir.mkpydir(SUBDIR)
 
     Path(
         subdir,
         "extension_file.py",
     ).write_text(
-        textwrap.dedent(
+        data=textwrap.dedent(
             """
             from syrupy.extensions.single_file import SingleFileSnapshotExtension
             class MySingleFileExtension(SingleFileSnapshotExtension):
                 pass
             """
-        )
+        ),
+        encoding="utf-8",
     )
 
     testdir.makepyfile(
