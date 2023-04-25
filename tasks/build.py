@@ -58,7 +58,7 @@ def release(ctx, dry_run=True, version=None):
     """
     Build and publish package to pypi index based on scm version
     """
-    from semver import parse_version_info
+    from semver.version import Version
 
     if not dry_run and not os.environ.get("CI"):
         print("This is a CI only command")
@@ -72,7 +72,8 @@ def release(ctx, dry_run=True, version=None):
         exit(1)
 
     try:
-        should_publish_to_pypi = not dry_run and parse_version_info(version)
+        Version.parse(version)
+        should_publish_to_pypi = not dry_run
     except ValueError:
         should_publish_to_pypi = False
 
