@@ -48,7 +48,7 @@ def test_snapshot_default_extension_option_success(testfile):
         f"""
         [pytest]
         pythonpath =
-            {Path(testfile.path, SUBDIR)}
+            {Path(testfile.path, SUBDIR).as_posix()}
     """
     )
 
@@ -84,7 +84,7 @@ def test_snapshot_default_extension_option_failure(testfile):
         f"""
         [pytest]
         pythonpath =
-            {Path(testfile.path, SUBDIR)}
+            {Path(testfile.path, SUBDIR).as_posix()}
     """
     )
 
