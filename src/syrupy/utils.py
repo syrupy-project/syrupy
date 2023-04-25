@@ -48,11 +48,14 @@ def import_module_member(path: str) -> Any:
             )
         )
     try:
-        return getattr(import_module(module_name), module_member_name)
+        module = import_module(module_name)
     except ModuleNotFoundError:
         raise FailedToLoadModuleMember(
             gettext("Module '{}' does not exist.").format(module_name)
         )
+
+    try:
+        return getattr(module, module_member_name)
     except AttributeError:
         raise FailedToLoadModuleMember(
             gettext("Member '{}' not found in module '{}'.").format(
