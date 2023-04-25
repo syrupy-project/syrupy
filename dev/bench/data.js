@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1682434143479,
+  "lastUpdate": 1682434206549,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -3060,6 +3060,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.04161063706966816",
             "extra": "mean: 1.247323843799998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "john.kurkowski@gmail.com",
+            "name": "John Kurkowski",
+            "username": "john-kurkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dfd5910cd5ac9a93011d639303cdc060ef4c779a",
+          "message": "fix: defer snapshot default extension import (#734)\n\n* test: add coverage for bug #719\r\n\r\n* fix: defer snapshot default extension import\r\n\r\nFixes unable to use pytest's `pythonpath` option with this project's\r\n`--snapshot-default-extension` option. Does cause extension import\r\nerrors to raise later than CLI argument parsing, and therefore emit on\r\nstdout, instead of stderr.\r\n\r\n---------\r\n\r\nCo-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com>",
+          "timestamp": "2023-04-25T10:48:13-04:00",
+          "tree_id": "6745d628f63be1c359328c56053001004a93877c",
+          "url": "https://github.com/tophat/syrupy/commit/dfd5910cd5ac9a93011d639303cdc060ef4c779a"
+        },
+        "date": 1682434205532,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7533301643184105,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055459398894752904",
+            "extra": "mean: 1.3274392124000087 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7436940174427946,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05918633061292454",
+            "extra": "mean: 1.3446390269999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7081867525088105,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06277208716074116",
+            "extra": "mean: 1.412056913600003 sec\nrounds: 5"
           }
         ]
       }
