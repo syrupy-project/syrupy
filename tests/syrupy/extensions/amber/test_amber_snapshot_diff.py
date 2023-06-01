@@ -27,32 +27,27 @@ def test_snapshot_diff_id(snapshot):
         "field_4": 1,
         "field_5": False,
         "field_6": (True, "hey", 2, None),
-        "field_7": {False, "no", 0, None},
+        "field_7": {False, "no", 0, None},  # noqa: disable=B033
     }
-    dictLargeSnapshot = dict(
-        {
-            **my_dict,
-            "nested_0": dict(my_dict),
-            "nested_1": dict(my_dict),
-        }
-    )
+    dictLargeSnapshot = {
+        **my_dict,
+        "nested_0": dict(my_dict),
+        "nested_1": dict(my_dict),
+    }
+
     assert dictLargeSnapshot == snapshot(name="large snapshot")
-    dictDiffLargeSnapshot = dict(
-        {
-            **dictLargeSnapshot,
-            "field_1": "yes_value",
-            "field_6": ("hey", 2, False),
-            "field_7": {"yes", 0, None},
-        }
-    )
+    dictDiffLargeSnapshot = {
+        **dictLargeSnapshot,
+        "field_1": "yes_value",
+        "field_6": ("hey", 2, False),
+        "field_7": {"yes", 0, None},
+    }
     assert dictDiffLargeSnapshot == snapshot(diff="large snapshot")
-    dictCase3 = dict(
-        {
-            **dictLargeSnapshot,
-            "nested_0": MappingProxyType({**my_dict, "field_0": 2}),
-            "nested_1": MappingProxyType({**my_dict, "field_0": 2}),
-        }
-    )
+    dictCase3 = {
+        **dictLargeSnapshot,
+        "nested_0": MappingProxyType({**my_dict, "field_0": 2}),
+        "nested_1": MappingProxyType({**my_dict, "field_0": 2}),
+    }
     assert dictCase3 == snapshot(name="case3", diff="large snapshot")
 
 
