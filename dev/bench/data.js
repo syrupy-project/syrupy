@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1685648844974,
+  "lastUpdate": 1685649828118,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -3465,6 +3465,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.04395790466029056",
             "extra": "mean: 1.2746596734000035 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "235d82aeb43798161b6cde1383b0c19f2ca21c36",
+          "message": "chore(deps): update dev dependencies (#753)",
+          "timestamp": "2023-06-01T16:01:55-04:00",
+          "tree_id": "01c74de10544e08d06f144b5c3addda0d39120ff",
+          "url": "https://github.com/tophat/syrupy/commit/235d82aeb43798161b6cde1383b0c19f2ca21c36"
+        },
+        "date": 1685649825262,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6523778474364298,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057335804272165676",
+            "extra": "mean: 1.532854010799997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6521472068214408,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08168525504841187",
+            "extra": "mean: 1.5333961251999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6124003781665417,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15376727282642308",
+            "extra": "mean: 1.6329186520000007 sec\nrounds: 5"
           }
         ]
       }
