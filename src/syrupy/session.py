@@ -14,7 +14,6 @@ from typing import (
     Optional,
     Set,
     Tuple,
-    Type,
 )
 
 import pytest
@@ -34,7 +33,7 @@ from .utils import (
 
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
-    from .extensions.base import AbstractSyrupyExtension
+    from .extensions.base import SnapshotCollectionStorage
 
 
 @dataclass
@@ -47,28 +46,28 @@ class SnapshotSession:
     # All the selected test items. Will be set to False until the test item is run.
     _selected_items: Dict[str, bool] = field(default_factory=dict)
     _assertions: List["SnapshotAssertion"] = field(default_factory=list)
-    _extensions: Dict[str, "AbstractSyrupyExtension"] = field(default_factory=dict)
+    _extensions: Dict[str, "SnapshotCollectionStorage"] = field(default_factory=dict)
 
     _locations_discovered: DefaultDict[str, Set[Any]] = field(
         default_factory=lambda: defaultdict(set)
     )
 
     _queued_snapshot_writes: Dict[
-        Tuple[Type["AbstractSyrupyExtension"], str],
+        Tuple["SnapshotCollectionStorage", str],
         List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
     ] = field(default_factory=dict)
 
     def queue_snapshot_write(
         self,
-        extension: "AbstractSyrupyExtension",
+        storage: "SnapshotCollectionStorage",
         test_location: "PyTestLocation",
         data: "SerializedData",
         index: "SnapshotIndex",
     ) -> None:
-        snapshot_location = extension.get_location(
+        snapshot_location = storage.get_location(
             test_location=test_location, index=index
         )
-        key = (extension.__class__, snapshot_location)
+        key = (storage, snapshot_location)
         queue = self._queued_snapshot_writes.get(key, [])
         queue.append((data, test_location, index))
         self._queued_snapshot_writes[key] = queue
@@ -147,12 +146,12 @@ class SnapshotSession:
         self._assertions.append(assertion)
 
         test_location = assertion.test_location.filepath
-        extension_class = assertion.extension.__class__
-        if extension_class not in self._locations_discovered[test_location]:
-            self._locations_discovered[test_location].add(extension_class)
+        storage_class = assertion.storage.__class__
+        if storage_class not in self._locations_discovered[test_location]:
+            self._locations_discovered[test_location].add(storage_class)
             discovered_extensions = {
-                discovered.location: assertion.extension
-                for discovered in assertion.extension.discover_snapshots(
+                discovered.location: assertion.storage
+                for discovered in assertion.storage.discover_snapshots(
                     test_location=assertion.test_location
                 )
                 if discovered.has_snapshots

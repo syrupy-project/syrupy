@@ -23,7 +23,13 @@ from .exceptions import (
 from .extensions.amber.serializer import Repr
 
 if TYPE_CHECKING:
-    from .extensions.base import AbstractSyrupyExtension
+    from .extensions.base import (
+        AbstractSyrupyExtension,
+        SnapshotCollectionStorage,
+        SnapshotComparator,
+        SnapshotReporter,
+        SnapshotSerializer,
+    )
     from .location import PyTestLocation
     from .session import SnapshotSession
     from .types import (
@@ -91,6 +97,19 @@ class SnapshotAssertion:
         init=False,
         default_factory=list,
     )
+    _serializer: Optional["SnapshotSerializer"] = field(init=False, default=None)
+    _storage: Optional["SnapshotCollectionStorage"] = field(
+        init=False,
+        default=None,
+    )
+    _comparator: Optional["SnapshotComparator"] = field(
+        init=False,
+        default=None,
+    )
+    _reporter: Optional["SnapshotReporter"] = field(
+        init=False,
+        default=None,
+    )
 
     def __post_init__(self) -> None:
         self.session.register_request(self)
@@ -105,6 +124,22 @@ class SnapshotAssertion:
         if not self._extension:
             self._extension = self.__init_extension(self.extension_class)
         return self._extension
+
+    @property
+    def serializer(self) -> "SnapshotSerializer":
+        return self._serializer or self.extension
+
+    @property
+    def storage(self) -> "SnapshotCollectionStorage":
+        return self._storage or self.extension
+
+    @property
+    def comparator(self) -> "SnapshotComparator":
+        return self._comparator or self.extension
+
+    @property
+    def reporter(self) -> "SnapshotReporter":
+        return self._reporter or self.extension
 
     @property
     def num_executions(self) -> int:
@@ -178,7 +213,7 @@ class SnapshotAssertion:
         assert self == data
 
     def _serialize(self, data: "SerializableData") -> "SerializedData":
-        return self.extension.serialize(
+        return self.serializer.serialize(
             data, exclude=self._exclude, matcher=self.__matcher
         )
 
@@ -214,7 +249,7 @@ class SnapshotAssertion:
                 )
             )
         if not assertion_result.success:
-            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data or ""))
+            diff.extend(self.reporter.diff_lines(serialized_data, snapshot_data or ""))
         return diff
 
     def __with_prop(self, prop_name: str, prop_value: Any) -> None:
@@ -229,6 +264,10 @@ class SnapshotAssertion:
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
         name: Optional["SnapshotIndex"] = None,
+        serializer: Optional["SnapshotSerializer"] = None,
+        storage: Optional["SnapshotCollectionStorage"] = None,
+        reporter: Optional["SnapshotReporter"] = None,
+        comparator: Optional["SnapshotComparator"] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
@@ -243,6 +282,14 @@ class SnapshotAssertion:
             self.__with_prop("_custom_index", name)
         if diff is not None:
             self.__with_prop("_snapshot_diff", diff)
+        if serializer is not None:
+            self.__with_prop("_serializer", serializer)
+        if storage is not None:
+            self.__with_prop("_storage", storage)
+        if reporter is not None:
+            self.__with_prop("_reporter", reporter)
+        if comparator is not None:
+            self.__with_prop("_comparator", comparator)
         return self
 
     def __repr__(self) -> str:
@@ -252,10 +299,10 @@ class SnapshotAssertion:
         return self._assert(other)
 
     def _assert(self, data: "SerializableData") -> bool:
-        snapshot_location = self.extension.get_location(
+        snapshot_location = self.storage.get_location(
             test_location=self.test_location, index=self.index
         )
-        snapshot_name = self.extension.get_snapshot_name(
+        snapshot_name = self.storage.get_snapshot_name(
             test_location=self.test_location, index=self.index
         )
         snapshot_data: Optional["SerializedData"] = None
@@ -271,14 +318,14 @@ class SnapshotAssertion:
                 snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
                 if snapshot_data_diff is None:
                     raise SnapshotDoesNotExist()
-                serialized_data = self.extension.diff_snapshots(
+                serialized_data = self.reporter.diff_snapshots(
                     serialized_data=serialized_data,
                     snapshot_data=snapshot_data_diff,
                 )
             matches = (
                 not tainted
                 and snapshot_data is not None
-                and self.extension.matches(
+                and self.comparator.matches(
                     serialized_data=serialized_data, snapshot_data=snapshot_data
                 )
             )
@@ -286,7 +333,7 @@ class SnapshotAssertion:
             if not matches:
                 if self.update_snapshots:
                     self.session.queue_snapshot_write(
-                        extension=self.extension,
+                        storage=self.storage,
                         test_location=self.test_location,
                         data=serialized_data,
                         index=self.index,
