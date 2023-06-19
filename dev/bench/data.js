@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1687147564438,
+  "lastUpdate": 1687147861460,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -3735,6 +3735,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.04857960469255008",
             "extra": "mean: 1.2144767866000024 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7e695066081170530d3401d80b920a8c218cd598",
+          "message": "chore: update SECURITY.md (#763)",
+          "timestamp": "2023-06-19T00:09:18-04:00",
+          "tree_id": "afbad533a0464c49c8477cdb40ac2487d1b5ce64",
+          "url": "https://github.com/tophat/syrupy/commit/7e695066081170530d3401d80b920a8c218cd598"
+        },
+        "date": 1687147860120,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8449974015729933,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04489653701202901",
+            "extra": "mean: 1.1834355918000028 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8513706386952679,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045135026916107386",
+            "extra": "mean: 1.1745765646000053 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8143717404747662,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05526852948826999",
+            "extra": "mean: 1.2279404482000018 sec\nrounds: 5"
           }
         ]
       }
