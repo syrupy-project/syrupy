@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1687144798251,
+  "lastUpdate": 1687146695744,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -3645,6 +3645,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0866700410881286",
             "extra": "mean: 1.6388643086000059 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0badfdbb06157a7e2365edd551aaa1914681f3de",
+          "message": "fix: incorrect marking of TestClass.test_method as unused, close #717 (#761)",
+          "timestamp": "2023-06-18T23:49:53-04:00",
+          "tree_id": "09033cb0bd22614bad3317d01fad762753166aa4",
+          "url": "https://github.com/tophat/syrupy/commit/0badfdbb06157a7e2365edd551aaa1914681f3de"
+        },
+        "date": 1687146694864,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7690179402031176,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047594445252501956",
+            "extra": "mean: 1.300359780600013 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7519094470472352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04333483494433192",
+            "extra": "mean: 1.329947381199986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.723793214832062,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06166199357258839",
+            "extra": "mean: 1.3816100780000056 sec\nrounds: 5"
           }
         ]
       }
