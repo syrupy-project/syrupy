@@ -82,9 +82,10 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     ) -> "SnapshotCollection":
         file_ext_len = len(self._file_extension) + 1 if self._file_extension else 0
         filename_wo_ext = snapshot_location[:-file_ext_len]
+        basename = Path(filename_wo_ext).parts[-1]
 
         snapshot_collection = SnapshotCollection(location=snapshot_location)
-        snapshot_collection.add(Snapshot(name=Path(filename_wo_ext).stem))
+        snapshot_collection.add(Snapshot(name=basename))
         return snapshot_collection
 
     def _read_snapshot_data_from_location(
