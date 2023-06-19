@@ -16,19 +16,31 @@ def _is_color_disabled() -> bool:
 def _attr(color: Any) -> str:
     if _is_color_disabled():
         return ""
-    return colored.attr(color)
+    try:
+        return colored.attr(color)
+    except AttributeError:
+        # colored >=1.5.0, see: https://github.com/tophat/syrupy/issues/758
+        return colored.style(color)  # type: ignore
 
 
 def _fg(color: Any) -> str:
     if _is_color_disabled():
         return ""
-    return colored.fg(color)
+    try:
+        return colored.fg(color)
+    except AttributeError:
+        # colored >=1.5.0, see: https://github.com/tophat/syrupy/issues/758
+        return colored.fore(color)  # type: ignore
 
 
 def _bg(color: Any) -> str:
     if _is_color_disabled():
         return ""
-    return colored.bg(color)
+    try:
+        return colored.bg(color)
+    except AttributeError:
+        # colored >=1.5.0, see: https://github.com/tophat/syrupy/issues/758
+        return colored.back(color)  # type: ignore
 
 
 def _stylize(text: Union[str, int], *args: Any) -> str:
