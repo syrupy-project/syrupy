@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1688133650939,
+  "lastUpdate": 1688492264443,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -3870,6 +3870,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.12038921913453221",
             "extra": "mean: 1.8657842129999835 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8f581d577068f19a9e0fff65f4476f4601c137df",
+          "message": "fix: hide empty snapshot report (#768)\n\n* fix: hide empty snapshot report\r\n\r\n* test: does not print empty snapshot report",
+          "timestamp": "2023-07-04T13:36:00-04:00",
+          "tree_id": "b13059b35174b7117e224b5b0c7dbe71ce14c1af",
+          "url": "https://github.com/tophat/syrupy/commit/8f581d577068f19a9e0fff65f4476f4601c137df"
+        },
+        "date": 1688492263149,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7214816129612851,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06489018132786964",
+            "extra": "mean: 1.3860367084000245 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7320864379628735,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0858032333813154",
+            "extra": "mean: 1.3659589198000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.694756948242633,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11733256694474728",
+            "extra": "mean: 1.4393522835999988 sec\nrounds: 5"
           }
         ]
       }
