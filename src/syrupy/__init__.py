@@ -173,9 +173,14 @@ def pytest_terminal_summary(
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_terminal_summary
     """
     with __terminal_color(config):
-        terminalreporter.write_sep("-", gettext("snapshot report summary"))
+        is_printing_report = False
         for line in terminalreporter.config._syrupy.report.lines:
-            terminalreporter.write_line(line)
+            has_report_line = bool(line.strip())
+            if has_report_line and not is_printing_report:
+                terminalreporter.write_sep("-", gettext("snapshot report summary"))
+                is_printing_report = True
+            if is_printing_report:
+                terminalreporter.write_line(line)
 
 
 @pytest.fixture
