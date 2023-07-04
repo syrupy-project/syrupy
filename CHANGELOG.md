@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [4.0.5](https://github.com/tophat/syrupy/compare/v4.0.4...v4.0.5) (2023-07-04)
+
+
+### Bug Fixes
+
+* hide empty snapshot report ([#768](https://github.com/tophat/syrupy/issues/768)) ([8f581d5](https://github.com/tophat/syrupy/commit/8f581d577068f19a9e0fff65f4476f4601c137df))
+
 ## [4.0.4](https://github.com/tophat/syrupy/compare/v4.0.3...v4.0.4) (2023-06-19)
 
 
