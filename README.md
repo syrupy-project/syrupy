@@ -47,7 +47,6 @@ Syrupy will always be compatible with the latest version of Python and Pytest. I
 | 3.x.x          | >=3.7, <4      | >=5.1, <8      |
 | 2.x.x          | >=3.6, <4      | >=5.1, <8      |
 
-
 ## Usage
 
 ### Basic Usage
@@ -117,13 +116,13 @@ Both options will generate equivalent snapshots but the latter is only viable wh
 
 These are the cli options exposed to `pytest` by the plugin.
 
-| Option                         | Description                                                                                                                    | Default                                          |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ |
-| `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                          |
-| `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                          |
-| `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                          |
+| Option                         | Description                                                                                                                    | Default                                                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                                                                                      |
+| `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                                                                                      |
+| `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                                                                                      |
 | `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/tophat/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
-| `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.          |
+| `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.                                                                      |
 
 ### Assertion Options
 
@@ -380,15 +379,13 @@ If you have decided not to use Syrupy for your project after giving us a try, we
 
 ## Benchmarks
 
-Benchmarks are automatically published to https://tophat.github.io/syrupy/dev/bench/.
+Benchmarks are automatically published to <https://tophat.github.io/syrupy/dev/bench/>.
 
 ## Known Limitations
 
 - `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/tophat/syrupy/issues/535) for more information.
-- _Extremely_ large snapshots may fail due to a known Python core library bug. See [#577](https://github.com/tophat/syrupy/issues/577) and [cpython #65452](https://github.com/python/cpython/issues/65452).
 
 _We welcome contributions to patch these known limitations._
-
 
 ## Contributing
 
@@ -449,4 +446,3 @@ This section is automatically generated via tagging the all-contributors bot in 
 ## License
 
 Syrupy is licensed under [Apache License Version 2.0](https://github.com/tophat/syrupy/tree/main/LICENSE).
-

@@ -3,7 +3,7 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from difflib import ndiff
+from difflib import SequenceMatcher
 from gettext import gettext
 from itertools import zip_longest
 from pathlib import Path
@@ -19,6 +19,11 @@ from typing import (
 )
 
 from syrupy.constants import (
+    DIFF_OP_DELETE,
+    DIFF_OP_EQUAL,
+    DIFF_OP_INSERT,
+    DIFF_OP_MARKERS,
+    DIFF_OP_REPLACE,
     DISABLE_COLOR_ENV_VAR,
     SNAPSHOT_DIRNAME,
     SYMBOL_CARRIAGE,
@@ -292,6 +297,11 @@ class SnapshotReporter(ABC):
         return SYMBOL_CARRIAGE
 
     def __diff_lines(self, a: str, b: str) -> Iterator[str]:
+        diff_space_marker = " "
+        context_prefix = DIFF_OP_MARKERS[DIFF_OP_EQUAL] + diff_space_marker
+        snapshot_prefix = DIFF_OP_MARKERS[DIFF_OP_DELETE] + diff_space_marker
+        received_prefix = DIFF_OP_MARKERS[DIFF_OP_INSERT] + diff_space_marker
+
         for line in self.__diffed_lines(a, b):
             show_ends = (
                 self.__strip_ends(line.a[1:] if line.a is not None else "")
@@ -300,68 +310,101 @@ class SnapshotReporter(ABC):
                 else False
             )
             if line.has_snapshot and line.a is not None:
-                yield self.__format_line(
+                yield snapshot_prefix + self.__format_line(
                     line.a, line.diff_a, snapshot_style, snapshot_diff_style, show_ends
                 )
             if line.has_received and line.b is not None:
-                yield self.__format_line(
+                yield received_prefix + self.__format_line(
                     line.b, line.diff_b, received_style, received_diff_style, show_ends
                 )
-            yield from map(context_style, self.__limit_context(line.c))
+            yield from (
+                context_prefix + context_style(self.__strip_ends(context_line))
+                for context_line in self.__limit_context(line.c)
+            )
 
     def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
-        staged_diffed_line: Optional["DiffedLine"] = None
-        for line in ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
-            is_context_line = line[0] == " "
-            is_snapshot_line = line[0] == "-"
-            is_received_line = line[0] == "+"
-            is_diff_line = line[0] == "?"
+        staged_diffed_line = DiffedLine()
+        for (
+            _,
+            seq_a_start,
+            seq_a_end,
+            seq_b_start,
+            seq_b_end,
+        ) in SequenceMatcher(None, a, b, False).get_opcodes():
+            # grab the staged lines from previous iteration context
+            staged_diffed_context = "".join(staged_diffed_line.c)
+            staged_diffed_line_a = staged_diffed_context or staged_diffed_line.a or ""
+            staged_diffed_line_b = staged_diffed_context or staged_diffed_line.b or ""
 
-            if is_context_line or is_diff_line:
-                line = self.__strip_ends(line)
+            seq_a = a[seq_a_start:seq_a_end]
+            seq_b = b[seq_b_start:seq_b_end]
+            # prepend the staged lines onto the current sequence group and resplit
+            seq_a_lines = (staged_diffed_line_a + seq_a).splitlines(keepends=True)
+            seq_b_lines = (staged_diffed_line_b + seq_b).splitlines(keepends=True)
 
-            if staged_diffed_line:
-                if is_diff_line:
-                    if staged_diffed_line.has_received:
-                        staged_diffed_line.diff_b = line
-                    elif staged_diffed_line.has_snapshot:
-                        staged_diffed_line.diff_a = line
-                    # else: should never happen because then it would have
-                    # encounted a diff line without any previously staged line
-                else:
-                    should_unstage = (
-                        staged_diffed_line.is_complete
-                        or (staged_diffed_line.has_snapshot and is_snapshot_line)
-                        or (staged_diffed_line.has_received and is_received_line)
-                        or (staged_diffed_line.is_context and not is_context_line)
-                    )
-                    if should_unstage:
-                        yield staged_diffed_line
-                        staged_diffed_line = None
-                    elif is_snapshot_line:
-                        staged_diffed_line.a = line
-                    elif is_received_line:
-                        staged_diffed_line.b = line
-                    elif is_context_line:
-                        staged_diffed_line.c.append(line)
+            seq_lines_ab = list(zip_longest(seq_a_lines, seq_b_lines))
+            # skip the last line in case it should be added to the next group seqs
+            # this is needed when the last line does not terminate with a line end
+            seq_lines_a_terminal, seq_lines_b_terminal = seq_lines_ab.pop(-1)
 
-            if not staged_diffed_line:
+            for line_a, line_b in seq_lines_ab:
+                is_context_line = line_a is not None and line_a == line_b
+                is_snapshot_line = line_a is not None and line_b is None
+                is_received_line = line_b is not None and line_a is None
+                is_compared_line = (
+                    line_a is not None and line_b is not None and line_a != line_b
+                )
+
                 if is_snapshot_line:
-                    staged_diffed_line = DiffedLine(a=line)
+                    staged_diffed_line = DiffedLine(a=line_a)
                 elif is_received_line:
-                    staged_diffed_line = DiffedLine(b=line)
+                    staged_diffed_line = DiffedLine(b=line_b)
                 elif is_context_line:
-                    staged_diffed_line = DiffedLine(c=[line])
-                # else: should never happen because then it would have
-                # encounted a diff line without any previously staged line
+                    staged_diffed_line.c.append(line_a)
+                elif is_compared_line:
+                    line_diff = SequenceMatcher(
+                        None, line_a, line_b, False
+                    ).get_opcodes()
+                    line_diff_a = "".join(
+                        DIFF_OP_MARKERS[line_diff_op] * size
+                        for (line_diff_op, a_start, a_stop, *_) in line_diff
+                        for size in [a_stop - a_start]
+                    )
+                    line_diff_b = "".join(
+                        DIFF_OP_MARKERS[line_diff_op] * size
+                        for (line_diff_op, *_, b_start, b_stop) in line_diff
+                        for size in [b_stop - b_start]
+                    )
+                    staged_diffed_line = DiffedLine(
+                        a=line_a, b=line_b, diff_a=line_diff_a, diff_b=line_diff_b
+                    )
 
-        if staged_diffed_line:
-            yield staged_diffed_line
+                should_unstage = (
+                    staged_diffed_line.is_complete
+                    or (staged_diffed_line.has_snapshot and is_snapshot_line)
+                    or (staged_diffed_line.has_received and is_received_line)
+                    or (staged_diffed_line.is_context and not is_context_line)
+                )
+                if should_unstage:
+                    yield staged_diffed_line
+                    staged_diffed_line = DiffedLine()
+
+            seq_terminal_is_context = seq_lines_a_terminal == seq_lines_b_terminal
+            if staged_diffed_line.is_context and seq_terminal_is_context:
+                yield staged_diffed_line
+            # stage the last line used on the next group loop or yielded otherwise
+            staged_diffed_line = (
+                DiffedLine(c=[seq_lines_a_terminal])
+                if seq_terminal_is_context
+                else DiffedLine(a=seq_lines_a_terminal, b=seq_lines_b_terminal)
+            )
+
+        yield staged_diffed_line
 
     def __format_line(
         self,
         line: str,
-        diff_markers: str,
+        line_diff_markers: str,
         line_style: Callable[[str], str],
         diff_style: Callable[[str], str],
         show_ends: bool,
@@ -371,9 +414,13 @@ class SnapshotReporter(ABC):
                 line = line.replace(old, new)
         else:
             line = self.__strip_ends(line)
+        diff_markers = "".join(
+            DIFF_OP_MARKERS[op]
+            for op in (DIFF_OP_DELETE, DIFF_OP_INSERT, DIFF_OP_REPLACE)
+        )
         return "".join(
-            diff_style(char) if str(marker) in "-+^" else line_style(char)
-            for marker, char in zip_longest(diff_markers.rstrip(), line)
+            diff_style(char) if str(marker) in diff_markers else line_style(char)
+            for marker, char in zip_longest(line_diff_markers.rstrip(), line)
             if char is not None
         )
 
