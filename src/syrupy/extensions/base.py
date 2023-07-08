@@ -323,18 +323,26 @@ class SnapshotReporter(ABC):
             )
 
     def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
+        # print("__diffed_lines():")
         staged_diffed_line = DiffedLine()
         for (
-            _,
+            seq_diff_op,
             seq_a_start,
             seq_a_end,
             seq_b_start,
             seq_b_end,
         ) in SequenceMatcher(None, a, b, False).get_opcodes():
             # grab the staged lines from previous iteration context
-            staged_diffed_context = "".join(staged_diffed_line.c)
-            staged_diffed_line_a = staged_diffed_context or staged_diffed_line.a or ""
-            staged_diffed_line_b = staged_diffed_context or staged_diffed_line.b or ""
+            if staged_diffed_line.is_context:
+                staged_diffed_line_ctx = staged_diffed_line.c.pop(-1)
+                if seq_diff_op != DIFF_OP_EQUAL:
+                    # print(">A>", staged_diffed_line)
+                    yield staged_diffed_line
+                staged_diffed_line_a = staged_diffed_line_ctx
+                staged_diffed_line_b = staged_diffed_line_ctx
+            else:
+                staged_diffed_line_a = staged_diffed_line.a or ""
+                staged_diffed_line_b = staged_diffed_line.b or ""
 
             seq_a = a[seq_a_start:seq_a_end]
             seq_b = b[seq_b_start:seq_b_end]
@@ -357,10 +365,13 @@ class SnapshotReporter(ABC):
 
                 if is_snapshot_line:
                     staged_diffed_line = DiffedLine(a=line_a)
+                    # print("staged(a):", staged_diffed_line)
                 elif is_received_line:
                     staged_diffed_line = DiffedLine(b=line_b)
+                    # print("staged(b):", staged_diffed_line)
                 elif is_context_line:
                     staged_diffed_line.c.append(line_a)
+                    # print("staged(c):", staged_diffed_line)
                 elif is_compared_line:
                     line_diff = SequenceMatcher(
                         None, line_a, line_b, False
@@ -378,6 +389,7 @@ class SnapshotReporter(ABC):
                     staged_diffed_line = DiffedLine(
                         a=line_a, b=line_b, diff_a=line_diff_a, diff_b=line_diff_b
                     )
+                    # print("staged(d):", staged_diffed_line)
 
                 should_unstage = (
                     staged_diffed_line.is_complete
@@ -386,19 +398,24 @@ class SnapshotReporter(ABC):
                     or (staged_diffed_line.is_context and not is_context_line)
                 )
                 if should_unstage:
+                    # print(">B>", staged_diffed_line)
                     yield staged_diffed_line
                     staged_diffed_line = DiffedLine()
+                    # print("staged(e):", staged_diffed_line)
 
             seq_terminal_is_context = seq_lines_a_terminal == seq_lines_b_terminal
-            if staged_diffed_line.is_context and seq_terminal_is_context:
-                yield staged_diffed_line
             # stage the last line used on the next group loop or yielded otherwise
-            staged_diffed_line = (
-                DiffedLine(c=[seq_lines_a_terminal])
-                if seq_terminal_is_context
-                else DiffedLine(a=seq_lines_a_terminal, b=seq_lines_b_terminal)
-            )
+            if seq_terminal_is_context:
+                if staged_diffed_line.is_context or staged_diffed_line.is_empty:
+                    staged_diffed_line.c.append(seq_lines_a_terminal)
+                    # print("staged(f):", staged_diffed_line)
+            else:
+                staged_diffed_line = DiffedLine(
+                    a=seq_lines_a_terminal, b=seq_lines_b_terminal
+                )
+                # print("staged(g):", staged_diffed_line)
 
+        # print(">Z>", staged_diffed_line)
         yield staged_diffed_line
 
     def __format_line(

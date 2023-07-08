@@ -148,3 +148,7 @@ class DiffedLine:
     @property
     def is_context(self) -> bool:
         return bool(self.c)
+
+    @property
+    def is_empty(self) -> bool:
+        return not (self.has_received or self.has_snapshot or self.is_context)
