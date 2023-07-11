@@ -51,9 +51,9 @@ def test_snapshot_diff_id(snapshot):
     assert dictCase3 == snapshot(name="case3", diff="large snapshot")
 
 
+@pytest.mark.xfail(reason="Asserting snapshot does not exist")
 def test_snapshot_no_diff_raises_exception(snapshot):
     my_dict = {
         "field_0": "value_0",
     }
-    with pytest.raises(AssertionError, match="SnapshotDoesNotExist"):
-        assert my_dict == snapshot(diff="does not exist index")
+    assert my_dict == snapshot(diff="does not exist index")

@@ -15,7 +15,7 @@ from syrupy.constants import PYTEST_NODE_SEP
 
 @dataclass
 class PyTestLocation:
-    _node: "pytest.Item"
+    item: "pytest.Item"
     nodename: Optional[str] = field(init=False)
     testname: str = field(init=False)
     methodname: str = field(init=False)
@@ -28,16 +28,16 @@ class PyTestLocation:
         self.__attrs_post_init_def__()
 
     def __attrs_post_init_def__(self) -> None:
-        node_path: Path = getattr(self._node, "path")  # noqa: B009
+        node_path: Path = getattr(self.item, "path")  # noqa: B009
         self.filepath = str(node_path.absolute())
-        obj = getattr(self._node, "obj")  # noqa: B009
+        obj = getattr(self.item, "obj")  # noqa: B009
         self.modulename = obj.__module__
         self.methodname = obj.__name__
-        self.nodename = getattr(self._node, "name", None)
+        self.nodename = getattr(self.item, "name", None)
         self.testname = self.nodename or self.methodname
 
     def __attrs_post_init_doc__(self) -> None:
-        doctest = getattr(self._node, "dtest")  # noqa: B009
+        doctest = getattr(self.item, "dtest")  # noqa: B009
         self.filepath = doctest.filename
         test_relfile, test_node = self.nodeid.split(PYTEST_NODE_SEP)
         test_relpath = Path(test_relfile)
@@ -64,7 +64,7 @@ class PyTestLocation:
         :raises: `AttributeError` if node has no node id
         :return: test node id
         """
-        return str(getattr(self._node, "nodeid"))  # noqa: B009
+        return str(getattr(self.item, "nodeid"))  # noqa: B009
 
     @property
     def basename(self) -> str:
@@ -78,7 +78,7 @@ class PyTestLocation:
 
     @property
     def is_doctest(self) -> bool:
-        return self.__is_doctest(self._node)
+        return self.__is_doctest(self.item)
 
     def __is_doctest(self, node: "pytest.Item") -> bool:
         return hasattr(node, "dtest")
