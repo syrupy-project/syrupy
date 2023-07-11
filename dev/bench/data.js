@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1688492264443,
+  "lastUpdate": 1689109857963,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -3915,6 +3915,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.11733256694474728",
             "extra": "mean: 1.4393522835999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "596b29b7eae26292fb671b3f339d255fd5ac8761",
+          "message": "fix: improve reporting around xfailed snapshots, close #736 (#769)",
+          "timestamp": "2023-07-11T17:09:24-04:00",
+          "tree_id": "0f1ee8f05193c253d60c2b211d9a5c704143443e",
+          "url": "https://github.com/tophat/syrupy/commit/596b29b7eae26292fb671b3f339d255fd5ac8761"
+        },
+        "date": 1689109857143,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7635310089567773,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05228497653813556",
+            "extra": "mean: 1.3097045022000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.764524198070224,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05621594636200745",
+            "extra": "mean: 1.3080030724000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7243729092135005,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05963585108102107",
+            "extra": "mean: 1.3805044159999937 sec\nrounds: 5"
           }
         ]
       }
