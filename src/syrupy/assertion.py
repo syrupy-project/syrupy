@@ -45,6 +45,7 @@ class AssertionResult:
     updated: bool
     success: bool
     exception: Optional[Exception]
+    test_location: "PyTestLocation"
 
     @property
     def final_data(self) -> Optional["SerializedData"]:
@@ -303,14 +304,15 @@ class SnapshotAssertion:
             snapshot_updated = matches is False and assertion_success
             self._execution_name_index[self.index] = self._executions
             self._execution_results[self._executions] = AssertionResult(
+                asserted_data=serialized_data,
+                created=snapshot_created,
+                exception=assertion_exception,
+                recalled_data=snapshot_data,
                 snapshot_location=snapshot_location,
                 snapshot_name=snapshot_name,
-                recalled_data=snapshot_data,
-                asserted_data=serialized_data,
                 success=assertion_success,
-                created=snapshot_created,
+                test_location=self.test_location,
                 updated=snapshot_updated,
-                exception=assertion_exception,
             )
             self._executions += 1
             self._post_assert()

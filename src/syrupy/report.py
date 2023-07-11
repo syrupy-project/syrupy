@@ -22,6 +22,8 @@ from typing import (
     Set,
 )
 
+from _pytest.skipping import xfailed_key
+
 from .constants import PYTEST_NODE_SEP
 from .data import (
     Snapshot,
@@ -70,6 +72,7 @@ class SnapshotReport:
     used: "SnapshotCollections" = field(default_factory=SnapshotCollections)
     _provided_test_paths: Dict[str, List[str]] = field(default_factory=dict)
     _keyword_expressions: Set["Expression"] = field(default_factory=set)
+    _num_xfails: int = field(default=0)
 
     @property
     def update_snapshots(self) -> bool:
@@ -88,6 +91,14 @@ class SnapshotReport:
         return {
             getattr(item, "nodeid"): item for item in self.collected_items  # noqa: B009
         }
+
+    def _has_xfail(self, item: "pytest.Item") -> bool:
+        # xfailed_key is 'private'. I'm open to a better way to do this:
+        if xfailed_key in item.stash:
+            result = item.stash[xfailed_key]
+            if result:
+                return result.run
+        return False
 
     def __post_init__(self) -> None:
         self.__parse_invocation_args()
@@ -113,6 +124,7 @@ class SnapshotReport:
                     Snapshot(name=result.snapshot_name, data=result.final_data)
                 )
                 self.used.update(snapshot_collection)
+
                 if result.created:
                     self.created.update(snapshot_collection)
                 elif result.updated:
@@ -120,6 +132,9 @@ class SnapshotReport:
                 elif result.success:
                     self.matched.update(snapshot_collection)
                 else:
+                    has_xfail = self._has_xfail(item=result.test_location.item)
+                    if has_xfail:
+                        self._num_xfails += 1
                     self.failed.update(snapshot_collection)
 
     def __parse_invocation_args(self) -> None:
@@ -161,7 +176,7 @@ class SnapshotReport:
     def num_created(self) -> int:
         return self._count_snapshots(self.created)
 
-    @property
+    @cached_property
     def num_failed(self) -> int:
         return self._count_snapshots(self.failed)
 
@@ -256,14 +271,22 @@ class SnapshotReport:
         ```
         """
         summary_lines: List[str] = []
-        if self.num_failed:
+        if self.num_failed and self._num_xfails < self.num_failed:
             summary_lines.append(
                 ngettext(
                     "{} snapshot failed.",
                     "{} snapshots failed.",
-                    self.num_failed,
-                ).format(error_style(self.num_failed))
+                    self.num_failed - self._num_xfails,
+                ).format(error_style(self.num_failed - self._num_xfails)),
             )
+            if self._num_xfails:
+                summary_lines.append(
+                    ngettext(
+                        "{} snapshot xfailed.",
+                        "{} snapshots xfailed.",
+                        self._num_xfails,
+                    ).format(warning_style(self._num_xfails)),
+                )
         if self.num_matched:
             summary_lines.append(
                 ngettext(
