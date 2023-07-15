@@ -51,3 +51,4 @@ env.bak/
 venv.bak/
 .vscode
 .idea
+.DS_Store
