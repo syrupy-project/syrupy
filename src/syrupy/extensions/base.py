@@ -328,14 +328,15 @@ class SnapshotReporter(ABC):
         staged_line_ctx = []
         line_ends = tuple(self._ends.keys())
 
-        def is_complete(line: str, source: str, end_idx: int):
-            return (
+        def is_complete(line: str, next_line: str) -> bool:
+            result = (
                 line[-2:] == "\r\n"
-                if source[end_idx : end_idx + 1].endswith(line_ends)
+                if next_line[:1].endswith(line_ends)
                 else line.endswith(line_ends)
             )
+            return result
 
-        def diff_lines(line_a: str, line_b: str):
+        def diff_lines(line_a: str, line_b: str) -> "Tuple[str, str]":
             line_diff = SequenceMatcher(None, line_a, line_b, False).get_opcodes()
             line_diff_a = "".join(
                 DIFF_OP_MARKERS[line_diff_op] * size
@@ -362,16 +363,22 @@ class SnapshotReporter(ABC):
             seq_a_lines = (staged_line_a + seq_a).splitlines(keepends=True)
             seq_b_lines = (staged_line_b + seq_b).splitlines(keepends=True)
 
-            for line_a, line_b in zip_longest(seq_a_lines, seq_b_lines):
+            for i, (line_a, line_b) in enumerate(zip_longest(seq_a_lines, seq_b_lines)):
+                line_a_could_have_more = False
+                line_b_could_have_more = False
                 if line_a:
-                    if not is_complete(line_a, a, seq_a_end):
-                        staged_line_a = line_a
-                        line_a = None
+                    next_line_a = (
+                        "".join(seq_a_lines[i + 1 : i + 2])  # noqa: E203
+                        or seq_a[seq_a_end : seq_a_end + 1]  # noqa: E203
+                    )
+                    line_a_could_have_more = not is_complete(line_a, next_line_a)
 
                 if line_b:
-                    if not is_complete(line_b, b, seq_b_end):
-                        staged_line_b = line_b
-                        line_b = None
+                    next_line_b = (
+                        "".join(seq_b_lines[i + 1 : i + 2])  # noqa: E203
+                        or seq_b[seq_b_end : seq_b_end + 1]  # noqa: E203
+                    )
+                    line_b_could_have_more = not is_complete(line_b, next_line_b)
 
                 is_context_line = line_a is not None and line_a == line_b
                 is_snapshot_line = line_a is not None and line_b is None
@@ -380,7 +387,10 @@ class SnapshotReporter(ABC):
                     line_a is not None and line_b is not None and line_a != line_b
                 )
 
-                if is_context_line:
+                if line_a_could_have_more or line_b_could_have_more:
+                    staged_line_a = line_a
+                    staged_line_b = line_b
+                elif is_context_line:
                     staged_line_ctx.append(line_a)
                 elif is_snapshot_line or is_received_line or is_compared_line:
                     if staged_line_ctx:
@@ -464,16 +474,6 @@ class SnapshotReporter(ABC):
 
     def __strip_ends(self, line: str) -> str:
         return line.rstrip("".join(self._ends.keys()))
-
-    # def __split_lines(self, doc: str) -> "Iterator[str]":
-    #     staged_line = ""
-    #     for line in doc.splitlines(keepends=True):
-    #         if line == "\r" and staged_line[-2:] != "\r\n":
-    #             staged_line += line
-    #         if staged_line:
-    #             yield staged_line
-    #         staged_line = line
-    #     yield staged_line
 
 
 class SnapshotComparator:
