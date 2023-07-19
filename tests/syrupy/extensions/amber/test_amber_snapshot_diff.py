@@ -27,28 +27,28 @@ def test_snapshot_diff_id(snapshot):
         "field_4": 1,
         "field_5": False,
         "field_6": (True, "hey", 2, None),
-        "field_7": {False, "no", 0, None},  # noqa: disable=B033
+        "field_7": {False, "no", None},
     }
-    dictLargeSnapshot = {
+    dict_large_snapshot = {
         **my_dict,
         "nested_0": dict(my_dict),
         "nested_1": dict(my_dict),
     }
 
-    assert dictLargeSnapshot == snapshot(name="large snapshot")
-    dictDiffLargeSnapshot = {
-        **dictLargeSnapshot,
+    assert dict_large_snapshot == snapshot(name="large snapshot")
+    dict_diff_large_snapshot = {
+        **dict_large_snapshot,
         "field_1": "yes_value",
         "field_6": ("hey", 2, False),
         "field_7": {"yes", 0, None},
     }
-    assert dictDiffLargeSnapshot == snapshot(diff="large snapshot")
-    dictCase3 = {
-        **dictLargeSnapshot,
+    assert dict_diff_large_snapshot == snapshot(diff="large snapshot")
+    dict_case_3 = {
+        **dict_large_snapshot,
         "nested_0": MappingProxyType({**my_dict, "field_0": 2}),
         "nested_1": MappingProxyType({**my_dict, "field_0": 2}),
     }
-    assert dictCase3 == snapshot(name="case3", diff="large snapshot")
+    assert dict_case_3 == snapshot(name="case3", diff="large snapshot")
 
 
 @pytest.mark.xfail(reason="Asserting snapshot does not exist")
