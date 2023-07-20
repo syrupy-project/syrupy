@@ -113,7 +113,8 @@ class AmberDataSerializer:
         with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
             f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
             for snapshot in sorted(
-                snapshot_collection, key=lambda s: cls._snapshot_sort_key(s)  # type: ignore # noqa: E501
+                snapshot_collection,
+                key=cls._snapshot_sort_key,  # noqa: E501
             ):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:

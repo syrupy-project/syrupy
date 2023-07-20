@@ -1,5 +1,6 @@
 import pytest
 
+from syrupy.constants import DIFF_LINE_COUNT_LIMIT
 from syrupy.extensions.base import SnapshotReporter
 
 
@@ -32,3 +33,27 @@ class TestSnapshotReporter:
     def test_diff_lines(self, a, b, Reporter, snapshot, osenv):
         with osenv(NO_COLOR="true"):
             assert "\n".join(Reporter().diff_lines(a, b)) == snapshot
+
+    def test_diff_large(self, Reporter, osenv):
+        n_count = 3000 + DIFF_LINE_COUNT_LIMIT * 2
+        obj_a = [str(x) + ("a" * 20) for x in range(n_count)]
+        obj_b = [line_a + "b" for line_a in obj_a]
+        str_a = "\n".join(obj_a)
+        str_b = "\n".join(obj_b)
+        with osenv(NO_COLOR="true"):
+            assert (
+                len(list(Reporter().diff_lines(str_a, str_b)))
+                <= DIFF_LINE_COUNT_LIMIT * 2
+            )
+
+    def test_diff_large_lines(self, Reporter, osenv):
+        n_count = 5000
+        obj_a = [str(x) + ("a" * n_count) for x in range(20)]
+        obj_b = [line_a[: n_count // 2] + "b" * n_count for line_a in obj_a]
+        str_a = "\n".join(obj_a)
+        str_b = "\n".join(obj_b)
+        with osenv(NO_COLOR="true"):
+            assert (
+                len(list(Reporter().diff_lines(str_a, str_b)))
+                <= DIFF_LINE_COUNT_LIMIT * 2
+            )

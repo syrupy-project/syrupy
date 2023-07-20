@@ -3,7 +3,6 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from difflib import ndiff
 from gettext import gettext
 from itertools import zip_longest
 from pathlib import Path
@@ -44,6 +43,7 @@ from syrupy.terminal import (
 from syrupy.utils import (
     env_context,
     obj_attrs,
+    qdiff,
     walk_snapshot_dir,
 )
 
@@ -311,7 +311,7 @@ class SnapshotReporter(ABC):
 
     def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
         staged_diffed_line: Optional["DiffedLine"] = None
-        for line in ndiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
+        for line in qdiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
             is_context_line = line[0] == " "
             is_snapshot_line = line[0] == "-"
             is_received_line = line[0] == "+"
