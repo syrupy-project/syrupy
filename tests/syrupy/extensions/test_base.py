@@ -1,5 +1,6 @@
 import pytest
 
+from syrupy.constants import DIFF_LINE_COUNT_LIMIT
 from syrupy.extensions.base import SnapshotReporter
 
 
@@ -40,4 +41,7 @@ class TestSnapshotReporter:
         str_a = "\n".join(obj_a)
         str_b = "\n".join(obj_b)
         with osenv(NO_COLOR="true"):
-            assert len(list(Reporter().diff_lines(str_a, str_b)))
+            assert (
+                len(list(Reporter().diff_lines(str_a, str_b)))
+                <= DIFF_LINE_COUNT_LIMIT * 2
+            )

@@ -1,6 +1,7 @@
 import json
 import os
 from contextlib import contextmanager
+from difflib import ndiff
 from gettext import gettext
 from importlib import import_module
 from pathlib import Path
@@ -8,9 +9,13 @@ from typing import (
     Any,
     Dict,
     Iterator,
+    List,
 )
 
-from .constants import SNAPSHOT_DIRNAME
+from .constants import (
+    DIFF_LINE_COUNT_LIMIT,
+    SNAPSHOT_DIRNAME,
+)
 from .exceptions import FailedToLoadModuleMember
 
 
@@ -94,3 +99,25 @@ def obj_attrs(obj: Any, attrs: Dict[str, Any]) -> Iterator[None]:
         yield set_attrs(obj, attrs)
     finally:
         set_attrs(obj, prev_attrs)
+
+
+def qdiff(
+    lines_a: "List[str]",
+    lines_b: "List[str]",
+    *,
+    line_diff_limit: int = DIFF_LINE_COUNT_LIMIT,
+) -> "Iterator[str]":
+    """
+    Wrapper around difflib ndiff to bail early
+    https://github.com/python/cpython/issues/65452
+    """
+    first_diff_idx = 0
+
+    for i in range(max(len(lines_a), len(lines_b))):
+        if lines_a[i : i + 1] != lines_b[i : i + 1]:  # noqa E203
+            first_diff_idx = i
+            break
+
+    from_idx = max(first_diff_idx - line_diff_limit, 0)
+    to_idx = first_diff_idx + line_diff_limit
+    return ndiff(lines_a[from_idx:to_idx], lines_b[from_idx:to_idx])
