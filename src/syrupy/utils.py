@@ -125,14 +125,15 @@ def qdiff(
     to_idx = first_diff_idx + line_diff_limit
 
     def adjust_line(lines: "Sequence[str]") -> "Sequence[str]":
+        symbol_hidden_line = SYMBOL_ELLIPSIS + SYMBOL_ELLIPSIS
         return (
-            ([SYMBOL_ELLIPSIS] if from_idx > 0 else [])
+            ([symbol_hidden_line] if from_idx > 0 else [])
             + [
                 line[:line_size_limit]
                 + (SYMBOL_ELLIPSIS if len(line) > line_size_limit else "")
                 for line in lines[from_idx:to_idx]
             ]
-            + ([SYMBOL_ELLIPSIS] if to_idx < len(lines) else [])
+            + ([symbol_hidden_line] if to_idx < len(lines) else [])
         )
 
     return ndiff(adjust_line(lines_a), adjust_line(lines_b))
