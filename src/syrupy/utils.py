@@ -9,12 +9,14 @@ from typing import (
     Any,
     Dict,
     Iterator,
-    List,
+    Sequence,
 )
 
 from .constants import (
     DIFF_LINE_COUNT_LIMIT,
+    DIFF_LINE_WIDTH_LIMIT,
     SNAPSHOT_DIRNAME,
+    SYMBOL_ELLIPSIS,
 )
 from .exceptions import FailedToLoadModuleMember
 
@@ -102,22 +104,67 @@ def obj_attrs(obj: Any, attrs: Dict[str, Any]) -> Iterator[None]:
 
 
 def qdiff(
-    lines_a: "List[str]",
-    lines_b: "List[str]",
+    lines_a: "Sequence[str]",
+    lines_b: "Sequence[str]",
     *,
     line_diff_limit: int = DIFF_LINE_COUNT_LIMIT,
+    line_size_limit: int = DIFF_LINE_WIDTH_LIMIT,
 ) -> "Iterator[str]":
     """
     Wrapper around difflib ndiff to bail early
     https://github.com/python/cpython/issues/65452
     """
-    first_diff_idx = 0
+    first_diff_line_idx = 0
+    first_diff_char_idx = 0
 
     for i in range(max(len(lines_a), len(lines_b))):
-        if lines_a[i : i + 1] != lines_b[i : i + 1]:  # noqa E203
-            first_diff_idx = i
+        line_a = "".join(lines_a[i : i + 1])  # noqa E203
+        line_b = "".join(lines_b[i : i + 1])  # noqa E203
+        if line_a != line_b:
+            first_diff_line_idx = i
+            for j in range(max(len(line_a), len(line_b))):
+                char_a = line_a[j : j + 1]  # noqa E203
+                char_b = line_b[j : j + 1]  # noqa E203
+                if char_a != char_b:
+                    first_diff_char_idx = j
+                    break
             break
 
-    from_idx = max(first_diff_idx - line_diff_limit, 0)
-    to_idx = first_diff_idx + line_diff_limit
-    return ndiff(lines_a[from_idx:to_idx], lines_b[from_idx:to_idx])
+    def adjust_lines(lines: "Sequence[str]") -> "Sequence[str]":
+        line_idx_from = max(first_diff_line_idx - line_diff_limit, 0)
+        line_idx_to = first_diff_line_idx + line_diff_limit
+
+        symbol_hidden_line = SYMBOL_ELLIPSIS + SYMBOL_ELLIPSIS
+        return (
+            # include an indicator in the diff if this was not the first line
+            ([symbol_hidden_line] if line_idx_from > 0 else [])
+            # show included lines with the ends truncated off
+            + [
+                adj_line
+                for n, line in enumerate(lines[line_idx_from:line_idx_to])
+                # adjust the first line shown to be from the first different spotted
+                for line_start, line_end in [
+                    (
+                        (
+                            max(first_diff_char_idx - line_size_limit, 0)
+                            if n == line_idx_from
+                            else 0
+                        ),
+                        (
+                            first_diff_char_idx + line_size_limit
+                            if n == line_idx_from
+                            else line_size_limit
+                        ),
+                    ),
+                ]
+                for adj_line in [
+                    (SYMBOL_ELLIPSIS if line_start > 0 else "")
+                    + line[line_start:line_end]
+                    + (SYMBOL_ELLIPSIS if line_end < len(line) else "")
+                ]
+            ]
+            # include an indicator in the diff if this was not the last line
+            + ([symbol_hidden_line] if line_idx_to < len(lines) else [])
+        )
+
+    return ndiff(adjust_lines(lines_a), adjust_lines(lines_b))

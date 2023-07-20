@@ -68,4 +68,4 @@ def test_special_characters(snapshot_single, content):
 
 @pytest.mark.parametrize("content", ["greek ῴ"])
 def test_unicode(snapshot_utf8, content):
-    assert snapshot_utf8 == "apple"
+    assert snapshot_utf8 == content
