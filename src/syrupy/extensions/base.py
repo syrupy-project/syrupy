@@ -322,113 +322,96 @@ class SnapshotReporter(ABC):
                 for context_line in self.__limit_context(line.c)
             )
 
-    def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
-        staged_line_a = ""
-        staged_line_b = ""
-        staged_line_ctx = []
-        line_ends = tuple(self._ends.keys())
+    def __diffed_lines(self, a: str, b: str) -> "Iterator[DiffedLine]":
+        staged_lines_a: "List[str]" = []
+        staged_lines_b: "List[str]" = []
+        staged_lines_c: "List[str]" = []
 
-        def is_complete(line: str, next_line: str) -> bool:
-            result = (
-                line[-2:] == "\r\n"
-                if next_line[:1].endswith(line_ends)
-                else line.endswith(line_ends)
+        def stage_line(staged_lines: "List[str]", next_line: str) -> None:
+            if not staged_lines or self.__is_complete(staged_lines[-1], next_line):
+                staged_lines.append(next_line)
+            else:
+                staged_lines[-1] += next_line
+
+        def unstage_line(threshold: int = 0) -> "Iterator[DiffedLine]":
+            line_a_to_unstage = (
+                staged_lines_a.pop(0) if len(staged_lines_a) > threshold else None
             )
-            return result
-
-        def diff_lines(line_a: str, line_b: str) -> "Tuple[str, str]":
-            line_diff = SequenceMatcher(None, line_a, line_b, False).get_opcodes()
-            line_diff_a = "".join(
-                DIFF_OP_MARKERS[line_diff_op] * size
-                for (line_diff_op, a_start, a_stop, *_) in line_diff
-                for size in [a_stop - a_start]
+            line_b_to_unstage = (
+                staged_lines_b.pop(0) if len(staged_lines_b) > threshold else None
             )
-            line_diff_b = "".join(
-                DIFF_OP_MARKERS[line_diff_op] * size
-                for (line_diff_op, *_, b_start, b_stop) in line_diff
-                for size in [b_stop - b_start]
-            )
-            return line_diff_a, line_diff_b
 
-        for (
-            _,
-            seq_a_start,
-            seq_a_end,
-            seq_b_start,
-            seq_b_end,
-        ) in SequenceMatcher(None, a, b, False).get_opcodes():
-            seq_a = a[seq_a_start:seq_a_end]
-            seq_b = b[seq_b_start:seq_b_end]
-            # prepend the staged lines onto the current sequence group and resplit
-            seq_a_lines = (staged_line_a + seq_a).splitlines(keepends=True)
-            seq_b_lines = (staged_line_b + seq_b).splitlines(keepends=True)
+            if line_a_to_unstage is not None and line_a_to_unstage == line_b_to_unstage:
+                # found new context line i.e. matching line
+                staged_lines_c.append(line_a_to_unstage)
+            else:
+                if staged_lines_c:
+                    # clear staged context lines
+                    yield DiffedLine(c=staged_lines_c)
+                    staged_lines_c.clear()
 
-            for i, (line_a, line_b) in enumerate(zip_longest(seq_a_lines, seq_b_lines)):
-                line_a_could_have_more = False
-                line_b_could_have_more = False
-                if line_a:
-                    next_line_a = (
-                        "".join(seq_a_lines[i + 1 : i + 2])  # noqa: E203
-                        or seq_a[seq_a_end : seq_a_end + 1]  # noqa: E203
-                    )
-                    line_a_could_have_more = not is_complete(line_a, next_line_a)
-
-                if line_b:
-                    next_line_b = (
-                        "".join(seq_b_lines[i + 1 : i + 2])  # noqa: E203
-                        or seq_b[seq_b_end : seq_b_end + 1]  # noqa: E203
-                    )
-                    line_b_could_have_more = not is_complete(line_b, next_line_b)
-
-                is_context_line = line_a is not None and line_a == line_b
-                is_snapshot_line = line_a is not None and line_b is None
-                is_received_line = line_b is not None and line_a is None
-                is_compared_line = (
-                    line_a is not None and line_b is not None and line_a != line_b
+                line_diff_a, line_diff_b = self.__lines_diffs(
+                    line_a_to_unstage, line_b_to_unstage
+                )
+                yield DiffedLine(
+                    a=line_a_to_unstage,
+                    b=line_b_to_unstage,
+                    diff_a=line_diff_a,
+                    diff_b=line_diff_b,
                 )
 
-                if line_a_could_have_more or line_b_could_have_more:
-                    staged_line_a = line_a
-                    staged_line_b = line_b
-                elif is_context_line:
-                    staged_line_ctx.append(line_a)
-                elif is_snapshot_line or is_received_line or is_compared_line:
-                    if staged_line_ctx:
-                        yield DiffedLine(c=staged_line_ctx)
-                        staged_line_ctx = []
-                    if is_snapshot_line:
-                        yield DiffedLine(a=line_a)
-                        staged_line_a = ""
-                    elif is_received_line:
-                        yield DiffedLine(b=line_b)
-                        staged_line_b = ""
-                    elif is_compared_line:
-                        line_diff_a, line_diff_b = diff_lines(line_a, line_b)
-                        yield DiffedLine(
-                            a=line_a, b=line_b, diff_a=line_diff_a, diff_b=line_diff_b
-                        )
-                        staged_line_a = ""
-                        staged_line_b = ""
+        matcher = SequenceMatcher(None, a, b)
+        for opcode, a_start, a_end, b_start, b_end in matcher.get_opcodes():
+            lines_a = a[a_start:a_end].splitlines(keepends=True)
+            lines_b = b[b_start:b_end].splitlines(keepends=True)
+            if opcode == "equal":
+                for line_a, line_b in zip(lines_a, lines_b):
+                    stage_line(staged_lines_a, line_a)
+                    stage_line(staged_lines_b, line_b)
+            elif opcode == "delete":
+                for line_a in lines_a:
+                    stage_line(staged_lines_a, line_a)
+            elif opcode == "insert":
+                for line_b in lines_b:
+                    stage_line(staged_lines_b, line_b)
+            elif opcode == "replace":
+                max_len = max(len(lines_a), len(lines_b))
+                for i in range(max_len):
+                    if i < len(lines_a):
+                        stage_line(staged_lines_a, lines_a[i])
+                    if i < len(lines_b):
+                        stage_line(staged_lines_b, lines_b[i])
 
-        if staged_line_a and staged_line_a == staged_line_b:
-            staged_line_ctx.append(staged_line_a)
-            staged_line_a = ""
-            staged_line_b = ""
+            yield from unstage_line(1)
 
-        if staged_line_ctx:
-            yield DiffedLine(c=staged_line_ctx)
-        if staged_line_a and staged_line_b:
-            staged_line_a_diff, staged_line_b_diff = diff_lines(
-                staged_line_a, staged_line_b
-            )
-            yield DiffedLine(
-                a=staged_line_a,
-                b=staged_line_b,
-                diff_a=staged_line_a_diff,
-                diff_b=staged_line_b_diff,
-            )
-        elif staged_line_a or staged_line_b:
-            yield DiffedLine(a=staged_line_a or None, b=staged_line_b or None)
+        yield from unstage_line()
+
+    def __lines_diffs(
+        self, line_a: "Optional[str]", line_b: "Optional[str]"
+    ) -> "Tuple[str, str]":
+        if line_a is None or line_b is None:
+            return "", ""
+        line_diff = SequenceMatcher(None, line_a, line_b, False).get_opcodes()
+        line_diff_a = "".join(
+            DIFF_OP_MARKERS[line_diff_op] * size
+            for (line_diff_op, a_start, a_stop, *_) in line_diff
+            for size in [a_stop - a_start]
+        )
+        line_diff_b = "".join(
+            DIFF_OP_MARKERS[line_diff_op] * size
+            for (line_diff_op, *_, b_start, b_stop) in line_diff
+            for size in [b_stop - b_start]
+        )
+        return line_diff_a, line_diff_b
+
+    def __is_complete(self, line: str, next_line: str) -> bool:
+        line_ends = tuple(self._ends.keys())
+        result = (
+            line[-1:] == "\n"
+            if next_line[:1].endswith(line_ends)
+            else line.endswith(line_ends)
+        )
+        return result
 
     def __format_line(
         self,
