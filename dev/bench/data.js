@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1689619095712,
+  "lastUpdate": 1689854414069,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4050,6 +4050,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0791367492540713",
             "extra": "mean: 1.536083455200003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "24260b17607a11f7afa691c0ecd4da3e09de9bf0",
+          "message": "fix: large snapshot diff recursion error (#776)\n\n* style: add pylint dev dependency\n\n* wip: replace ndiff call with sequence matcher\n\n* wip: get sequence match to function the same\n\n* refactor: sequence diff usage\n\n* wip: sequence diff refactor\n\n* refactor: fix test style errors\n\n* wip: yeah this does not work either\n\n* wip: revert and add test to validate fix\n\n* fix: set max diff line count to avoid ndiff limitation\n\n* chore: update lockfile\n\n* test: add test_diff_large_lines\n\n* test: update diff large to always be above max line count",
+          "timestamp": "2023-07-20T07:58:09-04:00",
+          "tree_id": "039f036490a88350d5956d035c1ba0a44bc02848",
+          "url": "https://github.com/tophat/syrupy/commit/24260b17607a11f7afa691c0ecd4da3e09de9bf0"
+        },
+        "date": 1689854412632,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5432712389786792,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052241832464524116",
+            "extra": "mean: 1.840701160399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5694314332620367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07676355961630807",
+            "extra": "mean: 1.7561376867999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5543317257461231,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06717288141995083",
+            "extra": "mean: 1.8039739628000064 sec\nrounds: 5"
           }
         ]
       }
