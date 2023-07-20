@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1689854414069,
+  "lastUpdate": 1689889048413,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4095,6 +4095,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06717288141995083",
             "extra": "mean: 1.8039739628000064 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "64b42653d1c3af5b56347ccd9afd24e87b29aa18",
+          "message": "fix: diffing excessively large snapshot lines (#778)\n\n* test: fix invalid testcase\r\n\r\n* fix: diffing excessively large snapshot lines\r\n\r\n* test: snapshot diff for better test representation\r\n\r\n* refactor: include first character change in generated diff",
+          "timestamp": "2023-07-20T17:35:51-04:00",
+          "tree_id": "1bd550ec2d2c50e6649491820c04982fda7e83b9",
+          "url": "https://github.com/tophat/syrupy/commit/64b42653d1c3af5b56347ccd9afd24e87b29aa18"
+        },
+        "date": 1689889047540,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7905710629626236,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04736608058330872",
+            "extra": "mean: 1.2649084274000018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.778955120805439,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05148325749372007",
+            "extra": "mean: 1.283771007200005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.747311906368486,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08089193912759848",
+            "extra": "mean: 1.3381293560000074 sec\nrounds: 5"
           }
         ]
       }
