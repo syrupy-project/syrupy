@@ -32,3 +32,12 @@ class TestSnapshotReporter:
     def test_diff_lines(self, a, b, Reporter, snapshot, osenv):
         with osenv(NO_COLOR="true"):
             assert "\n".join(Reporter().diff_lines(a, b)) == snapshot
+
+    def test_diff_large(self, Reporter, osenv):
+        n_count = 3000
+        obj_a = [str(x) + ("a" * 20) for x in range(n_count)]
+        obj_b = [line_a + "b" for line_a in obj_a]
+        str_a = "\n".join(obj_a)
+        str_b = "\n".join(obj_b)
+        with osenv(NO_COLOR="true"):
+            assert len(list(Reporter().diff_lines(str_a, str_b)))
