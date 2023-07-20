@@ -9,12 +9,14 @@ from typing import (
     Any,
     Dict,
     Iterator,
-    List,
+    Sequence,
 )
 
 from .constants import (
     DIFF_LINE_COUNT_LIMIT,
+    DIFF_LINE_WIDTH_LIMIT,
     SNAPSHOT_DIRNAME,
+    SYMBOL_ELLIPSIS,
 )
 from .exceptions import FailedToLoadModuleMember
 
@@ -102,10 +104,11 @@ def obj_attrs(obj: Any, attrs: Dict[str, Any]) -> Iterator[None]:
 
 
 def qdiff(
-    lines_a: "List[str]",
-    lines_b: "List[str]",
+    lines_a: "Sequence[str]",
+    lines_b: "Sequence[str]",
     *,
     line_diff_limit: int = DIFF_LINE_COUNT_LIMIT,
+    line_size_limit: int = DIFF_LINE_WIDTH_LIMIT,
 ) -> "Iterator[str]":
     """
     Wrapper around difflib ndiff to bail early
@@ -120,4 +123,16 @@ def qdiff(
 
     from_idx = max(first_diff_idx - line_diff_limit, 0)
     to_idx = first_diff_idx + line_diff_limit
-    return ndiff(lines_a[from_idx:to_idx], lines_b[from_idx:to_idx])
+
+    def adjust_line(lines: "Sequence[str]") -> "Sequence[str]":
+        return (
+            ([SYMBOL_ELLIPSIS] if from_idx > 0 else [])
+            + [
+                line[:line_size_limit]
+                + (SYMBOL_ELLIPSIS if len(line) > line_size_limit else "")
+                for line in lines[from_idx:to_idx]
+            ]
+            + ([SYMBOL_ELLIPSIS] if to_idx < len(lines) else [])
+        )
+
+    return ndiff(adjust_line(lines_a), adjust_line(lines_b))
