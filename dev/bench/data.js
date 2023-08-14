@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1689891210965,
+  "lastUpdate": 1691971399901,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4185,6 +4185,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1017264216212603",
             "extra": "mean: 1.7087465548000011 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d0f8da00098fa016e8dfb12fe8e218c89f3de8c2",
+          "message": "chore(deps): update snok/install-poetry action to v1.3.4 (#783)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-08-13T20:01:04-04:00",
+          "tree_id": "e7dc9ea4280b094b402301e4ae0f222e0904d6a8",
+          "url": "https://github.com/tophat/syrupy/commit/d0f8da00098fa016e8dfb12fe8e218c89f3de8c2"
+        },
+        "date": 1691971398450,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5317635896782987,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09869442038707753",
+            "extra": "mean: 1.880534920799994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5111507090660045,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08417710316501338",
+            "extra": "mean: 1.9563701707999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5123492876294338,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12308306183314652",
+            "extra": "mean: 1.9517934817999958 sec\nrounds: 5"
           }
         ]
       }
