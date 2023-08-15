@@ -44,7 +44,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
     @classmethod
     def __is_namedtuple(cls, obj: Any) -> bool:
         return isinstance(obj, tuple) and all(
-            type(n) == str for n in getattr(obj, "_fields", [None])
+            isinstance(n, (str,)) for n in getattr(obj, "_fields", [None])
         )
 
     @classmethod
