@@ -286,7 +286,7 @@ class AmberDataSerializer:
             open_paren, close_paren = ("[", "]")
 
         values = list(data)
-        return cls.__serialize_iterable(
+        return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(range(len(values)), item_getter, None),
             open_paren=open_paren,
@@ -296,7 +296,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_set(cls, data: Set["SerializableData"], **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
+        return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(cls.sort(data), lambda _, p: p, None),
             open_paren="{",
@@ -306,7 +306,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> str:
-        return cls.__serialize_iterable(
+        return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(cls.sort(data._fields), attr_getter, None),
             separator="=",
@@ -321,7 +321,7 @@ class AmberDataSerializer:
             data.keys() if isinstance(data, (OrderedDict,)) else cls.sort(data.keys())
         )
 
-        return cls.__serialize_iterable(
+        return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(keys, item_getter, None),
             open_paren="{",
@@ -336,7 +336,7 @@ class AmberDataSerializer:
         if data.__class__.__repr__ != object.__repr__:
             return cls.__serialize_plain(data=data, depth=depth)
 
-        return cls.__serialize_iterable(
+        return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(
                 (name for name in cls.sort(dir(data)) if not name.startswith("_")),
@@ -379,7 +379,7 @@ class AmberDataSerializer:
         return cls.with_indent(repr(data), depth)
 
     @classmethod
-    def __serialize_iterable(
+    def serialize_custom_iterable(
         cls,
         *,
         data: "SerializableData",
@@ -393,6 +393,9 @@ class AmberDataSerializer:
         serialize_key: bool = False,
         **kwargs: Any,
     ) -> str:
+        """
+        Utility to serialize a custom iterable.
+        """
         kwargs["depth"] = depth + 1
 
         keys, get_value, include_value = resolve_entries
