@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [4.1.0](https://github.com/tophat/syrupy/compare/v4.0.8...v4.1.0) (2023-08-16)
+
+
+### Features
+
+* **amber:** expose serialize_custom_iterable method of AmberDataSerializer ([#788](https://github.com/tophat/syrupy/issues/788)) ([d210cf1](https://github.com/tophat/syrupy/commit/d210cf192962afc3196c9d6cc81e7c799a6caf26))
+
 ## [4.0.8](https://github.com/tophat/syrupy/compare/v4.0.7...v4.0.8) (2023-07-20)
 
 
