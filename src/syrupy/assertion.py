@@ -206,7 +206,9 @@ class SnapshotAssertion:
             # Rotate to place exception with message at first line
             return lines[-1:] + lines[:-1]
         snapshot_data = assertion_result.recalled_data
-        serialized_data = assertion_result.asserted_data or ""
+        if assertion_result.asserted_data is None:
+            assertion_result.asserted_data = ""
+        serialized_data = assertion_result.asserted_data
         diff: List[str] = []
         if snapshot_data is None:
             diff.append(
@@ -215,7 +217,9 @@ class SnapshotAssertion:
                 )
             )
         if not assertion_result.success:
-            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data or ""))
+            if snapshot_data is None:
+                snapshot_data = ""
+            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data))
         return diff
 
     def __with_prop(self, prop_name: str, prop_value: Any) -> None:
