@@ -206,6 +206,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "atharva-2001",
+      "name": "Atharva Arya",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55894364?v=4",
+      "profile": "https://www.atharvaarya.tech/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -214,5 +223,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "angular"
+  "commitConvention": "angular",
+  "commitType": "docs"
 }
