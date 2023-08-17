@@ -429,6 +429,9 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/tolgaeren"><img src="https://avatars.githubusercontent.com/u/794719?v=4?s=100" width="100px;" alt="Tolga Eren"/><br /><sub><b>Tolga Eren</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Atolgaeren" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://johnkurkowski.com"><img src="https://avatars.githubusercontent.com/u/299487?v=4?s=100" width="100px;" alt="John Kurkowski"/><br /><sub><b>John Kurkowski</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Ajohn-kurkowski" title="Bug reports">🐛</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.atharvaarya.tech/"><img src="https://avatars.githubusercontent.com/u/55894364?v=4?s=100" width="100px;" alt="Atharva Arya"/><br /><sub><b>Atharva Arya</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=atharva-2001" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
