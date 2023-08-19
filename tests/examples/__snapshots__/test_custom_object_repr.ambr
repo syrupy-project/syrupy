@@ -1,4 +1,14 @@
 # serializer version: 1
+# name: test_snapshot_bypass_custom_repr_class
+  MyCustomReprClass(
+    prop2='a',
+    prop3=set({
+      1,
+      2,
+      3,
+    }),
+  )
+# ---
 # name: test_snapshot_custom_class
   MyCustomClass(
     prop1=1,
