@@ -162,12 +162,13 @@ Syrupy comes with built-in helpers that can be used to make easy work of using p
 Easy way to build a matcher that uses the path and value type to replace serialized data.
 When strict, this will raise a `ValueError` if the types specified are not matched.
 
-| Argument  | Description                                                                                                                        |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `mapping` | Dict of path string to tuples of class types, including primitives e.g. (MyClass, UUID, datetime, int, str)                        |
-| `types`   | Tuple of class types used if none of the path strings from the mapping are matched                                                 |
-| `strict`  | If a path is matched but the value at the path does not match one of the class types in the tuple then a `PathTypeError` is raised |
-| `regex`   | If true, the `mapping` key is treated as a regular expression when matching paths                                                  |
+| Argument   | Description                                                                                                                        |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `mapping`  | Dict of path string to tuples of class types, including primitives e.g. (MyClass, UUID, datetime, int, str)                        |
+| `types`    | Tuple of class types used if none of the path strings from the mapping are matched                                                 |
+| `strict`   | If a path is matched but the value at the path does not match one of the class types in the tuple then a `PathTypeError` is raised |
+| `regex`    | If true, the `mapping` key is treated as a regular expression when matching paths                                                  |
+| `replacer` | Called with any matched value and result is used as the replacement that is serialized. Defaults to the object type when not given |
 
 ```py
 from syrupy.matchers import path_type
