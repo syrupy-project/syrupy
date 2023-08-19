@@ -22,7 +22,7 @@ if TYPE_CHECKING:
         SerializableData,
     )
 
-    Replacer = Callable[[SerializableData, Optional[re.Match[str]]], SerializableData]
+    Replacer = Callable[[SerializableData, Optional[re.Match]], SerializableData]
 
 
 class PathTypeError(TypeError):
