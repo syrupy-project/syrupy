@@ -71,3 +71,23 @@ def path_type(
         return data
 
     return path_type_matcher
+
+
+def path_value(
+    mapping: Dict[str, str],
+    *,
+    types: Tuple["PropertyValueType", ...],
+    replacer: "Replacer",
+    **kwargs: Any,
+) -> "PropertyMatcher":
+    """
+    Matches the path regex against the string repr of values for the types specified
+    """
+
+    kwargs["mapping"] = {path_pattern: types for path_pattern in mapping}
+    kwargs["replacer"] = lambda data, path_matches: (
+        replacer(data, re.fullmatch(mapping[path_matches.re.pattern], str(data)))
+        if path_matches.re.pattern in mapping
+        else data
+    )
+    return path_type(**kwargs)

@@ -369,6 +369,32 @@ The generated snapshot:
 }
 ```
 
+Or a case where the value needs to be replaced using a condition e.g. file path string
+
+```py
+import re
+
+from syrupy.matchers import path_type
+
+def test_matches_generated_string_value(snapshot, tmp_file):
+    matcher = path_value(
+        mapping={"file_path": r"\w+://(.*/)+dir/filename.txt"},
+        replacer=lambda _, match: match[0].replace(match[1], "<tmp-file-path>/"),
+        types=(str,),
+    )
+
+    assert snapshot(matcher=matcher) == tmp_file
+```
+
+The generated snapshot:
+
+```json
+{
+  "name": "Temp Files",
+  "file_path": "scheme://<tmp-file-path>/dir/filename.txt"
+}
+```
+
 ### Extending Syrupy
 
 - [Custom snapshot directory 1](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory.py)

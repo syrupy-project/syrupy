@@ -63,3 +63,22 @@
     'some_uuid': UUID,
   })
 # ---
+# name: test_regex_matcher_str_value
+  dict({
+    'data': dict({
+      'any_number': 3,
+      'any_string': 'hello',
+      'list': list([
+        dict({
+          'id': UUID,
+          'k': '1',
+        }),
+        dict({
+          'id': UUID,
+          'k': '2',
+        }),
+      ]),
+    }),
+    'dir': '<tmp-path>/test_regex_matcher_str_value0',
+  })
+# ---

@@ -3,10 +3,14 @@ import uuid
 
 import pytest
 
-from syrupy.extensions.amber.serializer import Repr
+from syrupy.extensions.amber.serializer import (
+    AmberDataSerializer,
+    Repr,
+)
 from syrupy.matchers import (
     PathTypeError,
     path_type,
+    path_value,
 )
 
 
@@ -90,5 +94,35 @@ def test_matches_regex_in_regex_mode(snapshot):
         "any_number": 3,
         "any_number_adjacent": "hi",
         "specific_number": 5,
+    }
+    assert actual == snapshot(matcher=my_matcher)
+
+
+def test_regex_matcher_str_value(request, snapshot, tmp_path):
+    def replacer(data, match):
+        # check that the match is for the expected file path
+        if match and request.node.name in match[0]:
+            return match[0].replace(match[1], "<tmp-path>/")
+        return Repr(AmberDataSerializer.object_type(data))
+
+    my_matcher = path_value(
+        {
+            r"data\.list\..*\.id": r"[a-z0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}",
+            r"dir": rf"(.*){request.node.name}.*",
+        },
+        types=(str, uuid.UUID),
+        replacer=replacer,
+        strict=True,
+    )
+    actual = {
+        "data": {
+            "any_number": 3,
+            "any_string": "hello",
+            "list": [
+                {"k": "1", "id": uuid.uuid4()},
+                {"k": "2", "id": uuid.uuid4()},
+            ],
+        },
+        "dir": str(tmp_path),
     }
     assert actual == snapshot(matcher=my_matcher)
