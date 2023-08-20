@@ -26,6 +26,7 @@ def test_matches_expected_type(snapshot):
     actual = {
         "date_created": datetime.datetime.now(),
         "nested": {"id": 4},
+        "nested_id": 5,
         "some_uuid": uuid.uuid4(),
     }
     assert actual == snapshot(matcher=my_matcher)
@@ -81,6 +82,7 @@ def test_matches_regex_in_regex_mode(snapshot):
         {
             r"data\.list\..*\.date_created": (datetime.datetime,),
             r"any_number": (int,),
+            "any_number.adjacent": (str,),
         },
         regex=True,
     )
@@ -107,11 +109,12 @@ def test_regex_matcher_str_value(request, snapshot, tmp_path):
 
     my_matcher = path_value(
         {
-            r"data\.list\..*\.id": r"[a-z0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}",
-            r"dir": rf"(.*){request.node.name}.*",
+            r"data\.list\..*\.id": "[a-z0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}",
+            "dir": rf"(.*){request.node.name}.*",
         },
         types=(str, uuid.UUID),
         replacer=replacer,
+        regex=True,
         strict=True,
     )
     actual = {

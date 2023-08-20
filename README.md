@@ -193,6 +193,19 @@ def test_bar(snapshot):
 # ---
 ```
 
+> NOTE: When `regex` is `True` all matcher mappings are treated as regex patterns
+
+###### `path_value(mapping=None, *, **kwargs)`
+
+Shares the same `kwargs` as `path_type` matcher, with the exception of the `mapping` argument type.
+Only runs replacement for objects at a matching path where the value of the mapping also matches the object data string repr.
+
+| Argument  | Description                                                |
+| --------- | ---------------------------------------------------------- |
+| `mapping` | Dict of path string to object value string representations |
+
+> See `test_regex_matcher_str_value` for example usage.
+
 #### `exclude`
 
 This allows you to filter out object properties from the serialized snapshot.

@@ -22,7 +22,11 @@ if TYPE_CHECKING:
         SerializableData,
     )
 
-    Replacer = Callable[[SerializableData, Optional[re.Match]], SerializableData]
+    try:
+        MatchResult = Optional[re.Match[str]]
+    except TypeError:
+        pass
+    Replacer = Callable[[SerializableData, MatchResult], SerializableData]
 
 
 class PathTypeError(TypeError):
@@ -34,8 +38,8 @@ def path_type(
     *,
     types: Tuple["PropertyValueType", ...] = (),
     strict: bool = True,
+    regex: bool = False,
     replacer: "Replacer" = lambda data, _: Repr(AmberDataSerializer.object_type(data)),
-    **_: Any,
 ) -> "PropertyMatcher":
     """
     Factory to create a matcher using path and type mapping.
@@ -53,7 +57,7 @@ def path_type(
         path_str = ".".join(str(p) for p, _ in path)
         if mapping:
             for pattern in mapping:
-                matches = re.fullmatch(pattern, path_str)
+                matches = _path_match(path_str, pattern, regex)
                 if matches:
                     for type_to_match in mapping[pattern]:
                         if isinstance(data, type_to_match):
@@ -86,8 +90,20 @@ def path_value(
 
     kwargs["mapping"] = {path_pattern: types for path_pattern in mapping}
     kwargs["replacer"] = lambda data, path_matches: (
-        replacer(data, re.fullmatch(mapping[path_matches.re.pattern], str(data)))
+        replacer(
+            data,
+            _path_match(
+                str(data), mapping[path_matches.re.pattern], kwargs.get("regex", False)
+            ),
+        )
         if path_matches.re.pattern in mapping
         else data
     )
     return path_type(**kwargs)
+
+
+def _path_match(path: str, pattern: str, is_regex: bool) -> "MatchResult":
+    """Match path against regular string or regex pattern"""
+    if not is_regex:
+        pattern = re.escape(pattern)
+    return re.fullmatch(pattern, path)

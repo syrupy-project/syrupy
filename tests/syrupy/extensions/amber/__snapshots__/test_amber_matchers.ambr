@@ -5,6 +5,7 @@
     'nested': dict({
       'id': int,
     }),
+    'nested_id': 5,
     'some_uuid': UUID,
   })
 # ---
@@ -37,7 +38,7 @@
 # name: test_matches_regex_in_regex_mode
   dict({
     'any_number': int,
-    'any_number_adjacent': 'hi',
+    'any_number_adjacent': str,
     'data': dict({
       'list': list([
         dict({
