@@ -115,7 +115,6 @@ def test_regex_matcher_str_value(request, snapshot, tmp_path):
         types=(str, uuid.UUID),
         replacer=replacer,
         regex=True,
-        strict=True,
     )
     actual = {
         "data": {
