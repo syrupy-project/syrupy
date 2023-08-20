@@ -354,7 +354,7 @@ class AmberDataSerializer:
         return (name for name in dir(data) if not name.startswith("_"))
 
     @classmethod
-    def bypass_custom_repr(cls, data: Any) -> "tuple[Any, ...]":
+    def object_as_named_tuple(cls, data: Any) -> "tuple[Any, ...]":
         attr_names = list(cls.object_attrs(data))
         return collections.namedtuple(data.__class__.__name__, attr_names)(
             **{prop: getattr(data, prop) for prop in attr_names}

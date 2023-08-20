@@ -27,14 +27,14 @@ def test_snapshot_custom_repr_class(snapshot):
     assert MyCustomReprClass() == snapshot
 
 
-def test_snapshot_bypass_custom_repr_class(snapshot):
+def test_snapshot_object_as_named_tuple_class(snapshot):
     """
-    Show helper `bypass_custom_repr` to revert representation to amber standard
+    Show helper `object_as_named_tuple` to revert representation to amber standard
     """
     assert MyCustomReprClass() == snapshot(
         exclude=props("prop1"),
         matcher=path_type(
             types=(MyCustomReprClass,),
-            replacer=lambda data, _: AmberDataSerializer.bypass_custom_repr(data),
+            replacer=lambda data, _: AmberDataSerializer.object_as_named_tuple(data),
         ),
     )

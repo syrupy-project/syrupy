@@ -85,11 +85,11 @@ def __repr__(self) -> str:
 If you need bypass a custom object representation to use the amber standard, it is easy using the following helpers.
 
 ```python
-def test_bypass_custom_repr(snapshot):
-    assert snapshot == AmberDataSerializer.bypass_custom_repr(obj_with_custom_repr)
+def test_object_as_named_tuple(snapshot):
+    assert snapshot == AmberDataSerializer.object_as_named_tuple(obj_with_custom_repr)
 ```
 
-> See `test_snapshot_bypass_custom_repr_class` for an example on automatically doing this for all nested properties
+> See `test_snapshot_object_as_named_tuple_class` for an example on automatically doing this for all nested properties
 
 #### Attributes
 

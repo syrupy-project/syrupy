@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_snapshot_bypass_custom_repr_class
+# name: test_snapshot_object_as_named_tuple_class
   MyCustomReprClass(
     prop2='a',
     prop3=set({
