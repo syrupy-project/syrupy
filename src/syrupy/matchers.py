@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     try:
         MatchResult = Optional[re.Match[str]]
     except TypeError:
-        pass
+        globals()["MatchResult"] = Optional[re.Match]
     Replacer = Callable[[SerializableData, MatchResult], SerializableData]
 
 
