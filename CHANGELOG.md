@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [4.2.0](https://github.com/tophat/syrupy/compare/v4.1.1...v4.2.0) (2023-08-21)
+
+
+### Features
+
+* **serializer:** add snapshot regex value matcher and bypass custom repr helper ([#791](https://github.com/tophat/syrupy/issues/791)) ([3ac2ce8](https://github.com/tophat/syrupy/commit/3ac2ce84c5dfe180606ef32d1dd067af952d376e))
+
 ## [4.1.1](https://github.com/tophat/syrupy/compare/v4.1.0...v4.1.1) (2023-08-17)
 
 
