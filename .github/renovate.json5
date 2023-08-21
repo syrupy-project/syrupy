@@ -4,5 +4,8 @@
     "semanticCommitScope": "deps",
     "rangeStrategy": "update-lockfile",
     "stabilityDays": 7,
-    "labels": ["dependencies"]
+    "labels": ["dependencies"],
+    "constraints": {
+        "poetry": "1.6.1"
+    },
 }
