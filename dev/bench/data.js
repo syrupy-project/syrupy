@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692648295880,
+  "lastUpdate": 1692649208411,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4500,6 +4500,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.12028302994148095",
             "extra": "mean: 2.130134095599999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e2e314fca6f90d9601c3b7d30370d2ca21e09cfe",
+          "message": "fix: support python 3.12 (#794)",
+          "timestamp": "2023-08-21T16:18:29-04:00",
+          "tree_id": "0d5d0a9a78b241dccdf08db7981deb1d1c763db9",
+          "url": "https://github.com/tophat/syrupy/commit/e2e314fca6f90d9601c3b7d30370d2ca21e09cfe"
+        },
+        "date": 1692649207027,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5198448400308384,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05812831911626532",
+            "extra": "mean: 1.923650910799995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5139725385120247,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08167385620895319",
+            "extra": "mean: 1.9456292410000118 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4866094944331513,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1352842241094931",
+            "extra": "mean: 2.0550359404000007 sec\nrounds: 5"
           }
         ]
       }
