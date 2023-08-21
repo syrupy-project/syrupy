@@ -5,6 +5,7 @@
     'nested': dict({
       'id': int,
     }),
+    'nested_id': 5,
     'some_uuid': UUID,
   })
 # ---
@@ -37,7 +38,7 @@
 # name: test_matches_regex_in_regex_mode
   dict({
     'any_number': int,
-    'any_number_adjacent': 'hi',
+    'any_number_adjacent': str,
     'data': dict({
       'list': list([
         dict({
@@ -61,5 +62,24 @@
       'id': int,
     }),
     'some_uuid': UUID,
+  })
+# ---
+# name: test_regex_matcher_str_value
+  dict({
+    'data': dict({
+      'any_number': 3,
+      'any_string': 'hello',
+      'list': list([
+        dict({
+          'id': UUID,
+          'k': '1',
+        }),
+        dict({
+          'id': UUID,
+          'k': '2',
+        }),
+      ]),
+    }),
+    'dir': '<tmp-path>/test_regex_matcher_str_value0',
   })
 # ---

@@ -82,6 +82,15 @@ def __repr__(self) -> str:
     return "MyCustomClass(...)"
 ```
 
+If you need bypass a custom object representation to use the amber standard, it is easy using the following helpers.
+
+```python
+def test_object_as_named_tuple(snapshot):
+    assert snapshot == AmberDataSerializer.object_as_named_tuple(obj_with_custom_repr)
+```
+
+> See `test_snapshot_object_as_named_tuple_class` for an example on automatically doing this for all nested properties
+
 #### Attributes
 
 If you want to limit what properties are serialized at a class type level you could either:
@@ -153,12 +162,13 @@ Syrupy comes with built-in helpers that can be used to make easy work of using p
 Easy way to build a matcher that uses the path and value type to replace serialized data.
 When strict, this will raise a `ValueError` if the types specified are not matched.
 
-| Argument  | Description                                                                                                                        |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `mapping` | Dict of path string to tuples of class types, including primitives e.g. (MyClass, UUID, datetime, int, str)                        |
-| `types`   | Tuple of class types used if none of the path strings from the mapping are matched                                                 |
-| `strict`  | If a path is matched but the value at the path does not match one of the class types in the tuple then a `PathTypeError` is raised |
-| `regex`   | If true, the `mapping` key is treated as a regular expression when matching paths                                                  |
+| Argument   | Description                                                                                                                        |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `mapping`  | Dict of path string to tuples of class types, including primitives e.g. (MyClass, UUID, datetime, int, str)                        |
+| `types`    | Tuple of class types used if none of the path strings from the mapping are matched                                                 |
+| `strict`   | If a path is matched but the value at the path does not match one of the class types in the tuple then a `PathTypeError` is raised |
+| `regex`    | If true, the `mapping` key is treated as a regular expression when matching paths                                                  |
+| `replacer` | Called with any matched value and result is used as the replacement that is serialized. Defaults to the object type when not given |
 
 ```py
 from syrupy.matchers import path_type
@@ -182,6 +192,19 @@ def test_bar(snapshot):
   })
 # ---
 ```
+
+> NOTE: When `regex` is `True` all matcher mappings are treated as regex patterns
+
+###### `path_value(mapping=None, *, **kwargs)`
+
+Shares the same `kwargs` as `path_type` matcher, with the exception of the `mapping` argument type.
+Only runs replacement for objects at a matching path where the value of the mapping also matches the object data string repr.
+
+| Argument  | Description                                                |
+| --------- | ---------------------------------------------------------- |
+| `mapping` | Dict of path string to object value string representations |
+
+> See `test_regex_matcher_str_value` for example usage.
 
 #### `exclude`
 
@@ -356,6 +379,32 @@ The generated snapshot:
   "id": "<class 'int'>",
   "registeredAt": "<class 'datetime'>",
   "name": "Jane"
+}
+```
+
+Or a case where the value needs to be replaced using a condition e.g. file path string
+
+```py
+import re
+
+from syrupy.matchers import path_type
+
+def test_matches_generated_string_value(snapshot, tmp_file):
+    matcher = path_value(
+        mapping={"file_path": r"\w+://(.*/)+dir/filename.txt"},
+        replacer=lambda _, match: match[0].replace(match[1], "<tmp-file-path>/"),
+        types=(str,),
+    )
+
+    assert snapshot(matcher=matcher) == tmp_file
+```
+
+The generated snapshot:
+
+```json
+{
+  "name": "Temp Files",
+  "file_path": "scheme://<tmp-file-path>/dir/filename.txt"
 }
 ```
 

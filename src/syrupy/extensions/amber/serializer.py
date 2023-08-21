@@ -1,3 +1,4 @@
+import collections
 import os
 from collections import OrderedDict
 from types import (
@@ -339,13 +340,24 @@ class AmberDataSerializer:
         return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(
-                (name for name in cls.sort(dir(data)) if not name.startswith("_")),
+                cls.sort(cls.object_attrs(data)),
                 attr_getter,
                 lambda v: not callable(v),
             ),
             depth=depth,
             separator="=",
             **kwargs,
+        )
+
+    @classmethod
+    def object_attrs(cls, data: Any) -> "Iterable[str]":
+        return (name for name in dir(data) if not name.startswith("_"))
+
+    @classmethod
+    def object_as_named_tuple(cls, data: Any) -> "tuple[Any, ...]":
+        attr_names = list(cls.object_attrs(data))
+        return collections.namedtuple(data.__class__.__name__, attr_names)(
+            **{prop: getattr(data, prop) for prop in attr_names}
         )
 
     @classmethod

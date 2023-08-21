@@ -224,8 +224,9 @@ class SnapshotAssertion:
         return diff
 
     def __with_prop(self, prop_name: str, prop_value: Any) -> None:
+        _value = getattr(self, prop_name, None)
         setattr(self, prop_name, prop_value)
-        self._post_assert_actions.append(lambda: setattr(self, prop_name, None))
+        self._post_assert_actions.append(lambda: setattr(self, prop_name, _value))
 
     def __call__(
         self,
