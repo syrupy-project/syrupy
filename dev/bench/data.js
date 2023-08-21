@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692315549379,
+  "lastUpdate": 1692618809172,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4410,6 +4410,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06214663973032043",
             "extra": "mean: 1.3195614270000022 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3ac2ce84c5dfe180606ef32d1dd067af952d376e",
+          "message": "feat(serializer): add snapshot regex value matcher and bypass custom repr helper (#791)",
+          "timestamp": "2023-08-21T07:51:00-04:00",
+          "tree_id": "aa0881e1da921aa6efd215ef6ea9eab0e9addc18",
+          "url": "https://github.com/tophat/syrupy/commit/3ac2ce84c5dfe180606ef32d1dd067af952d376e"
+        },
+        "date": 1692618806205,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5087558950508346,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07724910671552575",
+            "extra": "mean: 1.9655791898000132 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.49337831730534415,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09880546059703803",
+            "extra": "mean: 2.026842211999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.48249111388009897,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1232547096454394",
+            "extra": "mean: 2.072577030399992 sec\nrounds: 5"
           }
         ]
       }
