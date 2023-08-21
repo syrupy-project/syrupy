@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692618809172,
+  "lastUpdate": 1692648295880,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4455,6 +4455,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1232547096454394",
             "extra": "mean: 2.072577030399992 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c8524a60f3abeac738dca65fe8f4990e0f0a69f3",
+          "message": "chore: update poetry, specify renovate constraint (#793)",
+          "timestamp": "2023-08-21T16:03:10-04:00",
+          "tree_id": "c036913c8dc07fdff17876f00d1f103d9f0b0578",
+          "url": "https://github.com/tophat/syrupy/commit/c8524a60f3abeac738dca65fe8f4990e0f0a69f3"
+        },
+        "date": 1692648294159,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5050261577394404,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07816862040087877",
+            "extra": "mean: 1.9800954558000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4876147152078139,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08273823592051148",
+            "extra": "mean: 2.050799470999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4694540132781303,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12028302994148095",
+            "extra": "mean: 2.130134095599999 sec\nrounds: 5"
           }
         ]
       }
