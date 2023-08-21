@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ['3.8', '3.9', '3.10', '3.11-dev']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12-dev']
       fail-fast: true
     steps:
       - uses: actions/checkout@v3.5.3
@@ -43,15 +43,16 @@ jobs:
         run: . script/bootstrap
         shell: bash
       - name: Run Tests
-        if: "!(matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest')"
+        if: |
+          !(matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest')
         shell: bash
         run: poetry run invoke test
       - name: Run Tests (with coverage)
-        if: matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest'
+        if: matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest'
         shell: bash
         run: poetry run invoke test --coverage
       - name: Upload Coverage
-        if: matrix.python-version == '3.11-dev' && matrix.os == 'ubuntu-latest'
+        if: matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         shell: bash
