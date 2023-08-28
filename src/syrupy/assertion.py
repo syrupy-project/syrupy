@@ -65,6 +65,10 @@ class SnapshotAssertion:
         init=False,
         default=None,
     )
+    _include: Optional["PropertyFilter"] = field(
+        init=False,
+        default=None,
+    )
     _custom_index: Optional[str] = field(
         init=False,
         default=None,
@@ -180,7 +184,7 @@ class SnapshotAssertion:
 
     def _serialize(self, data: "SerializableData") -> "SerializedData":
         return self.extension.serialize(
-            data, exclude=self._exclude, matcher=self.__matcher
+            data, exclude=self._exclude, include=self._include, matcher=self.__matcher
         )
 
     def get_assert_diff(self) -> List[str]:
@@ -233,6 +237,7 @@ class SnapshotAssertion:
         *,
         diff: Optional["SnapshotIndex"] = None,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
         name: Optional["SnapshotIndex"] = None,
@@ -242,6 +247,8 @@ class SnapshotAssertion:
         """
         if exclude:
             self.__with_prop("_exclude", exclude)
+        if include:
+            self.__with_prop("_include", include)
         if extension_class:
             self.__with_prop("_extension", self.__init_extension(extension_class))
         if matcher:

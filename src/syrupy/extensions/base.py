@@ -65,6 +65,7 @@ class SnapshotSerializer(ABC):
         data: "SerializableData",
         *,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
         """

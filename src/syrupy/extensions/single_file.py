@@ -47,6 +47,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         data: "SerializableData",
         *,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
         return self.get_supported_dataclass()(data)

@@ -99,20 +99,32 @@ If you want to limit what properties are serialized at a class type level you co
 
 ```py
 def limit_foo_attrs(prop, path):
-  allowed_foo_attrs = {"only", "serialize", "these", "attrs"}
-  return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
+    allowed_foo_attrs = {"do", "not", "serialize", "these", "attrs"}
+    return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
 
 def test_bar(snapshot):
     actual = Foo(...)
     assert actual == snapshot(exclude=limit_foo_attrs)
 ```
 
-**B**. Or override the `__dir__` implementation to control the attribute list.
+**B**. Provide a filter function to the snapshot [include](#include) configuration option.
+
+```py
+def limit_foo_attrs(prop, path):
+    allowed_foo_attrs = {"only", "serialize", "these", "attrs"}
+    return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
+
+def test_bar(snapshot):
+    actual = Foo(...)
+    assert actual == snapshot(include=limit_foo_attrs)
+```
+
+**C**. Or override the `__dir__` implementation to control the attribute list.
 
 ```py
 class Foo:
-  def __dir__(self):
-    return ["only", "serialize", "these", "attrs"]
+    def __dir__(self):
+        return ["only", "serialize", "these", "attrs"]
 
 def test_bar(snapshot):
     actual = Foo(...)
@@ -211,7 +223,7 @@ Only runs replacement for objects at a matching path where the value of the mapp
 This allows you to filter out object properties from the serialized snapshot.
 
 The exclude parameter takes a filter function that accepts two keyword arguments.
-It should return `true` or `false` if the property should be excluded or included respectively.
+It should return `true` if the property should be excluded, or `false` if the property should be included.
 
 | Argument | Description                                                                                                                                   |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -277,6 +289,29 @@ def test_bar(snapshot):
   })
 # ---
 ```
+
+#### `include`
+
+This allows you filter an object's properties to a subset using a predicate. This is the opposite of [exclude](#exclude). All the same property filters supporterd by [exclude](#exclude) are supported for `include`.
+
+The include parameter takes a filter function that accepts two keyword arguments.
+It should return `true` if the property should be include, or `false` if the property should not be included.
+
+| Argument | Description                                                                                                                                   |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prop`   | Current property on the object, could be any hashable value that can be used to retrieve a value e.g. `1`, `"prop_str"`, `SomeHashableObject` |
+| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }`}
+
+Note that `include` has some caveats which make it a bit more difficult to use than `exclude`. Both `include` and `exclude` are evaluated for each key of an object before traversing down nested paths. This means if you want to include a nested path, you must include all parents of the nested path, otherwise the nested child will never be reached to be evaluated against the include predicate. For example:
+
+```py
+obj = {
+    "nested": { "key": True }
+}
+assert obj == snapshot(include=paths("nested", "nested.key"))
+```
+
+The extra "nested" is required, otherwise the nested dictionary will never be searched -- it'd get pruned too early.
 
 #### `extension_class`
 

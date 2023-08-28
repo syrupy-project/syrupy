@@ -55,6 +55,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         depth: int = 0,
         path: "PropertyPath",
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         visited: Optional[Set[Any]] = None,
     ) -> "SerializableData":
@@ -80,6 +81,8 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
                 value = data[key]
                 if exclude and exclude(prop=key, path=path):
                     continue
+                if include and not include(prop=key, path=path):
+                    continue
                 if not isinstance(key, (str,)):
                     continue
                 filtered_dct[key] = cls._filter(
@@ -87,6 +90,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
                     depth=depth + 1,
                     path=(*path, (key, type(value))),
                     exclude=exclude,
+                    include=include,
                     matcher=matcher,
                     visited={*visited, data_id},
                 )
@@ -101,6 +105,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
                     depth=depth + 1,
                     path=(*path, (key, type(value))),
                     exclude=exclude,
+                    include=include,
                     matcher=matcher,
                     visited={*visited, data_id},
                 )
@@ -118,6 +123,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
                         depth=depth + 1,
                         path=(*path, (key, type(value))),
                         exclude=exclude,
+                        include=include,
                         matcher=matcher,
                         visited={*visited, data_id},
                     )
@@ -137,9 +143,15 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         data: "SerializableData",
         *,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
         data = self._filter(
-            data=data, depth=0, path=(), exclude=exclude, matcher=matcher
+            data=data,
+            depth=0,
+            path=(),
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
         )
         return json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False) + "\n"

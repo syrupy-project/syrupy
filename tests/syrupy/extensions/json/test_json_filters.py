@@ -46,6 +46,19 @@ def test_exclude_simple(snapshot_json):
     assert snapshot_json(exclude=paths("id", "foo")) == content
 
 
+def test_include_simple(snapshot_json):
+    content = {
+        "id": 123456789,
+        "foo": "__SHOULD_BE_REMOVED_FROM_JSON__",
+        "I'm": "still alive",
+        "nested": {
+            "foo": "is still alive",
+        },
+    }
+    assert snapshot_json(include=props("id", "foo")) == content
+    assert snapshot_json(include=paths("id", "foo")) == content
+
+
 def test_exclude_nested(snapshot_json):
     content = {
         "a": "b",

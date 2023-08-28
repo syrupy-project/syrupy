@@ -35,3 +35,18 @@
     }),
   })
 # ---
+# name: test_only_includes_expected_props
+  dict({
+    'date': 'utc',
+    0: 'some value',
+  })
+# ---
+# name: test_only_includes_expected_props.1
+  dict({
+    'date': 'utc',
+    'nested': dict({
+      'id': 4,
+    }),
+    0: 'some value',
+  })
+# ---

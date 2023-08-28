@@ -203,6 +203,7 @@ class AmberDataSerializer:
         data: "SerializableData",
         *,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> str:
         """
@@ -211,7 +212,9 @@ class AmberDataSerializer:
         same new line control characters. Example snapshots generated on windows os
         should not break when running the tests on a unix based system and vice versa.
         """
-        serialized = cls._serialize(data, exclude=exclude, matcher=matcher)
+        serialized = cls._serialize(
+            data, exclude=exclude, include=include, matcher=matcher
+        )
         return serialized.replace("\r\n", "\n").replace("\r", "\n")
 
     @classmethod
@@ -221,6 +224,7 @@ class AmberDataSerializer:
         *,
         depth: int = 0,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
         visited: Optional[Set[Any]] = None,
@@ -235,6 +239,7 @@ class AmberDataSerializer:
             "data": data,
             "depth": depth,
             "exclude": exclude,
+            "include": include,
             "matcher": matcher,
             "path": path,
             "visited": {*visited, data_id},
@@ -400,6 +405,7 @@ class AmberDataSerializer:
         close_paren: Optional[str] = None,
         depth: int = 0,
         exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
         path: "PropertyPath" = (),
         separator: Optional[str] = None,
         serialize_key: bool = False,
@@ -414,7 +420,8 @@ class AmberDataSerializer:
         key_values = (
             (key, get_value(data, key))
             for key in keys
-            if not exclude or not exclude(prop=key, path=path)
+            if (not exclude or not exclude(prop=key, path=path))
+            and (not include or include(prop=key, path=path))
         )
         entries = (
             entry
@@ -433,7 +440,11 @@ class AmberDataSerializer:
 
         def value_str(key: "PropertyName", value: "SerializableData") -> str:
             serialized = cls._serialize(
-                data=value, exclude=exclude, path=(*path, (key, type(value))), **kwargs
+                data=value,
+                exclude=exclude,
+                include=include,
+                path=(*path, (key, type(value))),
+                **kwargs,
             )
             return serialized if separator is None else serialized.lstrip(cls._indent)
 
