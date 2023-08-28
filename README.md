@@ -12,7 +12,7 @@
 
 ## Overview
 
-Syrupy is a [pytest](https://docs.pytest.org/en/latest/) snapshot plugin. It enables developers to write tests which assert immutability of computed results.
+Syrupy is a zero-dependency [pytest](https://docs.pytest.org/en/latest/) snapshot plugin. It enables developers to write tests which assert immutability of computed results.
 
 ## Motivation
 

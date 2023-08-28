@@ -1,9 +1,5 @@
-from typing import (
-    Any,
-    Union,
-)
-
-import colored
+from dataclasses import dataclass
+from typing import Union
 
 from .constants import DISABLE_COLOR_ENV_VARS
 from .utils import get_env_value
@@ -13,40 +9,52 @@ def _is_color_disabled() -> bool:
     return any(map(get_env_value, DISABLE_COLOR_ENV_VARS))
 
 
-def _attr(color: Any) -> str:
+@dataclass
+class TerminalCodes:
+    ESC: str = "\x1b["
+    END: str = "m"
+    FOREGROUND_256: str = f"{ESC}38;5;"
+    BACKGROUND_256: str = f"{ESC}48;5;"
+
+    STYLES = {
+        "bold": "1",
+        "dim": "2",
+        "italic": "3",
+        "underline": "4",
+        "reset": "0",
+    }
+
+    COLORS = {
+        "black": "0",
+        "red": "1",
+        "green": "2",
+        "yellow": "3",
+    }
+
+
+def _attr(style: str) -> str:
     if _is_color_disabled():
         return ""
-    try:
-        return colored.attr(color)
-    except AttributeError:
-        # colored >=1.5.0, see: https://github.com/tophat/syrupy/issues/758
-        return colored.style(color)  # type: ignore
+    return f"{TerminalCodes.ESC}{TerminalCodes.STYLES[style]}{TerminalCodes.END}"
 
 
-def _fg(color: Any) -> str:
+def _fg(color: Union[int, str]) -> str:
     if _is_color_disabled():
         return ""
-    try:
-        return colored.fg(color)
-    except AttributeError:
-        # colored >=1.5.0, see: https://github.com/tophat/syrupy/issues/758
-        return colored.fore(color)  # type: ignore
+    color_code = TerminalCodes.COLORS[color] if isinstance(color, (str,)) else color
+    return f"{TerminalCodes.FOREGROUND_256}{str(color_code)}{TerminalCodes.END}"
 
 
-def _bg(color: Any) -> str:
+def _bg(color: int) -> str:
     if _is_color_disabled():
         return ""
-    try:
-        return colored.bg(color)
-    except AttributeError:
-        # colored >=1.5.0, see: https://github.com/tophat/syrupy/issues/758
-        return colored.back(color)  # type: ignore
+    return f"{TerminalCodes.BACKGROUND_256}{str(color)}{TerminalCodes.END}"
 
 
-def _stylize(text: Union[str, int], *args: Any) -> str:
+def _stylize(text: Union[str, int], formatting: str) -> str:
     if _is_color_disabled():
         return str(text)
-    return colored.stylize(text, *args)
+    return f"{formatting}{text}{_attr('reset')}"
 
 
 def reset(text: Union[str, int]) -> str:
