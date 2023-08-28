@@ -38,6 +38,18 @@ def test_filters_expected_props(snapshot):
     assert actual == snapshot(exclude=props("0", "date", "id"))
 
 
+def test_only_includes_expected_props(snapshot):
+    actual = {
+        0: "some value",
+        "date": "utc",
+        "nested": {"id": 4, "other": "value"},
+        "list": [1, 2],
+    }
+    # Note that "id" won't get included because "nested" (its parent) is not included.
+    assert actual == snapshot(include=props("0", "date", "id"))
+    assert actual == snapshot(include=paths("0", "date", "nested", "nested.id"))
+
+
 @pytest.mark.parametrize(
     "predicate", [paths("exclude_me", "nested.exclude_me"), props("exclude_me")]
 )
