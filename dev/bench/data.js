@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692649208411,
+  "lastUpdate": 1693252947087,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4545,6 +4545,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1352842241094931",
             "extra": "mean: 2.0550359404000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "96bffccd229bb1b13e6721baffd80d298000e34b",
+          "message": "fix: remove colored dependency (#796)",
+          "timestamp": "2023-08-28T16:01:00-04:00",
+          "tree_id": "cae1ede5a3b93c0747d0d212c26133695d926e9c",
+          "url": "https://github.com/tophat/syrupy/commit/96bffccd229bb1b13e6721baffd80d298000e34b"
+        },
+        "date": 1693252945439,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7042399733248048,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05421983222036774",
+            "extra": "mean: 1.419970518399964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6934455573077598,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07518279239868159",
+            "extra": "mean: 1.4420742759999938 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.680851774650648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0843281485862728",
+            "extra": "mean: 1.468748466599959 sec\nrounds: 5"
           }
         ]
       }
