@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693252947087,
+  "lastUpdate": 1693261809558,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4590,6 +4590,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0843281485862728",
             "extra": "mean: 1.468748466599959 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3f891ea4e561cd1b182e9b2c5d0414821187cd7",
+          "message": "feat: add include option to snapshots, similar to exclude (#797)",
+          "timestamp": "2023-08-28T18:28:53-04:00",
+          "tree_id": "35f01f5e6529c92eead5cd4ddb60b83d669dde05",
+          "url": "https://github.com/tophat/syrupy/commit/d3f891ea4e561cd1b182e9b2c5d0414821187cd7"
+        },
+        "date": 1693261808738,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6766605709559296,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0722410880423933",
+            "extra": "mean: 1.4778458253999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6808699176335272,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05893323903627665",
+            "extra": "mean: 1.4687093292000042 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6634708691190315,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11622671472213789",
+            "extra": "mean: 1.5072251798000083 sec\nrounds: 5"
           }
         ]
       }
