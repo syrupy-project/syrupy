@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693311228225,
+  "lastUpdate": 1693322500511,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -4725,6 +4725,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.08570991764227988",
             "extra": "mean: 1.445977893600002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1676fa554d74edeb1f448edbe661e053bf8ad350",
+          "message": "feat(filter): add paths_include filter (#798)\n\nNOTE: The paths_include filter provides a convenience filter for supporting includes on nested objects.",
+          "timestamp": "2023-08-29T11:20:05-04:00",
+          "tree_id": "5d5dc74834bbab0e347aa9a0d47eb212d47d6812",
+          "url": "https://github.com/tophat/syrupy/commit/1676fa554d74edeb1f448edbe661e053bf8ad350"
+        },
+        "date": 1693322498494,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6362335338821535,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04916402864201718",
+            "extra": "mean: 1.5717499106000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6389395329401083,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0828392419930386",
+            "extra": "mean: 1.5650933280000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6262105105519887,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11530595686111426",
+            "extra": "mean: 1.5969070833999979 sec\nrounds: 5"
           }
         ]
       }
