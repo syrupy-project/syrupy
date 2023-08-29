@@ -4,12 +4,13 @@ import pytest
 
 from syrupy.filters import (
     paths,
+    paths_include,
     props,
 )
 
 
 def test_filters_path_noop():
-    with pytest.raises(TypeError, match="required positional argument"):
+    with pytest.raises(TypeError, match="At least 1 path argument is required."):
         paths()
 
 
@@ -24,7 +25,7 @@ def test_filters_expected_paths(snapshot):
 
 
 def test_filters_prop_noop():
-    with pytest.raises(TypeError, match="required positional argument"):
+    with pytest.raises(TypeError, match="At least 1 prop name is required."):
         props()
 
 
@@ -48,6 +49,17 @@ def test_only_includes_expected_props(snapshot):
     # Note that "id" won't get included because "nested" (its parent) is not included.
     assert actual == snapshot(include=props("0", "date", "id"))
     assert actual == snapshot(include=paths("0", "date", "nested", "nested.id"))
+
+
+def test_includes_nested_path(snapshot):
+    actual = {
+        "ignore-me": True,
+        "include-me": False,
+        "layer1": {"layer2": [0, True]},
+    }
+    assert actual == snapshot(
+        include=paths_include(["include-me"], ["layer1", "layer2", "1"])
+    )
 
 
 @pytest.mark.parametrize(

@@ -313,6 +313,16 @@ assert obj == snapshot(include=paths("nested", "nested.key"))
 
 The extra "nested" is required, otherwise the nested dictionary will never be searched -- it'd get pruned too early.
 
+To avoid adding duplicate path parts, we provide a convenient `paths_include` which supports a list/tuple instead of a string for each path to match:
+
+```py
+obj = {
+    "other": False,
+    "nested": { "key": True }
+}
+assert obj == snapshot(include=paths_include(["other"], ["nested", "key"]))
+```
+
 #### `extension_class`
 
 This is a way to modify how the snapshot matches and serializes your data in a single assertion.

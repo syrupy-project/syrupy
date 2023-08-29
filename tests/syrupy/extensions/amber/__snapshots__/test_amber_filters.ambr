@@ -35,6 +35,16 @@
     }),
   })
 # ---
+# name: test_includes_nested_path
+  dict({
+    'include-me': False,
+    'layer1': dict({
+      'layer2': list([
+        True,
+      ]),
+    }),
+  })
+# ---
 # name: test_only_includes_expected_props
   dict({
     'date': 'utc',
