@@ -279,16 +279,6 @@ files = [
 ]
 
 [[package]]
-name = "colored"
-version = "1.4.4"
-description = "Simple library for color and formatting to terminal"
-optional = false
-python-versions = "*"
-files = [
-    {file = "colored-1.4.4.tar.gz", hash = "sha256:04ff4d4dd514274fe3b99a21bb52fb96f2688c01e93fba7bef37221e7cb56ce0"},
-]
-
-[[package]]
 name = "configparser"
 version = "6.0.0"
 description = "Updated configparser from stdlib for earlier Pythons."
@@ -1266,4 +1256,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "b1de5497b88df972689ae2b2a96f6cfc61d5270b5839b66a98cc12a261d9473d"
+content-hash = "bd57493b54ae682879c231241b1de10b3e856a545f74e7fe4b69d5784775754e"
