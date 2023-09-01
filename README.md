@@ -379,6 +379,17 @@ By overriding the provided [`AbstractSnapshotExtension`](https://github.com/toph
 
 See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/main/tests/examples).
 
+#### Overriding defaults
+
+It is possible to override `include`, `exclude`, `matchers` and `extension_class` on a more global level just once, 
+instead of every time per test. By default, after every assertion the modified values per snapshot assert are reverted
+to their default values. However, it is possible to override those default values with ones you would like persisted, 
+which will be treated as the new defaults.
+
+To achieve that you can use `snapshot.with_defaults`, which will create new instance of `SnapshotAssertion` with the provided values.
+
+`snapshot.use_extension` is retained for compatibility. However, it is limited to only overriding the default extension class.
+
 #### JSONSnapshotExtension
 
 This extension can be useful when testing API responses, or when you have to deal with long dictionaries that are cumbersome to validate inside a test. For example:
@@ -390,7 +401,8 @@ from syrupy.extensions.json import JSONSnapshotExtension
 
 @pytest.fixture
 def snapshot_json(snapshot):
-    return snapshot.use_extension(JSONSnapshotExtension)
+    return snapshot.with_defaults(extension_class=JSONSnapshotExtension)
+    # or return snapshot.use_extension(JSONSnapshotExtension)
 
 
 def test_api_call(client, snapshot_json):
@@ -455,6 +467,7 @@ The generated snapshot:
 
 ### Extending Syrupy
 
+- [Custom defaults](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_defaults.py)
 - [Custom snapshot directory 1](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory.py)
 - [Custom snapshot directory 2](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory_2.py)
 - [Custom snapshot name](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_name.py)
