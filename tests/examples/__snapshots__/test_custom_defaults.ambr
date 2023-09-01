@@ -1,0 +1,23 @@
+# serializer version: 1
+# name: test_asserting_multiple_times
+  dict({
+    'excluded': 'value',
+    'my-field': str,
+  })
+# ---
+# name: test_asserting_multiple_times.1
+  dict({
+    'excluded': 'value',
+    'my-field': int,
+  })
+# ---
+# name: test_asserting_multiple_times_chained
+  dict({
+    'my-field': str,
+  })
+# ---
+# name: test_asserting_multiple_times_chained.1
+  dict({
+    'my-field': int,
+  })
+# ---

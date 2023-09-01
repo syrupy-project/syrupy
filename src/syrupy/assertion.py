@@ -60,6 +60,9 @@ class SnapshotAssertion:
     extension_class: Type["AbstractSyrupyExtension"]
     test_location: "PyTestLocation"
     update_snapshots: bool
+    include: Optional["PropertyFilter"] = None
+    exclude: Optional["PropertyFilter"] = None
+    matcher: Optional["PropertyMatcher"] = None
 
     _exclude: Optional["PropertyFilter"] = field(
         init=False,
@@ -99,6 +102,9 @@ class SnapshotAssertion:
 
     def __post_init__(self) -> None:
         self.session.register_request(self)
+        self._include = self.include
+        self._exclude = self.exclude
+        self._matcher = self.matcher
 
     def __init_extension(
         self, extension_class: Type["AbstractSyrupyExtension"]
@@ -165,19 +171,36 @@ class SnapshotAssertion:
 
         return _matcher
 
-    def use_extension(
-        self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None
+    def with_defaults(
+        self,
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
     ) -> "SnapshotAssertion":
         """
-        Creates a new snapshot assertion fixture with the same options but using
-        specified extension class. This does not preserve assertion index or state.
+        Create new snapshot assertion fixture with provided values. This preserves
+        provided values between assertions.
         """
         return self.__class__(
+            matcher=matcher or self.matcher,
+            include=include or self.include,
+            exclude=exclude or self.exclude,
             update_snapshots=self.update_snapshots,
             test_location=self.test_location,
             extension_class=extension_class or self.extension_class,
             session=self.session,
         )
+
+    def use_extension(
+        self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None
+    ) -> "SnapshotAssertion":
+        """
+        Create new snapshot assertion fixture with the same options but using
+        specified extension class. This does not preserve assertion index or state.
+        """
+        return self.with_defaults(extension_class=extension_class)
 
     def assert_match(self, data: "SerializableData") -> None:
         assert self == data
