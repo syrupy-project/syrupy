@@ -538,6 +538,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://www.atharvaarya.tech/"><img src="https://avatars.githubusercontent.com/u/55894364?v=4?s=100" width="100px;" alt="Atharva Arya"/><br /><sub><b>Atharva Arya</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=atharva-2001" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/michaljelonek"><img src="https://avatars.githubusercontent.com/u/7791528?v=4?s=100" width="100px;" alt="Michał Jelonek"/><br /><sub><b>Michał Jelonek</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=michaljelonek" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
