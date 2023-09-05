@@ -215,6 +215,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "michaljelonek",
+      "name": "Michał Jelonek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7791528?v=4",
+      "profile": "https://github.com/michaljelonek",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
