@@ -1,7 +1,7 @@
 from enum import Enum
 from gettext import gettext
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional, Set, Type, Union, Dict, Any
+from typing import TYPE_CHECKING, Optional, Set, Type, Union, Any
 from unicodedata import category
 
 from syrupy.constants import TEXT_ENCODING
@@ -69,9 +69,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         return cls.get_snapshot_name(test_location=test_location, index=index)
 
     @classmethod
-    def dirname(
-        cls, *, test_location: "PyTestLocation", **kwargs: Any
-    ) -> str:
+    def dirname(cls, *, test_location: "PyTestLocation", **kwargs: Any) -> str:
         original_dirname = AbstractSyrupyExtension.dirname(test_location=test_location)
         return str(Path(original_dirname).joinpath(test_location.basename))
 

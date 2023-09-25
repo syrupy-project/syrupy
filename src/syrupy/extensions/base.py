@@ -245,9 +245,7 @@ class SnapshotCollectionStorage(ABC):
         raise NotImplementedError
 
     @classmethod
-    def dirname(
-        cls, *, test_location: "PyTestLocation", **kwargs: Any
-    ) -> str:
+    def dirname(cls, *, test_location: "PyTestLocation", **kwargs: Any) -> str:
         test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
 
