@@ -1,7 +1,14 @@
 from enum import Enum
 from gettext import gettext
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional, Set, Type, Union, Any
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Optional,
+    Set,
+    Type,
+    Union,
+)
 from unicodedata import category
 
 from syrupy.constants import TEXT_ENCODING

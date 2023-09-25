@@ -8,6 +8,7 @@ from itertools import zip_longest
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Callable,
     Dict,
     Iterator,
@@ -15,7 +16,6 @@ from typing import (
     Optional,
     Set,
     Tuple,
-    Any,
 )
 
 from syrupy.constants import (
