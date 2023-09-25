@@ -264,6 +264,7 @@ class SnapshotAssertion:
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
         name: Optional["SnapshotIndex"] = None,
+        **kwargs: Any,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
