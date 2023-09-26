@@ -63,6 +63,7 @@ class SnapshotAssertion:
     include: Optional["PropertyFilter"] = None
     exclude: Optional["PropertyFilter"] = None
     matcher: Optional["PropertyMatcher"] = None
+    extra_args: Dict = field(default_factory=dict)
 
     _exclude: Optional["PropertyFilter"] = field(
         init=False,
@@ -105,6 +106,7 @@ class SnapshotAssertion:
         self._include = self.include
         self._exclude = self.exclude
         self._matcher = self.matcher
+        self._extra_args = self.extra_args
 
     def __init_extension(
         self, extension_class: Type["AbstractSyrupyExtension"]
@@ -178,6 +180,7 @@ class SnapshotAssertion:
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
+        extra_args: Optional[Dict] = None
     ) -> "SnapshotAssertion":
         """
         Create new snapshot assertion fixture with provided values. This preserves
@@ -191,6 +194,7 @@ class SnapshotAssertion:
             test_location=self.test_location,
             extension_class=extension_class or self.extension_class,
             session=self.session,
+            extra_args=extra_args or self.extra_args
         )
 
     def use_extension(
@@ -264,7 +268,7 @@ class SnapshotAssertion:
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
         name: Optional["SnapshotIndex"] = None,
-        **kwargs: Any,
+        extra_args: Optional[Dict] = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
@@ -281,6 +285,8 @@ class SnapshotAssertion:
             self.__with_prop("_custom_index", name)
         if diff is not None:
             self.__with_prop("_snapshot_diff", diff)
+        if extra_args:
+            self._extra_args = extra_args
         return self
 
     def __repr__(self) -> str:
@@ -301,6 +307,11 @@ class SnapshotAssertion:
         matches = False
         assertion_success = False
         assertion_exception = None
+        matcher_options = None
+        for key,value in self._extra_args.items():
+            if key == "matcher_options":
+                matcher_options = value
+                print("matcher_options", matcher_options)
         try:
             snapshot_data, tainted = self._recall_data(index=self.index)
             serialized_data = self._serialize(data)
@@ -317,7 +328,7 @@ class SnapshotAssertion:
                 not tainted
                 and snapshot_data is not None
                 and self.extension.matches(
-                    serialized_data=serialized_data, snapshot_data=snapshot_data
+                    serialized_data=serialized_data, snapshot_data=snapshot_data, **matcher_options
                 )
             )
             assertion_success = matches
