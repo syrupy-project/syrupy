@@ -119,7 +119,7 @@ class SnapshotCollectionStorage(ABC):
         for filepath in walk_snapshot_dir(self.dirname(test_location=test_location)):
             if self.is_snapshot_location(location=filepath):
                 snapshot_collection = self._read_snapshot_collection(
-                    snapshot_location=filepath
+                    snapshot_location=filepath, **kwargs
                 )
                 if not snapshot_collection.has_snapshots:
                     snapshot_collection = SnapshotEmptyCollection(location=filepath)
@@ -136,6 +136,7 @@ class SnapshotCollectionStorage(ABC):
         test_location: "PyTestLocation",
         index: "SnapshotIndex",
         session_id: str,
+        **kwargs: Any,
     ) -> "SerializedData":
         """
         This method is _final_, do not override. You can override
@@ -147,6 +148,7 @@ class SnapshotCollectionStorage(ABC):
             snapshot_location=snapshot_location,
             snapshot_name=snapshot_name,
             session_id=session_id,
+            **kwargs,
         )
         if snapshot_data is None:
             raise SnapshotDoesNotExist()
@@ -227,7 +229,12 @@ class SnapshotCollectionStorage(ABC):
 
     @abstractmethod
     def _read_snapshot_data_from_location(
-        self, *, snapshot_location: str, snapshot_name: str, session_id: str
+        self,
+        *,
+        snapshot_location: str,
+        snapshot_name: str,
+        session_id: str,
+        **kwargs: Any,
     ) -> Optional["SerializedData"]:
         """
         Get only the snapshot data from location for assertion

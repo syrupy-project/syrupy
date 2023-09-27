@@ -180,7 +180,7 @@ class SnapshotAssertion:
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
-        extra_args: Optional[Dict] = None
+        extra_args: Optional[Dict] = None,
     ) -> "SnapshotAssertion":
         """
         Create new snapshot assertion fixture with provided values. This preserves
@@ -194,7 +194,7 @@ class SnapshotAssertion:
             test_location=self.test_location,
             extension_class=extension_class or self.extension_class,
             session=self.session,
-            extra_args=extra_args or self.extra_args
+            extra_args=extra_args or self.extra_args,
         )
 
     def use_extension(
@@ -209,9 +209,13 @@ class SnapshotAssertion:
     def assert_match(self, data: "SerializableData") -> None:
         assert self == data
 
-    def _serialize(self, data: "SerializableData") -> "SerializedData":
+    def _serialize(self, data: "SerializableData", **kwargs: Any) -> "SerializedData":
         return self.extension.serialize(
-            data, exclude=self._exclude, include=self._include, matcher=self.__matcher
+            data,
+            exclude=self._exclude,
+            include=self._include,
+            matcher=self.__matcher,
+            **kwargs,
         )
 
     def get_assert_diff(self) -> List[str]:
@@ -286,7 +290,7 @@ class SnapshotAssertion:
         if diff is not None:
             self.__with_prop("_snapshot_diff", diff)
         if extra_args:
-            self._extra_args = extra_args
+            self.__with_prop("_extra_args", extra_args)
         return self
 
     def __repr__(self) -> str:
@@ -307,28 +311,29 @@ class SnapshotAssertion:
         matches = False
         assertion_success = False
         assertion_exception = None
-        matcher_options = None
-        for key,value in self._extra_args.items():
-            if key == "matcher_options":
-                matcher_options = value
-                print("matcher_options", matcher_options)
+        extra_args = getattr(self, "_extra_args", {})
         try:
             snapshot_data, tainted = self._recall_data(index=self.index)
-            serialized_data = self._serialize(data)
+            serialized_data = self._serialize(data, **extra_args)
             snapshot_diff = getattr(self, "_snapshot_diff", None)
             if snapshot_diff is not None:
-                snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
+                snapshot_data_diff, _ = self._recall_data(
+                    index=snapshot_diff, **extra_args
+                )
                 if snapshot_data_diff is None:
                     raise SnapshotDoesNotExist()
                 serialized_data = self.extension.diff_snapshots(
                     serialized_data=serialized_data,
                     snapshot_data=snapshot_data_diff,
+                    **extra_args,
                 )
             matches = (
                 not tainted
                 and snapshot_data is not None
                 and self.extension.matches(
-                    serialized_data=serialized_data, snapshot_data=snapshot_data, **matcher_options
+                    serialized_data=serialized_data,
+                    snapshot_data=snapshot_data,
+                    **extra_args,
                 )
             )
             assertion_success = matches
@@ -373,7 +378,7 @@ class SnapshotAssertion:
             self._post_assert_actions.pop()()
 
     def _recall_data(
-        self, index: "SnapshotIndex"
+        self, index: "SnapshotIndex", **kwargs: Any
     ) -> Tuple[Optional["SerializableData"], bool]:
         try:
             return (
@@ -381,6 +386,7 @@ class SnapshotAssertion:
                     test_location=self.test_location,
                     index=index,
                     session_id=str(id(self.session)),
+                    **kwargs,
                 ),
                 False,
             )
