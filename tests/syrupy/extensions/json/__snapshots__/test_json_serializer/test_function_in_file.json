@@ -1,0 +1,1 @@
+"<function 'function_to_test(var1, var2='test_val', var3: str = 'test_val2', *, kwvar1, kwvar2='some_val') -> str'>"

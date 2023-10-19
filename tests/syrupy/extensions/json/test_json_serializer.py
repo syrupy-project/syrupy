@@ -232,3 +232,22 @@ def test_ordered_dict(snapshot_json):
     d["b"] = 0
     d["a"] = OrderedDict(b=True, a=False)
     assert snapshot_json == d
+
+
+def function_to_test(
+    var1, var2="test_val", var3: str = "test_val2", *, kwvar1, kwvar2="some_val"
+) -> str:
+    return "2"
+
+
+def test_function_in_file(snapshot_json):
+    assert snapshot_json() == function_to_test
+
+
+def test_function_local(snapshot_json):
+    def local_function_to_test(
+        var1, var2="test_val", var3: str = "test_val2", *, kwvar1, kwvar2="some_val"
+    ) -> int:
+        return 1
+
+    assert snapshot_json() == local_function_to_test
