@@ -236,7 +236,7 @@ def test_many_sorted(snapshot):
 
 
 def function_to_test(
-    var1, var2="test_val", var3: str="test_val2", *, kwvar1, kwvar2="some_val"
+    var1, var2="test_val", var3: str = "test_val2", *, kwvar1, kwvar2="some_val"
 ) -> str:
     return "2"
 
@@ -247,7 +247,7 @@ def test_function_in_file(snapshot):
 
 def test_function_local(snapshot):
     def local_function_to_test(
-        var1, var2="test_val", var3: str="test_val2", *, kwvar1, kwvar2="some_val"
+        var1, var2="test_val", var3: str = "test_val2", *, kwvar1, kwvar2="some_val"
     ) -> int:
         return 1
 
