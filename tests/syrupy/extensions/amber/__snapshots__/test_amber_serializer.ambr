@@ -217,6 +217,12 @@
 # name: test_empty_snapshot.1
   ''
 # ---
+# name: test_function_in_file
+  "function_to_test(var1, var2='test_val', var3: str = 'test_val2', *, kwvar1, kwvar2='some_val') -> str"
+# ---
+# name: test_function_local
+  "test_function_local.<locals>.local_function_to_test(var1, var2='test_val', var3: str = 'test_val2', *, kwvar1, kwvar2='some_val') -> int"
+# ---
 # name: test_list[actual0]
   list([
   ])

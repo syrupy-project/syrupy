@@ -1,7 +1,11 @@
 import datetime
+import inspect
 import json
 from collections import OrderedDict
-from types import GeneratorType
+from types import (
+    FunctionType,
+    GeneratorType,
+)
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -132,6 +136,12 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
 
         if isinstance(data, (datetime.datetime,)):
             return data.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+
+        if isinstance(data, FunctionType):
+            return (
+                f"<{FunctionType.__name__} "
+                f"{data.__qualname__}{str(inspect.signature(data))}>"
+            )
 
         if data.__class__.__repr__ != object.__repr__:
             return repr(data)

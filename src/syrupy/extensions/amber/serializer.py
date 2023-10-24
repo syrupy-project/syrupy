@@ -1,7 +1,9 @@
 import collections
+import inspect
 import os
 from collections import OrderedDict
 from types import (
+    FunctionType,
     GeneratorType,
     MappingProxyType,
 )
@@ -257,6 +259,8 @@ class AmberDataSerializer:
             serialize_method = cls.serialize_namedtuple
         elif isinstance(data, (list, tuple, GeneratorType)):
             serialize_method = cls.serialize_iterable
+        elif isinstance(data, FunctionType):
+            serialize_method = cls.serialize_function
         return serialize_method(**serialize_kwargs)
 
     @classmethod
@@ -335,6 +339,14 @@ class AmberDataSerializer:
             separator=": ",
             serialize_key=True,
             **kwargs,
+        )
+
+    @classmethod
+    def serialize_function(
+        cls, data: FunctionType, *, depth: int = 0, **kwargs: Any
+    ) -> str:
+        return cls.__serialize_plain(
+            data=f"{data.__qualname__}{str(inspect.signature(data))}", depth=depth
         )
 
     @classmethod
