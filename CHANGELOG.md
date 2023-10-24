@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [4.6.0](https://github.com/tophat/syrupy/compare/v4.5.0...v4.6.0) (2023-10-24)
+
+
+### Features
+
+* **serializer:** add support for FunctionType serialization ([#823](https://github.com/tophat/syrupy/issues/823)) ([f3a454a](https://github.com/tophat/syrupy/commit/f3a454a378681ef647fc215a05b8fe9dee3a21c4))
+
 # [4.5.0](https://github.com/tophat/syrupy/compare/v4.4.0...v4.5.0) (2023-09-01)
 
 
