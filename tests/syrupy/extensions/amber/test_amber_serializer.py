@@ -236,7 +236,7 @@ def test_many_sorted(snapshot):
 
 
 def function_to_test(
-    var1, var2="test_val", var3: str="test_val2", *, kwvar1, kwvar2: str="some_val"
+    var1, var2="test_val", var3: str="test_val2", *, kwvar1, kwvar2="some_val"
 ) -> str:
     return "2"
 
