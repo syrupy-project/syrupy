@@ -140,7 +140,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         if isinstance(data, FunctionType):
             return (
                 f"<{FunctionType.__name__} "
-                f"'{data.__qualname__}{str(inspect.signature(data))}'>"
+                f"{data.__qualname__}{str(inspect.signature(data))}>"
             )
 
         if data.__class__.__repr__ != object.__repr__:

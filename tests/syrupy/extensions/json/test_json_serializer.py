@@ -241,7 +241,7 @@ def function_to_test(
 
 
 def test_function_in_file(snapshot_json):
-    assert snapshot_json() == function_to_test
+    assert snapshot_json == function_to_test
 
 
 def test_function_local(snapshot_json):
@@ -250,4 +250,4 @@ def test_function_local(snapshot_json):
     ) -> int:
         return 1
 
-    assert snapshot_json() == local_function_to_test
+    assert snapshot_json == local_function_to_test
