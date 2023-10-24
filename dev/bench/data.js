@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1697752922377,
+  "lastUpdate": 1698161933541,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -5490,6 +5490,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.11068289243500781",
             "extra": "mean: 1.4519405570000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ManiacDC@users.noreply.github.com",
+            "name": "ManiacDC",
+            "username": "ManiacDC"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f3a454a378681ef647fc215a05b8fe9dee3a21c4",
+          "message": "feat(serializer): add support for FunctionType serialization (#823)\n\n\r\n---------\r\n\r\nCo-authored-by: ManiacDC <ManiacDC​@users.noreply.github.com>",
+          "timestamp": "2023-10-24T11:37:16-04:00",
+          "tree_id": "573f67cd39375bde73b2d32c1ef8965a4cc265bf",
+          "url": "https://github.com/tophat/syrupy/commit/f3a454a378681ef647fc215a05b8fe9dee3a21c4"
+        },
+        "date": 1698161931855,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8163870904065502,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04276439024592481",
+            "extra": "mean: 1.224909129199989 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7940917351448289,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04689677627336251",
+            "extra": "mean: 1.2593003500000122 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7789792248043207,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04945350153490683",
+            "extra": "mean: 1.2837312834000159 sec\nrounds: 5"
           }
         ]
       }
