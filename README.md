@@ -375,7 +375,7 @@ def test_case(snapshot):
 
 ### Advanced Usage
 
-By overriding the provided [`AbstractSnapshotExtension`](https://github.com/tophat/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
+By overriding the provided [`AbstractSyrupyExtension`](https://github.com/tophat/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
 
 See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/main/tests/examples).
 
