@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1698842429638,
+  "lastUpdate": 1698842501330,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -5670,6 +5670,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05907807275172602",
             "extra": "mean: 1.3068368429999737 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dadygalo@gmail.com",
+            "name": "Dmitry Dygalo",
+            "username": "Stranger6667"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b18499ecaee0820680d867e60355396f140a7741",
+          "message": "docs: fix typo in README.md (#830)",
+          "timestamp": "2023-11-01T08:40:12-04:00",
+          "tree_id": "cc2709c7e3144899f7c8ccf6b371ae56fa7f6a36",
+          "url": "https://github.com/tophat/syrupy/commit/b18499ecaee0820680d867e60355396f140a7741"
+        },
+        "date": 1698842498108,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8023822446404844,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0546518962019392",
+            "extra": "mean: 1.2462887939999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7813037869059516,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052908834050563056",
+            "extra": "mean: 1.2799118815999975 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7655140265677802,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05432558882713933",
+            "extra": "mean: 1.306311792200006 sec\nrounds: 5"
           }
         ]
       }
