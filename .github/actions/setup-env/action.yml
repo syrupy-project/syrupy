@@ -26,7 +26,7 @@ runs:
         echo "version=$(cat .poetry-version | tr -d '\n')" >> $GITHUB_OUTPUT
       shell: bash
     - name: Set up Python ${{ inputs.python-version }}
-      uses: actions/setup-python@v4.8.0
+      uses: actions/setup-python@v5.0.0
       with:
         python-version: ${{ inputs.python-version }}
     - name: Install Poetry
