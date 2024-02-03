@@ -5,6 +5,7 @@ This gives the ability to modify the snapshot functionality to your hearts conte
 and then simply re-use them, without having to pass those defaults to every assert.
 Especially useful if there's a lot of tests that need to modify the default behaviour.
 """
+
 import pytest
 
 from syrupy.extensions.json import JSONSnapshotExtension
