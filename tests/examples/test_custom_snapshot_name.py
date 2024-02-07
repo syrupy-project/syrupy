@@ -1,6 +1,7 @@
 """
 Example: Custom Snapshot Name
 """
+
 import pytest
 
 from syrupy.extensions.amber import AmberSnapshotExtension

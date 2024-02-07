@@ -2,16 +2,20 @@ def test_ignores_non_function_nodes(testdir):
     conftest = """
         import pytest
 
-        class CustomItem(pytest.Item, pytest.File):
-            def __init__(self, *args, fspath, parent, **kwargs):
-                super().__init__(fspath, parent=parent)
+        class CustomItem(pytest.Item):
+            def __init__(self, name, **kwargs):
+                super().__init__(name, **kwargs)
                 self._nodeid += "::CUSTOM"
 
             def runtest(self):
                 pass
 
-        def pytest_collect_file(path, parent):
-            return CustomItem.from_parent(fspath=path, parent=parent)
+        def pytest_collect_file(file_path, parent):
+            return CustomItem.from_parent(
+                name=file_path.name,
+                path=file_path,
+                parent=parent
+            )
         """
     testcase = """
         def test_example(snapshot):

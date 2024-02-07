@@ -6,6 +6,6 @@
     "stabilityDays": 7,
     "labels": ["dependencies"],
     "constraints": {
-        "poetry": "1.6.1"
+        "poetry": "1.7.1"
     },
 }
