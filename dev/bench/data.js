@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1707285385211,
+  "lastUpdate": 1714765034166,
   "repoUrl": "https://github.com/tophat/syrupy",
   "entries": {
     "Benchmark": [
@@ -6480,6 +6480,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.03939648682056967",
             "extra": "mean: 1.4877692767999975 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "me@tommasoamici.com",
+            "name": "Tommaso A",
+            "username": "TommasoAmici"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c91a5fade928466402d8113699fe14e787c56211",
+          "message": "chore: updated pytest badge in README (#863)\n\nThe library does support pytest v8, this is also highlighted in the table in the README",
+          "timestamp": "2024-05-03T19:35:50Z",
+          "tree_id": "f82671a3b3e06b70f27357d5f5a56e3a6841e5e3",
+          "url": "https://github.com/tophat/syrupy/commit/c91a5fade928466402d8113699fe14e787c56211"
+        },
+        "date": 1714765033432,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6945574713252124,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0912202682617939",
+            "extra": "mean: 1.4397656656000037 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6435716290371883,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2563806438235496",
+            "extra": "mean: 1.5538285947999981 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6735588968759421,
+            "unit": "iter/sec",
+            "range": "stddev: 0.039053055047679745",
+            "extra": "mean: 1.4846511636000002 sec\nrounds: 5"
           }
         ]
       }
