@@ -44,5 +44,4 @@ def test(
         ctx_run(ctx, f"python -m {coverage_module}pytest {test_flags} ./tests")
 
     if coverage:
-        if not os.environ.get("CI") or not os.environ.get("CODECOV_TOKEN"):
-            ctx_run(ctx, "coverage report")
+        ctx_run(ctx, "coverage lcov -o coverage/coverage.lcov")

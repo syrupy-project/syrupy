@@ -6,4 +6,4 @@ In general, we do not backport fixes to older versions of Syrupy due to maintena
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, see: https://github.com/noahnu/syrupy/security/advisories.
+To report a vulnerability, see: https://github.com/syrupy-project/syrupy/security/advisories.

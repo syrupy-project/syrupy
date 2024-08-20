@@ -1,4 +1,4 @@
-name: Syrupy Manual Release
+name: Release
 
 on:
   workflow_dispatch:
@@ -11,18 +11,19 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    env:
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: "" # FIXME: Needs a new token.
+    environment: release
     steps:
       - uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
           persist-credentials: false
+
       - name: Setup Environment
         uses: ./.github/actions/setup-env
+
       - name: Install project dependencies
         run: . script/bootstrap
+
       - name: Release
         uses: cycjimmy/semantic-release-action@v4.0.0
         with:
@@ -33,4 +34,6 @@ jobs:
             @semantic-release/exec
             @semantic-release/git
         env:
-          GITHUB_TOKEN: "" # FIXME: Needs a new token.
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_PAT }}

@@ -42,7 +42,7 @@ def test_multiple_file_extensions(testdir):
 
 def test_class_style(testdir):
     """
-    Regression test for https://github.com/noahnu/syrupy/issues/717
+    Regression test for https://github.com/syrupy-project/syrupy/issues/717
     """
 
     testcase = """
