@@ -2,7 +2,7 @@
 
 :tada: Thanks for taking the time to contribute! :tada:
 
-The following is a set of guidelines for contributing to [syrupy](https://github.com/tophat/syrupy).
+The following is a set of guidelines for contributing to [syrupy](https://github.com/noahnu/syrupy).
 
 These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document.
 
@@ -107,7 +107,7 @@ def test_performance(x, snapshot):
     assert x == snapshot
 ```
 
-and then run:
+and then run:<F12>
 
 ```sh
 SIZE=1000 python -m cProfile -s cumtime -m pytest test_performance.py --snapshot-update -s > profile.log
@@ -137,4 +137,4 @@ You can also run `inv lint --fix` to see and solve what issues it can.
 
 ### Issue and Pull Request Labels
 
-Please tag issues and pull requests according to the relevant [github labels](https://github.com/tophat/syrupy/issues/labels).
+Please tag issues and pull requests according to the relevant [github labels](https://github.com/noahnu/syrupy/issues/labels).

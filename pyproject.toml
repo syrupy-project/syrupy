@@ -3,7 +3,7 @@ name = 'syrupy'
 license = 'Apache-2.0'
 version = "4.6.1"
 description = 'Pytest Snapshot Test Utility'
-authors = ['Top Hat Open Source <opensource@tophat.com>']
+authors = [''] #FIXME: Update with new ownership.
 readme = 'README.md'
 packages = [{ include = 'syrupy', from = 'src' }]
 classifiers = [
@@ -21,7 +21,7 @@ classifiers = [
     'Topic :: Software Development :: Testing',
     'Topic :: Utilities',
 ]
-repository = 'https://github.com/tophat/syrupy'
+repository = 'https://github.com/noahnu/syrupy'
 include = ['src/syrupy/**/*']
 
 [tool.poetry.plugins.pytest11]

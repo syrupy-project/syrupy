@@ -2,13 +2,9 @@
 
 <img align="right" width="100px" height="100px" src="https://user-images.githubusercontent.com/2528959/69500147-85d71400-0ec6-11ea-867a-277881278e57.png" alt="Logo">
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors) [![Maturity badge - level 4](https://img.shields.io/badge/Maturity-Level%204%20--%20Critical-brightgreen.svg)](https://github.com/tophat/getting-started/blob/master/scorecard.md) [![Stage](https://img.shields.io/pypi/status/syrupy)](https://pypi.org/project/syrupy/) [![Discord](https://img.shields.io/discord/809577721751142410?label=community%20chat)](https://discord.gg/YhK3GFcZrk)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors) [![Stage](https://img.shields.io/pypi/status/syrupy)](https://pypi.org/project/syrupy/)
 
 ![Pytest>=5.1.0,<9.0.0](https://img.shields.io/badge/pytest-%3E%3D5.1.0,%20%3C9.0.0-green) [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
-
-![Build Status](https://github.com/tophat/syrupy/workflows/Syrupy%20CICD/badge.svg) [![codecov](https://codecov.io/gh/tophat/syrupy/branch/main/graph/badge.svg)](https://codecov.io/gh/tophat/syrupy)
-
-![Next Status](https://github.com/tophat/syrupy/workflows/Next%20Version/badge.svg)
 
 ## Overview
 
@@ -66,8 +62,6 @@ pytest --snapshot-update
 ```
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
-
-[![Usage Demo](https://tophat.github.io/syrupy/assets/usage_demo.gif)](https://asciinema.org/a/369462)
 
 #### Custom Objects
 
@@ -142,7 +136,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                                                                                      |
 | `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                                                                                      |
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                                                                                      |
-| `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/tophat/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
+| `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/noahnu/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
 | `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.                                                                      |
 
 ### Assertion Options
@@ -375,15 +369,15 @@ def test_case(snapshot):
 
 ### Advanced Usage
 
-By overriding the provided [`AbstractSyrupyExtension`](https://github.com/tophat/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
+By overriding the provided [`AbstractSyrupyExtension`](https://github.com/noahnu/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
 
-See examples of how syrupy can be used and extended in the [test examples](https://github.com/tophat/syrupy/tree/main/tests/examples).
+See examples of how syrupy can be used and extended in the [test examples](https://github.com/noahnu/syrupy/tree/main/tests/examples).
 
 #### Overriding defaults
 
-It is possible to override `include`, `exclude`, `matchers` and `extension_class` on a more global level just once, 
+It is possible to override `include`, `exclude`, `matchers` and `extension_class` on a more global level just once,
 instead of every time per test. By default, after every assertion the modified values per snapshot assert are reverted
-to their default values. However, it is possible to override those default values with ones you would like persisted, 
+to their default values. However, it is possible to override those default values with ones you would like persisted,
 which will be treated as the new defaults.
 
 To achieve that you can use `snapshot.with_defaults`, which will create new instance of `SnapshotAssertion` with the provided values.
@@ -467,14 +461,14 @@ The generated snapshot:
 
 ### Extending Syrupy
 
-- [Custom defaults](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_defaults.py)
-- [Custom snapshot directory 1](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory.py)
-- [Custom snapshot directory 2](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_directory_2.py)
-- [Custom snapshot name](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_snapshot_name.py)
-- [Custom object snapshots](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_object_repr.py)
-- [Custom comparator](https://github.com/tophat/syrupy/tree/main/tests/integration/test_custom_comparator.py)
-- [JPEG image extension](https://github.com/tophat/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
-- [Built-in image extensions](https://github.com/tophat/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
+- [Custom defaults](https://github.com/noahnu/syrupy/tree/main/tests/examples/test_custom_defaults.py)
+- [Custom snapshot directory 1](https://github.com/noahnu/syrupy/tree/main/tests/examples/test_custom_snapshot_directory.py)
+- [Custom snapshot directory 2](https://github.com/noahnu/syrupy/tree/main/tests/examples/test_custom_snapshot_directory_2.py)
+- [Custom snapshot name](https://github.com/noahnu/syrupy/tree/main/tests/examples/test_custom_snapshot_name.py)
+- [Custom object snapshots](https://github.com/noahnu/syrupy/tree/main/tests/examples/test_custom_object_repr.py)
+- [Custom comparator](https://github.com/noahnu/syrupy/tree/main/tests/integration/test_custom_comparator.py)
+- [JPEG image extension](https://github.com/noahnu/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
+- [Built-in image extensions](https://github.com/noahnu/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
 
 ## Uninstalling
 
@@ -484,13 +478,9 @@ pip uninstall syrupy
 
 If you have decided not to use Syrupy for your project after giving us a try, we'd love to get your feedback. Please create a GitHub issue if applicable, or drop a comment in our [Discord server](https://discord.gg/YhK3GFcZrk).
 
-## Benchmarks
-
-Benchmarks are automatically published to <https://tophat.github.io/syrupy/dev/bench/>.
-
 ## Known Limitations
 
-- `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/tophat/syrupy/issues/535) for more information.
+- `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/noahnu/syrupy/issues/535) for more information.
 
 _We welcome contributions to patch these known limitations._
 
@@ -500,7 +490,7 @@ Feel free to open a PR or GitHub issue. Contributions welcome!
 
 To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --list` to see available commands.
 
-### See contributing [guide](https://github.com/tophat/syrupy/tree/main/CONTRIBUTING.md)
+### See contributing [guide](https://github.com/noahnu/syrupy/tree/main/CONTRIBUTING.md)
 
 ## Contributors
 
@@ -510,37 +500,37 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://noahnu.com"><img src="https://avatars0.githubusercontent.com/u/1297096?v=4?s=100" width="100px;" alt="Noah"/><br /><sub><b>Noah</b></sub></a><br /><a href="#infra-noahnu" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-noahnu" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/tophat/syrupy/commits?author=noahnu" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=noahnu" title="Documentation">📖</a> <a href="https://github.com/tophat/syrupy/commits?author=noahnu" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://emmanuel.ogbizi.com"><img src="https://avatars0.githubusercontent.com/u/2528959?v=4?s=100" width="100px;" alt="Emmanuel Ogbizi"/><br /><sub><b>Emmanuel Ogbizi</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=iamogbz" title="Code">💻</a> <a href="#design-iamogbz" title="Design">🎨</a> <a href="#infra-iamogbz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/tophat/syrupy/commits?author=iamogbz" title="Documentation">📖</a> <a href="https://github.com/tophat/syrupy/commits?author=iamogbz" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/adamlazz"><img src="https://avatars3.githubusercontent.com/u/453811?v=4?s=100" width="100px;" alt="Adam Lazzarato"/><br /><sub><b>Adam Lazzarato</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=adamlazz" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://mcataford.github.io"><img src="https://avatars2.githubusercontent.com/u/6210361?v=4?s=100" width="100px;" alt="Marc Cataford"/><br /><sub><b>Marc Cataford</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=mcataford" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=mcataford" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://msrose.github.io"><img src="https://avatars3.githubusercontent.com/u/3495264?v=4?s=100" width="100px;" alt="Michael Rose"/><br /><sub><b>Michael Rose</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=msrose" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=msrose" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://fashionablenonsense.com/"><img src="https://avatars0.githubusercontent.com/u/3112159?v=4?s=100" width="100px;" alt="Jimmy Jia"/><br /><sub><b>Jimmy Jia</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=taion" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=taion" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://noahnu.com"><img src="https://avatars0.githubusercontent.com/u/1297096?v=4?s=100" width="100px;" alt="Noah"/><br /><sub><b>Noah</b></sub></a><br /><a href="#infra-noahnu" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-noahnu" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/noahnu/syrupy/commits?author=noahnu" title="Code">💻</a> <a href="https://github.com/noahnu/syrupy/commits?author=noahnu" title="Documentation">📖</a> <a href="https://github.com/noahnu/syrupy/commits?author=noahnu" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://emmanuel.ogbizi.com"><img src="https://avatars0.githubusercontent.com/u/2528959?v=4?s=100" width="100px;" alt="Emmanuel Ogbizi"/><br /><sub><b>Emmanuel Ogbizi</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=iamogbz" title="Code">💻</a> <a href="#design-iamogbz" title="Design">🎨</a> <a href="#infra-iamogbz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/noahnu/syrupy/commits?author=iamogbz" title="Documentation">📖</a> <a href="https://github.com/noahnu/syrupy/commits?author=iamogbz" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/adamlazz"><img src="https://avatars3.githubusercontent.com/u/453811?v=4?s=100" width="100px;" alt="Adam Lazzarato"/><br /><sub><b>Adam Lazzarato</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=adamlazz" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://mcataford.github.io"><img src="https://avatars2.githubusercontent.com/u/6210361?v=4?s=100" width="100px;" alt="Marc Cataford"/><br /><sub><b>Marc Cataford</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=mcataford" title="Code">💻</a> <a href="https://github.com/noahnu/syrupy/commits?author=mcataford" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://msrose.github.io"><img src="https://avatars3.githubusercontent.com/u/3495264?v=4?s=100" width="100px;" alt="Michael Rose"/><br /><sub><b>Michael Rose</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=msrose" title="Code">💻</a> <a href="https://github.com/noahnu/syrupy/commits?author=msrose" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://fashionablenonsense.com/"><img src="https://avatars0.githubusercontent.com/u/3112159?v=4?s=100" width="100px;" alt="Jimmy Jia"/><br /><sub><b>Jimmy Jia</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=taion" title="Code">💻</a> <a href="https://github.com/noahnu/syrupy/commits?author=taion" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://stevenloria.com"><img src="https://avatars2.githubusercontent.com/u/2379650?v=4?s=100" width="100px;" alt="Steven Loria"/><br /><sub><b>Steven Loria</b></sub></a><br /><a href="#infra-sloria" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/arturbalabanov"><img src="https://avatars1.githubusercontent.com/u/3062003?v=4?s=100" width="100px;" alt="Artur Balabanov"/><br /><sub><b>Artur Balabanov</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=arturbalabanov" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://huonw.github.io/"><img src="https://avatars1.githubusercontent.com/u/1203825?v=4?s=100" width="100px;" alt="Huon Wilson"/><br /><sub><b>Huon Wilson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=huonw" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/issues?q=author%3Ahuonw" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/eaculb"><img src="https://avatars.githubusercontent.com/u/31480498?v=4?s=100" width="100px;" alt="Elizabeth Culbertson"/><br /><sub><b>Elizabeth Culbertson</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=eaculb" title="Code">💻</a> <a href="https://github.com/tophat/syrupy/commits?author=eaculb" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/joakimnordling"><img src="https://avatars.githubusercontent.com/u/6637576?v=4?s=100" width="100px;" alt="Joakim Nordling"/><br /><sub><b>Joakim Nordling</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Ajoakimnordling" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/bendidi"><img src="https://avatars.githubusercontent.com/u/22003440?v=4?s=100" width="100px;" alt="Ouail"/><br /><sub><b>Ouail</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=bendidi" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/fbjorn"><img src="https://avatars.githubusercontent.com/u/9670990?v=4?s=100" width="100px;" alt="Denis"/><br /><sub><b>Denis</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=fbjorn" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/N0124"><img src="https://avatars.githubusercontent.com/u/29734397?v=4?s=100" width="100px;" alt="N0124"/><br /><sub><b>N0124</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=N0124" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/arturbalabanov"><img src="https://avatars1.githubusercontent.com/u/3062003?v=4?s=100" width="100px;" alt="Artur Balabanov"/><br /><sub><b>Artur Balabanov</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=arturbalabanov" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://huonw.github.io/"><img src="https://avatars1.githubusercontent.com/u/1203825?v=4?s=100" width="100px;" alt="Huon Wilson"/><br /><sub><b>Huon Wilson</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=huonw" title="Code">💻</a> <a href="https://github.com/noahnu/syrupy/issues?q=author%3Ahuonw" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/eaculb"><img src="https://avatars.githubusercontent.com/u/31480498?v=4?s=100" width="100px;" alt="Elizabeth Culbertson"/><br /><sub><b>Elizabeth Culbertson</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=eaculb" title="Code">💻</a> <a href="https://github.com/noahnu/syrupy/commits?author=eaculb" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/joakimnordling"><img src="https://avatars.githubusercontent.com/u/6637576?v=4?s=100" width="100px;" alt="Joakim Nordling"/><br /><sub><b>Joakim Nordling</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/issues?q=author%3Ajoakimnordling" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/bendidi"><img src="https://avatars.githubusercontent.com/u/22003440?v=4?s=100" width="100px;" alt="Ouail"/><br /><sub><b>Ouail</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=bendidi" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/fbjorn"><img src="https://avatars.githubusercontent.com/u/9670990?v=4?s=100" width="100px;" alt="Denis"/><br /><sub><b>Denis</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=fbjorn" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/N0124"><img src="https://avatars.githubusercontent.com/u/29734397?v=4?s=100" width="100px;" alt="N0124"/><br /><sub><b>N0124</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=N0124" title="Code">💻</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dtczest"><img src="https://avatars.githubusercontent.com/u/97055299?v=4?s=100" width="100px;" alt="dtczest"/><br /><sub><b>dtczest</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Adtczest" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/spagh-eddie"><img src="https://avatars.githubusercontent.com/u/58013020?v=4?s=100" width="100px;" alt="Eddie Darling"/><br /><sub><b>Eddie Darling</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=spagh-eddie" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/darrenburns"><img src="https://avatars.githubusercontent.com/u/5740731?v=4?s=100" width="100px;" alt="darrenburns"/><br /><sub><b>darrenburns</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=darrenburns" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mhwaage"><img src="https://avatars.githubusercontent.com/u/57612883?v=4?s=100" width="100px;" alt="Magnus Heskestad Waage"/><br /><sub><b>Magnus Heskestad Waage</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Amhwaage" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/herb"><img src="https://avatars.githubusercontent.com/u/139780?v=4?s=100" width="100px;" alt="Herbert Ho"/><br /><sub><b>Herbert Ho</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Aherb" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tolgaeren"><img src="https://avatars.githubusercontent.com/u/794719?v=4?s=100" width="100px;" alt="Tolga Eren"/><br /><sub><b>Tolga Eren</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Atolgaeren" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://johnkurkowski.com"><img src="https://avatars.githubusercontent.com/u/299487?v=4?s=100" width="100px;" alt="John Kurkowski"/><br /><sub><b>John Kurkowski</b></sub></a><br /><a href="https://github.com/tophat/syrupy/issues?q=author%3Ajohn-kurkowski" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dtczest"><img src="https://avatars.githubusercontent.com/u/97055299?v=4?s=100" width="100px;" alt="dtczest"/><br /><sub><b>dtczest</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/issues?q=author%3Adtczest" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/spagh-eddie"><img src="https://avatars.githubusercontent.com/u/58013020?v=4?s=100" width="100px;" alt="Eddie Darling"/><br /><sub><b>Eddie Darling</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=spagh-eddie" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/darrenburns"><img src="https://avatars.githubusercontent.com/u/5740731?v=4?s=100" width="100px;" alt="darrenburns"/><br /><sub><b>darrenburns</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=darrenburns" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mhwaage"><img src="https://avatars.githubusercontent.com/u/57612883?v=4?s=100" width="100px;" alt="Magnus Heskestad Waage"/><br /><sub><b>Magnus Heskestad Waage</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/issues?q=author%3Amhwaage" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/herb"><img src="https://avatars.githubusercontent.com/u/139780?v=4?s=100" width="100px;" alt="Herbert Ho"/><br /><sub><b>Herbert Ho</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/issues?q=author%3Aherb" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tolgaeren"><img src="https://avatars.githubusercontent.com/u/794719?v=4?s=100" width="100px;" alt="Tolga Eren"/><br /><sub><b>Tolga Eren</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/issues?q=author%3Atolgaeren" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://johnkurkowski.com"><img src="https://avatars.githubusercontent.com/u/299487?v=4?s=100" width="100px;" alt="John Kurkowski"/><br /><sub><b>John Kurkowski</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/issues?q=author%3Ajohn-kurkowski" title="Bug reports">🐛</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.atharvaarya.tech/"><img src="https://avatars.githubusercontent.com/u/55894364?v=4?s=100" width="100px;" alt="Atharva Arya"/><br /><sub><b>Atharva Arya</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=atharva-2001" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/michaljelonek"><img src="https://avatars.githubusercontent.com/u/7791528?v=4?s=100" width="100px;" alt="Michał Jelonek"/><br /><sub><b>Michał Jelonek</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=michaljelonek" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ManiacDC"><img src="https://avatars.githubusercontent.com/u/1823305?v=4?s=100" width="100px;" alt="ManiacDC"/><br /><sub><b>ManiacDC</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=ManiacDC" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://schemathesis.io/"><img src="https://avatars.githubusercontent.com/u/1236561?v=4?s=100" width="100px;" alt="Dmitry Dygalo"/><br /><sub><b>Dmitry Dygalo</b></sub></a><br /><a href="https://github.com/tophat/syrupy/commits?author=Stranger6667" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.atharvaarya.tech/"><img src="https://avatars.githubusercontent.com/u/55894364?v=4?s=100" width="100px;" alt="Atharva Arya"/><br /><sub><b>Atharva Arya</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=atharva-2001" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/michaljelonek"><img src="https://avatars.githubusercontent.com/u/7791528?v=4?s=100" width="100px;" alt="Michał Jelonek"/><br /><sub><b>Michał Jelonek</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=michaljelonek" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ManiacDC"><img src="https://avatars.githubusercontent.com/u/1823305?v=4?s=100" width="100px;" alt="ManiacDC"/><br /><sub><b>ManiacDC</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=ManiacDC" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://schemathesis.io/"><img src="https://avatars.githubusercontent.com/u/1236561?v=4?s=100" width="100px;" alt="Dmitry Dygalo"/><br /><sub><b>Dmitry Dygalo</b></sub></a><br /><a href="https://github.com/noahnu/syrupy/commits?author=Stranger6667" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
@@ -558,4 +548,4 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## License
 
-Syrupy is licensed under [Apache License Version 2.0](https://github.com/tophat/syrupy/tree/main/LICENSE).
+Syrupy is licensed under [Apache License Version 2.0](https://github.com/noahnu/syrupy/tree/main/LICENSE).

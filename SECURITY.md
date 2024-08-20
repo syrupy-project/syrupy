@@ -6,4 +6,4 @@ In general, we do not backport fixes to older versions of Syrupy due to maintena
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, see: https://github.com/tophat/syrupy/security/advisories. If you do not receive a response within a few days, feel free to reach out to an admin on our discord server.
+To report a vulnerability, see: https://github.com/noahnu/syrupy/security/advisories.

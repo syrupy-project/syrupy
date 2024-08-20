@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
+      TWINE_PASSWORD: "" # FIXME: Needs a new token.
     steps:
       - uses: actions/checkout@v4.1.1
         with:
@@ -33,4 +33,4 @@ jobs:
             @semantic-release/exec
             @semantic-release/git
         env:
-          GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          GITHUB_TOKEN: "" # FIXME: Needs a new token.

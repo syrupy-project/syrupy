@@ -54,7 +54,7 @@ jobs:
       - name: Upload Coverage
         if: matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest'
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          CODECOV_TOKEN: "" # FIXME: Needs a new token.
         shell: bash
         run: ./.github/codecov.sh $GITHUB_EVENT_PATH
 
@@ -123,7 +123,7 @@ jobs:
       - name: Dry Release
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
+          TWINE_PASSWORD: "" # FIXME: Needs a new token.
         run: |
           poetry run invoke release --dry-run
 
@@ -134,7 +134,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip ci]')
     env:
       TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
+      TWINE_PASSWORD: "" # FIXME: Needs a new token.
     steps:
       - uses: actions/checkout@v4.1.1
         with:
@@ -154,4 +154,4 @@ jobs:
             @semantic-release/exec
             @semantic-release/git
         env:
-          GITHUB_TOKEN: ${{ secrets.TOPHAT_BOT_GH_TOKEN }}
+          GITHUB_TOKEN: "" #FIXME: Needs a new token.
