@@ -242,6 +242,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "AllanChain",
+      "name": "Allan Chain",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36528777?v=4",
+      "profile": "https://allanchain.github.io/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
