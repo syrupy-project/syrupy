@@ -13,6 +13,13 @@ From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semve
 
 * update classifiers, metadata ([#870](https://github.com/syrupy-project/syrupy/issues/870)) ([87592e5](https://github.com/syrupy-project/syrupy/commit/87592e581f34f213cfa4d4125bcc15959dad8113))
 
+## [4.6.2](https://github.com/syrupy-project/syrupy/compare/v4.6.1...v4.6.2) (2024-08-21)
+
+
+### Bug Fixes
+
+* update classifiers, metadata ([#870](https://github.com/syrupy-project/syrupy/issues/870)) ([87592e5](https://github.com/syrupy-project/syrupy/commit/87592e581f34f213cfa4d4125bcc15959dad8113))
+
 ## [4.6.1](https://github.com/syrupy-project/syrupy/compare/v4.6.0...v4.6.1) (2024-02-07)
 
 
