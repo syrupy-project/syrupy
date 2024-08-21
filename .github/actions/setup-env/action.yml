@@ -30,7 +30,7 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
     - name: Install Poetry
-      uses: snok/install-poetry@v1.3.4
+      uses: snok/install-poetry@v1.4.1
       with:
         version: ${{ steps.detect-poetry.outputs.version }}
         virtualenvs-create: true
