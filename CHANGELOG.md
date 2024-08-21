@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [4.6.3](https://github.com/syrupy-project/syrupy/compare/v4.6.2...v4.6.3) (2024-08-21)
+
+
+### Bug Fixes
+
+* ignore unused snapshots for skipped test ([#862](https://github.com/syrupy-project/syrupy/issues/862)) ([3f6e301](https://github.com/syrupy-project/syrupy/commit/3f6e30182b3aed34687782385c16001c7cf0b5f3))
+
 ## [4.6.2](https://github.com/syrupy-project/syrupy/compare/v4.6.1...v4.6.2) (2024-08-21)
 
 
