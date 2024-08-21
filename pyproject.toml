@@ -29,7 +29,7 @@ include = ['src/syrupy/**/*']
 syrupy = 'syrupy'
 
 [tool.poetry.dependencies]
-python = '>=3.8.1,<4'
+python = '>=3.8.1'
 pytest = '>=7.0.0,<9.0.0'
 
 [tool.poetry.group.test.dependencies]
