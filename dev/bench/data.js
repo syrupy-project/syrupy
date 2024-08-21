@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724201324085,
+  "lastUpdate": 1724202778482,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -6570,6 +6570,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05640984743024096",
             "extra": "mean: 1.379479683999989 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "87592e581f34f213cfa4d4125bcc15959dad8113",
+          "message": "fix: update classifiers, metadata (#870)",
+          "timestamp": "2024-08-20T21:11:48-04:00",
+          "tree_id": "2506555603eb393c16dfe05777450dfc8f932f71",
+          "url": "https://github.com/syrupy-project/syrupy/commit/87592e581f34f213cfa4d4125bcc15959dad8113"
+        },
+        "date": 1724202777841,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8202409472678185,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0589060186645951",
+            "extra": "mean: 1.2191539611999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7255223490438355,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16849983292260828",
+            "extra": "mean: 1.3783172928000056 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.77798886577967,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05365573492129021",
+            "extra": "mean: 1.285365439000003 sec\nrounds: 5"
           }
         ]
       }
