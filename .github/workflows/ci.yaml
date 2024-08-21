@@ -1,4 +1,4 @@
-name: Syrupy CICD
+name: CI
 
 on:
   push:
@@ -6,9 +6,17 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   CI: 1
   VENV: .venv
+
+permissions:
+  contents: read
+  checks: write
 
 jobs:
   analysis:
@@ -24,6 +32,7 @@ jobs:
       - name: Lint
         run: |
           poetry run invoke lint
+
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
@@ -42,21 +51,20 @@ jobs:
       - name: Install project dependencies
         run: . script/bootstrap
         shell: bash
-      - name: Run Tests
-        if: |
-          !(matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest')
-        shell: bash
-        run: poetry run invoke test
       - name: Run Tests (with coverage)
+        id: tests-with-coverage
         if: matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest'
         shell: bash
         run: poetry run invoke test --coverage
-      - name: Upload Coverage
-        if: matrix.python-version == '3.12-dev' && matrix.os == 'ubuntu-latest'
-        env:
-          CODECOV_TOKEN: "" # FIXME: Needs a new token.
+      - name: Run Tests
+        if: steps.tests-with-coverage.outcome == 'skipped'
         shell: bash
-        run: ./.github/codecov.sh $GITHUB_EVENT_PATH
+        run: poetry run invoke test
+      - name: Upload Coverage
+        if: steps.tests-with-coverage.conclusion == 'success'
+        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
 # # TODO: How to do this with poetry?
   # version_checks:
@@ -87,6 +95,9 @@ jobs:
     runs-on: ubuntu-latest
     if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
     needs: [tests]
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Setup Environment
@@ -100,58 +111,22 @@ jobs:
         with:
           tool: 'pytest'
           output-file-path: benchmarks.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
           auto-push: false
           alert-threshold: '200%'
           comment-on-alert: true
           fail-on-alert: false
           comment-always: true
 
-  dry_run:
-    name: Release Test Package
+  required_checks:
+    name: Required Checks
+    needs:
+      - analysis
+      - tests
+      - benchmark
     runs-on: ubuntu-latest
-    # Dry run check does not need to wait for others
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'next' && !contains(github.event.head_commit.message, '[skip ci]')
+    if: always()
     steps:
-      - uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-      - name: Setup Environment
-        uses: ./.github/actions/setup-env
-      - name: Install project dependencies
-        run: . script/bootstrap
-      - name: Dry Release
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: "" # FIXME: Needs a new token.
-        run: |
-          poetry run invoke release --dry-run
-
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    needs: [analysis, tests] # [version_checks]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip ci]')
-    env:
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: "" # FIXME: Needs a new token.
-    steps:
-      - uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Setup Environment
-        uses: ./.github/actions/setup-env
-      - name: Install project dependencies
-        run: . script/bootstrap
-      - name: Release
-        uses: cycjimmy/semantic-release-action@v4.0.0
-        with:
-          branch: main
-          dry_run: false
-          extra_plugins: |
-            @semantic-release/changelog
-            @semantic-release/exec
-            @semantic-release/git
-        env:
-          GITHUB_TOKEN: "" #FIXME: Needs a new token.
+      - name: Fail on error
+        if: contains(needs.*.result, 'failure') || cancelled()
+        run: exit 1

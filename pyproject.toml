@@ -3,7 +3,7 @@ name = 'syrupy'
 license = 'Apache-2.0'
 version = "4.6.1"
 description = 'Pytest Snapshot Test Utility'
-authors = [''] #FIXME: Update with new ownership.
+authors = ['Noah Ulster']
 readme = 'README.md'
 packages = [{ include = 'syrupy', from = 'src' }]
 classifiers = [
@@ -21,7 +21,7 @@ classifiers = [
     'Topic :: Software Development :: Testing',
     'Topic :: Utilities',
 ]
-repository = 'https://github.com/noahnu/syrupy'
+repository = 'https://github.com/syrupy-project/syrupy'
 include = ['src/syrupy/**/*']
 
 [tool.poetry.plugins.pytest11]
@@ -33,7 +33,7 @@ pytest = '>=7.0.0,<9.0.0'
 
 [tool.poetry.group.test.dependencies]
 invoke = '^2.0.0'
-coverage = { version = '^7.0.5', extras = ['toml'] }
+coverage = { version = '^7.6.1', extras = ['toml'] }
 pytest-benchmark = '^4.0.0'
 pytest-xdist = '^3.1.0'
 

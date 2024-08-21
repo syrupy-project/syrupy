@@ -37,6 +37,7 @@ pip-delete-this-directory.txt
 .pytest_cache/
 .mypy_cache/
 .coverage
+coverage
 htmlcov/
 benchmarks/test_cases/__snapshots__
 
