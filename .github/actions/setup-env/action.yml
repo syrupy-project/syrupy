@@ -15,7 +15,7 @@ runs:
       id: detect-python
       run: |
         if [[ -z "${{ inputs.python-version }}" ]]; then
-          echo "version=$(cat .python-version | tr -d '\n')" >> $GITHUB_OUTPUT
+          echo "version=$(head -n1 .python-version | tr -d '\n')" >> $GITHUB_OUTPUT
         else
           echo "version=${{ inputs.python-version }}" >> $GITHUB_OUTPUT
         fi
@@ -23,7 +23,7 @@ runs:
     - name: Detect Poetry Version
       id: detect-poetry
       run: |
-        echo "version=$(cat .poetry-version | tr -d '\n')" >> $GITHUB_OUTPUT
+        echo "version=$(head -n1 .poetry-version | tr -d '\n')" >> $GITHUB_OUTPUT
       shell: bash
     - name: Set up Python ${{ inputs.python-version }}
       uses: actions/setup-python@v5.0.0
