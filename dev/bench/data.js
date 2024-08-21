@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724202778482,
+  "lastUpdate": 1724203482083,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -6615,6 +6615,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05365573492129021",
             "extra": "mean: 1.285365439000003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d45fe8b55f88094a69c986130159871eb5d59c35",
+          "message": "chore: update twine (#871)",
+          "timestamp": "2024-08-20T21:23:25-04:00",
+          "tree_id": "eed670efb6fd5033ac9cdd340dd0554c1b0fa362",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d45fe8b55f88094a69c986130159871eb5d59c35"
+        },
+        "date": 1724203480516,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7908718554916498,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0725505483065599",
+            "extra": "mean: 1.2644273443999907 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7396158109514414,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1579065122879822",
+            "extra": "mean: 1.3520533028000046 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7827630175580621,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056755182502496136",
+            "extra": "mean: 1.2775258635999933 sec\nrounds: 5"
           }
         ]
       }
