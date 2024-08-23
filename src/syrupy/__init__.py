@@ -1,16 +1,11 @@
 import argparse
 import sys
-import warnings
-from functools import (
-    lru_cache,
-    wraps,
-)
+from functools import lru_cache
 from gettext import gettext
-from inspect import signature
 from typing import (
     Any,
     ContextManager,
-    Iterable,
+    Iterator,
     List,
     Optional,
 )
@@ -22,6 +17,7 @@ from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import PyTestLocation
+from .patches.pycharm_diff import patch_pycharm_diff
 from .session import SnapshotSession
 from .terminal import (
     received_style,
@@ -96,7 +92,7 @@ def pytest_addoption(parser: Any) -> None:
         action="store_true",
         default=False,
         dest="patch_pycharm_diff",
-        help="Patch Pycharm diff",
+        help="Patch PyCharm diff",
     )
 
 
@@ -198,73 +194,19 @@ def pytest_terminal_summary(
 
 
 @pytest.fixture
-def snapshot(request: Any) -> "SnapshotAssertion":
+def snapshot(request: "pytest.FixtureRequest") -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
         extension_class=__import_extension(request.config.option.default_extension),
         test_location=PyTestLocation(request.node),
-        session=request.session.config._syrupy,
+        session=request.session.config._syrupy,  # type: ignore
     )
 
 
 @pytest.fixture(scope="session", autouse=True)
-def _patch_pycharm_diff_viewer_for_snapshots(request: Any) -> Iterable[None]:
-    if not request.config.option.patch_pycharm_diff:
+def _syrupy_apply_ide_patches(request: "pytest.FixtureRequest") -> Iterator[None]:
+    if request.config.option.patch_pycharm_diff:
+        with patch_pycharm_diff():
+            yield
+    else:
         yield
-        return
-
-    try:
-        from teamcity.diff_tools import EqualsAssertionError  # type: ignore
-    except ImportError:
-        warnings.warn(
-            "Pycharm's diff tools have failed to be imported. "
-            "Snapshot diffs will not be patched.",
-            stacklevel=2,
-        )
-        yield
-        return
-
-    old_init = EqualsAssertionError.__init__
-    old_init_signature = signature(old_init)
-
-    @wraps(old_init)
-    def new_init(self: EqualsAssertionError, *args: Any, **kwargs: Any) -> None:
-
-        # Extract the __init__ arguments as originally passed in order to
-        # process them later
-        parameters = old_init_signature.bind(self, *args, **kwargs)
-        parameters.apply_defaults()
-        expected = parameters.arguments["expected"]
-        actual = parameters.arguments["actual"]
-        real_exception = parameters.arguments["real_exception"]
-
-        if isinstance(expected, SnapshotAssertion):
-            snapshot = expected
-        elif isinstance(actual, SnapshotAssertion):
-            snapshot = actual
-        else:
-            snapshot = None
-
-        old_init(self, *args, **kwargs)
-
-        # No snapshot was involved in the assertion. Let the old logic do its
-        # thing.
-        if snapshot is None:
-            return
-
-        # Although a snapshot was involved in the assertion, it seems the error
-        # was a result of a non-assertion exception (Ex. `assert 1/0`).
-        # Therefore, We will not do anything here either.
-        if real_exception is not None:
-            return
-
-        assertion_result = snapshot.executions[snapshot.num_executions - 1]
-        if assertion_result.exception is not None:
-            return
-
-        self.expected = str(assertion_result.recalled_data)
-        self.actual = str(assertion_result.asserted_data)
-
-    EqualsAssertionError.__init__ = new_init
-    yield
-    EqualsAssertionError.__init__ = old_init
