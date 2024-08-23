@@ -251,6 +251,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "UltimateLobster",
+      "name": "Nir Schulman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/21122724?v=4",
+      "profile": "https://github.com/UltimateLobster",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
