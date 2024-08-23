@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724205257924,
+  "lastUpdate": 1724386304239,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -6930,6 +6930,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.045665586571833464",
             "extra": "mean: 1.319139801 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "65850042833c11e7f3c1ab99fb43741d9c9a5f91",
+          "message": "Merge pull request #864 from UltimateLobster/feature/pycharm-diff-patcher\n\nfeat: Added a new CLI flag: --snapshot-patch-pycharm-diff",
+          "timestamp": "2024-08-23T00:10:39-04:00",
+          "tree_id": "6aeddba657105ef44d25ef7c869efa65352d0ff4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/65850042833c11e7f3c1ab99fb43741d9c9a5f91"
+        },
+        "date": 1724386303001,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8037333691481231,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06761379188854093",
+            "extra": "mean: 1.2441937069999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7037112245574709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15599291095307652",
+            "extra": "mean: 1.421037444199999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7411016518653493,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06701876580278031",
+            "extra": "mean: 1.3493425598000015 sec\nrounds: 5"
           }
         ]
       }
