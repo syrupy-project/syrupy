@@ -106,7 +106,7 @@ def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
         except:
             from teamcity.diff_tools import EqualsAssertionError
 
-            err = EqualsAssertionError(expected=snapshot, actual=[1,2,3])
+            err = EqualsAssertionError(expected=[1,2,3], actual=snapshot)
             print("Expected:", repr(err.expected))
             print("Actual:", repr(err.actual))
             raise
