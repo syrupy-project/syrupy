@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [4.7.0](https://github.com/syrupy-project/syrupy/compare/v4.6.4...v4.7.0) (2024-08-23)
+
+
+### Features
+
+* Added a new CLI flag: --snapshot-patch-pycharm-diff ([a4dfcf5](https://github.com/syrupy-project/syrupy/commit/a4dfcf51df4df6d5da1afd863126ddca3f2c9b43))
+
 ## [4.6.4](https://github.com/syrupy-project/syrupy/compare/v4.6.3...v4.6.4) (2024-08-21)
 
 
