@@ -84,6 +84,49 @@ def test_patches_pycharm_diff_tools_when_flag_set(testdir, mock_teamcity_diff_to
 
 
 @pytest.mark.filterwarnings("default")
+def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
+    testdir, mock_teamcity_diff_tools
+):
+    # Generate initial snapshot
+    testdir.makepyfile(
+        test_file="""
+    def test_case(snapshot):
+        assert [1, 2] == snapshot
+    """
+    )
+    testdir.runpytest("-v", "--snapshot-update")
+
+    # Generate diff and mimic EqualsAssertionError being thrown
+    testdir.makepyfile(
+        test_file="""
+
+    def test_case(snapshot):
+        try:
+            assert [1, 2, 3] == snapshot
+        except:
+            from teamcity.diff_tools import EqualsAssertionError
+
+            err = EqualsAssertionError(expected=snapshot, actual=[1,2,3])
+            print("Expected:", repr(err.expected))
+            print("Actual:", repr(err.actual))
+            raise
+    """
+    )
+
+    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff")
+    # No warnings because patch should have been successful
+    result.assert_outcomes(failed=1, passed=0, warnings=0)
+
+    result.stdout.re_match_lines(
+        [
+            r"Expected: 'list([\n  1,\n  2,\n])'",
+            # Actual is the amber-style list representation
+            r"Actual: 'list([\n  1,\n  2,\n  3,\n])'",
+        ]
+    )
+
+
+@pytest.mark.filterwarnings("default")
 def test_it_does_not_patch_pycharm_diff_tools_by_default(
     testdir, mock_teamcity_diff_tools
 ):
@@ -121,6 +164,74 @@ def test_it_does_not_patch_pycharm_diff_tools_by_default(
         [
             r"Expected: 'list([\n  1,\n  2,\n])'",
             # Actual is the original list's repr. No newlines or amber-style list prefix
+            r"Actual: '[1, 2, 3]'",
+        ]
+    )
+
+
+@pytest.mark.filterwarnings("default")
+def test_it_has_no_impact_on_non_syrupy_assertions(testdir, mock_teamcity_diff_tools):
+    # Generate diff and mimic EqualsAssertionError being thrown
+    testdir.makepyfile(
+        test_file="""
+
+    def test_case():
+        try:
+            assert [1, 3] == [1, 2, 3]
+        except:
+            from teamcity.diff_tools import EqualsAssertionError
+
+            err = EqualsAssertionError(expected=[1,3], actual=[1,2,3])
+            print("Expected:", repr(str(err.expected)))
+            print("Actual:", repr(str(err.actual)))
+            raise
+    """
+    )
+
+    result = testdir.runpytest("-v")
+    # No warnings because patch should have been successful
+    result.assert_outcomes(failed=1, passed=0, warnings=0)
+
+    result.stdout.re_match_lines(
+        [
+            r"Expected: '[1, 3]'",
+            r"Actual: '[1, 2, 3]'",
+        ]
+    )
+
+
+@pytest.mark.filterwarnings("default")
+def test_has_no_impact_on_real_exceptions_that_are_not_assertion_errors(
+    testdir, mock_teamcity_diff_tools
+):
+    # Generate diff and mimic EqualsAssertionError being thrown
+    testdir.makepyfile(
+        test_file="""
+
+    def test_case():
+        try:
+            assert [1, 3] == (1/0)
+        except Exception as err:
+            from teamcity.diff_tools import EqualsAssertionError
+
+            err = EqualsAssertionError(
+                expected=[1,3],
+                actual=[1,2,3],
+                real_exception=err
+            )
+            print("Expected:", repr(str(err.expected)))
+            print("Actual:", repr(str(err.actual)))
+            raise
+    """
+    )
+
+    result = testdir.runpytest("-v")
+    # No warnings because patch should have been successful
+    result.assert_outcomes(failed=1, passed=0, warnings=0)
+
+    result.stdout.re_match_lines(
+        [
+            r"Expected: '[1, 3]'",
             r"Actual: '[1, 2, 3]'",
         ]
     )
