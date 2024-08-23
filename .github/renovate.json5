@@ -1,11 +1,21 @@
 {
-    "extends": ["github>tophat/new-project-kit//.github/renovate"],
-    "semanticCommitType": "chore",
-    "semanticCommitScope": "deps",
-    "rangeStrategy": "update-lockfile",
-    "stabilityDays": 7,
-    "labels": ["dependencies"],
+    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    prConcurrentLimit: 2,
+    semanticCommits: "enabled",
+    semanticCommitType: "chore",
+    semanticCommitScope: "deps",
+    rangeStrategy: "update-lockfile",
+    rebaseWhen: "behind-base-branch",
+    separateMajorMinor: true,
+    separateMinorPatch: false,
+    stabilityDays: 21,
+    internalChecksFilter: "strict",
+    dependencyDashboard: true,
+    timezone: "America/Toronto",
+    addLabels: ["dependencies"],
+    automergeType: "pr",
+    automergeStrategy: "squash",
     "constraints": {
-        "poetry": "1.7.1"
+        "poetry": "1.8.3"
     },
 }
