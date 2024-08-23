@@ -471,6 +471,10 @@ The generated snapshot:
 - [JPEG image extension](https://github.com/syrupy-project/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
 - [Built-in image extensions](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
 
+### Inline Snapshots
+
+Syrupy does not support inline snapshots. For inline snapshots, we recommend checking out the [inline-snapshot](https://github.com/15r10nk/inline-snapshot) library.
+
 ## IDE Integrations
 
 ### PyCharm
@@ -486,6 +490,12 @@ addopts = --snapshot-patch-pycharm-diff
 
 See [#675](https://github.com/syrupy-project/syrupy/issues/675) for the original issue.
 
+## Known Limitations
+
+- `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/syrupy-project/syrupy/issues/535) for more information.
+
+_We welcome contributions to patch these known limitations._
+
 ## Uninstalling
 
 ```python
@@ -493,12 +503,6 @@ pip uninstall syrupy
 ```
 
 If you have decided not to use Syrupy for your project after giving us a try, we'd love to get your feedback. Please create a GitHub issue if applicable.
-
-## Known Limitations
-
-- `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/syrupy-project/syrupy/issues/535) for more information.
-
-_We welcome contributions to patch these known limitations._
 
 ## Contributing
 
