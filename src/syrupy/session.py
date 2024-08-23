@@ -122,7 +122,10 @@ class SnapshotSession:
         self, nodeid: str, outcome: Literal["passed", "skipped", "failed"]
     ) -> None:
         if nodeid in self._selected_items:
-            self._selected_items[nodeid] = ItemStatus(outcome)
+            try:
+                self._selected_items[nodeid] = ItemStatus(outcome)
+            except ValueError:
+                pass # if we don't understand the outcome, leave the item as "not run"
 
     def finish(self) -> int:
         exitstatus = 0
