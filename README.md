@@ -132,12 +132,13 @@ Both options will generate equivalent snapshots but the latter is only viable wh
 These are the cli options exposed to `pytest` by the plugin.
 
 | Option                         | Description                                                                                                                    | Default                                                                                                      |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| ------------------------------ |--------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                                                                                      |
 | `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                                                                                      |
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                                                                                      |
 | `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/syrupy-project/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
 | `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.                                                                      |
+| `--snapshot-patch-pycharm-diff`| Override PyCharm's default diffs viewer when looking at snapshot diffs. See [IDE Integrations](#ide-integrations)        | `False`                                                                                                      |
 
 ### Assertion Options
 
@@ -469,6 +470,21 @@ The generated snapshot:
 - [Custom comparator](https://github.com/syrupy-project/syrupy/tree/main/tests/integration/test_custom_comparator.py)
 - [JPEG image extension](https://github.com/syrupy-project/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
 - [Built-in image extensions](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
+
+## IDE Integrations
+
+### PyCharm
+
+The [PyCharm](https://www.jetbrains.com/pycharm/) IDE comes with a built-in tool for visualizing differences between expected and actual results in a test. To properly render Syrupy snapshots in the PyCharm diff viewer, we need to apply a patch to the diff viewer library. To do this, use the `--snapshot-patch-pycharm-diff` flag, e.g.:
+
+In your `pytest.ini`:
+
+```ini
+[pytest]
+addopts = --snapshot-patch-pycharm-diff
+```
+
+See [#675](https://github.com/syrupy-project/syrupy/issues/675) for the original issue.
 
 ## Uninstalling
 

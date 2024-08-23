@@ -5,6 +5,7 @@ from gettext import gettext
 from typing import (
     Any,
     ContextManager,
+    Iterator,
     List,
     Optional,
 )
@@ -16,6 +17,7 @@ from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import PyTestLocation
+from .patches.pycharm_diff import patch_pycharm_diff
 from .session import SnapshotSession
 from .terminal import (
     received_style,
@@ -84,6 +86,13 @@ def pytest_addoption(parser: Any) -> None:
         default=not sys.stdout.isatty(),
         dest="no_colors",
         help="Disable test results output highlighting",
+    )
+    group.addoption(
+        "--snapshot-patch-pycharm-diff",
+        action="store_true",
+        default=False,
+        dest="patch_pycharm_diff",
+        help="Patch PyCharm diff",
     )
 
 
@@ -185,10 +194,19 @@ def pytest_terminal_summary(
 
 
 @pytest.fixture
-def snapshot(request: Any) -> "SnapshotAssertion":
+def snapshot(request: "pytest.FixtureRequest") -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
         extension_class=__import_extension(request.config.option.default_extension),
         test_location=PyTestLocation(request.node),
-        session=request.session.config._syrupy,
+        session=request.session.config._syrupy,  # type: ignore
     )
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _syrupy_apply_ide_patches(request: "pytest.FixtureRequest") -> Iterator[None]:
+    if request.config.option.patch_pycharm_diff:
+        with patch_pycharm_diff():
+            yield
+    else:
+        yield
