@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [4.7.1](https://github.com/syrupy-project/syrupy/compare/v4.7.0...v4.7.1) (2024-08-23)
+
+
+### Bug Fixes
+
+* pytest-rerunfailures compatibility ([#881](https://github.com/syrupy-project/syrupy/issues/881)) ([16911ad](https://github.com/syrupy-project/syrupy/commit/16911ad0541c642118f3f1ac2d1347362d80c854))
+
 # [4.7.0](https://github.com/syrupy-project/syrupy/compare/v4.6.4...v4.7.0) (2024-08-23)
 
 
