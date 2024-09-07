@@ -125,7 +125,7 @@ class SnapshotSession:
             try:
                 self._selected_items[nodeid] = ItemStatus(outcome)
             except ValueError:
-                pass # if we don't understand the outcome, leave the item as "not run"
+                pass  # if we don't understand the outcome, leave the item as "not run"
 
     def finish(self) -> int:
         exitstatus = 0
