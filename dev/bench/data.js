@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724390915260,
+  "lastUpdate": 1725734857859,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -7110,6 +7110,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.051776543147332765",
             "extra": "mean: 1.3003155014000072 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "42a118813e451926af9c69ff5fea2c5b67d75401",
+          "message": "chore(deps): update actions/setup-python action to v5.2.0 (#888)\n\n* chore(deps): update actions/setup-python action to v5.2.0\r\n\r\n* chore: lint fix\r\n\r\n---------\r\n\r\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\r\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2024-09-07T14:46:36-04:00",
+          "tree_id": "179d0403318ccd0e5a0f31b4821a15eabadcafca",
+          "url": "https://github.com/syrupy-project/syrupy/commit/42a118813e451926af9c69ff5fea2c5b67d75401"
+        },
+        "date": 1725734856659,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8355243772288989,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056991924255631446",
+            "extra": "mean: 1.196853170600002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7352212419769542,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14888737080175446",
+            "extra": "mean: 1.3601348041999928 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7769679878650123,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04805080517697616",
+            "extra": "mean: 1.2870543132000136 sec\nrounds: 5"
           }
         ]
       }
