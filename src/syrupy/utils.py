@@ -37,8 +37,6 @@ def in_snapshot_dir(path: Path) -> bool:
 
 def walk_snapshot_dir(root: str) -> Iterator[str]:
     for filepath in Path(root).rglob("*"):
-        if not in_snapshot_dir(filepath):
-            continue
         if not filepath.name.startswith(".") and filepath.is_file():
             yield str(filepath)
 

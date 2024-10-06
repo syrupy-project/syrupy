@@ -1,9 +1,9 @@
 import pytest
 
 
-@pytest.fixture
-def testcases(testdir, tmp_path):
-    dirname = tmp_path.joinpath("__snapshots__")
+@pytest.fixture(params=["__snapshots__", "snapshots"])
+def testcases(testdir, tmp_path, request):
+    dirname = tmp_path.joinpath(request.param)
     testdir.makeconftest(
         f"""
         import pytest
