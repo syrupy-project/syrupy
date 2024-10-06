@@ -553,6 +553,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://schemathesis.io/"><img src="https://avatars.githubusercontent.com/u/1236561?v=4?s=100" width="100px;" alt="Dmitry Dygalo"/><br /><sub><b>Dmitry Dygalo</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=Stranger6667" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://allanchain.github.io/"><img src="https://avatars.githubusercontent.com/u/36528777?v=4?s=100" width="100px;" alt="Allan Chain"/><br /><sub><b>Allan Chain</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3AAllanChain" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/UltimateLobster"><img src="https://avatars.githubusercontent.com/u/21122724?v=4?s=100" width="100px;" alt="Nir Schulman"/><br /><sub><b>Nir Schulman</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=UltimateLobster" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://joostlek.dev"><img src="https://avatars.githubusercontent.com/u/7083755?v=4?s=100" width="100px;" alt="Joost Lekkerkerker"/><br /><sub><b>Joost Lekkerkerker</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=joostlek" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
