@@ -260,6 +260,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "joostlek",
+      "name": "Joost Lekkerkerker",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7083755?v=4",
+      "profile": "http://joostlek.dev",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
