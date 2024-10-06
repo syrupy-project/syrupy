@@ -42,7 +42,8 @@ def test_walk_dir_skips_non_snapshot_path(testfiles):
     _, testdir = testfiles
     snap_folder = Path("__snapshots__")
     assert {
-        str(Path(p).relative_to(Path.cwd())) for p in walk_snapshot_dir(Path(testdir.tmpdir).joinpath(snap_folder))
+        str(Path(p).relative_to(Path.cwd()))
+        for p in walk_snapshot_dir(Path(testdir.tmpdir).joinpath(snap_folder))
     } == {
         str(snap_folder.joinpath("snapfile1.ambr")),
         str(snap_folder.joinpath("snapfolder", "snapfile2.svg")),
