@@ -508,6 +508,34 @@ class SnapshotReport:
             for item in self.ran_items
         )
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        Check if any test run in the current session should match the snapshot location
+        This being true means that if no snapshot in the collection was used then it
+        should be discarded as obsolete
+        """
+        return {
+            "discovered": self.discovered.serialize(),
+            "created": self.created.serialize(),
+            "failed": self.failed.serialize(),
+            "matched": self.matched.serialize(),
+            "updated": self.updated.serialize(),
+            "used": self.used.serialize(),
+            "_collected_items": [
+                {
+                    "nodeid": c.nodeid,
+                    "name": c.name,
+                    "path": str(c.path),
+                    "modulename": c.obj.__module__,
+                    "methodname": c.obj.__name__,
+                }
+                for c in list(self.collected_items)
+            ],
+            "_selected_items": {
+                key: status.value for key, status in self.selected_items.items()
+            },
+        }
+
 
 @dataclass(frozen=True)
 class Expression:

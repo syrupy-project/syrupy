@@ -4,6 +4,8 @@ from dataclasses import (
     field,
 )
 from enum import Enum
+import json
+import os
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
@@ -139,9 +141,14 @@ class SnapshotSession:
         )
 
         if is_xdist_worker():
-            # TODO: If we're in a pytest-xdist worker, we need to combine the reports
-            # of all the workers so that the controller can handle unused
-            # snapshot removal.
+            with open(
+                f"/workspaces/home-assistant-core/.syrupy.worker_count.txt", "w"
+            ) as f:
+                f.write(os.getenv("PYTEST_XDIST_WORKER_COUNT"))
+            with open(
+                f"/workspaces/home-assistant-core/.syrupy.gw{os.getenv("PYTEST_XDIST_WORKER")}.txt", "w"
+            ) as f:
+                json.dump(self.report.serialize(), f, indent=2)
             return exitstatus
         elif is_xdist_controller():
             # TODO: If we're in a pytest-xdist controller, merge all the reports.
