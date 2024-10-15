@@ -47,6 +47,17 @@ class ItemStatus(Enum):
     FAILED = "failed"
     SKIPPED = "skipped"
 
+class _MockPytestObject:
+    def __init__(self, collected_item):
+        self.__module__ = collected_item["modulename"]
+        self.__name__ = collected_item["methodname"]
+
+class _MockPytestItem:
+    def __init__(self, collected_item: dict[str, Any]) -> None:
+        self.nodeid = collected_item["nodeid"]
+        self.name = collected_item["name"]
+        self.path = Path(collected_item["path"])
+        self.obj = _MockPytestObject(collected_item)
 
 @dataclass
 class SnapshotSession:
@@ -146,7 +157,7 @@ class SnapshotSession:
             ) as f:
                 f.write(os.getenv("PYTEST_XDIST_WORKER_COUNT"))
             with open(
-                f"/workspaces/home-assistant-core/.syrupy.gw{os.getenv("PYTEST_XDIST_WORKER")}.txt", "w"
+                f"/workspaces/home-assistant-core/.syrupy.{os.getenv("PYTEST_XDIST_WORKER")}.txt", "w"
             ) as f:
                 json.dump(self.report.serialize(), f, indent=2)
             return exitstatus
@@ -155,6 +166,31 @@ class SnapshotSession:
             # Until this is implemented, running syrupy with pytest-xdist is only
             # partially functional.
             return exitstatus
+        
+        worker_count = None
+        try:
+            with open(f"/workspaces/home-assistant-core/.syrupy.worker_count.txt", "r") as f:
+                worker_count = f.read()
+        except FileNotFoundError:
+            pass
+
+        if worker_count:
+            for i in range(int(worker_count)):
+                with open(f"/workspaces/home-assistant-core/.syrupy.gw{i}.txt", "r") as f:
+                    data = json.load(f)
+                    for collected_item in data["_collected_items"]:
+                        custom_item = _MockPytestItem(collected_item)
+                        if not any(t.nodeid == custom_item.nodeid and t.name == custom_item.nodeid for t in self._collected_items):
+                            self._collected_items.add(custom_item)
+                    for key, selected_item in data["_selected_items"].items():
+                        if key in self._selected_items:
+                            status = ItemStatus(selected_item)
+                            if status != ItemStatus.NOT_RUN:
+                                self._selected_items[key] = status
+                        else:
+                            self._selected_items[key] = ItemStatus(selected_item)
+
+                    self.report.merge_serialized(data)
 
         if self.report.num_unused:
             if self.update_snapshots:

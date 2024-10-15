@@ -509,11 +509,6 @@ class SnapshotReport:
         )
 
     def serialize(self) -> dict[str, Any]:
-        """
-        Check if any test run in the current session should match the snapshot location
-        This being true means that if no snapshot in the collection was used then it
-        should be discarded as obsolete
-        """
         return {
             "discovered": self.discovered.serialize(),
             "created": self.created.serialize(),
@@ -535,6 +530,14 @@ class SnapshotReport:
                 key: status.value for key, status in self.selected_items.items()
             },
         }
+
+    def merge_serialized(self, data: dict[str, Any]) -> None:
+        self.discovered.merge_serialized(data["discovered"])
+        self.created.merge_serialized(data["created"])
+        self.failed.merge_serialized(data["failed"])
+        self.matched.merge_serialized(data["matched"])
+        self.updated.merge_serialized(data["updated"])
+        self.used.merge_serialized(data["used"])
 
 
 @dataclass(frozen=True)

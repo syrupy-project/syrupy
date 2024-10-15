@@ -128,6 +128,13 @@ class SnapshotCollections:
     def serialize(self) -> dict[str, Any]:
         return {k: [c.name for c in v] for k, v in self._snapshot_collections.items()}
 
+    def merge_serialized(self, data: dict[str, Any]) -> None:
+        for location, names in data.items():
+            snapshot_collection = SnapshotCollection(location=location)
+            for name in names:
+                snapshot_collection.add(Snapshot(name))
+            self.update(snapshot_collection)
+
 
 @dataclass
 class DiffedLine:
