@@ -121,11 +121,11 @@ def run_testcases(testdir, testcases_initial):
 
 
 def test_update_failure_shows_snapshot_diff(
-    run_testcases, testcases_updated, plugin_args
+    run_testcases, testcases_updated, plugin_args_fails_xdist
 ):
     testdir = run_testcases[1]
     testdir.makepyfile(**testcases_updated)
-    result = testdir.runpytest("-vv", *plugin_args)
+    result = testdir.runpytest("-vv", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(
         (
             r".*assert snapshot == \['this', 'will', 'not', 'match'\]",
@@ -341,7 +341,7 @@ def test_update_targets_only_selected_module_tests_nodes(run_testcases, plugin_a
 
 
 def test_update_targets_only_selected_module_tests_nodes_pyargs(
-    run_testcases, plugin_args
+    run_testcases, plugin_args_fails_xdist
 ):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
@@ -349,7 +349,7 @@ def test_update_targets_only_selected_module_tests_nodes_pyargs(
     result = testdir.runpytest(
         "-v",
         "--snapshot-update",
-        *plugin_args,
+        *plugin_args_fails_xdist,
         "--pyargs",
         "test_used::test_used",
     )
