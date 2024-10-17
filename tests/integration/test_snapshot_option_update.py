@@ -120,10 +120,12 @@ def run_testcases(testdir, testcases_initial):
     return result, testdir, testcases_initial
 
 
-def test_update_failure_shows_snapshot_diff(run_testcases, testcases_updated):
+def test_update_failure_shows_snapshot_diff(
+    run_testcases, testcases_updated, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     testdir.makepyfile(**testcases_updated)
-    result = testdir.runpytest("-vv")
+    result = testdir.runpytest("-vv", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(
         (
             r".*assert snapshot == \['this', 'will', 'not', 'match'\]",
@@ -181,16 +183,18 @@ def test_update_failure_shows_snapshot_diff(run_testcases, testcases_updated):
     assert result.ret == 1
 
 
-def test_update_success_shows_snapshot_report(run_testcases, testcases_updated):
+def test_update_success_shows_snapshot_report(
+    run_testcases, testcases_updated, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     testdir.makepyfile(**testcases_updated)
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"5 snapshots passed\. 5 snapshots updated\."))
     assert result.ret == 0
 
 
 def test_update_targets_only_selected_parametrized_tests_for_update_dash_m(
-    run_testcases,
+    run_testcases, plugin_args_fails_xdist
 ):
     updated_tests = {
         "test_used": (
@@ -205,7 +209,9 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_m(
     }
     testdir = run_testcases[1]
     testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-m", "parametrize")
+    result = testdir.runpytest(
+        "-v", "--snapshot-update", *plugin_args_fails_xdist, "-m", "parametrize"
+    )
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 snapshot updated\. 1 unused snapshot deleted\.",
@@ -218,7 +224,7 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_m(
 
 
 def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
-    run_testcases,
+    run_testcases, plugin_args_fails_xdist
 ):
     updated_tests = {
         "test_used": (
@@ -233,7 +239,9 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
     }
     testdir = run_testcases[1]
     testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_used[2]")
+    result = testdir.runpytest(
+        "-v", "--snapshot-update", *plugin_args_fails_xdist, "-k", "test_used[2]"
+    )
     result.stdout.re_match_lines((r"1 snapshot updated\."))
     assert "Deleted" not in result.stdout.str()
     snapshot_path = [testdir.tmpdir, "__snapshots__"]
@@ -242,7 +250,7 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
 
 
 def test_update_targets_only_selected_parametrized_tests_for_removal_dash_k(
-    run_testcases,
+    run_testcases, plugin_args_fails_xdist
 ):
     updated_tests = {
         "test_used": (
@@ -257,7 +265,9 @@ def test_update_targets_only_selected_parametrized_tests_for_removal_dash_k(
     }
     testdir = run_testcases[1]
     testdir.makepyfile(**updated_tests)
-    result = testdir.runpytest("-v", "--snapshot-update", "-k", "test_used[")
+    result = testdir.runpytest(
+        "-v", "--snapshot-update", *plugin_args_fails_xdist, "-k", "test_used["
+    )
     result.stdout.re_match_lines(
         (
             r"2 snapshots passed\. 1 unused snapshot deleted\.",
@@ -269,7 +279,9 @@ def test_update_targets_only_selected_parametrized_tests_for_removal_dash_k(
     assert Path(*snapshot_path, "test_updated_1.ambr").exists()
 
 
-def test_update_targets_only_selected_class_tests_dash_k(testdir):
+def test_update_targets_only_selected_class_tests_dash_k(
+    testdir, plugin_args_fails_xdist
+):
     test_content = """
         import pytest
 
@@ -285,12 +297,16 @@ def test_update_targets_only_selected_class_tests_dash_k(testdir):
     testdir.runpytest("-v", "--snapshot-update")
     assert Path(testdir.tmpdir, "__snapshots__", "test_content.ambr").exists()
 
-    result = testdir.runpytest("test_content.py", "-v", "-k test_case_2")
+    result = testdir.runpytest(
+        "test_content.py", "-v", *plugin_args_fails_xdist, "-k", "test_case_2"
+    )
     result.stdout.re_match_lines((r"1 snapshot passed\."))
     assert "snaphot unused" not in result.stdout.str()
 
 
-def test_update_targets_only_selected_module_tests_dash_k(testdir):
+def test_update_targets_only_selected_module_tests_dash_k(
+    testdir, plugin_args_fails_xdist
+):
     test_content = """
         import pytest
 
@@ -305,17 +321,23 @@ def test_update_targets_only_selected_module_tests_dash_k(testdir):
     testdir.runpytest("-v", "--snapshot-update")
     assert Path(testdir.tmpdir, "__snapshots__", "test_content.ambr").exists()
 
-    result = testdir.runpytest("test_content.py", "-v", "-k test_case_2")
+    result = testdir.runpytest(
+        "test_content.py", "-v", *plugin_args_fails_xdist, "-k", "test_case_2"
+    )
     result.stdout.re_match_lines((r"1 snapshot passed\."))
     assert "snaphot unused" not in result.stdout.str()
 
 
-def test_update_targets_only_selected_module_tests_nodes(run_testcases):
+def test_update_targets_only_selected_module_tests_nodes(
+    run_testcases, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
     testfile = Path(testdir.tmpdir, "test_used.py")
-    result = testdir.runpytest("-v", f"{testfile}::test_used", "--snapshot-update")
+    result = testdir.runpytest(
+        "-v", f"{testfile}::test_used", "--snapshot-update", *plugin_args_fails_xdist
+    )
     result.stdout.re_match_lines((r"3 snapshots passed\."))
     assert "unused" not in result.stdout.str()
     assert "updated" not in result.stdout.str()
@@ -324,13 +346,16 @@ def test_update_targets_only_selected_module_tests_nodes(run_testcases):
     assert snapfile_empty.exists()
 
 
-def test_update_targets_only_selected_module_tests_nodes_pyargs(run_testcases):
+def test_update_targets_only_selected_module_tests_nodes_pyargs(
+    run_testcases, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
     result = testdir.runpytest(
         "-v",
         "--snapshot-update",
+        *plugin_args_fails_xdist,
         "--pyargs",
         "test_used::test_used",
     )
@@ -342,7 +367,9 @@ def test_update_targets_only_selected_module_tests_nodes_pyargs(run_testcases):
     assert snapfile_empty.exists()
 
 
-def test_update_targets_only_selected_module_tests_file_for_update(run_testcases):
+def test_update_targets_only_selected_module_tests_file_for_update(
+    run_testcases, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
@@ -357,7 +384,9 @@ def test_update_targets_only_selected_module_tests_file_for_update(run_testcases
             """
         )
     )
-    result = testdir.runpytest("-v", "test_used.py", "--snapshot-update")
+    result = testdir.runpytest(
+        "-v", "test_used.py", "--snapshot-update", *plugin_args_fails_xdist
+    )
     result.stdout.re_match_lines(
         (
             r"3 snapshots passed\. 2 unused snapshots deleted\.",
@@ -369,7 +398,9 @@ def test_update_targets_only_selected_module_tests_file_for_update(run_testcases
     assert Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_targets_only_selected_module_tests_file_for_removal(run_testcases):
+def test_update_targets_only_selected_module_tests_file_for_removal(
+    run_testcases, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     testdir.makepyfile(
         test_used=(
@@ -381,7 +412,9 @@ def test_update_targets_only_selected_module_tests_file_for_removal(run_testcase
     )
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
-    result = testdir.runpytest("-v", "test_used.py", "--snapshot-update")
+    result = testdir.runpytest(
+        "-v", "test_used.py", "--snapshot-update", *plugin_args_fails_xdist
+    )
     result.stdout.re_match_lines(
         (
             r"5 unused snapshots deleted\.",
@@ -394,12 +427,14 @@ def test_update_targets_only_selected_module_tests_file_for_removal(run_testcase
     assert not Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_removes_empty_snapshot_collection_only(run_testcases):
+def test_update_removes_empty_snapshot_collection_only(
+    run_testcases, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
     assert snapfile_empty.exists()
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
@@ -412,13 +447,15 @@ def test_update_removes_empty_snapshot_collection_only(run_testcases):
     assert Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_removes_hanging_snapshot_collection_file(run_testcases):
+def test_update_removes_hanging_snapshot_collection_file(
+    run_testcases, plugin_args_fails_xdist
+):
     testdir = run_testcases[1]
     snapfile_used = Path("__snapshots__", "test_used.ambr")
     snapfile_hanging = Path("__snapshots__", "hanging_snapfile.abc")
     testdir.makefile(".abc", **{str(snapfile_hanging): ""})
     assert snapfile_hanging.exists()
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",

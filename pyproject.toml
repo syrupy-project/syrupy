@@ -95,6 +95,7 @@ dist,
 [tool.pytest.ini_options]
 addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
 testpaths = ['tests']
+xfail_strict = true
 
 [tool.coverage.run]
 source = ['./src']

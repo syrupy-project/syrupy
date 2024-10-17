@@ -44,31 +44,31 @@ def run_testcases(testdir, testcases):
     return testdir, testcases
 
 
-def test_mark_skipped_snapshots(run_testcases):
+def test_mark_skipped_snapshots(run_testcases, plugin_args_fails_xdist):
     testdir, testcases = run_testcases
     pyfile_content = "\n\n".join([testcases["used"], testcases["mark-skipped"]])
     testdir.makepyfile(test_file=pyfile_content)
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(r"1 snapshot passed\.$")
     assert result.ret == 0
 
 
-def test_raise_skipped_snapshots(run_testcases):
+def test_raise_skipped_snapshots(run_testcases, plugin_args_fails_xdist):
     testdir, testcases = run_testcases
     pyfile_content = "\n\n".join([testcases["used"], testcases["raise-skipped"]])
     testdir.makepyfile(test_file=pyfile_content)
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(r"1 snapshot passed\.$")
     assert result.ret == 0
 
 
-def test_skipped_snapshots_update(run_testcases):
+def test_skipped_snapshots_update(run_testcases, plugin_args_fails_xdist):
     testdir, testcases = run_testcases
     pyfile_content = "\n\n".join([testcases["used"], testcases["raise-skipped"]])
     testdir.makepyfile(test_file=pyfile_content)
 
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(r"1 snapshot passed\.$")
     assert result.ret == 0
