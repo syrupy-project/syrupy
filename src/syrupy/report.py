@@ -521,8 +521,8 @@ class SnapshotReport:
                     "nodeid": c.nodeid,
                     "name": c.name,
                     "path": str(c.path),
-                    "modulename": c.obj.__module__,
-                    "methodname": c.obj.__name__,
+                    "modulename": c.obj.__module__,  # type: ignore[attr-defined]
+                    "methodname": c.obj.__name__,  # type: ignore[attr-defined]
                 }
                 for c in list(self.collected_items)
             ],
