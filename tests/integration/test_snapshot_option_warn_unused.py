@@ -28,11 +28,11 @@ def run_testcases(testdir, testcases):
     return testdir, testcases
 
 
-def test_unused_snapshots_failure(run_testcases, plugin_args_fails_xdist):
+def test_unused_snapshots_failure(run_testcases, plugin_args):
     testdir, testcases = run_testcases
     testdir.makepyfile(test_file=testcases["used"])
 
-    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
+    result = testdir.runpytest("-v", *plugin_args)
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 snapshot unused\.",
@@ -42,11 +42,11 @@ def test_unused_snapshots_failure(run_testcases, plugin_args_fails_xdist):
     assert result.ret == 1
 
 
-def test_unused_snapshots_warning(run_testcases, plugin_args_fails_xdist):
+def test_unused_snapshots_warning(run_testcases, plugin_args):
     testdir, testcases = run_testcases
     testdir.makepyfile(test_file=testcases["used"])
 
-    result = testdir.runpytest("-v", "--snapshot-warn-unused", *plugin_args_fails_xdist)
+    result = testdir.runpytest("-v", "--snapshot-warn-unused", *plugin_args)
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 snapshot unused\.",
@@ -56,11 +56,11 @@ def test_unused_snapshots_warning(run_testcases, plugin_args_fails_xdist):
     assert result.ret == 0
 
 
-def test_unused_snapshots_deletion(run_testcases, plugin_args_fails_xdist):
+def test_unused_snapshots_deletion(run_testcases, plugin_args):
     testdir, testcases = run_testcases
     testdir.makepyfile(test_file=testcases["used"])
 
-    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args)
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 unused snapshot deleted\.",
