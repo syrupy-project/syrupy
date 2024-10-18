@@ -1,3 +1,5 @@
+import json
+import os
 from collections import defaultdict
 from dataclasses import (
     dataclass,
@@ -44,6 +46,20 @@ class ItemStatus(Enum):
     PASSED = "passed"
     FAILED = "failed"
     SKIPPED = "skipped"
+
+
+class _FakePytestObject:
+    def __init__(self, collected_item: dict[str, str]) -> None:
+        self.__module__ = collected_item["modulename"]
+        self.__name__ = collected_item["methodname"]
+
+
+class _FakePytestItem:
+    def __init__(self, collected_item: dict[str, str]) -> None:
+        self.nodeid = collected_item["nodeid"]
+        self.name = collected_item["name"]
+        self.path = Path(collected_item["path"])
+        self.obj = _FakePytestObject(collected_item)
 
 
 @dataclass
@@ -127,6 +143,24 @@ class SnapshotSession:
             except ValueError:
                 pass  # if we don't understand the outcome, leave the item as "not run"
 
+    def _merge_collected_items(self, collected_items: list[dict[str, str]]) -> None:
+        for collected_item in collected_items:
+            custom_item = _FakePytestItem(collected_item)
+            if not any(
+                t.nodeid == custom_item.nodeid and t.name == custom_item.nodeid
+                for t in self._collected_items
+            ):
+                self._collected_items.add(custom_item)  # type: ignore[arg-type]
+
+    def _merge_selected_items(self, selected_items: dict[str, str]) -> None:
+        for key, selected_item in selected_items.items():
+            if key in self._selected_items:
+                status = ItemStatus(selected_item)
+                if status != ItemStatus.NOT_RUN:
+                    self._selected_items[key] = status
+            else:
+                self._selected_items[key] = ItemStatus(selected_item)
+
     def finish(self) -> int:
         exitstatus = 0
         self.flush_snapshot_write_queue()
@@ -139,15 +173,38 @@ class SnapshotSession:
         )
 
         if is_xdist_worker():
-            # TODO: If we're in a pytest-xdist worker, we need to combine the reports
-            # of all the workers so that the controller can handle unused
-            # snapshot removal.
+            worker_count = os.getenv("PYTEST_XDIST_WORKER_COUNT")
+            with open(".pytest_syrupy_worker_count", "w", encoding="utf-8") as f:
+                f.write(worker_count)  # type: ignore[arg-type]
+            with open(
+                f".pytest_syrupy_{os.getenv("PYTEST_XDIST_WORKER")}_result",
+                "w",
+                encoding="utf-8",
+            ) as f:
+                json.dump(self.report.serialize(), f, indent=2)
             return exitstatus
         elif is_xdist_controller():
             # TODO: If we're in a pytest-xdist controller, merge all the reports.
             # Until this is implemented, running syrupy with pytest-xdist is only
             # partially functional.
             return exitstatus
+
+        worker_count = None
+        try:
+            with open(".pytest_syrupy_worker_count", encoding="utf-8") as f:
+                worker_count = f.read()
+            os.remove(".pytest_syrupy_worker_count")
+        except FileNotFoundError:
+            pass
+
+        if worker_count:
+            for i in range(int(worker_count)):
+                with open(f".pytest_syrupy_gw{i}_result", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self._merge_collected_items(data["_collected_items"])
+                    self._merge_selected_items(data["_selected_items"])
+                    self.report.merge_serialized(data)
+                os.remove(f".pytest_syrupy_gw{i}_result")
 
         if self.report.num_unused:
             if self.update_snapshots:
