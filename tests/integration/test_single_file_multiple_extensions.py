@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def test_multiple_file_extensions(testdir):
+def test_multiple_file_extensions(testdir, plugin_args_fails_xdist):
     file_extension = "ext2.ext1"
 
     testcase = f"""
@@ -21,7 +21,7 @@ def test_multiple_file_extensions(testdir):
 
     test_file: Path = testdir.makepyfile(test_file=testcase)
 
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot generated\."))
     assert "snapshots unused" not in result.stdout.str()
     assert result.ret == 0
@@ -34,13 +34,13 @@ def test_multiple_file_extensions(testdir):
     )
     assert snapshot_file.exists()
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot passed\."))
     assert "snapshots unused" not in result.stdout.str()
     assert result.ret == 0
 
 
-def test_class_style(testdir):
+def test_class_style(testdir, plugin_args_fails_xdist):
     """
     Regression test for https://github.com/syrupy-project/syrupy/issues/717
     """
@@ -60,7 +60,7 @@ def test_class_style(testdir):
 
     test_file: Path = testdir.makepyfile(test_file=testcase)
 
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot generated\."))
     assert "deleted" not in result.stdout.str()
     assert result.ret == 0
@@ -70,7 +70,7 @@ def test_class_style(testdir):
     )
     assert snapshot_file.exists()
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot passed\."))
     assert "snapshots unused" not in result.stdout.str()
     assert result.ret == 0

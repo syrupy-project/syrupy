@@ -94,18 +94,18 @@ def generate_snapshots(testdir, testcases_initial):
     return result, testdir, testcases_initial
 
 
-def test_unsaved_snapshots(testdir, testcases_initial):
+def test_unsaved_snapshots(testdir, testcases_initial, plugin_args):
     testdir.makepyfile(test_file=testcases_initial["passed"])
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args)
     result.stdout.re_match_lines(
         (r".*Snapshot 'test_passed_single' does not exist!", r".*\+ b'passed1'")
     )
     assert result.ret == 1
 
 
-def test_failed_snapshots(testdir, testcases_initial):
+def test_failed_snapshots(testdir, testcases_initial, plugin_args_fails_xdist):
     testdir.makepyfile(test_file=testcases_initial["failed"])
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"2 snapshots failed\."))
     assert result.ret == 1
 
@@ -117,18 +117,22 @@ def test_generated_snapshots(generate_snapshots):
     assert result.ret == 0
 
 
-def test_unmatched_snapshots(generate_snapshots, testcases_updated):
+def test_unmatched_snapshots(
+    generate_snapshots, testcases_updated, plugin_args_fails_xdist
+):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=testcases_updated["passed"])
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot failed\. 2 snapshots unused\."))
     assert result.ret == 1
 
 
-def test_updated_snapshots(generate_snapshots, testcases_updated):
+def test_updated_snapshots(
+    generate_snapshots, testcases_updated, plugin_args_fails_xdist
+):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=testcases_updated["passed"])
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot updated\. 2 unused snapshots deleted\."))
     assert result.ret == 0
 

@@ -64,12 +64,16 @@ def run_testfiles_with_update(testdir):
     ),
 )
 def test_unused_snapshots_details(
-    options, expected_status_code, run_testfiles_with_update, testcases
+    options,
+    expected_status_code,
+    run_testfiles_with_update,
+    testcases,
+    plugin_args_fails_xdist,
 ):
     testdir = run_testfiles_with_update(test_file=testcases)
     testdir.makepyfile(test_file=testcases["used"])
 
-    result = testdir.runpytest(*options)
+    result = testdir.runpytest(*options, *plugin_args_fails_xdist)
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 snapshot unused\.",
@@ -81,7 +85,7 @@ def test_unused_snapshots_details(
 
 
 def test_unused_snapshots_details_multiple_tests(
-    run_testfiles_with_update, testcases, extra_testcases
+    run_testfiles_with_update, testcases, extra_testcases, plugin_args_fails_xdist
 ):
     testdir = run_testfiles_with_update(
         test_file=testcases, test_second_file=extra_testcases
@@ -91,7 +95,7 @@ def test_unused_snapshots_details_multiple_tests(
         test_second_file="",
     )
 
-    result = testdir.runpytest("-v", "--snapshot-details")
+    result = testdir.runpytest("-v", "--snapshot-details", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(
         (
             r"2 snapshots passed\. 2 snapshots unused\.",
@@ -104,7 +108,7 @@ def test_unused_snapshots_details_multiple_tests(
 
 
 def test_unused_snapshots_details_multiple_locations(
-    run_testfiles_with_update, testcases, extra_testcases
+    run_testfiles_with_update, testcases, extra_testcases, plugin_args_fails_xdist
 ):
     testdir = run_testfiles_with_update(
         test_file=testcases, test_second_file=extra_testcases
@@ -114,7 +118,7 @@ def test_unused_snapshots_details_multiple_locations(
         test_second_file=extra_testcases["extra_a"],
     )
 
-    result = testdir.runpytest("-v", "--snapshot-details")
+    result = testdir.runpytest("-v", "--snapshot-details", *plugin_args_fails_xdist)
     result.stdout.re_match_lines_random(
         (
             r"2 snapshots passed\. 2 snapshots unused\.",
@@ -127,12 +131,14 @@ def test_unused_snapshots_details_multiple_locations(
 
 
 def test_unused_snapshots_details_no_details_on_deletion(
-    run_testfiles_with_update, testcases
+    run_testfiles_with_update, testcases, plugin_args_fails_xdist
 ):
     testdir = run_testfiles_with_update(test_file=testcases)
     testdir.makepyfile(test_file=testcases["used"])
 
-    result = testdir.runpytest("-v", "--snapshot-details", "--snapshot-update")
+    result = testdir.runpytest(
+        "-v", "--snapshot-details", "--snapshot-update", *plugin_args_fails_xdist
+    )
     result.stdout.re_match_lines(
         (
             r"1 snapshot passed\. 1 unused snapshot deleted\.",

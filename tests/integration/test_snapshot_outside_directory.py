@@ -57,25 +57,25 @@ def test_generated_snapshots(generate_snapshots):
     assert result.ret == 0
 
 
-def test_unmatched_snapshots(generate_snapshots):
+def test_unmatched_snapshots(generate_snapshots, plugin_args_fails_xdist):
     _, testdir, testcases = generate_snapshots
     testdir.makepyfile(test_file=testcases["one"])
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args_fails_xdist)
     result.stdout.re_match_lines((r"1 snapshot passed. 1 snapshot unused\."))
     assert result.ret == 1
 
 
-def test_updated_snapshots_partial_delete(generate_snapshots):
+def test_updated_snapshots_partial_delete(generate_snapshots, plugin_args_fails_xdist):
     _, testdir, testcases = generate_snapshots
     testdir.makepyfile(test_file=testcases["one"])
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(r"1 snapshot passed. 1 unused snapshot deleted\.")
     assert result.ret == 0
 
 
-def test_updated_snapshots_full_delete(generate_snapshots):
+def test_updated_snapshots_full_delete(generate_snapshots, plugin_args_fails_xdist):
     _, testdir, testcases = generate_snapshots
     testdir.makepyfile(test_file=testcases["zero"])
-    result = testdir.runpytest("-v", "--snapshot-update")
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
     result.stdout.re_match_lines(r"2 unused snapshots deleted\.")
     assert result.ret == 0
