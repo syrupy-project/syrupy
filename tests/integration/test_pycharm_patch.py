@@ -23,14 +23,14 @@ class EqualsAssertionError:
 
 
 @pytest.mark.filterwarnings("default")
-def test_logs_a_warning_if_unable_to_apply_patch(testdir):
+def test_logs_a_warning_if_unable_to_apply_patch(testdir, plugin_args):
     testdir.makepyfile(
         test_file="""
     def test_case(snapshot):
         assert snapshot == [1, 2]
     """
     )
-    testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest("-v", "--snapshot-update", *plugin_args)
     testdir.makepyfile(
         test_file="""
     def test_case(snapshot):
@@ -38,12 +38,14 @@ def test_logs_a_warning_if_unable_to_apply_patch(testdir):
     """
     )
 
-    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff")
+    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff", *plugin_args)
     result.assert_outcomes(failed=1, passed=0, warnings=1)
 
 
 @pytest.mark.filterwarnings("default")
-def test_patches_pycharm_diff_tools_when_flag_set(testdir, mock_teamcity_diff_tools):
+def test_patches_pycharm_diff_tools_when_flag_set(
+    testdir, mock_teamcity_diff_tools, plugin_args
+):
     # Generate initial snapshot
     testdir.makepyfile(
         test_file="""
@@ -51,7 +53,7 @@ def test_patches_pycharm_diff_tools_when_flag_set(testdir, mock_teamcity_diff_to
         assert snapshot == [1, 2]
     """
     )
-    testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest("-v", "--snapshot-update", *plugin_args)
 
     # Generate diff and mimic EqualsAssertionError being thrown
     testdir.makepyfile(
@@ -70,7 +72,7 @@ def test_patches_pycharm_diff_tools_when_flag_set(testdir, mock_teamcity_diff_to
     """
     )
 
-    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff")
+    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff", *plugin_args)
     # No warnings because patch should have been successful
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
@@ -85,7 +87,7 @@ def test_patches_pycharm_diff_tools_when_flag_set(testdir, mock_teamcity_diff_to
 
 @pytest.mark.filterwarnings("default")
 def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
-    testdir, mock_teamcity_diff_tools
+    testdir, mock_teamcity_diff_tools, plugin_args
 ):
     # Generate initial snapshot
     testdir.makepyfile(
@@ -94,7 +96,7 @@ def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
         assert [1, 2] == snapshot
     """
     )
-    testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest("-v", "--snapshot-update", *plugin_args)
 
     # Generate diff and mimic EqualsAssertionError being thrown
     testdir.makepyfile(
@@ -113,7 +115,7 @@ def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
     """
     )
 
-    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff")
+    result = testdir.runpytest("-v", "--snapshot-patch-pycharm-diff", *plugin_args)
     # No warnings because patch should have been successful
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
@@ -128,7 +130,7 @@ def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
 
 @pytest.mark.filterwarnings("default")
 def test_it_does_not_patch_pycharm_diff_tools_by_default(
-    testdir, mock_teamcity_diff_tools
+    testdir, mock_teamcity_diff_tools, plugin_args
 ):
     # Generate initial snapshot
     testdir.makepyfile(
@@ -137,7 +139,7 @@ def test_it_does_not_patch_pycharm_diff_tools_by_default(
         assert snapshot == [1, 2]
     """
     )
-    testdir.runpytest("-v", "--snapshot-update")
+    testdir.runpytest("-v", "--snapshot-update", *plugin_args)
 
     # Generate diff and mimic EqualsAssertionError being thrown
     testdir.makepyfile(
@@ -156,7 +158,7 @@ def test_it_does_not_patch_pycharm_diff_tools_by_default(
     """
     )
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args)
     # No warnings because patch should have been successful
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
@@ -170,7 +172,9 @@ def test_it_does_not_patch_pycharm_diff_tools_by_default(
 
 
 @pytest.mark.filterwarnings("default")
-def test_it_has_no_impact_on_non_syrupy_assertions(testdir, mock_teamcity_diff_tools):
+def test_it_has_no_impact_on_non_syrupy_assertions(
+    testdir, mock_teamcity_diff_tools, plugin_args
+):
     # Generate diff and mimic EqualsAssertionError being thrown
     testdir.makepyfile(
         test_file="""
@@ -188,7 +192,7 @@ def test_it_has_no_impact_on_non_syrupy_assertions(testdir, mock_teamcity_diff_t
     """
     )
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args)
     # No warnings because patch should have been successful
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
@@ -202,7 +206,7 @@ def test_it_has_no_impact_on_non_syrupy_assertions(testdir, mock_teamcity_diff_t
 
 @pytest.mark.filterwarnings("default")
 def test_has_no_impact_on_real_exceptions_that_are_not_assertion_errors(
-    testdir, mock_teamcity_diff_tools
+    testdir, mock_teamcity_diff_tools, plugin_args
 ):
     # Generate diff and mimic EqualsAssertionError being thrown
     testdir.makepyfile(
@@ -225,7 +229,7 @@ def test_has_no_impact_on_real_exceptions_that_are_not_assertion_errors(
     """
     )
 
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args)
     # No warnings because patch should have been successful
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
