@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 env:
-  CI: 1
   VENV: .venv
 
 jobs:
