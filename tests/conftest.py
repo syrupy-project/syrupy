@@ -1,3 +1,5 @@
+from typing import List
+
 import pytest
 
 # Constants for testing with extra plugin arguments
@@ -10,7 +12,7 @@ _XDIST_TWO = ["--numprocesses", "2"]
     params=[_NO_ARGS, _XDIST_ZERO, _XDIST_TWO],
     ids=["no_plugin", "xdist_zero", "xdist_two"],
 )
-def plugin_args(request: pytest.FixtureRequest) -> list[str]:
+def plugin_args(request: pytest.FixtureRequest) -> List[str]:
     """Fixture to test with various plugins"""
     return request.param
 
@@ -26,6 +28,6 @@ def plugin_args(request: pytest.FixtureRequest) -> list[str]:
     ],
     ids=["no_plugin", "xdist_zero", "xdist_two"],
 )
-def plugin_args_fails_xdist(request: pytest.FixtureRequest) -> list[str]:
+def plugin_args_fails_xdist(request: pytest.FixtureRequest) -> List[str]:
     """Fixture to test with various plugins, but expected to fail xdist"""
     return request.param
