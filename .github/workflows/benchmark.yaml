@@ -12,14 +12,13 @@ permissions:
   contents: write
 
 env:
-  CI: 1
   VENV: .venv
 
 jobs:
   benchmark:
     name: Benchmark
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    if: (!contains(github.event.head_commit.message, '[skip ci]'))
     steps:
       - uses: actions/checkout@v4.2.1
       - name: Setup Environment
