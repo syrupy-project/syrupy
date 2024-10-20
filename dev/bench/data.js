@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1729380938068,
+  "lastUpdate": 1729383251107,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -7515,6 +7515,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05882482110098924",
             "extra": "mean: 1.3125370434000048 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "62fb6539542b41ac538ffa8be78f4f9e90a73905",
+          "message": "chore: support option to run all tests (#906)",
+          "timestamp": "2024-10-19T20:13:01-04:00",
+          "tree_id": "5f5c3d71626f48f7da21df187da88fc796d318e2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/62fb6539542b41ac538ffa8be78f4f9e90a73905"
+        },
+        "date": 1729383250473,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7945889493098389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07852292872180677",
+            "extra": "mean: 1.2585123426000024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7014383897915912,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17898599647563485",
+            "extra": "mean: 1.4256419587999971 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7469604849398582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07116092946630803",
+            "extra": "mean: 1.3387589037999987 sec\nrounds: 5"
           }
         ]
       }
