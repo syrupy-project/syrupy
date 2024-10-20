@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - next
   pull_request:
 
 concurrency:
@@ -11,7 +12,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CI: 1
   VENV: .venv
 
 permissions:
@@ -22,9 +22,9 @@ jobs:
   analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    if: (!contains(github.event.head_commit.message, '[skip ci]'))
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.1
       - name: Setup Environment
         uses: ./.github/actions/setup-env
       - name: Install project dependencies
@@ -36,14 +36,14 @@ jobs:
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    if: (!contains(github.event.head_commit.message, '[skip ci]'))
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13-dev']
-      fail-fast: true
+      fail-fast: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/run-all-tests') }}
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.1
       - name: Setup Environment
         uses: ./.github/actions/setup-env
         with:
@@ -93,13 +93,13 @@ jobs:
   benchmark:
     name: Benchmark
     runs-on: ubuntu-latest
-    if: "github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')"
+    if: github.event_name == 'pull_request' && !contains(github.event.head_commit.message, '[skip ci]')
     needs: [tests]
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.1
       - name: Setup Environment
         uses: ./.github/actions/setup-env
       - name: Install project dependencies

@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 env:
-  CI: 1
   VENV: .venv
 
 jobs:
@@ -13,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.1
         with:
           fetch-depth: 0
           persist-credentials: false
