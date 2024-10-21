@@ -176,8 +176,9 @@ class SnapshotSession:
             worker_count = os.getenv("PYTEST_XDIST_WORKER_COUNT")
             with open(".pytest_syrupy_worker_count", "w", encoding="utf-8") as f:
                 f.write(worker_count)  # type: ignore[arg-type]
+            worker_name = os.getenv("PYTEST_XDIST_WORKER")
             with open(
-                f".pytest_syrupy_{os.getenv("PYTEST_XDIST_WORKER")}_result",
+                f".pytest_syrupy_{worker_name}_result",
                 "w",
                 encoding="utf-8",
             ) as f:
