@@ -255,6 +255,10 @@ class SnapshotCollectionStorage(ABC):
         return test_location.basename
 
 
+def _count_leading_whitespace(s: str) -> int:
+    return len(s) - len(s.lstrip())
+
+
 class SnapshotReporter(ABC):
     _context_line_count = 1
 
@@ -383,16 +387,13 @@ class SnapshotReporter(ABC):
         num_lines = len(lines)
         if num_lines:
             if num_lines > self._context_line_max:
-                count_leading_whitespace: Callable[[str], int] = lambda s: len(s) - len(
-                    s.lstrip()
-                )
                 if self._context_line_count:
                     num_space = (
-                        count_leading_whitespace(lines[self._context_line_count - 1])
-                        + count_leading_whitespace(lines[-self._context_line_count])
+                        _count_leading_whitespace(lines[self._context_line_count - 1])
+                        + _count_leading_whitespace(lines[-self._context_line_count])
                     ) // 2
                 else:
-                    num_space = count_leading_whitespace(lines[num_lines // 2])
+                    num_space = _count_leading_whitespace(lines[num_lines // 2])
                 yield " " * num_space + self._marker_context_max
             if self._context_line_count and num_lines > 1:
                 yield from lines[-self._context_line_count :]  # noqa: E203
