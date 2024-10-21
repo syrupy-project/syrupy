@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1729383251107,
+  "lastUpdate": 1729512435235,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -7560,6 +7560,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.07116092946630803",
             "extra": "mean: 1.3387589037999987 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8b4b037293b2a221b4b21aa7037b1bd2fd9fadf",
+          "message": "test: Add tests highlighting xdist incompatibilities (#902)\n\n* Add tests highlighting xdist incompatibilities",
+          "timestamp": "2024-10-21T08:05:53-04:00",
+          "tree_id": "259256804d2ed02134296ceceb0c0ce791ab5734",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f8b4b037293b2a221b4b21aa7037b1bd2fd9fadf"
+        },
+        "date": 1729512433834,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7708923204140924,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0578049830740303",
+            "extra": "mean: 1.2971980307999957 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6896673635448736,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2056563120640057",
+            "extra": "mean: 1.449974368599993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7247843669061137,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08024401994833688",
+            "extra": "mean: 1.3797207082000114 sec\nrounds: 5"
           }
         ]
       }
