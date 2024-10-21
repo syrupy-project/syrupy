@@ -39,7 +39,6 @@ pytest-benchmark = '^4.0.0'
 pytest-xdist = '^3.1.0'
 
 [tool.poetry.group.dev.dependencies]
-isort = '^5.12.0'
 black = '^24.1.0'
 mypy = '^1.0.1'
 py-githooks = '^1.1.1'
@@ -79,20 +78,6 @@ exclude = '''
 )
 '''
 
-[tool.isort]
-force_grid_wrap = 2
-known_first_party = 'syrupy'
-profile = 'black'
-skip = '''
-.eggs,
-.mypy_cache,
-.venv,
-syrupy.venv,
-.poetry,
-build,
-dist,
-'''
-
 [tool.pytest.ini_options]
 addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
 testpaths = ['tests']
@@ -103,6 +88,16 @@ source = ['./src']
 
 [tool.coverage.report]
 exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
+
+[tool.ruff]
+# Set the maximum line length to 88.
+line-length = 88
+
+[tool.ruff.lint]
+# Set the maximum line length to 88.
+extend-select = [
+  "I", # isort
+]
 
 [build-system]
 requires = ['poetry-core>=1.9.0']
