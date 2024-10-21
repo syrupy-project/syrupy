@@ -508,7 +508,7 @@ class SnapshotReport:
             for item in self.ran_items
         )
 
-    def serialize(self) -> dict[str, Any]:
+    def serialize(self) -> Dict[str, Any]:
         return {
             "discovered": self.discovered.serialize(),
             "created": self.created.serialize(),
@@ -531,7 +531,7 @@ class SnapshotReport:
             },
         }
 
-    def merge_serialized(self, data: dict[str, Any]) -> None:
+    def merge_serialized(self, data: Dict[str, Any]) -> None:
         self.discovered.merge_serialized(data["discovered"])
         self.created.merge_serialized(data["created"])
         self.failed.merge_serialized(data["failed"])

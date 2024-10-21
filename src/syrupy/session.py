@@ -49,13 +49,13 @@ class ItemStatus(Enum):
 
 
 class _FakePytestObject:
-    def __init__(self, collected_item: dict[str, str]) -> None:
+    def __init__(self, collected_item: Dict[str, str]) -> None:
         self.__module__ = collected_item["modulename"]
         self.__name__ = collected_item["methodname"]
 
 
 class _FakePytestItem:
-    def __init__(self, collected_item: dict[str, str]) -> None:
+    def __init__(self, collected_item: Dict[str, str]) -> None:
         self.nodeid = collected_item["nodeid"]
         self.name = collected_item["name"]
         self.path = Path(collected_item["path"])
@@ -143,7 +143,7 @@ class SnapshotSession:
             except ValueError:
                 pass  # if we don't understand the outcome, leave the item as "not run"
 
-    def _merge_collected_items(self, collected_items: list[dict[str, str]]) -> None:
+    def _merge_collected_items(self, collected_items: List[Dict[str, str]]) -> None:
         for collected_item in collected_items:
             custom_item = _FakePytestItem(collected_item)
             if not any(
@@ -152,7 +152,7 @@ class SnapshotSession:
             ):
                 self._collected_items.add(custom_item)  # type: ignore[arg-type]
 
-    def _merge_selected_items(self, selected_items: dict[str, str]) -> None:
+    def _merge_selected_items(self, selected_items: Dict[str, str]) -> None:
         for key, selected_item in selected_items.items():
             if key in self._selected_items:
                 status = ItemStatus(selected_item)
