@@ -94,7 +94,6 @@ exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
 line-length = 88
 
 [tool.ruff.lint]
-# Set the maximum line length to 88.
 extend-select = [
   "I", # isort
 ]
