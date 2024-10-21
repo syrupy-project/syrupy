@@ -12,8 +12,10 @@ from syrupy.data import SnapshotCollection
 from syrupy.exceptions import TaintedSnapshotError
 from syrupy.extensions.base import AbstractSyrupyExtension
 
-from .serializer import AmberDataSerializerSorted  # noqa: F401 # re-exported
-from .serializer import AmberDataSerializer
+from .serializer import (  # noqa: F401
+    AmberDataSerializer,
+    AmberDataSerializerSorted,  # re-exported
+)
 
 if TYPE_CHECKING:
     from syrupy.types import SerializableData
