@@ -71,18 +71,18 @@ def test_approximate_match(generate_snapshots, plugin_args_fails_xdist):
 
 
 @pytest.mark.xfail(strict=False)
-def test_failed_snapshots(generate_snapshots):
+def test_failed_snapshots(generate_snapshots, plugin_args):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=generate_snapshots[2]["failed"])
-    result = testdir.runpytest("-v")
+    result = testdir.runpytest("-v", *plugin_args)
     result.stdout.re_match_lines((r"1 snapshot failed\."))
     assert result.ret == 1
 
 
 @pytest.mark.xfail(strict=False)
-def test_updated_snapshots(generate_snapshots, plugin_args_fails_xdist):
+def test_updated_snapshots(generate_snapshots, plugin_args):
     _, testdir, initial = generate_snapshots
     testdir.makepyfile(test_file=initial["failed"])
-    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args)
     result.stdout.re_match_lines((r"1 snapshot updated\."))
     assert result.ret == 0
