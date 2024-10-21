@@ -1,5 +1,3 @@
-import os
-
 from invoke import task
 
 from .utils import ctx_run

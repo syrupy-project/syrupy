@@ -51,6 +51,7 @@ twine = '^5.1.1'
 semver = '^3.0.0'
 setuptools-scm = '^8.0.0'
 debugpy = '^1.6.6'
+ruff = '>=0.7.0'
 
 [tool.black]
 line-length = 88
