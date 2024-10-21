@@ -555,6 +555,9 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/UltimateLobster"><img src="https://avatars.githubusercontent.com/u/21122724?v=4?s=100" width="100px;" alt="Nir Schulman"/><br /><sub><b>Nir Schulman</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=UltimateLobster" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://joostlek.dev"><img src="https://avatars.githubusercontent.com/u/7083755?v=4?s=100" width="100px;" alt="Joost Lekkerkerker"/><br /><sub><b>Joost Lekkerkerker</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=joostlek" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/epenet"><img src="https://avatars.githubusercontent.com/u/6771947?v=4?s=100" width="100px;" alt="epenet"/><br /><sub><b>epenet</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=epenet" title="Tests">⚠️</a></td>
+    </tr>
   </tbody>
 </table>
 
