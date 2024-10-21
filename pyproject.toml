@@ -89,10 +89,6 @@ source = ['./src']
 [tool.coverage.report]
 exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
 
-[tool.ruff]
-# Set the maximum line length to 88.
-line-length = 88
-
 [tool.ruff.lint]
 extend-select = [
   "I", # isort
