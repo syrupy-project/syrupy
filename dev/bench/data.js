@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1729517153846,
+  "lastUpdate": 1730671074938,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -7650,6 +7650,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05857472700556208",
             "extra": "mean: 1.3586448351999991 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "84081f65e307dc93bd42a7357154205a9e8df002",
+          "message": "ci: replace isort with ruff (#910)",
+          "timestamp": "2024-11-03T16:56:41-05:00",
+          "tree_id": "ae29a9f0f348cd0bbbcb96c5cd185ec3a7729d77",
+          "url": "https://github.com/syrupy-project/syrupy/commit/84081f65e307dc93bd42a7357154205a9e8df002"
+        },
+        "date": 1730671074120,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8043621236202069,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09230522643116763",
+            "extra": "mean: 1.2432211445999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.726246180145718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16537203623451321",
+            "extra": "mean: 1.376943559 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7748698701672007,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06072448629836927",
+            "extra": "mean: 1.2905392743999982 sec\nrounds: 5"
           }
         ]
       }
