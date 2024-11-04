@@ -18,7 +18,7 @@ def run_lint(ctx, section, fix):
 
 
 @task(default=True)
-def all(ctx, fix=False):
+def all(ctx, fix=False):  # noqa: A001
     """
     Check and fix syntax using various linters
     """
