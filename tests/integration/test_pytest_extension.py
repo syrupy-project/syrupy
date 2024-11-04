@@ -46,7 +46,7 @@ def test_handles_pyargs_non_module_when_both_given(testdir, plugin_args):
     assert result.ret == 0
 
 
-def test_does_not_print_empty_snapshot_report(testdir, plugin_args_fails_xdist):
+def test_does_not_print_empty_snapshot_report(testdir, plugin_args):
     testdir.makeconftest("")
     testcase_no_snapshots = """
         def test_example(snapshot):
@@ -61,7 +61,7 @@ def test_does_not_print_empty_snapshot_report(testdir, plugin_args_fails_xdist):
     )
 
     result = testdir.runpytest(
-        "-v", "test_file_no.py", "--snapshot-update", *plugin_args_fails_xdist
+        "-v", "test_file_no.py", "--snapshot-update", *plugin_args
     )
     result.stdout.re_match_lines((r".*test_file_no.py.*"))
     assert "snapshot report" not in result.stdout.str()
@@ -69,7 +69,7 @@ def test_does_not_print_empty_snapshot_report(testdir, plugin_args_fails_xdist):
     assert result.ret == 0
 
     result = testdir.runpytest(
-        "-v", "test_file_yes.py", "--snapshot-update", *plugin_args_fails_xdist
+        "-v", "test_file_yes.py", "--snapshot-update", *plugin_args
     )
     result.stdout.re_match_lines((r".*test_file_yes.py.*", r".*snapshot report.*"))
     assert result.ret == 0

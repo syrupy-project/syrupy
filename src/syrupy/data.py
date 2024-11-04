@@ -4,6 +4,7 @@ from dataclasses import (
 )
 from typing import (
     TYPE_CHECKING,
+    Any,
     Dict,
     Iterator,
     List,
@@ -123,6 +124,16 @@ class SnapshotCollections:
 
     def __contains__(self, key: str) -> bool:
         return key in self._snapshot_collections
+
+    def serialize(self) -> Dict[str, Any]:
+        return {k: [c.name for c in v] for k, v in self._snapshot_collections.items()}
+
+    def merge_serialized(self, data: Dict[str, Any]) -> None:
+        for location, names in data.items():
+            snapshot_collection = SnapshotCollection(location=location)
+            for name in names:
+                snapshot_collection.add(Snapshot(name))
+            self.update(snapshot_collection)
 
 
 @dataclass
