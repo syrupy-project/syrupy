@@ -89,9 +89,7 @@ class SnapshotReport:
 
     @cached_property
     def _collected_items_by_nodeid(self) -> Dict[str, "pytest.Item"]:
-        return {
-            getattr(item, "nodeid"): item for item in self.collected_items  # noqa: B009
-        }
+        return {item.nodeid: item for item in self.collected_items}
 
     def _has_xfail(self, item: "pytest.Item") -> bool:
         # xfailed_key is 'private'. I'm open to a better way to do this:
