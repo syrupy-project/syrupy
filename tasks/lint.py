@@ -7,7 +7,6 @@ from .utils import ctx_run
 
 lint_commands = {
     "black": lambda fix: f"python -m black {'' if fix else '--check'} .",
-    "flake8": lambda _: "python -m flake8 src tests benchmarks *.py",
     "mypy": lambda _: "python -m mypy --strict src benchmarks",
     "ruff": lambda fix: f"python -m ruff check {'--fix' if fix else ''} .",
 }
