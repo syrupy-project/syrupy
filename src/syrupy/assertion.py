@@ -295,8 +295,8 @@ class SnapshotAssertion:
         snapshot_name = self.extension.get_snapshot_name(
             test_location=self.test_location, index=self.index
         )
-        snapshot_data: Optional["SerializedData"] = None
-        serialized_data: Optional["SerializedData"] = None
+        snapshot_data: Optional[SerializedData] = None
+        serialized_data: Optional[SerializedData] = None
         matches = False
         assertion_success = False
         assertion_exception = None

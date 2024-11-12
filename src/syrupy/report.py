@@ -384,7 +384,7 @@ class SnapshotReport:
         {A{1,2}, B{3,4}, D{7,8}}  will result in a collection with the contents
         {A{}, B{}, C{5,6}}.
         """
-        diffed_snapshot_collections: "SnapshotCollections" = SnapshotCollections()
+        diffed_snapshot_collections = SnapshotCollections()
         for snapshot_collection1 in snapshot_collections1:
             snapshot_collection2 = snapshot_collections2.get(
                 snapshot_collection1.location

@@ -113,7 +113,7 @@ class SnapshotCollectionStorage(ABC):
         """
         Returns all snapshot collections in test site
         """
-        discovered: "SnapshotCollections" = SnapshotCollections()
+        discovered = SnapshotCollections()
         for filepath in walk_snapshot_dir(self.dirname(test_location=test_location)):
             if self.is_snapshot_location(location=filepath):
                 snapshot_collection = self._read_snapshot_collection(
@@ -315,7 +315,7 @@ class SnapshotReporter:
             yield from map(context_style, self.__limit_context(line.c))
 
     def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
-        staged_diffed_line: Optional["DiffedLine"] = None
+        staged_diffed_line: Optional[DiffedLine] = None
         for line in qdiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
             is_context_line = line[0] == " "
             is_snapshot_line = line[0] == "-"
