@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1731375455730,
+  "lastUpdate": 1731375654318,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -7875,6 +7875,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.07928006008511448",
             "extra": "mean: 1.3536415836000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39d2bba52838468b5a03dd666cec2641942d15e4",
+          "message": "chore: Cleanup unnecessary B009 ignore (#915)\n\nCo-authored-by: Noah <noahnu@gmail.com>",
+          "timestamp": "2024-11-11T20:39:35-05:00",
+          "tree_id": "a1c40674c8b9ce142f922eed44fdd318a49eb4e3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/39d2bba52838468b5a03dd666cec2641942d15e4"
+        },
+        "date": 1731375652994,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8120877044631453,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06755618147186293",
+            "extra": "mean: 1.2313940901999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7212612990726867,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16619477923499826",
+            "extra": "mean: 1.3864600822000057 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7645314365526932,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05876909612864847",
+            "extra": "mean: 1.3079906884000025 sec\nrounds: 5"
           }
         ]
       }
