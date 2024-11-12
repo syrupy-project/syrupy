@@ -6,9 +6,9 @@ from invoke import (
 from .utils import ctx_run
 
 lint_commands = {
-    "black": lambda fix: f"python -m black {'' if fix else '--check'} .",
     "mypy": lambda _: "python -m mypy --strict src benchmarks",
     "ruff": lambda fix: f"python -m ruff check {'--fix' if fix else ''} .",
+    "ruff-format": lambda fix: f"python -m ruff format {'' if fix else '--diff'} .",
 }
 
 
