@@ -54,20 +54,20 @@ def import_module_member(path: str) -> Any:
         )
     try:
         module = import_module(module_name)
-    except ModuleNotFoundError:
+    except ModuleNotFoundError as e:
         raise FailedToLoadModuleMember(
             gettext("Module '{}' does not exist.").format(module_name)
-        )
+        ) from e
 
     try:
         return getattr(module, module_member_name)
-    except AttributeError:
+    except AttributeError as e:
         raise FailedToLoadModuleMember(
             gettext("Member '{}' not found in module '{}'.").format(
                 module_member_name,
                 module_name,
             )
-        )
+        ) from e
 
 
 def get_env_value(env_var_name: str) -> object:
