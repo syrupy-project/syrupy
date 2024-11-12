@@ -40,7 +40,7 @@ def __import_extension(value: Optional[str]) -> Any:
     try:
         return import_module_member(value)
     except FailedToLoadModuleMember as e:
-        raise argparse.ArgumentTypeError(e)
+        raise argparse.ArgumentTypeError(e) from e
 
 
 def pytest_addoption(parser: Any) -> None:

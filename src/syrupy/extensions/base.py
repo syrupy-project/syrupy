@@ -259,7 +259,7 @@ def _count_leading_whitespace(s: str) -> int:
     return len(s) - len(s.lstrip())
 
 
-class SnapshotReporter(ABC):
+class SnapshotReporter:
     _context_line_count = 1
 
     def diff_snapshots(
