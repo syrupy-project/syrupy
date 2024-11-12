@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1731375056315,
+  "lastUpdate": 1731375455730,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -7830,6 +7830,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06656274369729592",
             "extra": "mean: 1.3173416802000133 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "459b62daab073e9d033a02a3ab762a946d20467f",
+          "message": "chore(deps): update dependency mypy to v1.12.1 (#907)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-11-11T20:36:19-05:00",
+          "tree_id": "d3c8ff1ed8c68395ffc249e10a5aa13d9e2bb3ad",
+          "url": "https://github.com/syrupy-project/syrupy/commit/459b62daab073e9d033a02a3ab762a946d20467f"
+        },
+        "date": 1731375454404,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7804159861413916,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09265564535192271",
+            "extra": "mean: 1.2813679085999978 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6917119400858575,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18538973248131416",
+            "extra": "mean: 1.4456885041999954 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7387479906907906,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07928006008511448",
+            "extra": "mean: 1.3536415836000004 sec\nrounds: 5"
           }
         ]
       }
