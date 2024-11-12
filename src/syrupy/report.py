@@ -359,8 +359,9 @@ class SnapshotReport:
                         path_to_file = filepath
 
                     unused_snapshots = ", ".join(map(bold, sorted(snapshots)))
-                    yield warning_style(gettext(base_message)) + " {} ({})".format(
-                        unused_snapshots, path_to_file
+                    yield (
+                        warning_style(gettext(base_message))
+                        + f" {unused_snapshots} ({path_to_file})"
                     )
             if not self.update_snapshots:
                 message = gettext(

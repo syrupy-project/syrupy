@@ -68,6 +68,7 @@ extend-select = [
   "B", # flake8-bugbear
   "C4", # flake8-comprehensions
   "I", # isort
+  "UP", # pyupgrade
 ]
 
 [build-system]
