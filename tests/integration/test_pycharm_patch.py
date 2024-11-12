@@ -77,11 +77,11 @@ def test_patches_pycharm_diff_tools_when_flag_set(
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
     result.stdout.re_match_lines(
-        [
+        (
             r"Expected: 'list([\n  1,\n  2,\n])'",
             # Actual is the amber-style list representation
             r"Actual: 'list([\n  1,\n  2,\n  3,\n])'",
-        ]
+        )
     )
 
 
@@ -120,11 +120,11 @@ def test_patches_pycharm_diff_tools_when_flag_set_and_snapshot_on_right(
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
     result.stdout.re_match_lines(
-        [
+        (
             r"Expected: 'list([\n  1,\n  2,\n])'",
             # Actual is the amber-style list representation
             r"Actual: 'list([\n  1,\n  2,\n  3,\n])'",
-        ]
+        )
     )
 
 
@@ -163,11 +163,11 @@ def test_it_does_not_patch_pycharm_diff_tools_by_default(
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
     result.stdout.re_match_lines(
-        [
+        (
             r"Expected: 'list([\n  1,\n  2,\n])'",
             # Actual is the original list's repr. No newlines or amber-style list prefix
             r"Actual: '[1, 2, 3]'",
-        ]
+        )
     )
 
 
@@ -197,10 +197,10 @@ def test_it_has_no_impact_on_non_syrupy_assertions(
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
     result.stdout.re_match_lines(
-        [
+        (
             r"Expected: '[1, 3]'",
             r"Actual: '[1, 2, 3]'",
-        ]
+        )
     )
 
 
@@ -234,8 +234,8 @@ def test_has_no_impact_on_real_exceptions_that_are_not_assertion_errors(
     result.assert_outcomes(failed=1, passed=0, warnings=0)
 
     result.stdout.re_match_lines(
-        [
+        (
             r"Expected: '[1, 3]'",
             r"Actual: '[1, 2, 3]'",
-        ]
+        )
     )
