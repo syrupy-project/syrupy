@@ -39,7 +39,6 @@ pytest-benchmark = '^4.0.0'
 pytest-xdist = '^3.1.0'
 
 [tool.poetry.group.dev.dependencies]
-black = '^24.1.0'
 mypy = '^1.0.1'
 py-githooks = '^1.1.1'
 twine = '^5.1.1'
@@ -47,32 +46,6 @@ semver = '^3.0.0'
 setuptools-scm = '^8.0.0'
 debugpy = '^1.6.6'
 ruff = '>=0.7.0'
-
-[tool.black]
-line-length = 88
-target-version = ['py310']
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.vscode
-    | \.venv
-    | \.poetry
-    | syrupy.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-  )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
-)
-'''
 
 [tool.pytest.ini_options]
 addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
@@ -84,6 +57,10 @@ source = ['./src']
 
 [tool.coverage.report]
 exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
 
 [tool.ruff.lint]
 extend-select = [

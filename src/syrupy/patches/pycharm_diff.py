@@ -32,7 +32,6 @@ def patch_pycharm_diff() -> Iterator[None]:
 
     @wraps(old_init)
     def new_init(self: "EqualsAssertionError", *args: Any, **kwargs: Any) -> None:
-
         # Extract the __init__ arguments as originally passed in order to
         # process them later
         parameters = old_init_signature.bind(self, *args, **kwargs)
