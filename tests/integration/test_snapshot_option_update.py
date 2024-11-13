@@ -114,7 +114,7 @@ def run_testcases(testdir, testcases_initial):
     sys.path.append(str(testdir.tmpdir))
     testdir.makepyfile(**testcases_initial)
     result = testdir.runpytest("-v", "--snapshot-update")
-    result.stdout.re_match_lines((r"10 snapshots generated."))
+    result.stdout.re_match_lines((r"10 snapshots generated.",))
     assert "Can not relate snapshot name" not in result.stdout.str()
 
     return result, testdir, testcases_initial
@@ -189,7 +189,7 @@ def test_update_success_shows_snapshot_report(
     testdir = run_testcases[1]
     testdir.makepyfile(**testcases_updated)
     result = testdir.runpytest("-v", "--snapshot-update", *plugin_args_fails_xdist)
-    result.stdout.re_match_lines((r"5 snapshots passed\. 5 snapshots updated\."))
+    result.stdout.re_match_lines((r"5 snapshots passed\. 5 snapshots updated\.",))
     assert result.ret == 0
 
 
@@ -242,7 +242,7 @@ def test_update_targets_only_selected_parametrized_tests_for_update_dash_k(
     result = testdir.runpytest(
         "-v", "--snapshot-update", *plugin_args_fails_xdist, "-k", "test_used[2]"
     )
-    result.stdout.re_match_lines((r"1 snapshot updated\."))
+    result.stdout.re_match_lines((r"1 snapshot updated\.",))
     assert "Deleted" not in result.stdout.str()
     snapshot_path = [testdir.tmpdir, "__snapshots__"]
     assert Path(*snapshot_path, "test_used.ambr").exists()
@@ -300,7 +300,7 @@ def test_update_targets_only_selected_class_tests_dash_k(
     result = testdir.runpytest(
         "test_content.py", "-v", *plugin_args_fails_xdist, "-k", "test_case_2"
     )
-    result.stdout.re_match_lines((r"1 snapshot passed\."))
+    result.stdout.re_match_lines((r"1 snapshot passed\.",))
     assert "snaphot unused" not in result.stdout.str()
 
 
@@ -324,7 +324,7 @@ def test_update_targets_only_selected_module_tests_dash_k(
     result = testdir.runpytest(
         "test_content.py", "-v", *plugin_args_fails_xdist, "-k", "test_case_2"
     )
-    result.stdout.re_match_lines((r"1 snapshot passed\."))
+    result.stdout.re_match_lines((r"1 snapshot passed\.",))
     assert "snaphot unused" not in result.stdout.str()
 
 
@@ -338,7 +338,7 @@ def test_update_targets_only_selected_module_tests_nodes(
     result = testdir.runpytest(
         "-v", f"{testfile}::test_used", "--snapshot-update", *plugin_args_fails_xdist
     )
-    result.stdout.re_match_lines((r"3 snapshots passed\."))
+    result.stdout.re_match_lines((r"3 snapshots passed\.",))
     assert "unused" not in result.stdout.str()
     assert "updated" not in result.stdout.str()
     assert "deleted" not in result.stdout.str()
@@ -359,7 +359,7 @@ def test_update_targets_only_selected_module_tests_nodes_pyargs(
         "--pyargs",
         "test_used::test_used",
     )
-    result.stdout.re_match_lines((r"3 snapshots passed\."))
+    result.stdout.re_match_lines((r"3 snapshots passed\.",))
     assert "unused" not in result.stdout.str()
     assert "updated" not in result.stdout.str()
     assert "deleted" not in result.stdout.str()
