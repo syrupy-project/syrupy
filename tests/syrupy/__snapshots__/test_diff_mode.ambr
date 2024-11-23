@@ -1,0 +1,7 @@
+# serializer version: 1
+# name: test_can_be_stringified
+  'detailed'
+# ---
+# name: test_can_be_stringified.1
+  'disabled'
+# ---

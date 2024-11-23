@@ -4,6 +4,7 @@ from dataclasses import (
     dataclass,
     field,
 )
+from enum import Enum
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
@@ -33,6 +34,14 @@ if TYPE_CHECKING:
         SerializedData,
         SnapshotIndex,
     )
+
+
+class DiffMode(Enum):
+    DETAILED = "detailed"
+    DISABLED = "disabled"
+
+    def __str__(self) -> str:
+        return self.value
 
 
 @dataclass
@@ -210,7 +219,9 @@ class SnapshotAssertion:
             data, exclude=self._exclude, include=self._include, matcher=self.__matcher
         )
 
-    def get_assert_diff(self) -> List[str]:
+    def get_assert_diff(
+        self, *, diff_mode: "DiffMode" = DiffMode.DETAILED
+    ) -> List[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         if assertion_result.exception:
             if isinstance(assertion_result.exception, (TaintedSnapshotError,)):
@@ -247,7 +258,8 @@ class SnapshotAssertion:
             )
         if not assertion_result.success:
             snapshot_data = snapshot_data if snapshot_data is not None else ""
-            diff.extend(self.extension.diff_lines(serialized_data, snapshot_data))
+            if diff_mode == DiffMode.DETAILED:
+                diff.extend(self.extension.diff_lines(serialized_data, snapshot_data))
         return diff
 
     def __with_prop(self, prop_name: str, prop_value: Any) -> None:
