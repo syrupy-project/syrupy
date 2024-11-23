@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1731895046482,
+  "lastUpdate": 1732401737254,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -8100,6 +8100,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05530831375771462",
             "extra": "mean: 1.298071517400001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d283e87c2b8d1d5623ea3258653d579757bfa78c",
+          "message": "feat: add option to disable diffing (#924)\n\nFor extremely large snapshot files, the diff algorithm is not very efficient. Until the algorithm can be modified to work with large files, there is now a --snapshot-diff-mode=disabled flag that can be specified to disable diffing on snapshot assertion failures.",
+          "timestamp": "2024-11-23T17:40:17-05:00",
+          "tree_id": "e7c8c28a4255d9e136a7b28540af582b12d06550",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d283e87c2b8d1d5623ea3258653d579757bfa78c"
+        },
+        "date": 1732401736595,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8206510272360953,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06414211339510058",
+            "extra": "mean: 1.218544749 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7296660677418227,
+            "unit": "iter/sec",
+            "range": "stddev: 0.160353318333188",
+            "extra": "mean: 1.370489932600003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.758693423573993,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06688161104621605",
+            "extra": "mean: 1.3180554476000055 sec\nrounds: 5"
           }
         ]
       }
