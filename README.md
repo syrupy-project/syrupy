@@ -139,6 +139,7 @@ These are the cli options exposed to `pytest` by the plugin.
 | `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/syrupy-project/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
 | `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.                                                                      |
 | `--snapshot-patch-pycharm-diff`| Override PyCharm's default diffs viewer when looking at snapshot diffs. See [IDE Integrations](#ide-integrations)        | `False`                                                                                                      |
+| `--snapshot-diff-mode` | Configures how diffs are displayed on assertion failure. If working with very large snapshots, disabling the diff can improve performance. | `detailed` |
 
 ### Assertion Options
 

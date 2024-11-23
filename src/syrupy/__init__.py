@@ -12,7 +12,7 @@ from typing import (
 
 import pytest
 
-from .assertion import SnapshotAssertion
+from .assertion import DiffMode, SnapshotAssertion
 from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
@@ -43,7 +43,7 @@ def __import_extension(value: Optional[str]) -> Any:
         raise argparse.ArgumentTypeError(e) from e
 
 
-def pytest_addoption(parser: Any) -> None:
+def pytest_addoption(parser: "pytest.Parser") -> None:
     """
     Exposes snapshot plugin configuration to pytest.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_addoption
@@ -94,9 +94,17 @@ def pytest_addoption(parser: Any) -> None:
         dest="patch_pycharm_diff",
         help="Patch PyCharm diff",
     )
+    group.addoption(
+        "--snapshot-diff-mode",
+        default=DiffMode.DETAILED,
+        choices=list(DiffMode),
+        type=DiffMode,
+        dest="diff_mode",
+        help="Controls how diffs are represented on snapshot assertion failure",
+    )
 
 
-def __terminal_color(config: Any) -> "ContextManager[None]":
+def __terminal_color(config: "pytest.Config") -> "ContextManager[None]":
     env = {}
     if config.option.no_colors:
         env[DISABLE_COLOR_ENV_VAR] = "true"
@@ -105,7 +113,7 @@ def __terminal_color(config: Any) -> "ContextManager[None]":
 
 
 def pytest_assertrepr_compare(
-    config: Any, op: str, left: Any, right: Any
+    config: "pytest.Config", op: str, left: Any, right: Any
 ) -> Optional[List[str]]:
     """
     Return explanation for comparisons in failing assert expressions.
@@ -119,10 +127,14 @@ def pytest_assertrepr_compare(
 
         if isinstance(left, SnapshotAssertion):
             assert_msg = reset(f"{snapshot_name(left.name)} {op} {received_name}")
-            return [assert_msg] + left.get_assert_diff()
+            return [assert_msg] + left.get_assert_diff(
+                diff_mode=config.option.diff_mode
+            )
         elif isinstance(right, SnapshotAssertion):
             assert_msg = reset(f"{received_name} {op} {snapshot_name(right.name)}")
-            return [assert_msg] + right.get_assert_diff()
+            return [assert_msg] + right.get_assert_diff(
+                diff_mode=config.option.diff_mode
+            )
     return None
 
 
