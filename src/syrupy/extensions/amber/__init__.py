@@ -49,7 +49,9 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         else:
             Path(snapshot_location).unlink()
 
-    def _read_snapshot_collection(self, snapshot_location: str) -> "SnapshotCollection":
+    def _read_snapshot_collection(
+        self, snapshot_location: str, **kwargs: Any
+    ) -> "SnapshotCollection":
         return self.serializer_class.read_file(snapshot_location)
 
     @classmethod
@@ -74,7 +76,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
 
     @classmethod
     def _write_snapshot_collection(
-        cls, *, snapshot_collection: "SnapshotCollection"
+        cls, *, snapshot_collection: "SnapshotCollection", **kwargs: Any
     ) -> None:
         cls.serializer_class.write_file(snapshot_collection, merge=True)
 
