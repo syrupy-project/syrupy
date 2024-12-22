@@ -67,6 +67,17 @@ class SnapshotSession:
         List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
     ] = field(default_factory=dict)
 
+    def _snapshot_write_queue_key(
+        self,
+        extension: "AbstractSyrupyExtension",
+        test_location: "PyTestLocation",
+        index: "SnapshotIndex",
+    ) -> Tuple[Type["AbstractSyrupyExtension"], str]:
+        snapshot_location = extension.get_location(
+            test_location=test_location, index=index
+        )
+        return (extension.__class__, snapshot_location)
+
     def queue_snapshot_write(
         self,
         extension: "AbstractSyrupyExtension",
@@ -74,10 +85,7 @@ class SnapshotSession:
         data: "SerializedData",
         index: "SnapshotIndex",
     ) -> None:
-        snapshot_location = extension.get_location(
-            test_location=test_location, index=index
-        )
-        key = (extension.__class__, snapshot_location)
+        key = self._snapshot_write_queue_key(extension, test_location, index)
         queue = self._queued_snapshot_writes.get(key, [])
         queue.append((data, test_location, index))
         self._queued_snapshot_writes[key] = queue
@@ -92,6 +100,27 @@ class SnapshotSession:
                     snapshot_location=snapshot_location, snapshots=queued_write
                 )
         self._queued_snapshot_writes = {}
+
+    def recall_snapshot(
+        self,
+        extension: "AbstractSyrupyExtension",
+        test_location: "PyTestLocation",
+        index: "SnapshotIndex",
+    ) -> Optional["SerializedData"]:
+        """Find the current value of the snapshot, for this session, either a pending write or the actual snapshot."""
+
+        key = self._snapshot_write_queue_key(extension, test_location, index)
+        queue = self._queued_snapshot_writes.get(key)
+        if queue:
+            # find the last (i.e. most recent) write to this index/location in the queue:
+            for queue_data, queue_test_location, queue_index in reversed(queue):
+                if queue_index == index and queue_test_location == test_location:
+                    return queue_data
+
+        # no queue, or no matching write, so just read the snapshot directly:
+        return extension.read_snapshot(
+            test_location=test_location, index=index, session_id=str(id(self))
+        )
 
     @property
     def update_snapshots(self) -> bool:

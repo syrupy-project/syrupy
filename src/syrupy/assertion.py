@@ -377,11 +377,7 @@ class SnapshotAssertion:
     ) -> Tuple[Optional["SerializableData"], bool]:
         try:
             return (
-                self.extension.read_snapshot(
-                    test_location=self.test_location,
-                    index=index,
-                    session_id=str(id(self.session)),
-                ),
+                self.session.recall_snapshot(self.extension, self.test_location, index),
                 False,
             )
         except SnapshotDoesNotExist:
