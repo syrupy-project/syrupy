@@ -46,6 +46,10 @@ class ItemStatus(Enum):
     SKIPPED = "skipped"
 
 
+_QueuedWriteExtensionKey = Tuple[Type["AbstractSyrupyExtension"], str]
+_QueuedWriteTestLocationKey = Tuple["PyTestLocation", "SnapshotIndex"]
+
+
 @dataclass
 class SnapshotSession:
     pytest_session: "pytest.Session"
@@ -62,10 +66,28 @@ class SnapshotSession:
         default_factory=lambda: defaultdict(set)
     )
 
-    _queued_snapshot_writes: Dict[
-        Tuple[Type["AbstractSyrupyExtension"], str],
-        List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
-    ] = field(default_factory=dict)
+    # For performance, we buffer snapshot writes in memory before flushing them to disk. In
+    # particular, we want to be able to write to a file on disk only once, rather than having to
+    # repeatedly rewrite it.
+    #
+    # That batching leads to using two layers of dicts here: the outer layer represents the
+    # extension/file-location pair that will be written, and the inner layer represents the
+    # snapshots within that, "indexed" to allow efficient recall.
+    _queued_snapshot_writes: DefaultDict[
+        _QueuedWriteExtensionKey,
+        Dict[_QueuedWriteTestLocationKey, "SerializedData"],
+    ] = field(default_factory=lambda: defaultdict(dict))
+
+    def _snapshot_write_queue_keys(
+        self,
+        extension: "AbstractSyrupyExtension",
+        test_location: "PyTestLocation",
+        index: "SnapshotIndex",
+    ) -> Tuple[_QueuedWriteExtensionKey, _QueuedWriteTestLocationKey]:
+        snapshot_location = extension.get_location(
+            test_location=test_location, index=index
+        )
+        return (extension.__class__, snapshot_location), (test_location, index)
 
     def queue_snapshot_write(
         self,
@@ -74,13 +96,10 @@ class SnapshotSession:
         data: "SerializedData",
         index: "SnapshotIndex",
     ) -> None:
-        snapshot_location = extension.get_location(
-            test_location=test_location, index=index
+        ext_key, loc_key = self._snapshot_write_queue_keys(
+            extension, test_location, index
         )
-        key = (extension.__class__, snapshot_location)
-        queue = self._queued_snapshot_writes.get(key, [])
-        queue.append((data, test_location, index))
-        self._queued_snapshot_writes[key] = queue
+        self._queued_snapshot_writes[ext_key][loc_key] = data
 
     def flush_snapshot_write_queue(self) -> None:
         for (
@@ -89,9 +108,33 @@ class SnapshotSession:
         ), queued_write in self._queued_snapshot_writes.items():
             if queued_write:
                 extension_class.write_snapshot(
-                    snapshot_location=snapshot_location, snapshots=queued_write
+                    snapshot_location=snapshot_location,
+                    snapshots=[
+                        (data, loc, index)
+                        for (loc, index), data in queued_write.items()
+                    ],
                 )
-        self._queued_snapshot_writes = {}
+        self._queued_snapshot_writes.clear()
+
+    def recall_snapshot(
+        self,
+        extension: "AbstractSyrupyExtension",
+        test_location: "PyTestLocation",
+        index: "SnapshotIndex",
+    ) -> Optional["SerializedData"]:
+        """Find the current value of the snapshot, for this session, either a pending write or the actual snapshot."""
+
+        ext_key, loc_key = self._snapshot_write_queue_keys(
+            extension, test_location, index
+        )
+        data = self._queued_snapshot_writes[ext_key].get(loc_key)
+        if data is not None:
+            return data
+
+        # No matching write queued, so just read the snapshot directly:
+        return extension.read_snapshot(
+            test_location=test_location, index=index, session_id=str(id(self))
+        )
 
     @property
     def update_snapshots(self) -> bool:

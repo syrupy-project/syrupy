@@ -13,7 +13,7 @@ import pytest
 from syrupy.constants import PYTEST_NODE_SEP
 
 
-@dataclass
+@dataclass(frozen=True)
 class PyTestLocation:
     item: "pytest.Item"
     nodename: Optional[str] = field(init=False)
@@ -23,27 +23,42 @@ class PyTestLocation:
     filepath: str = field(init=False)
 
     def __post_init__(self) -> None:
+        # NB. we're in a frozen dataclass, but need to transform the values that the caller
+        # supplied... we do so by (ab)using object.__setattr__ to forcibly set the attributes. (See
+        # rejected PEP-0712 for an example of a better way to handle this.)
+        #
+        # This is safe because this all happens during initialization: `self` hasn't been hashed
+        # (or, e.g., stored in a dict), so the mutation won't be noticed.
         if self.is_doctest:
             return self.__attrs_post_init_doc__()
         self.__attrs_post_init_def__()
 
     def __attrs_post_init_def__(self) -> None:
         node_path: Path = getattr(self.item, "path")  # noqa: B009
-        self.filepath = str(node_path.absolute())
+        # See __post_init__ for discussion of object.__setattr__
+        object.__setattr__(self, "filepath", str(node_path.absolute()))
         obj = getattr(self.item, "obj")  # noqa: B009
-        self.modulename = obj.__module__
-        self.methodname = obj.__name__
-        self.nodename = getattr(self.item, "name", None)
-        self.testname = self.nodename or self.methodname
+        object.__setattr__(self, "modulename", obj.__module__)
+        object.__setattr__(self, "methodname", obj.__name__)
+        object.__setattr__(self, "nodename", getattr(self.item, "name", None))
+        object.__setattr__(self, "testname", self.nodename or self.methodname)
 
     def __attrs_post_init_doc__(self) -> None:
         doctest = getattr(self.item, "dtest")  # noqa: B009
-        self.filepath = doctest.filename
+        # See __post_init__ for discussion of object.__setattr__
+        object.__setattr__(self, "filepath", doctest.filename)
         test_relfile, test_node = self.nodeid.split(PYTEST_NODE_SEP)
         test_relpath = Path(test_relfile)
-        self.modulename = ".".join([*test_relpath.parent.parts, test_relpath.stem])
-        self.nodename = test_node.replace(f"{self.modulename}.", "")
-        self.testname = self.nodename or self.methodname
+        object.__setattr__(
+            self,
+            "modulename",
+            ".".join([*test_relpath.parent.parts, test_relpath.stem]),
+        )
+        object.__setattr__(self, "methodname", None)
+        object.__setattr__(
+            self, "nodename", test_node.replace(f"{self.modulename}.", "")
+        )
+        object.__setattr__(self, "testname", self.nodename or self.methodname)
 
     @property
     def classname(self) -> Optional[str]:
