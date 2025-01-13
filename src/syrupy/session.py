@@ -71,16 +71,16 @@ class SnapshotSession:
         Dict[_QueuedWriteTestLocationKey, "SerializedData"],
     ] = field(default_factory=dict)
 
-    def _snapshot_write_queue_key(
+    def _snapshot_write_queue_keys(
         self,
         extension: "AbstractSyrupyExtension",
         test_location: "PyTestLocation",
         index: "SnapshotIndex",
-    ) -> _QueuedWriteExtensionKey:
+    ) -> Tuple[_QueuedWriteExtensionKey, _QueuedWriteTestLocationKey]:
         snapshot_location = extension.get_location(
             test_location=test_location, index=index
         )
-        return (extension.__class__, snapshot_location)
+        return (extension.__class__, snapshot_location), (test_location, index)
 
     def queue_snapshot_write(
         self,
@@ -89,10 +89,12 @@ class SnapshotSession:
         data: "SerializedData",
         index: "SnapshotIndex",
     ) -> None:
-        key = self._snapshot_write_queue_key(extension, test_location, index)
-        queue = self._queued_snapshot_writes.get(key, {})
-        queue[(test_location, index)] = data
-        self._queued_snapshot_writes[key] = queue
+        ext_key, loc_key = self._snapshot_write_queue_keys(
+            extension, test_location, index
+        )
+        queue = self._queued_snapshot_writes.get(ext_key, {})
+        queue[loc_key] = data
+        self._queued_snapshot_writes[ext_key] = queue
 
     def flush_snapshot_write_queue(self) -> None:
         for (
@@ -117,9 +119,11 @@ class SnapshotSession:
     ) -> Optional["SerializedData"]:
         """Find the current value of the snapshot, for this session, either a pending write or the actual snapshot."""
 
-        key = self._snapshot_write_queue_key(extension, test_location, index)
-        queue = self._queued_snapshot_writes.get(key, {})
-        data = queue.get((test_location, index))
+        ext_key, loc_key = self._snapshot_write_queue_keys(
+            extension, test_location, index
+        )
+        queue = self._queued_snapshot_writes.get(ext_key, {})
+        data = queue.get(loc_key)
         if data is not None:
             return data
 
