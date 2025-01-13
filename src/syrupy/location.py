@@ -54,6 +54,7 @@ class PyTestLocation:
             "modulename",
             ".".join([*test_relpath.parent.parts, test_relpath.stem]),
         )
+        object.__setattr__(self, "methodname", None)
         object.__setattr__(
             self, "nodename", test_node.replace(f"{self.modulename}.", "")
         )
