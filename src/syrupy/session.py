@@ -66,10 +66,10 @@ class SnapshotSession:
         default_factory=lambda: defaultdict(set)
     )
 
-    _queued_snapshot_writes: Dict[
+    _queued_snapshot_writes: DefaultDict[
         _QueuedWriteExtensionKey,
         Dict[_QueuedWriteTestLocationKey, "SerializedData"],
-    ] = field(default_factory=dict)
+    ] = field(default_factory=lambda: defaultdict(dict))
 
     def _snapshot_write_queue_keys(
         self,
@@ -92,9 +92,7 @@ class SnapshotSession:
         ext_key, loc_key = self._snapshot_write_queue_keys(
             extension, test_location, index
         )
-        queue = self._queued_snapshot_writes.get(ext_key, {})
-        queue[loc_key] = data
-        self._queued_snapshot_writes[ext_key] = queue
+        self._queued_snapshot_writes[ext_key][loc_key] = data
 
     def flush_snapshot_write_queue(self) -> None:
         for (
@@ -109,7 +107,7 @@ class SnapshotSession:
                         for (loc, index), data in queued_write.items()
                     ],
                 )
-        self._queued_snapshot_writes = {}
+        self._queued_snapshot_writes.clear()
 
     def recall_snapshot(
         self,
@@ -122,8 +120,7 @@ class SnapshotSession:
         ext_key, loc_key = self._snapshot_write_queue_keys(
             extension, test_location, index
         )
-        queue = self._queued_snapshot_writes.get(ext_key, {})
-        data = queue.get(loc_key)
+        data = self._queued_snapshot_writes[ext_key].get(loc_key)
         if data is not None:
             return data
 
