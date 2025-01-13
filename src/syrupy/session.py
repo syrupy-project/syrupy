@@ -46,6 +46,10 @@ class ItemStatus(Enum):
     SKIPPED = "skipped"
 
 
+_QueuedWriteExtensionKey = Tuple[Type["AbstractSyrupyExtension"], str]
+_QueuedWriteTestLocationKey = Tuple["PyTestLocation", "SnapshotIndex"]
+
+
 @dataclass
 class SnapshotSession:
     pytest_session: "pytest.Session"
@@ -63,8 +67,8 @@ class SnapshotSession:
     )
 
     _queued_snapshot_writes: Dict[
-        Tuple[Type["AbstractSyrupyExtension"], str],
-        Dict[Tuple["PyTestLocation", "SnapshotIndex"], "SerializedData"],
+        _QueuedWriteExtensionKey,
+        Dict[_QueuedWriteTestLocationKey, "SerializedData"],
     ] = field(default_factory=dict)
 
     def _snapshot_write_queue_key(
@@ -72,7 +76,7 @@ class SnapshotSession:
         extension: "AbstractSyrupyExtension",
         test_location: "PyTestLocation",
         index: "SnapshotIndex",
-    ) -> Tuple[Type["AbstractSyrupyExtension"], str]:
+    ) -> _QueuedWriteExtensionKey:
         snapshot_location = extension.get_location(
             test_location=test_location, index=index
         )
