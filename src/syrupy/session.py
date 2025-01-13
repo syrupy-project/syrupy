@@ -64,7 +64,7 @@ class SnapshotSession:
 
     _queued_snapshot_writes: Dict[
         Tuple[Type["AbstractSyrupyExtension"], str],
-        List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
+        Dict[Tuple["PyTestLocation", "SnapshotIndex"], "SerializedData"],
     ] = field(default_factory=dict)
 
     def _snapshot_write_queue_key(
@@ -86,8 +86,8 @@ class SnapshotSession:
         index: "SnapshotIndex",
     ) -> None:
         key = self._snapshot_write_queue_key(extension, test_location, index)
-        queue = self._queued_snapshot_writes.get(key, [])
-        queue.append((data, test_location, index))
+        queue = self._queued_snapshot_writes.get(key, {})
+        queue[(test_location, index)] = data
         self._queued_snapshot_writes[key] = queue
 
     def flush_snapshot_write_queue(self) -> None:
@@ -97,7 +97,11 @@ class SnapshotSession:
         ), queued_write in self._queued_snapshot_writes.items():
             if queued_write:
                 extension_class.write_snapshot(
-                    snapshot_location=snapshot_location, snapshots=queued_write
+                    snapshot_location=snapshot_location,
+                    snapshots=[
+                        (data, loc, index)
+                        for (loc, index), data in queued_write.items()
+                    ],
                 )
         self._queued_snapshot_writes = {}
 
@@ -110,12 +114,10 @@ class SnapshotSession:
         """Find the current value of the snapshot, for this session, either a pending write or the actual snapshot."""
 
         key = self._snapshot_write_queue_key(extension, test_location, index)
-        queue = self._queued_snapshot_writes.get(key)
-        if queue:
-            # find the last (i.e. most recent) write to this index/location in the queue:
-            for queue_data, queue_test_location, queue_index in reversed(queue):
-                if queue_index == index and queue_test_location == test_location:
-                    return queue_data
+        queue = self._queued_snapshot_writes.get(key, {})
+        data = queue.get((test_location, index))
+        if data is not None:
+            return data
 
         # no queue, or no matching write, so just read the snapshot directly:
         return extension.read_snapshot(
