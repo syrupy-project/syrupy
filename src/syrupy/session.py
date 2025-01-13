@@ -66,6 +66,13 @@ class SnapshotSession:
         default_factory=lambda: defaultdict(set)
     )
 
+    # For performance, we buffer snapshot writes in memory before flushing them to disk. In
+    # particular, we want to be able to write to a file on disk only once, rather than having to
+    # repeatedly rewrite it.
+    #
+    # That batching leads to using two layers of dicts here: the outer layer represents the
+    # extension/file-location pair that will be written, and the inner layer represents the
+    # snapshots within that, "indexed" to allow efficient recall.
     _queued_snapshot_writes: DefaultDict[
         _QueuedWriteExtensionKey,
         Dict[_QueuedWriteTestLocationKey, "SerializedData"],
@@ -124,7 +131,7 @@ class SnapshotSession:
         if data is not None:
             return data
 
-        # no queue, or no matching write, so just read the snapshot directly:
+        # No matching write queued, so just read the snapshot directly:
         return extension.read_snapshot(
             test_location=test_location, index=index, session_id=str(id(self))
         )
