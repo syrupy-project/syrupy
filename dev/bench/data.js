@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1732401737254,
+  "lastUpdate": 1736769821279,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -8145,6 +8145,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06688161104621605",
             "extra": "mean: 1.3180554476000055 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "huon@exoflare.io",
+            "name": "Huon Wilson",
+            "username": "huonw"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0f6bb55000593e5d5198feb2bd9ccbb1376a37fb",
+          "message": "fix: check current session's pending-write queue when recalling snapshots (e.g. diffing) (#927)\n\n* fix: check current session's pending-write queue when recalling snapshots (e.g. diffing)\n\n* Make PyTestLocation hashable\n\n* Explicitly set methodname to None for doctests\n\n----------------------------------------------------------------------------------- benchmark: 3 tests -----------------------------------------------------------------------------------\nName (time in ms)          Min                 Max                Mean             StdDev              Median                IQR            Outliers     OPS            Rounds  Iterations\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\ntest_1000x_reads      666.9710 (1.0)      748.6652 (1.0)      705.2418 (1.0)      37.2862 (1.0)      703.0552 (1.0)      70.1912 (1.07)          2;0  1.4180 (1.0)           5           1\ntest_standard         669.7840 (1.00)     843.3747 (1.13)     733.8905 (1.04)     68.2257 (1.83)     705.8282 (1.00)     85.6269 (1.30)          1;0  1.3626 (0.96)          5           1\ntest_1000x_writes     793.8229 (1.19)     937.1953 (1.25)     850.9716 (1.21)     54.4067 (1.46)     847.3260 (1.21)     65.9041 (1.0)           2;0  1.1751 (0.83)          5           1\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n* Queue writes with a dict for O(1) look-ups\n\nName (time in ms)          Min                   Max                Mean              StdDev              Median                 IQR            Outliers     OPS            Rounds  Iterations\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\ntest_1000x_reads      625.5781 (1.0)        887.4346 (1.0)      694.6221 (1.0)      109.0048 (1.0)      658.3128 (1.0)       87.7517 (1.0)           1;1  1.4396 (1.0)           5           1\ntest_1000x_writes     637.3099 (1.02)     1,021.0924 (1.15)     812.9789 (1.17)     150.2342 (1.38)     757.7635 (1.15)     215.9572 (2.46)          2;0  1.2300 (0.85)          5           1\ntest_standard         694.1814 (1.11)     1,037.9224 (1.17)     845.1463 (1.22)     136.2068 (1.25)     785.6973 (1.19)     194.9636 (2.22)          2;0  1.1832 (0.82)          5           1\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n* Use type aliases\n\n* return both keys from _snapshot_write_queue_key\n\n* Use a defaultdict\n\n* Update comments",
+          "timestamp": "2025-01-13T07:02:20-05:00",
+          "tree_id": "43968258e83290f25b03b54bfd4d0575259e01e1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0f6bb55000593e5d5198feb2bd9ccbb1376a37fb"
+        },
+        "date": 1736769819708,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7674904334282274,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06067418805069874",
+            "extra": "mean: 1.3029478367999956 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6804722356354574,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16702025286049632",
+            "extra": "mean: 1.469567673199998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6920112695784654,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056538111881698015",
+            "extra": "mean: 1.4450631716000004 sec\nrounds: 5"
           }
         ]
       }
