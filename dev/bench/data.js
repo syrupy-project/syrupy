@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1737940365361,
+  "lastUpdate": 1737941061376,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -8235,6 +8235,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.05105342282901861",
             "extra": "mean: 1.4155004259999941 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5d23bd3fcfb2ec21f275f12a0a6a4a030bbd203d",
+          "message": "chore(deps): update mcr.microsoft.com/devcontainers/python docker tag to v3.13 (#933)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-27T01:23:07Z",
+          "tree_id": "4b2bd53bed6aa93b45d64dcf0370419e025c8f01",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5d23bd3fcfb2ec21f275f12a0a6a4a030bbd203d"
+        },
+        "date": 1737941060066,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7797496588269304,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07466146133541442",
+            "extra": "mean: 1.2824628888000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.70736047405934,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14396511195442666",
+            "extra": "mean: 1.4137063586000012 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.719318670700503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03397714296361935",
+            "extra": "mean: 1.3902044263999955 sec\nrounds: 5"
           }
         ]
       }
