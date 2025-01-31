@@ -35,7 +35,7 @@ pytest = '>=7.0.0,<9.0.0'
 [tool.poetry.group.test.dependencies]
 invoke = '^2.0.0'
 coverage = { version = '^7.6.1', extras = ['toml'] }
-pytest-benchmark = '^4.0.0'
+pytest-benchmark = '^5.0.0'
 pytest-xdist = '^3.1.0'
 
 [tool.poetry.group.dev.dependencies]
