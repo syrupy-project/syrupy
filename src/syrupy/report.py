@@ -112,7 +112,8 @@ class SnapshotReport:
                 locations_discovered[test_location].add(extension_class)
                 self.discovered.merge(
                     assertion.extension.discover_snapshots(
-                        test_location=assertion.test_location
+                        test_location=assertion.test_location,
+                        ignore_extensions=assertion.session.ignore_file_extensions,
                     )
                 )
 
