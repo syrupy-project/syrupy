@@ -15,7 +15,6 @@ from typing import (
 from .constants import (
     DIFF_LINE_COUNT_LIMIT,
     DIFF_LINE_WIDTH_LIMIT,
-    SNAPSHOT_DIRNAME,
     SYMBOL_ELLIPSIS,
 )
 from .exceptions import FailedToLoadModuleMember
@@ -29,10 +28,6 @@ def is_xdist_worker() -> bool:
 def is_xdist_controller() -> bool:
     worker_count = os.getenv("PYTEST_XDIST_WORKER_COUNT")
     return bool(worker_count and int(worker_count) > 0 and not is_xdist_worker())
-
-
-def in_snapshot_dir(path: Path) -> bool:
-    return SNAPSHOT_DIRNAME in path.parts
 
 
 def walk_snapshot_dir(root: str) -> Iterator[str]:

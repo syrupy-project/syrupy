@@ -1,3 +1,4 @@
+# noqa: A005
 import datetime
 import inspect
 import json
