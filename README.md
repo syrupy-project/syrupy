@@ -593,4 +593,4 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## License
 
-Syrupy is licensed under [Apache License Version 2.0](https://github.com/syrupy-project/syrupy/tree/main/LICENSE).
+Syrupy is licensed under [MIT](https://github.com/syrupy-project/syrupy/tree/main/LICENSE).

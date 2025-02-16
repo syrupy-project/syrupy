@@ -1,6 +1,6 @@
 [project]
 name = 'syrupy'
-license = 'Apache-2.0'
+license = 'MIT'
 dynamic = [ "version", "classifiers" ]
 description = 'Pytest Snapshot Test Utility'
 readme = 'README.md'
