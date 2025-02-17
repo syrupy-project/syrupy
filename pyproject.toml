@@ -38,18 +38,18 @@ syrupy = 'syrupy'
 
 [tool.poetry.group.test.dependencies]
 invoke = "^2.2.0"
-coverage = { version = "^7.6.3", extras = ['toml'] }
-pytest-benchmark = "^4.0.0"
+coverage = { version = "^7.6.12", extras = ['toml'] }
+pytest-benchmark = "^5.1.0"
 pytest-xdist = "^3.6.1"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.12.0"
+mypy = "^1.15.0"
 py-githooks = '^1.1.1'
-twine = '^5.1.1'
-semver = '^3.0.2'
+twine = '^6.1.0'
+semver = '^3.0.4'
 setuptools-scm = '^8.1.0'
-debugpy = '^1.8.7'
-ruff = '>=0.7.0'
+debugpy = '^1.8.12'
+ruff = '>=0.9.6'
 
 [tool.pytest.ini_options]
 addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
