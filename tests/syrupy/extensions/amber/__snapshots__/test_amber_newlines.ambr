@@ -1,0 +1,19 @@
+# serializer version: 1
+# name: test_multiline_repr
+  Line1
+  Line2
+  
+  Line3 
+# ---
+# name: test_trailing_2_newlines_in_repr
+  ReprWithNewline
+  
+  
+# ---
+# name: test_trailing_newline_in_repr
+  ReprWithNewline
+  
+# ---
+# name: test_trailing_no_newline_in_repr
+  ReprWithNewline
+# ---
