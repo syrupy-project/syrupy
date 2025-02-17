@@ -50,7 +50,17 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
     ) -> "SerializedData":
-        return self.get_supported_dataclass()(data)
+        supported_dataclass = self.get_supported_dataclass()
+        if supported_dataclass is bytes:
+            try:
+                memoryview(data)
+            except TypeError:
+                raise TypeError(
+                    gettext(
+                        "Can't serialize '{}' to '{}'. You must convert the data first."
+                    ).format(type(data).__name__, supported_dataclass.__name__)
+                ) from None
+        return supported_dataclass(data)
 
     @classmethod
     def get_snapshot_name(
