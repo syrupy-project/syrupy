@@ -123,6 +123,10 @@ def pytest_assertrepr_compare(
     Return explanation for comparisons in failing assert expressions.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
+    if not isinstance(left, SnapshotAssertion) and not isinstance(right, SnapshotAssertion):
+        # Shortcut to minimise overhead in the case of other unrelated assertions
+        return None
+
     with __terminal_color(config):
         received_name = received_style("[+ received]")
 
