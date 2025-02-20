@@ -278,6 +278,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "sparrowt",
+      "name": "Tom Sparrow",
+      "avatar_url": "https://avatars.githubusercontent.com/u/793763?v=4",
+      "profile": "http://about.me/tomsparrow",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
