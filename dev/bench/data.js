@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1739752512338,
+  "lastUpdate": 1740072180898,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -8505,6 +8505,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06718845368778603",
             "extra": "mean: 1.3709595544000082 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "793763+sparrowt@users.noreply.github.com",
+            "name": "Tom Sparrow",
+            "username": "sparrowt"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7fdffd906dc851d8ff7aa0327b6a8bdb5d0cbed5",
+          "message": "fix: avoid unnecessary env updates to reduce chances of segfault (#956)\n\n* fix: __terminal_color shouldn't modify os.environ unless it has to\n\nSee https://github.com/syrupy-project/syrupy/issues/955 for a\ndetailed explanation of why this can cause thread safety issues\nresulting in a segfault when another thread calls `getenv`\n\n* fix: pytest_assertrepr_compare should be a no-op for other types\n\nIf neither operand is a `SnapshotAssertion` then the rest of the\ncode is not going to do anything, so bail early rather than\nunnecessarily setting up `__terminal_color` etc. which can cause\nissues c.f. https://github.com/syrupy-project/syrupy/issues/955\n\n* chore: run linter\n\n---------\n\nCo-authored-by: Noah Ulster <noah.u@roserocket.com>",
+          "timestamp": "2025-02-20T12:21:45-05:00",
+          "tree_id": "1c80b4c82110d1f883d36bf4ee652325b6a61262",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7fdffd906dc851d8ff7aa0327b6a8bdb5d0cbed5"
+        },
+        "date": 1740072180089,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.791293207258563,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07167662396936088",
+            "extra": "mean: 1.263754055800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7056598497565947,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23696319708989552",
+            "extra": "mean: 1.4171133589999954 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7288381306864072,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09187540514725986",
+            "extra": "mean: 1.3720467657999962 sec\nrounds: 5"
           }
         ]
       }
