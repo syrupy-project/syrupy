@@ -1,4 +1,5 @@
 import argparse
+import contextlib
 import sys
 from functools import lru_cache
 from gettext import gettext
@@ -105,11 +106,14 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
 
 
 def __terminal_color(config: "pytest.Config") -> "ContextManager[None]":
-    env = {}
     if config.option.no_colors:
-        env[DISABLE_COLOR_ENV_VAR] = "true"
-
-    return env_context(**env)
+        env = {
+            DISABLE_COLOR_ENV_VAR: "true",
+        }
+        return env_context(**env)
+    else:
+        # No-op to avoid unnecessary env updates
+        return contextlib.nullcontext()
 
 
 def pytest_assertrepr_compare(
@@ -119,6 +123,12 @@ def pytest_assertrepr_compare(
     Return explanation for comparisons in failing assert expressions.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
     """
+    if not isinstance(left, SnapshotAssertion) and not isinstance(
+        right, SnapshotAssertion
+    ):
+        # Shortcut to minimise overhead in the case of other unrelated assertions
+        return None
+
     with __terminal_color(config):
         received_name = received_style("[+ received]")
 
