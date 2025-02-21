@@ -15,7 +15,10 @@ from syrupy.data import (
     Snapshot,
     SnapshotCollection,
 )
+from syrupy.exceptions import TaintedSnapshotError
+from syrupy.extensions.amber.serializer import AmberDataSerializer
 from syrupy.location import PyTestLocation
+from syrupy.types import PropertyFilter, PropertyMatcher, SerializableData
 
 from .base import AbstractSyrupyExtension
 
@@ -158,3 +161,42 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             and not any(categ in category(c) for categ in exclude_categ)
         )
         return cleaned_filename[:max_filename_length]
+
+
+class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
+    _file_extension = "ambr"
+    _write_mode = WriteMode.TEXT
+
+    def serialize(
+        self,
+        data: "SerializableData",
+        *,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+    ) -> "SerializedData":
+        return AmberDataSerializer.serialize(
+            data, exclude=exclude, include=include, matcher=matcher
+        )
+
+    def _read_snapshot_data_from_location(
+        self, *, snapshot_location: str, snapshot_name: str, session_id: str
+    ) -> Optional["SerializableData"]:
+        snapshot_collection = AmberDataSerializer.read_file(snapshot_location)
+        if not snapshot_collection or not snapshot_collection.has_snapshots:
+            return None
+
+        snapshot = next(iter(snapshot_collection), None)
+        if not snapshot:
+            return None
+
+        if snapshot_collection.tainted or snapshot.tainted:
+            raise TaintedSnapshotError(snapshot_data=snapshot.data)
+
+        return snapshot.data
+
+    @classmethod
+    def _write_snapshot_collection(
+        cls, *, snapshot_collection: "SnapshotCollection"
+    ) -> None:
+        AmberDataSerializer.write_file(snapshot_collection, merge=False)
