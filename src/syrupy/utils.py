@@ -9,13 +9,14 @@ from typing import (
     Any,
     Dict,
     Iterator,
+    Optional,
     Sequence,
+    Union,
 )
 
 from .constants import (
     DIFF_LINE_COUNT_LIMIT,
     DIFF_LINE_WIDTH_LIMIT,
-    SNAPSHOT_DIRNAME,
     SYMBOL_ELLIPSIS,
 )
 from .exceptions import FailedToLoadModuleMember
@@ -31,13 +32,15 @@ def is_xdist_controller() -> bool:
     return bool(worker_count and int(worker_count) > 0 and not is_xdist_worker())
 
 
-def in_snapshot_dir(path: Path) -> bool:
-    return SNAPSHOT_DIRNAME in path.parts
+def walk_snapshot_dir(
+    root: Union[str, Path], *, ignore_extensions: Optional[list[str]] = None
+) -> Iterator[str]:
+    ignore_exts: set[str] = set(ignore_extensions or [])
 
-
-def walk_snapshot_dir(root: str) -> Iterator[str]:
     for filepath in Path(root).rglob("*"):
         if not filepath.name.startswith(".") and filepath.is_file():
+            if filepath.suffixes and filepath.suffixes[-1][1:] in ignore_exts:
+                continue
             yield str(filepath)
 
 

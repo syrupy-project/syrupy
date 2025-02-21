@@ -14,7 +14,7 @@ def makefiles(testdir, filetree, root=""):
         filepath = Path(root).joinpath(filename)
         if isinstance(contents, dict):
             testdir.mkdir(filepath)
-            makefiles(testdir, contents, filepath)
+            makefiles(testdir, contents, str(filepath))
         else:
             name, ext = str(filepath.with_name(filepath.stem)), filepath.suffix
             testdir.makefile(ext, **{name: contents})
@@ -48,6 +48,36 @@ def test_walk_dir_skips_non_snapshot_path(testfiles):
         str(snap_folder.joinpath("snapfile1.ambr")),
         str(snap_folder.joinpath("snapfolder", "snapfile2.svg")),
     }
+
+
+def test_walk_dir_ignores_ignored_extensions(testdir):
+    filetree = {
+        "file1.txt": "file1",
+        "file2.txt": "file2",
+        "__snapshots__": {
+            "snapfile1.ambr": "",
+            "snapfile1.ambr.dvc": "",
+            "snapfolder": {"snapfile2.svg": "<svg></svg>"},
+        },
+    }
+    makefiles(testdir, filetree)
+
+    discovered_files = {
+        str(Path(p).relative_to(Path.cwd()))
+        for p in walk_snapshot_dir(
+            Path(testdir.tmpdir).joinpath("__snapshots__"), ignore_extensions=["dvc"]
+        )
+    }
+
+    assert discovered_files == {
+        str(Path("__snapshots__").joinpath("snapfile1.ambr")),
+        str(Path("__snapshots__").joinpath("snapfolder", "snapfile2.svg")),
+    }
+
+    assert (
+        str(Path("__snapshots__").joinpath("snapfile1.ambr.dvc"))
+        not in discovered_files
+    )
 
 
 def dummy_member():

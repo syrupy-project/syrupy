@@ -1,6 +1,5 @@
 import collections
 import inspect
-import os
 from collections import OrderedDict
 from types import (
     FunctionType,
@@ -124,6 +123,10 @@ class AmberDataSerializer:
                     f.write(f"{cls._marker_prefix}{cls.Marker.Name}: {snapshot.name}\n")
                     for data_line in snapshot_data.splitlines(keepends=True):
                         f.write(cls.with_indent(data_line, 1))
+                    if data_line.endswith("\n"):
+                        # splitlines does not split on a terminal/trailing newline, so we must
+                        # account for that manually
+                        f.write(cls.with_indent("", 1))
                     f.write(f"\n{cls._marker_prefix}{cls.Marker.Divider}\n")
 
     @classmethod
@@ -168,7 +171,9 @@ class AmberDataSerializer:
                             if test_name and snapshot_data:
                                 yield Snapshot(
                                     name=test_name,
-                                    data=snapshot_data.rstrip(os.linesep),
+                                    data=snapshot_data.removesuffix("\r\n")
+                                    if snapshot_data.endswith("\r\n")
+                                    else snapshot_data.removesuffix("\n"),
                                     tainted=tainted,
                                 )
                             test_name = None

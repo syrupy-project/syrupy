@@ -1,3 +1,4 @@
+# noqa: A005
 from typing import (
     Any,
     Callable,
