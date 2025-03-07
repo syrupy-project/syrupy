@@ -3,13 +3,14 @@ from unittest.mock import MagicMock
 
 import pytest
 
+from syrupy.constants import PYTEST_NODE_SEP
 from syrupy.location import PyTestLocation
 
 
 def mock_pytest_item(node_id: str, method_name: str) -> "pytest.Item":
     mock_node = MagicMock(spec=pytest.Item)
     mock_node.nodeid = node_id
-    [filepath, *_, nodename] = node_id.split("::")
+    [filepath, *_, nodename] = node_id.split(PYTEST_NODE_SEP)
     mock_node.name = nodename
     mock_node.path = Path(filepath)
     mock_node.obj = MagicMock()
@@ -20,7 +21,7 @@ def mock_pytest_item(node_id: str, method_name: str) -> "pytest.Item":
 
 @pytest.mark.parametrize(
     "node_id, method_name, expected_filename,"
-    "expected_classname,expected_snapshotname",
+    "expected_classname, expected_snapshotname",
     (
         (
             "/tests/module/test_file.py::TestClass::method_name",
@@ -86,7 +87,13 @@ def test_location_properties(
         (
             "/tests/module/test_file.py::TestClass::method_name[1]",
             "method_name",
-            ("test_file.snap", "__snapshots__/test_file", "test_file/1.snap"),
+            (
+                "test_file.snap",
+                "__snapshots__/test_file",
+                "test_file/TestClass.method_name[1].snap",
+                "test_file/TestClass.method_name[1].1.snap",
+                "test_file/TestClass.method_name[1][1].snap",
+            ),
             (
                 "test.snap",
                 "__others__/test/file.snap",
@@ -95,11 +102,15 @@ def test_location_properties(
                 "test_file_extra/1.snap",
                 "test_file/extra/1.snap",
                 "__snapshots__/test_file/extra/even/more/1.snap",
+                "test_file/TestClass.method_name[1]xyz.snap",
+                "test_file/TestClass.method_name[2].snap",
             ),
             (
                 "TestClass.method_name",
                 "TestClass.method_name[1]",
                 "TestClass.method_name.1",
+                "TestClass.method_name[1][1]",
+                "TestClass.method_name[1].1",
             ),
             ("method_name", "TestClass.method_names"),
         ),

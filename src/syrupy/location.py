@@ -61,6 +61,10 @@ class PyTestLocation:
         object.__setattr__(self, "testname", self.nodename or self.methodname)
 
     @property
+    def is_item_parametrized(self) -> bool:
+        return self.nodeid.endswith("]")
+
+    @property
     def classname(self) -> Optional[str]:
         if self.is_doctest:
             return None
@@ -90,6 +94,12 @@ class PyTestLocation:
         if self.classname is not None:
             return f"{self.classname}.{self.testname}"
         return str(self.testname)
+
+    @property
+    def snapshot_name_parametrized(self) -> str:
+        if self.classname is not None:
+            return f"{self.classname}.{self.nodename}"
+        return str(self.nodename)
 
     @property
     def is_doctest(self) -> bool:
@@ -131,6 +141,17 @@ class PyTestLocation:
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         loc = Path(snapshot_location)
-        # "test_file" should match_"test_file.ext" or "test_file/whatever.ext", but not
+
+        if self.is_item_parametrized:
+            return self.basename == loc.stem or (
+                self.basename == loc.parent.name
+                and (
+                    loc.stem == self.snapshot_name_parametrized
+                    or loc.stem.startswith(f"{self.snapshot_name_parametrized}.")
+                    or loc.stem.startswith(f"{self.snapshot_name_parametrized}[")
+                )
+            )
+
+        # "test_file" should match "test_file.ext" or "test_file/whatever.ext", but not
         # "test_file_suffix.ext"
         return self.basename == loc.stem or self.basename == loc.parent.name
