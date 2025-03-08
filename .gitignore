@@ -50,6 +50,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.vscode
 .idea
 .DS_Store
+
+# IDE
+.vscode
+!.vscode/extensions.json
+!.vscode/settings.json
