@@ -287,6 +287,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "samylaumonier",
+      "name": "Samy Laumonier",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2417752?v=4",
+      "profile": "https://github.com/samylaumonier",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
