@@ -183,13 +183,13 @@ class SnapshotSession:
 
         if is_xdist_worker():
             # TODO: If we're in a pytest-xdist worker, we need to combine the reports
-            # of all the workers so that the controller can handle unused
-            # snapshot removal.
+            #  of all the workers so that the controller can handle unused
+            #  snapshot removal.
             return exitstatus
         elif is_xdist_controller():
             # TODO: If we're in a pytest-xdist controller, merge all the reports.
-            # Until this is implemented, running syrupy with pytest-xdist is only
-            # partially functional.
+            #  Until this is implemented, running syrupy with pytest-xdist is only
+            #  partially functional.
             return exitstatus
 
         if self.report.num_unused:

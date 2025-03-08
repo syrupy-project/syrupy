@@ -281,7 +281,7 @@ class SnapshotReport:
         """
         These are the lines printed at the end of a test run. Example:
         ```
-        2 snaphots passed. 5 snapshots generated. 1 unused snapshot deleted.
+        2 snapshots passed. 5 snapshots generated. 1 unused snapshot deleted.
 
         Re-run pytest with --snapshot-update to delete unused snapshots.
         ```

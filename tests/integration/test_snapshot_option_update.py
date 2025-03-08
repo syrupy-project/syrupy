@@ -301,7 +301,7 @@ def test_update_targets_only_selected_class_tests_dash_k(
         "test_content.py", "-v", *plugin_args_fails_xdist, "-k", "test_case_2"
     )
     result.stdout.re_match_lines((r"1 snapshot passed\.",))
-    assert "snaphot unused" not in result.stdout.str()
+    assert "snapshot unused" not in result.stdout.str()
 
 
 def test_update_targets_only_selected_module_tests_dash_k(
@@ -325,7 +325,7 @@ def test_update_targets_only_selected_module_tests_dash_k(
         "test_content.py", "-v", *plugin_args_fails_xdist, "-k", "test_case_2"
     )
     result.stdout.re_match_lines((r"1 snapshot passed\.",))
-    assert "snaphot unused" not in result.stdout.str()
+    assert "snapshot unused" not in result.stdout.str()
 
 
 def test_update_targets_only_selected_module_tests_nodes(
