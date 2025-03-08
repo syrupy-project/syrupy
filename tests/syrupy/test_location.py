@@ -20,8 +20,7 @@ def mock_pytest_item(node_id: str, method_name: str) -> "pytest.Item":
 
 
 @pytest.mark.parametrize(
-    "node_id, method_name, expected_filename,"
-    "expected_classname, expected_snapshotname",
+    "node_id, method_name, expected_filename, expected_classname, expected_snapshotname",
     (
         (
             "/tests/module/test_file.py::TestClass::method_name",

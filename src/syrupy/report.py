@@ -17,9 +17,11 @@ from typing import (
     DefaultDict,
     Dict,
     FrozenSet,
+    Generator,
     Iterator,
     List,
     Set,
+    Tuple,
 )
 
 from _pytest.skipping import xfailed_key
@@ -111,7 +113,8 @@ class SnapshotReport:
                 locations_discovered[test_location].add(extension_class)
                 self.discovered.merge(
                     assertion.extension.discover_snapshots(
-                        test_location=assertion.test_location
+                        test_location=assertion.test_location,
+                        ignore_extensions=assertion.session.ignore_file_extensions,
                     )
                 )
 
@@ -347,17 +350,9 @@ class SnapshotReport:
             yield ""
             if self.update_snapshots or self.include_snapshot_details:
                 base_message = "Deleted" if self.update_snapshots else "Unused"
-                for snapshot_collection in self.unused:
-                    filepath = snapshot_collection.location
-                    snapshots = (snapshot.name for snapshot in snapshot_collection)
-
-                    try:
-                        path_to_file = str(Path(filepath).relative_to(self.base_dir))
-                    except ValueError:
-                        # this is just used for display, so better to fallback to
-                        # something vaguely reasonable (the full path) than give up
-                        path_to_file = filepath
-
+                for snapshots, path_to_file in self.__iterate_snapshot_collection(
+                    self.unused
+                ):
                     unused_snapshots = ", ".join(map(bold, sorted(snapshots)))
                     yield (
                         warning_style(gettext(base_message))
@@ -371,6 +366,44 @@ class SnapshotReport:
                     yield warning_style(message)
                 else:
                     yield error_style(message)
+
+        if self.num_created and self.update_snapshots and self.include_snapshot_details:
+            yield ""
+            for snapshots, path_to_file in self.__iterate_snapshot_collection(
+                self.created
+            ):
+                created_snapshots = ", ".join(map(bold, sorted(snapshots)))
+                yield (
+                    warning_style(gettext("Generated"))
+                    + f" {created_snapshots} ({path_to_file})"
+                )
+
+        if self.num_updated and self.update_snapshots and self.include_snapshot_details:
+            yield ""
+            for snapshots, path_to_file in self.__iterate_snapshot_collection(
+                self.updated
+            ):
+                updated_snapshots = ", ".join(map(bold, sorted(snapshots)))
+                yield (
+                    warning_style(gettext("Updated"))
+                    + f" {updated_snapshots} ({path_to_file})"
+                )
+
+    def __iterate_snapshot_collection(
+        self, collection: "SnapshotCollections"
+    ) -> Generator[Tuple[Generator[str, None, None], str], Any, None]:
+        for snapshot_collection in collection:
+            filepath = snapshot_collection.location
+            snapshots = (snapshot.name for snapshot in snapshot_collection)
+
+            try:
+                path_to_file = str(Path(filepath).relative_to(self.base_dir))
+            except ValueError:
+                # this is just used for display, so better to fallback to
+                # something vaguely reasonable (the full path) than give up
+                path_to_file = filepath
+
+            yield (snapshots, path_to_file)
 
     def _diff_snapshot_collections(
         self,

@@ -103,6 +103,12 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
         dest="diff_mode",
         help="Controls how diffs are represented on snapshot assertion failure",
     )
+    group.addoption(
+        "--snapshot-ignore-file-extensions",
+        dest="ignore_file_extensions",
+        help="Comma separated list of file extensions to ignore when discovering snapshots",
+        type=lambda v: v.split(","),
+    )
 
 
 def __terminal_color(config: "pytest.Config") -> "ContextManager[None]":
@@ -153,7 +159,10 @@ def pytest_sessionstart(session: Any) -> None:
     Initialize snapshot session before tests are collected and ran.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
-    session.config._syrupy = SnapshotSession(pytest_session=session)
+    session.config._syrupy = SnapshotSession(
+        pytest_session=session,
+        ignore_file_extensions=session.config.option.ignore_file_extensions,
+    )
     global _syrupy
     _syrupy = session.config._syrupy
     session.config._syrupy.start()

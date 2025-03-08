@@ -53,6 +53,10 @@ _QueuedWriteTestLocationKey = Tuple["PyTestLocation", "SnapshotIndex"]
 @dataclass
 class SnapshotSession:
     pytest_session: "pytest.Session"
+
+    # List of file extensions to ignore during discovery/processing
+    ignore_file_extensions: Optional[List[str]] = None
+
     # Snapshot report generated on finish
     report: Optional["SnapshotReport"] = None
     # All the collected test items
@@ -212,7 +216,8 @@ class SnapshotSession:
             discovered_extensions = {
                 discovered.location: assertion.extension
                 for discovered in assertion.extension.discover_snapshots(
-                    test_location=assertion.test_location
+                    test_location=assertion.test_location,
+                    ignore_extensions=self.ignore_file_extensions,
                 )
                 if discovered.has_snapshots
             }

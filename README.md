@@ -134,12 +134,13 @@ These are the cli options exposed to `pytest` by the plugin.
 | Option                         | Description                                                                                                                    | Default                                                                                                      |
 | ------------------------------ |--------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | `--snapshot-update`            | Snapshots will be updated to match assertions and unused snapshots will be deleted.                                            | `False`                                                                                                      |
-| `--snapshot-details`           | Includes details of unused snapshots (test name and snapshot location) in the final report.                                    | `False`                                                                                                      |
+| `--snapshot-details`           | Includes details of unused, generated, and updated snapshots (test name and snapshot location) in the final report.                                    | `False`                                                                                                      |
 | `--snapshot-warn-unused`       | Prints a warning on unused snapshots rather than fail the test suite.                                                          | `False`                                                                                                      |
 | `--snapshot-default-extension` | Use to change the default snapshot extension class.                                                                            | [AmberSnapshotExtension](https://github.com/syrupy-project/syrupy/blob/main/src/syrupy/extensions/amber/__init__.py) |
 | `--snapshot-no-colors`         | Disable test results output highlighting. Equivalent to setting the environment variables `ANSI_COLORS_DISABLED` or `NO_COLOR` | Disabled by default if not in terminal.                                                                      |
 | `--snapshot-patch-pycharm-diff`| Override PyCharm's default diffs viewer when looking at snapshot diffs. See [IDE Integrations](#ide-integrations)        | `False`                                                                                                      |
 | `--snapshot-diff-mode` | Configures how diffs are displayed on assertion failure. If working with very large snapshots, disabling the diff can improve performance. | `detailed` |
+| `--snapshot-ignore-file-extensions` | Comma separated list of file extensions to ignore when walking the file tree and discovering used/unused snapshots. | No extensions are ignored by default. |
 
 ### Assertion Options
 
@@ -160,6 +161,28 @@ It should return the replacement value to be serialized or the original unmutate
 | `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }`} |
 
 **NOTE:** Do not mutate the value received as it could cause unintended side effects.
+
+##### Composing Matchers
+
+Multiple matchers can be composed together using `matchers`, e.g.:
+
+```py
+from syrupy.matchers import compose_matchers
+
+def test_multiple_matchers(snapshot):
+    data = {
+        "number": 1,
+        "datetime": datetime.datetime.now(),
+        "float": 1.3
+    }
+
+    assert data == snapshot(
+        matcher=compose_matchers(
+            path_type(types=(int, float), replacer=lambda *_: "MATCHER_1"),
+            path_type(types=(datetime.datetime,), replacer=lambda *_: "MATCHER_2"),
+        ),
+    )
+```
 
 ##### Built-In Matchers
 
@@ -350,9 +373,15 @@ def test_diff(snapshot):
 
 Syrupy comes with a few built-in preset configurations for you to choose from. You should also feel free to extend the `AbstractSyrupyExtension` if your project has a need not captured by one our built-ins.
 
+**Amber Extensions**
+
 - **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported.
   - Line control characters are normalised when snapshots are generated i.e. `\r` and `\n` characters are all written as `\n`. This is to allow interoperability of snapshots between operating systems that use disparate line control characters.
-- **`SingleFileSnapshotExtension`**: Unlike the `AmberSnapshotExtension`, which groups all tests within a single test file into a singular snapshot file, this extension creates one `.raw` file per test case.
+- **`SingleFileAmberSnapshotExtension`**: A variant of the `AmberSnapshotExtension` which writes 1 snapshot per file.
+
+**Other Formats**
+
+- **`SingleFileSnapshotExtension`**: This extension creates one `.raw` file per test case. Note that the default behaviour of the SingleFileSnapshotExtension is to write raw bytes to disk. There is no further "serialization" that happens. The `SingleFileSnapshotExtension` is mostly used as a building block for other extensions such as the image extensions, the JSON extension, as well as the `SingleFileAmberSnapshotExtension` extension. In the default "binary" mode, attempting to serialize a non-byte-like object will throw a TypeError.
 - **`PNGImageSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
 - **`SVGImageSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 - **`JSONSnapshotExtension`**: Another extension of single file. This produces `.json` files from dictionaries and lists.
@@ -459,6 +488,22 @@ The generated snapshot:
   "name": "Temp Files",
   "file_path": "scheme://<tmp-file-path>/dir/filename.txt"
 }
+```
+
+#### Ignoring File Extensions (e.g. DVC Integration)
+
+If using a tool such as [DVC](https://dvc.org/) or other tool where you need to ignore files by file extension, you can update your `pytest.ini` like so:
+
+```ini
+[pytest]
+addopts = --snapshot-ignore-file-extensions dvc
+```
+
+A comma separated list is supported, like so:
+
+```ini
+[pytest]
+addopts = --snapshot-ignore-file-extensions dvc,tmp,zip
 ```
 
 ### Extending Syrupy

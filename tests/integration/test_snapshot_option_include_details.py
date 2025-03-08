@@ -146,3 +146,44 @@ def test_unused_snapshots_details_no_details_on_deletion(
         )
     )
     assert result.ret == 0
+
+
+def test_created_and_updates_details(testdir, plugin_args_fails_xdist):
+    # Generate initial snapshots.
+    testdir.makepyfile(
+        test_generated="""
+            def test_generated_1(snapshot):
+                assert snapshot == "1"
+
+            def test_generated_2(snapshot):
+                assert snapshot == "2"
+            """
+    )
+    result = testdir.runpytest("-v", "--snapshot-update")
+    result.stdout.re_match_lines((r"2 snapshots generated\.",))
+
+    # Update one of the snapshots and generate a new one
+    testdir.makepyfile(
+        test_generated="""
+            def test_generated_1(snapshot):
+                assert snapshot == "1"
+
+            def test_generated_2(snapshot):
+                assert snapshot == "2-update"
+
+            def test_generated_3(snapshot):
+                assert snapshot == "3"
+            """
+    )
+
+    result = testdir.runpytest(
+        "-v", "--snapshot-details", "--snapshot-update", *plugin_args_fails_xdist
+    )
+    result.stdout.re_match_lines(
+        (
+            r"1 snapshot passed\. 1 snapshot generated\. 1 snapshot updated\.",
+            r"Generated test_generated_3 \(__snapshots__[\\/]test_generated.ambr\)",
+            r"Updated test_generated_2 \(__snapshots__[\\/]test_generated.ambr\)",
+        )
+    )
+    assert result.ret == 0
