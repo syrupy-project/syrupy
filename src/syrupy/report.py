@@ -21,6 +21,7 @@ from typing import (
     Iterator,
     List,
     Set,
+    Tuple,
 )
 
 from _pytest.skipping import xfailed_key
@@ -390,7 +391,7 @@ class SnapshotReport:
 
     def __iterate_snapshot_collection(
         self, collection: "SnapshotCollections"
-    ) -> Generator[tuple[Generator[str, None, None], str], Any, None]:
+    ) -> Generator[Tuple[Generator[str, None, None], str], Any, None]:
         for snapshot_collection in collection:
             filepath = snapshot_collection.location
             snapshots = (snapshot.name for snapshot in snapshot_collection)

@@ -111,7 +111,7 @@ class SnapshotCollectionStorage(ABC):
         self,
         *,
         test_location: "PyTestLocation",
-        ignore_extensions: Optional[list[str]] = None,
+        ignore_extensions: Optional[List[str]] = None,
     ) -> "SnapshotCollections":
         """
         Returns all snapshot collections in test site

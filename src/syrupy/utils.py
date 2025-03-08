@@ -9,6 +9,7 @@ from typing import (
     Any,
     Dict,
     Iterator,
+    List,
     Optional,
     Sequence,
     Union,
@@ -33,7 +34,7 @@ def is_xdist_controller() -> bool:
 
 
 def walk_snapshot_dir(
-    root: Union[str, Path], *, ignore_extensions: Optional[list[str]] = None
+    root: Union[str, Path], *, ignore_extensions: Optional[List[str]] = None
 ) -> Iterator[str]:
     ignore_exts: set[str] = set(ignore_extensions or [])
 
