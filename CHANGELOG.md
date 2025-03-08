@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [4.9.0](https://github.com/syrupy-project/syrupy/compare/v4.8.3...v4.9.0) (2025-03-08)
+
+
+### Bug Fixes
+
+* **serializer:** raise TypeError when serializing non-byte like object in binary mode ([#951](https://github.com/syrupy-project/syrupy/issues/951)) ([2bd0f54](https://github.com/syrupy-project/syrupy/commit/2bd0f54ea0923f4c549209abc40d2eec9b973d65))
+
+
+### Features
+
+* add --snapshot-ignore-file-extensions argument to support DVC ([#943](https://github.com/syrupy-project/syrupy/issues/943)) ([056cc6e](https://github.com/syrupy-project/syrupy/commit/056cc6e1057f6d1c49b4b609aa09be9f507dd55c))
+* add compose_matchers utility for composing 1 or more matchers ([#952](https://github.com/syrupy-project/syrupy/issues/952)) ([157dbec](https://github.com/syrupy-project/syrupy/commit/157dbecc87fd03ea938c4a7dc194418da43c90a5))
+* add SingleFileAmberSnapshotExtension as a single-file variant of the default amber extension ([#959](https://github.com/syrupy-project/syrupy/issues/959)) ([a753b7a](https://github.com/syrupy-project/syrupy/commit/a753b7a0aa6763a7489da78291bf27b7b5081b74))
+* include details about created/updated snapshots in detailed report ([#942](https://github.com/syrupy-project/syrupy/issues/942)) ([25d37ef](https://github.com/syrupy-project/syrupy/commit/25d37ef978cbbd5b034fe394d283e923295b1750))
+
 ## [4.8.3](https://github.com/syrupy-project/syrupy/compare/v4.8.2...v4.8.3) (2025-03-08)
 
 
