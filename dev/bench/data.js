@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1741459149419,
+  "lastUpdate": 1741460912572,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -8595,6 +8595,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06717042211880127",
             "extra": "mean: 1.3716451105999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3330c42817cbf4488921270d5ef657ae3358d14d",
+          "message": "Merge pull request #967\n\nCherry-pick features from v5 branch",
+          "timestamp": "2025-03-08T14:07:17-05:00",
+          "tree_id": "97250280af149e78dde30c836c44da51891a88d5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3330c42817cbf4488921270d5ef657ae3358d14d"
+        },
+        "date": 1741460911713,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8073718883275189,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05376644135828316",
+            "extra": "mean: 1.238586597400007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7049215148287582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.229925468662777",
+            "extra": "mean: 1.4185976437999954 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7279717606999968,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07340842128807334",
+            "extra": "mean: 1.3736796589999982 sec\nrounds: 5"
           }
         ]
       }
