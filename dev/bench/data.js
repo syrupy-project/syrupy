@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1740072180898,
+  "lastUpdate": 1741459149419,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -8550,6 +8550,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09187540514725986",
             "extra": "mean: 1.3720467657999962 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "samy.laumonier@gmail.com",
+            "name": "Samy Laumonier",
+            "username": "samylaumonier"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52f3bb2089f6289ef6502486301d56d7b13fdf28",
+          "message": "fix: snapshots of deselected parametrized tests wrongly marked as unused (#965)",
+          "timestamp": "2025-03-08T13:37:33-05:00",
+          "tree_id": "14ea2bbb8a5d6c6f9eaa2b8988baf3817eef6dfc",
+          "url": "https://github.com/syrupy-project/syrupy/commit/52f3bb2089f6289ef6502486301d56d7b13fdf28"
+        },
+        "date": 1741459148761,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8142566841388693,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05545755890696258",
+            "extra": "mean: 1.228113959000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7081773961171729,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23239043210938287",
+            "extra": "mean: 1.4120755695999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7290515544232644,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06717042211880127",
+            "extra": "mean: 1.3716451105999994 sec\nrounds: 5"
           }
         ]
       }
