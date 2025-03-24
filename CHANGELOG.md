@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [4.9.1](https://github.com/syrupy-project/syrupy/compare/v4.9.0...v4.9.1) (2025-03-24)
+
+
+### Bug Fixes
+
+* **serializer:** preserve trailing newlines in ambr serialization ([#950](https://github.com/syrupy-project/syrupy/issues/950)) ([5897490](https://github.com/syrupy-project/syrupy/commit/5897490e9821156327fe56bc5f7695146e2363a5))
+* **serializer:** preserve trailing newlines in ambr serialization ([#950](https://github.com/syrupy-project/syrupy/issues/950)) ([5037477](https://github.com/syrupy-project/syrupy/commit/5037477ceece0f2cf861aabd356f4dd07a9eeb71))
+
 # [4.9.0](https://github.com/syrupy-project/syrupy/compare/v4.8.3...v4.9.0) (2025-03-08)
 
 
