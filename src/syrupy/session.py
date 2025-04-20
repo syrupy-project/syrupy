@@ -1,4 +1,5 @@
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import (
     dataclass,
     field,
@@ -8,15 +9,8 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
-    DefaultDict,
-    Dict,
-    Iterable,
-    List,
     Literal,
     Optional,
-    Set,
-    Tuple,
-    Type,
 )
 
 import pytest
@@ -46,8 +40,8 @@ class ItemStatus(Enum):
     SKIPPED = "skipped"
 
 
-_QueuedWriteExtensionKey = Tuple[Type["AbstractSyrupyExtension"], str]
-_QueuedWriteTestLocationKey = Tuple["PyTestLocation", "SnapshotIndex"]
+_QueuedWriteExtensionKey = tuple[type["AbstractSyrupyExtension"], str]
+_QueuedWriteTestLocationKey = tuple["PyTestLocation", "SnapshotIndex"]
 
 
 @dataclass
@@ -55,18 +49,18 @@ class SnapshotSession:
     pytest_session: "pytest.Session"
 
     # List of file extensions to ignore during discovery/processing
-    ignore_file_extensions: Optional[List[str]] = None
+    ignore_file_extensions: Optional[list[str]] = None
 
     # Snapshot report generated on finish
     report: Optional["SnapshotReport"] = None
     # All the collected test items
-    _collected_items: Set["pytest.Item"] = field(default_factory=set)
+    _collected_items: set["pytest.Item"] = field(default_factory=set)
     # All the selected test items. Will be set to False until the test item is run.
-    _selected_items: Dict[str, ItemStatus] = field(default_factory=dict)
-    _assertions: List["SnapshotAssertion"] = field(default_factory=list)
-    _extensions: Dict[str, "AbstractSyrupyExtension"] = field(default_factory=dict)
+    _selected_items: dict[str, ItemStatus] = field(default_factory=dict)
+    _assertions: list["SnapshotAssertion"] = field(default_factory=list)
+    _extensions: dict[str, "AbstractSyrupyExtension"] = field(default_factory=dict)
 
-    _locations_discovered: DefaultDict[str, Set[Any]] = field(
+    _locations_discovered: defaultdict[str, set[Any]] = field(
         default_factory=lambda: defaultdict(set)
     )
 
@@ -77,9 +71,9 @@ class SnapshotSession:
     # That batching leads to using two layers of dicts here: the outer layer represents the
     # extension/file-location pair that will be written, and the inner layer represents the
     # snapshots within that, "indexed" to allow efficient recall.
-    _queued_snapshot_writes: DefaultDict[
+    _queued_snapshot_writes: defaultdict[
         _QueuedWriteExtensionKey,
-        Dict[_QueuedWriteTestLocationKey, "SerializedData"],
+        dict[_QueuedWriteTestLocationKey, "SerializedData"],
     ] = field(default_factory=lambda: defaultdict(dict))
 
     def _snapshot_write_queue_keys(
@@ -87,7 +81,7 @@ class SnapshotSession:
         extension: "AbstractSyrupyExtension",
         test_location: "PyTestLocation",
         index: "SnapshotIndex",
-    ) -> Tuple[_QueuedWriteExtensionKey, _QueuedWriteTestLocationKey]:
+    ) -> tuple[_QueuedWriteExtensionKey, _QueuedWriteTestLocationKey]:
         snapshot_location = extension.get_location(
             test_location=test_location, index=index
         )
@@ -148,10 +142,10 @@ class SnapshotSession:
     def warn_unused_snapshots(self) -> bool:
         return bool(self.pytest_session.config.option.warn_unused_snapshots)
 
-    def collect_items(self, items: List["pytest.Item"]) -> None:
+    def collect_items(self, items: list["pytest.Item"]) -> None:
         self._collected_items.update(self.filter_valid_items(items))
 
-    def select_items(self, items: List["pytest.Item"]) -> None:
+    def select_items(self, items: list["pytest.Item"]) -> None:
         for item in self.filter_valid_items(items):
             self._selected_items[getattr(item, "nodeid")] = (  # noqa: B009
                 ItemStatus.NOT_RUN
@@ -247,5 +241,5 @@ class SnapshotSession:
                 Path(snapshot_location).unlink()
 
     @staticmethod
-    def filter_valid_items(items: List["pytest.Item"]) -> Iterable["pytest.Item"]:
+    def filter_valid_items(items: list["pytest.Item"]) -> Iterable["pytest.Item"]:
         return (item for item in items if isinstance(item, pytest.Function))

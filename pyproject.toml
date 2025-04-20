@@ -64,7 +64,8 @@ exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
 
 [tool.ruff]
 line-length = 88
-target-version = "py38"
+target-version = "py39"
+unsafe-fixes = true
 
 [tool.ruff.lint]
 extend-select = [
@@ -76,5 +77,5 @@ extend-select = [
 ]
 
 [build-system]
-requires = ['poetry-core>=2.1.0']
+requires = ['poetry-core>=2.1.2']
 build-backend = 'poetry.core.masonry.api'

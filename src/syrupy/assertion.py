@@ -10,11 +10,7 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
-    Dict,
-    List,
     Optional,
-    Tuple,
-    Type,
 )
 
 from .exceptions import (
@@ -66,7 +62,7 @@ class AssertionResult:
 @dataclass(eq=False, order=False, repr=False)
 class SnapshotAssertion:
     session: "SnapshotSession"
-    extension_class: Type["AbstractSyrupyExtension"]
+    extension_class: type["AbstractSyrupyExtension"]
     test_location: "PyTestLocation"
     update_snapshots: bool
     include: Optional["PropertyFilter"] = None
@@ -93,18 +89,18 @@ class SnapshotAssertion:
         init=False,
         default=0,
     )
-    _execution_results: Dict[int, "AssertionResult"] = field(
+    _execution_results: dict[int, "AssertionResult"] = field(
         init=False,
         default_factory=dict,
     )
-    _execution_name_index: Dict["SnapshotIndex", int] = field(
+    _execution_name_index: dict["SnapshotIndex", int] = field(
         init=False, default_factory=dict
     )
     _matcher: Optional["PropertyMatcher"] = field(
         init=False,
         default=None,
     )
-    _post_assert_actions: List[Callable[..., None]] = field(
+    _post_assert_actions: list[Callable[..., None]] = field(
         init=False,
         default_factory=list,
     )
@@ -116,7 +112,7 @@ class SnapshotAssertion:
         self._matcher = self.matcher
 
     def __init_extension(
-        self, extension_class: Type["AbstractSyrupyExtension"]
+        self, extension_class: type["AbstractSyrupyExtension"]
     ) -> "AbstractSyrupyExtension":
         return extension_class()
 
@@ -131,7 +127,7 @@ class SnapshotAssertion:
         return int(self._executions)
 
     @property
-    def executions(self) -> Dict[int, "AssertionResult"]:
+    def executions(self) -> dict[int, "AssertionResult"]:
         return self._execution_results
 
     @property
@@ -186,7 +182,7 @@ class SnapshotAssertion:
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
-        extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
+        extension_class: Optional[type["AbstractSyrupyExtension"]] = None,
     ) -> "SnapshotAssertion":
         """
         Create new snapshot assertion fixture with provided values. This preserves
@@ -203,7 +199,7 @@ class SnapshotAssertion:
         )
 
     def use_extension(
-        self, extension_class: Optional[Type["AbstractSyrupyExtension"]] = None
+        self, extension_class: Optional[type["AbstractSyrupyExtension"]] = None
     ) -> "SnapshotAssertion":
         """
         Create new snapshot assertion fixture with the same options but using
@@ -221,7 +217,7 @@ class SnapshotAssertion:
 
     def get_assert_diff(
         self, *, diff_mode: "DiffMode" = DiffMode.DETAILED
-    ) -> List[str]:
+    ) -> list[str]:
         assertion_result = self._execution_results[self.num_executions - 1]
         if assertion_result.exception:
             if isinstance(assertion_result.exception, (TaintedSnapshotError,)):
@@ -249,7 +245,7 @@ class SnapshotAssertion:
             if assertion_result.asserted_data is not None
             else ""
         )
-        diff: List[str] = []
+        diff: list[str] = []
         if snapshot_data is None:
             diff.append(
                 gettext("Snapshot '{}' does not exist!").format(
@@ -273,7 +269,7 @@ class SnapshotAssertion:
         diff: Optional["SnapshotIndex"] = None,
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
-        extension_class: Optional[Type["AbstractSyrupyExtension"]] = None,
+        extension_class: Optional[type["AbstractSyrupyExtension"]] = None,
         matcher: Optional["PropertyMatcher"] = None,
         name: Optional["SnapshotIndex"] = None,
     ) -> "SnapshotAssertion":
@@ -374,7 +370,7 @@ class SnapshotAssertion:
 
     def _recall_data(
         self, index: "SnapshotIndex"
-    ) -> Tuple[Optional["SerializableData"], bool]:
+    ) -> tuple[Optional["SerializableData"], bool]:
         try:
             return (
                 self.session.recall_snapshot(self.extension, self.test_location, index),

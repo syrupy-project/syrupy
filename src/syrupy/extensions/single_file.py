@@ -4,8 +4,6 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Optional,
-    Set,
-    Type,
     Union,
 )
 from unicodedata import category
@@ -76,7 +74,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         )
 
     def delete_snapshots(
-        self, *, snapshot_location: str, snapshot_names: Set[str]
+        self, *, snapshot_location: str, snapshot_names: set[str]
     ) -> None:
         Path(snapshot_location).unlink()
 
@@ -116,7 +114,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             return None
 
     @classmethod
-    def get_supported_dataclass(cls) -> Union[Type[str], Type[bytes]]:
+    def get_supported_dataclass(cls) -> Union[type[str], type[bytes]]:
         if cls._write_mode == WriteMode.TEXT:
             return str
         return bytes

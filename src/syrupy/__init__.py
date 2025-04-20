@@ -1,13 +1,11 @@
 import argparse
 import contextlib
 import sys
+from collections.abc import Iterator
 from functools import lru_cache
 from gettext import gettext
 from typing import (
     Any,
-    ContextManager,
-    Iterator,
-    List,
     Optional,
 )
 
@@ -111,7 +109,9 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
     )
 
 
-def __terminal_color(config: "pytest.Config") -> "ContextManager[None]":
+def __terminal_color(
+    config: "pytest.Config",
+) -> "contextlib.AbstractContextManager[None]":
     if config.option.no_colors:
         env = {
             DISABLE_COLOR_ENV_VAR: "true",
@@ -124,7 +124,7 @@ def __terminal_color(config: "pytest.Config") -> "ContextManager[None]":
 
 def pytest_assertrepr_compare(
     config: "pytest.Config", op: str, left: Any, right: Any
-) -> Optional[List[str]]:
+) -> Optional[list[str]]:
     """
     Return explanation for comparisons in failing assert expressions.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
@@ -169,7 +169,7 @@ def pytest_sessionstart(session: Any) -> None:
 
 
 def pytest_collection_modifyitems(
-    session: Any, config: Any, items: List["pytest.Item"]
+    session: Any, config: Any, items: list["pytest.Item"]
 ) -> None:
     """
     After tests are collected and before any modification is performed.

@@ -1,12 +1,10 @@
+from collections.abc import Iterator
 from dataclasses import (
     dataclass,
     field,
 )
 from typing import (
     TYPE_CHECKING,
-    Dict,
-    Iterator,
-    List,
     Optional,
 )
 
@@ -42,7 +40,7 @@ class SnapshotCollection:
     """A collection of snapshots at a save location"""
 
     location: str
-    _snapshots: Dict[str, "Snapshot"] = field(default_factory=dict)
+    _snapshots: dict[str, "Snapshot"] = field(default_factory=dict)
 
     # A tainted collection needs to be regenerated
     tainted: Optional[bool] = field(default=None)
@@ -77,7 +75,7 @@ class SnapshotCollection:
 class SnapshotEmptyCollection(SnapshotCollection):
     """This is a saved collection that is known to be empty and thus can be removed"""
 
-    _snapshots: Dict[str, "Snapshot"] = field(
+    _snapshots: dict[str, "Snapshot"] = field(
         default_factory=lambda: {SnapshotEmpty().name: SnapshotEmpty()}
     )
 
@@ -90,14 +88,14 @@ class SnapshotEmptyCollection(SnapshotCollection):
 class SnapshotUnknownCollection(SnapshotCollection):
     """This is a saved collection that is unclaimed by any extension currently in use"""
 
-    _snapshots: Dict[str, "Snapshot"] = field(
+    _snapshots: dict[str, "Snapshot"] = field(
         default_factory=lambda: {SnapshotUnknown().name: SnapshotUnknown()}
     )
 
 
 @dataclass
 class SnapshotCollections:
-    _snapshot_collections: Dict[str, "SnapshotCollection"] = field(default_factory=dict)
+    _snapshot_collections: dict[str, "SnapshotCollection"] = field(default_factory=dict)
 
     def get(self, location: str) -> Optional["SnapshotCollection"]:
         return self._snapshot_collections.get(location)
@@ -129,7 +127,7 @@ class SnapshotCollections:
 class DiffedLine:
     a: Optional[str] = None
     b: Optional[str] = None
-    c: List[str] = field(default_factory=list)
+    c: list[str] = field(default_factory=list)
     diff_a: str = ""
     diff_b: str = ""
 

@@ -3,18 +3,14 @@ from abc import (
     ABC,
     abstractmethod,
 )
+from collections.abc import Iterator
 from gettext import gettext
 from itertools import zip_longest
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Callable,
-    Dict,
-    Iterator,
-    List,
     Optional,
-    Set,
-    Tuple,
 )
 
 from syrupy.constants import (
@@ -111,7 +107,7 @@ class SnapshotCollectionStorage(ABC):
         self,
         *,
         test_location: "PyTestLocation",
-        ignore_extensions: Optional[List[str]] = None,
+        ignore_extensions: Optional[list[str]] = None,
     ) -> "SnapshotCollections":
         """
         Returns all snapshot collections in test site
@@ -161,7 +157,7 @@ class SnapshotCollectionStorage(ABC):
         cls,
         *,
         snapshot_location: str,
-        snapshots: List[Tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
+        snapshots: list[tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
     ) -> None:
         """
         This method is _final_, do not override. You can override
@@ -212,7 +208,7 @@ class SnapshotCollectionStorage(ABC):
 
     @abstractmethod
     def delete_snapshots(
-        self, *, snapshot_location: str, snapshot_names: Set[str]
+        self, *, snapshot_location: str, snapshot_names: set[str]
     ) -> None:
         """
         Remove snapshots from a snapshot file.
@@ -283,7 +279,7 @@ class SnapshotReporter:
             yield reset(line)
 
     @property
-    def _ends(self) -> Dict[str, str]:
+    def _ends(self) -> dict[str, str]:
         return {"\n": self._marker_new_line, "\r": self._marker_carriage}
 
     @property
@@ -388,7 +384,7 @@ class SnapshotReporter:
             if char is not None
         )
 
-    def __limit_context(self, lines: List[str]) -> Iterator[str]:
+    def __limit_context(self, lines: list[str]) -> Iterator[str]:
         yield from lines[: self._context_line_count]
         num_lines = len(lines)
         if num_lines:
