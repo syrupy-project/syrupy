@@ -39,7 +39,8 @@ Syrupy will always be compatible with the latest version of Python and Pytest. I
 
 | Syrupy Version | Python Support | Pytest Support |
 | -------------- | -------------- | -------------- |
-| 4.x.x          | >3.8.1         | >=7            |
+| 5.x.x          | >3.9           | >=8            |
+| 4.x.x          | >3.8.1,        | >=7,   <9      |
 | 3.x.x          | >=3.7, <4      | >=5.1, <8      |
 | 2.x.x          | >=3.6, <4      | >=5.1, <8      |
 
@@ -622,4 +623,4 @@ This section is automatically generated via tagging the all-contributors bot in 
 
 ## License
 
-Syrupy is licensed under [Apache License Version 2.0](https://github.com/syrupy-project/syrupy/tree/main/LICENSE).
+Syrupy is licensed under [MIT](https://github.com/syrupy-project/syrupy/tree/main/LICENSE).

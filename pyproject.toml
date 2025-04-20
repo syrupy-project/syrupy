@@ -1,10 +1,20 @@
-[tool.poetry]
+[project]
 name = 'syrupy'
-license = 'Apache-2.0'
-version = "4.9.1"
+license = 'MIT'
+dynamic = [ "version", "classifiers" ]
 description = 'Pytest Snapshot Test Utility'
-authors = ['Noah Ulster']
 readme = 'README.md'
+requires-python = ">=3.9"
+authors = [{name = 'Noah Ulster'}]
+dependencies = [
+  "pytest (>= 8.0.0)"
+]
+
+[project.urls]
+repository = 'https://github.com/syrupy-project/syrupy'
+
+[tool.poetry]
+version = "4.9.1"
 packages = [{ include = 'syrupy', from = 'src' }]
 classifiers = [
     'Development Status :: 5 - Production/Stable',
@@ -12,7 +22,6 @@ classifiers = [
     'Intended Audience :: Developers',
     'Operating System :: OS Independent',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
@@ -22,30 +31,25 @@ classifiers = [
     'Topic :: Software Development :: Testing',
     'Topic :: Utilities',
 ]
-repository = 'https://github.com/syrupy-project/syrupy'
 include = ['src/syrupy/**/*']
 
 [tool.poetry.plugins.pytest11]
 syrupy = 'syrupy'
 
-[tool.poetry.dependencies]
-python = '>=3.8.1'
-pytest = '>=7.0.0,<9.0.0'
-
 [tool.poetry.group.test.dependencies]
-invoke = '^2.0.0'
-coverage = { version = '^7.6.1', extras = ['toml'] }
-pytest-benchmark = '^4.0.0'
-pytest-xdist = '^3.1.0'
+invoke = "^2.2.0"
+coverage = { version = "^7.6.12", extras = ['toml'] }
+pytest-benchmark = "^5.1.0"
+pytest-xdist = "^3.6.1"
 
 [tool.poetry.group.dev.dependencies]
-mypy = '^1.0.1'
+mypy = "^1.15.0"
 py-githooks = '^1.1.1'
-twine = '^5.1.1'
-semver = '^3.0.0'
-setuptools-scm = '^8.0.0'
-debugpy = '^1.6.6'
-ruff = '>=0.7.0'
+twine = '^6.1.0'
+semver = '^3.0.4'
+setuptools-scm = '^8.1.0'
+debugpy = '^1.8.12'
+ruff = '>=0.9.6'
 
 [tool.pytest.ini_options]
 addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
@@ -72,5 +76,5 @@ extend-select = [
 ]
 
 [build-system]
-requires = ['poetry-core>=1.9.0']
+requires = ['poetry-core>=2.1.0']
 build-backend = 'poetry.core.masonry.api'
