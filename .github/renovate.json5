@@ -8,14 +8,14 @@
     rebaseWhen: "behind-base-branch",
     separateMajorMinor: true,
     separateMinorPatch: false,
-    stabilityDays: 21,
+    minimumReleaseAge: "21 days",
     internalChecksFilter: "strict",
     dependencyDashboard: true,
     timezone: "America/Toronto",
     addLabels: ["dependencies"],
     automergeType: "pr",
     automergeStrategy: "squash",
-    "constraints": {
-        "poetry": "2.1.2"
+    constraints: {
+        poetry: "2.1.2",
     },
 }
