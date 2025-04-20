@@ -1,5 +1,7 @@
 # syrupy
 
+> Note that the main branch points to the v5 pre-release. To see documentation for the latest stable release, see the [README for v4.9.1](https://github.com/syrupy-project/syrupy/blob/v4.9.1/README.md).
+
 <img align="right" width="100px" height="100px" src="https://user-images.githubusercontent.com/2528959/69500147-85d71400-0ec6-11ea-867a-277881278e57.png" alt="Logo">
 
 [![All Contributors](https://img.shields.io/github/all-contributors/syrupy-project/syrupy?color=ee8449&style=flat-square)](#contributors) [![Stage](https://img.shields.io/pypi/status/syrupy)](https://pypi.org/project/syrupy/) [![codecov](https://codecov.io/gh/syrupy-project/syrupy/graph/badge.svg?token=GB9EmYKPAl)](https://codecov.io/gh/syrupy-project/syrupy)
