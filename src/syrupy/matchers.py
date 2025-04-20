@@ -4,9 +4,7 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
-    Dict,
     Optional,
-    Tuple,
 )
 
 from syrupy.extensions.amber.serializer import (
@@ -38,9 +36,9 @@ class StrictPathTypeError(PathTypeError):
 
 
 def path_type(
-    mapping: Optional[Dict[str, Tuple["PropertyValueType", ...]]] = None,
+    mapping: Optional[dict[str, tuple["PropertyValueType", ...]]] = None,
     *,
-    types: Tuple["PropertyValueType", ...] = (),
+    types: tuple["PropertyValueType", ...] = (),
     strict: bool = True,
     regex: bool = False,
     replacer: "Replacer" = lambda data, _: Repr(AmberDataSerializer.object_type(data)),
@@ -82,9 +80,9 @@ def path_type(
 
 
 def path_value(
-    mapping: Dict[str, str],
+    mapping: dict[str, str],
     *,
-    types: Tuple["PropertyValueType", ...],
+    types: tuple["PropertyValueType", ...],
     replacer: "Replacer",
     **kwargs: Any,
 ) -> "PropertyMatcher":
@@ -92,7 +90,7 @@ def path_value(
     Matches the path regex against the string repr of values for the types specified
     """
 
-    kwargs["mapping"] = {path_pattern: types for path_pattern in mapping}
+    kwargs["mapping"] = dict.fromkeys(mapping, types)
     kwargs["replacer"] = lambda data, path_matches: (
         replacer(
             data,

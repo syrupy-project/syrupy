@@ -3,6 +3,7 @@ import datetime
 import inspect
 import json
 from collections import OrderedDict
+from collections.abc import Iterable
 from types import (
     FunctionType,
     GeneratorType,
@@ -10,11 +11,7 @@ from types import (
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
-    Iterable,
-    List,
     Optional,
-    Set,
 )
 
 from syrupy.constants import SYMBOL_ELLIPSIS
@@ -62,7 +59,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
-        visited: Optional[Set[Any]] = None,
+        visited: Optional[set[Any]] = None,
     ) -> "SerializableData":
         data_id = id(data)
         visited = set() if visited is None else visited
@@ -74,7 +71,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         if isinstance(data, (int, float, str)) or data is None:
             return data
 
-        filtered_dct: Dict[Any, Any]
+        filtered_dct: dict[Any, Any]
         if isinstance(data, (dict,)):
             filtered_dct = OrderedDict()
             keys = (
@@ -117,7 +114,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
             return filtered_dct
 
         if isinstance(data, (set, frozenset, list, tuple, GeneratorType)):
-            filtered_lst: List[Any] = []
+            filtered_lst: list[Any] = []
             iterable = (
                 cls.sort(data) if isinstance(data, (set, frozenset)) else list(data)
             )

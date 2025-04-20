@@ -16,6 +16,6 @@
     automergeType: "pr",
     automergeStrategy: "squash",
     "constraints": {
-        "poetry": "1.8.3"
+        "poetry": "2.1.2"
     },
 }

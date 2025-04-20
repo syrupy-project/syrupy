@@ -1,5 +1,6 @@
 import importlib
 from collections import defaultdict
+from collections.abc import Generator, Iterator
 from dataclasses import (
     dataclass,
     field,
@@ -14,14 +15,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
-    DefaultDict,
-    Dict,
-    FrozenSet,
-    Generator,
-    Iterator,
-    List,
-    Set,
-    Tuple,
 )
 
 from _pytest.skipping import xfailed_key
@@ -61,10 +54,10 @@ class SnapshotReport:
 
     # Initial arguments to the report
     base_dir: Path
-    collected_items: Set["pytest.Item"]
-    selected_items: Dict[str, "ItemStatus"]
+    collected_items: set["pytest.Item"]
+    selected_items: dict[str, "ItemStatus"]
     options: "argparse.Namespace"
-    assertions: List["SnapshotAssertion"]
+    assertions: list["SnapshotAssertion"]
 
     # All of these are derived from the initial arguments and via walking the filesystem
     discovered: "SnapshotCollections" = field(default_factory=SnapshotCollections)
@@ -73,8 +66,8 @@ class SnapshotReport:
     matched: "SnapshotCollections" = field(default_factory=SnapshotCollections)
     updated: "SnapshotCollections" = field(default_factory=SnapshotCollections)
     used: "SnapshotCollections" = field(default_factory=SnapshotCollections)
-    _provided_test_paths: Dict[str, List[str]] = field(default_factory=dict)
-    _keyword_expressions: Set["Expression"] = field(default_factory=set)
+    _provided_test_paths: dict[str, list[str]] = field(default_factory=dict)
+    _keyword_expressions: set["Expression"] = field(default_factory=set)
     _num_xfails: int = field(default=0)
 
     @property
@@ -90,7 +83,7 @@ class SnapshotReport:
         return bool(self.options.include_snapshot_details)
 
     @cached_property
-    def _collected_items_by_nodeid(self) -> Dict[str, "pytest.Item"]:
+    def _collected_items_by_nodeid(self) -> dict[str, "pytest.Item"]:
         return {item.nodeid: item for item in self.collected_items}
 
     def _has_xfail(self, item: "pytest.Item") -> bool:
@@ -105,7 +98,7 @@ class SnapshotReport:
         self.__parse_invocation_args()
 
         # We only need to discover snapshots once per test file, not once per assertion.
-        locations_discovered: DefaultDict[str, Set[Any]] = defaultdict(set)
+        locations_discovered: defaultdict[str, set[Any]] = defaultdict(set)
         for assertion in self.assertions:
             test_location = assertion.test_location.filepath
             extension_class = assertion.extension.__class__
@@ -289,7 +282,7 @@ class SnapshotReport:
         Re-run pytest with --snapshot-update to delete unused snapshots.
         ```
         """
-        summary_lines: List[str] = []
+        summary_lines: list[str] = []
         if self.num_failed and self._num_xfails < self.num_failed:
             summary_lines.append(
                 ngettext(
@@ -391,7 +384,7 @@ class SnapshotReport:
 
     def __iterate_snapshot_collection(
         self, collection: "SnapshotCollections"
-    ) -> Generator[Tuple[Generator[str, None, None], str], Any, None]:
+    ) -> Generator[tuple[Generator[str, None, None], str], Any, None]:
         for snapshot_collection in collection:
             filepath = snapshot_collection.location
             snapshots = (snapshot.name for snapshot in snapshot_collection)
@@ -448,7 +441,7 @@ class SnapshotReport:
         path = Path(provided_path)
         return str(path if path.is_dir() else path.parent) in snapshot_location
 
-    def _get_matching_path_nodes(self, snapshot_location: str) -> List[List[str]]:
+    def _get_matching_path_nodes(self, snapshot_location: str) -> list[list[str]]:
         """
         For the snapshot location provided, get the nodes of the test paths provided to
         pytest on invocation. If there were no paths provided then this list should be
@@ -464,7 +457,7 @@ class SnapshotReport:
         self,
         snapshot_location: str,
         snapshot_name: str,
-        provided_nodes: List[List[str]],
+        provided_nodes: list[list[str]],
     ) -> bool:
         """
         Check that a snapshot name matches the node paths provided.
@@ -550,7 +543,7 @@ class Expression:
     module is not public. This only supports inclusion based on simple string matching.
     """
 
-    code: FrozenSet[str] = field(default_factory=frozenset)
+    code: frozenset[str] = field(default_factory=frozenset)
 
     def evaluate(self, matcher: Callable[[str], bool]) -> bool:
         return any(map(matcher, self.code))

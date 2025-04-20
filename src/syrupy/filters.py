@@ -1,8 +1,5 @@
 from typing import (
     TYPE_CHECKING,
-    List,
-    Set,
-    Tuple,
     Union,
 )
 
@@ -28,7 +25,7 @@ def paths(*path_parts: str) -> "PropertyFilter":
     if not path_parts:
         raise TypeError("At least 1 path argument is required.")
 
-    parts: Set[str] = set(path_parts)
+    parts: set[str] = set(path_parts)
 
     def path_filter(*, prop: "PropertyName", path: "PropertyPath") -> bool:
         path_str = ".".join(str(p) for p, _ in (*path, (prop, None)))
@@ -37,7 +34,7 @@ def paths(*path_parts: str) -> "PropertyFilter":
     return path_filter
 
 
-def paths_include(*path_parts: Union[Tuple[str, ...], List[str]]) -> "PropertyFilter":
+def paths_include(*path_parts: Union[tuple[str, ...], list[str]]) -> "PropertyFilter":
     """
     Factory to create a filter using list of path tuples.
     """
@@ -47,7 +44,7 @@ def paths_include(*path_parts: Union[Tuple[str, ...], List[str]]) -> "PropertyFi
 
     # "include" operates per key as an object is traversed for serialization.
     # This means, if matching a nested path, we must also include all parents.
-    parts: Set[Tuple[str, ...]] = set()
+    parts: set[tuple[str, ...]] = set()
     for path_part in path_parts:
         if isinstance(path_part, (list, tuple)):
             for idx in range(len(path_part)):

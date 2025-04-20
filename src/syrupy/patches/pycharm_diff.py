@@ -1,10 +1,10 @@
 import warnings
+from collections.abc import Iterator
 from contextlib import contextmanager
 from functools import wraps
 from inspect import signature
 from typing import (
     Any,
-    Iterator,
 )
 
 from syrupy.assertion import SnapshotAssertion

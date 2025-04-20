@@ -1,6 +1,7 @@
 import collections
 import inspect
 from collections import OrderedDict
+from collections.abc import Generator, Iterable
 from types import (
     FunctionType,
     GeneratorType,
@@ -10,13 +11,8 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
-    Dict,
-    Generator,
-    Iterable,
     NamedTuple,
     Optional,
-    Set,
-    Tuple,
     Union,
 )
 
@@ -42,7 +38,7 @@ if TYPE_CHECKING:
     PropertyValueGetter = Callable[
         ["SerializableData", "PropertyName"], "SerializableData"
     ]
-    IterableEntries = Tuple[
+    IterableEntries = tuple[
         Iterable["PropertyName"],
         "PropertyValueGetter",
         Optional["PropertyValueFilter"],
@@ -244,7 +240,7 @@ class AmberDataSerializer:
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
-        visited: Optional[Set[Any]] = None,
+        visited: Optional[set[Any]] = None,
     ) -> str:
         visited = set() if visited is None else visited
         data_id = id(data)
@@ -320,7 +316,7 @@ class AmberDataSerializer:
         )
 
     @classmethod
-    def serialize_set(cls, data: Set["SerializableData"], **kwargs: Any) -> str:
+    def serialize_set(cls, data: set["SerializableData"], **kwargs: Any) -> str:
         return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(cls.sort(data), lambda _, p: p, None),
@@ -340,7 +336,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_dict(
-        cls, data: Dict["PropertyName", "SerializableData"], **kwargs: Any
+        cls, data: dict["PropertyName", "SerializableData"], **kwargs: Any
     ) -> str:
         keys = (
             data.keys() if isinstance(data, (OrderedDict,)) else cls.sort(data.keys())
@@ -386,7 +382,7 @@ class AmberDataSerializer:
         return (name for name in dir(data) if not name.startswith("_"))
 
     @classmethod
-    def object_as_named_tuple(cls, data: Any) -> "Tuple[Any, ...]":
+    def object_as_named_tuple(cls, data: Any) -> "tuple[Any, ...]":
         attr_names = list(cls.object_attrs(data))
         return collections.namedtuple(data.__class__.__name__, attr_names)(
             **{prop: getattr(data, prop) for prop in attr_names}
@@ -511,7 +507,7 @@ class AmberDataSerializerSorted(AmberDataSerializer):
     VERSION = f"{AmberDataSerializer.VERSION}-sorted"
 
     @classmethod
-    def __maybe_int(cls, part: str) -> Tuple[int, Union[str, int]]:
+    def __maybe_int(cls, part: str) -> tuple[int, Union[str, int]]:
         try:
             # cast to int only if the string is the exact representation of the int
             # for example, '012' != str(int('012'))

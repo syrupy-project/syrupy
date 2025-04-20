@@ -1,11 +1,9 @@
 # noqa: A005
+from collections.abc import Hashable
 from typing import (
     Any,
     Callable,
-    Hashable,
     Optional,
-    Tuple,
-    Type,
     Union,
 )
 
@@ -13,9 +11,9 @@ SnapshotIndex = Union[int, str]
 SerializableData = Any
 SerializedData = Union[str, bytes]
 PropertyName = Hashable
-PropertyValueType = Type[SerializableData]
-PropertyPathEntry = Tuple[PropertyName, PropertyValueType]
-PropertyPath = Tuple[PropertyPathEntry, ...]
+PropertyValueType = type[SerializableData]
+PropertyPathEntry = tuple[PropertyName, PropertyValueType]
+PropertyPath = tuple[PropertyPathEntry, ...]
 try:
     from mypy_extensions import NamedArg
 

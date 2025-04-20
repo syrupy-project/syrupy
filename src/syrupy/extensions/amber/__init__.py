@@ -4,8 +4,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Optional,
-    Set,
-    Type,
 )
 
 from syrupy.data import SnapshotCollection
@@ -28,7 +26,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
 
     _file_extension = "ambr"
 
-    serializer_class: Type["AmberDataSerializer"] = AmberDataSerializer
+    serializer_class: type["AmberDataSerializer"] = AmberDataSerializer
 
     def serialize(self, data: "SerializableData", **kwargs: Any) -> str:
         """
@@ -38,7 +36,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         return self.serializer_class.serialize(data, **kwargs)
 
     def delete_snapshots(
-        self, snapshot_location: str, snapshot_names: Set[str]
+        self, snapshot_location: str, snapshot_names: set[str]
     ) -> None:
         snapshot_collection_to_update = AmberDataSerializer.read_file(snapshot_location)
         for snapshot_name in snapshot_names:
