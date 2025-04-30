@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1745161824778,
+  "lastUpdate": 1745984315772,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -9135,6 +9135,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06618073460477333",
             "extra": "mean: 1.3995056798000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paul@cleversheep.org",
+            "name": "Paul Ollis",
+            "username": "paul-ollis"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "33a848df7c4a33577e4057eae5792f6592ad3172",
+          "message": "fix: Block terminal summary for xdist workers. (#978)",
+          "timestamp": "2025-04-29T23:37:29-04:00",
+          "tree_id": "485b7789088bb8ae2e9aa44ed45ada1179e07fc3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/33a848df7c4a33577e4057eae5792f6592ad3172"
+        },
+        "date": 1745984314926,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7684408867153258,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06979671534773162",
+            "extra": "mean: 1.3013362735999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6816294832609967,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26789199350073234",
+            "extra": "mean: 1.4670726906000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7021734931693707,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06851876826159516",
+            "extra": "mean: 1.4241494584000065 sec\nrounds: 5"
           }
         ]
       }
