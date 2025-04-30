@@ -26,6 +26,7 @@ from .terminal import (
 from .utils import (
     env_context,
     import_module_member,
+    is_xdist_worker,
 )
 
 # Global to have access to the session in `pytest_runtest_logfinish` hook
@@ -213,6 +214,12 @@ def pytest_terminal_summary(
     Add syrupy report to pytest.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_terminal_summary
     """
+    if is_xdist_worker():
+        # There is no need for pytest-xdist worker processes to generate a
+        # summary and doing so has been seen to cause CPU spin and delays to
+        # test run shutdown.
+        return
+
     with __terminal_color(config):
         is_printing_report = False
         for line in terminalreporter.config._syrupy.report.lines:
