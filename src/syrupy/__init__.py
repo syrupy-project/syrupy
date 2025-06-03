@@ -123,12 +123,13 @@ def __terminal_color(
         return contextlib.nullcontext()
 
 
+@pytest.hookimpl(tryfirst=True)
 def pytest_assertrepr_compare(
     config: "pytest.Config", op: str, left: Any, right: Any
 ) -> Optional[list[str]]:
     """
     Return explanation for comparisons in failing assert expressions.
-    https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_assertrepr_compare
+    https://docs.pytest.org/en/latest/reference.html#pytest.hookspec.pytest_assertrepr_compare
     """
     if not isinstance(left, SnapshotAssertion) and not isinstance(
         right, SnapshotAssertion
