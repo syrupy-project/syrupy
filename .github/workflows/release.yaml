@@ -34,10 +34,10 @@ jobs:
         with:
           # Temporarily set to create prereleases from main
           branches: |
-            [
+            [{
               name: 'main',
               prerelease: true
-            ]
+            }]
           dry_run: ${{ inputs.dry-run }}
           extra_plugins: |
             @semantic-release/changelog
