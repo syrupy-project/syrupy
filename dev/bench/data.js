@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749072921959,
+  "lastUpdate": 1749073236964,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -9450,6 +9450,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0701173404631369",
             "extra": "mean: 1.4095425154000054 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "26deb7fd6f1bbd4541a06db9a868e12df8bef6e7",
+          "message": "chore: fix release (#987)",
+          "timestamp": "2025-06-04T17:39:28-04:00",
+          "tree_id": "299e3b89f8eeae5ac503574ffceac33847ddffc8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/26deb7fd6f1bbd4541a06db9a868e12df8bef6e7"
+        },
+        "date": 1749073235927,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7818065361900656,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060560096943433825",
+            "extra": "mean: 1.2790888202000006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6925359469564637,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2561714941323575",
+            "extra": "mean: 1.4439683663999971 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7066206680900647,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07104281315599047",
+            "extra": "mean: 1.4151864574000002 sec\nrounds: 5"
           }
         ]
       }
