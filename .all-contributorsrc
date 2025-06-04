@@ -305,6 +305,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "rahuliyer95",
+      "name": "Rahul Iyer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4255590?v=4",
+      "profile": "https://rahuliyer.me",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
