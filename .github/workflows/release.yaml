@@ -32,14 +32,9 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v4.2.0
         with:
-          # Temporarily set to create prereleases from main
           branches: |
             [
-              'main',
-              {
-                name: 'next',
-                prerelease: true
-              }
+              'main'
             ]
           dry_run: ${{ inputs.dry-run }}
           extra_plugins: |
