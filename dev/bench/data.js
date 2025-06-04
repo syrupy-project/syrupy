@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1748352264152,
+  "lastUpdate": 1749072347875,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -9360,6 +9360,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.07701684263173354",
             "extra": "mean: 1.396047951799997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "4255590+rahuliyer95@users.noreply.github.com",
+            "name": "Rahul Iyer",
+            "username": "rahuliyer95"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eb0024d339248b7e1f76fdb65ed30ba3e19c0857",
+          "message": "fix: ensure syrupy's pytest_assertrepr_compare hook is called first. (#984)",
+          "timestamp": "2025-06-04T17:24:41-04:00",
+          "tree_id": "1638d59fd21c90572fa4a9f76476a7cbd5502ca5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/eb0024d339248b7e1f76fdb65ed30ba3e19c0857"
+        },
+        "date": 1749072346396,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7872118541429239,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0519983115616427",
+            "extra": "mean: 1.2703060741999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7035565714507186,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2441161650230161",
+            "extra": "mean: 1.4213498112000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7100285265647637,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07123563421068731",
+            "extra": "mean: 1.408394117399996 sec\nrounds: 5"
           }
         ]
       }
