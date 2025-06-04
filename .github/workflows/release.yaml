@@ -2,6 +2,12 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      dry-run:
+        required: false
+        type: boolean
+        default: false
+        description: "Whether to run the release in dry-run mode"
 
 env:
   VENV: .venv
@@ -26,8 +32,13 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v4.2.0
         with:
-          branch: main
-          dry_run: false
+          # Temporarily set to create prereleases from main
+          branches: |
+            [
+              name: 'main',
+              prerelease: true
+            ]
+          dry_run: ${{ inputs.dry-run }}
           extra_plugins: |
             @semantic-release/changelog
             @semantic-release/exec
