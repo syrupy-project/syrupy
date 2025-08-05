@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754415764078,
+  "lastUpdate": 1754415771029,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -10170,6 +10170,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.08981318496999445",
             "extra": "mean: 1.4375710323999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "47b7c1c3d8adc5238d3c69d572d92ef4495de01d",
+          "message": "Potential fix for code scanning alert no. 1: Workflow does not contain permissions (#1004)\n\nCo-authored-by: Copilot Autofix powered by AI <62310815+github-advanced-security[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-05T13:41:43-04:00",
+          "tree_id": "dc0e168604bc5735177c468abd5bcca8ca061fb7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/47b7c1c3d8adc5238d3c69d572d92ef4495de01d"
+        },
+        "date": 1754415770218,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7944773118543094,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06571153770086309",
+            "extra": "mean: 1.258689184800005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7117847318310623,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25797427294814235",
+            "extra": "mean: 1.4049191493999955 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7159261373219554,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07876031152320197",
+            "extra": "mean: 1.396792137999978 sec\nrounds: 5"
           }
         ]
       }
