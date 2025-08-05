@@ -15,6 +15,9 @@ env:
 jobs:
   release:
     name: Release
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     environment: release
     steps:
