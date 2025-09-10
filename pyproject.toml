@@ -47,7 +47,7 @@ mypy = "^1.15.0"
 py-githooks = '^1.1.1'
 twine = '^6.1.0'
 semver = '^3.0.4'
-setuptools-scm = '^8.1.0'
+setuptools-scm = '^9.0.0'
 debugpy = '^1.8.12'
 ruff = '>=0.9.6'
 
