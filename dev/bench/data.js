@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1757504736738,
+  "lastUpdate": 1757513991707,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -10710,6 +10710,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.06936807010172995",
             "extra": "mean: 1.3787360043999797 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1e969710e47e214480570435d07951e918406d8f",
+          "message": "chore(deps): update codecov/codecov-action action to v5.5.0 (#1017)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-10T10:18:34-04:00",
+          "tree_id": "8d1c1b29e0017ee596ab1b6b3088cc98a5a586c3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1e969710e47e214480570435d07951e918406d8f"
+        },
+        "date": 1757513989739,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7993877806185367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055518618519629206",
+            "extra": "mean: 1.2509573253999917 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6949294115512691,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24880235911030396",
+            "extra": "mean: 1.4389950740000075 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7014554150344374,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0662039491607817",
+            "extra": "mean: 1.4256073565999998 sec\nrounds: 5"
           }
         ]
       }
