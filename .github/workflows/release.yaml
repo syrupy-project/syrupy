@@ -33,7 +33,7 @@ jobs:
         run: . script/bootstrap
 
       - name: Release
-        uses: cycjimmy/semantic-release-action@v4.2.2
+        uses: cycjimmy/semantic-release-action@v5.0.0
         with:
           branches: |
             [
