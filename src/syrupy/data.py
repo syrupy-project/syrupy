@@ -22,7 +22,7 @@ class Snapshot:
     name: str
     data: Optional["SerializedData"] = None
     # A tainted snapshot needs to be regenerated
-    tainted: Optional[bool] = field(default=None)
+    tainted: bool | None = field(default=None)
 
 
 @dataclass(frozen=True)
@@ -43,7 +43,7 @@ class SnapshotCollection:
     _snapshots: dict[str, "Snapshot"] = field(default_factory=dict)
 
     # A tainted collection needs to be regenerated
-    tainted: Optional[bool] = field(default=None)
+    tainted: bool | None = field(default=None)
 
     @property
     def has_snapshots(self) -> bool:
@@ -125,8 +125,8 @@ class SnapshotCollections:
 
 @dataclass
 class DiffedLine:
-    a: Optional[str] = None
-    b: Optional[str] = None
+    a: str | None = None
+    b: str | None = None
     c: list[str] = field(default_factory=list)
     diff_a: str = ""
     diff_b: str = ""

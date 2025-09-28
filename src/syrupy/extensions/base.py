@@ -3,13 +3,12 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from gettext import gettext
 from itertools import zip_longest
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Callable,
     Optional,
 )
 
@@ -107,7 +106,7 @@ class SnapshotCollectionStorage(ABC):
         self,
         *,
         test_location: "PyTestLocation",
-        ignore_extensions: Optional[list[str]] = None,
+        ignore_extensions: list[str] | None = None,
     ) -> "SnapshotCollections":
         """
         Returns all snapshot collections in test site
@@ -317,7 +316,7 @@ class SnapshotReporter:
             yield from map(context_style, self.__limit_context(line.c))
 
     def __diffed_lines(self, a: str, b: str) -> Iterator["DiffedLine"]:
-        staged_diffed_line: Optional[DiffedLine] = None
+        staged_diffed_line: DiffedLine | None = None
         for line in qdiff(a.splitlines(keepends=True), b.splitlines(keepends=True)):
             is_context_line = line[0] == " "
             is_snapshot_line = line[0] == "-"

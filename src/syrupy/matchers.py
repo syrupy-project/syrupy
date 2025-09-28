@@ -1,9 +1,9 @@
 import re
+from collections.abc import Callable
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
     Any,
-    Callable,
     Optional,
 )
 
@@ -21,9 +21,9 @@ if TYPE_CHECKING:
     )
 
     try:
-        MatchResult = Optional[re.Match[str]]
+        MatchResult = re.Match[str] | None
     except TypeError:
-        globals()["MatchResult"] = Optional[re.Match]
+        globals()["MatchResult"] = re.Match | None
     Replacer = Callable[[SerializableData, MatchResult], SerializableData]
 
 
@@ -36,7 +36,7 @@ class StrictPathTypeError(PathTypeError):
 
 
 def path_type(
-    mapping: Optional[dict[str, tuple["PropertyValueType", ...]]] = None,
+    mapping: dict[str, tuple["PropertyValueType", ...]] | None = None,
     *,
     types: tuple["PropertyValueType", ...] = (),
     strict: bool = True,

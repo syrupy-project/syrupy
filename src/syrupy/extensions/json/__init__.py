@@ -59,7 +59,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
-        visited: Optional[set[Any]] = None,
+        visited: set[Any] | None = None,
     ) -> "SerializableData":
         data_id = id(data)
         visited = set() if visited is None else visited

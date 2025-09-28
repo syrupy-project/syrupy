@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (!contains(github.event.head_commit.message, '[skip ci]'))
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Setup Environment
         uses: ./.github/actions/setup-env
       - name: Install project dependencies
@@ -28,7 +28,7 @@ jobs:
       - name: Benchmark
         run: poetry run invoke benchmark
       - name: Publish Benchmark Results
-        uses: benchmark-action/github-action-benchmark@v1
+        uses: benchmark-action/github-action-benchmark@4bdcce38c94cec68da58d012ac24b7b1155efe8b # v1.20.7
         with:
           tool: 'pytest'
           output-file-path: benchmarks.json

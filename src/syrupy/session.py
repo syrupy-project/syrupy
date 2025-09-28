@@ -49,7 +49,7 @@ class SnapshotSession:
     pytest_session: "pytest.Session"
 
     # List of file extensions to ignore during discovery/processing
-    ignore_file_extensions: Optional[list[str]] = None
+    ignore_file_extensions: list[str] | None = None
 
     # Snapshot report generated on finish
     report: Optional["SnapshotReport"] = None

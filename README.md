@@ -6,7 +6,7 @@
 
 [![All Contributors](https://img.shields.io/github/all-contributors/syrupy-project/syrupy?color=ee8449&style=flat-square)](#contributors) [![Stage](https://img.shields.io/pypi/status/syrupy)](https://pypi.org/project/syrupy/) [![codecov](https://codecov.io/gh/syrupy-project/syrupy/graph/badge.svg?token=GB9EmYKPAl)](https://codecov.io/gh/syrupy-project/syrupy)
 
-![Pytest>=5.1.0,<9.0.0](https://img.shields.io/badge/pytest-%3E%3D5.1.0,%20%3C9.0.0-green) [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
+![Pytest>=8,<9.0.0](https://img.shields.io/badge/pytest-%3E=8,%20%3C9.0.0-green) [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
 
 ## Overview
 
@@ -14,7 +14,7 @@ Syrupy is a zero-dependency [pytest](https://docs.pytest.org/en/latest/) snapsho
 
 ## Motivation
 
-The most popular snapshot test plugin compatible with pytest has some core limitations which this package attempts to address by upholding some key values:
+Syrupy upholds three principles:
 
 - Extensible: If a particular data type is not supported, users should be able to easily and quickly add support.
 - Idiomatic: Snapshot testing should fit naturally among other test cases in pytest, e.g. `assert x == snapshot` vs. `snapshot.assert_match(x)`.
@@ -26,23 +26,14 @@ The most popular snapshot test plugin compatible with pytest has some core limit
 python -m pip install syrupy
 ```
 
-### Migration from snapshottest
-
-You cannot use syrupy alongside snapshottest due to argument conflicts. To ease migration, we've made syrupy aware of snapshottest call syntax. Simply uninstall snapshottest and remove old snapshots:
-
-```shell
-pip uninstall snapshottest -y;
-find . -type d ! -path '*/\.*' -name 'snapshots' | xargs rm -r
-```
-
 ### Pytest and Python Compatibility
 
 Syrupy will always be compatible with the latest version of Python and Pytest. If you're running an old version of Python or Pytest, you will need to use an older major version of Syrupy:
 
 | Syrupy Version | Python Support | Pytest Support |
 | -------------- | -------------- | -------------- |
-| 5.x.x          | >3.9           | >=8            |
-| 4.x.x          | >3.8.1,        | >=7,   <9      |
+| 5.x.x          | >=3.10         | >=8            |
+| 4.x.x          | >=3.8.1,       | >=7,   <9      |
 | 3.x.x          | >=3.7, <4      | >=5.1, <8      |
 | 2.x.x          | >=3.6, <4      | >=5.1, <8      |
 
@@ -544,6 +535,17 @@ See [#675](https://github.com/syrupy-project/syrupy/issues/675) for the original
 - `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/syrupy-project/syrupy/issues/535) for more information.
 
 _We welcome contributions to patch these known limitations._
+
+## Migrating from another tool
+
+### From snapshottest
+
+You cannot use syrupy alongside snapshottest due to argument conflicts. To ease migration, we've made syrupy aware of snapshottest call syntax. Simply uninstall snapshottest and remove old snapshots:
+
+```shell
+pip uninstall snapshottest -y;
+find . -type d ! -path '*/\.*' -name 'snapshots' | xargs rm -r
+```
 
 ## Uninstalling
 
