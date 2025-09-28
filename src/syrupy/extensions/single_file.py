@@ -40,7 +40,7 @@ class WriteMode(Enum):
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     _text_encoding = TEXT_ENCODING
     _write_mode = WriteMode.BINARY
-    _file_extension = "raw"
+    file_extension = "raw"
 
     def serialize(
         self,
@@ -78,7 +78,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         Path(snapshot_location).unlink()
 
     @classmethod
-    def _get_file_basename(
+    def get_file_basename(
         cls, *, test_location: "PyTestLocation", index: "SnapshotIndex"
     ) -> str:
         return cls.get_snapshot_name(test_location=test_location, index=index)
@@ -88,10 +88,10 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         original_dirname = AbstractSyrupyExtension.dirname(test_location=test_location)
         return str(Path(original_dirname).joinpath(test_location.basename))
 
-    def _read_snapshot_collection(
+    def read_snapshot_collection(
         self, *, snapshot_location: str
     ) -> "SnapshotCollection":
-        file_ext_len = len(self._file_extension) + 1 if self._file_extension else 0
+        file_ext_len = len(self.file_extension) + 1 if self.file_extension else 0
         filename_wo_ext = snapshot_location[:-file_ext_len]
         basename = Path(filename_wo_ext).parts[-1]
 
@@ -99,7 +99,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         snapshot_collection.add(Snapshot(name=basename))
         return snapshot_collection
 
-    def _read_snapshot_data_from_location(
+    def read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str, session_id: str
     ) -> Optional["SerializableData"]:
         try:
@@ -125,7 +125,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         return None
 
     @classmethod
-    def _write_snapshot_collection(
+    def write_snapshot_collection(
         cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
         filepath, data = (
@@ -148,7 +148,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
     @classmethod
     def __clean_filename(cls, filename: str) -> str:
-        max_filename_length = 255 - len(cls._file_extension or "")
+        max_filename_length = 255 - len(cls.file_extension or "")
         exclude_chars = '\\/?*:|"<>'
         exclude_categ = ("C",)
         cleaned_filename = "".join(
@@ -161,7 +161,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
 
 class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
-    _file_extension = "ambr"
+    file_extension = "ambr"
     _write_mode = WriteMode.TEXT
 
     def serialize(
@@ -176,7 +176,7 @@ class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
             data, exclude=exclude, include=include, matcher=matcher
         )
 
-    def _read_snapshot_data_from_location(
+    def read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str, session_id: str
     ) -> Optional["SerializableData"]:
         snapshot_collection = AmberDataSerializer.read_file(snapshot_location)
@@ -193,7 +193,7 @@ class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
         return snapshot.data
 
     @classmethod
-    def _write_snapshot_collection(
+    def write_snapshot_collection(
         cls, *, snapshot_collection: "SnapshotCollection"
     ) -> None:
         AmberDataSerializer.write_file(snapshot_collection, merge=False)

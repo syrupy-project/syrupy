@@ -9,7 +9,7 @@ def test_multiple_file_extensions(testdir, plugin_args_fails_xdist):
     from syrupy.extensions.single_file import SingleFileSnapshotExtension
 
     class DotInFileExtension(SingleFileSnapshotExtension):
-        _file_extension = "{file_extension}"
+        file_extension = "{file_extension}"
 
     @pytest.fixture
     def snapshot(snapshot):

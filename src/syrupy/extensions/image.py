@@ -12,11 +12,11 @@ if TYPE_CHECKING:
 
 
 class PNGImageSnapshotExtension(SingleFileSnapshotExtension):
-    _file_extension = "png"
+    file_extension = "png"
 
 
 class SVGImageSnapshotExtension(SingleFileSnapshotExtension):
-    _file_extension = "svg"
+    file_extension = "svg"
 
     def serialize(self, data: "SerializableData", **kwargs: Any) -> bytes:
         return str(data).encode(TEXT_ENCODING)

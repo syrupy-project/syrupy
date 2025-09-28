@@ -11,6 +11,8 @@ from typing import (
 
 import pytest
 
+from syrupy.extensions.base import SnapshotCollectionStorage
+
 from .assertion import DiffMode, SnapshotAssertion
 from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
@@ -108,6 +110,12 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
         help="Comma separated list of file extensions to ignore when discovering snapshots",
         type=lambda v: v.split(","),
     )
+    group.addoption(
+        "--snapshot-dirname",
+        dest="snapshot_dirname",
+        default="__snapshots__",
+        help="Directory name to use to store snapshots",
+    )
 
 
 def __terminal_color(
@@ -161,6 +169,10 @@ def pytest_sessionstart(session: Any) -> None:
     Initialize snapshot session before tests are collected and ran.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionstart
     """
+
+    # Override the snapshot dirname in the base SnapshotCollectionStorage class with the pytest config.
+    SnapshotCollectionStorage.snapshot_dirname = session.config.option.snapshot_dirname
+
     session.config._syrupy = SnapshotSession(
         pytest_session=session,
         ignore_file_extensions=session.config.option.ignore_file_extensions,

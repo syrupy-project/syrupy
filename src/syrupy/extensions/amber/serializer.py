@@ -39,7 +39,7 @@ if TYPE_CHECKING:
     IterableEntries = tuple[
         Iterable["PropertyName"],
         "PropertyValueGetter",
-        "PropertyValueFilter" | None,
+        "PropertyValueFilter | None",
     ]
 
 
@@ -100,7 +100,7 @@ class AmberDataSerializer:
         Divider = "---"
 
     @classmethod
-    def _snapshot_sort_key(cls, snapshot: "Snapshot") -> Any:
+    def snapshot_sort_key(cls, snapshot: "Snapshot") -> Any:
         return snapshot.name
 
     @classmethod
@@ -120,7 +120,7 @@ class AmberDataSerializer:
             f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
             for snapshot in sorted(
                 snapshot_collection,
-                key=cls._snapshot_sort_key,  # noqa: E501
+                key=cls.snapshot_sort_key,  # noqa: E501
             ):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
@@ -518,5 +518,5 @@ class AmberDataSerializerSorted(AmberDataSerializer):
             return (0, part)
 
     @classmethod
-    def _snapshot_sort_key(cls, snapshot: "Snapshot") -> Any:
+    def snapshot_sort_key(cls, snapshot: "Snapshot") -> Any:
         return [cls.__maybe_int(part) for part in snapshot.name.split(".")]
