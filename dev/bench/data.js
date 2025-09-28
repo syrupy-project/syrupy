@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759093978371,
+  "lastUpdate": 1759094769793,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -11115,6 +11115,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.07351420838813884",
             "extra": "mean: 1.228537172199998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d6e52a4723acae46f60a2642d5a1cd304efb4531",
+          "message": "Merge pull request #1028 from syrupy-project/noahnu-patch-1\n\nUpdate README to remove outdated branch note",
+          "timestamp": "2025-09-28T17:25:06-04:00",
+          "tree_id": "b706fc9e7efb921e27e119feeafcea7d455fefac",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d6e52a4723acae46f60a2642d5a1cd304efb4531"
+        },
+        "date": 1759094768464,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8902825885332559,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0497178164049958",
+            "extra": "mean: 1.1232388602 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7632680283879694,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22909029830808297",
+            "extra": "mean: 1.310155754999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8214823751619352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07051502434135297",
+            "extra": "mean: 1.217311570199999 sec\nrounds: 5"
           }
         ]
       }
