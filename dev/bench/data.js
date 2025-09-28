@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759080063692,
+  "lastUpdate": 1759093223360,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -11025,6 +11025,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.08292549120436274",
             "extra": "mean: 1.2294902821999927 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "95ffbcb085eb920920a7241c814a55c1e948f148",
+          "message": "Merge pull request #1026 from syrupy-project/rename_methods\n\nrefactor: remove incorrect private underscore prefix from public methods",
+          "timestamp": "2025-09-28T16:59:13-04:00",
+          "tree_id": "c6e372faa271953c1060bf178eb463b7a722a5e2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/95ffbcb085eb920920a7241c814a55c1e948f148"
+        },
+        "date": 1759093222029,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8674319182392587,
+            "unit": "iter/sec",
+            "range": "stddev: 0.059950265746358145",
+            "extra": "mean: 1.1528282265999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7336768951379443,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2582222075296822",
+            "extra": "mean: 1.3629978082000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8003397265424167,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07733390212171284",
+            "extra": "mean: 1.249469402599999 sec\nrounds: 5"
           }
         ]
       }
