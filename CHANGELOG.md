@@ -6,6 +6,53 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [5.0.0](https://github.com/syrupy-project/syrupy/compare/v4.9.1...v5.0.0) (2025-09-28)
+
+
+* Switch to MIT license ([#945](https://github.com/syrupy-project/syrupy/issues/945)) ([d74d340](https://github.com/syrupy-project/syrupy/commit/d74d340f8884fdb04831fcf77f29d66e098aaa66))
+
+
+### Bug Fixes
+
+* Block terminal summary for xdist workers. ([#978](https://github.com/syrupy-project/syrupy/issues/978)) ([33a848d](https://github.com/syrupy-project/syrupy/commit/33a848df7c4a33577e4057eae5792f6592ad3172))
+* ensure syrupy's pytest_assertrepr_compare hook is called first. ([#984](https://github.com/syrupy-project/syrupy/issues/984)) ([eb0024d](https://github.com/syrupy-project/syrupy/commit/eb0024d339248b7e1f76fdb65ed30ba3e19c0857))
+
+
+### Code Refactoring
+
+* remove incorrect private underscore prefix from public methods ([8cfc905](https://github.com/syrupy-project/syrupy/commit/8cfc9059d37066187ac419e2233059bad58b667f))
+
+
+### Features
+
+* add --snapshot-dirname option, close [#810](https://github.com/syrupy-project/syrupy/issues/810) ([27135c7](https://github.com/syrupy-project/syrupy/commit/27135c7c861441962c2cedde841f3e4fed2949fd))
+* drop support for py3.8, raise min. pytest to v8 ([#904](https://github.com/syrupy-project/syrupy/issues/904)) ([a879ff1](https://github.com/syrupy-project/syrupy/commit/a879ff15ad82e59a2f387db0822be072a5684f2f))
+* update min. python version to 3.10 ([#1024](https://github.com/syrupy-project/syrupy/issues/1024)) ([16b4113](https://github.com/syrupy-project/syrupy/commit/16b4113cd56da96e84a90ebda0919e9b8dd35954))
+
+
+### BREAKING CHANGES
+
+* The following methods have been renamed:
+
+SnapshotCollectionStorage
+- _read_snapshot_collection -> read_snapshot_collection
+- _read_snapshot_data_from_location -> read_snapshot_data_from_location
+- _write_snapshot_collection -> write_snapshot_collection
+- _get_file_basename -> get_file_basename
+- _file_extension -> file_extension
+
+AmberDataSerializer
+- _snapshot_sort_key -> snapshot_sort_key
+
+Renamed constants to improve clarity:
+
+constants
+- SNAPSHOT_EMPTY_FOSSIL_KEY -> SNAPSHOT_EMPTY_COLLECTION_KEY
+- SNAPSHOT_UNKNOWN_FOSSIL_KEY -> SNAPSHOT_UNKNOWN_COLLECTION_KEY
+* Min. python version is now 3.10.
+* The Syrupy project is switching from Apache 2.0 to a more permissive MIT license. By using Syrupy >=5, you agree to abide by this new license. You can continue to use Syrupy v1 through v4 under Apache 2.0.
+* Drops support for Python 3.8 which is end of life as of October 2024. Raises the minimum version of pytest to v8.
+
 ## [4.9.1](https://github.com/syrupy-project/syrupy/compare/v4.9.0...v4.9.1) (2025-03-24)
 
 
