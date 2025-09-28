@@ -9,8 +9,8 @@ from typing import (
 )
 
 from .constants import (
-    SNAPSHOT_EMPTY_FOSSIL_KEY,
-    SNAPSHOT_UNKNOWN_FOSSIL_KEY,
+    SNAPSHOT_EMPTY_COLLECTION_KEY,
+    SNAPSHOT_UNKNOWN_COLLECTION_KEY,
 )
 
 if TYPE_CHECKING:
@@ -27,12 +27,12 @@ class Snapshot:
 
 @dataclass(frozen=True)
 class SnapshotEmpty(Snapshot):
-    name: str = SNAPSHOT_EMPTY_FOSSIL_KEY
+    name: str = SNAPSHOT_EMPTY_COLLECTION_KEY
 
 
 @dataclass(frozen=True)
 class SnapshotUnknown(Snapshot):
-    name: str = SNAPSHOT_UNKNOWN_FOSSIL_KEY
+    name: str = SNAPSHOT_UNKNOWN_COLLECTION_KEY
 
 
 @dataclass
@@ -54,8 +54,8 @@ class SnapshotCollection:
 
     def add(self, snapshot: "Snapshot") -> None:
         self._snapshots[snapshot.name] = snapshot
-        if snapshot.name != SNAPSHOT_EMPTY_FOSSIL_KEY:
-            self.remove(SNAPSHOT_EMPTY_FOSSIL_KEY)
+        if snapshot.name != SNAPSHOT_EMPTY_COLLECTION_KEY:
+            self.remove(SNAPSHOT_EMPTY_COLLECTION_KEY)
 
     def merge(self, snapshot_collection: "SnapshotCollection") -> None:
         for snapshot in snapshot_collection:

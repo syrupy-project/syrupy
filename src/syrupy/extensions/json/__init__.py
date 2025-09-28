@@ -34,7 +34,7 @@ if TYPE_CHECKING:
 class JSONSnapshotExtension(SingleFileSnapshotExtension):
     _max_depth: int = 99
     _write_mode = WriteMode.TEXT
-    _file_extension = "json"
+    file_extension = "json"
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:

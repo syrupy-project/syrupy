@@ -16,7 +16,7 @@ def testcases_initial(testdir):
 
 
         class CustomSnapshotExtension(AmberSnapshotExtension):
-            _file_extension = ""
+            file_extension = ""
 
             def serialize(self, data, **kwargs):
                 return str(data)
@@ -27,7 +27,7 @@ def testcases_initial(testdir):
                 return f"{testname}.{index}"
 
             @classmethod
-            def _get_file_basename(cls, *, test_location, index):
+            def get_file_basename(cls, *, test_location, index):
                 return test_location.basename[::-1]
 
         @pytest.fixture
