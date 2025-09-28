@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1758894463962,
+  "lastUpdate": 1759079734397,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -10935,6 +10935,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09356121893761228",
             "extra": "mean: 1.4651482065999972 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "16b4113cd56da96e84a90ebda0919e9b8dd35954",
+          "message": "feat: update min. python version to 3.10 (#1024)\n\nBREAKING CHANGE: Min. python version is now 3.10.",
+          "timestamp": "2025-09-28T13:14:20-04:00",
+          "tree_id": "39efee0618fb0ee6fbb1af0abdd08c284553d5c4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/16b4113cd56da96e84a90ebda0919e9b8dd35954"
+        },
+        "date": 1759079732931,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.882726027824531,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054617071890552614",
+            "extra": "mean: 1.1328543268000033 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7755627569801119,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21359569953342228",
+            "extra": "mean: 1.2893863081999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8265015467594586,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07119325924467568",
+            "extra": "mean: 1.2099190908000026 sec\nrounds: 5"
           }
         ]
       }
