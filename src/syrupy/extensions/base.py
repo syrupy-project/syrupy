@@ -14,7 +14,6 @@ from typing import (
 
 from syrupy.constants import (
     DISABLE_COLOR_ENV_VAR,
-    SNAPSHOT_DIRNAME,
     SYMBOL_CARRIAGE,
     SYMBOL_ELLIPSIS,
     SYMBOL_NEW_LINE,
@@ -71,6 +70,7 @@ class SnapshotSerializer(ABC):
 
 
 class SnapshotCollectionStorage(ABC):
+    snapshot_dirname: str | Path = "__snapshots__"
     file_extension = ""
 
     @classmethod
@@ -246,7 +246,7 @@ class SnapshotCollectionStorage(ABC):
     @classmethod
     def dirname(cls, *, test_location: "PyTestLocation") -> str:
         test_dir = Path(test_location.filepath).parent
-        return str(test_dir.joinpath(SNAPSHOT_DIRNAME))
+        return str(test_dir.joinpath(cls.snapshot_dirname))
 
     @classmethod
     def get_file_basename(

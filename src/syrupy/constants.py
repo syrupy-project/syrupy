@@ -1,4 +1,3 @@
-SNAPSHOT_DIRNAME = "__snapshots__"
 SNAPSHOT_EMPTY_COLLECTION_KEY = "empty snapshot collection"
 SNAPSHOT_UNKNOWN_COLLECTION_KEY = "unknown snapshot collection"
 

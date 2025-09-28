@@ -20,6 +20,8 @@ from syrupy.location import PyTestLocation
 
 def create_versioned_fixture(version: int):
     class VersionedJSONExtension(JSONSnapshotExtension):
+        snapshot_dirname = Path("__snapshots__") / Path(f"v{version}")
+
         @classmethod
         def dirname(cls, *, test_location: "PyTestLocation") -> str:
             return str(
