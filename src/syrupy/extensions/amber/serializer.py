@@ -1,7 +1,7 @@
 import collections
 import inspect
 from collections import OrderedDict
-from collections.abc import Generator, Iterable
+from collections.abc import Callable, Generator, Iterable
 from types import (
     FunctionType,
     GeneratorType,
@@ -10,10 +10,8 @@ from types import (
 from typing import (
     TYPE_CHECKING,
     Any,
-    Callable,
     NamedTuple,
     Optional,
-    Union,
 )
 
 from syrupy.constants import (
@@ -41,7 +39,7 @@ if TYPE_CHECKING:
     IterableEntries = tuple[
         Iterable["PropertyName"],
         "PropertyValueGetter",
-        Optional["PropertyValueFilter"],
+        "PropertyValueFilter" | None,
     ]
 
 
@@ -240,7 +238,7 @@ class AmberDataSerializer:
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
-        visited: Optional[set[Any]] = None,
+        visited: set[Any] | None = None,
     ) -> str:
         visited = set() if visited is None else visited
         data_id = id(data)
@@ -276,7 +274,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_number(
-        cls, data: Union[int, float], *, depth: int = 0, **kwargs: Any
+        cls, data: int | float, *, depth: int = 0, **kwargs: Any
     ) -> str:
         return cls.__serialize_plain(data=data, depth=depth)
 
@@ -424,13 +422,13 @@ class AmberDataSerializer:
         *,
         data: "SerializableData",
         resolve_entries: "IterableEntries",
-        open_paren: Optional[str] = None,
-        close_paren: Optional[str] = None,
+        open_paren: str | None = None,
+        close_paren: str | None = None,
         depth: int = 0,
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         path: "PropertyPath" = (),
-        separator: Optional[str] = None,
+        separator: str | None = None,
         serialize_key: bool = False,
         **kwargs: Any,
     ) -> str:
@@ -507,7 +505,7 @@ class AmberDataSerializerSorted(AmberDataSerializer):
     VERSION = f"{AmberDataSerializer.VERSION}-sorted"
 
     @classmethod
-    def __maybe_int(cls, part: str) -> tuple[int, Union[str, int]]:
+    def __maybe_int(cls, part: str) -> tuple[int, str | int]:
         try:
             # cast to int only if the string is the exact representation of the int
             # for example, '012' != str(int('012'))

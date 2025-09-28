@@ -1,6 +1,5 @@
 from typing import (
     TYPE_CHECKING,
-    Union,
 )
 
 if TYPE_CHECKING:
@@ -34,7 +33,7 @@ def paths(*path_parts: str) -> "PropertyFilter":
     return path_filter
 
 
-def paths_include(*path_parts: Union[tuple[str, ...], list[str]]) -> "PropertyFilter":
+def paths_include(*path_parts: tuple[str, ...] | list[str]) -> "PropertyFilter":
     """
     Factory to create a filter using list of path tuples.
     """

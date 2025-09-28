@@ -4,7 +4,7 @@ license = 'MIT'
 dynamic = [ "version", "classifiers" ]
 description = 'Pytest Snapshot Test Utility'
 readme = 'README.md'
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [{name = 'Noah Ulster'}]
 dependencies = [
   "pytest (>= 8.0.0)"
@@ -22,7 +22,6 @@ classifiers = [
     'Intended Audience :: Developers',
     'Operating System :: OS Independent',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
@@ -64,7 +63,6 @@ exclude_lines = ['pragma: no-cover', 'if TYPE_CHECKING:', '@abstractmethod']
 
 [tool.ruff]
 line-length = 88
-target-version = "py39"
 unsafe-fixes = true
 
 [tool.ruff.lint]
@@ -77,5 +75,5 @@ extend-select = [
 ]
 
 [build-system]
-requires = ['poetry-core>=2.1.2']
+requires = ['poetry-core>=2.2.1']
 build-backend = 'poetry.core.masonry.api'

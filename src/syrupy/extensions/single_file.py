@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Optional,
-    Union,
 )
 from unicodedata import category
 
@@ -114,13 +113,13 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             return None
 
     @classmethod
-    def get_supported_dataclass(cls) -> Union[type[str], type[bytes]]:
+    def get_supported_dataclass(cls) -> type[str] | type[bytes]:
         if cls._write_mode == WriteMode.TEXT:
             return str
         return bytes
 
     @classmethod
-    def get_write_encoding(cls) -> Optional[str]:
+    def get_write_encoding(cls) -> str | None:
         if cls._write_mode == WriteMode.TEXT:
             return TEXT_ENCODING
         return None

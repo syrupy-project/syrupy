@@ -1,6 +1,6 @@
 import importlib
 from collections import defaultdict
-from collections.abc import Generator, Iterator
+from collections.abc import Callable, Generator, Iterator
 from dataclasses import (
     dataclass,
     field,
@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
-    Callable,
 )
 
 from _pytest.skipping import xfailed_key

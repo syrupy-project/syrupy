@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Union
 
 from .constants import DISABLE_COLOR_ENV_VARS
 from .utils import get_env_value
@@ -38,7 +37,7 @@ def _attr(style: str) -> str:
     return f"{TerminalCodes.ESC}{TerminalCodes.STYLES[style]}{TerminalCodes.END}"
 
 
-def _fg(color: Union[int, str]) -> str:
+def _fg(color: int | str) -> str:
     if _is_color_disabled():
         return ""
     color_code = TerminalCodes.COLORS[color] if isinstance(color, (str,)) else color
@@ -51,59 +50,59 @@ def _bg(color: int) -> str:
     return f"{TerminalCodes.BACKGROUND_256}{str(color)}{TerminalCodes.END}"
 
 
-def _stylize(text: Union[str, int], formatting: str) -> str:
+def _stylize(text: str | int, formatting: str) -> str:
     if _is_color_disabled():
         return str(text)
     return f"{formatting}{text}{_attr('reset')}"
 
 
-def reset(text: Union[str, int]) -> str:
+def reset(text: str | int) -> str:
     return _stylize(text, _attr("reset"))
 
 
-def red(text: Union[str, int]) -> str:
+def red(text: str | int) -> str:
     return _stylize(text, _fg("red"))
 
 
-def yellow(text: Union[str, int]) -> str:
+def yellow(text: str | int) -> str:
     return _stylize(text, _fg("yellow"))
 
 
-def green(text: Union[str, int]) -> str:
+def green(text: str | int) -> str:
     return _stylize(text, _fg("green"))
 
 
-def bold(text: Union[str, int]) -> str:
+def bold(text: str | int) -> str:
     return _stylize(text, _attr("bold"))
 
 
-def error_style(text: Union[str, int]) -> str:
+def error_style(text: str | int) -> str:
     return bold(red(text))
 
 
-def warning_style(text: Union[str, int]) -> str:
+def warning_style(text: str | int) -> str:
     return bold(yellow(text))
 
 
-def success_style(text: Union[str, int]) -> str:
+def success_style(text: str | int) -> str:
     return bold(green(text))
 
 
-def snapshot_style(text: Union[str, int]) -> str:
+def snapshot_style(text: str | int) -> str:
     return _stylize(text, _bg(225) + _fg(90))
 
 
-def snapshot_diff_style(text: Union[str, int]) -> str:
+def snapshot_diff_style(text: str | int) -> str:
     return _stylize(text, _bg(90) + _fg(225))
 
 
-def received_style(text: Union[str, int]) -> str:
+def received_style(text: str | int) -> str:
     return _stylize(text, _bg(195) + _fg(23))
 
 
-def received_diff_style(text: Union[str, int]) -> str:
+def received_diff_style(text: str | int) -> str:
     return _stylize(text, _bg(23) + _fg(195))
 
 
-def context_style(text: Union[str, int]) -> str:
+def context_style(text: str | int) -> str:
     return _stylize(text, _attr("dim"))

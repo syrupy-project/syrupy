@@ -34,7 +34,7 @@ _syrupy: Optional["SnapshotSession"] = None
 
 
 @lru_cache(maxsize=1)
-def __import_extension(value: Optional[str]) -> Any:
+def __import_extension(value: str | None) -> Any:
     if not value:
         return DEFAULT_EXTENSION
     try:
@@ -126,7 +126,7 @@ def __terminal_color(
 @pytest.hookimpl(tryfirst=True)
 def pytest_assertrepr_compare(
     config: "pytest.Config", op: str, left: Any, right: Any
-) -> Optional[list[str]]:
+) -> list[str] | None:
     """
     Return explanation for comparisons in failing assert expressions.
     https://docs.pytest.org/en/latest/reference.html#pytest.hookspec.pytest_assertrepr_compare

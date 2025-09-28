@@ -1,5 +1,6 @@
 import traceback
 from collections import namedtuple
+from collections.abc import Callable
 from dataclasses import (
     dataclass,
     field,
@@ -9,7 +10,6 @@ from gettext import gettext
 from typing import (
     TYPE_CHECKING,
     Any,
-    Callable,
     Optional,
 )
 
@@ -49,7 +49,7 @@ class AssertionResult:
     created: bool
     updated: bool
     success: bool
-    exception: Optional[Exception]
+    exception: Exception | None
     test_location: "PyTestLocation"
 
     @property
@@ -77,7 +77,7 @@ class SnapshotAssertion:
         init=False,
         default=None,
     )
-    _custom_index: Optional[str] = field(
+    _custom_index: str | None = field(
         init=False,
         default=None,
     )
@@ -182,7 +182,7 @@ class SnapshotAssertion:
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         matcher: Optional["PropertyMatcher"] = None,
-        extension_class: Optional[type["AbstractSyrupyExtension"]] = None,
+        extension_class: type["AbstractSyrupyExtension"] | None = None,
     ) -> "SnapshotAssertion":
         """
         Create new snapshot assertion fixture with provided values. This preserves
@@ -199,7 +199,7 @@ class SnapshotAssertion:
         )
 
     def use_extension(
-        self, extension_class: Optional[type["AbstractSyrupyExtension"]] = None
+        self, extension_class: type["AbstractSyrupyExtension"] | None = None
     ) -> "SnapshotAssertion":
         """
         Create new snapshot assertion fixture with the same options but using
@@ -269,7 +269,7 @@ class SnapshotAssertion:
         diff: Optional["SnapshotIndex"] = None,
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
-        extension_class: Optional[type["AbstractSyrupyExtension"]] = None,
+        extension_class: type["AbstractSyrupyExtension"] | None = None,
         matcher: Optional["PropertyMatcher"] = None,
         name: Optional["SnapshotIndex"] = None,
     ) -> "SnapshotAssertion":
@@ -303,8 +303,8 @@ class SnapshotAssertion:
         snapshot_name = self.extension.get_snapshot_name(
             test_location=self.test_location, index=self.index
         )
-        snapshot_data: Optional[SerializedData] = None
-        serialized_data: Optional[SerializedData] = None
+        snapshot_data: SerializedData | None = None
+        serialized_data: SerializedData | None = None
         matches = False
         assertion_success = False
         assertion_exception = None

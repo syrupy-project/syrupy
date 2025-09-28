@@ -8,8 +8,6 @@ from importlib import import_module
 from pathlib import Path
 from typing import (
     Any,
-    Optional,
-    Union,
 )
 
 from .constants import (
@@ -31,7 +29,7 @@ def is_xdist_controller() -> bool:
 
 
 def walk_snapshot_dir(
-    root: Union[str, Path], *, ignore_extensions: Optional[list[str]] = None
+    root: str | Path, *, ignore_extensions: list[str] | None = None
 ) -> Iterator[str]:
     ignore_exts: set[str] = set(ignore_extensions or [])
 

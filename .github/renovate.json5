@@ -1,5 +1,6 @@
 {
     $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    extends: ["helpers:pinGitHubActionDigests"],
     prConcurrentLimit: 2,
     semanticCommits: "enabled",
     semanticCommitType: "chore",
@@ -16,6 +17,6 @@
     automergeType: "pr",
     automergeStrategy: "squash",
     constraints: {
-        poetry: "2.1.2",
+        poetry: "2.2.1",
     },
 }

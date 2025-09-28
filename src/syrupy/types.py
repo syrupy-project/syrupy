@@ -1,15 +1,12 @@
 # noqa: A005
-from collections.abc import Hashable
+from collections.abc import Callable, Hashable
 from typing import (
     Any,
-    Callable,
-    Optional,
-    Union,
 )
 
-SnapshotIndex = Union[int, str]
+SnapshotIndex = int | str
 SerializableData = Any
-SerializedData = Union[str, bytes]
+SerializedData = str | bytes
 PropertyName = Hashable
 PropertyValueType = type[SerializableData]
 PropertyPathEntry = tuple[PropertyName, PropertyValueType]
@@ -22,7 +19,7 @@ try:
             NamedArg(SerializableData, "data"),  # noqa: F821
             NamedArg(PropertyPath, "path"),  # noqa: F821
         ],
-        Optional[SerializableData],
+        SerializableData | None,
     ]
     PropertyFilter = Callable[
         [
@@ -33,5 +30,5 @@ try:
     ]
 
 except ImportError:
-    globals()["PropertyMatcher"] = Callable[..., Optional[SerializableData]]
+    globals()["PropertyMatcher"] = Callable[..., SerializableData | None]
     globals()["PropertyFilter"] = Callable[..., bool]

@@ -4,9 +4,6 @@ from dataclasses import (
     field,
 )
 from pathlib import Path
-from typing import (
-    Optional,
-)
 
 import pytest
 
@@ -16,7 +13,7 @@ from syrupy.constants import PYTEST_NODE_SEP
 @dataclass(frozen=True)
 class PyTestLocation:
     item: "pytest.Item"
-    nodename: Optional[str] = field(init=False)
+    nodename: str | None = field(init=False)
     testname: str = field(init=False)
     methodname: str = field(init=False)
     modulename: str = field(init=False)
@@ -65,7 +62,7 @@ class PyTestLocation:
         return self.nodeid.endswith("]")
 
     @property
-    def classname(self) -> Optional[str]:
+    def classname(self) -> str | None:
         if self.is_doctest:
             return None
         return ".".join(self.nodeid.split(PYTEST_NODE_SEP)[1:-1]) or None
