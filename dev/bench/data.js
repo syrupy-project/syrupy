@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759094769793,
+  "lastUpdate": 1759517039176,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -11160,6 +11160,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.07051502434135297",
             "extra": "mean: 1.217311570199999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e3fa198d4dd52f69ff315180bb6b76a4bf64b0d",
+          "message": "Merge pull request #1029 from syrupy-project/renovate/ruff-0.x-lockfile\n\nchore(deps): update dependency ruff to v0.13.3",
+          "timestamp": "2025-10-03T14:42:54-04:00",
+          "tree_id": "9c563fdb465e2e7266ac6fc9d50a8f8805719fab",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6e3fa198d4dd52f69ff315180bb6b76a4bf64b0d"
+        },
+        "date": 1759517038120,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.88614789167627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.050167491405609776",
+            "extra": "mean: 1.128479805000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7598324358488672,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2339526231862276",
+            "extra": "mean: 1.3160796418000018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8036083932660062,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09637735299977974",
+            "extra": "mean: 1.2443872019999986 sec\nrounds: 5"
           }
         ]
       }
