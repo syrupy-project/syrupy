@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760629556050,
+  "lastUpdate": 1760966912151,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -11250,6 +11250,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.07689115572184928",
             "extra": "mean: 1.252867154200004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3d92201c4c792c62146348968c188f9179aeffa",
+          "message": "Merge pull request #1031 from syrupy-project/renovate/python-3.x\n\nchore(deps): update python docker tag to v3.14.0",
+          "timestamp": "2025-10-20T09:27:11-04:00",
+          "tree_id": "3a2f2fd98caff709bfb63db93f4ee388ee5edd34",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d3d92201c4c792c62146348968c188f9179aeffa"
+        },
+        "date": 1760966911431,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5948116026438476,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03133611293217792",
+            "extra": "mean: 1.6812045958 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5347059948020544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07301867613766397",
+            "extra": "mean: 1.8701866253999924 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5447164211295771,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06657836803409749",
+            "extra": "mean: 1.8358176129999948 sec\nrounds: 5"
           }
         ]
       }
