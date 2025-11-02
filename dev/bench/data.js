@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1761967717468,
+  "lastUpdate": 1762098768018,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -11385,6 +11385,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.057477439432155025",
             "extra": "mean: 1.7467814516000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6448b9c8b2f33973489910b2175baa1e3bf9db77",
+          "message": "chore(deps): update dependency setuptools-scm to v9.2.1 (#1035)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-02T10:51:33-05:00",
+          "tree_id": "26cda44f765f4f71a1296adeff7c2af2cdfb8126",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6448b9c8b2f33973489910b2175baa1e3bf9db77"
+        },
+        "date": 1762098766720,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6522182729320214,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02724827567936771",
+            "extra": "mean: 1.5332290454000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5902472711017068,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0706788950270983",
+            "extra": "mean: 1.6942052067999953 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5883624031005824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06678859288483988",
+            "extra": "mean: 1.6996327344000037 sec\nrounds: 5"
           }
         ]
       }
