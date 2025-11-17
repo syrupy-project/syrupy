@@ -652,6 +652,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/samylaumonier"><img src="https://avatars.githubusercontent.com/u/2417752?v=4?s=100" width="100px;" alt="Samy Laumonier"/><br /><sub><b>Samy Laumonier</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Asamylaumonier" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/paul-ollis"><img src="https://avatars.githubusercontent.com/u/6062510?v=4?s=100" width="100px;" alt="Paul Ollis"/><br /><sub><b>Paul Ollis</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Apaul-ollis" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://rahuliyer.me"><img src="https://avatars.githubusercontent.com/u/4255590?v=4?s=100" width="100px;" alt="Rahul Iyer"/><br /><sub><b>Rahul Iyer</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Arahuliyer95" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://serl.it/"><img src="https://avatars.githubusercontent.com/u/2742655?v=4?s=100" width="100px;" alt="Sergio Livi"/><br /><sub><b>Sergio Livi</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=serl" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
