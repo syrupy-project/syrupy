@@ -55,6 +55,47 @@ pytest --snapshot-update
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
 
+#### Usage in `unittest.TestCase` subclasses
+
+[Due to limitations in `unittest` and `pytest`](https://docs.pytest.org/en/9.0.x/how-to/unittest.html#pytest-features-in-unittest-testcase-subclasses), the `snapshot` fixture is not directly usable in `TestCase` subclasses (including Django's `TestCase`).
+
+Possible workarounds include using marks:
+
+```python
+from unittest import TestCase
+import pytest
+
+@pytest.fixture(scope="function")
+def snapshot_in_class(request, snapshot):
+    """
+    Wraps snapshot fixture to provide instance snapshot property for
+    unittest.TestCase tests
+    """
+    request.cls.snapshot = snapshot
+
+class MyTest(TestCase):
+    @pytest.mark.usefixtures("snapshot_in_class")
+    def test_foo(self):
+        actual = "Some computed value!"
+        assert actual == self.snapshot
+```
+
+Or using a fixture with `autouse`:
+
+```python
+from unittest import TestCase
+import pytest
+
+class MyTest(TestCase):
+    @pytest.fixture(autouse=True)
+    def setupSnapshot(self, snapshot):
+        self.snapshot = snapshot
+
+    def test_foo(self):
+        actual = "Some computed value!"
+        assert actual == self.snapshot
+```
+
 #### Custom Objects
 
 The default serializer supports all python built-in types and provides a sensible default for custom objects.
