@@ -35,7 +35,7 @@ def test_multiline_repr(snapshot):
     assert MultilineRepr() == snapshot
 
 
-def test_multiline_repr_with_no_indentation(snapshot):
+def test_multiline_repr_with_missing_indentation_on_empty_lines(snapshot):
     # snapshot file has been manually edited
-    # remove newlines from this test if you update the snapshot
+    # remove spaces from newlines from this test if you update the snapshot
     assert MultilineRepr() == snapshot
