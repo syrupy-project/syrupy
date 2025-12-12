@@ -26,9 +26,16 @@ class MultilineRepr:
                 "Line1",
                 "Line2\n",  # extra newline
                 "Line3 ",  # with an extra space
+                "",  # newline at end
             ]
         )
 
 
 def test_multiline_repr(snapshot):
+    assert MultilineRepr() == snapshot
+
+
+def test_multiline_repr_with_missing_indentation_on_empty_lines(snapshot):
+    # snapshot file has been manually edited
+    # remove spaces from newlines from this test if you update the snapshot
     assert MultilineRepr() == snapshot
