@@ -8,4 +8,4 @@ def dev(ctx):
     """
     Install the current development version of syrupy
     """
-    ctx_run(ctx, "poetry install")
+    ctx_run(ctx, "uv sync --locked --all-extras --dev")

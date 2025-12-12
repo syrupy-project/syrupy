@@ -23,10 +23,8 @@ jobs:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Setup Environment
         uses: ./.github/actions/setup-env
-      - name: Install project dependencies
-        run: . script/bootstrap
       - name: Benchmark
-        run: poetry run invoke benchmark
+        run: uv run invoke benchmark
       - name: Publish Benchmark Results
         uses: benchmark-action/github-action-benchmark@4bdcce38c94cec68da58d012ac24b7b1155efe8b # v1.20.7
         with:

@@ -28,6 +28,7 @@ wheels/
 MANIFEST
 version.txt
 pip-wheel-metadata
+.ruff_cache
 
 # Installer logs
 pip-log.txt

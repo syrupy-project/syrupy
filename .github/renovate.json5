@@ -16,7 +16,4 @@
     addLabels: ["dependencies"],
     automergeType: "pr",
     automergeStrategy: "squash",
-    constraints: {
-        poetry: "2.2.1",
-    },
 }
