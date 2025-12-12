@@ -20,19 +20,14 @@ runs:
           echo "version=${{ inputs.python-version }}" >> $GITHUB_OUTPUT
         fi
       shell: bash
-    - name: Detect Poetry Version
-      id: detect-poetry
-      run: |
-        echo "version=$(head -n1 .poetry-version | tr -d '\n')" >> $GITHUB_OUTPUT
-      shell: bash
-    - name: Set up Python ${{ inputs.python-version }}
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+
+    - name: Install UV
+      id: install-uv
+      uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
       with:
         python-version: ${{ inputs.python-version }}
-        allow-prereleases: true
-    - name: Install Poetry
-      uses: snok/install-poetry@76e04a911780d5b312d89783f7b1cd627778900a # v1.4.1
-      with:
-        version: ${{ steps.detect-poetry.outputs.version }}
-        virtualenvs-create: true
-        virtualenvs-in-project: true
+
+    - name: Install Python Project
+      shell: bash
+      run: |
+        uv sync --locked --all-extras --dev

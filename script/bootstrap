@@ -2,39 +2,26 @@
 # script/bootstrap: Resolve all dependencies that the application requires to
 # run.
 
-# If not in CI, we have to install the correct python versions
-if [[ -z $CI ]]; then
-    # pyenv update
-    pyenv install --skip-existing || return
-fi
-
-POETRY_HOME=`pwd`/.poetry
-POETRY_BIN="$POETRY_HOME/bin/poetry"
-if [[ ! -z $CI ]]; then
-    POETRY_BIN=poetry
-fi
-
-if [[ -z $CI ]]; then
-    # FIXME: There must be a better way to install this per project rather than globally?
-    curl -sSL https://install.python-poetry.org | POETRY_HOME="$POETRY_HOME" POETRY_VERSION=$(head -1 .poetry-version) python3 -
-    $POETRY_BIN env use $(head -1 .python-version)
-fi
-
-if [[ -z $SKIP_DEPS ]]; then
-    $POETRY_BIN install --with=dev --with=test --no-interaction
-fi
-
-if [[ -z $CI ]]; then
-    . ./.venv/bin/activate
-    if [[ ! "$PATH" =~ "$POETRY_HOME" ]]; then
-        export PATH="$POETRY_HOME/bin:$PATH"
+if ! command -v uv &> /dev/null; then
+    echo "uv could not be found. Do you want to install it? (y/n)"
+    read -r
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        if command -v brew &> /dev/null; then
+            brew install uv
+        else
+            curl -fsSL https://astral.sh/uv/install.sh | sh
+        fi
+    else
+        echo "Please install uv to continue"
+        return
     fi
 fi
 
-if [[ -z $CI ]]; then
-    python -m python_githooks
+uv venv --allow-existing
+source .venv/bin/activate
 
-    if ! complete -p invoke &>/dev/null; then
-        source <(inv --print-completion-script bash)
-    fi
+uv run -m python_githooks
+
+if ! complete -p invoke &>/dev/null; then
+    source <(inv --print-completion-script bash)
 fi
