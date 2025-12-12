@@ -27,11 +27,9 @@ jobs:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Setup Environment
         uses: ./.github/actions/setup-env
-      - name: Install project dependencies
-        run: . script/bootstrap
       - name: Lint
         run: |
-          poetry run invoke lint
+          uv run invoke lint
 
   tests:
     name: Tests
@@ -48,25 +46,22 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install project dependencies
-        run: . script/bootstrap
-        shell: bash
       - name: Run Tests (with coverage)
         id: tests-with-coverage
         if: matrix.python-version == '3.14-dev' && matrix.os == 'ubuntu-latest'
         shell: bash
-        run: poetry run invoke test --coverage
+        run: uv run invoke test --coverage
       - name: Run Tests
         if: steps.tests-with-coverage.outcome == 'skipped'
         shell: bash
-        run: poetry run invoke test
+        run: uv run invoke test
       - name: Upload Coverage
         if: steps.tests-with-coverage.conclusion == 'success'
         uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-# # TODO: How to do this with poetry?
+# # TODO: How to do this with uv?
   # version_checks:
   #   name: Dependency Version Constraint Checks
   #   runs-on: ubuntu-latest
@@ -81,14 +76,12 @@ jobs:
   #         python-version: 3.7 # it's min, so we'll use an older version of python
   #     - name: Install project dependencies
   #       run: |
-  #         . script/bootstrap
-  #         poetry install --with=test
+  #         uv run install --with=test
   #     - name: Test
   #       env:
   #         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   #       run: |
-  #         . $VENV/bin/activate
-  #         poetry run invoke test --coverage
+  #         uv run invoke test --coverage
 
   benchmark:
     name: Benchmark
@@ -102,10 +95,8 @@ jobs:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Setup Environment
         uses: ./.github/actions/setup-env
-      - name: Install project dependencies
-        run: . script/bootstrap
       - name: Benchmark
-        run: poetry run invoke benchmark
+        run: uv run invoke benchmark
       - name: Publish Benchmark Results
         uses: benchmark-action/github-action-benchmark@4bdcce38c94cec68da58d012ac24b7b1155efe8b # v1.20.7
         with:

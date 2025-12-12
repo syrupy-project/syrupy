@@ -12,10 +12,9 @@ def install(ctx, upgrade=False):
     Install dependencies and update lock file.
     """
     if upgrade:
-        ctx_run(ctx, "poetry update")
+        pass
     else:
-        ctx_run(ctx, "poetry lock")
-        ctx_run(ctx, "poetry install")
+        ctx_run(ctx, "uv sync --locked --all-extras --dev")
 
 
 @task
@@ -40,8 +39,8 @@ def dist(ctx):
     from setuptools_scm import get_version
 
     version = get_version(version_scheme=version_scheme, local_scheme=lambda _: "")
-    ctx_run(ctx, f"poetry version {version}")
-    ctx_run(ctx, "poetry build")
+    ctx_run(ctx, f"uv version {version}")
+    ctx_run(ctx, "uv build")
 
 
 @task
@@ -65,7 +64,7 @@ def release(ctx, dry_run=True, version=None):
         exit(1)
 
     if dry_run and not version:
-        version = ctx_run(ctx, "poetry version --short").stdout.strip()
+        version = ctx_run(ctx, "uv version --short").stdout.strip()
 
     if not version:
         print("Missing version.")
