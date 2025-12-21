@@ -4,6 +4,14 @@
   Line2
   
   Line3 
+  
+# ---
+# name: test_multiline_repr_with_no_indentation
+  Line1
+  Line2
+
+  Line3 
+
 # ---
 # name: test_trailing_2_newlines_in_repr
   ReprWithNewline
