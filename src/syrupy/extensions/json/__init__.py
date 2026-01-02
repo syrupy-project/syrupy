@@ -135,6 +135,9 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         if isinstance(data, (datetime.datetime,)):
             return data.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
 
+        if isinstance(data, (datetime.date,)):
+            return data.strftime("%Y-%m-%d")
+
         if isinstance(data, FunctionType):
             return (
                 f"<{FunctionType.__name__} "
