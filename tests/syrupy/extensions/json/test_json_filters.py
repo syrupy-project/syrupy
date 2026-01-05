@@ -26,6 +26,7 @@ def snapshot_json(snapshot):
             "array": [1, 2, 3],
             "null": None,
             "datetime": datetime.datetime(2021, 1, 31, 23, 59),
+            "date": datetime.date(2021, 1, 31),
         },
     ],
 )

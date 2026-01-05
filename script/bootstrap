@@ -1,4 +1,6 @@
-# Based on conventions from https://github.com/github/scripts-to-rule-them-all
+#!/bin/sh
+
+# Based on conventions from https//github.com/github/scripts-to-rule-them-all
 # script/bootstrap: Resolve all dependencies that the application requires to
 # run.
 
@@ -35,6 +37,6 @@ if [[ -z $CI ]]; then
     python -m python_githooks
 
     if ! complete -p invoke &>/dev/null; then
-        source <(inv --print-completion-script bash)
+        eval $(inv --print-completion-script bash)
     fi
 fi
