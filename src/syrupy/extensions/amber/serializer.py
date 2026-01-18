@@ -1,5 +1,6 @@
 import collections
 import inspect
+import textwrap
 from collections import OrderedDict
 from collections.abc import Callable, Generator, Iterable
 from types import (
@@ -184,6 +185,9 @@ class AmberDataSerializer:
                             snapshot_data = ""
                     elif test_name is not None and line.startswith(cls._indent):
                         snapshot_data += line[indent_len:]
+                    elif test_name is not None and line.strip() == "":
+                        # Remove trailing whitespace (but not newline character) from empty line.
+                        snapshot_data += textwrap.dedent(line)
         except FileNotFoundError:
             pass
         else:
