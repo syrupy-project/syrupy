@@ -1,0 +1,53 @@
+# serializer version: 1
+# name: test_attrs_plugin
+  AttrsPoint(
+    x=1,
+    y=2,
+  )
+# ---
+# name: test_dataclasses_plugin
+  DataclassPoint(
+    x=1,
+    y=2,
+  )
+# ---
+# name: test_mixed_plugins
+  dict({
+    'attrs': AttrsPoint(
+      x=1,
+      y=2,
+    ),
+    'dataclass': DataclassPoint(
+      x=3,
+      y=4,
+    ),
+    'list_mixed': list([
+      AttrsPoint(
+        x=10,
+        y=20,
+      ),
+      DataclassPoint(
+        x=30,
+        y=40,
+      ),
+    ]),
+    'pydantic': PydanticPoint(
+      x=5,
+      y=6,
+    ),
+  })
+# ---
+# name: test_nested_structures
+  Outer(
+    middle=Middle(inner=Inner(val=42), other='nested'),
+    tags=list([
+      'c',
+    ]),
+  )
+# ---
+# name: test_pydantic_plugin
+  PydanticPoint(
+    x=1,
+    y=2,
+  )
+# ---

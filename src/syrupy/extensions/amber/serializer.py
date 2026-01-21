@@ -1,5 +1,6 @@
 import collections
 import inspect
+from abc import ABC, abstractmethod
 from collections import OrderedDict
 from collections.abc import Callable, Generator, Iterable
 from types import (
@@ -81,6 +82,28 @@ def removesuffix(string: str, suffix: str) -> str:
     return string
 
 
+class AmberDataSerializerPlugin(ABC):
+    """
+    A Syrupy plugin for extending Amber serialization.
+    """
+
+    @classmethod
+    @abstractmethod
+    def __plugin_can_serialize__(cls, data: "SerializableData") -> bool:
+        """
+        Determine if this plugin can serialize the given data.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def __plugin_serialize__(cls, data: "SerializableData", **kwargs) -> str:
+        """
+        Return the serialization method for the given data.
+        """
+        pass
+
+
 class AmberDataSerializer:
     """
     If extending the serializer, change the VERSION property to some unique value
@@ -105,7 +128,9 @@ class AmberDataSerializer:
 
     @classmethod
     def write_file(
-        cls, snapshot_collection: "SnapshotCollection", merge: bool = False
+        cls,
+        snapshot_collection: "SnapshotCollection",
+        merge: bool = False,
     ) -> None:
         """
         Writes the snapshot data into the snapshot file that can be read later.
@@ -135,7 +160,8 @@ class AmberDataSerializer:
 
     @classmethod
     def __read_file_with_markers(
-        cls, filepath: str
+        cls,
+        filepath: str,
     ) -> Generator["Snapshot", None, None]:
         marker_offset = len(cls._marker_prefix)
         indent_len = len(cls._indent)
@@ -255,26 +281,42 @@ class AmberDataSerializer:
             "path": path,
             "visited": {*visited, data_id},
         }
-        serialize_method = cls.serialize_unknown
-        if isinstance(data, str):
-            serialize_method = cls.serialize_string
-        elif isinstance(data, (int, float)):
-            serialize_method = cls.serialize_number
-        elif isinstance(data, (set, frozenset)):
-            serialize_method = cls.serialize_set
-        elif isinstance(data, (dict, MappingProxyType)):
-            serialize_method = cls.serialize_dict
-        elif cls.__is_namedtuple(data):
-            serialize_method = cls.serialize_namedtuple
-        elif isinstance(data, (list, tuple, GeneratorType)):
-            serialize_method = cls.serialize_iterable
-        elif isinstance(data, FunctionType):
-            serialize_method = cls.serialize_function
+        serialize_method = cls._assign_serialize_method(data)
         return serialize_method(**serialize_kwargs)
 
     @classmethod
+    def _assign_serialize_method(cls, data: "SerializableData") -> Callable[..., str]:
+        for base in inspect.getmro(cls):
+            if (
+                issubclass(base, AmberDataSerializerPlugin)
+                and base is not AmberDataSerializerPlugin
+            ):
+                if base.__plugin_can_serialize__(data):
+                    return base.__plugin_serialize__
+
+        if isinstance(data, str):
+            return cls.serialize_string
+        elif isinstance(data, (int, float)):
+            return cls.serialize_number
+        elif isinstance(data, (set, frozenset)):
+            return cls.serialize_set
+        elif isinstance(data, (dict, MappingProxyType)):
+            return cls.serialize_dict
+        elif cls.__is_namedtuple(data):
+            return cls.serialize_namedtuple
+        elif isinstance(data, (list, tuple, GeneratorType)):
+            return cls.serialize_iterable
+        elif isinstance(data, FunctionType):
+            return cls.serialize_function
+        return cls.serialize_unknown
+
+    @classmethod
     def serialize_number(
-        cls, data: int | float, *, depth: int = 0, **kwargs: Any
+        cls,
+        data: int | float,
+        *, 
+        depth: int = 0,
+        **kwargs: Any,
     ) -> str:
         return cls.__serialize_plain(data=data, depth=depth)
 
@@ -298,7 +340,9 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_iterable(
-        cls, data: Iterable["SerializableData"], **kwargs: Any
+        cls,
+        data: Iterable["SerializableData"],
+        **kwargs: Any,
     ) -> str:
         open_paren, close_paren = (None, None)
         if isinstance(data, list):
@@ -334,7 +378,9 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_dict(
-        cls, data: dict["PropertyName", "SerializableData"], **kwargs: Any
+        cls,
+        data: dict["PropertyName", "SerializableData"],
+        **kwargs: Any,
     ) -> str:
         keys = (
             data.keys() if isinstance(data, (OrderedDict,)) else cls.sort(data.keys())
@@ -352,7 +398,11 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_function(
-        cls, data: FunctionType, *, depth: int = 0, **kwargs: Any
+        cls,
+        data: FunctionType,
+        *, 
+        depth: int = 0,
+        **kwargs: Any,
     ) -> str:
         return cls.__serialize_plain(
             data=f"{data.__qualname__}{str(inspect.signature(data))}", depth=depth
