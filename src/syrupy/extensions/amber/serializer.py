@@ -130,9 +130,7 @@ class AmberDataSerializer:
 
     @classmethod
     def write_file(
-        cls,
-        snapshot_collection: "SnapshotCollection",
-        merge: bool = False,
+        cls, snapshot_collection: "SnapshotCollection", merge: bool = False
     ) -> None:
         """
         Writes the snapshot data into the snapshot file that can be read later.
@@ -162,8 +160,7 @@ class AmberDataSerializer:
 
     @classmethod
     def __read_file_with_markers(
-        cls,
-        filepath: str,
+        cls, filepath: str
     ) -> Generator["Snapshot", None, None]:
         marker_offset = len(cls._marker_prefix)
         indent_len = len(cls._indent)
@@ -311,11 +308,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_number(
-        cls,
-        data: int | float,
-        *,
-        depth: int = 0,
-        **kwargs: Any,
+        cls, data: int | float, *, depth: int = 0, **kwargs: Any
     ) -> str:
         return cls.__serialize_plain(data=data, depth=depth)
 
@@ -339,9 +332,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_iterable(
-        cls,
-        data: Iterable["SerializableData"],
-        **kwargs: Any,
+        cls, data: Iterable["SerializableData"], **kwargs: Any
     ) -> str:
         open_paren, close_paren = (None, None)
         if isinstance(data, list):
@@ -377,9 +368,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_dict(
-        cls,
-        data: dict["PropertyName", "SerializableData"],
-        **kwargs: Any,
+        cls, data: dict["PropertyName", "SerializableData"], **kwargs: Any
     ) -> str:
         keys = (
             data.keys() if isinstance(data, (OrderedDict,)) else cls.sort(data.keys())
@@ -397,11 +386,7 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_function(
-        cls,
-        data: FunctionType,
-        *,
-        depth: int = 0,
-        **kwargs: Any,
+        cls, data: FunctionType, *, depth: int = 0, **kwargs: Any
     ) -> str:
         return cls.__serialize_plain(
             data=f"{data.__qualname__}{str(inspect.signature(data))}", depth=depth

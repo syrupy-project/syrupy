@@ -5,6 +5,20 @@
     y=2,
   )
 # ---
+# name: test_complex_pydantic_model
+  ComplexModel(
+    values=list([
+      Inner(val=1),
+      Inner(val=2),
+    ]),
+    start=PydanticPoint(x=0, y=0),
+    end=PydanticPoint(x=10, y=10),
+    mapping=dict({
+      'first': Inner(val=100),
+      'second': Inner(val=200),
+    }),
+  )
+# ---
 # name: test_dataclasses_plugin
   DataclassPoint(
     x=1,
