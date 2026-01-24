@@ -1,9 +1,9 @@
+from dataclasses import dataclass
+
 import attr
 import pytest
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-from syrupy.assertion import SnapshotAssertion
 from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.extensions.amber.attrs_plugin import AttrsPlugin
 from syrupy.extensions.amber.dataclasses_plugin import DataclassPlugin
@@ -43,24 +43,28 @@ class Middle:
 class Outer:
     middle = attr.ib()
     tags = attr.ib(factory=list)
+
+
 # endregion
 
 
 # region Serializers
-class AttrsSerializer(AttrsPlugin, AmberDataSerializer):
-    pass
+class AttrsSerializer(AmberDataSerializer):
+    serializer_plugins = [AttrsPlugin]
 
 
-class DataclassSerializer(DataclassPlugin, AmberDataSerializer):
-    pass
+class DataclassSerializer(AmberDataSerializer):
+    serializer_plugins = [DataclassPlugin]
 
 
-class PydanticSerializer(PydanticPlugin, AmberDataSerializer):
-    pass
+class PydanticSerializer(AmberDataSerializer):
+    serializer_plugins = [PydanticPlugin]
 
 
-class MixedSerializer(AttrsPlugin, DataclassPlugin, PydanticPlugin, AmberDataSerializer):
-    pass
+class MixedSerializer(AmberDataSerializer):
+    serializer_plugins = [AttrsPlugin, DataclassPlugin, PydanticPlugin]
+
+
 # endregion
 
 
@@ -79,6 +83,8 @@ class AmberPydanticExtension(AmberSnapshotExtension):
 
 class AmberMixedExtension(AmberSnapshotExtension):
     serializer_class = MixedSerializer
+
+
 # endregion
 
 
@@ -101,6 +107,8 @@ def snapshot_pydantic(snapshot):
 @pytest.fixture
 def snapshot_mixed(snapshot):
     return snapshot.use_extension(AmberMixedExtension)
+
+
 # endregion
 
 
@@ -128,7 +136,7 @@ def test_mixed_plugins(snapshot_mixed):
         "list_mixed": [
             AttrsPoint(x=10, y=20),
             DataclassPoint(x=30, y=40),
-        ]
+        ],
     }
 
     assert complex_data == snapshot_mixed
@@ -137,4 +145,6 @@ def test_mixed_plugins(snapshot_mixed):
 def test_nested_structures(snapshot_mixed):
     data = Outer(middle=Middle(inner=Inner(val=42), other="nested"), tags=["c"])
     assert data == snapshot_mixed
+
+
 # endregion

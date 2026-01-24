@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Any
 
 from syrupy.extensions.amber.serializer import (
     AmberDataSerializer,
@@ -14,12 +15,12 @@ class DataclassPlugin(AmberDataSerializerPlugin):
     """
 
     @classmethod
-    def __plugin_can_serialize__(cls, data: "SerializableData") -> bool:
+    def is_data_serializable(cls, data: "SerializableData") -> bool:
         return dataclasses.is_dataclass(data) and not isinstance(data, type)
 
     @classmethod
-    def __plugin_serialize__(cls, data: "SerializableData", **kwargs) -> str:
-        keys = [f.name for f in dataclasses.fields(data)]
+    def serialize(cls, data: "SerializableData", **kwargs: Any) -> str:
+        keys = sorted([f.name for f in dataclasses.fields(data)])
 
         return AmberDataSerializer.serialize_custom_iterable(
             data=data,

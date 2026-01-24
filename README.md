@@ -550,6 +550,7 @@ addopts = --snapshot-ignore-file-extensions dvc,tmp,zip
 - [Custom comparator](https://github.com/syrupy-project/syrupy/tree/main/tests/integration/test_custom_comparator.py)
 - [JPEG image extension](https://github.com/syrupy-project/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
 - [Built-in image extensions](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
+- [Amber Serializer Plugins](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/amber/test_amber_serializer_plugins.py) -- e.g. serializing attrs, dataclasses, Pydantic
 
 ### Inline Snapshots
 

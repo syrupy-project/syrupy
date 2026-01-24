@@ -89,7 +89,7 @@ class AmberDataSerializerPlugin(ABC):
 
     @classmethod
     @abstractmethod
-    def __plugin_can_serialize__(cls, data: "SerializableData") -> bool:
+    def is_data_serializable(cls, data: "SerializableData") -> bool:
         """
         Determine if this plugin can serialize the given data.
         """
@@ -97,7 +97,7 @@ class AmberDataSerializerPlugin(ABC):
 
     @classmethod
     @abstractmethod
-    def __plugin_serialize__(cls, data: "SerializableData", **kwargs) -> str:
+    def serialize(cls, data: "SerializableData", **kwargs: Any) -> str:
         """
         Return the serialization method for the given data.
         """
@@ -112,6 +112,8 @@ class AmberDataSerializer:
     """
 
     VERSION = "1"
+
+    serializer_plugins: Iterable[type["AmberDataSerializerPlugin"]] | None = None
 
     _indent: str = "  "
     _max_depth: int = 99
@@ -286,13 +288,10 @@ class AmberDataSerializer:
 
     @classmethod
     def _assign_serialize_method(cls, data: "SerializableData") -> Callable[..., str]:
-        for base in inspect.getmro(cls):
-            if (
-                issubclass(base, AmberDataSerializerPlugin)
-                and base is not AmberDataSerializerPlugin
-            ):
-                if base.__plugin_can_serialize__(data):
-                    return base.__plugin_serialize__
+        if cls.serializer_plugins:
+            for plugin in cls.serializer_plugins:
+                if plugin.is_data_serializable(data):
+                    return plugin.serialize
 
         if isinstance(data, str):
             return cls.serialize_string
@@ -314,7 +313,7 @@ class AmberDataSerializer:
     def serialize_number(
         cls,
         data: int | float,
-        *, 
+        *,
         depth: int = 0,
         **kwargs: Any,
     ) -> str:
@@ -400,7 +399,7 @@ class AmberDataSerializer:
     def serialize_function(
         cls,
         data: FunctionType,
-        *, 
+        *,
         depth: int = 0,
         **kwargs: Any,
     ) -> str:

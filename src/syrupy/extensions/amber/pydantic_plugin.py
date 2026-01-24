@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel
 
 from syrupy.extensions.amber.serializer import (
@@ -14,12 +16,12 @@ class PydanticPlugin(AmberDataSerializerPlugin):
     """
 
     @classmethod
-    def __plugin_can_serialize__(cls, data: "SerializableData") -> bool:
+    def is_data_serializable(cls, data: "SerializableData") -> bool:
         return isinstance(data, BaseModel)
 
     @classmethod
-    def __plugin_serialize__(cls, data: BaseModel, **kwargs) -> str:
-        keys = type(data).model_fields.keys()
+    def serialize(cls, data: BaseModel, **kwargs: Any) -> str:
+        keys = sorted(type(data).model_fields.keys())
 
         return AmberDataSerializer.serialize_custom_iterable(
             data=data,
