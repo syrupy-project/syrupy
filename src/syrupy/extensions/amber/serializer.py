@@ -1,5 +1,6 @@
 import collections
 import inspect
+from abc import ABC, abstractmethod
 from collections import OrderedDict
 from collections.abc import Callable, Generator, Iterable
 from types import (
@@ -81,6 +82,28 @@ def removesuffix(string: str, suffix: str) -> str:
     return string
 
 
+class AmberDataSerializerPlugin(ABC):
+    """
+    A Syrupy plugin for extending Amber serialization.
+    """
+
+    @classmethod
+    @abstractmethod
+    def is_data_serializable(cls, data: "SerializableData") -> bool:
+        """
+        Determine if this plugin can serialize the given data.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def serialize(cls, data: "SerializableData", **kwargs: Any) -> str:
+        """
+        Return the serialization method for the given data.
+        """
+        pass
+
+
 class AmberDataSerializer:
     """
     If extending the serializer, change the VERSION property to some unique value
@@ -89,6 +112,8 @@ class AmberDataSerializer:
     """
 
     VERSION = "1"
+
+    serializer_plugins: Iterable[type["AmberDataSerializerPlugin"]] | None = None
 
     _indent: str = "  "
     _max_depth: int = 99
@@ -255,22 +280,31 @@ class AmberDataSerializer:
             "path": path,
             "visited": {*visited, data_id},
         }
-        serialize_method = cls.serialize_unknown
-        if isinstance(data, str):
-            serialize_method = cls.serialize_string
-        elif isinstance(data, (int, float)):
-            serialize_method = cls.serialize_number
-        elif isinstance(data, (set, frozenset)):
-            serialize_method = cls.serialize_set
-        elif isinstance(data, (dict, MappingProxyType)):
-            serialize_method = cls.serialize_dict
-        elif cls.__is_namedtuple(data):
-            serialize_method = cls.serialize_namedtuple
-        elif isinstance(data, (list, tuple, GeneratorType)):
-            serialize_method = cls.serialize_iterable
-        elif isinstance(data, FunctionType):
-            serialize_method = cls.serialize_function
+        serialize_method = cls._assign_serialize_method(data)
         return serialize_method(**serialize_kwargs)
+
+    @classmethod
+    def _assign_serialize_method(cls, data: "SerializableData") -> Callable[..., str]:
+        if cls.serializer_plugins:
+            for plugin in cls.serializer_plugins:
+                if plugin.is_data_serializable(data):
+                    return plugin.serialize
+
+        if isinstance(data, str):
+            return cls.serialize_string
+        elif isinstance(data, (int, float)):
+            return cls.serialize_number
+        elif isinstance(data, (set, frozenset)):
+            return cls.serialize_set
+        elif isinstance(data, (dict, MappingProxyType)):
+            return cls.serialize_dict
+        elif cls.__is_namedtuple(data):
+            return cls.serialize_namedtuple
+        elif isinstance(data, (list, tuple, GeneratorType)):
+            return cls.serialize_iterable
+        elif isinstance(data, FunctionType):
+            return cls.serialize_function
+        return cls.serialize_unknown
 
     @classmethod
     def serialize_number(

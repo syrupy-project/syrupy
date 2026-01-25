@@ -12,6 +12,7 @@ from syrupy.extensions.base import AbstractSyrupyExtension
 
 from .serializer import (  # noqa: F401
     AmberDataSerializer,
+    AmberDataSerializerPlugin,
     AmberDataSerializerSorted,  # re-exported
 )
 
@@ -77,4 +78,4 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         cls.serializer_class.write_file(snapshot_collection, merge=True)
 
 
-__all__ = ["AmberSnapshotExtension", "AmberDataSerializer"]
+__all__ = ["AmberSnapshotExtension", "AmberDataSerializer", "AmberDataSerializerPlugin"]
