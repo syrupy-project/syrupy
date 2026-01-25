@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1768768985022,
+  "lastUpdate": 1769351832019,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -12285,6 +12285,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.023521784069760944",
             "extra": "mean: 1.9226428495999983 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43605200+bwrob@users.noreply.github.com",
+            "name": "Bartosz Marcin Wróblewski",
+            "username": "bwrob"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "df9bc8f6b3a222dde82167e10a2e6bb57456305a",
+          "message": "feat: add serializer plugin system; plugins for data models (#1062)\n\n---------\n\nCo-authored-by: bwrob <bartosz.marcin.wroblewski@gmail.com>\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2026-01-25T09:35:47-05:00",
+          "tree_id": "538407eb5c0d2a6951bcca8d4d6a55c3fc7d7cf0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/df9bc8f6b3a222dde82167e10a2e6bb57456305a"
+        },
+        "date": 1769351831348,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5431109841327295,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029675112707153395",
+            "extra": "mean: 1.8412442929999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4942136969117173,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05286493154813661",
+            "extra": "mean: 2.0234161987999952 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.49451113391046503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04837520131200983",
+            "extra": "mean: 2.0221991608000023 sec\nrounds: 5"
           }
         ]
       }
