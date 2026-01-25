@@ -50,7 +50,7 @@ setuptools-scm = '^9.0.0'
 debugpy = '^1.8.12'
 ruff = '>=0.9.6'
 pydantic = "^2.12.5"
-attrs = "^23.2.0"
+attrs = "^25.0.0"
 
 [tool.pytest.ini_options]
 addopts = '-p syrupy -p pytester -p no:legacypath --doctest-modules'
