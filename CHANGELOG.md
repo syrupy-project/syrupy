@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+# [5.1.0](https://github.com/syrupy-project/syrupy/compare/v5.0.0...v5.1.0) (2026-01-25)
+
+
+### Features
+
+* add serializer plugin system; plugins for data models ([#1062](https://github.com/syrupy-project/syrupy/issues/1062)) ([df9bc8f](https://github.com/syrupy-project/syrupy/commit/df9bc8f6b3a222dde82167e10a2e6bb57456305a))
+
 # [5.0.0](https://github.com/syrupy-project/syrupy/compare/v4.9.1...v5.0.0) (2025-09-28)
 
 

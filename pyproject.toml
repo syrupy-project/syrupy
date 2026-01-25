@@ -14,7 +14,7 @@ dependencies = [
 repository = 'https://github.com/syrupy-project/syrupy'
 
 [tool.poetry]
-version = "5.0.0"
+version = "5.1.0"
 packages = [{ include = 'syrupy', from = 'src' }]
 classifiers = [
     'Development Status :: 5 - Production/Stable',
