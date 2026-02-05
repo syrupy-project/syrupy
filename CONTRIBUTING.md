@@ -72,6 +72,10 @@ Detailing in there as much as possible, the idea and any potential solutions to 
 
 Have an issue to submit code changes for? See below.
 
+#### Environment requirements
+
+- `pyenv`
+
 #### Local development
 
 - Clone the repository
