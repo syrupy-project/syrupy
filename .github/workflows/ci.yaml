@@ -98,7 +98,7 @@ jobs:
       - name: Benchmark
         run: uv run invoke benchmark
       - name: Publish Benchmark Results
-        uses: benchmark-action/github-action-benchmark@4bdcce38c94cec68da58d012ac24b7b1155efe8b # v1.20.7
+        uses: benchmark-action/github-action-benchmark@a7bc2366eda11037936ea57d811a43b3418d3073 # v1.21.0
         with:
           tool: 'pytest'
           output-file-path: benchmarks.json
