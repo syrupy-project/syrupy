@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774316402380,
+  "lastUpdate": 1775236418564,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -12960,6 +12960,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.033319729822604914",
             "extra": "mean: 1.7952017872000057 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "34f9b27e699a690e7ca1644a8a64d10a0e7d789c",
+          "message": "chore(deps): update astral-sh/setup-uv action to v7.5.0 (#1080)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T13:12:40-04:00",
+          "tree_id": "5e7b026d78eb176a8b364519b4431a9b85d18f5b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/34f9b27e699a690e7ca1644a8a64d10a0e7d789c"
+        },
+        "date": 1775236417353,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6510761779428751,
+            "unit": "iter/sec",
+            "range": "stddev: 0.030666001240097083",
+            "extra": "mean: 1.5359185819999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5949820020223173,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05202372527867955",
+            "extra": "mean: 1.6807231085999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5849523790935042,
+            "unit": "iter/sec",
+            "range": "stddev: 0.038276571321269444",
+            "extra": "mean: 1.7095408715999951 sec\nrounds: 5"
           }
         ]
       }
