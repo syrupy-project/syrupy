@@ -332,6 +332,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "DRMacIver",
+      "name": "David R. MacIver",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28623?v=4",
+      "profile": "http://www.drmaciver.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
