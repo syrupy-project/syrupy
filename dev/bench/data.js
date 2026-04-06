@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775236418564,
+  "lastUpdate": 1775477642918,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13005,6 +13005,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.038276571321269444",
             "extra": "mean: 1.7095408715999951 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "david.maciver@gmail.com",
+            "name": "David R. MacIver",
+            "username": "DRMacIver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "04f4cc8e21ae743d4ebc95a0961f0802f57f1856",
+          "message": "fix(#1081): Handle unicode line-endings correctly when serializing (#1082)",
+          "timestamp": "2026-04-06T08:12:51-04:00",
+          "tree_id": "08bfd0b4b8e0459bb7be0ad41d7932f5fd7df48d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/04f4cc8e21ae743d4ebc95a0961f0802f57f1856"
+        },
+        "date": 1775477641413,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6018096663650282,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02820551663483773",
+            "extra": "mean: 1.6616549316000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5541931747768747,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06591848907447848",
+            "extra": "mean: 1.8044249649999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5421587785243723,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10052900469825804",
+            "extra": "mean: 1.8444781116000057 sec\nrounds: 5"
           }
         ]
       }
