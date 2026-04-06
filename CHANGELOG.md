@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 From v1.0.0 onwards, this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Pre-v1, breaking changes are indicated via a minor release, while all other changes fall under patches. At any time, you can see what's in progress for a version by filtering GitHub issues by milestone.
 
+## [5.1.1](https://github.com/syrupy-project/syrupy/compare/v5.1.0...v5.1.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* **#1081:** Handle unicode line-endings correctly when serializing ([#1082](https://github.com/syrupy-project/syrupy/issues/1082)) ([04f4cc8](https://github.com/syrupy-project/syrupy/commit/04f4cc8e21ae743d4ebc95a0961f0802f57f1856)), closes [#1081](https://github.com/syrupy-project/syrupy/issues/1081)
+
 # [5.1.0](https://github.com/syrupy-project/syrupy/compare/v5.0.0...v5.1.0) (2026-01-25)
 
 
