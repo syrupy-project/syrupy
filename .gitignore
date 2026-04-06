@@ -41,6 +41,7 @@ pip-delete-this-directory.txt
 coverage
 htmlcov/
 benchmarks/test_cases/__snapshots__
+.hypothesis
 
 # Environments
 .env
