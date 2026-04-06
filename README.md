@@ -656,6 +656,9 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="http://serl.it/"><img src="https://avatars.githubusercontent.com/u/2742655?v=4?s=100" width="100px;" alt="Sergio Livi"/><br /><sub><b>Sergio Livi</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=serl" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://bwrob.github.io/"><img src="https://avatars.githubusercontent.com/u/43605200?v=4?s=100" width="100px;" alt="Bartosz Marcin Wróblewski"/><br /><sub><b>Bartosz Marcin Wróblewski</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=bwrob" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.drmaciver.com"><img src="https://avatars.githubusercontent.com/u/28623?v=4?s=100" width="100px;" alt="David R. MacIver"/><br /><sub><b>David R. MacIver</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3ADRMacIver" title="Bug reports">🐛</a></td>
+    </tr>
   </tbody>
 </table>
 
