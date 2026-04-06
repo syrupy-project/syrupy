@@ -150,11 +150,18 @@ class AmberDataSerializer:
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
                     f.write(f"{cls._marker_prefix}{cls.Marker.Name}: {snapshot.name}\n")
-                    for data_line in snapshot_data.splitlines(keepends=True):
-                        f.write(cls.with_indent(data_line, 1))
-                    if data_line.endswith("\n"):
-                        # splitlines does not split on a terminal/trailing newline, so we must
-                        # account for that manually
+                    # Split on \n only. We avoid str.splitlines() because it
+                    # also splits on \x0b, \x0c, \x1c-\x1e, \x85, \u2028,
+                    # and \u2029, but the file reader (which iterates lines
+                    # from the file object) only splits on \n, \r, and \r\n.
+                    parts = snapshot_data.split("\n")
+                    for i, part in enumerate(parts):
+                        is_last = i == len(parts) - 1
+                        if not is_last:
+                            f.write(cls.with_indent(part + "\n", 1))
+                        elif part:
+                            f.write(cls.with_indent(part, 1))
+                    if snapshot_data.endswith("\n"):
                         f.write(cls.with_indent("", 1))
                     f.write(f"\n{cls._marker_prefix}{cls.Marker.Divider}\n")
 
