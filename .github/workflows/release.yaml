@@ -104,6 +104,13 @@ jobs:
           if [[ "${{ steps.version.outputs.is-dev }}" == "true" ]]; then
             # Just log the contents of the commit
             git show --pretty=format:"%h %s"
+          elif [[ "${{ github.event_name }}" == "release" ]]; then
+            # Release checkouts are detached at the tag; push commit onto the release branch
+            branch="${{ github.event.release.target_commitish }}"
+            if ! git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+              branch="${{ github.event.repository.default_branch }}"
+            fi
+            git push origin "HEAD:${branch}"
           else
             git push
           fi
