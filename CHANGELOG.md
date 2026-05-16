@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v5.2.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.2.0) (2026-05-16)
+
+## What's Changed
+* chore(deps): update actions/checkout action to v6.0.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1065
+* chore(deps): update actions/setup-python action to v6.2.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1066
+* chore(deps): update dependency ruff to v0.14.14 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1067
+* chore(deps): update dependency coverage to v7.13.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1068
+* chore: migrate to uv, close #1019 by @noahnu in https://github.com/syrupy-project/syrupy/pull/1049
+* chore(deps): update dependency coverage to v7.13.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1069
+* chore(deps): update dependency debugpy to v1.8.19 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1070
+* chore(deps): update dependency mypy to v1.19.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1071
+* chore(deps): update dependency ruff to v0.14.14 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1072
+* chore(deps): update python docker tag to v3.14.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1073
+* chore(deps): update astral-sh/setup-uv action to v7.3.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1076
+* chore: update lock file by @noahnu in https://github.com/syrupy-project/syrupy/pull/1077
+* chore(deps): update benchmark-action/github-action-benchmark action to v1.21.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1078
+* chore(deps): update astral-sh/setup-uv action to v7.5.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1080
+* fix(#1081): Handle unicode line-endings correctly when serializing by @DRMacIver in https://github.com/syrupy-project/syrupy/pull/1082
+* docs: add DRMacIver as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1083
+* chore: update lockfile by @noahnu in https://github.com/syrupy-project/syrupy/pull/1086
+* chore: migrate off semantic-release to trusted publishing by @noahnu in https://github.com/syrupy-project/syrupy/pull/1093
+* chore: set name/email by @noahnu in https://github.com/syrupy-project/syrupy/pull/1094
+
+## New Contributors
+* @DRMacIver made their first contribution in https://github.com/syrupy-project/syrupy/pull/1082
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.1.0...v5.2.0
+
 <!-- MARKER -->
 
 ## [5.1.2](https://github.com/syrupy-project/syrupy/compare/v5.1.1...v5.1.2) (2026-04-06)
