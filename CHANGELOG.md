@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+<!-- MARKER -->
+
 ## [v5.2.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.2.0) (2026-05-16)
 
 ## What's Changed
@@ -29,8 +31,6 @@ All notable changes to this project will be documented in this file.
 * @DRMacIver made their first contribution in https://github.com/syrupy-project/syrupy/pull/1082
 
 **Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.1.0...v5.2.0
-
-<!-- MARKER -->
 
 ## [5.1.2](https://github.com/syrupy-project/syrupy/compare/v5.1.1...v5.1.2) (2026-04-06)
 
