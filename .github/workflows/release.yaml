@@ -1,16 +1,17 @@
 name: Release
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
-    inputs:
-      dry-run:
-        required: false
-        type: boolean
-        default: false
-        description: "Whether to run the release in dry-run mode"
 
 env:
   VENV: .venv
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
 
 jobs:
   release:
@@ -24,24 +25,95 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-          persist-credentials: false
+          persist-credentials: true
+          token: ${{ secrets.RELEASE_GITHUB_PAT }}
 
       - name: Setup Environment
         uses: ./.github/actions/setup-env
 
-      - name: Release
-        uses: cycjimmy/semantic-release-action@b12c8f6015dc215fe37bc154d4ad456dd3833c90 # v6.0.0
-        with:
-          branches: |
-            [
-              'main'
-            ]
-          dry_run: ${{ inputs.dry-run }}
-          extra_plugins: |
-            @semantic-release/changelog
-            @semantic-release/exec
-            @semantic-release/git
+      - name: Determine Release Version
+        id: version
+        shell: bash
+        run: |
+          # PEP 440 version from the release tag (vX.Y.Z -> X.Y.Z) or nearest tag on manual runs
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            tag="${{ github.event.release.tag_name }}"
+          else
+            tag=$(git describe --tags --abbrev=0)
+          fi
+
+          version="${tag#v}"
+
+          commits_since_tag=$(git rev-list --count "${tag}^{commit}..${{ github.sha }}")
+          if [[ "$commits_since_tag" -gt 0 ]]; then
+            version="${version}.dev${commits_since_tag}"
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          is_dev=false
+          if [[ "${{ github.event_name }}" == "release" && "${{ github.event.release.prerelease }}" == "true" ]]; then
+            is_dev=true
+          elif [[ "$version" == *".dev"* ]] || [[ "$version" == *"-dev"* ]]; then
+            is_dev=true
+          fi
+          echo "is-dev=$is_dev" >> "$GITHUB_OUTPUT"
+
+      - name: Update the version in the pyproject.toml file
+        shell: bash
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_PUBLISH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_PAT }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          uv version "$VERSION"
+
+      - name: Build the package
+        shell: bash
+        run: |
+          uv build
+
+      - name: Update the CHANGELOG.md
+        shell: bash
+        env:
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          {
+            echo "## [${RELEASE_NAME}](${RELEASE_URL}) ($(date +%Y-%m-%d))"
+            echo
+            printf '%s\n' "$RELEASE_BODY"
+            echo
+            echo "<!-- MARKER -->"
+          } > .tmp.CHANGELOG.md
+
+          sed -i '/<!-- MARKER -->/{
+            r .tmp.CHANGELOG.md
+            d
+          }' CHANGELOG.md
+
+          rm .tmp.CHANGELOG.md
+
+      - name: Commit the changes
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git add CHANGELOG.md pyproject.toml
+          git commit -m "chore(release): ${VERSION} [skip ci]"
+
+          if [[ "${{ steps.version.outputs.is-dev }}" == "true" ]]; then
+            # Just log the contents of the commit
+            git show --pretty=format:"%h %s"
+          else
+            git push
+          fi
+
+      - name: Publish (Dev)
+        if: steps.version.outputs.is-dev == 'true'
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+      - name: Publish
+        if: steps.version.outputs.is-dev == 'false'
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0

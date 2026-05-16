@@ -3,7 +3,7 @@ description: Setup Environment
 inputs:
   python-version:
     description: Version of python
-    required: true
+    required: false
 outputs:
   python-version:
     value: ${{ steps.detect-python.outputs.version }}
