@@ -73,6 +73,7 @@ jobs:
 
       - name: Update the CHANGELOG.md
         shell: bash
+        if: github.event_name == 'release'
         env:
           RELEASE_NAME: ${{ github.event.release.name }}
           RELEASE_URL: ${{ github.event.release.html_url }}
@@ -98,6 +99,9 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add CHANGELOG.md pyproject.toml
           git commit -m "chore(release): ${VERSION} [skip ci]"
 
