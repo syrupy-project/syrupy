@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778964472640,
+  "lastUpdate": 1778964816161,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13185,6 +13185,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.11253934704337845",
             "extra": "mean: 1.8832272617999977 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah@marble.ai",
+            "name": "Noah Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah@marble.ai",
+            "name": "Noah Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "659f456bfef13df50fef5c95f84248b8fd720a60",
+          "message": "chore: add id-token write",
+          "timestamp": "2026-05-16T16:52:27-04:00",
+          "tree_id": "9b69e624d999b9fee5b5e8ff7613af61360ffa4c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/659f456bfef13df50fef5c95f84248b8fd720a60"
+        },
+        "date": 1778964815108,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6000335996974603,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03434255482901175",
+            "extra": "mean: 1.6665733394000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5573635737518648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04836594850359479",
+            "extra": "mean: 1.7941610236000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5346251053479424,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11471315020851872",
+            "extra": "mean: 1.8704695870000052 sec\nrounds: 5"
           }
         ]
       }
