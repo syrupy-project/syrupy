@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778964147267,
+  "lastUpdate": 1778964472640,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13140,6 +13140,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.12304514930830222",
             "extra": "mean: 1.7747176671999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6401bc28aab02447dfc698beba33df6fd6d93817",
+          "message": "chore: set name/email (#1094)",
+          "timestamp": "2026-05-16T16:46:47-04:00",
+          "tree_id": "af996eaf286e1f1589fc31d8b66fb5f7067b7311",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6401bc28aab02447dfc698beba33df6fd6d93817"
+        },
+        "date": 1778964471605,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5953379163261351,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03579779792753553",
+            "extra": "mean: 1.6797183121999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5526140748325615,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07634452036884894",
+            "extra": "mean: 1.809581126399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5310033580568472,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11253934704337845",
+            "extra": "mean: 1.8832272617999977 sec\nrounds: 5"
           }
         ]
       }
