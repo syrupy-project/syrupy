@@ -39,7 +39,6 @@ test = [
 dev = [
     "mypy>=1.15.0,<2",
     "py-githooks>=1.1.1,<2",
-    "twine>=6.1.0,<7",
     "semver>=3.0.4,<4",
     "setuptools-scm>=9.0.0,<10",
     "debugpy>=1.8.12,<2",
