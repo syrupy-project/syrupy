@@ -54,7 +54,11 @@ default-groups = [
 ]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/syrupy"]
+include = [
+    "conftest.py",
+    "src/syrupy",
+    "tests",
+]
 
 [tool.hatch.build.targets.wheel]
 include = ["src/syrupy"]
