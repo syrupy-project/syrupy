@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.3.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.0) (2026-05-31)
+
+## What's Changed
+
+### Features
+
+* feat: add --snapshot-update-new-only flag (#843) by @SAY-5 in https://github.com/syrupy-project/syrupy/pull/1098
+
+### Misc.
+
+* chore: move release marker by @noahnu in https://github.com/syrupy-project/syrupy/pull/1095
+* chore(deps): update codecov/codecov-action action to v5.5.4 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1089
+* chore(deps): update dependency pytest to v9.0.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1096
+* fix: include tests in sdist by @Lovlace777 in https://github.com/syrupy-project/syrupy/pull/1099
+* chore: skip benchmark on forks by @noahnu in https://github.com/syrupy-project/syrupy/pull/1100
+* chore: update dev dependencies by @noahnu in https://github.com/syrupy-project/syrupy/pull/1101
+
+## New Contributors
+* @Lovlace777 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1099
+* @SAY-5 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1098
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.2.0...v5.3.0
+
 ## [v5.2.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.2.0) (2026-05-16)
 
 ## What's Changed
