@@ -32,17 +32,18 @@ syrupy = "syrupy"
 test = [
     "invoke>=2.2.0,<3",
     "coverage[toml]>=7.6.12,<8",
-    "hypothesis>=6.0.0",
+    "hypothesis>=6.0.0,<7",
     "pytest-benchmark>=5.1.0,<6",
     "pytest-xdist>=3.6.1,<4",
+    "pydantic>=2.13.4,<3",
+    "attrs>=26.1.0,<27",
 ]
 dev = [
     "mypy>=2.1.0,<3",
     "py-githooks>=1.1.1,<2",
     "debugpy>=1.8.20,<2",
-    "ruff>=0.15.15",
-    "pydantic>=2.13.4",
-    "attrs>=26.1.0"
+    "ruff>=0.15.15,<0.16",
+    "attrs>=26.1.0,<27",
 ]
 
 [tool.uv]

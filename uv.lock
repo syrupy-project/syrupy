@@ -714,13 +714,14 @@ dev = [
     { name = "debugpy" },
     { name = "mypy" },
     { name = "py-githooks" },
-    { name = "pydantic" },
     { name = "ruff" },
 ]
 test = [
+    { name = "attrs" },
     { name = "coverage", extra = ["toml"] },
     { name = "hypothesis" },
     { name = "invoke" },
+    { name = "pydantic" },
     { name = "pytest-benchmark" },
     { name = "pytest-xdist" },
 ]
@@ -730,17 +731,18 @@ requires-dist = [{ name = "pytest", specifier = ">=8.0.0" }]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "attrs", specifier = ">=26.1.0" },
+    { name = "attrs", specifier = ">=26.1.0,<27" },
     { name = "debugpy", specifier = ">=1.8.20,<2" },
     { name = "mypy", specifier = ">=2.1.0,<3" },
     { name = "py-githooks", specifier = ">=1.1.1,<2" },
-    { name = "pydantic", specifier = ">=2.13.4" },
-    { name = "ruff", specifier = ">=0.15.15" },
+    { name = "ruff", specifier = ">=0.15.15,<0.16" },
 ]
 test = [
+    { name = "attrs", specifier = ">=26.1.0,<27" },
     { name = "coverage", extras = ["toml"], specifier = ">=7.6.12,<8" },
-    { name = "hypothesis", specifier = ">=6.0.0" },
+    { name = "hypothesis", specifier = ">=6.0.0,<7" },
     { name = "invoke", specifier = ">=2.2.0,<3" },
+    { name = "pydantic", specifier = ">=2.13.4,<3" },
     { name = "pytest-benchmark", specifier = ">=5.1.0,<6" },
     { name = "pytest-xdist", specifier = ">=3.6.1,<4" },
 ]
