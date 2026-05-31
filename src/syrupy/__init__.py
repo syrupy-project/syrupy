@@ -59,6 +59,13 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
         help="Update snapshots",
     )
     group.addoption(
+        "--snapshot-update-new-only",
+        action="store_true",
+        default=False,
+        dest="update_new_snapshots_only",
+        help="Write snapshots that do not exist yet, but do not modify existing ones",
+    )
+    group.addoption(
         "--snapshot-warn-unused",
         action="store_true",
         default=False,
@@ -248,6 +255,7 @@ def pytest_terminal_summary(
 def snapshot(request: "pytest.FixtureRequest") -> "SnapshotAssertion":
     return SnapshotAssertion(
         update_snapshots=request.config.option.update_snapshots,
+        update_new_snapshots_only=request.config.option.update_new_snapshots_only,
         extension_class=__import_extension(request.config.option.default_extension),
         test_location=PyTestLocation(request.node),
         session=request.session.config._syrupy,  # type: ignore

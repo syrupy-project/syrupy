@@ -65,6 +65,7 @@ class SnapshotAssertion:
     extension_class: type["AbstractSyrupyExtension"]
     test_location: "PyTestLocation"
     update_snapshots: bool
+    update_new_snapshots_only: bool = False
     include: Optional["PropertyFilter"] = None
     exclude: Optional["PropertyFilter"] = None
     matcher: Optional["PropertyMatcher"] = None
@@ -193,6 +194,7 @@ class SnapshotAssertion:
             include=include or self.include,
             exclude=exclude or self.exclude,
             update_snapshots=self.update_snapshots,
+            update_new_snapshots_only=self.update_new_snapshots_only,
             test_location=self.test_location,
             extension_class=extension_class or self.extension_class,
             session=self.session,
@@ -329,7 +331,10 @@ class SnapshotAssertion:
             )
             assertion_success = matches
             if not matches:
-                if self.update_snapshots:
+                should_write_new_only = (
+                    self.update_new_snapshots_only and snapshot_data is None
+                )
+                if self.update_snapshots or should_write_new_only:
                     self.session.queue_snapshot_write(
                         extension=self.extension,
                         test_location=self.test_location,
