@@ -66,7 +66,11 @@ def test_location_properties(
         (
             "/tests/module/test_file.py::TestClass::method_name",
             "method_name",
-            ("test_file.snap", "__snapshots__/test_file", "test_file/1.snap"),
+            (
+                "/tests/module/test_file.snap",
+                "/tests/module/__snapshots__/test_file",
+                "/tests/module/test_file/1.snap",
+            ),
             (
                 "test.snap",
                 "__others__/test/file.snap",
@@ -75,6 +79,7 @@ def test_location_properties(
                 "test_file_extra/1.snap",
                 "test_file/extra/1.snap",
                 "__snapshots__/test_file/extra/even/more/1.snap",
+                "/tests/other/__snapshots__/test_file",
             ),
             (
                 "TestClass.method_name",
@@ -87,11 +92,11 @@ def test_location_properties(
             "/tests/module/test_file.py::TestClass::method_name[1]",
             "method_name",
             (
-                "test_file.snap",
-                "__snapshots__/test_file",
-                "test_file/TestClass.method_name[1].snap",
-                "test_file/TestClass.method_name[1].1.snap",
-                "test_file/TestClass.method_name[1][1].snap",
+                "/tests/module/test_file.snap",
+                "/tests/module/__snapshots__/test_file",
+                "/tests/module/test_file/TestClass.method_name[1].snap",
+                "/tests/module/test_file/TestClass.method_name[1].1.snap",
+                "/tests/module/test_file/TestClass.method_name[1][1].snap",
             ),
             (
                 "test.snap",
@@ -103,6 +108,7 @@ def test_location_properties(
                 "__snapshots__/test_file/extra/even/more/1.snap",
                 "test_file/TestClass.method_name[1]xyz.snap",
                 "test_file/TestClass.method_name[2].snap",
+                "/tests/other/__snapshots__/test_file",
             ),
             (
                 "TestClass.method_name",
@@ -136,3 +142,56 @@ def test_location_matching(
 
     for snapshot_miss in expected_snapshot_misses:
         assert not location.matches_snapshot_name(snapshot_miss)
+
+
+def test_location_does_not_match_same_basename_in_other_directory():
+    module_a_views_snapshot = "/project/module_a/tests/__snapshots__/test_views.ambr"
+    module_b_test = mock_pytest_item(
+        "/project/module_b/tests/test_views.py::test_module_b_view",
+        "test_module_b_view",
+    )
+    location = PyTestLocation(module_b_test)
+
+    assert not location.matches_snapshot_location(module_a_views_snapshot)
+
+
+def test_location_matches_snapshot_in_same_directory():
+    module_a_views_snapshot = "/project/module_a/tests/__snapshots__/test_views.ambr"
+    module_a_test = mock_pytest_item(
+        "/project/module_a/tests/test_views.py::test_module_a_view",
+        "test_module_a_view",
+    )
+    location = PyTestLocation(module_a_test)
+
+    assert location.matches_snapshot_location(module_a_views_snapshot)
+
+
+def test_location_does_not_match_prefix_basename_in_snapshot_stem():
+    """
+    Regression for #596 / PR #607: ``test_config`` must not match
+    ``test_config_entries`` snapshot files.
+    """
+    location = PyTestLocation(
+        mock_pytest_item("/tests/test_config.py::test_config", "test_config")
+    )
+
+    assert not location.matches_snapshot_location(
+        "/tests/snapshots/test_config_entries.ambr"
+    )
+
+
+def test_location_parametrized_single_file_snapshot_in_test_site():
+    """
+    Regression for #918 / PR #965: parametrized single-file snapshots must still
+    match paths under their test file's directory.
+    """
+    location = PyTestLocation(
+        mock_pytest_item(
+            "/tests/module/test_file.py::TestClass::method_name[1]",
+            "method_name",
+        )
+    )
+
+    assert location.matches_snapshot_location(
+        "/tests/module/test_file/TestClass.method_name[1].snap"
+    )

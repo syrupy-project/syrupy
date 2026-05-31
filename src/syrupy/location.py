@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from syrupy.constants import PYTEST_NODE_SEP
+from syrupy.extensions.base import SnapshotCollectionStorage
 
 
 @dataclass(frozen=True)
@@ -138,17 +139,67 @@ class PyTestLocation:
 
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         loc = Path(snapshot_location)
+        if not self._matches_snapshot_basename(loc):
+            return False
+        return self._matches_test_site(loc)
 
-        if self.is_item_parametrized:
-            return self.basename == loc.stem or (
-                self.basename == loc.parent.name
-                and (
-                    loc.stem == self.snapshot_name_parametrized
-                    or loc.stem.startswith(f"{self.snapshot_name_parametrized}.")
-                    or loc.stem.startswith(f"{self.snapshot_name_parametrized}[")
-                )
-            )
-
+    def _matches_snapshot_basename(self, loc: Path) -> bool:
         # "test_file" should match "test_file.ext" or "test_file/whatever.ext", but not
-        # "test_file_suffix.ext"
-        return self.basename == loc.stem or self.basename == loc.parent.name
+        # "test_file_suffix.ext" (see PR #607).
+        if self.basename == loc.stem:
+            return True
+        if self.basename != loc.parent.name:
+            return False
+        if not self.is_item_parametrized:
+            return True
+        # Parametrized single-file snapshots (see PR #965).
+        return (
+            loc.stem == self.snapshot_name_parametrized
+            or loc.stem.startswith(f"{self.snapshot_name_parametrized}.")
+            or loc.stem.startswith(f"{self.snapshot_name_parametrized}[")
+        )
+
+    def _matches_test_site(self, loc: Path) -> bool:
+        """
+        Ensure a snapshot path belongs to this test file's site.
+
+        Basename-only matching is not enough: ``test_views`` in one module must
+        not match ``__snapshots__/test_views`` from another module's directory.
+        """
+        test_dir = Path(self.filepath).parent.resolve()
+        resolved = loc.resolve()
+
+        try:
+            resolved.relative_to(test_dir)
+            return True
+        except ValueError:
+            pass
+
+        snapshot_test_dir = self._snapshot_collection_test_dir(resolved)
+        if snapshot_test_dir is not None:
+            # Snapshot is in a collection directory (e.g. ``__snapshots__/``); only
+            # the test files alongside that directory may claim it.
+            return snapshot_test_dir == test_dir
+
+        # Snapshots stored outside the test file directory (custom dirname locations).
+        return True
+
+    @staticmethod
+    def _snapshot_collection_test_dir(loc: Path) -> Path | None:
+        """
+        Return the test directory that owns a snapshot collection path.
+
+        Walks upward from ``loc`` looking for a snapshot collection directory
+        (``__snapshots__`` by default, or ``--snapshot-dirname``). There is no
+        fixed depth limit: any ancestor may be the collection dir, and snapshots
+        may be nested arbitrarily deep beneath it (e.g. single-file extension
+        layouts). When found, snapshots belong to the collection dir's parent.
+        """
+        for parent in loc.parents:
+            if PyTestLocation._is_snapshot_dir(parent):
+                return parent.parent.resolve()
+        return None
+
+    @staticmethod
+    def _is_snapshot_dir(path: Path) -> bool:
+        return path.name == str(SnapshotCollectionStorage.snapshot_dirname)
