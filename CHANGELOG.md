@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.3.1](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.1) (2026-05-31)
+
+## What's Changed
+
+### Fixes
+
+* fix(test): mark pydantic and attrs as dependencies for running internal tests by @noahnu in https://github.com/syrupy-project/syrupy/pull/1108 -- **This only affects users trying to run the syrupy tests themselves, not consumers of syrupy.**
+
+### Misc
+
+* chore(deps): update astral-sh/setup-uv action to v8.1.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1103
+* chore(deps): update python docker tag to v3.14.4 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1102
+* chore(deps): update benchmark-action/github-action-benchmark action to v1.22.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1105
+
+
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.3.0...v5.3.1
+
 ## [v5.3.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.0) (2026-05-31)
 
 ## What's Changed
