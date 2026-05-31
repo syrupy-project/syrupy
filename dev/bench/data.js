@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780244995003,
+  "lastUpdate": 1780245507355,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13545,6 +13545,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.12049608573010452",
             "extra": "mean: 1.714616418999998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5887f25a02e6bb6d0b2b0cd9853d86c259345f1c",
+          "message": "chore: update dev dependencies (#1101)",
+          "timestamp": "2026-05-31T12:37:22-04:00",
+          "tree_id": "3710c7e6f6422c17ced1ee657a1ce3584dd327e0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5887f25a02e6bb6d0b2b0cd9853d86c259345f1c"
+        },
+        "date": 1780245506388,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5925174943797196,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0286343912815581",
+            "extra": "mean: 1.6877138810000134 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5405597095475436,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06374050290891917",
+            "extra": "mean: 1.8499343964000103 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5370282129454702,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0823394440270464",
+            "extra": "mean: 1.8620995618000051 sec\nrounds: 5"
           }
         ]
       }
