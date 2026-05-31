@@ -37,14 +37,12 @@ test = [
     "pytest-xdist>=3.6.1,<4",
 ]
 dev = [
-    "mypy>=1.15.0,<2",
+    "mypy>=2.1.0,<3",
     "py-githooks>=1.1.1,<2",
-    "semver>=3.0.4,<4",
-    "setuptools-scm>=9.0.0,<10",
-    "debugpy>=1.8.12,<2",
-    "ruff>=0.9.6",
-    "pydantic>=2.12.5",
-    "attrs>=25.0.0"
+    "debugpy>=1.8.20,<2",
+    "ruff>=0.15.15",
+    "pydantic>=2.13.4",
+    "attrs>=26.1.0"
 ]
 
 [tool.uv]
