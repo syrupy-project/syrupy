@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780250114769,
+  "lastUpdate": 1780250813297,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13725,6 +13725,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09196496691652473",
             "extra": "mean: 1.1795852210000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c528216d5fa53517f9df34f49db55d3e455377c9",
+          "message": "fix(test): mark pydantic and attrs as dependencies for running internal tests (#1108)",
+          "timestamp": "2026-05-31T14:06:03-04:00",
+          "tree_id": "48e7187ceab4825893e7ba1d172a631d54dcf915",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c528216d5fa53517f9df34f49db55d3e455377c9"
+        },
+        "date": 1780250812592,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0732498014441214,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02514601693321293",
+            "extra": "mean: 931.749531799997 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0537706309026582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06229395871240349",
+            "extra": "mean: 948.973116800002 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9899203657354091,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09601293235784886",
+            "extra": "mean: 1.010182267799999 sec\nrounds: 5"
           }
         ]
       }
