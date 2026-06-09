@@ -420,6 +420,7 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 - **`PNGImageSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
 - **`SVGImageSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 - **`JSONSnapshotExtension`**: Another extension of single file. This produces `.json` files from dictionaries and lists.
+- **`ParquetSnapshotExtension`**: Another extension of single file. This produces `.parquet` files from PySpark DataFrames (pandas DataFrames and pyarrow Tables are also accepted). Comparison is done on the logical table contents rather than the raw bytes, and rows are sorted into a canonical order so snapshots are stable regardless of Spark partitioning. Requires the optional `pyarrow` dependency (and `pyspark` for the Spark `DataFrame` path).
 
 #### `name`
 
@@ -524,6 +525,44 @@ The generated snapshot:
   "file_path": "scheme://<tmp-file-path>/dir/filename.txt"
 }
 ```
+
+#### ParquetSnapshotExtension
+
+This extension snapshots tabular data — most notably PySpark DataFrames — as `.parquet` files. It is useful for regression-testing data pipelines and transformations: the expected output table is stored on disk and future runs are compared against it.
+
+```python
+import pytest
+
+from pyspark.sql import SparkSession
+from syrupy.extensions.parquet import ParquetSnapshotExtension
+
+
+@pytest.fixture
+def snapshot_parquet(snapshot):
+    return snapshot.with_defaults(extension_class=ParquetSnapshotExtension)
+    # or return snapshot.use_extension(ParquetSnapshotExtension)
+
+
+def test_transform(spark: SparkSession, snapshot_parquet):
+    df = spark.createDataFrame(
+        [(1, "alice", 9.5), (2, "bob", 7.0)],
+        schema=["id", "name", "score"],
+    )
+    assert df == snapshot_parquet
+```
+
+Spark does not guarantee row ordering, so the extension sorts rows into a canonical order before writing and before comparing. Comparison happens on the logical contents of the Parquet data (schema + rows) rather than the raw bytes, so re-partitioning, row reordering, and environment-specific Parquet metadata (writer version, compression layout) never cause a spurious mismatch. The on-disk `.parquet` files remain valid Parquet that you can open with any Parquet reader.
+
+`pandas.DataFrame` and `pyarrow.Table` inputs are also supported, which lets you use the extension without a running Spark session. Note that `pandas.DataFrame` overrides `==` to do an elementwise comparison, so for pandas inputs use the reversed form `assert snapshot_parquet == df`.
+
+Install the optional dependencies with:
+
+```sh
+pip install "syrupy[parquet]"   # pyarrow only (pandas / pyarrow inputs)
+pip install "syrupy[pyspark]"   # pyarrow + pyspark (Spark DataFrame inputs)
+```
+
+A full runnable example lives in [`tests/examples/test_parquet_pyspark_extension.py`](https://github.com/syrupy-project/syrupy/tree/main/tests/examples/test_parquet_pyspark_extension.py).
 
 #### Ignoring File Extensions (e.g. DVC Integration)
 

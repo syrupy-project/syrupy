@@ -22,6 +22,11 @@ classifiers = [
 ]
 dependencies = ["pytest (>= 8.0.0)"]
 
+[project.optional-dependencies]
+# Parquet snapshot extension (syrupy.extensions.parquet).
+parquet = ["pyarrow>=14.0.0", "pandas>=1.5.0"]
+pyspark = ["pyarrow>=14.0.0", "pandas>=1.5.0", "pyspark>=3.4.0"]
+
 [project.urls]
 repository = "https://github.com/syrupy-project/syrupy"
 
@@ -37,6 +42,8 @@ test = [
     "pytest-xdist>=3.6.1,<4",
     "pydantic>=2.13.4,<3",
     "attrs>=26.1.0,<27",
+    "pyarrow>=14.0.0",
+    "pandas>=1.5.0",
 ]
 dev = [
     "mypy>=2.1.0,<3",
