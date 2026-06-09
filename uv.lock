@@ -702,7 +702,7 @@ wheels = [
 
 [[package]]
 name = "syrupy"
-version = "5.3.1"
+version = "5.3.2"
 source = { editable = "." }
 dependencies = [
     { name = "pytest" },

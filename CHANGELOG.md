@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.3.2](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.2) (2026-06-09)
+
+## What's Changed
+* fix: overlapping test filenames across directories by @noahnu in https://github.com/syrupy-project/syrupy/pull/1104
+
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.3.1...v5.3.2
+
 ## [v5.3.1](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.1) (2026-05-31)
 
 ## What's Changed
