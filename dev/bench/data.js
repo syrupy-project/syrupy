@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780250813297,
+  "lastUpdate": 1781016364334,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13770,6 +13770,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09601293235784886",
             "extra": "mean: 1.010182267799999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "873ee062afc2f453135d6ea77868cc0276edc5b6",
+          "message": "fix: issue 1079, overlapping filenames across different directories (#1104)",
+          "timestamp": "2026-06-09T10:45:09-04:00",
+          "tree_id": "bce3fa529e5ab0b66c9cfe4d078a9d40107c9c18",
+          "url": "https://github.com/syrupy-project/syrupy/commit/873ee062afc2f453135d6ea77868cc0276edc5b6"
+        },
+        "date": 1781016363410,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.072144269695381,
+            "unit": "iter/sec",
+            "range": "stddev: 0.028051866220605307",
+            "extra": "mean: 932.710296800002 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9897622802297326,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07407673065941138",
+            "extra": "mean: 1.0103436148000013 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9897593429177473,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10711689950274174",
+            "extra": "mean: 1.0103466131999965 sec\nrounds: 5"
           }
         ]
       }
