@@ -30,7 +30,7 @@ syrupy = "syrupy"
 
 [dependency-groups]
 test = [
-    "invoke>=2.2.0,<3",
+    "invoke>=3.0.3,<4",
     "coverage[toml]>=7.6.12,<8",
     "hypothesis>=6.0.0,<7",
     "pytest-benchmark>=5.1.0,<6",
