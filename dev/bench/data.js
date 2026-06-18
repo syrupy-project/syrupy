@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1781610805523,
+  "lastUpdate": 1781786669721,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -13950,6 +13950,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.10517032394353718",
             "extra": "mean: 1.0227986368000075 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "40148050+TejasAmle@users.noreply.github.com",
+            "name": "Tejas Amle",
+            "username": "TejasAmle"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6fa0baf364f436d155cd3388fb7e290ffb01577c",
+          "message": "docs: fix three typos in CONTRIBUTING.md (#1113)",
+          "timestamp": "2026-06-18T08:43:31-04:00",
+          "tree_id": "950c77627c32d49f92ac8b8addb3d0c2cdcb439f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6fa0baf364f436d155cd3388fb7e290ffb01577c"
+        },
+        "date": 1781786667896,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9256013584959258,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04218376819743103",
+            "extra": "mean: 1.0803787082000071 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8634283378626213,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05223001255233619",
+            "extra": "mean: 1.1581737083999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8467751805741209,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08637934062172055",
+            "extra": "mean: 1.1809510044000007 sec\nrounds: 5"
           }
         ]
       }
