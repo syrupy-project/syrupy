@@ -60,7 +60,7 @@ Before diving into writing code, please take a look at the following.
 
 When attempting to fix a bug, create an issue using the "Bug report" template.
 
-Give as much information in this issue as it allows for discussions and documentation about the decisions reached for any bugs that have been encounted.
+Give as much information in this issue as it allows for discussions and documentation about the decisions reached for any bugs that have been encountered.
 
 ### Suggesting Enhancements
 
@@ -76,7 +76,7 @@ Have an issue to submit code changes for? See below.
 
 - Clone the repository
 - Run `. script/bootstrap` to ensure you're working from the correct environment
-- Run `inv test` to verify enviroment is correctly setup
+- Run `inv test` to verify environment is correctly setup
 - Checkout a new branch and add code changes
 - Add tests to verify code changes and rerun `inv test`
 - See submitting [pull requests](#pull-requests)
@@ -85,7 +85,7 @@ Have an issue to submit code changes for? See below.
 
 Creating a pull request uses our template using the GitHub web interface.
 
-Fill in the relevant sections, clearly linking the issue the change is attemping to resolve.
+Fill in the relevant sections, clearly linking the issue the change is attempting to resolve.
 
 ### Debugging
 
