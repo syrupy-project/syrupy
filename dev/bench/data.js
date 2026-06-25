@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782386785432,
+  "lastUpdate": 1782386819721,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14265,6 +14265,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.08534530656682965",
             "extra": "mean: 1.1514070007999977 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "frenck@frenck.nl",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0840c9dcd1d44a9c44e76a3243eb267ce4c7449c",
+          "message": "perf: avoid copying the cycle-detection set on every serialized node (#1119)\n\n_serialize keeps a visited set of the ids of all ancestors on the\ncurrent path to detect cycles. It rebuilt that set at every node with\n{*visited, data_id}, so serializing N values did N set allocations.\n\nBacktrack a single shared set instead: add the current id before\nrecursing, discard it afterwards. The already_visited guard makes sure\na real cycle (id already present from an ancestor) is neither re-added\nnor discarded, so the ancestor stays marked for its remaining children.\n\nOutput is byte-identical, so existing snapshots are unaffected.",
+          "timestamp": "2026-06-25T07:26:09-04:00",
+          "tree_id": "bbd8fa938cf151437d705bdffe30cfc0681223c3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0840c9dcd1d44a9c44e76a3243eb267ce4c7449c"
+        },
+        "date": 1782386818963,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.946583968842881,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04675048918048806",
+            "extra": "mean: 1.0564303145999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.877386661251641,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05177443205015405",
+            "extra": "mean: 1.1397483506000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8735849509351524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09936373231591861",
+            "extra": "mean: 1.1447083640000018 sec\nrounds: 5"
           }
         ]
       }
