@@ -321,14 +321,14 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_string(cls, data: str, *, depth: int = 0, **kwargs: Any) -> str:
-        if all(c not in data for c in "\r\n"):
+        if "\n" not in data and "\r" not in data:
             return cls.__serialize_plain(data=data, depth=depth)
 
         return cls.__serialize_lines(
             data=data,
             lines=(
                 cls.with_indent(line, depth + 1 if depth else depth)
-                for line in str(data).splitlines(keepends=True)
+                for line in data.splitlines(keepends=True)
             ),
             depth=depth,
             open_tag="'''",
