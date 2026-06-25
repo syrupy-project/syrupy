@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782386819721,
+  "lastUpdate": 1782412425939,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14310,6 +14310,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09936373231591861",
             "extra": "mean: 1.1447083640000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "54771a484905f42af7dbe3ca0e0ba7d2e65aba50",
+          "message": "perf: drop per-node kwargs dict from the amber serializer (#1122)\n\ncallgrind showed the dominant serializer cost was the **kwargs machinery\nthreading state through the recursion, not the serialization logic. Every\nbuilt-in serialize_* method was declared (cls, data, **kwargs), so each\nper-node dispatch call allocated, populated, merged and freed a dict to\ncarry depth, exclude, include, matcher, path and visited.\n\nGive those methods explicit keyword-only parameters so the calls bind\ndirectly instead of building a dict. serialize_custom_iterable keeps a\n**kwargs catch-all since it is the helper serializer plugins forward into,\nbut binds all known arguments explicitly so the hot path no longer relies\non that dict.\n\nOutput is byte-identical. On a representative nested payload this is about\n25% faster (callgrind: 9.0B to 6.7B instructions), with BUILD_MAP,\nPyDict_SetItem, insertdict and dict_dealloc all dropping to near zero.",
+          "timestamp": "2026-06-25T14:32:52-04:00",
+          "tree_id": "3d9480570b5b1c8f22854ca0f871192768d9d2d8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/54771a484905f42af7dbe3ca0e0ba7d2e65aba50"
+        },
+        "date": 1782412424950,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9268517461203873,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03961572769933141",
+            "extra": "mean: 1.0789212019999923 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8565651535296852,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0671055209270488",
+            "extra": "mean: 1.1674535158000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8591899528633495,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0894155729853391",
+            "extra": "mean: 1.163886980600023 sec\nrounds: 5"
           }
         ]
       }
