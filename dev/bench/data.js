@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782159470778,
+  "lastUpdate": 1782386785432,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14220,6 +14220,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09762745615813834",
             "extra": "mean: 794.5208966000024 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "frenck@frenck.nl",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1940faa06caff3bfba0fb0f6c6b9cdf662af29eb",
+          "message": "perf: speed up string serialization in amber serializer (#1118)\n\nThe newline check in serialize_string ran all(c not in data for c in\n\"\\r\\n\"), building a generator and calling all() for every string node.\nReplace it with two direct membership checks, which do the same two\nscans without the iterator and function-call overhead. Also drop a\nredundant str(data) on the multiline path, since data is already a str.\n\nOutput is byte-identical, so existing snapshots are unaffected.",
+          "timestamp": "2026-06-25T07:25:29-04:00",
+          "tree_id": "bac239c7aab9d89603ff856da0594cde19503aef",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1940faa06caff3bfba0fb0f6c6b9cdf662af29eb"
+        },
+        "date": 1782386784674,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9431920792520302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03834872274504897",
+            "extra": "mean: 1.0602294294000216 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.88462531036995,
+            "unit": "iter/sec",
+            "range": "stddev: 0.053707364030087947",
+            "extra": "mean: 1.1304220987999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8685026227087381,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08534530656682965",
+            "extra": "mean: 1.1514070007999977 sec\nrounds: 5"
           }
         ]
       }
