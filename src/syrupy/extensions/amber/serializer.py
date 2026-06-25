@@ -323,12 +323,30 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_number(
-        cls, data: int | float, *, depth: int = 0, **kwargs: Any
+        cls,
+        data: int | float,
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
     ) -> str:
         return cls.__serialize_plain(data=data, depth=depth)
 
     @classmethod
-    def serialize_string(cls, data: str, *, depth: int = 0, **kwargs: Any) -> str:
+    def serialize_string(
+        cls,
+        data: str,
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
+    ) -> str:
         if "\n" not in data and "\r" not in data:
             return cls.__serialize_plain(data=data, depth=depth)
 
@@ -347,7 +365,15 @@ class AmberDataSerializer:
 
     @classmethod
     def serialize_iterable(
-        cls, data: Iterable["SerializableData"], **kwargs: Any
+        cls,
+        data: Iterable["SerializableData"],
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
     ) -> str:
         open_paren, close_paren = (None, None)
         if isinstance(data, list):
@@ -359,31 +385,74 @@ class AmberDataSerializer:
             resolve_entries=(range(len(values)), item_getter, None),
             open_paren=open_paren,
             close_paren=close_paren,
-            **kwargs,
+            depth=depth,
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
+            path=path,
+            visited=visited,
         )
 
     @classmethod
-    def serialize_set(cls, data: set["SerializableData"], **kwargs: Any) -> str:
+    def serialize_set(
+        cls,
+        data: set["SerializableData"],
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
+    ) -> str:
         return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(cls.sort(data), lambda _, p: p, None),
             open_paren="{",
             close_paren="}",
-            **kwargs,
+            depth=depth,
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
+            path=path,
+            visited=visited,
         )
 
     @classmethod
-    def serialize_namedtuple(cls, data: NamedTuple, **kwargs: Any) -> str:
+    def serialize_namedtuple(
+        cls,
+        data: NamedTuple,
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
+    ) -> str:
         return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(cls.sort(data._fields), attr_getter, None),
             separator="=",
-            **kwargs,
+            depth=depth,
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
+            path=path,
+            visited=visited,
         )
 
     @classmethod
     def serialize_dict(
-        cls, data: dict["PropertyName", "SerializableData"], **kwargs: Any
+        cls,
+        data: dict["PropertyName", "SerializableData"],
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
     ) -> str:
         keys = (
             data.keys() if isinstance(data, (OrderedDict,)) else cls.sort(data.keys())
@@ -396,19 +465,42 @@ class AmberDataSerializer:
             close_paren="}",
             separator=": ",
             serialize_key=True,
-            **kwargs,
+            depth=depth,
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
+            path=path,
+            visited=visited,
         )
 
     @classmethod
     def serialize_function(
-        cls, data: FunctionType, *, depth: int = 0, **kwargs: Any
+        cls,
+        data: FunctionType,
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
     ) -> str:
         return cls.__serialize_plain(
             data=f"{data.__qualname__}{str(inspect.signature(data))}", depth=depth
         )
 
     @classmethod
-    def serialize_unknown(cls, data: Any, *, depth: int = 0, **kwargs: Any) -> str:
+    def serialize_unknown(
+        cls,
+        data: Any,
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
+    ) -> str:
         if data.__class__.__repr__ != object.__repr__:
             return cls.__serialize_plain(data=data, depth=depth)
 
@@ -421,7 +513,11 @@ class AmberDataSerializer:
             ),
             depth=depth,
             separator="=",
-            **kwargs,
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
+            path=path,
+            visited=visited,
         )
 
     @classmethod
@@ -476,15 +572,20 @@ class AmberDataSerializer:
         depth: int = 0,
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
         path: "PropertyPath" = (),
         separator: str | None = None,
         serialize_key: bool = False,
+        visited: set[Any] | None = None,
+        # Kept for backwards compatibility with serializer plugins that forward
+        # extra keyword arguments. All known arguments are bound explicitly above
+        # so the hot path no longer relies on this dict.
         **kwargs: Any,
     ) -> str:
         """
         Utility to serialize a custom iterable.
         """
-        kwargs["depth"] = depth + 1
+        child_depth = depth + 1
 
         keys, get_value, include_value = resolve_entries
         key_values = (
@@ -503,7 +604,9 @@ class AmberDataSerializer:
             if separator is None:
                 return ""
             return (
-                cls._serialize(data=key, **kwargs)
+                cls._serialize(
+                    data=key, depth=child_depth, matcher=matcher, visited=visited
+                )
                 if serialize_key
                 else cls.with_indent(str(key), depth=depth + 1)
             ) + separator
@@ -511,10 +614,12 @@ class AmberDataSerializer:
         def value_str(key: "PropertyName", value: "SerializableData") -> str:
             serialized = cls._serialize(
                 data=value,
+                depth=child_depth,
                 exclude=exclude,
                 include=include,
+                matcher=matcher,
                 path=(*path, (key, type(value))),
-                **kwargs,
+                visited=visited,
             )
             return serialized if separator is None else serialized.lstrip(cls._indent)
 
