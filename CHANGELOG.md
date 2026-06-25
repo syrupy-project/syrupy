@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.3.3](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.3) (2026-06-25)
+
+## What's Changed
+
+* perf: speed up string serialization in amber serializer by @frenck in https://github.com/syrupy-project/syrupy/pull/1118
+* perf: avoid copying the cycle-detection set on every serialized node by @frenck in https://github.com/syrupy-project/syrupy/pull/1119
+
+## New Contributors
+* @TejasAmle made their first contribution in https://github.com/syrupy-project/syrupy/pull/1113
+* @frenck made their first contribution in https://github.com/syrupy-project/syrupy/pull/1118
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.3.2...v5.3.3
+
 ## [v5.3.2](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.2) (2026-06-09)
 
 ## What's Changed
