@@ -274,21 +274,29 @@ class AmberDataSerializer:
     ) -> str:
         visited = set() if visited is None else visited
         data_id = id(data)
-        if depth > cls._max_depth or data_id in visited:
+        # Track ancestors in one shared set and unwind after recursing, instead
+        # of copying the set at every node.
+        already_visited = data_id in visited
+        if depth > cls._max_depth or already_visited:
             data = Repr(SYMBOL_ELLIPSIS)
         elif matcher:
             data = matcher(data=data, path=path)
-        serialize_kwargs = {
-            "data": data,
-            "depth": depth,
-            "exclude": exclude,
-            "include": include,
-            "matcher": matcher,
-            "path": path,
-            "visited": {*visited, data_id},
-        }
-        serialize_method = cls._assign_serialize_method(data)
-        return serialize_method(**serialize_kwargs)
+        if not already_visited:
+            visited.add(data_id)
+        try:
+            serialize_method = cls._assign_serialize_method(data)
+            return serialize_method(
+                data=data,
+                depth=depth,
+                exclude=exclude,
+                include=include,
+                matcher=matcher,
+                path=path,
+                visited=visited,
+            )
+        finally:
+            if not already_visited:
+                visited.discard(data_id)
 
     @classmethod
     def _assign_serialize_method(cls, data: "SerializableData") -> Callable[..., str]:
