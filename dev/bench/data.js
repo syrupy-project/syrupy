@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782471268139,
+  "lastUpdate": 1782474233484,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14490,6 +14490,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.1158245264517269",
             "extra": "mean: 1.016303868600002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "90b3fd3da1258762a868c0ac62420ed58219f9b5",
+          "message": "feat: add --snapshot-no-cleanup to keep unused snapshots on update (#1126)\n\nWhen running --snapshot-update against a subset of the suite (for example\nfiltered with -k, or when resource constraints prevent running every test\nin one go), syrupy deletes the snapshots whose tests did not run. This adds\n--snapshot-no-cleanup so the update still writes and updates snapshots but\nleaves unused ones in place instead of deleting them.\n\nThe behaviour is centralised in a single should_delete_unused_snapshots\nproperty on the report (update enabled and cleanup not opted out), which the\nsession deletion gate and the report messaging both consult. With the flag\nset, unused snapshots are reported as unused rather than deleted, and the run\ndoes not fail on them.\n\nCloses #963",
+          "timestamp": "2026-06-26T07:43:00-04:00",
+          "tree_id": "88c4124ea1a58dc66ee98bc1ffbacf68144caa5c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/90b3fd3da1258762a868c0ac62420ed58219f9b5"
+        },
+        "date": 1782474232775,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9353045819436593,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04190017362751476",
+            "extra": "mean: 1.0691704277999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8652188271778785,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05559507044054024",
+            "extra": "mean: 1.1557769763999972 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8667692149645867,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08979122289773418",
+            "extra": "mean: 1.1537096412000012 sec\nrounds: 5"
           }
         ]
       }
