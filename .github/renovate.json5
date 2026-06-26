@@ -9,7 +9,7 @@
     rebaseWhen: "behind-base-branch",
     separateMajorMinor: true,
     separateMinorPatch: false,
-    minimumReleaseAge: "21 days",
+    minimumReleaseAge: "3 days",
     internalChecksFilter: "strict",
     dependencyDashboard: true,
     timezone: "America/Toronto",
