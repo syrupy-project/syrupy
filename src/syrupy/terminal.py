@@ -1,11 +1,29 @@
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass
 
 from .constants import DISABLE_COLOR_ENV_VARS
 from .utils import get_env_value
 
+# Toggled internally to suppress colors for a block of output. A ContextVar is
+# used instead of mutating os.environ, which is not thread safe and can segfault
+# unrelated threads that read the environment from native code.
+_disable_color: ContextVar[bool] = ContextVar("syrupy_disable_color", default=False)
+
+
+@contextmanager
+def disable_color() -> Iterator[None]:
+    """Suppress terminal colors for the duration of the context."""
+    token = _disable_color.set(True)
+    try:
+        yield
+    finally:
+        _disable_color.reset(token)
+
 
 def _is_color_disabled() -> bool:
-    return any(map(get_env_value, DISABLE_COLOR_ENV_VARS))
+    return _disable_color.get() or any(map(get_env_value, DISABLE_COLOR_ENV_VARS))
 
 
 @dataclass

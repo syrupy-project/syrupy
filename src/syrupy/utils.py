@@ -76,16 +76,6 @@ def get_env_value(env_var_name: str) -> object:
         return os.environ.get(env_var_name)
 
 
-@contextmanager
-def env_context(**kwargs: str) -> Iterator[None]:
-    prev_env = {**os.environ}
-    try:
-        yield os.environ.update(kwargs)
-    finally:
-        os.environ.clear()
-        os.environ.update(prev_env)
-
-
 def set_attrs(obj: Any, attrs: dict[str, Any]) -> Any:
     for k in attrs:
         setattr(obj, k, attrs[k])
