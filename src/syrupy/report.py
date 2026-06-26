@@ -5,7 +5,7 @@ from dataclasses import (
     dataclass,
     field,
 )
-from functools import cached_property
+from functools import cache, cached_property
 from gettext import (
     gettext,
     ngettext,
@@ -16,6 +16,7 @@ from typing import (
     Any,
 )
 
+from _pytest.mark.expression import Expression as PytestExpression
 from _pytest.skipping import xfailed_key
 
 from .constants import PYTEST_NODE_SEP
@@ -541,24 +542,30 @@ class SnapshotReport:
         )
 
 
+@cache
+def _compile_keyword_expression(keyword: str) -> "PytestExpression":
+    return PytestExpression.compile(keyword)
+
+
 @dataclass(frozen=True)
 class Expression:
     """
-    Dumbed down version of _pytest.mark.expression.Expression not available in < 6.0
-    https://github.com/pytest-dev/pytest/blob/6.0.x/src/_pytest/mark/expression.py
-    Added for pared down support on older pytest version and because the expression
-    module is not public. This only supports inclusion based on simple string matching.
+    Evaluate a pytest ``-k`` keyword expression against snapshot names.
+
+    Delegates parsing and evaluation to pytest's own expression implementation
+    so that the ``and``/``or``/``not``/parenthesis operators behave exactly like
+    ``-k`` selection. A previous hand rolled version ignored those operators and
+    only did substring matching, which wrongly marked deselected snapshots (for
+    example ``-k 'not foo'``) as unused.
     """
 
-    code: frozenset[str] = field(default_factory=frozenset)
+    keyword: str = ""
 
     def evaluate(self, matcher: Callable[[str], bool]) -> bool:
-        return any(map(matcher, self.code))
+        # pytest's matcher protocol allows extra keyword arguments (for mark
+        # expressions); keyword matching only ever passes the positional name.
+        return _compile_keyword_expression(self.keyword).evaluate(matcher)  # type: ignore[arg-type]
 
     @staticmethod
     def compose(value: str) -> "Expression":
-        delim = " "
-        replace_str = {" or ", " and ", " not ", "(", ")"}
-        for r in replace_str:
-            value = value.replace(f" {r} ", delim)
-        return Expression(code=frozenset(value.split(delim)))
+        return Expression(keyword=value)
