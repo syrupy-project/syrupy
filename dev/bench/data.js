@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782474233484,
+  "lastUpdate": 1782475058438,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14535,6 +14535,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.08979122289773418",
             "extra": "mean: 1.1537096412000012 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cd3c81a8b3cd8b7674fc53760943a83509cc81f8",
+          "message": "fix: honor boolean operators in -k snapshot selection (#1127)\n\nsyrupy reimplemented the pytest -k keyword expression with a hand rolled\nmatcher that flattened the expression into tokens and returned true if any\ntoken was a substring of the snapshot name. This ignored the and/or/not and\nparenthesis operators, so a negated expression like -k 'not one' treated\n'one' as a positive match and considered the deselected test_parametrized[one]\nsnapshot unused. With --snapshot-update that unused snapshot was then deleted.\n\nDelegate parsing and evaluation to pytest's own _pytest.mark.expression so\nselection matches -k exactly. syrupy already requires pytest >= 8 and\nreport.py already imports from _pytest, and compiled expressions are cached.\n\nCloses #770",
+          "timestamp": "2026-06-26T07:56:46-04:00",
+          "tree_id": "cc1b307f23c3b5cb93bcbae41399715d501d90d3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/cd3c81a8b3cd8b7674fc53760943a83509cc81f8"
+        },
+        "date": 1782475057707,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9198133868031017,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05728691642998204",
+            "extra": "mean: 1.0871770451999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8622851340075329,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04837438737219214",
+            "extra": "mean: 1.1597091966000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8605659154814836,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09742177628862038",
+            "extra": "mean: 1.162026036600001 sec\nrounds: 5"
           }
         ]
       }
