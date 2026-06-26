@@ -675,6 +675,10 @@ This section is automatically generated via tagging the all-contributors bot in 
 @all-contributors please add <username> for <contribution type>
 ```
 
+## Benchmarks
+
+See [Benchmarks](https://syrupy-project.github.io/syrupy/dev/bench/).
+
 ## License
 
 Syrupy is licensed under [MIT](https://github.com/syrupy-project/syrupy/tree/main/LICENSE).
