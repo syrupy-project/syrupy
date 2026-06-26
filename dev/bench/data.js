@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782475058438,
+  "lastUpdate": 1782475768508,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14580,6 +14580,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09742177628862038",
             "extra": "mean: 1.162026036600001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6a2c1b7c2a51e0bcd74446c277e17133100b0d32",
+          "message": "chore: exclude packages newer than 3 days (uv) (#1128)",
+          "timestamp": "2026-06-26T08:08:41-04:00",
+          "tree_id": "9006e1635687a1af6937260d7ece7f763ca6b55b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6a2c1b7c2a51e0bcd74446c277e17133100b0d32"
+        },
+        "date": 1782475766754,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.6876036872354427,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04784327109102431",
+            "extra": "mean: 592.5561833999993 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.5643891548768136,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05398204451265125",
+            "extra": "mean: 639.2271366000003 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.5248278569454452,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09812649313539425",
+            "extra": "mean: 655.8117334000002 msec\nrounds: 5"
           }
         ]
       }
