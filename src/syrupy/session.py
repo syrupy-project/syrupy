@@ -191,12 +191,12 @@ class SnapshotSession:
             return exitstatus
 
         if self.report.num_unused:
-            if self.update_snapshots:
+            if self.report.should_delete_unused_snapshots:
                 self.remove_unused_snapshots(
                     unused_snapshot_collections=self.report.unused,
                     used_snapshot_collections=self.report.used,
                 )
-            elif not self.warn_unused_snapshots:
+            elif not self.update_snapshots and not self.warn_unused_snapshots:
                 exitstatus |= EXIT_STATUS_FAIL_UNUSED
         return exitstatus
 

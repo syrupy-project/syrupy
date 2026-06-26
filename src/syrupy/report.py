@@ -78,6 +78,12 @@ class SnapshotReport:
         return bool(self.options.warn_unused_snapshots)
 
     @property
+    def should_delete_unused_snapshots(self) -> bool:
+        # Unused snapshots are only removed while updating, unless the user
+        # opted out of cleanup with --snapshot-no-cleanup.
+        return self.update_snapshots and not bool(self.options.no_cleanup)
+
+    @property
     def include_snapshot_details(self) -> bool:
         return bool(self.options.include_snapshot_details)
 
@@ -323,7 +329,7 @@ class SnapshotReport:
                 ).format(green(self.num_updated))
             )
         if self.num_unused:
-            if self.update_snapshots:
+            if self.should_delete_unused_snapshots:
                 text_singular = "{} unused snapshot deleted."
                 text_plural = "{} unused snapshots deleted."
             else:
@@ -341,7 +347,9 @@ class SnapshotReport:
         if self.num_unused:
             yield ""
             if self.update_snapshots or self.include_snapshot_details:
-                base_message = "Deleted" if self.update_snapshots else "Unused"
+                base_message = (
+                    "Deleted" if self.should_delete_unused_snapshots else "Unused"
+                )
                 for snapshots, path_to_file in self.__iterate_snapshot_collection(
                     self.unused
                 ):
