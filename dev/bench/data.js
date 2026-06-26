@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782475768508,
+  "lastUpdate": 1782476203925,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14625,6 +14625,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.09812649313539425",
             "extra": "mean: 655.8117334000002 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f46908f9dd16c937d36078eeb51340f1300b90ef",
+          "message": "docs: fix inaccurate matcher signatures and typos in README (#1129)\n\n- path_type signature was missing its replacer argument\n- path_value signature was invalid Python and wrong; corrected to\n  path_value(mapping, *, types, replacer, **kwargs)\n- referenced matchers where the helper is compose_matchers\n- typos: need bypass, you filter, supporterd, should be include\n- pip uninstall snippet was tagged python; changed to shell",
+          "timestamp": "2026-06-26T08:15:47-04:00",
+          "tree_id": "ef5ca07a804096f5fb42e7f1363981918537182e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f46908f9dd16c937d36078eeb51340f1300b90ef"
+        },
+        "date": 1782476202205,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9159557205981654,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04041486977203254",
+            "extra": "mean: 1.0917558321999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8615344488980263,
+            "unit": "iter/sec",
+            "range": "stddev: 0.051247748979445014",
+            "extra": "mean: 1.1607196918 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8551897437260926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09571598234815124",
+            "extra": "mean: 1.1693311424000057 sec\nrounds: 5"
           }
         ]
       }
