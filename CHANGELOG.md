@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.3.4](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.4) (2026-06-26)
+
+## What's Changed
+
+* perf: drop per-node kwargs dict from the amber serializer by @frenck in https://github.com/syrupy-project/syrupy/pull/1122
+* perf: give the internal matcher wrapper an explicit signature by @frenck in https://github.com/syrupy-project/syrupy/pull/1121
+* fix: avoid os.environ mutation for color control by @frenck in https://github.com/syrupy-project/syrupy/pull/1125
+
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.3.3...v5.3.4
+
 ## [v5.3.3](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.3) (2026-06-25)
 
 ## What's Changed
