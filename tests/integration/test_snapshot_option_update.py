@@ -279,6 +279,39 @@ def test_update_targets_only_selected_parametrized_tests_for_removal_dash_k(
     assert Path(*snapshot_path, "test_updated_1.ambr").exists()
 
 
+def test_update_no_cleanup_keeps_unused_snapshots(
+    run_testcases, plugin_args_fails_xdist
+):
+    updated_tests = {
+        "test_used": (
+            """
+            import pytest
+
+            @pytest.mark.parametrize("actual", [1, 2])
+            def test_used(snapshot, actual):
+                assert snapshot == actual
+            """
+        ),
+    }
+    testdir = run_testcases[1]
+    testdir.makepyfile(**updated_tests)
+    result = testdir.runpytest(
+        "-v",
+        "--snapshot-update",
+        "--snapshot-no-cleanup",
+        *plugin_args_fails_xdist,
+        "-k",
+        "test_used[",
+    )
+    result.stdout.re_match_lines((r"2 snapshots passed\. 1 snapshot unused\.",))
+    assert "deleted" not in result.stdout.str().lower()
+
+    # The unused snapshot is reported but kept on disk.
+    snapshot_file = Path(testdir.tmpdir, "__snapshots__", "test_used.ambr")
+    assert snapshot_file.exists()
+    assert "test_used[3]" in snapshot_file.read_text()
+
+
 def test_update_targets_only_selected_class_tests_dash_k(
     testdir, plugin_args_fails_xdist
 ):
