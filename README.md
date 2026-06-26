@@ -109,7 +109,7 @@ def __repr__(self) -> str:
     return "MyCustomClass(...)"
 ```
 
-If you need bypass a custom object representation to use the amber standard, it is easy using the following helpers.
+If you need to bypass a custom object representation to use the amber standard, it is easy using the following helpers.
 
 ```python
 def test_object_as_named_tuple(snapshot):
@@ -200,7 +200,7 @@ It should return the replacement value to be serialized or the original unmutate
 
 ##### Composing Matchers
 
-Multiple matchers can be composed together using `matchers`, e.g.:
+Multiple matchers can be composed together using `compose_matchers`, e.g.:
 
 ```py
 from syrupy.matchers import compose_matchers
@@ -224,7 +224,7 @@ def test_multiple_matchers(snapshot):
 
 Syrupy comes with built-in helpers that can be used to make easy work of using property matchers.
 
-###### `path_type(mapping=None, *, types=(), strict=True, regex=False)`
+###### `path_type(mapping=None, *, types=(), strict=True, regex=False, replacer=...)`
 
 Easy way to build a matcher that uses the path and value type to replace serialized data.
 When strict, this will raise a `ValueError` if the types specified are not matched.
@@ -262,7 +262,7 @@ def test_bar(snapshot):
 
 > NOTE: When `regex` is `True` all matcher mappings are treated as regex patterns
 
-###### `path_value(mapping=None, *, **kwargs)`
+###### `path_value(mapping, *, types, replacer, **kwargs)`
 
 Shares the same `kwargs` as `path_type` matcher, with the exception of the `mapping` argument type.
 Only runs replacement for objects at a matching path where the value of the mapping also matches the object data string repr.
@@ -347,10 +347,10 @@ def test_bar(snapshot):
 
 #### `include`
 
-This allows you filter an object's properties to a subset using a predicate. This is the opposite of [exclude](#exclude). All the same property filters supporterd by [exclude](#exclude) are supported for `include`.
+This allows you to filter an object's properties to a subset using a predicate. This is the opposite of [exclude](#exclude). All the same property filters supported by [exclude](#exclude) are supported for `include`.
 
 The include parameter takes a filter function that accepts two keyword arguments.
-It should return `true` if the property should be include, or `false` if the property should not be included.
+It should return `true` if the property should be included, or `false` if the property should not be included.
 
 | Argument | Description                                                                                                                                   |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -592,7 +592,7 @@ find . -type d ! -path '*/\.*' -name 'snapshots' | xargs rm -r
 
 ## Uninstalling
 
-```python
+```shell
 pip uninstall syrupy
 ```
 
