@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from .types import (
         PropertyFilter,
         PropertyMatcher,
+        PropertyPath,
         SerializableData,
         SerializedData,
         SnapshotIndex,
@@ -167,13 +168,14 @@ class SnapshotAssertion:
         Get matcher that replaces `SnapshotAssertion` with one that can be serialized
         """
 
-        def _matcher(**kwargs: Any) -> Optional["SerializableData"]:
-            maybe_assertion = kwargs.get("data")
-            if isinstance(maybe_assertion, SnapshotAssertion):
-                return maybe_assertion.__repr
+        def _matcher(
+            *, data: "SerializableData", path: "PropertyPath"
+        ) -> Optional["SerializableData"]:
+            if isinstance(data, SnapshotAssertion):
+                return data.__repr
             if self._matcher:
-                return self._matcher(**kwargs)
-            return maybe_assertion
+                return self._matcher(data=data, path=path)
+            return data
 
         return _matcher
 
