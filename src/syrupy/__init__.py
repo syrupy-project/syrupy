@@ -14,19 +14,18 @@ import pytest
 from syrupy.extensions.base import SnapshotCollectionStorage
 
 from .assertion import DiffMode, SnapshotAssertion
-from .constants import DISABLE_COLOR_ENV_VAR
 from .exceptions import FailedToLoadModuleMember
 from .extensions import DEFAULT_EXTENSION
 from .location import PyTestLocation
 from .patches.pycharm_diff import patch_pycharm_diff
 from .session import SnapshotSession
 from .terminal import (
+    disable_color,
     received_style,
     reset,
     snapshot_style,
 )
 from .utils import (
-    env_context,
     import_module_member,
     is_xdist_worker,
 )
@@ -129,12 +128,9 @@ def __terminal_color(
     config: "pytest.Config",
 ) -> "contextlib.AbstractContextManager[None]":
     if config.option.no_colors:
-        env = {
-            DISABLE_COLOR_ENV_VAR: "true",
-        }
-        return env_context(**env)
+        return disable_color()
     else:
-        # No-op to avoid unnecessary env updates
+        # No-op to avoid unnecessary work
         return contextlib.nullcontext()
 
 

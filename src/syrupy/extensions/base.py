@@ -13,7 +13,6 @@ from typing import (
 )
 
 from syrupy.constants import (
-    DISABLE_COLOR_ENV_VAR,
     SYMBOL_CARRIAGE,
     SYMBOL_ELLIPSIS,
     SYMBOL_NEW_LINE,
@@ -28,6 +27,7 @@ from syrupy.data import (
 from syrupy.exceptions import SnapshotDoesNotExist
 from syrupy.terminal import (
     context_style,
+    disable_color,
     received_diff_style,
     received_style,
     reset,
@@ -35,7 +35,6 @@ from syrupy.terminal import (
     snapshot_style,
 )
 from syrupy.utils import (
-    env_context,
     obj_attrs,
     qdiff,
     walk_snapshot_dir,
@@ -266,9 +265,8 @@ class SnapshotReporter:
     def diff_snapshots(
         self, serialized_data: "SerializedData", snapshot_data: "SerializedData"
     ) -> "SerializedData":
-        env = {DISABLE_COLOR_ENV_VAR: "true"}
         attrs = {"_context_line_count": 0}
-        with env_context(**env), obj_attrs(self, attrs):
+        with disable_color(), obj_attrs(self, attrs):
             return "\n".join(self.diff_lines(serialized_data, snapshot_data))
 
     def diff_lines(
