@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782412425939,
+  "lastUpdate": 1782434995846,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14355,6 +14355,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0894155729853391",
             "extra": "mean: 1.163886980600023 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0d46f36fcbd4852bf3647e1171799f6447c7259",
+          "message": "perf: give the internal matcher wrapper an explicit signature (#1121)\n\nEvery snapshot assertion installs an internal matcher wrapper that the\nserializer applies to every node it serializes, so it runs once per\nvalue in the snapshot even when no matcher was configured.\n\nThe wrapper was defined as def _matcher(**kwargs), forcing a kwargs dict\nallocation on every per-node call. The PropertyMatcher contract is\nexactly (*, data, path) and the serializer only ever calls it as\nmatcher(data=data, path=path), so give the wrapper an explicit\nkeyword-only signature and drop the dict.\n\nBehavior is unchanged: nested SnapshotAssertion values are still\nreplaced, and a user matcher still receives data and path.",
+          "timestamp": "2026-06-25T20:48:57-04:00",
+          "tree_id": "612953364b5959d8782c2cc76b524e4b063b17b2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a0d46f36fcbd4852bf3647e1171799f6447c7259"
+        },
+        "date": 1782434994021,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8733336406594431,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06004428633977341",
+            "extra": "mean: 1.1450377649999979 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8115417450095196,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06654556613446157",
+            "extra": "mean: 1.2322225025999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8404102124472673,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08393716760141799",
+            "extra": "mean: 1.1898951074000024 sec\nrounds: 5"
           }
         ]
       }
