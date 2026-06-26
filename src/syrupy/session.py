@@ -57,6 +57,7 @@ class _ReconstructedItem:
         self.path = Path(data["path"])
         self.obj = _ReconstructedObject(data["modulename"], data["methodname"])
 
+
 if TYPE_CHECKING:
     from .assertion import SnapshotAssertion
     from .extensions.base import AbstractSyrupyExtension
@@ -222,8 +223,7 @@ class SnapshotSession:
             },
             "num_xfails": self.report._num_xfails,
             "selected": {
-                nodeid: status.value
-                for nodeid, status in self._selected_items.items()
+                nodeid: status.value for nodeid, status in self._selected_items.items()
             },
             "extensions": {
                 location: (

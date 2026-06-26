@@ -37,9 +37,7 @@ def run_testcases(pytester, testcases) -> tuple[pytest.Pytester, dict[str, str]]
 
 def test_run_all(run_testcases, plugin_args):
     pytester, _ = run_testcases
-    result = pytester.runpytest(
-        "-v", "--snapshot-dirname=snaps", *plugin_args
-    )
+    result = pytester.runpytest("-v", "--snapshot-dirname=snaps", *plugin_args)
     result.stdout.re_match_lines(("2 snapshots passed",))
     assert result.ret == 0
 
@@ -54,9 +52,7 @@ def test_run_all(run_testcases, plugin_args):
 def test_failure(run_testcases, plugin_args):
     pytester, testcases = run_testcases
     pytester.makepyfile(test_1=testcases["modified"])
-    result = pytester.runpytest(
-        "-vv", "--snapshot-dirname=snaps", *plugin_args
-    )
+    result = pytester.runpytest("-vv", "--snapshot-dirname=snaps", *plugin_args)
     result.stdout.re_match_lines(("1 snapshot failed. 1 snapshot passed.",))
     assert result.ret == 1
 

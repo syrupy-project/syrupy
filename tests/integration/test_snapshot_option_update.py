@@ -279,9 +279,7 @@ def test_update_targets_only_selected_parametrized_tests_for_removal_dash_k(
     assert Path(*snapshot_path, "test_updated_1.ambr").exists()
 
 
-def test_update_no_cleanup_keeps_unused_snapshots(
-    run_testcases, plugin_args
-):
+def test_update_no_cleanup_keeps_unused_snapshots(run_testcases, plugin_args):
     updated_tests = {
         "test_used": (
             """
@@ -312,9 +310,7 @@ def test_update_no_cleanup_keeps_unused_snapshots(
     assert "test_used[3]" in snapshot_file.read_text()
 
 
-def test_update_targets_only_selected_class_tests_dash_k(
-    testdir, plugin_args
-):
+def test_update_targets_only_selected_class_tests_dash_k(testdir, plugin_args):
     test_content = """
         import pytest
 
@@ -337,9 +333,7 @@ def test_update_targets_only_selected_class_tests_dash_k(
     assert "snapshot unused" not in result.stdout.str()
 
 
-def test_update_targets_only_selected_module_tests_dash_k(
-    testdir, plugin_args
-):
+def test_update_targets_only_selected_module_tests_dash_k(testdir, plugin_args):
     test_content = """
         import pytest
 
@@ -361,9 +355,7 @@ def test_update_targets_only_selected_module_tests_dash_k(
     assert "snapshot unused" not in result.stdout.str()
 
 
-def test_update_targets_only_selected_module_tests_nodes(
-    run_testcases, plugin_args
-):
+def test_update_targets_only_selected_module_tests_nodes(run_testcases, plugin_args):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
@@ -417,9 +409,7 @@ def test_update_targets_only_selected_module_tests_file_for_update(
             """
         )
     )
-    result = testdir.runpytest(
-        "-v", "test_used.py", "--snapshot-update", *plugin_args
-    )
+    result = testdir.runpytest("-v", "test_used.py", "--snapshot-update", *plugin_args)
     result.stdout.re_match_lines(
         (
             r"3 snapshots passed\. 2 unused snapshots deleted\.",
@@ -445,9 +435,7 @@ def test_update_targets_only_selected_module_tests_file_for_removal(
     )
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
-    result = testdir.runpytest(
-        "-v", "test_used.py", "--snapshot-update", *plugin_args
-    )
+    result = testdir.runpytest("-v", "test_used.py", "--snapshot-update", *plugin_args)
     result.stdout.re_match_lines(
         (
             r"5 unused snapshots deleted\.",
@@ -460,9 +448,7 @@ def test_update_targets_only_selected_module_tests_file_for_removal(
     assert not Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_removes_empty_snapshot_collection_only(
-    run_testcases, plugin_args
-):
+def test_update_removes_empty_snapshot_collection_only(run_testcases, plugin_args):
     testdir = run_testcases[1]
     snapfile_empty = Path("__snapshots__", "empty_snapfile.ambr")
     testdir.makefile(".ambr", **{str(snapfile_empty): ""})
@@ -480,9 +466,7 @@ def test_update_removes_empty_snapshot_collection_only(
     assert Path("__snapshots__", "test_used.ambr").exists()
 
 
-def test_update_removes_hanging_snapshot_collection_file(
-    run_testcases, plugin_args
-):
+def test_update_removes_hanging_snapshot_collection_file(run_testcases, plugin_args):
     testdir = run_testcases[1]
     snapfile_used = Path("__snapshots__", "test_used.ambr")
     snapfile_hanging = Path("__snapshots__", "hanging_snapfile.abc")

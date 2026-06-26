@@ -118,9 +118,7 @@ def test_generated_snapshots(generate_snapshots):
     assert result.ret == 0
 
 
-def test_unmatched_snapshots(
-    generate_snapshots, testcases_updated, plugin_args
-):
+def test_unmatched_snapshots(generate_snapshots, testcases_updated, plugin_args):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=testcases_updated["passed"])
     result = testdir.runpytest("-v", *plugin_args)
@@ -128,9 +126,7 @@ def test_unmatched_snapshots(
     assert result.ret == 1
 
 
-def test_updated_snapshots(
-    generate_snapshots, testcases_updated, plugin_args
-):
+def test_updated_snapshots(generate_snapshots, testcases_updated, plugin_args):
     testdir = generate_snapshots[1]
     testdir.makepyfile(test_file=testcases_updated["passed"])
     result = testdir.runpytest("-v", "--snapshot-update", *plugin_args)

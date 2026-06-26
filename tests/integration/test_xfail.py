@@ -15,9 +15,7 @@ def test_no_failure_printed_if_all_failures_xfailed(testdir, plugin_args):
     assert result.ret == 0
 
 
-def test_failures_printed_if_only_some_failures_xfailed(
-    testdir, plugin_args
-):
+def test_failures_printed_if_only_some_failures_xfailed(testdir, plugin_args):
     testdir.makepyfile(
         test_file=(
             """
