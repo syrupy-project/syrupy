@@ -53,7 +53,7 @@ def overlapping_snapshot_project(pytester: pytest.Pytester) -> pytest.Pytester:
 
 def test_partial_run_does_not_report_unrelated_same_basename_snapshots(
     overlapping_snapshot_project: pytest.Pytester,
-    plugin_args_fails_xdist: list[str],
+    plugin_args: list[str],
 ) -> None:
     """
     Running a subset of tests across modules must not flag snapshots from
@@ -64,7 +64,7 @@ def test_partial_run_does_not_report_unrelated_same_basename_snapshots(
         "--snapshot-details",
         "module_a/tests/test_foo.py",
         "module_b/tests/test_views.py",
-        *plugin_args_fails_xdist,
+        *plugin_args,
     )
     result.stdout.re_match_lines((r"2 snapshots passed\.",))
     result.stdout.no_re_match_line(
@@ -123,7 +123,7 @@ def nested_snapshot_project(pytester: pytest.Pytester) -> pytest.Pytester:
 
 def test_partial_run_does_not_report_unrelated_nested_same_basename_snapshots(
     nested_snapshot_project: pytest.Pytester,
-    plugin_args_fails_xdist: list[str],
+    plugin_args: list[str],
 ) -> None:
     """
     Regression for #918: a nested test file must not cause an unrelated snapshot
@@ -138,7 +138,7 @@ def test_partial_run_does_not_report_unrelated_nested_same_basename_snapshots(
         "--snapshot-details",
         "test_root/components/config/test_config_entries.py",
         "test_root/test_config.py",
-        *plugin_args_fails_xdist,
+        *plugin_args,
     )
     result.stdout.re_match_lines((r"2 snapshots passed\.",))
     result.stdout.no_re_match_line(
