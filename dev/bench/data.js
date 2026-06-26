@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782439634818,
+  "lastUpdate": 1782471268139,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -14445,6 +14445,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0948891861671291",
             "extra": "mean: 1.2162269058000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7db49e98f7ea9d59ba9f4b88f576d61e37fc4d29",
+          "message": "fix: avoid os.environ mutation for color control (#1125)\n\nsyrupy signaled \"disable color\" by temporarily mutating os.environ via\nenv_context. Mutating the environment calls glibc setenv, which is not\nthread safe and races with getenv called from native code in other\nthreads, and could segfault unrelated code (for example a database\ndriver in a pytest-django live_server request handler) during the\npytest_assertrepr_compare and diff_snapshots paths.\n\nSignal color suppression through a contextvars.ContextVar instead.\nterminal._is_color_disabled() now consults that ContextVar in addition to\nthe external NO_COLOR and ANSI_COLORS_DISABLED variables, which are still\nread (reads are safe, only writes race). Both call sites use the new\ndisable_color() context manager, so no os.environ writes happen.\n\nThe now-unused env_context helper is removed from syrupy.utils; its only\nremaining user was the osenv test fixture, which now defines it locally.\n\nCloses #955",
+          "timestamp": "2026-06-26T06:53:36-04:00",
+          "tree_id": "1f1c99045a19c2eb12a96f3edeb5e63fec4ae184",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7db49e98f7ea9d59ba9f4b88f576d61e37fc4d29"
+        },
+        "date": 1782471267374,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.070019155037787,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04645358234112526",
+            "extra": "mean: 934.5627087999986 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0008594910905524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.053744171224583755",
+            "extra": "mean: 999.141247 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9839576832247413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1158245264517269",
+            "extra": "mean: 1.016303868600002 sec\nrounds: 5"
           }
         ]
       }
