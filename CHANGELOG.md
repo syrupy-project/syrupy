@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.4.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.4.0) (2026-07-01)
+
+## What's Changed
+* feat: add --snapshot-no-cleanup to keep unused snapshots on update by @frenck in https://github.com/syrupy-project/syrupy/pull/1126
+* fix: honor boolean operators in -k snapshot selection by @frenck in https://github.com/syrupy-project/syrupy/pull/1127
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.3.4...v5.4.0
+
 ## [v5.3.4](https://github.com/syrupy-project/syrupy/releases/tag/v5.3.4) (2026-06-26)
 
 ## What's Changed
