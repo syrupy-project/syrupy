@@ -210,6 +210,20 @@ def pytest_collection_finish(session: Any) -> None:
     session.config._syrupy.select_items(session.items)
 
 
+def pytest_testnodedown(node: Any, error: Any) -> None:
+    """
+    Collect a pytest-xdist worker's snapshot report as the worker shuts down.
+    Runs on the controller; the payload is published via ``config.workeroutput``.
+    https://pytest-xdist.readthedocs.io/en/stable/distribution.html
+    """
+    workeroutput = getattr(node, "workeroutput", None)
+    syrupy = getattr(node.config, "_syrupy", None)
+    if workeroutput and syrupy:
+        report = workeroutput.get("syrupy_report")
+        if report is not None:
+            syrupy.add_worker_report(report)
+
+
 def pytest_runtest_logreport(report: pytest.TestReport) -> None:
     """
     After each of the setup, call and teardown runtest phases of an item.

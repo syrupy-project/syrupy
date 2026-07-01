@@ -122,6 +122,21 @@ class SnapshotCollections:
     def __contains__(self, key: str) -> bool:
         return key in self._snapshot_collections
 
+    def serialize(self) -> dict[str, list[str]]:
+        """Reduce to a ``{location: [snapshot name, ...]}`` mapping for transport."""
+        return {
+            location: [snapshot.name for snapshot in collection]
+            for location, collection in self._snapshot_collections.items()
+        }
+
+    def merge_serialized(self, data: dict[str, list[str]]) -> None:
+        """Merge a mapping produced by :meth:`serialize` into this instance."""
+        for location, names in data.items():
+            collection = SnapshotCollection(location=location)
+            for name in names:
+                collection.add(Snapshot(name=name))
+            self.update(collection)
+
 
 @dataclass
 class DiffedLine:

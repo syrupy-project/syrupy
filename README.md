@@ -575,7 +575,7 @@ See [#675](https://github.com/syrupy-project/syrupy/issues/675) for the original
 
 ## Known Limitations
 
-- `pytest-xdist` support only partially exists. There is no issue when it comes to reads however when you attempt to run `pytest --snapshot-update`, if running with more than 1 process, the ability to detect unused snapshots is disabled. See [#535](https://github.com/syrupy-project/syrupy/issues/535) for more information.
+- `pytest-xdist`: unused snapshot detection and removal are supported when running with multiple processes. Each worker reports the snapshots it used and the controller combines them to determine which snapshots are unused. See [#535](https://github.com/syrupy-project/syrupy/issues/535) for more information.
 
 _We welcome contributions to patch these known limitations._
 
