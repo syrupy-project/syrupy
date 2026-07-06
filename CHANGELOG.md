@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.5.1](https://github.com/syrupy-project/syrupy/releases/tag/v5.5.1) (2026-07-06)
+
+## What's Changed
+* fix: Defer registering `pytest-xdist` hook `pytest_testnodedown` to avoid "unknown hook" error by @edgarrmondragon in https://github.com/syrupy-project/syrupy/pull/1140
+
+## New Contributors
+* @edgarrmondragon made their first contribution in https://github.com/syrupy-project/syrupy/pull/1140
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.5.0...v5.5.1
+
 ## [v5.5.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.5.0) (2026-07-06)
 
 ## What's Changed
