@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.5.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.5.0) (2026-07-06)
+
+## What's Changed
+
+* feat: detect unused snapshots under pytest-xdist by @frenck in https://github.com/syrupy-project/syrupy/pull/1132
+
+> **NOTE**: Test suites using pytest-xdist that previously passed due to incomplete snapshot support may now fail if unused snapshots are detected. You can use `--snapshot-warn-unused` to downgrade unused snapshot detection from an error to a warning though it's not recommended.
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.4.0...v5.5.0
+
 ## [v5.4.0](https://github.com/syrupy-project/syrupy/releases/tag/v5.4.0) (2026-07-01)
 
 ## What's Changed
