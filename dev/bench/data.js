@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783363530000,
+  "lastUpdate": 1783369022383,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15165,6 +15165,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.31190062537074387",
             "extra": "mean: 1.2910650798000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "16805946+edgarrmondragon@users.noreply.github.com",
+            "name": "Edgar Ramírez Mondragón",
+            "username": "edgarrmondragon"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fa60dc7d9a8a4ff77d8682d531762172fd548eca",
+          "message": "fix: Defer registering `pytest-xdist` hook `pytest_testnodedown` to avoid \"unknown hook\" error (#1140)\n\n* fix: Defer `pytest-xdist` hook `pytest_testnodedown` to avoid \"unknown hook\" error\n\n---------\n\nSigned-off-by: Edgar Ramírez Mondragón <edgarrm358@gmail.com>\nCo-authored-by: Noah Ulster <noah@marble.ai>",
+          "timestamp": "2026-07-06T16:15:58-04:00",
+          "tree_id": "b4e015fd7dfb42ccc1c4b13bcca2bc2d963a0864",
+          "url": "https://github.com/syrupy-project/syrupy/commit/fa60dc7d9a8a4ff77d8682d531762172fd548eca"
+        },
+        "date": 1783369021641,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8983399543105037,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06070013327916417",
+            "extra": "mean: 1.113164337400002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.767107994118678,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20065848974984637",
+            "extra": "mean: 1.303597417399996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7883222453045188,
+            "unit": "iter/sec",
+            "range": "stddev: 0.29345691490356235",
+            "extra": "mean: 1.2685167847999934 sec\nrounds: 5"
           }
         ]
       }
