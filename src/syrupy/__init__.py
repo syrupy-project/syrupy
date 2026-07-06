@@ -227,7 +227,7 @@ class DeferXDist:
                 syrupy.add_worker_report(report)
 
 
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     if config.pluginmanager.hasplugin("xdist"):
         config.pluginmanager.register(DeferXDist())
 
