@@ -54,3 +54,27 @@ def test_xdist_removes_unused(generated):
     assert "test_a[1]" in content
     assert "test_a[2]" not in content
     assert "test_a[3]" not in content
+
+
+def test_without_xdist_installed(testdir):
+    """
+    Registering the pytest-xdist hook `pytest_testnodedown` unconditionally
+    makes pytest raise a `PluginValidationError` when pytest-xdist is not
+    installed alongside syrupy, since pytest-xdist provides the hookspec that
+    hook implements.
+
+    Simulate pytest-xdist not being installed by disabling the plugin outright
+    with `-p no:xdist`.
+    """
+    testdir.makepyfile(
+        """
+        def test_a(snapshot):
+            assert 1 == snapshot
+        """
+    )
+
+    result = testdir.runpytest("-p", "no:xdist", "--snapshot-update")
+
+    assert result.ret == 0
+    result.stdout.no_fnmatch_line("*PluginValidationError*")
+    result.stdout.no_fnmatch_line("*unknown hook*")
