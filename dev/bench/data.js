@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783349814426,
+  "lastUpdate": 1783363530000,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15120,6 +15120,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3361256258689856",
             "extra": "mean: 1.3289915855999936 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "321632cb5b9c7a5bb4c0031b772a1139a18835bf",
+          "message": "feat: detect unused snapshots under pytest-xdist (#1132)\n\n* feat: detect unused snapshots under pytest-xdist\n\nRunning with pytest-xdist disabled unused snapshot detection: each worker\nonly sees the tests it ran, so it cannot tell whether a snapshot is unused\nor simply owned by a test that ran on another worker.\n\nWorkers now publish the snapshots they touched on config.workeroutput; the\ncontroller harvests them in pytest_testnodedown, combines them, and runs the\nexisting unused detection and removal path. Detection, the failure exit\nstatus and partial in-file removal behave the same as a single-process run.\n\nBuilds on #901 by epenet, which was reverted for being too slow. Addressed\nhere by using workeroutput instead of temp files + json, and by sending the\nidentical collected-item list from a single worker (gw0) instead of once per\nworker.\n\nCloses #535\n\n* style: apply ruff format to converted xdist tests\n\n* test: add in-process unit tests for xdist report merging\n\nThe worker/controller report code only runs in xdist subprocesses, whose\ncoverage is not captured by the parent run. Add direct unit tests for the\nserialize/publish/merge logic so it is covered and tested in isolation.",
+          "timestamp": "2026-07-06T14:44:32-04:00",
+          "tree_id": "469d338a015f0d38919f31c5981d2f8f261d770b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/321632cb5b9c7a5bb4c0031b772a1139a18835bf"
+        },
+        "date": 1783363528480,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8729146158210628,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08054864016282032",
+            "extra": "mean: 1.1455874170000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7486523032996806,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22831099637262908",
+            "extra": "mean: 1.3357335515999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7745542929213998,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31190062537074387",
+            "extra": "mean: 1.2910650798000005 sec\nrounds: 5"
           }
         ]
       }
