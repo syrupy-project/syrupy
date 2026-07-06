@@ -23,11 +23,6 @@ def is_xdist_worker() -> bool:
     return bool(worker_name and worker_name != "master")
 
 
-def is_xdist_controller() -> bool:
-    worker_count = os.getenv("PYTEST_XDIST_WORKER_COUNT")
-    return bool(worker_count and int(worker_count) > 0 and not is_xdist_worker())
-
-
 def walk_snapshot_dir(
     root: str | Path, *, ignore_extensions: list[str] | None = None
 ) -> Iterator[str]:
