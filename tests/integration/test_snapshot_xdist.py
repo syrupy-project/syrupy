@@ -78,3 +78,37 @@ def test_without_xdist_installed(testdir):
     assert result.ret == 0
     result.stdout.no_fnmatch_line("*PluginValidationError*")
     result.stdout.no_fnmatch_line("*unknown hook*")
+
+
+def test_p_xdist(testdir, monkeypatch):
+    """Test detecting pytest-xdist registered via "-p xdist"."""
+    testdir.makepyfile(
+        """
+        def test_a(snapshot):
+            assert 1 == snapshot
+        """
+    )
+
+    monkeypatch.setenv("PYTEST_DISABLE_PLUGIN_AUTOLOAD", "1")
+    monkeypatch.setenv("PYTEST_PLUGINS", "syrupy")
+    result = testdir.runpytest(
+        "-v", "-p", "xdist", "--numprocesses", "2", "--snapshot-update"
+    )
+    result.stdout.re_match_lines((r"1 snapshot generated",))
+    assert result.ret == 0
+
+
+def test_pytest_plugins_xdist(testdir, monkeypatch):
+    """Test detecting pytest-xdist registered via PYTEST_PLUGINS."""
+    testdir.makepyfile(
+        """
+        def test_a(snapshot):
+            assert 1 == snapshot
+        """
+    )
+
+    monkeypatch.setenv("PYTEST_DISABLE_PLUGIN_AUTOLOAD", "1")
+    monkeypatch.setenv("PYTEST_PLUGINS", "syrupy,xdist.plugin")
+    result = testdir.runpytest("-v", "--numprocesses", "2", "--snapshot-update")
+    result.stdout.re_match_lines((r"1 snapshot generated",))
+    assert result.ret == 0
