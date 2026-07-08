@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783369022383,
+  "lastUpdate": 1783496649365,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15210,6 +15210,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.29345691490356235",
             "extra": "mean: 1.2685167847999934 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mgorny@gentoo.org",
+            "name": "Michał Górny",
+            "username": "mgorny"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4f83490d2ebf4ae22aeba6d9946979640151aa34",
+          "message": "fix: Fix detecting `pytest-xdist` when loaded via `PYTEST_PLUGINS` (#1142)\n\nFix the `pytest-xdist` detection code to support both `xdist` and\n`xdist.plugin` as registration names, in order to fix the detection\nwhen it is loaded via `PYTEST_PLUGINS` (which uses the latter name)\nrather than autoloading / `-p` (which uses the former).  Technically it\ncould also be explicitly loaded using any other name, but covering these\ntwo common cases should be good enough for all the common workflows.\n\nFixes #1141\n\nSigned-off-by: Michał Górny <mgorny@gentoo.org>",
+          "timestamp": "2026-07-08T03:43:11-04:00",
+          "tree_id": "f68769e87b51fde1b7b8b32ce76c97840a75d5e1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4f83490d2ebf4ae22aeba6d9946979640151aa34"
+        },
+        "date": 1783496646846,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9136615777148794,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08864956291887231",
+            "extra": "mean: 1.0944971578000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.772693915004127,
+            "unit": "iter/sec",
+            "range": "stddev: 0.28329104772636243",
+            "extra": "mean: 1.294173514999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7890277988705469,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3892436503695442",
+            "extra": "mean: 1.2673824692000069 sec\nrounds: 5"
           }
         ]
       }
