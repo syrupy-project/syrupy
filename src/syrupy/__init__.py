@@ -228,7 +228,9 @@ class DeferXDist:
 
 
 def pytest_configure(config: pytest.Config) -> None:
-    if config.pluginmanager.hasplugin("xdist"):
+    if config.pluginmanager.hasplugin("xdist") or config.pluginmanager.hasplugin(
+        "xdist.plugin"
+    ):
         config.pluginmanager.register(DeferXDist())
 
 
