@@ -1,9 +1,21 @@
 name: Release
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
+    inputs:
+      strategy:
+        description: Semver bump strategy
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      prerelease:
+        description: Bump an alpha version, publish to TestPyPI, and create a GitHub prerelease (must run on next)
+        required: false
+        type: boolean
+        default: false
 
 env:
   VENV: .venv
@@ -30,57 +42,57 @@ jobs:
       - name: Determine Release Version
         id: version
         shell: bash
+        env:
+          STRATEGY: ${{ inputs.strategy }}
+          PRERELEASE: ${{ inputs.prerelease }}
+          BRANCH: ${{ github.ref_name }}
         run: |
-          # PEP 440 version from the release tag (vX.Y.Z -> X.Y.Z) or nearest tag on manual runs
-          if [[ "${{ github.event_name }}" == "release" ]]; then
-            tag="${{ github.event.release.tag_name }}"
+          if [[ "$PRERELEASE" == "true" ]]; then
+            if [[ "$BRANCH" != "next" ]]; then
+              echo "::error::Prereleases must be dispatched from the next branch (got ${BRANCH})"
+              exit 1
+            fi
+            uv version --bump "$STRATEGY" --bump alpha
+            is_prerelease=true
           else
-            tag=$(git describe --tags --abbrev=0)
+            if [[ "$BRANCH" != "main" ]]; then
+              echo "::error::Stable releases must be dispatched from the main branch (got ${BRANCH})"
+              exit 1
+            fi
+            uv version --bump "$STRATEGY"
+            is_prerelease=false
           fi
 
-          version="${tag#v}"
-
-          commits_since_tag=$(git rev-list --count "${tag}^{commit}..${{ github.sha }}")
-          if [[ "$commits_since_tag" -gt 0 ]]; then
-            version="${version}.dev${commits_since_tag}"
-          fi
-
+          version=$(uv version --short)
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "is-prerelease=$is_prerelease" >> "$GITHUB_OUTPUT"
 
-          is_dev=false
-          if [[ "${{ github.event_name }}" == "release" && "${{ github.event.release.prerelease }}" == "true" ]]; then
-            is_dev=true
-          elif [[ "$version" == *".dev"* ]] || [[ "$version" == *"-dev"* ]]; then
-            is_dev=true
-          fi
-          echo "is-dev=$is_dev" >> "$GITHUB_OUTPUT"
+      - name: Generate release notes
+        id: notes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh api "repos/${{ github.repository }}/releases/generate-notes" \
+            -f tag_name="v${VERSION}" \
+            -f target_commitish="${{ github.ref_name }}" \
+            --jq .body > .tmp.RELEASE_NOTES.md
 
-      - name: Update the version in the pyproject.toml file
+      - name: Update the CHANGELOG.md
         shell: bash
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          uv version "$VERSION"
+          release_name="v${VERSION}"
+          release_url="${{ github.server_url }}/${{ github.repository }}/releases/tag/${release_name}"
 
-      - name: Build the package
-        shell: bash
-        run: |
-          uv build
-
-      - name: Update the CHANGELOG.md
-        shell: bash
-        if: github.event_name == 'release'
-        env:
-          RELEASE_NAME: ${{ github.event.release.name }}
-          RELEASE_URL: ${{ github.event.release.html_url }}
-          RELEASE_BODY: ${{ github.event.release.body }}
-        run: |
           {
             echo "<!-- MARKER -->"
             echo
-            echo "## [${RELEASE_NAME}](${RELEASE_URL}) ($(date +%Y-%m-%d))"
+            echo "## [${release_name}](${release_url}) ($(date +%Y-%m-%d))"
             echo
-            printf '%s\n' "$RELEASE_BODY"
+            cat .tmp.RELEASE_NOTES.md
           } > .tmp.CHANGELOG.md
 
           sed -i '/<!-- MARKER -->/{
@@ -89,6 +101,11 @@ jobs:
           }' CHANGELOG.md
 
           rm .tmp.CHANGELOG.md
+
+      - name: Build the package
+        shell: bash
+        run: |
+          uv build
 
       - name: Commit the changes
         shell: bash
@@ -100,27 +117,34 @@ jobs:
 
           git add CHANGELOG.md pyproject.toml uv.lock
           git commit -m "chore(release): ${VERSION} [skip ci]"
+          git push
 
-          if [[ "${{ steps.version.outputs.is-dev }}" == "true" ]]; then
-            # Just log the contents of the commit
-            git show --pretty=format:"%h %s"
-          elif [[ "${{ github.event_name }}" == "release" ]]; then
-            # Release checkouts are detached at the tag; push commit onto the release branch
-            branch="${{ github.event.release.target_commitish }}"
-            if ! git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
-              branch="${{ github.event.repository.default_branch }}"
-            fi
-            git push origin "HEAD:${branch}"
+      - name: Tag and create GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          IS_PRERELEASE: ${{ steps.version.outputs.is-prerelease }}
+        run: |
+          tag="v${VERSION}"
+          git tag -a "$tag" -m "chore(release): ${VERSION}"
+          git push origin "$tag"
+
+          release_args=(--title "$tag" --notes-file .tmp.RELEASE_NOTES.md)
+          if [[ "$IS_PRERELEASE" == "true" ]]; then
+            release_args+=(--prerelease)
           else
-            git push
+            release_args+=(--latest)
           fi
 
+          gh release create "$tag" "${release_args[@]}"
+
       - name: Publish (Dev)
-        if: steps.version.outputs.is-dev == 'true'
+        if: steps.version.outputs.is-prerelease == 'true'
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
         with:
           repository-url: https://test.pypi.org/legacy/
 
       - name: Publish
-        if: steps.version.outputs.is-dev == 'false'
+        if: steps.version.outputs.is-prerelease == 'false'
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0

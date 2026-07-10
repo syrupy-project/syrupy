@@ -4,7 +4,7 @@
 
 [![All Contributors](https://img.shields.io/github/all-contributors/syrupy-project/syrupy?color=ee8449&style=flat-square)](#contributors) [![Stage](https://img.shields.io/pypi/status/syrupy)](https://pypi.org/project/syrupy/) [![codecov](https://codecov.io/gh/syrupy-project/syrupy/graph/badge.svg?token=GB9EmYKPAl)](https://codecov.io/gh/syrupy-project/syrupy)
 
-![Pytest>=8,<9.0.0](https://img.shields.io/badge/pytest-%3E=8,%20%3C9.0.0-green) [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
+![Pytest>=8](https://img.shields.io/badge/pytest-%3E=8-green) [![Pypi](https://img.shields.io/pypi/v/syrupy)](https://pypi.org/project/syrupy/) [![Wheel](https://img.shields.io/pypi/wheel/syrupy)](https://pypi.org/project/syrupy/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/syrupy) [![PyPI - Downloads](https://img.shields.io/pypi/dm/syrupy)](https://pypi.org/project/syrupy/) [![PyPI - License](https://img.shields.io/pypi/l/syrupy)](./LICENSE)
 
 ## Overview
 
