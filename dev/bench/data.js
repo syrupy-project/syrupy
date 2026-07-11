@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783785231992,
+  "lastUpdate": 1783785725026,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15570,6 +15570,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.2828708116225684",
             "extra": "mean: 1.2492215500000028 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2b773c52f6ababbc72da05a2c8bc1a8037f4ba63",
+          "message": "chore(deps): bump pygments from 2.19.2 to 2.20.0 (#1151)\n\nBumps [pygments](https://github.com/pygments/pygments) from 2.19.2 to 2.20.0.\n- [Release notes](https://github.com/pygments/pygments/releases)\n- [Changelog](https://github.com/pygments/pygments/blob/master/CHANGES)\n- [Commits](https://github.com/pygments/pygments/compare/2.19.2...2.20.0)\n\n---\nupdated-dependencies:\n- dependency-name: pygments\n  dependency-version: 2.20.0\n  dependency-type: indirect\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-11T16:01:16Z",
+          "tree_id": "5aa07905d4addbe02c408b4c234d5a93f59ba8bf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2b773c52f6ababbc72da05a2c8bc1a8037f4ba63"
+        },
+        "date": 1783785724007,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.96534616422338,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06306319686632934",
+            "extra": "mean: 1.0358978334 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8293426699298012,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2026896284761132",
+            "extra": "mean: 1.2057742067999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8549431689780044,
+            "unit": "iter/sec",
+            "range": "stddev: 0.272582819683431",
+            "extra": "mean: 1.1696683899999996 sec\nrounds: 5"
           }
         ]
       }
