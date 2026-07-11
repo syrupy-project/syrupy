@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783777771218,
+  "lastUpdate": 1783785208881,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15480,6 +15480,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.37720316573626994",
             "extra": "mean: 1.176402093400003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "443fc11bf67ce588753cd4518ef056463cfe651b",
+          "message": "chore: closes #1144 (#1146)",
+          "timestamp": "2026-07-11T11:51:47-04:00",
+          "tree_id": "03ab9ecfda1ea6711e6913e23a2b8ed2aa8e69ba",
+          "url": "https://github.com/syrupy-project/syrupy/commit/443fc11bf67ce588753cd4518ef056463cfe651b"
+        },
+        "date": 1783785207606,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0381452522337413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043695713614593325",
+            "extra": "mean: 963.2563437999977 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8819783567192733,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20820336402302633",
+            "extra": "mean: 1.133814670600009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.903275003656856,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31698899132707115",
+            "extra": "mean: 1.107082556200004 sec\nrounds: 5"
           }
         ]
       }
