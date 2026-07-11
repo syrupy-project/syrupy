@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v5.5.3](https://github.com/syrupy-project/syrupy/releases/tag/v5.5.3) (2026-07-11)
+
+## What's Changed
+* chore(deps): update astral-sh/setup-uv action to v8.3.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1143
+* chore(deps): update astral-sh/setup-uv action to v8.3.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1145
+* chore(deps): update dependency hypothesis to v6.156.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1147
+* chore(deps): update dependency mypy to v2.2.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1148
+* chore(deps): update dependency hypothesis to v6.156.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1150
+* chore: closes #1144 by @noahnu in https://github.com/syrupy-project/syrupy/pull/1146
+* chore(deps): update astral-sh/setup-uv action to v8.3.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1149
+
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.5.2...v5.5.3
+
 ## [v5.5.2](https://github.com/syrupy-project/syrupy/releases/tag/v5.5.2) (2026-07-08)
 
 ## What's Changed
