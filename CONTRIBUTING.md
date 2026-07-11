@@ -51,6 +51,8 @@ This project and everyone participating in it is governed by our [Code of Conduc
 ### Releases
 
 - Semantic versioning: [semver](https://semver.org/spec/v2.0.0.html)
+- Releases are cut via the [Release](https://github.com/syrupy-project/syrupy/actions/workflows/release.yaml) workflow (`workflow_dispatch`). Choose a `strategy` of `patch`, `minor`, or `major`; do not create the GitHub release or tag by hand. Release notes are auto-generated from commits/PRs since the previous tag.
+- Stable releases must be dispatched from `main`. Enable `prerelease` to bump an alpha version (e.g. `5.5.3a1`), publish to TestPyPI, and create a GitHub prerelease; prereleases must be dispatched from `next`.
 
 ## How Can I Contribute
 
