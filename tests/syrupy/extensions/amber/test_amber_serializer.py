@@ -113,6 +113,20 @@ def test_set(snapshot, actual):
     assert snapshot == actual
 
 
+def test_sort_partial_order_is_deterministic():
+    # frozensets order by the subset relation, which is only a partial order:
+    # these three are pairwise incomparable (neither is a subset of another),
+    # so a plain sorted() leaves them in input order. sort() must normalize to
+    # a stable order regardless of input order, otherwise a set/dict of
+    # frozensets serializes differently across runs (hash-seeded iteration).
+    a = frozenset({"a", "b"})
+    b = frozenset({"a", "c"})
+    c = frozenset({"a", "d"})
+    assert list(AmberDataSerializer.sort([a, b, c])) == list(
+        AmberDataSerializer.sort([c, b, a])
+    )
+
+
 @pytest.mark.parametrize(
     "actual",
     [

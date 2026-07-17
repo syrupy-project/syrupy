@@ -537,10 +537,17 @@ class AmberDataSerializer:
 
     @classmethod
     def sort(cls, iterable: Iterable[Any]) -> Iterable[Any]:
+        # Pre-sort by the serialized form so a natural ordering that is only
+        # partial keeps a deterministic order for incomparable elements. E.g.
+        # frozensets order by the subset relation, so two distinct frozensets
+        # where neither is a subset of the other compare as neither < nor >;
+        # the stable sort below would then leave them in hash-seeded set
+        # iteration order. Totally-ordered values keep their natural order.
+        values = sorted(iterable, key=cls._serialize)
         try:
-            return sorted(iterable)
+            return sorted(values)
         except TypeError:
-            return sorted(iterable, key=cls._serialize)
+            return values
 
     @classmethod
     def object_type(cls, data: "SerializableData") -> str:
