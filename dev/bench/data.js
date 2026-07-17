@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784210384673,
+  "lastUpdate": 1784302719094,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15840,6 +15840,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.37532927785703957",
             "extra": "mean: 1.1689354038000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48723787+chuenchen309@users.noreply.github.com",
+            "name": "Andrew Chen",
+            "username": "chuenchen309"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5d02bfd143c42bc54a8a4f1fe190c4bad80210d",
+          "message": "fix: make set/dict serialization deterministic for partial-order elements (#1159)\n\n`AmberDataSerializer.sort` sorted with a plain `sorted(iterable)` and only fell\nback to the deterministic `key=cls._serialize` on `TypeError`. `frozenset`\ndefines `__lt__` (the subset relation), so `sorted()` does not raise for a\nhomogeneous set of frozensets -- but the subset order is only *partial*: two\nfrozensets where neither is a subset of the other compare as neither `<` nor\n`>`, so the stable sort leaves them in set-iteration order, which is\nhash-seeded. A set (or dict keyed) by frozensets therefore serialized in a\n`PYTHONHASHSEED`-dependent order, producing flaky snapshots that pass on record\nand fail on a later run with no data change.\n\nPre-sort by the serialized form first; because `sorted()` is stable, natural-\norder ties (partial-order incomparable elements) then keep a deterministic\norder, while totally-ordered values (numbers, strings) still come out in their\nnatural order (no snapshot drift) and mixed/unorderable types still fall\nthrough to the serialize-key order.\n\nAdds a regression test asserting `sort()` is invariant to input order for\npairwise-incomparable frozensets.",
+          "timestamp": "2026-07-17T11:37:50-04:00",
+          "tree_id": "36c3688015038ee7f11b410dcd172433af9ee672",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a5d02bfd143c42bc54a8a4f1fe190c4bad80210d"
+        },
+        "date": 1784302717626,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.299070759824129,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06292684516161101",
+            "extra": "mean: 769.7810087999997 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.053490182095484,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2282290250313504",
+            "extra": "mean: 949.2257422000009 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.0803753453334983,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3178993738302458",
+            "extra": "mean: 925.6042395999998 msec\nrounds: 5"
           }
         ]
       }
