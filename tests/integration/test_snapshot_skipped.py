@@ -72,3 +72,45 @@ def test_skipped_snapshots_update(run_testcases, plugin_args):
     result = testdir.runpytest("-v", "--snapshot-update", *plugin_args)
     result.stdout.re_match_lines(r"1 snapshot passed\.$")
     assert result.ret == 0
+
+
+def test_skipped_single_file_snapshot(testdir, plugin_args):
+    testdir.makeconftest(
+        """
+        import pytest
+
+        from syrupy.extensions.single_file import SingleFileSnapshotExtension
+
+        @pytest.fixture
+        def snapshot(snapshot):
+            return snapshot.use_extension(SingleFileSnapshotExtension)
+        """
+    )
+    testdir.makepyfile(
+        """
+        def test_used(snapshot):
+            assert snapshot == b"used"
+
+        def test_single_file(snapshot):
+            assert snapshot == b"snapshot"
+        """
+    )
+    result = testdir.runpytest("--snapshot-update")
+    assert result.ret == 0
+
+    testdir.makepyfile(
+        """
+        import pytest
+
+        def test_used(snapshot):
+            assert snapshot == b"used"
+
+        @pytest.mark.skip
+        def test_single_file(snapshot):
+            assert snapshot == b"snapshot"
+        """
+    )
+    result = testdir.runpytest(*plugin_args)
+
+    assert "snapshot unused" not in result.stdout.str()
+    assert result.ret == 0

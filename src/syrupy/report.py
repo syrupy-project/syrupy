@@ -246,7 +246,10 @@ class SnapshotReport:
                         snapshot_location=snapshot_location, snapshot_name=snapshot.name
                     )
                 }
-                mark_for_removal = snapshot_location not in self.used
+                mark_for_removal = (
+                    snapshot_location not in self.used
+                    and not unused_snapshot_collection.has_snapshots
+                )
             else:
                 unused_snapshots = {
                     snapshot
