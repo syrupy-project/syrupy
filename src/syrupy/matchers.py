@@ -90,15 +90,20 @@ def path_value(
     Matches the path regex against the string repr of values for the types specified
     """
 
+    regex = kwargs.get("regex", False)
+    # path_type matches the path with _path_match, which escapes the key when
+    # regex is off, so the Match handed back carries the escaped pattern. Key
+    # the value lookup by that same form, or a path key with a regex-special
+    # char (e.g. the "." joining a nested path) never matches and the value is
+    # silently left unreplaced.
+    value_patterns = {(k if regex else re.escape(k)): v for k, v in mapping.items()}
     kwargs["mapping"] = dict.fromkeys(mapping, types)
     kwargs["replacer"] = lambda data, path_matches: (
         replacer(
             data,
-            _path_match(
-                str(data), mapping[path_matches.re.pattern], kwargs.get("regex", False)
-            ),
+            _path_match(str(data), value_patterns[path_matches.re.pattern], regex),
         )
-        if path_matches.re.pattern in mapping
+        if path_matches.re.pattern in value_patterns
         else data
     )
     return path_type(**kwargs)

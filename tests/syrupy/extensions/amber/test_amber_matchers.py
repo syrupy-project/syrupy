@@ -131,6 +131,27 @@ def test_regex_matcher_str_value(request, snapshot, tmp_path):
     assert actual == snapshot(matcher=my_matcher)
 
 
+def test_path_value_replaces_nested_value_in_literal_mode():
+    # regex=False (the default) must still replace values at nested paths, whose
+    # keys contain the "." path separator. The escaped path pattern used to miss
+    # the value lookup, silently leaving the value unreplaced in the snapshot.
+    def replacer(data, match):
+        return "REDACTED" if match else data
+
+    matcher = path_value(
+        {"user.token": "abc12345"},
+        types=(str,),
+        replacer=replacer,
+    )
+
+    serialized = AmberDataSerializer.serialize(
+        {"user": {"token": "abc12345"}}, matcher=matcher
+    )
+
+    assert "REDACTED" in serialized
+    assert "abc12345" not in serialized
+
+
 def test_multiple_matchers(snapshot):
     data = {"number": 1, "datetime": datetime.datetime.now(), "float": 1.3}
 
