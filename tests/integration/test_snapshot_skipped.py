@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 
@@ -114,3 +116,52 @@ def test_skipped_single_file_snapshot(testdir, plugin_args):
 
     assert "snapshot unused" not in result.stdout.str()
     assert result.ret == 0
+
+
+def test_skipped_single_file_snapshot_with_other_extension(testdir, plugin_args):
+    test_file = testdir.makepyfile(
+        """
+        from syrupy.extensions.single_file import SingleFileSnapshotExtension
+
+        def test_used(snapshot):
+            assert snapshot == "used"
+
+        def test_single_file(snapshot):
+            assert snapshot.use_extension(SingleFileSnapshotExtension) == b"snapshot"
+        """
+    )
+    result = testdir.runpytest("--snapshot-update")
+    assert result.ret == 0
+    snapshot_file = (
+        Path(test_file).parent
+        / "__snapshots__"
+        / Path(test_file).stem
+        / "test_single_file.raw"
+    )
+    assert snapshot_file.exists()
+
+    testdir.makepyfile(
+        """
+        import pytest
+
+        from syrupy.extensions.single_file import SingleFileSnapshotExtension
+
+        def test_used(snapshot):
+            assert snapshot == "used"
+
+        @pytest.mark.skip
+        def test_single_file(snapshot):
+            assert snapshot.use_extension(SingleFileSnapshotExtension) == b"snapshot"
+        """
+    )
+    result = testdir.runpytest(*plugin_args)
+
+    assert "snapshot unused" not in result.stdout.str()
+    assert result.ret == 0
+    assert snapshot_file.exists()
+
+    result = testdir.runpytest("--snapshot-update", *plugin_args)
+
+    assert "unused snapshot deleted" not in result.stdout.str()
+    assert result.ret == 0
+    assert snapshot_file.exists()

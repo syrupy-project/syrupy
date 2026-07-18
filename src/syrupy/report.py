@@ -249,6 +249,10 @@ class SnapshotReport:
                 mark_for_removal = (
                     snapshot_location not in self.used
                     and not unused_snapshot_collection.has_snapshots
+                    and not self._skipped_items_match_name(
+                        snapshot_location=snapshot_location,
+                        snapshot_name=Path(snapshot_location).stem,
+                    )
                 )
             else:
                 unused_snapshots = {
