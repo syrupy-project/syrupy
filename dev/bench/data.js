@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784427760514,
+  "lastUpdate": 1784482236561,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -15930,6 +15930,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.2983251576572598",
             "extra": "mean: 1.2955437669999967 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dd6140cc93de8a764bce8e24a17d2eb73db09aed",
+          "message": "chore(deps): update dependency ruff to v0.15.22 (#1164)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-19T13:29:42-04:00",
+          "tree_id": "87c6ab6f7f791cf699dee76e67713fafe13cd775",
+          "url": "https://github.com/syrupy-project/syrupy/commit/dd6140cc93de8a764bce8e24a17d2eb73db09aed"
+        },
+        "date": 1784482235363,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8724768638722804,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05576775172636771",
+            "extra": "mean: 1.1461621980000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7529537880532302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21584127325260136",
+            "extra": "mean: 1.3281027546000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7638183276488208,
+            "unit": "iter/sec",
+            "range": "stddev: 0.29398930172988924",
+            "extra": "mean: 1.3092118424000005 sec\nrounds: 5"
           }
         ]
       }
