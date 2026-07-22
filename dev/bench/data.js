@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784722448285,
+  "lastUpdate": 1784722926912,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -16110,6 +16110,51 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.294386683440346",
             "extra": "mean: 1.2662921299999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "chuenchen309@gmail.com",
+            "name": "Andrew Chen",
+            "username": "chuenchen309"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e10bd9f9be08c876c1ffeef0af05565af21586c4",
+          "message": "fix(matchers): replace values at nested paths in path_value default mode (#1162)\n\n`path_value` with the default `regex=False` never replaced a value whose path\nkey contains a regex-special char — which includes every nested path, since the\n\".\" separator is special. `path_type` matches the path with `_path_match`, which\n`re.escape`s the key when regex is off, so the `re.Match` it passes back carries\nthe escaped pattern; the value-lookup then tested that escaped pattern against the\noriginal, unescaped mapping keys, missed, and returned the value unchanged. For\nthe redaction use case this feature exists for, the value leaked into the snapshot.\n\nKey the value lookup by the same escaped form the path match used.",
+          "timestamp": "2026-07-22T08:21:12-04:00",
+          "tree_id": "6c7882f6935dbc5a221bc241793545944e3a333d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e10bd9f9be08c876c1ffeef0af05565af21586c4"
+        },
+        "date": 1784722924564,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.989750854160577,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07517282853570062",
+            "extra": "mean: 1.0103552786000023 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8150643463176643,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2664907429739499",
+            "extra": "mean: 1.2268969983999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8450280580175659,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3720253457993398",
+            "extra": "mean: 1.1833926584000038 sec\nrounds: 5"
           }
         ]
       }
