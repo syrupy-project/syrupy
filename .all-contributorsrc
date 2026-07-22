@@ -359,6 +359,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "KSmanis",
+      "name": "Konstantinos Smanis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13301367?v=4",
+      "profile": "http://ksmanis.github.io",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
