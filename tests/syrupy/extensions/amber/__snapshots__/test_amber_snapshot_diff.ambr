@@ -29,6 +29,10 @@
   +   'field_1': 'yes_value',
     ...
 # ---
+# name: test_snapshot_diff_string_data
+  - 'base'
+  + 'changed'
+# ---
 # name: test_snapshot_diff_id.1
       ...
   -   'field_1': 'no_value',

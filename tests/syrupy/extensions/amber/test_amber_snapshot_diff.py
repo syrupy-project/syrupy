@@ -61,7 +61,11 @@ def test_snapshot_diff_data(snapshot):
         "field_1": "yes_value",
     }
 
-    assert changed == snapshot(diff=base)
+    assert changed == snapshot(diff_data=base)
+
+
+def test_snapshot_diff_string_data(snapshot):
+    assert "changed" == snapshot(diff_data="base")
 
 
 @pytest.mark.xfail(reason="Asserting snapshot does not exist")
