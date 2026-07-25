@@ -390,7 +390,7 @@ def test_foo(snapshot):
 
 #### `diff`
 
-This is an option to snapshot only the diff between the actual object and a previous snapshot, with the `diff` argument being the previous snapshot `index`/`name`.
+This is an option to snapshot only the diff between the actual object and either a previous snapshot or in-memory data. Give the `diff` argument a previous snapshot `index`/`name` to use a saved snapshot, or pass another data object to write only the difference without creating a base snapshot.
 
 ```py
 def test_diff(snapshot):
@@ -403,7 +403,12 @@ def test_diff(snapshot):
     # Must use the index name to diff when given
     assert actual0 == snapshot(name='snap_name')
     assert actual1 == snapshot(diff='snap_name')
+
+    # A data object can be used as the base without writing it as a snapshot
+    assert actual1 == snapshot(diff=actual0)
 ```
+
+Integer and string values continue to refer to a snapshot index or name.
 
 ##### Built-In Extensions
 

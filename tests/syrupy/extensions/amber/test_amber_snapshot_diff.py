@@ -51,6 +51,19 @@ def test_snapshot_diff_id(snapshot):
     assert dict_case_3 == snapshot(name="case3", diff="large snapshot")
 
 
+def test_snapshot_diff_data(snapshot):
+    base = {
+        "field_0": True,
+        "field_1": "no_value",
+    }
+    changed = {
+        **base,
+        "field_1": "yes_value",
+    }
+
+    assert changed == snapshot(diff=base)
+
+
 @pytest.mark.xfail(reason="Asserting snapshot does not exist")
 def test_snapshot_no_diff_raises_exception(snapshot):
     my_dict = {

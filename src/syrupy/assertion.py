@@ -270,7 +270,7 @@ class SnapshotAssertion:
     def __call__(
         self,
         *,
-        diff: Optional["SnapshotIndex"] = None,
+        diff: Optional["SnapshotIndex | SerializableData"] = None,
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         extension_class: type["AbstractSyrupyExtension"] | None = None,
@@ -317,9 +317,12 @@ class SnapshotAssertion:
             serialized_data = self._serialize(data)
             snapshot_diff = getattr(self, "_snapshot_diff", None)
             if snapshot_diff is not None:
-                snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
-                if snapshot_data_diff is None:
-                    raise SnapshotDoesNotExist()
+                if isinstance(snapshot_diff, (int, str)):
+                    snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
+                    if snapshot_data_diff is None:
+                        raise SnapshotDoesNotExist()
+                else:
+                    snapshot_data_diff = self._serialize(snapshot_diff)
                 serialized_data = self.extension.diff_snapshots(
                     serialized_data=serialized_data,
                     snapshot_data=snapshot_data_diff,
