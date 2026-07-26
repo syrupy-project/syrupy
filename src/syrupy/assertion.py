@@ -271,6 +271,7 @@ class SnapshotAssertion:
         self,
         *,
         diff: Optional["SnapshotIndex"] = None,
+        diff_data: Optional["SerializableData"] = None,
         exclude: Optional["PropertyFilter"] = None,
         include: Optional["PropertyFilter"] = None,
         extension_class: type["AbstractSyrupyExtension"] | None = None,
@@ -292,6 +293,8 @@ class SnapshotAssertion:
             self.__with_prop("_custom_index", name)
         if diff is not None:
             self.__with_prop("_snapshot_diff", diff)
+        if diff_data is not None:
+            self.__with_prop("_snapshot_diff_data", diff_data)
         return self
 
     def __repr__(self) -> str:
@@ -316,10 +319,14 @@ class SnapshotAssertion:
             snapshot_data, tainted = self._recall_data(index=self.index)
             serialized_data = self._serialize(data)
             snapshot_diff = getattr(self, "_snapshot_diff", None)
-            if snapshot_diff is not None:
-                snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
-                if snapshot_data_diff is None:
-                    raise SnapshotDoesNotExist()
+            snapshot_diff_data = getattr(self, "_snapshot_diff_data", None)
+            if snapshot_diff is not None or snapshot_diff_data is not None:
+                if snapshot_diff is not None:
+                    snapshot_data_diff, _ = self._recall_data(index=snapshot_diff)
+                    if snapshot_data_diff is None:
+                        raise SnapshotDoesNotExist()
+                else:
+                    snapshot_data_diff = self._serialize(snapshot_diff_data)
                 serialized_data = self.extension.diff_snapshots(
                     serialized_data=serialized_data,
                     snapshot_data=snapshot_data_diff,
