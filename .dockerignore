@@ -1,0 +1,121 @@
+# Mirrored from .gitignore
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+.tox
+.poetry
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+version.txt
+pip-wheel-metadata
+.ruff_cache
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage
+htmlcov/
+benchmarks/test_cases/__snapshots__
+.hypothesis
+
+# Environments
+.env
+.venv
+env/
+venv/
+*venv/
+ENV/
+env.bak/
+venv.bak/
+.idea
+.DS_Store
+
+# IDE
+.vscode
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Docker-specific
+# Git history and metadata
+.git/
+.gitignore
+
+# Environment files — never bake secrets into the image
+.env
+.env.*
+!.env.example
+
+# Documentation
+*.md
+docs/
+LICENSE
+CHANGELOG*
+
+# CI/CD configuration
+.github/
+.gitlab/
+
+# Docker tooling
+docker-compose.yml
+docker-compose*.yml
+.dockerignore
+
+# Development tooling
+Makefile
+.editorconfig
+
+# Test suites and coverage
+tests/
+test/
+spec/
+__tests__/
+coverage/
+.pytest_cache/
+.nyc_output/
+
+# Language runtime caches
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+vendor/
+
+# Build artefacts
+dist/
+build/
+target/
+out/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.log
