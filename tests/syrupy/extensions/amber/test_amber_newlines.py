@@ -21,13 +21,7 @@ def test_trailing_2_newlines_in_repr(snapshot):
 
 class MultilineRepr:
     def __repr__(self) -> str:
-        return "\n".join(
-            [
-                "Line1",
-                "Line2\n",  # extra newline
-                "Line3 ",  # with an extra space
-            ]
-        )
+        return "Line1\nLine2\n\nLine3 "
 
 
 def test_multiline_repr(snapshot):

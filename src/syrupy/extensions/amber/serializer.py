@@ -93,7 +93,6 @@ class AmberDataSerializerPlugin(ABC):
         """
         Determine if this plugin can serialize the given data.
         """
-        pass
 
     @classmethod
     @abstractmethod
@@ -101,7 +100,6 @@ class AmberDataSerializerPlugin(ABC):
         """
         Return the serialization method for the given data.
         """
-        pass
 
 
 class AmberDataSerializer:
@@ -145,7 +143,7 @@ class AmberDataSerializer:
             f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
             for snapshot in sorted(
                 snapshot_collection,
-                key=cls.snapshot_sort_key,  # noqa: E501
+                key=cls.snapshot_sort_key,
             ):
                 snapshot_data = str(snapshot.data)
                 if snapshot_data is not None:
@@ -324,7 +322,7 @@ class AmberDataSerializer:
     @classmethod
     def serialize_number(
         cls,
-        data: int | float,
+        data: float,
         *,
         depth: int = 0,
         exclude: Optional["PropertyFilter"] = None,
@@ -486,7 +484,7 @@ class AmberDataSerializer:
         visited: set[Any] | None = None,
     ) -> str:
         return cls.__serialize_plain(
-            data=f"{data.__qualname__}{str(inspect.signature(data))}", depth=depth
+            data=f"{data.__qualname__}{inspect.signature(data)!s}", depth=depth
         )
 
     @classmethod

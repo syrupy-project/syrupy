@@ -78,4 +78,4 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
         cls.serializer_class.write_file(snapshot_collection, merge=True)
 
 
-__all__ = ["AmberSnapshotExtension", "AmberDataSerializer", "AmberDataSerializerPlugin"]
+__all__ = ["AmberDataSerializer", "AmberDataSerializerPlugin", "AmberSnapshotExtension"]

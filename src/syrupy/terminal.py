@@ -59,13 +59,13 @@ def _fg(color: int | str) -> str:
     if _is_color_disabled():
         return ""
     color_code = TerminalCodes.COLORS[color] if isinstance(color, (str,)) else color
-    return f"{TerminalCodes.FOREGROUND_256}{str(color_code)}{TerminalCodes.END}"
+    return f"{TerminalCodes.FOREGROUND_256}{color_code!s}{TerminalCodes.END}"
 
 
 def _bg(color: int) -> str:
     if _is_color_disabled():
         return ""
-    return f"{TerminalCodes.BACKGROUND_256}{str(color)}{TerminalCodes.END}"
+    return f"{TerminalCodes.BACKGROUND_256}{color!s}{TerminalCodes.END}"
 
 
 def _stylize(text: str | int, formatting: str) -> str:

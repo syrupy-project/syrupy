@@ -1,4 +1,3 @@
-# noqa: A005
 from collections.abc import Callable, Hashable
 from typing import (
     Any,
@@ -16,15 +15,15 @@ try:
 
     PropertyMatcher = Callable[
         [
-            NamedArg(SerializableData, "data"),  # noqa: F821
-            NamedArg(PropertyPath, "path"),  # noqa: F821
+            NamedArg(SerializableData, "data"),
+            NamedArg(PropertyPath, "path"),
         ],
         SerializableData | None,
     ]
     PropertyFilter = Callable[
         [
-            NamedArg(PropertyName, "prop"),  # noqa: F821
-            NamedArg(PropertyPath, "path"),  # noqa: F821
+            NamedArg(PropertyName, "prop"),
+            NamedArg(PropertyPath, "path"),
         ],
         bool,
     ]

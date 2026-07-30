@@ -104,6 +104,7 @@ import os
 
 SIZE = int(os.environ.get("SIZE", 1000))
 
+
 @pytest.mark.parametrize("x", range(SIZE))
 def test_performance(x, snapshot):
     assert x == snapshot

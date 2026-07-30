@@ -94,3 +94,17 @@ extend-select = [
   "I", # isort
   "UP", # pyupgrade
 ]
+ignore = [
+  "BLE001",
+  "DTZ001",
+  "DTZ003",
+  "DTZ005",
+  "PLC0206",
+  "PLE2513",
+  "PLR0124",
+  "PLR0133",
+  "PLW0602",
+  "RUF012",
+  "S110",
+  "TRY002",
+]
