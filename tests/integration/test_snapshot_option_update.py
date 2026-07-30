@@ -439,8 +439,10 @@ def test_update_targets_only_selected_module_tests_file_for_removal(
     result.stdout.re_match_lines(
         (
             r"5 unused snapshots deleted\.",
-            r"Deleted test_used1, test_used1\.1, test_used\[1\], test_used\[2\]"
-            r", test_used\[3\] \(__snapshots__[\\/]test_used\.ambr\)",
+            (
+                r"Deleted test_used1, test_used1\.1, test_used\[1\], test_used\[2\]"
+                r", test_used\[3\] \(__snapshots__[\\/]test_used\.ambr\)"
+            ),
         )
     )
     assert result.ret == 0
@@ -457,8 +459,10 @@ def test_update_removes_empty_snapshot_collection_only(run_testcases, plugin_arg
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            r"Deleted empty snapshot collection "
-            r"\(__snapshots__[\\/]empty_snapfile\.ambr\)",
+            (
+                r"Deleted empty snapshot collection "
+                r"\(__snapshots__[\\/]empty_snapfile\.ambr\)"
+            ),
         )
     )
     assert result.ret == 0
@@ -476,8 +480,10 @@ def test_update_removes_hanging_snapshot_collection_file(run_testcases, plugin_a
     result.stdout.re_match_lines(
         (
             r"10 snapshots passed\. 1 unused snapshot deleted\.",
-            r"Deleted unknown snapshot collection "
-            r"\(__snapshots__[\\/]hanging_snapfile\.abc\)",
+            (
+                r"Deleted unknown snapshot collection "
+                r"\(__snapshots__[\\/]hanging_snapfile\.abc\)"
+            ),
         )
     )
     assert f"{snapfile_used}" not in result.stdout.str()

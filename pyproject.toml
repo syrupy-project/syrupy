@@ -43,7 +43,7 @@ dev = [
     "mypy>=2.1.0,<3",
     "py-githooks>=1.1.1,<2",
     "debugpy>=1.8.20,<2",
-    "ruff>=0.15.15,<0.16",
+    "ruff>=0.16,<0.17",
     "attrs>=26.1.0,<27",
 ]
 
@@ -93,4 +93,18 @@ extend-select = [
   "C4", # flake8-comprehensions
   "I", # isort
   "UP", # pyupgrade
+]
+ignore = [
+  "BLE001",
+  "DTZ001",
+  "DTZ003",
+  "DTZ005",
+  "PLC0206",
+  "PLE2513",
+  "PLR0124",
+  "PLR0133",
+  "PLW0602",
+  "RUF012",
+  "S110",
+  "TRY002",
 ]

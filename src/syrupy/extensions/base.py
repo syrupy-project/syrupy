@@ -395,7 +395,7 @@ class SnapshotReporter:
                     num_space = _count_leading_whitespace(lines[num_lines // 2])
                 yield " " * num_space + self._marker_context_max
             if self._context_line_count and num_lines > 1:
-                yield from lines[-self._context_line_count :]  # noqa: E203
+                yield from lines[-self._context_line_count :]
 
     def __strip_ends(self, line: str) -> str:
         return line.rstrip("".join(self._ends.keys()))

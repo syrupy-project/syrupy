@@ -21,7 +21,7 @@ def test_reflection(snapshot):
 
 
 def test_empty_snapshot(snapshot):
-    assert snapshot == None  # noqa: E711
+    assert snapshot == None
     assert snapshot == ""
 
 
@@ -48,12 +48,12 @@ def test_newline_control_characters(snapshot):
 
 
 def test_multiline_string_in_dict(snapshot):
-    lines = "\n".join(["line 1", "line 2"])
+    lines = "line 1\nline 2"
     assert {"value": lines} == snapshot
 
 
 def test_deeply_nested_multiline_string_in_dict(snapshot):
-    lines = "\n".join(["line 1", "line 2", "line 3"])
+    lines = "line 1\nline 2\nline 3"
     d = {"value_a": {"value_b": lines}}
     assert d == snapshot
 

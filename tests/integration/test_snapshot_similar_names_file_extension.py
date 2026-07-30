@@ -42,7 +42,7 @@ def run_testcases(testdir, testcases):
 
 
 def test_run_all(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest(
         "-v",
         "--snapshot-default-extension",
@@ -54,7 +54,7 @@ def test_run_all(run_testcases, plugin_args):
 
 
 def test_run_single_file(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest(
         "-v",
         "--snapshot-default-extension",
@@ -67,7 +67,7 @@ def test_run_single_file(run_testcases, plugin_args):
 
 
 def test_run_single_test_case_in_file(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest(
         "-v",
         "--snapshot-default-extension",
@@ -80,7 +80,7 @@ def test_run_single_test_case_in_file(run_testcases, plugin_args):
 
 
 def test_run_all_but_one(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest(
         "-v",
         "--snapshot-details",
@@ -95,7 +95,7 @@ def test_run_all_but_one(run_testcases, plugin_args):
 
 
 def test_run_both_files_by_node(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest(
         "-v",
         "--snapshot-details",
@@ -110,7 +110,7 @@ def test_run_both_files_by_node(run_testcases, plugin_args):
 
 
 def test_run_both_files_by_node_2(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest(
         "-v",
         "--snapshot-details",

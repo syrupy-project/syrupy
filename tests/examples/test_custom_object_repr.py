@@ -16,7 +16,7 @@ def test_snapshot_custom_class(snapshot):
 class MyCustomReprClass(MyCustomClass):
     def __repr__(self):
         state = "\n".join(
-            f"  {a}={repr(getattr(self, a))},"
+            f"  {a}={getattr(self, a)!r},"
             for a in sorted(dir(self))
             if not a.startswith("_")
         )

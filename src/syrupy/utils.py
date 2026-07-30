@@ -100,13 +100,13 @@ def qdiff(
     first_diff_char_idx = 0
 
     for i in range(max(len(lines_a), len(lines_b))):
-        line_a = "".join(lines_a[i : i + 1])  # noqa E203
-        line_b = "".join(lines_b[i : i + 1])  # noqa E203
+        line_a = "".join(lines_a[i : i + 1])
+        line_b = "".join(lines_b[i : i + 1])
         if line_a != line_b:
             first_diff_line_idx = i
             for j in range(max(len(line_a), len(line_b))):
-                char_a = line_a[j : j + 1]  # noqa E203
-                char_b = line_b[j : j + 1]  # noqa E203
+                char_a = line_a[j : j + 1]
+                char_b = line_b[j : j + 1]
                 if char_a != char_b:
                     first_diff_char_idx = j
                     break

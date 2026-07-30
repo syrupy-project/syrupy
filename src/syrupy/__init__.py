@@ -251,7 +251,7 @@ def pytest_sessionfinish(session: "pytest.Session", exitstatus: int) -> None:
     Finish session run and set exit status.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish
     """
-    session.exitstatus |= exitstatus | session.config._syrupy.finish()  # type: ignore[attr-defined]  # noqa: E501
+    session.exitstatus |= exitstatus | session.config._syrupy.finish()  # type: ignore[attr-defined]
 
 
 def pytest_terminal_summary(

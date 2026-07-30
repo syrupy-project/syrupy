@@ -33,7 +33,7 @@ def run_testcases(testdir, testcases):
 
 
 def test_run_all(run_testcases, plugin_args):
-    testdir, testcases = run_testcases
+    testdir, _testcases = run_testcases
     result = testdir.runpytest("-v", *plugin_args)
     result.stdout.re_match_lines(("2 snapshots passed",))
     assert result.ret == 0

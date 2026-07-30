@@ -65,6 +65,7 @@ Possible workarounds include using marks:
 from unittest import TestCase
 import pytest
 
+
 @pytest.fixture(scope="function")
 def snapshot_in_class(request, snapshot):
     """
@@ -72,6 +73,7 @@ def snapshot_in_class(request, snapshot):
     unittest.TestCase tests
     """
     request.cls.snapshot = snapshot
+
 
 class MyTest(TestCase):
     @pytest.mark.usefixtures("snapshot_in_class")
@@ -85,6 +87,7 @@ Or using a fixture with `autouse`:
 ```python
 from unittest import TestCase
 import pytest
+
 
 class MyTest(TestCase):
     @pytest.fixture(autouse=True)
@@ -129,6 +132,7 @@ def limit_foo_attrs(prop, path):
     allowed_foo_attrs = {"do", "not", "serialize", "these", "attrs"}
     return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
 
+
 def test_bar(snapshot):
     actual = Foo(...)
     assert actual == snapshot(exclude=limit_foo_attrs)
@@ -141,6 +145,7 @@ def limit_foo_attrs(prop, path):
     allowed_foo_attrs = {"only", "serialize", "these", "attrs"}
     return isinstance(path[-1][1], Foo) and prop in allowed_foo_attrs
 
+
 def test_bar(snapshot):
     actual = Foo(...)
     assert actual == snapshot(include=limit_foo_attrs)
@@ -152,6 +157,7 @@ def test_bar(snapshot):
 class Foo:
     def __dir__(self):
         return ["only", "serialize", "these", "attrs"]
+
 
 def test_bar(snapshot):
     actual = Foo(...)
@@ -205,12 +211,9 @@ Multiple matchers can be composed together using `compose_matchers`, e.g.:
 ```py
 from syrupy.matchers import compose_matchers
 
+
 def test_multiple_matchers(snapshot):
-    data = {
-        "number": 1,
-        "datetime": datetime.datetime.now(),
-        "float": 1.3
-    }
+    data = {"number": 1, "datetime": datetime.datetime.now(), "float": 1.3}
 
     assert data == snapshot(
         matcher=compose_matchers(
@@ -240,15 +243,20 @@ When strict, this will raise a `ValueError` if the types specified are not match
 ```py
 from syrupy.matchers import path_type
 
+
 def test_bar(snapshot):
     actual = {
-      "date_created": datetime.now(),
-      "value": "Some computed value!!",
+        "date_created": datetime.now(),
+        "value": "Some computed value!!",
     }
-    assert actual == snapshot(matcher=path_type({
-      "date_created": (datetime,),
-      "nested.path.id": (int,),
-    }))
+    assert actual == snapshot(
+        matcher=path_type(
+            {
+                "date_created": (datetime,),
+                "nested.path.id": (int,),
+            }
+        )
+    )
 ```
 
 ```py
@@ -298,10 +306,11 @@ Takes an argument list of property names, with support for indexed iterables.
 ```py
 from syrupy.filters import props
 
+
 def test_bar(snapshot):
     actual = {
-      "id": uuid.uuid4(),
-      "list": [1,2,3],
+        "id": uuid.uuid4(),
+        "list": [1, 2, 3],
     }
     assert actual == snapshot(exclude=props("id", "1"))
 ```
@@ -326,10 +335,11 @@ Takes an argument list of path strings.
 ```py
 from syrupy.filters import paths
 
+
 def test_bar(snapshot):
     actual = {
-      "date": datetime.now(),
-      "list": [1,2,3],
+        "date": datetime.now(),
+        "list": [1, 2, 3],
     }
     assert actual == snapshot(exclude=paths("date", "list.1"))
 ```
@@ -360,9 +370,7 @@ It should return `true` if the property should be included, or `false` if the pr
 Note that `include` has some caveats which make it a bit more difficult to use than `exclude`. Both `include` and `exclude` are evaluated for each key of an object before traversing down nested paths. This means if you want to include a nested path, you must include all parents of the nested path, otherwise the nested child will never be reached to be evaluated against the include predicate. For example:
 
 ```py
-obj = {
-    "nested": { "key": True }
-}
+obj = {"nested": {"key": True}}
 assert obj == snapshot(include=paths("nested", "nested.key"))
 ```
 
@@ -371,10 +379,7 @@ The extra "nested" is required, otherwise the nested dictionary will never be se
 To avoid adding duplicate path parts, we provide a convenient `paths_include` which supports a list/tuple instead of a string for each path to match:
 
 ```py
-obj = {
-    "other": False,
-    "nested": { "key": True }
-}
+obj = {"other": False, "nested": {"key": True}}
 assert obj == snapshot(include=paths_include(["other"], ["nested", "key"]))
 ```
 
@@ -394,15 +399,15 @@ This is an option to snapshot only the diff between the actual object and either
 
 ```py
 def test_diff(snapshot):
-    actual0 = [1,2,3,4]
-    actual1 = [0,1,3,4]
+    actual0 = [1, 2, 3, 4]
+    actual1 = [0, 1, 3, 4]
 
     assert actual0 == snapshot
     assert actual1 == snapshot(diff=0)
     # This is equivalent to the lines above
     # Must use the index name to diff when given
-    assert actual0 == snapshot(name='snap_name')
-    assert actual1 == snapshot(diff='snap_name')
+    assert actual0 == snapshot(name="snap_name")
+    assert actual1 == snapshot(diff="snap_name")
 
     # A data object can be used as the base without writing it as a snapshot.
     # Unlike `diff`, `diff_data` also accepts strings as data.
@@ -466,6 +471,7 @@ import pytest
 
 from syrupy.extensions.json import JSONSnapshotExtension
 
+
 @pytest.fixture
 def snapshot_json(snapshot):
     return snapshot.with_defaults(extension_class=JSONSnapshotExtension)
@@ -485,14 +491,12 @@ from datetime import datetime
 
 from syrupy.matchers import path_type
 
+
 def test_api_call(client, snapshot_json):
     resp = client.post("/user", json={"name": "Jane"})
     assert resp.status_code == 201
 
-    matcher = path_type({
-      "id": (int,),
-      "registeredAt": (datetime,)
-    })
+    matcher = path_type({"id": (int,), "registeredAt": (datetime,)})
     assert snapshot_json(matcher=matcher) == resp.json()
 ```
 
@@ -512,6 +516,7 @@ Or a case where the value needs to be replaced using a condition e.g. file path 
 import re
 
 from syrupy.matchers import path_type
+
 
 def test_matches_generated_string_value(snapshot, tmp_file):
     matcher = path_value(
