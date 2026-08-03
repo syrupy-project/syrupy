@@ -1,5 +1,7 @@
 """Unit tests for the pytest-xdist worker/controller report merging."""
 
+import json
+import zlib
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -79,7 +81,9 @@ def test_worker_publishes_minimal_report(monkeypatch):
     worker._publish_worker_report()
 
     payload = worker.pytest_session.config.workeroutput["syrupy_report"]
-    assert payload["collections"]["used"] == {LOCATION: ["test_a"]}
+    assert isinstance(payload["collections"], bytes)
+    collections = json.loads(zlib.decompress(payload["collections"]))
+    assert collections["used"] == {LOCATION: ["test_a"]}
     assert payload["num_xfails"] == 2
     assert payload["selected"] == {"test_a.py::test_a": "passed"}
     assert payload["extensions"] == {
@@ -87,6 +91,46 @@ def test_worker_publishes_minimal_report(monkeypatch):
     }
     # gw0 is the only worker that ships the collected items.
     assert payload["collected"][0]["nodeid"] == "test_a.py::test_a"
+
+
+def test_worker_compresses_large_collection_report(monkeypatch):
+    monkeypatch.setenv("PYTEST_XDIST_WORKER", "gw1")
+    worker = _session(workeroutput={})
+    assert worker.report is not None
+    names = [f"test_large_snapshot[{index}].{index}" for index in range(20_000)]
+    worker.report.discovered.update(_collection(*names))
+    worker.report.matched.update(_collection(*names))
+    worker.report.used.update(_collection(*names))
+
+    worker._publish_worker_report()
+
+    compressed = worker.pytest_session.config.workeroutput["syrupy_report"][
+        "collections"
+    ]
+    uncompressed = json.dumps(
+        {
+            name: getattr(worker.report, name).serialize()
+            for name in (
+                "discovered",
+                "created",
+                "failed",
+                "matched",
+                "updated",
+                "used",
+            )
+        },
+        separators=(",", ":"),
+    ).encode()
+    assert isinstance(compressed, bytes)
+    assert len(compressed) < len(uncompressed) // 5
+
+    controller = _session()
+    controller.add_worker_report(
+        worker.pytest_session.config.workeroutput["syrupy_report"]
+    )
+    controller._merge_worker_reports()
+    assert controller.report is not None
+    assert len(next(iter(controller.report.discovered))) == len(names)
 
 
 def test_worker_without_workeroutput_is_noop():
