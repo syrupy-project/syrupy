@@ -1,4 +1,6 @@
+import json
 import os
+import zlib
 from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import (
@@ -216,11 +218,13 @@ class SnapshotSession:
         output = getattr(self.pytest_session.config, "workeroutput", None)
         if output is None or self.report is None:
             return
+        collections = {
+            name: getattr(self.report, name).serialize() for name in _MERGED_COLLECTIONS
+        }
         payload: dict[str, Any] = {
-            "collections": {
-                name: getattr(self.report, name).serialize()
-                for name in _MERGED_COLLECTIONS
-            },
+            "collections": zlib.compress(
+                json.dumps(collections, separators=(",", ":")).encode()
+            ),
             "num_xfails": self.report._num_xfails,
             "selected": {
                 nodeid: status.value for nodeid, status in self._selected_items.items()
@@ -250,7 +254,12 @@ class SnapshotSession:
         selected: dict[str, ItemStatus] = {}
         for report in self._worker_reports:
             self.report._num_xfails += report["num_xfails"]
-            for name, serialized in report["collections"].items():
+            serialized_collections = report["collections"]
+            if isinstance(serialized_collections, bytes):
+                serialized_collections = json.loads(
+                    zlib.decompress(serialized_collections)
+                )
+            for name, serialized in serialized_collections.items():
                 getattr(self.report, name).merge_serialized(serialized)
             for nodeid, value in report["selected"].items():
                 status = ItemStatus(value)
