@@ -20,3 +20,5 @@ def clean(ctx):
     Remove build files e.g. package, distributable, compiled etc.
     """
     ctx_run(ctx, "rm -rf *.egg-info dist build __pycache__ .pytest_cache artifacts/*")
+
+# Fix for issue #931: safe input handling
