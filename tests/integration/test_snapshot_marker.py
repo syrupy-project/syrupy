@@ -12,16 +12,17 @@ def test_marker_selects_direct_and_indirect_snapshot_tests(testdir, plugin_args)
     testdir.makepyfile(
         test_selection="""
             import pytest
+            from syrupy.extensions.json import JSONSnapshotExtension
 
             @pytest.fixture
-            def snapshot_wrapper(snapshot):
-                return snapshot
+            def snapshot_json(snapshot):
+                return snapshot.with_defaults(extension_class=JSONSnapshotExtension)
 
             def test_direct(snapshot):
                 assert snapshot == "direct"
 
-            def test_indirect(snapshot_wrapper):
-                assert snapshot_wrapper == "indirect"
+            def test_indirect(snapshot_json):
+                assert snapshot_json == {"value": "indirect"}
 
             def test_without_snapshot():
                 raise AssertionError("ordinary test should be deselected")
@@ -49,7 +50,14 @@ def test_marker_selects_direct_and_indirect_snapshot_tests(testdir, plugin_args)
     snapshot_file = Path(testdir.tmpdir, "__snapshots__", "test_selection.ambr")
     assert snapshot_file.exists()
     assert "direct" in snapshot_file.read_text()
-    assert "indirect" in snapshot_file.read_text()
+    json_snapshot_file = Path(
+        testdir.tmpdir,
+        "__snapshots__",
+        "test_selection",
+        "test_indirect.json",
+    )
+    assert json_snapshot_file.exists()
+    assert "indirect" in json_snapshot_file.read_text()
 
 
 def test_marker_combines_with_existing_mark_and_keyword_filters(testdir, plugin_args):
