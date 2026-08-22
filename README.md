@@ -686,6 +686,9 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/w3lld1"><img src="https://avatars.githubusercontent.com/u/42353747?v=4?s=100" width="100px;" alt="w3lld1"/><br /><sub><b>w3lld1</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=w3lld1" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/tiagoskaneta"><img src="https://avatars.githubusercontent.com/u/7189039?v=4?s=100" width="100px;" alt="Tiago Surjus Kaneta"/><br /><sub><b>Tiago Surjus Kaneta</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=tiagoskaneta" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://dnehrig.com"><img src="https://avatars.githubusercontent.com/u/4050749?v=4?s=100" width="100px;" alt="Daniel Nehrig"/><br /><sub><b>Daniel Nehrig</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=danielnehrig" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
