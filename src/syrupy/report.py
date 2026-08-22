@@ -79,10 +79,19 @@ class SnapshotReport:
         return bool(self.options.warn_unused_snapshots)
 
     @property
+    def disable_unused_snapshots(self) -> bool:
+        return bool(getattr(self.options, "disable_unused_snapshots", False))
+
+    @property
     def should_delete_unused_snapshots(self) -> bool:
         # Unused snapshots are only removed while updating, unless the user
-        # opted out of cleanup with --snapshot-no-cleanup.
-        return self.update_snapshots and not bool(self.options.no_cleanup)
+        # opted out of cleanup with --snapshot-no-cleanup or disabled unused
+        # detection entirely.
+        return (
+            self.update_snapshots
+            and not bool(self.options.no_cleanup)
+            and not self.disable_unused_snapshots
+        )
 
     @property
     def include_snapshot_details(self) -> bool:
@@ -121,11 +130,15 @@ class SnapshotReport:
         self.__parse_invocation_args()
 
         # We only need to discover snapshots once per test file, not once per assertion.
+        # Discovery exists to find unused snapshots; skip it when unused detection is off.
         locations_discovered: defaultdict[str, set[Any]] = defaultdict(set)
         for assertion in self.assertions:
             test_location = assertion.test_location.filepath
             extension_class = assertion.extension.__class__
-            if extension_class not in locations_discovered[test_location]:
+            if (
+                not self.disable_unused_snapshots
+                and extension_class not in locations_discovered[test_location]
+            ):
                 locations_discovered[test_location].add(extension_class)
                 self.discovered.merge(
                     assertion.extension.discover_snapshots(
@@ -312,6 +325,14 @@ class SnapshotReport:
         Re-run pytest with --snapshot-update to delete unused snapshots.
         ```
         """
+        if self.disable_unused_snapshots:
+            yield warning_style(
+                gettext(
+                    "Unused snapshot detection is disabled "
+                    "(--snapshot-disable-unused). This is not recommended."
+                )
+            )
+
         summary_lines: list[str] = []
         if self.num_failed and self._num_xfails < self.num_failed:
             summary_lines.append(
@@ -353,7 +374,7 @@ class SnapshotReport:
                     self.num_updated,
                 ).format(green(self.num_updated))
             )
-        if self.num_unused:
+        if not self.disable_unused_snapshots and self.num_unused:
             if self.should_delete_unused_snapshots:
                 text_singular = "{} unused snapshot deleted."
                 text_plural = "{} unused snapshots deleted."
@@ -369,7 +390,7 @@ class SnapshotReport:
             )
         yield " ".join(summary_lines)
 
-        if self.num_unused:
+        if not self.disable_unused_snapshots and self.num_unused:
             yield ""
             if self.update_snapshots or self.include_snapshot_details:
                 base_message = (

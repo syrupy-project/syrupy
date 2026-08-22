@@ -41,6 +41,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
     _text_encoding = TEXT_ENCODING
     _write_mode = WriteMode.BINARY
     file_extension = "raw"
+    write_immediately = True
 
     def serialize(
         self,

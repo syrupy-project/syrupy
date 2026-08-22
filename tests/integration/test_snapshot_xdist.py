@@ -56,6 +56,24 @@ def test_xdist_removes_unused(generated):
     assert "test_a[3]" not in content
 
 
+def test_xdist_disable_unused(generated):
+    testdir = generated
+    _write(testdir, "[0, 1]")
+
+    result = testdir.runpytest("-v", "--numprocesses", "2", "--snapshot-disable-unused")
+
+    result.stdout.re_match_lines(
+        (
+            (
+                r".*Unused snapshot detection is disabled "
+                r"\(--snapshot-disable-unused\)\. This is not recommended\."
+            ),
+        )
+    )
+    result.stdout.no_fnmatch_line("*snapshots unused*")
+    assert result.ret == 0
+
+
 def test_without_xdist_installed(testdir):
     """
     Registering the pytest-xdist hook `pytest_testnodedown` unconditionally

@@ -71,6 +71,11 @@ class SnapshotSerializer(ABC):
 class SnapshotCollectionStorage(ABC):
     snapshot_dirname: str | Path = "__snapshots__"
     file_extension = ""
+    # When True, snapshot updates are written to disk immediately instead of
+    # being buffered until session finish. Prefer for single-file extensions
+    # where batching does not reduce I/O and large payloads would otherwise
+    # accumulate in memory (see #841).
+    write_immediately: bool = False
 
     @classmethod
     def get_snapshot_name(

@@ -132,25 +132,30 @@ class SnapshotSession:
             extension, test_location, index
         )
         self._queued_snapshot_writes[ext_key][loc_key] = data
+        if extension.write_immediately:
+            self._flush_snapshot_write_queue_key(ext_key)
 
-    def flush_snapshot_write_queue(self) -> None:
+    def _flush_snapshot_write_queue_key(
+        self, ext_key: _QueuedWriteExtensionKey
+    ) -> None:
+        queued_write = self._queued_snapshot_writes.pop(ext_key, None)
+        if not queued_write:
+            return
+        extension_class, snapshot_location = ext_key
         name_order = (
             self.snapshot_name_order() if self.snapshot_declaration_order else None
         )
-        for (
-            extension_class,
-            snapshot_location,
-        ), queued_write in self._queued_snapshot_writes.items():
-            if queued_write:
-                extension_class.write_snapshot(
-                    snapshot_location=snapshot_location,
-                    snapshots=[
-                        (data, loc, index)
-                        for (loc, index), data in queued_write.items()
-                    ],
-                    name_order=name_order,
-                )
-        self._queued_snapshot_writes.clear()
+        extension_class.write_snapshot(
+            snapshot_location=snapshot_location,
+            snapshots=[
+                (data, loc, index) for (loc, index), data in queued_write.items()
+            ],
+            name_order=name_order,
+        )
+
+    def flush_snapshot_write_queue(self) -> None:
+        for ext_key in list(self._queued_snapshot_writes):
+            self._flush_snapshot_write_queue_key(ext_key)
 
     def recall_snapshot(
         self,
@@ -179,6 +184,14 @@ class SnapshotSession:
     @property
     def warn_unused_snapshots(self) -> bool:
         return bool(self.pytest_session.config.option.warn_unused_snapshots)
+
+    @property
+    def disable_unused_snapshots(self) -> bool:
+        return bool(
+            getattr(
+                self.pytest_session.config.option, "disable_unused_snapshots", False
+            )
+        )
 
     @property
     def snapshot_declaration_order(self) -> bool:
@@ -314,15 +327,19 @@ class SnapshotSession:
         )
 
         if is_xdist_worker():
-            # Publish this worker's report so the controller can combine the
-            # reports of all workers and handle unused snapshot detection.
-            self._publish_worker_report()
+            # When unused detection is disabled there is nothing for the
+            # controller to merge; skip the worker report (5.4-like xdist cost).
+            if not self.disable_unused_snapshots:
+                self._publish_worker_report()
             return exitstatus
 
         # On the pytest-xdist controller no tests run locally, so the report is
         # rebuilt from the reports published by each worker.
         if self._worker_reports:
             self._merge_worker_reports()
+
+        if self.disable_unused_snapshots:
+            return exitstatus
 
         if self.report.num_unused:
             if self.report.should_delete_unused_snapshots:
@@ -336,6 +353,9 @@ class SnapshotSession:
 
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
+
+        if self.disable_unused_snapshots:
+            return
 
         test_location = assertion.test_location.filepath
         extension_class = assertion.extension.__class__
