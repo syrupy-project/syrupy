@@ -684,6 +684,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="http://ksmanis.github.io"><img src="https://avatars.githubusercontent.com/u/13301367?v=4?s=100" width="100px;" alt="Konstantinos Smanis"/><br /><sub><b>Konstantinos Smanis</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3AKSmanis" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.hit.edu.cn/"><img src="https://avatars.githubusercontent.com/u/266078689?v=4?s=100" width="100px;" alt="Yang Fan"/><br /><sub><b>Yang Fan</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=yangfan-yf-yf" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/w3lld1"><img src="https://avatars.githubusercontent.com/u/42353747?v=4?s=100" width="100px;" alt="w3lld1"/><br /><sub><b>w3lld1</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=w3lld1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tiagoskaneta"><img src="https://avatars.githubusercontent.com/u/7189039?v=4?s=100" width="100px;" alt="Tiago Surjus Kaneta"/><br /><sub><b>Tiago Surjus Kaneta</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/commits?author=tiagoskaneta" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
