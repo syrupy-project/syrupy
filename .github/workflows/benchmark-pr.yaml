@@ -1,0 +1,92 @@
+name: Benchmark PR
+
+on:
+  pull_request_target:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to benchmark
+        required: true
+        type: number
+
+concurrency:
+  group: benchmark-pr-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: true
+
+env:
+  VENV: .venv
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dispatch-relabel:
+    name: Trigger Benchmark
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-add ci/benchmark label
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          script: |
+            const prNumber = ${{ inputs.pr_number }};
+            const label = 'ci/benchmark';
+            const { owner, repo } = context.repo;
+
+            try {
+              await github.rest.issues.removeLabel({
+                owner,
+                repo,
+                issue_number: prNumber,
+                name: label,
+              });
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: prNumber,
+              labels: [label],
+            });
+
+  benchmark:
+    name: Benchmark
+    if: |
+      github.event_name == 'pull_request_target' &&
+      github.event.label.name == 'ci/benchmark' &&
+      github.event.pull_request.head.repo.fork
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Detect Python Version
+        id: detect-python
+        run: echo "version=$(head -n1 .python-version | tr -d '\n')" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Setup Environment
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          python-version: ${{ steps.detect-python.outputs.version }}
+      - name: Install Python Project
+        run: uv sync --locked --all-extras --dev
+      - name: Benchmark
+        run: uv run invoke benchmark
+      - name: Publish Benchmark Results
+        uses: benchmark-action/github-action-benchmark@52576c92bccf6ac60c8223ec7eb2565637cae9ba # v1.22.1
+        with:
+          tool: 'pytest'
+          output-file-path: benchmarks.json
+          github-token: ${{ github.token }}
+          auto-push: false
+          alert-threshold: '200%'
+          comment-on-alert: true
+          fail-on-alert: false
+          comment-always: true
