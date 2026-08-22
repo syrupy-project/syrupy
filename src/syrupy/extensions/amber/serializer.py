@@ -1,4 +1,5 @@
 import collections
+import dataclasses
 import inspect
 from abc import ABC, abstractmethod
 from collections import OrderedDict
@@ -313,6 +314,8 @@ class AmberDataSerializer:
             return cls.serialize_dict
         elif cls.__is_namedtuple(data):
             return cls.serialize_namedtuple
+        elif dataclasses.is_dataclass(data) and not isinstance(data, type):
+            return cls.serialize_dataclass
         elif isinstance(data, (list, tuple, GeneratorType)):
             return cls.serialize_iterable
         elif isinstance(data, FunctionType):
@@ -431,6 +434,31 @@ class AmberDataSerializer:
         return cls.serialize_custom_iterable(
             data=data,
             resolve_entries=(cls.sort(data._fields), attr_getter, None),
+            separator="=",
+            depth=depth,
+            exclude=exclude,
+            include=include,
+            matcher=matcher,
+            path=path,
+            visited=visited,
+        )
+
+    @classmethod
+    def serialize_dataclass(
+        cls,
+        data: Any,
+        *,
+        depth: int = 0,
+        exclude: Optional["PropertyFilter"] = None,
+        include: Optional["PropertyFilter"] = None,
+        matcher: Optional["PropertyMatcher"] = None,
+        path: "PropertyPath" = (),
+        visited: set[Any] | None = None,
+    ) -> str:
+        keys = sorted(f.name for f in dataclasses.fields(data))
+        return cls.serialize_custom_iterable(
+            data=data,
+            resolve_entries=(keys, attr_getter, None),
             separator="=",
             depth=depth,
             exclude=exclude,

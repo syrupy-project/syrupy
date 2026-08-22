@@ -432,7 +432,7 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 
 **Amber Extensions**
 
-- **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported.
+- **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported, including stdlib dataclasses. For attrs and Pydantic models, see the [serializer plugins example](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/amber/test_amber_serializer_plugins.py).
   - Line control characters are normalised when snapshots are generated i.e. `\r` and `\n` characters are all written as `\n`. This is to allow interoperability of snapshots between operating systems that use disparate line control characters.
 - **`SingleFileAmberSnapshotExtension`**: A variant of the `AmberSnapshotExtension` which writes 1 snapshot per file.
 
@@ -573,7 +573,7 @@ addopts = --snapshot-ignore-file-extensions dvc,tmp,zip
 - [Custom comparator](https://github.com/syrupy-project/syrupy/tree/main/tests/integration/test_custom_comparator.py)
 - [JPEG image extension](https://github.com/syrupy-project/syrupy/tree/main/tests/examples/test_custom_image_extension.py)
 - [Built-in image extensions](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/image/test_image_svg.py)
-- [Amber Serializer Plugins](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/amber/test_amber_serializer_plugins.py) -- e.g. serializing attrs, dataclasses, Pydantic
+- [Amber Serializer Plugins](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/amber/test_amber_serializer_plugins.py) -- e.g. serializing attrs and Pydantic (stdlib dataclasses are built-in)
 
 ### Inline Snapshots
 

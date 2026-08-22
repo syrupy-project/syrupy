@@ -1,4 +1,4 @@
-""" "Tests for the Amber serializer plugins for attrs, dataclasses, and Pydantic models."""
+"""Tests for the Amber serializer plugins for attrs and Pydantic models."""
 
 from dataclasses import dataclass
 
@@ -8,7 +8,6 @@ from pydantic import BaseModel
 
 from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.extensions.amber.attrs_plugin import AttrsPlugin
-from syrupy.extensions.amber.dataclasses_plugin import DataclassPlugin
 from syrupy.extensions.amber.pydantic_plugin import PydanticPlugin
 from syrupy.extensions.amber.serializer import AmberDataSerializer
 
@@ -69,16 +68,12 @@ class AttrsSerializer(AmberDataSerializer):
     serializer_plugins = [AttrsPlugin]
 
 
-class DataclassSerializer(AmberDataSerializer):
-    serializer_plugins = [DataclassPlugin]
-
-
 class PydanticSerializer(AmberDataSerializer):
     serializer_plugins = [PydanticPlugin]
 
 
 class MixedSerializer(AmberDataSerializer):
-    serializer_plugins = [AttrsPlugin, DataclassPlugin, PydanticPlugin]
+    serializer_plugins = [AttrsPlugin, PydanticPlugin]
 
 
 # endregion
@@ -87,10 +82,6 @@ class MixedSerializer(AmberDataSerializer):
 # region Extensions
 class AmberAttrsExtension(AmberSnapshotExtension):
     serializer_class = AttrsSerializer
-
-
-class AmberDataclassExtension(AmberSnapshotExtension):
-    serializer_class = DataclassSerializer
 
 
 class AmberPydanticExtension(AmberSnapshotExtension):
@@ -113,11 +104,6 @@ def snapshot_attrs(snapshot) -> AmberSnapshotExtension:
 
 
 @pytest.fixture
-def snapshot_dataclass(snapshot) -> AmberSnapshotExtension:
-    return snapshot.use_extension(AmberDataclassExtension)
-
-
-@pytest.fixture
 def snapshot_pydantic(snapshot) -> AmberSnapshotExtension:
     return snapshot.use_extension(AmberPydanticExtension)
 
@@ -135,12 +121,6 @@ def test_attrs_plugin(snapshot_attrs):
     """Test serialization of an attrs class using the AmberAttrsExtension."""
     point = AttrsPoint(x=1, y=2)
     assert point == snapshot_attrs
-
-
-def test_dataclasses_plugin(snapshot_dataclass):
-    """Test serialization of a dataclass using the AmberDataclassExtension."""
-    point = DataclassPoint(x=1, y=2)
-    assert point == snapshot_dataclass
 
 
 def test_pydantic_plugin(snapshot_pydantic):
