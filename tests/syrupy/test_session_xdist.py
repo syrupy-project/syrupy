@@ -76,7 +76,7 @@ def test_worker_publishes_minimal_report(monkeypatch):
         path = Path("/tmp/test_a.py")
         obj = _Obj()
 
-    worker._collected_items = {_Item()}
+    worker._collected_items = {"test_a.py::test_a": _Item()}
 
     worker._publish_worker_report()
 

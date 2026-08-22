@@ -156,6 +156,7 @@ class SnapshotCollectionStorage(ABC):
         *,
         snapshot_location: str,
         snapshots: list[tuple["SerializedData", "PyTestLocation", "SnapshotIndex"]],
+        name_order: dict[str, int] | None = None,
     ) -> None:
         """
         This method is _final_, do not override. You can override
@@ -202,7 +203,9 @@ class SnapshotCollectionStorage(ABC):
         # Ensures the folder path for the snapshot file exists.
         Path(snapshot_location).parent.mkdir(parents=True, exist_ok=True)
 
-        cls.write_snapshot_collection(snapshot_collection=snapshot_collection)
+        cls.write_snapshot_collection(
+            snapshot_collection=snapshot_collection, name_order=name_order
+        )
 
     @abstractmethod
     def delete_snapshots(
@@ -235,10 +238,16 @@ class SnapshotCollectionStorage(ABC):
     @classmethod
     @abstractmethod
     def write_snapshot_collection(
-        cls, *, snapshot_collection: "SnapshotCollection"
+        cls,
+        *,
+        snapshot_collection: "SnapshotCollection",
+        name_order: dict[str, int] | None = None,
     ) -> None:
         """
         Adds the snapshot data to the snapshots in collection location
+
+        ``name_order`` maps snapshot names to collection indices when
+        ``--snapshot-declaration-order`` is enabled.
         """
         raise NotImplementedError
 

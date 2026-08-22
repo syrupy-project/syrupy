@@ -9,7 +9,10 @@ from syrupy.terminal import (
 )
 
 
-def test_disable_color_context_toggles_styling():
+def test_disable_color_context_toggles_styling(monkeypatch):
+    for env_var in ("NO_COLOR", "ANSI_COLORS_DISABLED"):
+        monkeypatch.delenv(env_var, raising=False)
+
     assert is_color_disabled() is False
     styled = snapshot_style("hello")
     assert styled != "hello"  # contains ANSI escape codes

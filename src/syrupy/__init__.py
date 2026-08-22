@@ -129,6 +129,16 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
         default="__snapshots__",
         help="Directory name to use to store snapshots",
     )
+    group.addoption(
+        "--snapshot-declaration-order",
+        action="store_true",
+        default=False,
+        dest="snapshot_declaration_order",
+        help=(
+            "(Experimental) Write amber snapshots in pytest "
+            "collection/declaration order instead of alphabetical name order"
+        ),
+    )
 
 
 def __terminal_color(
