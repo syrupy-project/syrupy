@@ -95,7 +95,13 @@ Fill in the relevant sections, clearly linking the issue the change is attemptin
 
 #### Debugging Performance Issues
 
-You can run `inv benchmark` to run the full benchmark suite. Alternatively, write a test file, e.g.:
+You can run `inv benchmark` to run the full benchmark suite. The suite guards different paths:
+
+- `test_standard` — serialization breadth and full `--snapshot-update` throughput
+- `test_1000x_reads` / `test_1000x_writes` — full-selection read/write throughput (1000 parametrized tests)
+- `test_partial_selection_teardown` (`benchmarks/test_partial_selection.py`) — session-finish unused detection with single-file snapshots under shard-like deselection (collected ⊃ selected)
+
+Alternatively, write a test file, e.g.:
 
 ```py
 # test_performance.py
