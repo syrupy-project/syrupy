@@ -6,9 +6,6 @@ on:
       - main
 
 permissions:
-  # deployments permission to deploy GitHub pages website
-  deployments: write
-  # contents permission to update benchmark contents in gh-pages branch
   contents: write
 
 env:
@@ -31,4 +28,5 @@ jobs:
           tool: 'pytest'
           output-file-path: benchmarks.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          gh-pages-branch: benchmarks
           auto-push: true
