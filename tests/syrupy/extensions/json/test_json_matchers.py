@@ -15,10 +15,10 @@ def snapshot_json(snapshot):
 def test_matcher(snapshot_json):
     content = {
         "int": random.randint(1, 100),
-        "date": datetime.datetime.utcnow(),
+        "date": datetime.datetime.now(datetime.timezone.utc),
         "foo": {
             "x": "y",
-            "another_date": datetime.datetime.utcnow(),
+            "another_date": datetime.datetime.now(datetime.timezone.utc),
         },
     }
     matcher = path_type(
