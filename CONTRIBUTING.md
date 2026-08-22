@@ -124,6 +124,8 @@ SIZE=1000 python -m cProfile -s cumtime -m pytest test_performance.py --snapshot
 
 See the cProfile docs for metric sorting options.
 
+For pull requests from forks, CI skips the benchmark job for security reasons. After review, maintainers can add the `ci/benchmark` label to run benchmarks and post results as a PR comment, or re-run them via the [Benchmark PR](https://github.com/syrupy-project/syrupy/actions/workflows/benchmark-pr.yaml) workflow dispatch.
+
 ## Styleguides
 
 ### Commit Messages
