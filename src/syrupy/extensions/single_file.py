@@ -126,7 +126,10 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
     @classmethod
     def write_snapshot_collection(
-        cls, *, snapshot_collection: "SnapshotCollection"
+        cls,
+        *,
+        snapshot_collection: "SnapshotCollection",
+        name_order: dict[str, int] | None = None,
     ) -> None:
         filepath, data = (
             snapshot_collection.location,
@@ -194,6 +197,9 @@ class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
 
     @classmethod
     def write_snapshot_collection(
-        cls, *, snapshot_collection: "SnapshotCollection"
+        cls,
+        *,
+        snapshot_collection: "SnapshotCollection",
+        name_order: dict[str, int] | None = None,
     ) -> None:
         AmberDataSerializer.write_file(snapshot_collection, merge=False)

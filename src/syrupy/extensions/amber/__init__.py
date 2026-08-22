@@ -73,9 +73,14 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
 
     @classmethod
     def write_snapshot_collection(
-        cls, *, snapshot_collection: "SnapshotCollection"
+        cls,
+        *,
+        snapshot_collection: "SnapshotCollection",
+        name_order: dict[str, int] | None = None,
     ) -> None:
-        cls.serializer_class.write_file(snapshot_collection, merge=True)
+        cls.serializer_class.write_file(
+            snapshot_collection, merge=True, name_order=name_order
+        )
 
 
 __all__ = ["AmberDataSerializer", "AmberDataSerializerPlugin", "AmberSnapshotExtension"]
