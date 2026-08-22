@@ -92,6 +92,23 @@ class SnapshotReport:
     def _collected_items_by_nodeid(self) -> dict[str, "pytest.Item"]:
         return {item.nodeid: item for item in self.collected_items}
 
+    def _invalidate_selection_caches(self) -> None:
+        """
+        Clear cached properties derived from collected/selected items and snapshot
+        collections.
+
+        pytest-xdist merges worker reports into the controller report after
+        construction, mutating those inputs; callers must invalidate before reuse.
+        """
+        for name in (
+            "_collected_items_by_nodeid",
+            "_ran_locations",
+            "_skipped_locations",
+            "unused",
+            "num_unused",
+        ):
+            self.__dict__.pop(name, None)
+
     def _has_xfail(self, item: "pytest.Item") -> bool:
         # xfailed_key is 'private'. I'm open to a better way to do this:
         if xfailed_key in item.stash:
@@ -189,7 +206,7 @@ class SnapshotReport:
     def num_updated(self) -> int:
         return self._count_snapshots(self.updated)
 
-    @property
+    @cached_property
     def num_unused(self) -> int:
         return self._count_snapshots(self.unused)
 
@@ -213,7 +230,7 @@ class SnapshotReport:
             if self.selected_items[nodeid]
         )
 
-    @property
+    @cached_property
     def unused(self) -> "SnapshotCollections":
         """
         Iterate over each snapshot that was discovered but never used and compute
@@ -497,12 +514,47 @@ class SnapshotReport:
             for expr in self._keyword_expressions
         )
 
+    @staticmethod
+    def _index_by_basename(
+        items: Iterator["pytest.Item"],
+    ) -> dict[str, list["PyTestLocation"]]:
+        """
+        Group test locations by the basename of the file they live in.
+
+        A snapshot can only be claimed by a test whose file basename is either the
+        snapshot's own stem or the name of its parent directory (see
+        ``PyTestLocation._matches_snapshot_basename``).
+        """
+        index: defaultdict[str, list[PyTestLocation]] = defaultdict(list)
+        for item in items:
+            location = PyTestLocation(item)
+            index[location.basename].append(location)
+        return index
+
+    @cached_property
+    def _ran_locations(self) -> dict[str, list["PyTestLocation"]]:
+        return self._index_by_basename(self.ran_items)
+
+    @cached_property
+    def _skipped_locations(self) -> dict[str, list["PyTestLocation"]]:
+        return self._index_by_basename(self.skipped_items)
+
+    @staticmethod
+    def _candidates(
+        index: dict[str, list["PyTestLocation"]], snapshot_location: str
+    ) -> list["PyTestLocation"]:
+        """The only test locations that could possibly claim this snapshot."""
+        path = Path(snapshot_location)
+        candidates = [*index.get(path.stem, ())]
+        if path.parent.name != path.stem:
+            candidates += index.get(path.parent.name, ())
+        return candidates
+
     def _ran_items_match_name(self, snapshot_location: str, snapshot_name: str) -> bool:
         """
         Check that a snapshot name would match a test node using the Pytest location
         """
-        for item in self.ran_items:
-            location = PyTestLocation(item)
+        for location in self._candidates(self._ran_locations, snapshot_location):
             if location.matches_snapshot_location(
                 snapshot_location
             ) and location.matches_snapshot_name(snapshot_name):
@@ -516,8 +568,7 @@ class SnapshotReport:
         Check that a snapshot name should be treated as skipped by the current session
         This being true means that it will not be deleted even if the it is unused
         """
-        for item in self.skipped_items:
-            location = PyTestLocation(item)
+        for location in self._candidates(self._skipped_locations, snapshot_location):
             if location.matches_snapshot_location(
                 snapshot_location
             ) and location.matches_snapshot_name(snapshot_name):
@@ -544,8 +595,8 @@ class SnapshotReport:
         should be discarded as obsolete
         """
         return any(
-            PyTestLocation(item).matches_snapshot_location(snapshot_location)
-            for item in self.ran_items
+            location.matches_snapshot_location(snapshot_location)
+            for location in self._candidates(self._ran_locations, snapshot_location)
         )
 
 
