@@ -72,6 +72,17 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
         help="Do not fail on unused snapshots",
     )
     group.addoption(
+        "--snapshot-disable-unused",
+        action="store_true",
+        default=False,
+        dest="disable_unused_snapshots",
+        help=(
+            "Disable unused snapshot detection entirely (not recommended). "
+            "Skips discovery/reporting of unused snapshots and does not "
+            "remove them on --snapshot-update"
+        ),
+    )
+    group.addoption(
         "--snapshot-no-cleanup",
         action="store_true",
         default=False,
