@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787416907049,
+  "lastUpdate": 1787417123835,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -18243,6 +18243,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3708785064841999",
             "extra": "mean: 1.363495630799997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "noahnu",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noahnu@gmail.com",
+            "name": "noahnu",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "f6eda020d8671fc1648c0d94ed436805d5548978",
+          "message": "chore(ci): permissions for gh-pages",
+          "timestamp": "2026-08-22T12:44:14-04:00",
+          "tree_id": "72bfb1115f517e0ab4123f957ea3f9b9bdaee0ba",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f6eda020d8671fc1648c0d94ed436805d5548978"
+        },
+        "date": 1787417122773,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8402894283428519,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09169756820579243",
+            "extra": "mean: 1.1900661442 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7352300505654294,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2123568978885866",
+            "extra": "mean: 1.3601185087999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.1377457536699134,
+            "unit": "iter/sec",
+            "range": "stddev: 0.013542978800454903",
+            "extra": "mean: 467.7824751999992 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7461869861053062,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3876002414441419",
+            "extra": "mean: 1.340146663799996 sec\nrounds: 5"
           }
         ]
       }
