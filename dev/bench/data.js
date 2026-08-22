@@ -1,0 +1,18147 @@
+window.BENCHMARK_DATA = {
+  "lastUpdate": 1787413949479,
+  "repoUrl": "https://github.com/syrupy-project/syrupy",
+  "entries": {
+    "Benchmark": [
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4f66267b1c44c3f16ee05f7b4d89fcb3214a75ba",
+          "message": "chore: add benchmark github action (#613)",
+          "timestamp": "2022-08-11T16:59:35-04:00",
+          "tree_id": "091864111b50406923240de5c6b402c1aa7c64a5",
+          "url": "https://github.com/tophat/syrupy/commit/4f66267b1c44c3f16ee05f7b4d89fcb3214a75ba"
+        },
+        "date": 1660251723698,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7838002556681452,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05409515953131718",
+            "extra": "mean: 1.2758352562000084 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7485245241769561,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16001935776226286",
+            "extra": "mean: 1.3359615720000022 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7322481784381983,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07215602247276584",
+            "extra": "mean: 1.3656572039999957 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "09698c2c85c8a2cc8fd527a8f87a65f2a25133ef",
+          "message": "chore: fix release action order (#614)",
+          "timestamp": "2022-08-11T17:03:53-04:00",
+          "tree_id": "62b4354b8c4f65704a89cb91f7896bd720e5f1ff",
+          "url": "https://github.com/tophat/syrupy/commit/09698c2c85c8a2cc8fd527a8f87a65f2a25133ef"
+        },
+        "date": 1660252015645,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5288857147518898,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11078921781854142",
+            "extra": "mean: 1.890767649999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.502105660474314,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2246051588620599",
+            "extra": "mean: 1.9916126798000051 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5013767645514013,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11303430331780326",
+            "extra": "mean: 1.9945080640000015 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f341355200ca5d5a04249eca2e6b28d14a5e4d5a",
+          "message": "docs: add note about benchmarks (#615)",
+          "timestamp": "2022-08-11T17:06:05-04:00",
+          "tree_id": "9b0e6596e4744adb5eeab87d16663582fbd00b79",
+          "url": "https://github.com/tophat/syrupy/commit/f341355200ca5d5a04249eca2e6b28d14a5e4d5a"
+        },
+        "date": 1660252250892,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6714027163621854,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07992748316164767",
+            "extra": "mean: 1.489419055999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6280396548564035,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24841403467148906",
+            "extra": "mean: 1.5922561453999946 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6288116664997968,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10171100440099168",
+            "extra": "mean: 1.590301283000008 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a73fac2bec0c1ac0bb985911b45b5900ab3e18c6",
+          "message": "chore: only run workflow once for next (#616)",
+          "timestamp": "2022-08-11T17:24:58-04:00",
+          "tree_id": "a9abfb877162ab2e93d983acf3a3f6c4ab945b29",
+          "url": "https://github.com/tophat/syrupy/commit/a73fac2bec0c1ac0bb985911b45b5900ab3e18c6"
+        },
+        "date": 1660253323490,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6743524675517246,
+            "unit": "iter/sec",
+            "range": "stddev: 0.078243655327627",
+            "extra": "mean: 1.4829040422000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6422536691526739,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2328981030183329",
+            "extra": "mean: 1.5570171849999723 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.635550832760935,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09141909305056715",
+            "extra": "mean: 1.5734382655999979 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "f49678136d89efd1e8b929487e0a360720f4fc6b",
+          "message": "chore: remove commit sha action",
+          "timestamp": "2022-08-11T17:28:34-04:00",
+          "tree_id": "6daf3e9d314d64b37c9d32a45ea91c32613a5622",
+          "url": "https://github.com/tophat/syrupy/commit/f49678136d89efd1e8b929487e0a360720f4fc6b"
+        },
+        "date": 1660253499495,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5694844708740344,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07397852816921413",
+            "extra": "mean: 1.7559741330000065 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5469822733087769,
+            "unit": "iter/sec",
+            "range": "stddev: 0.29029145004471374",
+            "extra": "mean: 1.8282128120000152 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5524267837756454,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10959872907861361",
+            "extra": "mean: 1.8101946345999864 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "huon@exoflare.io",
+            "name": "Huon Wilson",
+            "username": "huonw"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f2b2e774b6055fde887a36d2a995ebb284ebc76e",
+          "message": "fix: avoid reporting crash for snapshot dir outside pytest dir (#621)",
+          "timestamp": "2022-09-20T09:11:47-04:00",
+          "tree_id": "bc2bcdc0bab4e65554ccec7686b65c1e263edb10",
+          "url": "https://github.com/tophat/syrupy/commit/f2b2e774b6055fde887a36d2a995ebb284ebc76e"
+        },
+        "date": 1663679719408,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.4820492496535262,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11977233617181143",
+            "extra": "mean: 2.0744768314000113 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.45807324605881017,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24841780381063927",
+            "extra": "mean: 2.183056986200006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.424082402577015,
+            "unit": "iter/sec",
+            "range": "stddev: 0.33641448922170325",
+            "extra": "mean: 2.3580322926000123 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "e078c8a44d5cc60d2b28ed2c0322d60aa09ee723",
+          "message": "refactor: support dry-release mode",
+          "timestamp": "2022-09-23T08:56:30-04:00",
+          "tree_id": "0496d435bc0774ed5cca7bf534fc2247737dfae2",
+          "url": "https://github.com/tophat/syrupy/commit/e078c8a44d5cc60d2b28ed2c0322d60aa09ee723"
+        },
+        "date": 1663937956674,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6653167122673878,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09970989125664284",
+            "extra": "mean: 1.5030435604000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6269378562934125,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2580210492542531",
+            "extra": "mean: 1.595054421999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5816504834642097,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24107036647694174",
+            "extra": "mean: 1.7192455407999887 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "07a1490ae683c97f384b9f68669c4be34f96f2ff",
+          "message": "refactor: update poetry version in pyproject.toml",
+          "timestamp": "2022-09-23T09:29:01-04:00",
+          "tree_id": "f8b833a44d048c206738e45fb50050c1a67ffb6d",
+          "url": "https://github.com/tophat/syrupy/commit/07a1490ae683c97f384b9f68669c4be34f96f2ff"
+        },
+        "date": 1663939934105,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.533536829971345,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07121052751687179",
+            "extra": "mean: 1.8742848549999962 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5073418177705352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.355825872291898",
+            "extra": "mean: 1.9710577069999942 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4466190630324451,
+            "unit": "iter/sec",
+            "range": "stddev: 0.34604416735238924",
+            "extra": "mean: 2.239044597000003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "43d78ecc0a2175487db1c9bf5857d6ee34344046",
+          "message": "fix: update classifiers (no material change)",
+          "timestamp": "2022-09-23T09:32:19-04:00",
+          "tree_id": "db0b6b26616e6629cb8f4795f41eee854218728c",
+          "url": "https://github.com/tophat/syrupy/commit/43d78ecc0a2175487db1c9bf5857d6ee34344046"
+        },
+        "date": 1663940129216,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.591218644327224,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09951887267854263",
+            "extra": "mean: 1.691421624799989 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5656792967488631,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2522504063790964",
+            "extra": "mean: 1.767786103800006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5220711586121666,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24857965130791945",
+            "extra": "mean: 1.9154476999999814 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "54351068868bc88a106ed4c6dac8df6e360aabd9",
+          "message": "chore: update github actions (#628)\n\n* chore: update github actions\r\n\r\n* chore: update benchmarks lib",
+          "timestamp": "2022-11-03T13:24:55-04:00",
+          "tree_id": "1177c638e801a332ebfa73fc4d96aa91fe28d3ce",
+          "url": "https://github.com/tophat/syrupy/commit/54351068868bc88a106ed4c6dac8df6e360aabd9"
+        },
+        "date": 1667496483216,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5755224890240087,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0899354309245626",
+            "extra": "mean: 1.7375515623999944 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5476440364886462,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24409972504385055",
+            "extra": "mean: 1.826003632600009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.509048242407251,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24224036865828522",
+            "extra": "mean: 1.964450353999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6a766e78d72fd3e74cc7725fead46b7f839b468a",
+          "message": "fix: use more expressive glob when building whl (#627)",
+          "timestamp": "2022-11-03T13:26:32-04:00",
+          "tree_id": "11b351478c20391f68f021ab2aa6bb0c979b72c5",
+          "url": "https://github.com/tophat/syrupy/commit/6a766e78d72fd3e74cc7725fead46b7f839b468a"
+        },
+        "date": 1667496658757,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6708924501291043,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09433337308793241",
+            "extra": "mean: 1.4905518758000085 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6334903287117528,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23211612472399185",
+            "extra": "mean: 1.5785560642000178 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5879955294633928,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22142337773556642",
+            "extra": "mean: 1.700693202400032 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "1eb8e1a59df5a723965612781e41ee70dd3ee8b2",
+          "message": "chore: support manual release",
+          "timestamp": "2022-11-03T13:35:45-04:00",
+          "tree_id": "65472f3ed5d0b007d5f528500b75997f091f97e3",
+          "url": "https://github.com/tophat/syrupy/commit/1eb8e1a59df5a723965612781e41ee70dd3ee8b2"
+        },
+        "date": 1667497101389,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6669596012817182,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0865580016749817",
+            "extra": "mean: 1.4993411866000088 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6298953509274227,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2400443857885053",
+            "extra": "mean: 1.5875652972000125 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5813951035695989,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24457666896872546",
+            "extra": "mean: 1.720000725600005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f444787e13bab0ddeb291655b051c2bda5dd0f4b",
+          "message": "chore: remove broken and outdated flake8-i18n (#630)",
+          "timestamp": "2022-11-03T16:09:24-04:00",
+          "tree_id": "8d3a26c4e14ca78ac4d13946a74fe6b8dbce3962",
+          "url": "https://github.com/tophat/syrupy/commit/f444787e13bab0ddeb291655b051c2bda5dd0f4b"
+        },
+        "date": 1667506354113,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7711612546899341,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06665926014198113",
+            "extra": "mean: 1.2967456468000023 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7337313469199126,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17533425630210533",
+            "extra": "mean: 1.3628966571999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6702402936318492,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16742175000112403",
+            "extra": "mean: 1.4920022109999878 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "48190261f31ee801d60daab046e37d6a910b3efc",
+          "message": "fix: update poetry build backend (#631)",
+          "timestamp": "2022-11-03T17:13:24-04:00",
+          "tree_id": "661393675ade57362a2974e8b0054bc9f8ffa014",
+          "url": "https://github.com/tophat/syrupy/commit/48190261f31ee801d60daab046e37d6a910b3efc"
+        },
+        "date": 1667510115139,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7731687150709737,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06315633775745262",
+            "extra": "mean: 1.293378767799993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7412417590036489,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1658742045504701",
+            "extra": "mean: 1.3490875114000118 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6790983820866824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15597016006618394",
+            "extra": "mean: 1.4725406898000188 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "57612883+mhwaage@users.noreply.github.com",
+            "name": "Magnus Heskestad Waage",
+            "username": "mhwaage"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f0fe2255e56cafbad86f6e505019b8e507afd00",
+          "message": "fix: only instantiate colored objects if color is not disabled (#634)",
+          "timestamp": "2022-11-08T13:13:56-05:00",
+          "tree_id": "119410f81f3e2dc3d1819003e0d25d49a35c792e",
+          "url": "https://github.com/tophat/syrupy/commit/7f0fe2255e56cafbad86f6e505019b8e507afd00"
+        },
+        "date": 1667931375280,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5633271033576926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06506650388290493",
+            "extra": "mean: 1.7751675607999915 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5359620889728962,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26055523471472447",
+            "extra": "mean: 1.8658036091999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5007340426575037,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24671916369182198",
+            "extra": "mean: 1.9970681335999927 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "darrenburns@users.noreply.github.com",
+            "name": "darrenburns",
+            "username": "darrenburns"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "aded3ee51646f0fe83b2c55479c63c816fd17fb8",
+          "message": "docs: update names of image snapshot extension classes (#635)",
+          "timestamp": "2022-11-08T14:02:46-05:00",
+          "tree_id": "96577981001e85b88bac82703fd7951e634d2a2e",
+          "url": "https://github.com/tophat/syrupy/commit/aded3ee51646f0fe83b2c55479c63c816fd17fb8"
+        },
+        "date": 1667934307315,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5142446202575975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06374579386963966",
+            "extra": "mean: 1.944599827799999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.48855129949798093,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22598445680515478",
+            "extra": "mean: 2.046867956400007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4615636634825626,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2136260609033771",
+            "extra": "mean: 2.166548364000016 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "2ce5140d51ba53d2d7573ce92d3cbe4ce4a4d688",
+          "message": "docs: rename master branch to main",
+          "timestamp": "2022-11-08T18:10:02-05:00",
+          "tree_id": "c93da5c435b027f2578a37aa021598b4b7c54766",
+          "url": "https://github.com/tophat/syrupy/commit/2ce5140d51ba53d2d7573ce92d3cbe4ce4a4d688"
+        },
+        "date": 1667949144797,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6580954369002266,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09250263264844616",
+            "extra": "mean: 1.5195364440000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6170292596782908,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2544525859428212",
+            "extra": "mean: 1.6206686868000133 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5791811006304881,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24345627459184319",
+            "extra": "mean: 1.7265756753999995 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "7338a37ab35a48a346fc85e891daef57f48c4be9",
+          "message": "chore: enable renovate",
+          "timestamp": "2022-11-08T18:13:24-05:00",
+          "tree_id": "e15524c5eac09963fc370a6cba3b8b1f7b071c43",
+          "url": "https://github.com/tophat/syrupy/commit/7338a37ab35a48a346fc85e891daef57f48c4be9"
+        },
+        "date": 1667949321201,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7709457808187364,
+            "unit": "iter/sec",
+            "range": "stddev: 0.048477423261161674",
+            "extra": "mean: 1.2971080779999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7324448561011113,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1797315355688859",
+            "extra": "mean: 1.3652904947999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6751254128832423,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17226093415862248",
+            "extra": "mean: 1.481206277999999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d6906dea46fa1ba57803d29c755896ceeace59d8",
+          "message": "chore: update cycjimmy/semantic-release-action action to v3.1.2 (#638)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-24T15:46:24-05:00",
+          "tree_id": "fd5b7d9ab0c5be4cea6de2bdfcd056e58fc87d17",
+          "url": "https://github.com/tophat/syrupy/commit/d6906dea46fa1ba57803d29c755896ceeace59d8"
+        },
+        "date": 1669322898315,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6503630428091709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09295590401749011",
+            "extra": "mean: 1.5376027451999903 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6082224473774979,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2743384634436813",
+            "extra": "mean: 1.644135306599992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6195327058812389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.112121109388099",
+            "extra": "mean: 1.614119788200003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f220a181051a1d2e5ddd12cd6f16690f97256a77",
+          "message": "chore: update dependency debugpy to ^1.6.3 (#642)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-28T10:02:12-05:00",
+          "tree_id": "1da405fd0a5d1a762a02cac6180df3cb722261e4",
+          "url": "https://github.com/tophat/syrupy/commit/f220a181051a1d2e5ddd12cd6f16690f97256a77"
+        },
+        "date": 1669647854792,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7696472072182828,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06094270656537945",
+            "extra": "mean: 1.2992966006000017 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7399826011590898,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15850395032926587",
+            "extra": "mean: 1.351383125000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7202355966001934,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0752223025226581",
+            "extra": "mean: 1.3884345687999997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "73c47a41b0021de51ca9f0c1fcc85f322cdcae91",
+          "message": "chore: update dependency flake8-comprehensions to ^3.10.1 (#646)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-28T20:19:51-05:00",
+          "tree_id": "84366fcd1f226120cbd8cf817e77edb2387bd65f",
+          "url": "https://github.com/tophat/syrupy/commit/73c47a41b0021de51ca9f0c1fcc85f322cdcae91"
+        },
+        "date": 1669684922261,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5884288233733176,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07778860154127402",
+            "extra": "mean: 1.6994408843999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5557759027308996,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24616220137977843",
+            "extra": "mean: 1.799286358200004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5503724294388713,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1005678664957945",
+            "extra": "mean: 1.816951479599993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "14ab21a3930b78ad43c5eb96bcc0ecb3df516283",
+          "message": "chore: change semantic commit type to chore (#648)",
+          "timestamp": "2022-11-29T09:22:34-05:00",
+          "tree_id": "4c492f2570afef43628edd4f16e927a2dc13b034",
+          "url": "https://github.com/tophat/syrupy/commit/14ab21a3930b78ad43c5eb96bcc0ecb3df516283"
+        },
+        "date": 1669732487325,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.4868036230165678,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06723656379899748",
+            "extra": "mean: 2.0542164288000095 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4710462758160044,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2479902322595474",
+            "extra": "mean: 2.1229336720000105 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.46062740035125915,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11862908886411708",
+            "extra": "mean: 2.1709520520000183 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ee2a6b53eaac1f5fce865c62758c33ffcbd7e9a2",
+          "message": "chore: update dependency invoke to ^1.7.3 (#647)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-29T09:22:50-05:00",
+          "tree_id": "a33c503f8a992acc668e137b577b512377bd2a5c",
+          "url": "https://github.com/tophat/syrupy/commit/ee2a6b53eaac1f5fce865c62758c33ffcbd7e9a2"
+        },
+        "date": 1669732512253,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6506949129573444,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08481020633455286",
+            "extra": "mean: 1.5368185305999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6235858737357954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2340310885297924",
+            "extra": "mean: 1.6036283728 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6185872508742525,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09927867349421177",
+            "extra": "mean: 1.616586825199994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "925c15d65053c4e79af96074b7dc55687eb7b96b",
+          "message": "chore: update dependency flake8-bugbear to ^21.11.29 (#644)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-29T14:05:20-05:00",
+          "tree_id": "03789039b6fe1d8661918b307d05e329f5a4202c",
+          "url": "https://github.com/tophat/syrupy/commit/925c15d65053c4e79af96074b7dc55687eb7b96b"
+        },
+        "date": 1669748832888,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7702034297559945,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054548089324431344",
+            "extra": "mean: 1.2983582795999837 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7408028396637026,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15676040311451792",
+            "extra": "mean: 1.3498868341999923 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7258959499354564,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06435925345651014",
+            "extra": "mean: 1.3776079065999967 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f13541ec0ab7fee6d87f85ad2601dc404317098c",
+          "message": "chore: update dependency py-githooks to ^1.1.1 (#649)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-29T14:43:45-05:00",
+          "tree_id": "4495262984a8099637bceaf824f512f0b63990ee",
+          "url": "https://github.com/tophat/syrupy/commit/f13541ec0ab7fee6d87f85ad2601dc404317098c"
+        },
+        "date": 1669751144395,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6585464727312003,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07689429794015488",
+            "extra": "mean: 1.5184957195999913 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.627870648306165,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23556675029902518",
+            "extra": "mean: 1.5926847396000199 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6220105460178718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0917194414407591",
+            "extra": "mean: 1.6076897834000192 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "79723014e02ca4c5a322dd699a266057b31f2e85",
+          "message": "chore: update cycjimmy/semantic-release-action action to v3.2.0 (#651)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-29T15:08:58-05:00",
+          "tree_id": "71eb63b19a24eed9d0f6908a2b5517208b86bf1e",
+          "url": "https://github.com/tophat/syrupy/commit/79723014e02ca4c5a322dd699a266057b31f2e85"
+        },
+        "date": 1669752699253,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.43521254623876354,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10842962987757437",
+            "extra": "mean: 2.2977278771999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.40402013424416267,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3174959933417652",
+            "extra": "mean: 2.4751241714 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4028334270393001,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10816609132184796",
+            "extra": "mean: 2.482415641000023 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3b70c7fa4408613b8e057b6d5bf8db87b2175172",
+          "message": "chore: update dependency coverage to ^6.5.0 (#641)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-29T15:09:49-05:00",
+          "tree_id": "27d787e437cfc337a163a840e9191b6ccf392d71",
+          "url": "https://github.com/tophat/syrupy/commit/3b70c7fa4408613b8e057b6d5bf8db87b2175172"
+        },
+        "date": 1669752725967,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7745483720945433,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05541635470530563",
+            "extra": "mean: 1.2910749490000057 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7429968188800754,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1578092005613063",
+            "extra": "mean: 1.3459007825999947 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7219449918639627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06493203243842256",
+            "extra": "mean: 1.385147083600009 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "523720b07ddb3db09919c52c4cc16d71cc5a12fa",
+          "message": "chore: update dependency black to ^22.10.0 (#639)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-29T18:59:11-05:00",
+          "tree_id": "9577d89b95d7445d953e5335403b63b35f8c3d30",
+          "url": "https://github.com/tophat/syrupy/commit/523720b07ddb3db09919c52c4cc16d71cc5a12fa"
+        },
+        "date": 1669766473085,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.659247435638915,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08223877892508105",
+            "extra": "mean: 1.5168811374000142 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.622193522464764,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2471156928861965",
+            "extra": "mean: 1.6072169894000012 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6219535882163693,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10593092000477092",
+            "extra": "mean: 1.6078370137999969 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "23cca849e606181524a298a11796df1ebe597052",
+          "message": "chore: update dependency flake8-builtins to v2 (#656)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2022-11-30T07:30:44-05:00",
+          "tree_id": "bae0f6f3aae1a7b9c7cf2f1c0b3aac97f757f72b",
+          "url": "https://github.com/tophat/syrupy/commit/23cca849e606181524a298a11796df1ebe597052"
+        },
+        "date": 1669811566060,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6754078596653935,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06391877117699159",
+            "extra": "mean: 1.4805868567999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6345993135561808,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23174880874067105",
+            "extra": "mean: 1.5757974814000022 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6315599143065584,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0923523543680502",
+            "extra": "mean: 1.5833810495999927 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a74e57eed8c6b1ed39cf2e286066cc41b058381e",
+          "message": "Merge pull request #669 from tophat/xdist_improvements\n\npytest-xdist compatibility improvements",
+          "timestamp": "2022-12-30T12:56:36-05:00",
+          "tree_id": "5d18b6a68b2f6deceb24f99ec61a6a2bf85f188a",
+          "url": "https://github.com/tophat/syrupy/commit/a74e57eed8c6b1ed39cf2e286066cc41b058381e"
+        },
+        "date": 1672423107152,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6613239119922573,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06946618661061309",
+            "extra": "mean: 1.512118315800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6270476940824629,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20891100295390286",
+            "extra": "mean: 1.594775021800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6195362479531112,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07838133500038841",
+            "extra": "mean: 1.6141105598000194 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4a9695d341456193b644c92ee068ed6b8950ded9",
+          "message": "Merge pull request #670 from tophat/dev_3_11\n\nchore: update local dev to python 3.11",
+          "timestamp": "2022-12-30T13:16:12-05:00",
+          "tree_id": "40f4f5635d2737b338ade6ac04696ca4c0450046",
+          "url": "https://github.com/tophat/syrupy/commit/4a9695d341456193b644c92ee068ed6b8950ded9"
+        },
+        "date": 1672424285096,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7296203604304284,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06998880932094288",
+            "extra": "mean: 1.3705757873999915 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7493454158687369,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0681236333409167",
+            "extra": "mean: 1.3344980550000058 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6334887477951046,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26213611433462386",
+            "extra": "mean: 1.5785600036000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "02abef59992487d669aa29f0bef93cbeb114d68a",
+          "message": "chore: remove ABC from SnapshotComparator (#671)",
+          "timestamp": "2022-12-30T13:26:40-05:00",
+          "tree_id": "852ff70dc0c8b6b78d8f007410a8a55eecdffd89",
+          "url": "https://github.com/tophat/syrupy/commit/02abef59992487d669aa29f0bef93cbeb114d68a"
+        },
+        "date": 1672424900354,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8381195242511715,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04240394140227035",
+            "extra": "mean: 1.1931472433999943 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8626650008455868,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05153168408309042",
+            "extra": "mean: 1.159198529000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7465173870618954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1502009356924296",
+            "extra": "mean: 1.3395535285999813 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5eee3d845cd3d3c4a47ea981911e5d4f8ebe83e0",
+          "message": "Merge pull request #605 from tophat/next\n\nGraduate Syrupy v4 pre-release.",
+          "timestamp": "2023-02-02T15:08:58-05:00",
+          "tree_id": "7a2283ec8bf2a68aa3a821130aef5d0993da31d3",
+          "url": "https://github.com/tophat/syrupy/commit/5eee3d845cd3d3c4a47ea981911e5d4f8ebe83e0"
+        },
+        "date": 1675368678568,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5308695012724054,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08240487393124026",
+            "extra": "mean: 1.883702110600001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5160934616849223,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07159902297368662",
+            "extra": "mean: 1.9376335377999907 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4835373874179867,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21397077226596534",
+            "extra": "mean: 2.068092408199999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4b9b7d16512ded762f3c94ef8f075bc9adebfc7c",
+          "message": "chore: update dependency flake8-bugbear to ^22.12.6 (#686)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-02T18:36:26-05:00",
+          "tree_id": "e24b6774cadde0dc1b9017ca1714ef4928de7b59",
+          "url": "https://github.com/tophat/syrupy/commit/4b9b7d16512ded762f3c94ef8f075bc9adebfc7c"
+        },
+        "date": 1675381082893,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8685318578232368,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03719902244972196",
+            "extra": "mean: 1.1513682440000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8629443042309985,
+            "unit": "iter/sec",
+            "range": "stddev: 0.038943126152893054",
+            "extra": "mean: 1.1588233390000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7818423779036421,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12486732726109595",
+            "extra": "mean: 1.2790301834000162 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6f63c360b2e6a11c17fbb1c4b19bf03fbcb2e689",
+          "message": "chore: update dependency twine to ^4.0.2 (#663)",
+          "timestamp": "2023-02-02T18:40:21-05:00",
+          "tree_id": "f1bb701515c2dbcf67cd78768dc481076bab71b1",
+          "url": "https://github.com/tophat/syrupy/commit/6f63c360b2e6a11c17fbb1c4b19bf03fbcb2e689"
+        },
+        "date": 1675381355676,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5538915285924507,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08196607951684563",
+            "extra": "mean: 1.805407644600018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5362515253596856,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08322507773834141",
+            "extra": "mean: 1.8647965604000092 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4855304033426754,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20233347526330112",
+            "extra": "mean: 2.059603256800017 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "69932cca66e5fe68ffd9c2548d57d221b586e9ea",
+          "message": "chore: update dependency debugpy to ^1.6.5 (#662)",
+          "timestamp": "2023-02-02T18:40:52-05:00",
+          "tree_id": "b68acc66da93a7bace2ea74fd8785b608e4df6de",
+          "url": "https://github.com/tophat/syrupy/commit/69932cca66e5fe68ffd9c2548d57d221b586e9ea"
+        },
+        "date": 1675381449079,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5696770729649375,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05842421087382475",
+            "extra": "mean: 1.7553804557999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5611161658219701,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07026033154176464",
+            "extra": "mean: 1.7821621634000082 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5116724442837831,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1789742797799624",
+            "extra": "mean: 1.954375325799998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b7c9f4ad0c89b0f048924396ae5d35f01e002e25",
+          "message": "chore: update dependency black to ^22.12.0 (#674)",
+          "timestamp": "2023-02-02T18:41:21-05:00",
+          "tree_id": "c557e30b247adcb07fc8aa56ab48836e26d2b46e",
+          "url": "https://github.com/tophat/syrupy/commit/b7c9f4ad0c89b0f048924396ae5d35f01e002e25"
+        },
+        "date": 1675381554755,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8218555291330201,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04870635481045464",
+            "extra": "mean: 1.216758863999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8294772444505106,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045070389067531164",
+            "extra": "mean: 1.2055785817999776 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7323042026181422,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17119781242605997",
+            "extra": "mean: 1.3655527258000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "86692042fd4ed2cfe84bbebe2ea654981b84b037",
+          "message": "chore: update actions/setup-python action to v4.5.0 (#692)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-02T20:19:12-05:00",
+          "tree_id": "b7f90a68bc722618c4532160ce9960a66ff3d1d3",
+          "url": "https://github.com/tophat/syrupy/commit/86692042fd4ed2cfe84bbebe2ea654981b84b037"
+        },
+        "date": 1675387265323,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6858977287247615,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05248115035745914",
+            "extra": "mean: 1.457943302800004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6779626102104527,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06071003652517057",
+            "extra": "mean: 1.475007596200004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6103556743541225,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1930274523875393",
+            "extra": "mean: 1.6383889623999948 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "06c759610287b6f665ef5b4249e7c744953ee1e6",
+          "message": "chore: update actions/checkout action to v3.3.0 (#691)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-02T20:19:42-05:00",
+          "tree_id": "cc5390d9af42de611ce7883ec5f61ab47a0d1d35",
+          "url": "https://github.com/tophat/syrupy/commit/06c759610287b6f665ef5b4249e7c744953ee1e6"
+        },
+        "date": 1675387277388,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8618203732819798,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043550510061149295",
+            "extra": "mean: 1.1603346021999983 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8515895833669757,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0416117915615079",
+            "extra": "mean: 1.1742745796000065 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7668394543628501,
+            "unit": "iter/sec",
+            "range": "stddev: 0.140870622544487",
+            "extra": "mean: 1.3040539246000038 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6dd1c35431cc9d173100349c774b2ec8052d4e60",
+          "message": "chore: update dependency flake8-builtins to ^2.1.0 (#688)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: Noah <noahnu@gmail.com>",
+          "timestamp": "2023-02-02T20:20:24-05:00",
+          "tree_id": "eb0f63307bba853be8620132ef482479232c6ffd",
+          "url": "https://github.com/tophat/syrupy/commit/6dd1c35431cc9d173100349c774b2ec8052d4e60"
+        },
+        "date": 1675387446158,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.761263102660694,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05633219376539964",
+            "extra": "mean: 1.3136062899999956 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7472385817639099,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0597657298701964",
+            "extra": "mean: 1.3382606632000034 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6656625004064892,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19186805010774044",
+            "extra": "mean: 1.5022627824000097 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f114adf54615c4bfcece23a3a65a7cb870ec620b",
+          "message": "chore: update dependency isort to ^5.11.4 (#689)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-02T21:56:14-05:00",
+          "tree_id": "6667afb073d976150526bda5753d9ad42f9fdeaa",
+          "url": "https://github.com/tophat/syrupy/commit/f114adf54615c4bfcece23a3a65a7cb870ec620b"
+        },
+        "date": 1675393078303,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7999329867339503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029776992072672835",
+            "extra": "mean: 1.250104716999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8383118892227122,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06067948017435051",
+            "extra": "mean: 1.1928734554000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6801415414703391,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19559065490965166",
+            "extra": "mean: 1.4702821971999924 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4133faee759d343687c530e35df32a90658e9020",
+          "message": "chore: update dependency setuptools-scm to ^7.1.0 (#690)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-03T07:48:17-05:00",
+          "tree_id": "55dcffb7a2773df428d17bb5e546e97e643fdc2f",
+          "url": "https://github.com/tophat/syrupy/commit/4133faee759d343687c530e35df32a90658e9020"
+        },
+        "date": 1675428603735,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8493779941754908,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04885672713161211",
+            "extra": "mean: 1.1773321264000032 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8382803990026247,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043533747225891824",
+            "extra": "mean: 1.1929182660000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7580929583413449,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1406063995532564",
+            "extra": "mean: 1.3190994441999977 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ebfd090461d13d53e6f80c81dab3e570e5d4597b",
+          "message": "chore: update dependency coverage to v7 (#693)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-03T15:26:05-05:00",
+          "tree_id": "efd8f83a9cba3ab96f5c7776fa8f527a1a5a07f5",
+          "url": "https://github.com/tophat/syrupy/commit/ebfd090461d13d53e6f80c81dab3e570e5d4597b"
+        },
+        "date": 1675456095544,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6055942842944636,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07813443536135091",
+            "extra": "mean: 1.6512705385999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.576950223363084,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10942954223542899",
+            "extra": "mean: 1.733251777199996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5460622857733486,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1827628608131666",
+            "extra": "mean: 1.8312929240000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c0568c28158789eef76d14fc9968218cc49fa08f",
+          "message": "chore: update dev dependencies (#698)",
+          "timestamp": "2023-02-03T15:47:17-05:00",
+          "tree_id": "db052abbb25ba40c98db8506dacbcda2e9f88716",
+          "url": "https://github.com/tophat/syrupy/commit/c0568c28158789eef76d14fc9968218cc49fa08f"
+        },
+        "date": 1675457331373,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8721822446597747,
+            "unit": "iter/sec",
+            "range": "stddev: 0.039573595913622674",
+            "extra": "mean: 1.1465493664000064 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8653525900831389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.034032946071262477",
+            "extra": "mean: 1.155598320799993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7871895291257989,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12050103403575309",
+            "extra": "mean: 1.27034210060001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f1934ea4470fe487aa2ccd3c081edfeb2955723d",
+          "message": "chore: add deps label to renovate PRs, change range strategy (#705)",
+          "timestamp": "2023-02-09T14:09:45-05:00",
+          "tree_id": "f4c418bbc87ea7fc2bd6a798f78df38547ce34c2",
+          "url": "https://github.com/tophat/syrupy/commit/f1934ea4470fe487aa2ccd3c081edfeb2955723d"
+        },
+        "date": 1675969887060,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8551507047556702,
+            "unit": "iter/sec",
+            "range": "stddev: 0.041231405351750613",
+            "extra": "mean: 1.1693845241999952 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8483173278585645,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03640567423487899",
+            "extra": "mean: 1.1788041657999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7658983404846162,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1292373300171719",
+            "extra": "mean: 1.3056563085999868 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "967cab8a1ea22377983280e47d9b7d36438fe01a",
+          "message": "chore: update dependency invoke to v2 (#701)\n\n* chore: update dependency invoke to v2\r\n\r\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\r\nCo-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com>",
+          "timestamp": "2023-02-09T19:19:52Z",
+          "tree_id": "c6013b3b25078044a204d22f86a7b6c5f9d50f2c",
+          "url": "https://github.com/tophat/syrupy/commit/967cab8a1ea22377983280e47d9b7d36438fe01a"
+        },
+        "date": 1675970495706,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8498359286869936,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0478411700008997",
+            "extra": "mean: 1.176697720399997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8436281630994096,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04094433094491234",
+            "extra": "mean: 1.1853563498000057 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7604871007305798,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1507718255254209",
+            "extra": "mean: 1.3149466953999962 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c4fd0d6e76ee814b6235cdd8ecee237f7969994f",
+          "message": "chore: update python docker tag to v3.11.2 (#704)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-09T14:20:24-05:00",
+          "tree_id": "fad772ebe1c1bd21e54698a3267c862e09aedd16",
+          "url": "https://github.com/tophat/syrupy/commit/c4fd0d6e76ee814b6235cdd8ecee237f7969994f"
+        },
+        "date": 1675970587455,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8462592162063106,
+            "unit": "iter/sec",
+            "range": "stddev: 0.041383846926841245",
+            "extra": "mean: 1.181671030399991 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8377196625272739,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04402313401257273",
+            "extra": "mean: 1.1937167584000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7545708024870992,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14731249680226643",
+            "extra": "mean: 1.325256684599981 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah.negin-ulster@tophatmonocle.com",
+            "name": "Noah Negin-Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "3166746ad465f850d6a11465f4cc2d8c1f68a168",
+          "message": "Revert \"chore: update python docker tag to v3.11.2 (#704)\"\n\nThis reverts commit c4fd0d6e76ee814b6235cdd8ecee237f7969994f.",
+          "timestamp": "2023-02-09T14:27:18-05:00",
+          "tree_id": "c6013b3b25078044a204d22f86a7b6c5f9d50f2c",
+          "url": "https://github.com/tophat/syrupy/commit/3166746ad465f850d6a11465f4cc2d8c1f68a168"
+        },
+        "date": 1675970980507,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5368180846949078,
+            "unit": "iter/sec",
+            "range": "stddev: 0.044798011259726066",
+            "extra": "mean: 1.8628284487999962 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5442585476666452,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08050144610613397",
+            "extra": "mean: 1.837362048400007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4870095904373355,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23014109374718014",
+            "extra": "mean: 2.0533476539999924 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "03cc361858d2ae74297572300259e71f6847a1c8",
+          "message": "chore: consistency with dependabot (#708)",
+          "timestamp": "2023-02-09T14:30:57-05:00",
+          "tree_id": "0f206fb07210f39487ec675d42f857447f5c79bb",
+          "url": "https://github.com/tophat/syrupy/commit/03cc361858d2ae74297572300259e71f6847a1c8"
+        },
+        "date": 1675971191677,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5503772735546203,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06110293979727681",
+            "extra": "mean: 1.8169354878000035 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5436381906570457,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09537139896031895",
+            "extra": "mean: 1.839458701000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4978705125750861,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22524260393547457",
+            "extra": "mean: 2.0085543826000047 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "266da13ff22a600c84b9ce2c6b140bdddcec9f47",
+          "message": "chore(deps): bump cryptography from 39.0.0 to 39.0.1 (#702)\n\n* chore(deps): bump cryptography from 39.0.0 to 39.0.1\r\n\r\nBumps [cryptography](https://github.com/pyca/cryptography) from 39.0.0 to 39.0.1.\r\n- [Release notes](https://github.com/pyca/cryptography/releases)\r\n- [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)\r\n- [Commits](https://github.com/pyca/cryptography/compare/39.0.0...39.0.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: cryptography\r\n  dependency-type: indirect\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\n* chore(deps): update lock file\r\n\r\n---------\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\r\nCo-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com>",
+          "timestamp": "2023-02-09T14:40:46-05:00",
+          "tree_id": "9f1121f95b3554588cc8d50ce842c31e783aee78",
+          "url": "https://github.com/tophat/syrupy/commit/266da13ff22a600c84b9ce2c6b140bdddcec9f47"
+        },
+        "date": 1675971756338,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7669822697311539,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05802613690011905",
+            "extra": "mean: 1.3038111042000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7660710393397627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05951735207537321",
+            "extra": "mean: 1.305361968599999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6824267091593954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1876703598787301",
+            "extra": "mean: 1.4653588239999977 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b831ee21b54f0b0dd287a7a0c6e138d6b553f26b",
+          "message": "chore(deps): update dependency mypy to v1 (#706)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-02-09T16:19:51-05:00",
+          "tree_id": "b6998866492f13a04fbe5c491262c4baf962beb7",
+          "url": "https://github.com/tophat/syrupy/commit/b831ee21b54f0b0dd287a7a0c6e138d6b553f26b"
+        },
+        "date": 1675977731575,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5422523489597115,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07107393517809005",
+            "extra": "mean: 1.8441598306000118 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5442580110397968,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07305733591449298",
+            "extra": "mean: 1.8373638599999935 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4950789059711019,
+            "unit": "iter/sec",
+            "range": "stddev: 0.207632681483958",
+            "extra": "mean: 2.0198800391999954 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "794719+tolgaeren@users.noreply.github.com",
+            "name": "Tolga Eren",
+            "username": "tolgaeren"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "efe687e263647b1efa2673847372389ea90961eb",
+          "message": "fix(serializer): handling of multi-part file extensions in SingleFileExtension (#710)\n\nCo-authored-by: tolga.eren <tolga.eren@adevinta.com>\r\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2023-02-20T18:57:14-05:00",
+          "tree_id": "5d2337b5c1fd6a3cf8c2219d3861ec5474081aae",
+          "url": "https://github.com/tophat/syrupy/commit/efe687e263647b1efa2673847372389ea90961eb"
+        },
+        "date": 1676937575879,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5673304534145591,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03897020002283442",
+            "extra": "mean: 1.7626411449999864 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5639545547386794,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07884229350116835",
+            "extra": "mean: 1.773192523399996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5052809751869447,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18403436484223545",
+            "extra": "mean: 1.9790968770000064 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5e8f86d17726e16ba684bf25c8dc68aac7871ea4",
+          "message": "chore: update dev dependencies (#713)",
+          "timestamp": "2023-02-20T19:19:34-05:00",
+          "tree_id": "71f5907f640f29846308198b22573f60472645f0",
+          "url": "https://github.com/tophat/syrupy/commit/5e8f86d17726e16ba684bf25c8dc68aac7871ea4"
+        },
+        "date": 1676938892995,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7550932781345063,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06870802080626849",
+            "extra": "mean: 1.3243396928000037 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.74933598258812,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06161751693193264",
+            "extra": "mean: 1.3345148547999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6622649532076629,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22030250069084037",
+            "extra": "mean: 1.5099696807999976 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ef135ba4a1e26f1319de7b58907b93dc36fbef3c",
+          "message": "chore(deps): update dependency mypy to v1.1.1 (#721)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-14T14:24:03-04:00",
+          "tree_id": "d929fbbbc77fec98dcc6febfda67bc411ba2856e",
+          "url": "https://github.com/tophat/syrupy/commit/ef135ba4a1e26f1319de7b58907b93dc36fbef3c"
+        },
+        "date": 1678818357975,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.842900100562369,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03755820379334626",
+            "extra": "mean: 1.1863802119999947 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8383664096235052,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047100836443841804",
+            "extra": "mean: 1.1927958807999972 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7496321818004764,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14813446991083945",
+            "extra": "mean: 1.3339875532000065 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4cae64a7c82903a62e30fb5c71ca5857314e7012",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v3.3.0 (#720)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-14T14:24:32-04:00",
+          "tree_id": "007855a878e0b244cd354bc9e971f392e0321f38",
+          "url": "https://github.com/tophat/syrupy/commit/4cae64a7c82903a62e30fb5c71ca5857314e7012"
+        },
+        "date": 1678818382873,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7684967311836257,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061905503248241615",
+            "extra": "mean: 1.3012417092000077 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7659080753571008,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04932307262877105",
+            "extra": "mean: 1.3056397134000122 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6845406428630921,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17650348410446542",
+            "extra": "mean: 1.4608336414000178 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e8a1fa7c38bace49d85803f31963cff0225f99c4",
+          "message": "chore(deps): update dependency pytest-xdist to v3.2.1 (#722)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-21T07:37:01-04:00",
+          "tree_id": "79c1432407006230debbc6ea1c39ca97b5e9fddd",
+          "url": "https://github.com/tophat/syrupy/commit/e8a1fa7c38bace49d85803f31963cff0225f99c4"
+        },
+        "date": 1679398763779,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5554645971785553,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07304830245344164",
+            "extra": "mean: 1.8002947534000042 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5478273157427168,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07277764200335438",
+            "extra": "mean: 1.825392731000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5018327853682971,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23685996414956448",
+            "extra": "mean: 1.9926956332000032 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "836043e98c231061021d85edc721ef004015a455",
+          "message": "chore(deps): update actions/checkout action to v3.4.0 (#725)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-22T18:07:39-04:00",
+          "tree_id": "01a2f4d513b332b519681d6c7453a0f811c2d48a",
+          "url": "https://github.com/tophat/syrupy/commit/836043e98c231061021d85edc721ef004015a455"
+        },
+        "date": 1679522965362,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8148376583117384,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04499699718283312",
+            "extra": "mean: 1.2272383213999944 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8170383952899005,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05027004798204536",
+            "extra": "mean: 1.2239326887999937 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7267233221156959,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18068966622972768",
+            "extra": "mean: 1.376039504399995 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "265fc5f93e5be2aa406dc44e2ea8db8bcf86f9f6",
+          "message": "chore(deps): update dependency pytest to v7.2.2 (#718)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-24T11:04:05-04:00",
+          "tree_id": "28927520f5d13b60dd39abbf20b81883e70682fb",
+          "url": "https://github.com/tophat/syrupy/commit/265fc5f93e5be2aa406dc44e2ea8db8bcf86f9f6"
+        },
+        "date": 1679670356270,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7776514466067239,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05249237039436248",
+            "extra": "mean: 1.285923152800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7808564405453985,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05362673032040278",
+            "extra": "mean: 1.2806451328000037 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6894013976735608,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18972903912063885",
+            "extra": "mean: 1.4505337577999966 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ffef974aec669cf6a19e68208c54ea0094834438",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v3.4.0 (#724)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-24T11:03:42-04:00",
+          "tree_id": "a08b676cd6d1fb02a4cdb1116db587795b8cf627",
+          "url": "https://github.com/tophat/syrupy/commit/ffef974aec669cf6a19e68208c54ea0094834438"
+        },
+        "date": 1679670362976,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5693588594455413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05495942555334164",
+            "extra": "mean: 1.7563615343999914 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5697458452414049,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055264611751760825",
+            "extra": "mean: 1.7551685691999979 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.514851297082002,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20342481628996337",
+            "extra": "mean: 1.9423084017999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "493e70f2229789dc0c4255389acd0764f917e127",
+          "message": "chore(deps): update dependency coverage to v7.2.2 (#716)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-24T12:53:35-04:00",
+          "tree_id": "e18332d85c7d59a70c4710f92d83974bbab7f296",
+          "url": "https://github.com/tophat/syrupy/commit/493e70f2229789dc0c4255389acd0764f917e127"
+        },
+        "date": 1679676924950,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7699385074859887,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06924559222778465",
+            "extra": "mean: 1.2988050218000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7735120847195411,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06419010196667062",
+            "extra": "mean: 1.2928046241999938 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6790741462888331,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2120857961070597",
+            "extra": "mean: 1.4725932439999951 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "68c17bc9a4244fcc9c7ffd72ec253c182738e371",
+          "message": "chore(deps): update dependency flake8-comprehensions to v3.11.0 (#726)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-25T08:14:11-04:00",
+          "tree_id": "988a02383791b17b22549f55784351fb46399fc3",
+          "url": "https://github.com/tophat/syrupy/commit/68c17bc9a4244fcc9c7ffd72ec253c182738e371"
+        },
+        "date": 1679746557122,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8606676549325574,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04012733238788097",
+            "extra": "mean: 1.1618886735999865 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8514134626169724,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03388448249085389",
+            "extra": "mean: 1.174517486399992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7608862496002571,
+            "unit": "iter/sec",
+            "range": "stddev: 0.13842072140831677",
+            "extra": "mean: 1.314256895199992 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8e30c2bf111c81485358c82a5aeaec472e437c57",
+          "message": "chore(deps): update dependencies (#727)",
+          "timestamp": "2023-03-29T13:16:58-04:00",
+          "tree_id": "44dd500eb06d2bca277fb186782ed5e1b9c278d9",
+          "url": "https://github.com/tophat/syrupy/commit/8e30c2bf111c81485358c82a5aeaec472e437c57"
+        },
+        "date": 1680110538986,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.597198281646268,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07358015365881923",
+            "extra": "mean: 1.6744857290000028 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5935189995342299,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06860342461300059",
+            "extra": "mean: 1.684866029200009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5376839525360029,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2139083982070716",
+            "extra": "mean: 1.8598286135999955 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "650d5a8427f0cad4063d5649e6c8cd4aa3bb572c",
+          "message": "chore(deps): update actions/checkout action to v3.5.0 (#728)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-03-30T08:53:14-04:00",
+          "tree_id": "7ed782251b1de091fa05eaf70da960f2bcb23e34",
+          "url": "https://github.com/tophat/syrupy/commit/650d5a8427f0cad4063d5649e6c8cd4aa3bb572c"
+        },
+        "date": 1680180988192,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5774985577897503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054079483531598464",
+            "extra": "mean: 1.731606056000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5695561703595191,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0591028262135273",
+            "extra": "mean: 1.7557530794000058 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5182469907391999,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2167004402622668",
+            "extra": "mean: 1.929581874799993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c51afa9d831282d9151e7ce1e9d8d0844cf51092",
+          "message": "chore: remove codecov package (#735)",
+          "timestamp": "2023-04-12T13:10:31-04:00",
+          "tree_id": "72d6354d96fdeb2c172f83dc853649a98aeb8494",
+          "url": "https://github.com/tophat/syrupy/commit/c51afa9d831282d9151e7ce1e9d8d0844cf51092"
+        },
+        "date": 1681319542078,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7682827293818367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056987957075827746",
+            "extra": "mean: 1.301604164400004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7527335943515198,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057284532748958",
+            "extra": "mean: 1.3284912583999926 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7119076455788897,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07115046844919795",
+            "extra": "mean: 1.4046765843999993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c6bb72e075efdceab9f86c8dc4cabc37f0587cfb",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v3.4.2 (#729)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-04-14T17:31:13-04:00",
+          "tree_id": "6a98cacbd03ac35246ab7c41451db311b3867d8d",
+          "url": "https://github.com/tophat/syrupy/commit/c6bb72e075efdceab9f86c8dc4cabc37f0587cfb"
+        },
+        "date": 1681507982929,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.751196764016454,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05813822418371182",
+            "extra": "mean: 1.3312091424000017 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7355617726750191,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06097854870573387",
+            "extra": "mean: 1.3595051254000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7004355984471496,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0705833285085385",
+            "extra": "mean: 1.427683005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "21165d8b97e22a526fdb5d6da5cf718d33dda3c7",
+          "message": "chore(deps): update actions/checkout action to v3.5.2 (#737)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-04-21T16:52:16-04:00",
+          "tree_id": "d2c4109930c392f05050850e2c4a8310cceb94f0",
+          "url": "https://github.com/tophat/syrupy/commit/21165d8b97e22a526fdb5d6da5cf718d33dda3c7"
+        },
+        "date": 1682110457755,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6587344224033427,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04989500734346245",
+            "extra": "mean: 1.5180624634000082 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6560832619500758,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08020420911916856",
+            "extra": "mean: 1.5241967871999975 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6258137513314044,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07624078560169513",
+            "extra": "mean: 1.597919505400006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "028cb8f0c100f6be118d5aacf80974e7503980e2",
+          "message": "chore(deps): update dependency pytest to v7.3.1 (#739)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-04-21T17:13:50-04:00",
+          "tree_id": "93ec22c65021617c7bd8dab6757e97a0cfc5d2f6",
+          "url": "https://github.com/tophat/syrupy/commit/028cb8f0c100f6be118d5aacf80974e7503980e2"
+        },
+        "date": 1682111757440,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6397303546176843,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060632584140582875",
+            "extra": "mean: 1.563158591399997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6363763943681665,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08780662122151904",
+            "extra": "mean: 1.571397067600003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6007326832085811,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0643389195667781",
+            "extra": "mean: 1.6646339177999891 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3152c56fc6fe98618b8f2c08b2f1238e6930c92b",
+          "message": "chore(deps): update dependency semver to v3 (#730)\n\n* chore(deps): update dependency semver to v3",
+          "timestamp": "2023-04-25T10:47:16-04:00",
+          "tree_id": "eee07d79c2aaa27a66ed59eeaee1ac90b495dd3c",
+          "url": "https://github.com/tophat/syrupy/commit/3152c56fc6fe98618b8f2c08b2f1238e6930c92b"
+        },
+        "date": 1682434141203,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8522096917912929,
+            "unit": "iter/sec",
+            "range": "stddev: 0.039520606559475834",
+            "extra": "mean: 1.1734201214000053 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.836317189989203,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03811244420134587",
+            "extra": "mean: 1.195718576599998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8017164146830378,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04161063706966816",
+            "extra": "mean: 1.247323843799998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "john.kurkowski@gmail.com",
+            "name": "John Kurkowski",
+            "username": "john-kurkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dfd5910cd5ac9a93011d639303cdc060ef4c779a",
+          "message": "fix: defer snapshot default extension import (#734)\n\n* test: add coverage for bug #719\r\n\r\n* fix: defer snapshot default extension import\r\n\r\nFixes unable to use pytest's `pythonpath` option with this project's\r\n`--snapshot-default-extension` option. Does cause extension import\r\nerrors to raise later than CLI argument parsing, and therefore emit on\r\nstdout, instead of stderr.\r\n\r\n---------\r\n\r\nCo-authored-by: Noah Negin-Ulster <noah.negin-ulster@tophatmonocle.com>",
+          "timestamp": "2023-04-25T10:48:13-04:00",
+          "tree_id": "6745d628f63be1c359328c56053001004a93877c",
+          "url": "https://github.com/tophat/syrupy/commit/dfd5910cd5ac9a93011d639303cdc060ef4c779a"
+        },
+        "date": 1682434205532,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7533301643184105,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055459398894752904",
+            "extra": "mean: 1.3274392124000087 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7436940174427946,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05918633061292454",
+            "extra": "mean: 1.3446390269999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7081867525088105,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06277208716074116",
+            "extra": "mean: 1.412056913600003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "689a202407c26a3f8eb3c7b5a2870aca1c41f7a2",
+          "message": "chore(deps): update python docker tag to v3.11.3 (#732)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-04-25T12:16:14-04:00",
+          "tree_id": "2033ae0c9c65047dc36bf61dc72f7f7dc8e48e57",
+          "url": "https://github.com/tophat/syrupy/commit/689a202407c26a3f8eb3c7b5a2870aca1c41f7a2"
+        },
+        "date": 1682439495514,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6597309197298232,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05179156637201726",
+            "extra": "mean: 1.5157694904000039 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6527667800990558,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07538294823174536",
+            "extra": "mean: 1.5319407030000094 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6233935651994303,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06200867975406181",
+            "extra": "mean: 1.6041230706000136 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9aec6da2c258d5455e16e56b109641e211b38552",
+          "message": "chore(deps): update actions/setup-python action to v4.6.0 (#742)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-04-27T09:37:09-04:00",
+          "tree_id": "21ee4608bb469cf9dada5df7c838dec6231eaee7",
+          "url": "https://github.com/tophat/syrupy/commit/9aec6da2c258d5455e16e56b109641e211b38552"
+        },
+        "date": 1682602726931,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8385224501358716,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03860903588598527",
+            "extra": "mean: 1.1925739136000033 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8309375213686999,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04817602947811153",
+            "extra": "mean: 1.2034599164000013 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7828324846144313,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04632876610676649",
+            "extra": "mean: 1.2774124983999997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a53165af1b13bf2b88c03aa059eb81d0f06f7449",
+          "message": "chore(deps): update dependency coverage to v7.2.4 (#743)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-05-23T07:42:04-04:00",
+          "tree_id": "fdea455d02ff9d2175ed57af791f00b67435c9e3",
+          "url": "https://github.com/tophat/syrupy/commit/a53165af1b13bf2b88c03aa059eb81d0f06f7449"
+        },
+        "date": 1684842253792,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5258797387405306,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06610797973045834",
+            "extra": "mean: 1.9015754484000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5427211009280758,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06729436728544913",
+            "extra": "mean: 1.842567016999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4972253231867308,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11726084120164261",
+            "extra": "mean: 2.0111606416000143 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2bdcf99daf96daf87ecd6aa239df1a6758b5fb65",
+          "message": "chore(deps): update dependency pytest-xdist to v3.3.0 (#748)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-05-23T11:51:17Z",
+          "tree_id": "97c905a3f0de1325cabafb9db166065499e399d4",
+          "url": "https://github.com/tophat/syrupy/commit/2bdcf99daf96daf87ecd6aa239df1a6758b5fb65"
+        },
+        "date": 1684842793655,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5783701497393112,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05413493018372918",
+            "extra": "mean: 1.7289965612000031 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5699574812060991,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07380568441673757",
+            "extra": "mean: 1.754516842000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5485538617276983,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061675160078167326",
+            "extra": "mean: 1.8229750436000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5ed0946315b0e682066519289a0430623c1f2cf2",
+          "message": "chore(deps): update dependency mypy to v1.3.0 (#746)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-05-23T08:52:45-04:00",
+          "tree_id": "ec129ea3568351cfbc164996d2f49e82cb86b8d3",
+          "url": "https://github.com/tophat/syrupy/commit/5ed0946315b0e682066519289a0430623c1f2cf2"
+        },
+        "date": 1684846500194,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5540484531452948,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04309927963693787",
+            "extra": "mean: 1.8048962944000095 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5427499169106295,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06298290101852409",
+            "extra": "mean: 1.84246919040001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5189618929582639,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0729546413174831",
+            "extra": "mean: 1.9269237559999852 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "33693162292af47d7662cb2ea9b930f54973d6da",
+          "message": "chore(deps): update dependency invoke to v2.1.2 (#744)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-05-23T11:03:29-04:00",
+          "tree_id": "ad8a3f3bdbda4bd69cb477be0206427a2314f16a",
+          "url": "https://github.com/tophat/syrupy/commit/33693162292af47d7662cb2ea9b930f54973d6da"
+        },
+        "date": 1684854306681,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7667869587938749,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05832391347220397",
+            "extra": "mean: 1.3041432023999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7583512004035935,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05726536422983304",
+            "extra": "mean: 1.3186502500000017 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7268869089176014,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05702362545533737",
+            "extra": "mean: 1.3757298249999963 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8fa8b0fedd61906926e83f215d470d084841806a",
+          "message": "chore(deps): update actions/setup-python action to v4.6.1 (#751)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-06-01T15:45:31-04:00",
+          "tree_id": "b06898288079e138c218fbf2da01d854222fbe89",
+          "url": "https://github.com/tophat/syrupy/commit/8fa8b0fedd61906926e83f215d470d084841806a"
+        },
+        "date": 1685648830836,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7686512547870646,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06216583398955228",
+            "extra": "mean: 1.3009801178000089 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7522257796650924,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06280548088390653",
+            "extra": "mean: 1.3293881000000056 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7174729154164473,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06897873500168626",
+            "extra": "mean: 1.3937808362000168 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "96326365891cb5e505ad55bb3e91da76b0b04b2c",
+          "message": "chore(deps): update dependency coverage to v7.2.6 (#750)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-06-01T15:45:47-04:00",
+          "tree_id": "f97f6cd9b61188f3c2666395146f189d28d09eb1",
+          "url": "https://github.com/tophat/syrupy/commit/96326365891cb5e505ad55bb3e91da76b0b04b2c"
+        },
+        "date": 1685648843651,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8260381642071998,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05012858083587587",
+            "extra": "mean: 1.2105978190000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8046676575682188,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052777841600473926",
+            "extra": "mean: 1.242749090999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7845231326198769,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04395790466029056",
+            "extra": "mean: 1.2746596734000035 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "235d82aeb43798161b6cde1383b0c19f2ca21c36",
+          "message": "chore(deps): update dev dependencies (#753)",
+          "timestamp": "2023-06-01T16:01:55-04:00",
+          "tree_id": "01c74de10544e08d06f144b5c3addda0d39120ff",
+          "url": "https://github.com/tophat/syrupy/commit/235d82aeb43798161b6cde1383b0c19f2ca21c36"
+        },
+        "date": 1685649825262,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6523778474364298,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057335804272165676",
+            "extra": "mean: 1.532854010799997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6521472068214408,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08168525504841187",
+            "extra": "mean: 1.5333961251999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6124003781665417,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15376727282642308",
+            "extra": "mean: 1.6329186520000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f7e291fd1f061df192577efb79eda1658518addc",
+          "message": "chore(deps): update dependency pytest to v7.3.2 (#757)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-06-18T22:39:20-04:00",
+          "tree_id": "97c5b3555ec485b3523d5548c5d32921879f02ea",
+          "url": "https://github.com/tophat/syrupy/commit/f7e291fd1f061df192577efb79eda1658518addc"
+        },
+        "date": 1687142468342,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7506192504855648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057535986861826",
+            "extra": "mean: 1.3322333518000165 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7503641932005783,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07097002241480323",
+            "extra": "mean: 1.3326861930000065 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7282719804118541,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06952320322273126",
+            "extra": "mean: 1.3731133792000036 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4466cb433bef391b8b5c656454414293c493a9ea",
+          "message": "chore(deps): update actions/checkout action to v3.5.3 (#756)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-06-18T22:39:44-04:00",
+          "tree_id": "51edb9fd34b6604551c2c21ad0f00117bf74888c",
+          "url": "https://github.com/tophat/syrupy/commit/4466cb433bef391b8b5c656454414293c493a9ea"
+        },
+        "date": 1687142487826,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8513969458346177,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043118684244449756",
+            "extra": "mean: 1.1745402715999973 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.846072821872911,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04890457963929366",
+            "extra": "mean: 1.1819313588 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8189291827513658,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04974762918427435",
+            "extra": "mean: 1.2211068076000031 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "783fc5cf71901c8bb54769358787dabfa2b51e4a",
+          "message": "fix: support colored >=1.5.0 dependency, close #758 (#760)\n\n* chore(deps): update dev dependencies\r\n\r\n* fix: support colored >=1.5.0 dependency, close #758",
+          "timestamp": "2023-06-18T23:17:54-04:00",
+          "tree_id": "0cdaa54cc9c22ddd7b3718a31616b862e80cac51",
+          "url": "https://github.com/tophat/syrupy/commit/783fc5cf71901c8bb54769358787dabfa2b51e4a"
+        },
+        "date": 1687144797354,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6308297334975749,
+            "unit": "iter/sec",
+            "range": "stddev: 0.051713625654997736",
+            "extra": "mean: 1.5852138015999913 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6342425353394988,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0828116786033814",
+            "extra": "mean: 1.5766839091999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6101786430715832,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0866700410881286",
+            "extra": "mean: 1.6388643086000059 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0badfdbb06157a7e2365edd551aaa1914681f3de",
+          "message": "fix: incorrect marking of TestClass.test_method as unused, close #717 (#761)",
+          "timestamp": "2023-06-18T23:49:53-04:00",
+          "tree_id": "09033cb0bd22614bad3317d01fad762753166aa4",
+          "url": "https://github.com/tophat/syrupy/commit/0badfdbb06157a7e2365edd551aaa1914681f3de"
+        },
+        "date": 1687146694864,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7690179402031176,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047594445252501956",
+            "extra": "mean: 1.300359780600013 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7519094470472352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04333483494433192",
+            "extra": "mean: 1.329947381199986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.723793214832062,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06166199357258839",
+            "extra": "mean: 1.3816100780000056 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b601e6dd23ac6080cc2dcea9e893d64407868890",
+          "message": "chore: create SECURITY.md (#762)",
+          "timestamp": "2023-06-19T00:04:21-04:00",
+          "tree_id": "f6199a5486b2c1a04fa64b941c9b854aff1ae60b",
+          "url": "https://github.com/tophat/syrupy/commit/b601e6dd23ac6080cc2dcea9e893d64407868890"
+        },
+        "date": 1687147563039,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8558306909254053,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03984199305567669",
+            "extra": "mean: 1.1684554090000034 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8560614075831229,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04424474646227217",
+            "extra": "mean: 1.1681404991999955 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8233998467764522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04857960469255008",
+            "extra": "mean: 1.2144767866000024 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7e695066081170530d3401d80b920a8c218cd598",
+          "message": "chore: update SECURITY.md (#763)",
+          "timestamp": "2023-06-19T00:09:18-04:00",
+          "tree_id": "afbad533a0464c49c8477cdb40ac2487d1b5ce64",
+          "url": "https://github.com/tophat/syrupy/commit/7e695066081170530d3401d80b920a8c218cd598"
+        },
+        "date": 1687147860120,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8449974015729933,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04489653701202901",
+            "extra": "mean: 1.1834355918000028 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8513706386952679,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045135026916107386",
+            "extra": "mean: 1.1745765646000053 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8143717404747662,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05526852948826999",
+            "extra": "mean: 1.2279404482000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "440e9f41566653202861d2e10c3a4d55d72dda5a",
+          "message": "chore(deps): update python docker tag to v3.11.4 (#755)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-06-19T00:17:09-04:00",
+          "tree_id": "eda34986db0ab961d50c2de07602fd85b4ee519e",
+          "url": "https://github.com/tophat/syrupy/commit/440e9f41566653202861d2e10c3a4d55d72dda5a"
+        },
+        "date": 1687148351338,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5357543873511299,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06175799340133328",
+            "extra": "mean: 1.8665269451999962 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5383008811805334,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07060743483840222",
+            "extra": "mean: 1.8576971261999915 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5151145337117479,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08154938418322916",
+            "extra": "mean: 1.9413158327999895 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b322e69a93b26d7bc8434ef5cd06913e20c6ae14",
+          "message": "chore(deps): update dependency pytest to v7.4.0 (#767)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-06-30T09:58:46-04:00",
+          "tree_id": "e00f753687aa1d72cfb6d0103aa34bb592bec184",
+          "url": "https://github.com/tophat/syrupy/commit/b322e69a93b26d7bc8434ef5cd06913e20c6ae14"
+        },
+        "date": 1688133649205,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5590722693398721,
+            "unit": "iter/sec",
+            "range": "stddev: 0.058876453530685956",
+            "extra": "mean: 1.7886775196000257 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5501040160768219,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06289912776508881",
+            "extra": "mean: 1.8178380283999787 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5359676606932513,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12038921913453221",
+            "extra": "mean: 1.8657842129999835 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8f581d577068f19a9e0fff65f4476f4601c137df",
+          "message": "fix: hide empty snapshot report (#768)\n\n* fix: hide empty snapshot report\r\n\r\n* test: does not print empty snapshot report",
+          "timestamp": "2023-07-04T13:36:00-04:00",
+          "tree_id": "b13059b35174b7117e224b5b0c7dbe71ce14c1af",
+          "url": "https://github.com/tophat/syrupy/commit/8f581d577068f19a9e0fff65f4476f4601c137df"
+        },
+        "date": 1688492263149,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7214816129612851,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06489018132786964",
+            "extra": "mean: 1.3860367084000245 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7320864379628735,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0858032333813154",
+            "extra": "mean: 1.3659589198000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.694756948242633,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11733256694474728",
+            "extra": "mean: 1.4393522835999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "596b29b7eae26292fb671b3f339d255fd5ac8761",
+          "message": "fix: improve reporting around xfailed snapshots, close #736 (#769)",
+          "timestamp": "2023-07-11T17:09:24-04:00",
+          "tree_id": "0f1ee8f05193c253d60c2b211d9a5c704143443e",
+          "url": "https://github.com/tophat/syrupy/commit/596b29b7eae26292fb671b3f339d255fd5ac8761"
+        },
+        "date": 1689109857143,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7635310089567773,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05228497653813556",
+            "extra": "mean: 1.3097045022000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.764524198070224,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05621594636200745",
+            "extra": "mean: 1.3080030724000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7243729092135005,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05963585108102107",
+            "extra": "mean: 1.3805044159999937 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "319ac7ebdf1000c0717cc578100521d2ab223c09",
+          "message": "chore(deps): update dependency flake8-comprehensions to v3.14.0 (#773)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-07-17T14:36:06-04:00",
+          "tree_id": "8606f348cfff51b8ac2e2b8a60323b579d741d8d",
+          "url": "https://github.com/tophat/syrupy/commit/319ac7ebdf1000c0717cc578100521d2ab223c09"
+        },
+        "date": 1689619090600,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5623892551866011,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10755670860936692",
+            "extra": "mean: 1.7781278550000024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5505784512761549,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08041569534240654",
+            "extra": "mean: 1.8162715915999912 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.575505035062185,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0845423510553044",
+            "extra": "mean: 1.7376042590000054 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "90e146fb5cec0f3e0214e1bb7aa9d24a3fd828d8",
+          "message": "chore(deps): update dependency flake8-bugbear to v23.7.10 (#772)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-07-17T14:36:30-04:00",
+          "tree_id": "95b719481e74b024c4f8875f1af3153c9ef1731a",
+          "url": "https://github.com/tophat/syrupy/commit/90e146fb5cec0f3e0214e1bb7aa9d24a3fd828d8"
+        },
+        "date": 1689619094098,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6285813455951532,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04484809020412062",
+            "extra": "mean: 1.5908839913999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6663993899537946,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07557434722968452",
+            "extra": "mean: 1.5006016138000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6510062956636669,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0791367492540713",
+            "extra": "mean: 1.536083455200003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "24260b17607a11f7afa691c0ecd4da3e09de9bf0",
+          "message": "fix: large snapshot diff recursion error (#776)\n\n* style: add pylint dev dependency\n\n* wip: replace ndiff call with sequence matcher\n\n* wip: get sequence match to function the same\n\n* refactor: sequence diff usage\n\n* wip: sequence diff refactor\n\n* refactor: fix test style errors\n\n* wip: yeah this does not work either\n\n* wip: revert and add test to validate fix\n\n* fix: set max diff line count to avoid ndiff limitation\n\n* chore: update lockfile\n\n* test: add test_diff_large_lines\n\n* test: update diff large to always be above max line count",
+          "timestamp": "2023-07-20T07:58:09-04:00",
+          "tree_id": "039f036490a88350d5956d035c1ba0a44bc02848",
+          "url": "https://github.com/tophat/syrupy/commit/24260b17607a11f7afa691c0ecd4da3e09de9bf0"
+        },
+        "date": 1689854412632,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5432712389786792,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052241832464524116",
+            "extra": "mean: 1.840701160399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5694314332620367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07676355961630807",
+            "extra": "mean: 1.7561376867999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5543317257461231,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06717288141995083",
+            "extra": "mean: 1.8039739628000064 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "64b42653d1c3af5b56347ccd9afd24e87b29aa18",
+          "message": "fix: diffing excessively large snapshot lines (#778)\n\n* test: fix invalid testcase\r\n\r\n* fix: diffing excessively large snapshot lines\r\n\r\n* test: snapshot diff for better test representation\r\n\r\n* refactor: include first character change in generated diff",
+          "timestamp": "2023-07-20T17:35:51-04:00",
+          "tree_id": "1bd550ec2d2c50e6649491820c04982fda7e83b9",
+          "url": "https://github.com/tophat/syrupy/commit/64b42653d1c3af5b56347ccd9afd24e87b29aa18"
+        },
+        "date": 1689889047540,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7905710629626236,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04736608058330872",
+            "extra": "mean: 1.2649084274000018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.778955120805439,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05148325749372007",
+            "extra": "mean: 1.283771007200005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.747311906368486,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08089193912759848",
+            "extra": "mean: 1.3381293560000074 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f1c70e3786fd66ffa36817c89128cc4cf136449",
+          "message": "chore(deps): update actions/setup-python action to v4.7.0 (#777)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-07-20T18:11:35-04:00",
+          "tree_id": "56410cd72be12804bbf80a49294cb356eb9c0ed2",
+          "url": "https://github.com/tophat/syrupy/commit/7f1c70e3786fd66ffa36817c89128cc4cf136449"
+        },
+        "date": 1689891210015,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6072501820065094,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06721544497119933",
+            "extra": "mean: 1.6467677238000078 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6041723974910761,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07487844365751095",
+            "extra": "mean: 1.6551567138000052 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5852242962485704,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1017264216212603",
+            "extra": "mean: 1.7087465548000011 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d0f8da00098fa016e8dfb12fe8e218c89f3de8c2",
+          "message": "chore(deps): update snok/install-poetry action to v1.3.4 (#783)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-08-13T20:01:04-04:00",
+          "tree_id": "e7dc9ea4280b094b402301e4ae0f222e0904d6a8",
+          "url": "https://github.com/tophat/syrupy/commit/d0f8da00098fa016e8dfb12fe8e218c89f3de8c2"
+        },
+        "date": 1691971398450,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5317635896782987,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09869442038707753",
+            "extra": "mean: 1.880534920799994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5111507090660045,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08417710316501338",
+            "extra": "mean: 1.9563701707999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5123492876294338,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12308306183314652",
+            "extra": "mean: 1.9517934817999958 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ed84ea8e2b9dfa01cd4788f9787809ffc6b2648",
+          "message": "chore(deps): update dev dependencies (#782)",
+          "timestamp": "2023-08-15T09:48:28-04:00",
+          "tree_id": "c0e794b2c4b9fb4d85b003a907eaf03f175dfc91",
+          "url": "https://github.com/tophat/syrupy/commit/2ed84ea8e2b9dfa01cd4788f9787809ffc6b2648"
+        },
+        "date": 1692107428161,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5925003953879575,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04865581418905636",
+            "extra": "mean: 1.6877625867999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5671099850788985,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07653507111647051",
+            "extra": "mean: 1.7633263851999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5589981040757587,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0893878289160392",
+            "extra": "mean: 1.7889148329999955 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f4bc8453466af2cfa75cdda1d50d67bc8c4396c3",
+          "message": "chore(deps): update dependency debugpy to v1.6.7 (#785)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-08-15T10:07:21-04:00",
+          "tree_id": "c0cec5e52c9d28550cb8b9c1d9029c580ff32e3a",
+          "url": "https://github.com/tophat/syrupy/commit/f4bc8453466af2cfa75cdda1d50d67bc8c4396c3"
+        },
+        "date": 1692108545060,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.778894787434532,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04719469622330271",
+            "extra": "mean: 1.283870448400006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7666487335670356,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05904571566187082",
+            "extra": "mean: 1.304378336800005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7442668868284715,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08586868313405226",
+            "extra": "mean: 1.3436040454000022 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d210cf192962afc3196c9d6cc81e7c799a6caf26",
+          "message": "feat(amber): expose serialize_custom_iterable method of AmberDataSerializer (#788)",
+          "timestamp": "2023-08-16T10:44:44-04:00",
+          "tree_id": "c93e9d288974928d4bad75807cd7eaee0b7ba7e7",
+          "url": "https://github.com/tophat/syrupy/commit/d210cf192962afc3196c9d6cc81e7c799a6caf26"
+        },
+        "date": 1692197202755,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.606437619287083,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0583193106330012",
+            "extra": "mean: 1.6489742196000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5892191093132315,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07925610463789491",
+            "extra": "mean: 1.6971615214000053 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5749693009860934,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10701844650561114",
+            "extra": "mean: 1.7392232912000054 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "55894364+atharva-2001@users.noreply.github.com",
+            "name": "Atharva Arya",
+            "username": "atharva-2001"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "118ef9260cb67369050c3bf7672e9aed0046f7f4",
+          "message": "fix: preserve Falsy values in assertion diff function (#789)",
+          "timestamp": "2023-08-17T19:37:35-04:00",
+          "tree_id": "f915d8b1e3b9eb014a6eb8cc7a45de53f57e0271",
+          "url": "https://github.com/tophat/syrupy/commit/118ef9260cb67369050c3bf7672e9aed0046f7f4"
+        },
+        "date": 1692315548366,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7964906731811064,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04283177411686395",
+            "extra": "mean: 1.2555074826000123 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7832702985046549,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04957882334687827",
+            "extra": "mean: 1.2766984805999981 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7578275475007488,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06214663973032043",
+            "extra": "mean: 1.3195614270000022 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iamogbz+github@gmail.com",
+            "name": "Emmanuel Ogbizi",
+            "username": "iamogbz"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3ac2ce84c5dfe180606ef32d1dd067af952d376e",
+          "message": "feat(serializer): add snapshot regex value matcher and bypass custom repr helper (#791)",
+          "timestamp": "2023-08-21T07:51:00-04:00",
+          "tree_id": "aa0881e1da921aa6efd215ef6ea9eab0e9addc18",
+          "url": "https://github.com/tophat/syrupy/commit/3ac2ce84c5dfe180606ef32d1dd067af952d376e"
+        },
+        "date": 1692618806205,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5087558950508346,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07724910671552575",
+            "extra": "mean: 1.9655791898000132 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.49337831730534415,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09880546059703803",
+            "extra": "mean: 2.026842211999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.48249111388009897,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1232547096454394",
+            "extra": "mean: 2.072577030399992 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c8524a60f3abeac738dca65fe8f4990e0f0a69f3",
+          "message": "chore: update poetry, specify renovate constraint (#793)",
+          "timestamp": "2023-08-21T16:03:10-04:00",
+          "tree_id": "c036913c8dc07fdff17876f00d1f103d9f0b0578",
+          "url": "https://github.com/tophat/syrupy/commit/c8524a60f3abeac738dca65fe8f4990e0f0a69f3"
+        },
+        "date": 1692648294159,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5050261577394404,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07816862040087877",
+            "extra": "mean: 1.9800954558000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4876147152078139,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08273823592051148",
+            "extra": "mean: 2.050799470999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4694540132781303,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12028302994148095",
+            "extra": "mean: 2.130134095599999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e2e314fca6f90d9601c3b7d30370d2ca21e09cfe",
+          "message": "fix: support python 3.12 (#794)",
+          "timestamp": "2023-08-21T16:18:29-04:00",
+          "tree_id": "0d5d0a9a78b241dccdf08db7981deb1d1c763db9",
+          "url": "https://github.com/tophat/syrupy/commit/e2e314fca6f90d9601c3b7d30370d2ca21e09cfe"
+        },
+        "date": 1692649207027,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5198448400308384,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05812831911626532",
+            "extra": "mean: 1.923650910799995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5139725385120247,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08167385620895319",
+            "extra": "mean: 1.9456292410000118 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4866094944331513,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1352842241094931",
+            "extra": "mean: 2.0550359404000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "96bffccd229bb1b13e6721baffd80d298000e34b",
+          "message": "fix: remove colored dependency (#796)",
+          "timestamp": "2023-08-28T16:01:00-04:00",
+          "tree_id": "cae1ede5a3b93c0747d0d212c26133695d926e9c",
+          "url": "https://github.com/tophat/syrupy/commit/96bffccd229bb1b13e6721baffd80d298000e34b"
+        },
+        "date": 1693252945439,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7042399733248048,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05421983222036774",
+            "extra": "mean: 1.419970518399964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6934455573077598,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07518279239868159",
+            "extra": "mean: 1.4420742759999938 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.680851774650648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0843281485862728",
+            "extra": "mean: 1.468748466599959 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3f891ea4e561cd1b182e9b2c5d0414821187cd7",
+          "message": "feat: add include option to snapshots, similar to exclude (#797)",
+          "timestamp": "2023-08-28T18:28:53-04:00",
+          "tree_id": "35f01f5e6529c92eead5cd4ddb60b83d669dde05",
+          "url": "https://github.com/tophat/syrupy/commit/d3f891ea4e561cd1b182e9b2c5d0414821187cd7"
+        },
+        "date": 1693261808738,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6766605709559296,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0722410880423933",
+            "extra": "mean: 1.4778458253999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6808699176335272,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05893323903627665",
+            "extra": "mean: 1.4687093292000042 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6634708691190315,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11622671472213789",
+            "extra": "mean: 1.5072251798000083 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e1ae7efba16e64fbade4c4336eeadc0222036855",
+          "message": "chore(deps): update python docker tag to v3.11.5 (#795)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-08-29T08:12:02-04:00",
+          "tree_id": "5b50f0f80346d2fb2d0b2bbd4f3d025db0d2e5ff",
+          "url": "https://github.com/tophat/syrupy/commit/e1ae7efba16e64fbade4c4336eeadc0222036855"
+        },
+        "date": 1693311210288,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7608237284821884,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06710584926949657",
+            "extra": "mean: 1.314364895 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7722149802408419,
+            "unit": "iter/sec",
+            "range": "stddev: 0.059910919205681944",
+            "extra": "mean: 1.2949761732000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7445000611518201,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08523626586547005",
+            "extra": "mean: 1.3431832342000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ceca97d88b000dda7fe8412ef3baab8d0235b684",
+          "message": "chore(deps): update dependency debugpy to v1.6.7 (#792)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-08-29T08:12:21-04:00",
+          "tree_id": "23ac4812b2a944226bb14e6d743867a3830e37c6",
+          "url": "https://github.com/tophat/syrupy/commit/ceca97d88b000dda7fe8412ef3baab8d0235b684"
+        },
+        "date": 1693311227374,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7176880734118378,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05358647530566296",
+            "extra": "mean: 1.3933629902000064 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7087853277095996,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06340538927366603",
+            "extra": "mean: 1.4108644196 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.691573504979619,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08570991764227988",
+            "extra": "mean: 1.445977893600002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1676fa554d74edeb1f448edbe661e053bf8ad350",
+          "message": "feat(filter): add paths_include filter (#798)\n\nNOTE: The paths_include filter provides a convenience filter for supporting includes on nested objects.",
+          "timestamp": "2023-08-29T11:20:05-04:00",
+          "tree_id": "5d5dc74834bbab0e347aa9a0d47eb212d47d6812",
+          "url": "https://github.com/tophat/syrupy/commit/1676fa554d74edeb1f448edbe661e053bf8ad350"
+        },
+        "date": 1693322498494,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6362335338821535,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04916402864201718",
+            "extra": "mean: 1.5717499106000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6389395329401083,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0828392419930386",
+            "extra": "mean: 1.5650933280000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6262105105519887,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11530595686111426",
+            "extra": "mean: 1.5969070833999979 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "11b0722b91c5f0ed9434fa293dc1169088cc00b9",
+          "message": "chore(deps): update dependency debugpy to v1.6.7 (#799)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-08-29T11:37:04-04:00",
+          "tree_id": "b6ef2962369df336bc147faf68512604d3456482",
+          "url": "https://github.com/tophat/syrupy/commit/11b0722b91c5f0ed9434fa293dc1169088cc00b9"
+        },
+        "date": 1693323525627,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6130725736094014,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07885853960124596",
+            "extra": "mean: 1.631128259600007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5929057040043364,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06561337831384517",
+            "extra": "mean: 1.6866088371999979 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5988415334123963,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09720766799540806",
+            "extra": "mean: 1.6698908545999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mjelonek92@gmail.com",
+            "name": "Michał Jelonek",
+            "username": "michaljelonek"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c87755984341ee4772f4f00b9309de6daec30ec0",
+          "message": "feat: support setting defaults (#802)",
+          "timestamp": "2023-09-01T17:53:54-04:00",
+          "tree_id": "7875ea3bf75a756300b36730ecca64c4535f7dd9",
+          "url": "https://github.com/tophat/syrupy/commit/c87755984341ee4772f4f00b9309de6daec30ec0"
+        },
+        "date": 1693605342066,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5321480065992378,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03082435282365477",
+            "extra": "mean: 1.8791764464000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5191784167069702,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06790009853063964",
+            "extra": "mean: 1.9261201309999962 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5058054166715812,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11614888580473141",
+            "extra": "mean: 1.9770448616000067 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3b7462439b40a0aef9c8388665e806cd5db9fa50",
+          "message": "chore(deps): update actions/checkout action to v3.6.0 (#801)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-05T18:53:30-04:00",
+          "tree_id": "6b77caea7908a4895c00e8912750c0fea6cb9cc1",
+          "url": "https://github.com/tophat/syrupy/commit/3b7462439b40a0aef9c8388665e806cd5db9fa50"
+        },
+        "date": 1693954513620,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5583550818640047,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11605874851043468",
+            "extra": "mean: 1.7909750129999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.558849442609524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10275990665203748",
+            "extra": "mean: 1.7893907083999978 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.556939810828826,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09708342229298775",
+            "extra": "mean: 1.7955261602000063 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b28482019ab0ae022ddded7d5d5df3466f420616",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v4 (#804)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-07T21:56:27-04:00",
+          "tree_id": "28ad7d58b2df5ced3a389a8d491e1185f2c2c287",
+          "url": "https://github.com/tophat/syrupy/commit/b28482019ab0ae022ddded7d5d5df3466f420616"
+        },
+        "date": 1694138290099,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5270188600379563,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07716474760194987",
+            "extra": "mean: 1.8974653011999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5333475069508831,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04479258439470401",
+            "extra": "mean: 1.874950172200002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5185013777617061,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0770425303392652",
+            "extra": "mean: 1.9286351837999973 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "91e9ea5e44e08a411484872c694d01604d8a188b",
+          "message": "chore(deps): update actions/checkout action to v4 (#807)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-14T09:19:15-04:00",
+          "tree_id": "3ceb45af9068b9c6d9dac04626ed944bfb9fe4c7",
+          "url": "https://github.com/tophat/syrupy/commit/91e9ea5e44e08a411484872c694d01604d8a188b"
+        },
+        "date": 1694697633429,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.729021531374338,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0598442559580587",
+            "extra": "mean: 1.3717015986000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.712632464284584,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06686604957536386",
+            "extra": "mean: 1.403247887400002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7027354535783592,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09235081955390224",
+            "extra": "mean: 1.4230106007999979 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "aef3c85f88395e991ff728829feb4c0b1edc12a1",
+          "message": "chore(deps): update dependency pytest to v7.4.1 (#806)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-14T09:19:46-04:00",
+          "tree_id": "2b58025ebe1e146c6c154cfdd42ac117aba2bb24",
+          "url": "https://github.com/tophat/syrupy/commit/aef3c85f88395e991ff728829feb4c0b1edc12a1"
+        },
+        "date": 1694697672044,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7427496560656152,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05477105202816397",
+            "extra": "mean: 1.346348654399995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7227994604000776,
+            "unit": "iter/sec",
+            "range": "stddev: 0.058600779520335544",
+            "extra": "mean: 1.383509610599998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7135232045532818,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07659238483554849",
+            "extra": "mean: 1.4014961161999964 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6fe0e3dbfce692da79b51c2a7c8f8095abb754bd",
+          "message": "chore(deps): update dependency coverage to v7.3.1 (#809)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-14T09:20:30-04:00",
+          "tree_id": "88b66e817b093b7f2b87059ad360f4e8033c81ec",
+          "url": "https://github.com/tophat/syrupy/commit/6fe0e3dbfce692da79b51c2a7c8f8095abb754bd"
+        },
+        "date": 1694697706156,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7935532177173402,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04312584503730587",
+            "extra": "mean: 1.2601549305999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7753820180466744,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05567425774961365",
+            "extra": "mean: 1.2896868597999969 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7594814864957501,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06774079221065576",
+            "extra": "mean: 1.3166877899999947 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "77300700d59879b694e6de6b56ccad8390d58f21",
+          "message": "chore(deps): update dependency black to v23.9.0 (#812)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-16T22:59:29-04:00",
+          "tree_id": "a4c07bb905ea5355d7c0b49d6abda3018b0d33e9",
+          "url": "https://github.com/tophat/syrupy/commit/77300700d59879b694e6de6b56ccad8390d58f21"
+        },
+        "date": 1694919641184,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7877644447862987,
+            "unit": "iter/sec",
+            "range": "stddev: 0.048158826860679876",
+            "extra": "mean: 1.2694149965999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.769009993323618,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061744630964086854",
+            "extra": "mean: 1.3003732184000056 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7528601671577377,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08787977086368103",
+            "extra": "mean: 1.3282679090000016 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dbea7216f884f9446f6e9882ac6faf3fbda5c31a",
+          "message": "chore(deps): update dependency flake8-bugbear to v23.9.16 (#813)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-26T00:10:36-04:00",
+          "tree_id": "8a2f0778504f01d5d1979226197dc0acf0f8a459",
+          "url": "https://github.com/tophat/syrupy/commit/dbea7216f884f9446f6e9882ac6faf3fbda5c31a"
+        },
+        "date": 1695701517308,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6981978555560279,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05294618329940975",
+            "extra": "mean: 1.4322587674000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6958768416845984,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08121161853779975",
+            "extra": "mean: 1.4370358949999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6709033676717904,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12572646331675574",
+            "extra": "mean: 1.490527620200001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b6df09ef77b256aa419b8dcd7a92bb87f24524e7",
+          "message": "chore(deps): update dependency debugpy to v1.8.0 (#811)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-26T11:05:23-04:00",
+          "tree_id": "0cf455067a7eda2eb0eaafe38aff3a35772a4bc0",
+          "url": "https://github.com/tophat/syrupy/commit/b6df09ef77b256aa419b8dcd7a92bb87f24524e7"
+        },
+        "date": 1695740822739,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5270520957870416,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10386008254577482",
+            "extra": "mean: 1.8973456475999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5246054746810866,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0723010242255118",
+            "extra": "mean: 1.9061943655999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5154079490577758,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09438507160622826",
+            "extra": "mean: 1.940210665800001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b24071200c350d51380ab0e75b674d735914ad95",
+          "message": "chore(deps): update dependency setuptools-scm to v8 (#815)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-09-27T17:22:02-04:00",
+          "tree_id": "c65644fa4e6efdf4be4869be6025ac0d914ca09f",
+          "url": "https://github.com/tophat/syrupy/commit/b24071200c350d51380ab0e75b674d735914ad95"
+        },
+        "date": 1695849808013,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7172343042658249,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04888383581177893",
+            "extra": "mean: 1.3942445223999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7125160400292763,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07169036131462862",
+            "extra": "mean: 1.4034771764000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7023221367731313,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08922127742323605",
+            "extra": "mean: 1.4238480429999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d070802330895e73b1fb74dfab5b2c5ae114c3a1",
+          "message": "chore(deps): update actions/checkout action to v4.1.0 (#817)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-10-02T07:41:16-04:00",
+          "tree_id": "66b9ce4205f24f9b6e2f5556a6199fdffb57cfdc",
+          "url": "https://github.com/tophat/syrupy/commit/d070802330895e73b1fb74dfab5b2c5ae114c3a1"
+        },
+        "date": 1696246957668,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7125922344631596,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06904534739774841",
+            "extra": "mean: 1.4033271086000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6987456750565235,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08388665120478336",
+            "extra": "mean: 1.4311358705999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6871572122602901,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09272606393333202",
+            "extra": "mean: 1.4552710531999877 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4cffb8dee8924ae769c15090d7ebd2618c8031d6",
+          "message": "chore(deps): update dependency semver to v3.0.2 (#822)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-10-19T17:59:35-04:00",
+          "tree_id": "d11d468d0d637e8433ce4ab3bb3c04eaf2183f0e",
+          "url": "https://github.com/tophat/syrupy/commit/4cffb8dee8924ae769c15090d7ebd2618c8031d6"
+        },
+        "date": 1697752862229,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7151987734128202,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06479520505299885",
+            "extra": "mean: 1.3982126887999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6931419646518376,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07555540903280845",
+            "extra": "mean: 1.4427058971999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6864620792812468,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09270197045141634",
+            "extra": "mean: 1.4567447061999985 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2800968d3582b52c99083fbe8b1e49cbd69cdb77",
+          "message": "chore(deps): update dependency coverage to v7.3.2 (#820)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-10-19T17:59:59-04:00",
+          "tree_id": "edc6a623cee7e4a8ba03d1541993e2cfc13f2c53",
+          "url": "https://github.com/tophat/syrupy/commit/2800968d3582b52c99083fbe8b1e49cbd69cdb77"
+        },
+        "date": 1697752907371,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6102164435064528,
+            "unit": "iter/sec",
+            "range": "stddev: 0.041726688061791146",
+            "extra": "mean: 1.6387627876000124 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5954685439748348,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07180774740414066",
+            "extra": "mean: 1.679349833200024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5801441238076885,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11792120237973501",
+            "extra": "mean: 1.7237096076000058 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eb8c9bebb4cc0bf8d11963f5d25833877b26cbb2",
+          "message": "chore(deps): update actions/setup-python action to v4.7.1 (#818)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-10-19T18:00:18-04:00",
+          "tree_id": "ad703e047d2bccf08395051eb6460c851a4998f0",
+          "url": "https://github.com/tophat/syrupy/commit/eb8c9bebb4cc0bf8d11963f5d25833877b26cbb2"
+        },
+        "date": 1697752919862,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6010121707752079,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07226557173725083",
+            "extra": "mean: 1.6638598161999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5775548271627859,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09480252009615127",
+            "extra": "mean: 1.7314373510000052 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5757731989166676,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09948716781071963",
+            "extra": "mean: 1.736794977400001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0f15f1dcf235aa77ec55f48e33cff86c7210d9ec",
+          "message": "chore(deps): update dependency setuptools-scm to v8.0.4 (#819)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-10-19T18:00:36-04:00",
+          "tree_id": "f60db90fb0f78d571ee3aaab3106ef52a95873b1",
+          "url": "https://github.com/tophat/syrupy/commit/0f15f1dcf235aa77ec55f48e33cff86c7210d9ec"
+        },
+        "date": 1697752921374,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7185887547375464,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06802640038398625",
+            "extra": "mean: 1.3916165448000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7059553084224632,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07986586474682421",
+            "extra": "mean: 1.416520264200028 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6887334300146557,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11068289243500781",
+            "extra": "mean: 1.4519405570000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ManiacDC@users.noreply.github.com",
+            "name": "ManiacDC",
+            "username": "ManiacDC"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f3a454a378681ef647fc215a05b8fe9dee3a21c4",
+          "message": "feat(serializer): add support for FunctionType serialization (#823)\n\n\r\n---------\r\n\r\nCo-authored-by: ManiacDC <ManiacDC​@users.noreply.github.com>",
+          "timestamp": "2023-10-24T11:37:16-04:00",
+          "tree_id": "573f67cd39375bde73b2d32c1ef8965a4cc265bf",
+          "url": "https://github.com/tophat/syrupy/commit/f3a454a378681ef647fc215a05b8fe9dee3a21c4"
+        },
+        "date": 1698161931855,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8163870904065502,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04276439024592481",
+            "extra": "mean: 1.224909129199989 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7940917351448289,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04689677627336251",
+            "extra": "mean: 1.2593003500000122 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7789792248043207,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04945350153490683",
+            "extra": "mean: 1.2837312834000159 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5839af513eae281f20b9c1a43ded5853009b7526",
+          "message": "chore(deps): update dependency black to v23.10.0 (#828)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-10-25T13:50:00-04:00",
+          "tree_id": "123c7111234a2e95187e42edf05ae53b505cc6f2",
+          "url": "https://github.com/tophat/syrupy/commit/5839af513eae281f20b9c1a43ded5853009b7526"
+        },
+        "date": 1698256287157,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8097817620336145,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04438882272164231",
+            "extra": "mean: 1.2349006199999963 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7840292063950767,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056060770624631405",
+            "extra": "mean: 1.2754626891999918 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.762583387214156,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07376781729715239",
+            "extra": "mean: 1.311332002200004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c0af6da892ace700f836abf3a20b167d82dd8610",
+          "message": "chore(deps): update dependency pytest to v7.4.3 (#831)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-11-01T08:38:41-04:00",
+          "tree_id": "d49930e8691130f3f2bedc8b4bc26257ffea84b1",
+          "url": "https://github.com/tophat/syrupy/commit/c0af6da892ace700f836abf3a20b167d82dd8610"
+        },
+        "date": 1698842412509,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8880406536116539,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055948177801113975",
+            "extra": "mean: 1.1260745732000088 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8711703388927041,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05888091220641501",
+            "extra": "mean: 1.1478811379999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.860101741111562,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0663870110155105",
+            "extra": "mean: 1.1626531515999943 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9893997c14ba018004eb5cc26063d225f82a85de",
+          "message": "chore(deps): update dependency mypy to v1.6.1 (#824)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-11-01T08:38:58-04:00",
+          "tree_id": "06acd8c1d405cfa3c7c318b3439699ce25e6ade6",
+          "url": "https://github.com/tophat/syrupy/commit/9893997c14ba018004eb5cc26063d225f82a85de"
+        },
+        "date": 1698842427925,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7899919586844961,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04497137530131819",
+            "extra": "mean: 1.2658356695999942 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7808155580056035,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05570311247522502",
+            "extra": "mean: 1.280712185799996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.765206464262517,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05907807275172602",
+            "extra": "mean: 1.3068368429999737 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dadygalo@gmail.com",
+            "name": "Dmitry Dygalo",
+            "username": "Stranger6667"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b18499ecaee0820680d867e60355396f140a7741",
+          "message": "docs: fix typo in README.md (#830)",
+          "timestamp": "2023-11-01T08:40:12-04:00",
+          "tree_id": "cc2709c7e3144899f7c8ccf6b371ae56fa7f6a36",
+          "url": "https://github.com/tophat/syrupy/commit/b18499ecaee0820680d867e60355396f140a7741"
+        },
+        "date": 1698842498108,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8023822446404844,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0546518962019392",
+            "extra": "mean: 1.2462887939999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7813037869059516,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052908834050563056",
+            "extra": "mean: 1.2799118815999975 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7655140265677802,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05432558882713933",
+            "extra": "mean: 1.306311792200006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8d25bcbaf75341ae6685f8fc102c183047c12668",
+          "message": "chore(deps): update actions/checkout action to v4.1.1 (#827)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-11-01T08:40:41-04:00",
+          "tree_id": "5f02de8a06c57aa822ab478f8ad4123b71a1fc3a",
+          "url": "https://github.com/tophat/syrupy/commit/8d25bcbaf75341ae6685f8fc102c183047c12668"
+        },
+        "date": 1698842537496,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6580955320933429,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08976676079589042",
+            "extra": "mean: 1.5195362241999875 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.656088078409481,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08943095054187161",
+            "extra": "mean: 1.5241855977999876 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6288748095449058,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0970910120591689",
+            "extra": "mean: 1.5901416065999912 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cf200aad80b98f3106aaae2c672f49944ba70501",
+          "message": "chore(deps): update python docker tag to v3.12.0 (#821)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-11-01T08:48:35-04:00",
+          "tree_id": "f3fcde7843daa39752747721c85a63fcd0f65900",
+          "url": "https://github.com/tophat/syrupy/commit/cf200aad80b98f3106aaae2c672f49944ba70501"
+        },
+        "date": 1698843001121,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7361825751491314,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06298693096097625",
+            "extra": "mean: 1.3583586921999966 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6297445318279709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22848900727929797",
+            "extra": "mean: 1.58794550720001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6472970553087939,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03759563951585142",
+            "extra": "mean: 1.5448857549999957 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ee230a6f99e29b4ff5f8566fa49dcbaafe2e27ef",
+          "message": "chore(deps): update dependency flake8-builtins to v2.2.0 (#833)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-11-13T09:07:20-05:00",
+          "tree_id": "e44cee047e539136bc1d4d59115fb03c75e1949a",
+          "url": "https://github.com/tophat/syrupy/commit/ee230a6f99e29b4ff5f8566fa49dcbaafe2e27ef"
+        },
+        "date": 1699884572343,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.43817706698645326,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08023521741266319",
+            "extra": "mean: 2.2821824219999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.3967505692272061,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2794231346258784",
+            "extra": "mean: 2.5204752748000034 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4084423774555706,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057154977840601806",
+            "extra": "mean: 2.4483257742000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d6530b40ccf17e4af79bc4bdcf760805f1ea60d3",
+          "message": "chore(deps): update dependency mypy to v1.7.0 (#835)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-11-14T07:40:57-05:00",
+          "tree_id": "9a08c3b23eabbdf89c07310d7dc9915e93c274c8",
+          "url": "https://github.com/tophat/syrupy/commit/d6530b40ccf17e4af79bc4bdcf760805f1ea60d3"
+        },
+        "date": 1699965742730,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7435473223466028,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055271478959263355",
+            "extra": "mean: 1.344904312 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6583001413695199,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1884982476562188",
+            "extra": "mean: 1.5190639302000022 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6825090639653899,
+            "unit": "iter/sec",
+            "range": "stddev: 0.036652238106907147",
+            "extra": "mean: 1.4651820068000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f413fdc4779caf3a167152e1aba2428a3e29c2e5",
+          "message": "chore(deps): update actions/setup-python action to v4.8.0 (#840)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T00:59:43-05:00",
+          "tree_id": "bb6c2b94dd648f7ba684b8e64aa246bdf5d64510",
+          "url": "https://github.com/tophat/syrupy/commit/f413fdc4779caf3a167152e1aba2428a3e29c2e5"
+        },
+        "date": 1706767271754,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7273058916808606,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055699452570827285",
+            "extra": "mean: 1.3749373013999957 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6375605945016586,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21945429586528423",
+            "extra": "mean: 1.5684783668000022 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6619512088637546,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05253051228018747",
+            "extra": "mean: 1.5106853596000065 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "794511e2c01c84e48aa039605071f40d3b29164e",
+          "message": "chore(deps): update dependency pytest to v7.4.4 (#846)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T06:02:55Z",
+          "tree_id": "f83dc8d5a1ef1fb70e849f20cafe10eabffa22b0",
+          "url": "https://github.com/tophat/syrupy/commit/794511e2c01c84e48aa039605071f40d3b29164e"
+        },
+        "date": 1706767457295,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7260615236895529,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05826480387509916",
+            "extra": "mean: 1.377293751799988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6418012543033307,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21549785398416685",
+            "extra": "mean: 1.558114748600002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6610239190066701,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05619421323617655",
+            "extra": "mean: 1.5128045616000008 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0242e6d724c4fe66208658383d705ce536fccf6c",
+          "message": "chore(deps): update python docker tag to v3.12.1 (#847)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T06:05:24Z",
+          "tree_id": "fe85729986b18b68591d5d6107b292742c14aa6f",
+          "url": "https://github.com/tophat/syrupy/commit/0242e6d724c4fe66208658383d705ce536fccf6c"
+        },
+        "date": 1706767596122,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7619909245292871,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043283937530874554",
+            "extra": "mean: 1.312351588200005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.682017871845937,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17861416620258108",
+            "extra": "mean: 1.46623723699999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7103883167496059,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04023754343825761",
+            "extra": "mean: 1.4076808083999992 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1e009281652a5389aba1fdb8b881965efaf49676",
+          "message": "chore(deps): update dependency black to v23.12.1 (#834)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T06:08:38Z",
+          "tree_id": "d2731f4c05757c0d59dc03c00c56b3411e84361c",
+          "url": "https://github.com/tophat/syrupy/commit/1e009281652a5389aba1fdb8b881965efaf49676"
+        },
+        "date": 1706767790725,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7487959369944291,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06019583824835626",
+            "extra": "mean: 1.3354773317999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6551838404252066,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1906220856848184",
+            "extra": "mean: 1.5262891699999983 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6797102415848956,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05268528717483009",
+            "extra": "mean: 1.4712151425999962 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f7a1851a4f53e9cda19cdcf4826556502812cdc6",
+          "message": "chore(deps): update dependency flake8-bugbear to v23.11.26 (#839)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T06:11:33Z",
+          "tree_id": "d863bf3a3c2462b1e1261d5ecfd067d77b25b0c3",
+          "url": "https://github.com/tophat/syrupy/commit/f7a1851a4f53e9cda19cdcf4826556502812cdc6"
+        },
+        "date": 1706767969373,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7597659507680543,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057834676426846615",
+            "extra": "mean: 1.316194808399996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6597094971498704,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19663602845226397",
+            "extra": "mean: 1.5158187115999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5567682394046806,
+            "unit": "iter/sec",
+            "range": "stddev: 0.33308846674606546",
+            "extra": "mean: 1.796079462200001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0c458063bc8748a3378a10a12deec38fd1af0535",
+          "message": "chore(deps): update dependency mypy to v1.8.0 (#838)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T06:14:25Z",
+          "tree_id": "4163e7208218dda4828f6d286be4f655783251a5",
+          "url": "https://github.com/tophat/syrupy/commit/0c458063bc8748a3378a10a12deec38fd1af0535"
+        },
+        "date": 1706768143118,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7335229122321958,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05917862367902792",
+            "extra": "mean: 1.3632839320000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.650178451911491,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20128781464417295",
+            "extra": "mean: 1.5380392830000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6666195939017789,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04161950919451875",
+            "extra": "mean: 1.500105921200003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eec145b7bb03d3049e7eb4cf5ce4d6da2ff058cd",
+          "message": "chore(deps): update dependency pytest-xdist to v3.5.0 (#836)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T06:17:30Z",
+          "tree_id": "2bb38e6d8c4208a9bc1456c9bc7ac6c4bd91453f",
+          "url": "https://github.com/tophat/syrupy/commit/eec145b7bb03d3049e7eb4cf5ce4d6da2ff058cd"
+        },
+        "date": 1706768322764,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7566410347681157,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04665461232665928",
+            "extra": "mean: 1.3216306729999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6675580863519297,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18440848247700184",
+            "extra": "mean: 1.4979969839999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6933906684061294,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055305091588561534",
+            "extra": "mean: 1.4421884308000017 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "af3aa99463545bd29114acbdc3e94c3874a3eed7",
+          "message": "chore(deps): update dependency isort to v5.13.2 (#849)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T07:33:31-05:00",
+          "tree_id": "34fd5e56606f6969063338e0d3ef048ef534beb5",
+          "url": "https://github.com/tophat/syrupy/commit/af3aa99463545bd29114acbdc3e94c3874a3eed7"
+        },
+        "date": 1706790893535,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7617848008517005,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04617222048347928",
+            "extra": "mean: 1.312706684200009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.677105555528582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1777629563875729",
+            "extra": "mean: 1.4768746051999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7048942523796283,
+            "unit": "iter/sec",
+            "range": "stddev: 0.059585404157179",
+            "extra": "mean: 1.4186525094000046 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b0e492e0e095dafa9481aee910651ea89acf2767",
+          "message": "chore(deps): update dependency flake8-bugbear to v24 (#853)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T11:23:42-05:00",
+          "tree_id": "45ab0eeb7f20de6f56da958926c52e23d8c439e4",
+          "url": "https://github.com/tophat/syrupy/commit/b0e492e0e095dafa9481aee910651ea89acf2767"
+        },
+        "date": 1706804696547,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7539607811158902,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05002129549412063",
+            "extra": "mean: 1.3263289352000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6716929717734881,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19565227544518093",
+            "extra": "mean: 1.4887754406000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6951772048600483,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04170121231650522",
+            "extra": "mean: 1.4384821495999973 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b63e4c30b0759563b9c2008f9ffcf2a419f81f88",
+          "message": "chore(deps): update actions/setup-python action to v5 (#850)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T16:26:44Z",
+          "tree_id": "4aba814f3352e48b9da94bb0972dffbd247630d6",
+          "url": "https://github.com/tophat/syrupy/commit/b63e4c30b0759563b9c2008f9ffcf2a419f81f88"
+        },
+        "date": 1706804879180,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7381789662061806,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0605699551212144",
+            "extra": "mean: 1.3546850367999923 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6470305854780524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2163093411734616",
+            "extra": "mean: 1.5455219930000055 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6708516159730368,
+            "unit": "iter/sec",
+            "range": "stddev: 0.064805271447493",
+            "extra": "mean: 1.4906426044000056 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "14c94b17cfc172b8c314cbdc5dd144fa4e4bcf07",
+          "message": "chore(deps): update dependency coverage to v7.4.0 (#848)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T13:41:29-05:00",
+          "tree_id": "3eb32f55da0b2bcea25d24537d4b82dbf91a410c",
+          "url": "https://github.com/tophat/syrupy/commit/14c94b17cfc172b8c314cbdc5dd144fa4e4bcf07"
+        },
+        "date": 1706812971313,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7347157812577519,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06036914304623366",
+            "extra": "mean: 1.3610705330000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6386782547590857,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23459261331952166",
+            "extra": "mean: 1.5657335951999927 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6865580911561234,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04210766106208279",
+            "extra": "mean: 1.456540987400001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "950997ed2d2051b4bcfb02983a9c08e21eaec3fe",
+          "message": "chore(deps): update dependency flake8 to v7 (#851)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-02-01T18:44:59Z",
+          "tree_id": "7430bbb56c56cf6d9432a3ce8a405984ca66ea4c",
+          "url": "https://github.com/tophat/syrupy/commit/950997ed2d2051b4bcfb02983a9c08e21eaec3fe"
+        },
+        "date": 1706813182666,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7347531569318875,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06571901349220487",
+            "extra": "mean: 1.3610012976000063 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.645318639823697,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2275165743148998",
+            "extra": "mean: 1.5496220600000072 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6785496231805689,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0428997086269188",
+            "extra": "mean: 1.4737315678000016 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3175615a31bde0cdac6ec4a18d4a9285001d5d21",
+          "message": "fix: support pytest 8 (#855)\n\n* chore: update devcontainer python to 3.12\r\n\r\n* chore: update poetry to 1.7.1\r\n\r\n* fix: support pytest 8",
+          "timestamp": "2024-02-07T00:55:14-05:00",
+          "tree_id": "393b2902795bd7f102ebc7c525b26504a39cb7e1",
+          "url": "https://github.com/tophat/syrupy/commit/3175615a31bde0cdac6ec4a18d4a9285001d5d21"
+        },
+        "date": 1707285384548,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7074830954367697,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0525139279217374",
+            "extra": "mean: 1.4134613341999966 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6515351243539975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22326420556246687",
+            "extra": "mean: 1.5348366690000148 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6721472311559443,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03939648682056967",
+            "extra": "mean: 1.4877692767999975 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "me@tommasoamici.com",
+            "name": "Tommaso A",
+            "username": "TommasoAmici"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c91a5fade928466402d8113699fe14e787c56211",
+          "message": "chore: updated pytest badge in README (#863)\n\nThe library does support pytest v8, this is also highlighted in the table in the README",
+          "timestamp": "2024-05-03T19:35:50Z",
+          "tree_id": "f82671a3b3e06b70f27357d5f5a56e3a6841e5e3",
+          "url": "https://github.com/tophat/syrupy/commit/c91a5fade928466402d8113699fe14e787c56211"
+        },
+        "date": 1714765033432,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6945574713252124,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0912202682617939",
+            "extra": "mean: 1.4397656656000037 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6435716290371883,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2563806438235496",
+            "extra": "mean: 1.5538285947999981 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6735588968759421,
+            "unit": "iter/sec",
+            "range": "stddev: 0.039053055047679745",
+            "extra": "mean: 1.4846511636000002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ee87380f1632263d62132c9172330db0324fc1d6",
+          "message": "chore: fix links (#869)",
+          "timestamp": "2024-08-20T20:47:27-04:00",
+          "tree_id": "c0a74b9b2e664c43e0b7de764c7d04fd5821e054",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ee87380f1632263d62132c9172330db0324fc1d6"
+        },
+        "date": 1724201322884,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7649951841457042,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09425657472489858",
+            "extra": "mean: 1.307197771600005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7112695764596193,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21167257624953445",
+            "extra": "mean: 1.405936698399995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7249110020238674,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05640984743024096",
+            "extra": "mean: 1.379479683999989 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "87592e581f34f213cfa4d4125bcc15959dad8113",
+          "message": "fix: update classifiers, metadata (#870)",
+          "timestamp": "2024-08-20T21:11:48-04:00",
+          "tree_id": "2506555603eb393c16dfe05777450dfc8f932f71",
+          "url": "https://github.com/syrupy-project/syrupy/commit/87592e581f34f213cfa4d4125bcc15959dad8113"
+        },
+        "date": 1724202777841,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8202409472678185,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0589060186645951",
+            "extra": "mean: 1.2191539611999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7255223490438355,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16849983292260828",
+            "extra": "mean: 1.3783172928000056 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.77798886577967,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05365573492129021",
+            "extra": "mean: 1.285365439000003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d45fe8b55f88094a69c986130159871eb5d59c35",
+          "message": "chore: update twine (#871)",
+          "timestamp": "2024-08-20T21:23:25-04:00",
+          "tree_id": "eed670efb6fd5033ac9cdd340dd0554c1b0fa362",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d45fe8b55f88094a69c986130159871eb5d59c35"
+        },
+        "date": 1724203480516,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7908718554916498,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0725505483065599",
+            "extra": "mean: 1.2644273443999907 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7396158109514414,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1579065122879822",
+            "extra": "mean: 1.3520533028000046 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7827630175580621,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056755182502496136",
+            "extra": "mean: 1.2775258635999933 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "36528777+AllanChain@users.noreply.github.com",
+            "name": "Allan Chain",
+            "username": "AllanChain"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3f6e30182b3aed34687782385c16001c7cf0b5f3",
+          "message": "fix: ignore unused snapshots for skipped test (#862)",
+          "timestamp": "2024-08-20T21:37:59-04:00",
+          "tree_id": "2feb8192d01006dd73a0d624a7b51ca15efb647a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3f6e30182b3aed34687782385c16001c7cf0b5f3"
+        },
+        "date": 1724204351712,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7778802081101259,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043275014443521206",
+            "extra": "mean: 1.285544984399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7214875423282824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16356407084213695",
+            "extra": "mean: 1.3860253175999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7604644480341984,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06224573511498571",
+            "extra": "mean: 1.3149858650000028 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a9889e5898642d5abc996fea439b05f2c5ab3167",
+          "message": "chore(deps): update snok/install-poetry action to v1.4.1 (#875)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-08-20T21:47:23-04:00",
+          "tree_id": "b1cb7681944d378e479c77b9c1cb9a31ceb31e6c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a9889e5898642d5abc996fea439b05f2c5ab3167"
+        },
+        "date": 1724204967010,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8217630013530121,
+            "unit": "iter/sec",
+            "range": "stddev: 0.062434254042771746",
+            "extra": "mean: 1.2168958670000052 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7289799164853537,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16481872363446143",
+            "extra": "mean: 1.3717799041999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7694243625557851,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04923559754236422",
+            "extra": "mean: 1.2996729095999968 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52723c78c72f54a2b404a3cffcaed4a901aa652c",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v4.1.0 (#874)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-08-20T21:47:38-04:00",
+          "tree_id": "cc9c0cf84262669cdf78e9c5cd3d433633aa10a4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/52723c78c72f54a2b404a3cffcaed4a901aa652c"
+        },
+        "date": 1724204980973,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7772243042950813,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07696950485892753",
+            "extra": "mean: 1.2866298627999924 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7293183497196633,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16232496360455345",
+            "extra": "mean: 1.3711433428000022 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7648799157501259,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04144187639977371",
+            "extra": "mean: 1.307394768000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4a64a068c831023b20253bfa72e8742c55c7ffcc",
+          "message": "chore(deps): update actions/setup-python action to v5.1.1 (#873)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-08-20T21:47:53-04:00",
+          "tree_id": "6781cad742261c9f2900186d6bdd7c66b289bd7f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4a64a068c831023b20253bfa72e8742c55c7ffcc"
+        },
+        "date": 1724204995570,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8247181994653017,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06596528310375657",
+            "extra": "mean: 1.2125353856000032 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7296304618331619,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16412674107812847",
+            "extra": "mean: 1.3705568124000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7659851258603069,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06583566548861725",
+            "extra": "mean: 1.3055083789999997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "30f030fbaad6507f6b1de86283f53d5446bc1266",
+          "message": "chore(deps): update actions/checkout action to v4.1.7 (#872)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-08-20T21:48:03-04:00",
+          "tree_id": "8c28af6cf3e1d14520cb4c972739ae5df5e9c868",
+          "url": "https://github.com/syrupy-project/syrupy/commit/30f030fbaad6507f6b1de86283f53d5446bc1266"
+        },
+        "date": 1724205006018,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7989935801439487,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07423137648025187",
+            "extra": "mean: 1.2515745118000041 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7131886969073489,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16649143797033522",
+            "extra": "mean: 1.4021534614000075 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7504182644176542,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07428213146142144",
+            "extra": "mean: 1.3325901665999935 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "05a35a15d6d13484bd6445231b963c33e2d7d76c",
+          "message": "fix: relax python version constraint, remove upperbound (#878)",
+          "timestamp": "2024-08-20T21:52:49-04:00",
+          "tree_id": "c66b4277965da7753acb02e3600868b9d4952678",
+          "url": "https://github.com/syrupy-project/syrupy/commit/05a35a15d6d13484bd6445231b963c33e2d7d76c"
+        },
+        "date": 1724205257373,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8144090190036746,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06288302222992734",
+            "extra": "mean: 1.2278842408000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6739247232559146,
+            "unit": "iter/sec",
+            "range": "stddev: 0.352081787040755",
+            "extra": "mean: 1.4838452508000102 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7580697657988412,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045665586571833464",
+            "extra": "mean: 1.319139801 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "65850042833c11e7f3c1ab99fb43741d9c9a5f91",
+          "message": "Merge pull request #864 from UltimateLobster/feature/pycharm-diff-patcher\n\nfeat: Added a new CLI flag: --snapshot-patch-pycharm-diff",
+          "timestamp": "2024-08-23T00:10:39-04:00",
+          "tree_id": "6aeddba657105ef44d25ef7c869efa65352d0ff4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/65850042833c11e7f3c1ab99fb43741d9c9a5f91"
+        },
+        "date": 1724386303001,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8037333691481231,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06761379188854093",
+            "extra": "mean: 1.2441937069999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7037112245574709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15599291095307652",
+            "extra": "mean: 1.421037444199999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7411016518653493,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06701876580278031",
+            "extra": "mean: 1.3493425598000015 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "16911ad0541c642118f3f1ac2d1347362d80c854",
+          "message": "fix: pytest-rerunfailures compatibility (#881)",
+          "timestamp": "2024-08-23T00:47:26-04:00",
+          "tree_id": "31d3ec768036ed5f386be1f66892a95341f7301e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/16911ad0541c642118f3f1ac2d1347362d80c854"
+        },
+        "date": 1724388509604,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8051626021205013,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05390669301608232",
+            "extra": "mean: 1.2419851560000041 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7185057736769406,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16756260652954197",
+            "extra": "mean: 1.3917772642000046 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.758231884691137,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056255705273021615",
+            "extra": "mean: 1.318857753399999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a77f641160cd6a4737595feee160a79b0d7e5529",
+          "message": "chore: update renovate config (#883)",
+          "timestamp": "2024-08-23T01:17:22-04:00",
+          "tree_id": "344f8e254449d24c282fb4edaf7902f938ba787a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a77f641160cd6a4737595feee160a79b0d7e5529"
+        },
+        "date": 1724390303500,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8147506943576343,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047766116172766444",
+            "extra": "mean: 1.227369312999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7207651756466642,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19788418089494664",
+            "extra": "mean: 1.3874144225999943 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7714330433465721,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05021979117598695",
+            "extra": "mean: 1.296288781800007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "078c928db1e26a0d3679e61b728bcca8242b7666",
+          "message": "chore: add link to inline-snapshots (#884)",
+          "timestamp": "2024-08-23T01:27:33-04:00",
+          "tree_id": "5d8950d69013d92194428f9045d28d93cc567456",
+          "url": "https://github.com/syrupy-project/syrupy/commit/078c928db1e26a0d3679e61b728bcca8242b7666"
+        },
+        "date": 1724390914597,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8141286822378737,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052245482550020386",
+            "extra": "mean: 1.2283070500000122 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7320150121562612,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16225985573295762",
+            "extra": "mean: 1.3660922021999908 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7690441273085898,
+            "unit": "iter/sec",
+            "range": "stddev: 0.051776543147332765",
+            "extra": "mean: 1.3003155014000072 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "42a118813e451926af9c69ff5fea2c5b67d75401",
+          "message": "chore(deps): update actions/setup-python action to v5.2.0 (#888)\n\n* chore(deps): update actions/setup-python action to v5.2.0\r\n\r\n* chore: lint fix\r\n\r\n---------\r\n\r\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\r\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2024-09-07T14:46:36-04:00",
+          "tree_id": "179d0403318ccd0e5a0f31b4821a15eabadcafca",
+          "url": "https://github.com/syrupy-project/syrupy/commit/42a118813e451926af9c69ff5fea2c5b67d75401"
+        },
+        "date": 1725734856659,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8355243772288989,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056991924255631446",
+            "extra": "mean: 1.196853170600002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7352212419769542,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14888737080175446",
+            "extra": "mean: 1.3601348041999928 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7769679878650123,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04805080517697616",
+            "extra": "mean: 1.2870543132000136 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ba5616cc479cb1201c5ffc0c32b6e7eed2f55056",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v4.1.1 (#890)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-09-25T09:05:41-04:00",
+          "tree_id": "987e18f28b77180ca0da9c50e06012658adf3bbb",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ba5616cc479cb1201c5ffc0c32b6e7eed2f55056"
+        },
+        "date": 1727269619554,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7791294574773032,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08424821416711623",
+            "extra": "mean: 1.2834837528000036 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.682914691095933,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18693762881661277",
+            "extra": "mean: 1.4643117406000044 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7287733806349522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07465884714417007",
+            "extra": "mean: 1.372168669399997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e79cd0447887c7d47de0e1009a288d5543179f06",
+          "message": "chore(deps): update actions/checkout action to v4.2.0 (#891)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-10-05T21:24:39-04:00",
+          "tree_id": "3517eee42d2d01522efd1f39db653c3134b9fee6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e79cd0447887c7d47de0e1009a288d5543179f06"
+        },
+        "date": 1728177949220,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8173161472782019,
+            "unit": "iter/sec",
+            "range": "stddev: 0.053313625067105526",
+            "extra": "mean: 1.2235167545999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7201637710258872,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17052654294812966",
+            "extra": "mean: 1.3885730443999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7642025923442053,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06500254882359556",
+            "extra": "mean: 1.3085535301999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "joostlek@outlook.com",
+            "name": "Joost Lekkerkerker",
+            "username": "joostlek"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "548ec0660c2f8f3c80f2b7f0188e8bb2b0c81fc8",
+          "message": "fix: allow snapshot dir to be different (#892)\n\n* fix: allow snapshot dir to be different\r\n\r\n* chore: format code",
+          "timestamp": "2024-10-05T21:29:33-04:00",
+          "tree_id": "3b682b971e578fb0f070dd9b03678da97eceec2e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/548ec0660c2f8f3c80f2b7f0188e8bb2b0c81fc8"
+        },
+        "date": 1728178242722,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.807682082163775,
+            "unit": "iter/sec",
+            "range": "stddev: 0.044408304599072385",
+            "extra": "mean: 1.2381109128000047 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7236316271200237,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16995361986510563",
+            "extra": "mean: 1.3819185929999946 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7692473365698329,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052614319821926187",
+            "extra": "mean: 1.2999720017999947 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf4a842f60331dd2b2869bda7058a6382ba71c02",
+          "message": "chore(deps): update dependency pytest to v8.3.3 (#895)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-10-05T21:59:37-04:00",
+          "tree_id": "7cd691dc8d52677cd673e44871c7c616c5dd8ca7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/bf4a842f60331dd2b2869bda7058a6382ba71c02"
+        },
+        "date": 1728180046086,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8293154477453782,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05952753253853375",
+            "extra": "mean: 1.2058137861999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7331983025384154,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15918533408997668",
+            "extra": "mean: 1.3638875001999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.775453350741204,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05507587910781125",
+            "extra": "mean: 1.289568223599997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "809cdfcf8861e95a1c5539491bb8933c9ad4a8db",
+          "message": "chore(deps): update dependency mypy to v1.11.2 (#894)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-10-05T21:59:59-04:00",
+          "tree_id": "20e77fdab0f52d2d86b4e97c2bcf0af89f339538",
+          "url": "https://github.com/syrupy-project/syrupy/commit/809cdfcf8861e95a1c5539491bb8933c9ad4a8db"
+        },
+        "date": 1728180067693,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8319743887240485,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05986359900450715",
+            "extra": "mean: 1.2019600766000054 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.732561075125169,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16418986300122076",
+            "extra": "mean: 1.3650738948000138 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7741908979970007,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05890796968382964",
+            "extra": "mean: 1.2916710886000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6c47055f2499f56c46241eeea74cb8d19d9f9ec0",
+          "message": "chore(deps): update actions/checkout action to v4.2.1 (#897)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-10-16T22:42:59-04:00",
+          "tree_id": "88f84d75fe83971e1855e4651891e2377cf10995",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6c47055f2499f56c46241eeea74cb8d19d9f9ec0"
+        },
+        "date": 1729133051339,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7877913058314397,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06031603945652081",
+            "extra": "mean: 1.2693717138000067 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7233501346930011,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16454373451033386",
+            "extra": "mean: 1.382456368000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.758335265848384,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05983835149718796",
+            "extra": "mean: 1.3186779581999986 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a2b6f08821f520359e04f05f144a1389f8450977",
+          "message": "chore(deps): update dependency mypy to v1.12.0 (#900)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-10-16T22:45:41-04:00",
+          "tree_id": "6668a46e564bb592f4858330acecaface4a84d75",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a2b6f08821f520359e04f05f144a1389f8450977"
+        },
+        "date": 1729133211421,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8116591820835528,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06216768432107066",
+            "extra": "mean: 1.2320442151999942 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7167265088004411,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17248388725659006",
+            "extra": "mean: 1.395232334399998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.757490427312063,
+            "unit": "iter/sec",
+            "range": "stddev: 0.058936109943901284",
+            "extra": "mean: 1.320148696199999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "030a5a6b111f23884c70c5336735bbf0f51f4055",
+          "message": "chore: remove CI errors (#903)",
+          "timestamp": "2024-10-19T19:34:27-04:00",
+          "tree_id": "71c32b919a2a26bd2aaaa94b9b4c86855f4d5678",
+          "url": "https://github.com/syrupy-project/syrupy/commit/030a5a6b111f23884c70c5336735bbf0f51f4055"
+        },
+        "date": 1729380937365,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8117909046631377,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06465486725090448",
+            "extra": "mean: 1.231844301600006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7066245808264509,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1841537566060016",
+            "extra": "mean: 1.4151786211999933 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7618832588599506,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05882482110098924",
+            "extra": "mean: 1.3125370434000048 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "62fb6539542b41ac538ffa8be78f4f9e90a73905",
+          "message": "chore: support option to run all tests (#906)",
+          "timestamp": "2024-10-19T20:13:01-04:00",
+          "tree_id": "5f5c3d71626f48f7da21df187da88fc796d318e2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/62fb6539542b41ac538ffa8be78f4f9e90a73905"
+        },
+        "date": 1729383250473,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7945889493098389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07852292872180677",
+            "extra": "mean: 1.2585123426000024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7014383897915912,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17898599647563485",
+            "extra": "mean: 1.4256419587999971 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7469604849398582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07116092946630803",
+            "extra": "mean: 1.3387589037999987 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8b4b037293b2a221b4b21aa7037b1bd2fd9fadf",
+          "message": "test: Add tests highlighting xdist incompatibilities (#902)\n\n* Add tests highlighting xdist incompatibilities",
+          "timestamp": "2024-10-21T08:05:53-04:00",
+          "tree_id": "259256804d2ed02134296ceceb0c0ce791ab5734",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f8b4b037293b2a221b4b21aa7037b1bd2fd9fadf"
+        },
+        "date": 1729512433834,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7708923204140924,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0578049830740303",
+            "extra": "mean: 1.2971980307999957 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6896673635448736,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2056563120640057",
+            "extra": "mean: 1.449974368599993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7247843669061137,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08024401994833688",
+            "extra": "mean: 1.3797207082000114 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9c708a22fb82ced9b6ec0b2eec69f9049d8fb72d",
+          "message": "ci: add ruff to lint process (#908)",
+          "timestamp": "2024-10-21T09:24:32-04:00",
+          "tree_id": "0918ff24d2b745aeb2eaccdd9df06d2cd4739063",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9c708a22fb82ced9b6ec0b2eec69f9049d8fb72d"
+        },
+        "date": 1729517153144,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.760320145814078,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05193902431882462",
+            "extra": "mean: 1.3152354379999962 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6965363183032834,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17471888805325098",
+            "extra": "mean: 1.4356753175999983 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7360275283810983,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05857472700556208",
+            "extra": "mean: 1.3586448351999991 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "84081f65e307dc93bd42a7357154205a9e8df002",
+          "message": "ci: replace isort with ruff (#910)",
+          "timestamp": "2024-11-03T16:56:41-05:00",
+          "tree_id": "ae29a9f0f348cd0bbbcb96c5cd185ec3a7729d77",
+          "url": "https://github.com/syrupy-project/syrupy/commit/84081f65e307dc93bd42a7357154205a9e8df002"
+        },
+        "date": 1730671074120,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8043621236202069,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09230522643116763",
+            "extra": "mean: 1.2432211445999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.726246180145718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16537203623451321",
+            "extra": "mean: 1.376943559 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7748698701672007,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06072448629836927",
+            "extra": "mean: 1.2905392743999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ecc2ea2a2005e3aefeb7df8496ae27a8506cfd1f",
+          "message": "chore(deps): update actions/setup-python action to v5.3.0 (#912)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-11-03T16:57:10-05:00",
+          "tree_id": "a21bc93a5a46334d65312d76b3f4b0818ca5f865",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ecc2ea2a2005e3aefeb7df8496ae27a8506cfd1f"
+        },
+        "date": 1730671114343,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8189919859609595,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05560538773410086",
+            "extra": "mean: 1.2210131688000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7280746395886567,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16183702424266194",
+            "extra": "mean: 1.3734855543999913 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7577191174587521,
+            "unit": "iter/sec",
+            "range": "stddev: 0.037011546872272164",
+            "extra": "mean: 1.3197502569999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e337c888120e7b1d86e8df08181665ebe85fa966",
+          "message": "chore(deps): update actions/checkout action to v4.2.2 (#911)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-11-03T16:57:26-05:00",
+          "tree_id": "9b52007bc945a18af25c5c6ff85952b6b871fe32",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e337c888120e7b1d86e8df08181665ebe85fa966"
+        },
+        "date": 1730671116672,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.806565638388441,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0713683648010429",
+            "extra": "mean: 1.239824699199994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7052757727630713,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17741750121825206",
+            "extra": "mean: 1.4178850864000083 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7577879777063466,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05659599297230847",
+            "extra": "mean: 1.3196303311999942 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7dbd7cf11ad69f63b41a37f419ca17a648402f89",
+          "message": "ci: replace flake8 with ruff (#917)\n\n* ci: replace flake8 with ruff\r\n\r\n* fix violations\r\n\r\n* update lock file",
+          "timestamp": "2024-11-11T20:29:38-05:00",
+          "tree_id": "0fcc4e1ed1f13a59e4af40ca77230a8d1cba79fe",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7dbd7cf11ad69f63b41a37f419ca17a648402f89"
+        },
+        "date": 1731375055517,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8103415087096109,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06234100341361302",
+            "extra": "mean: 1.234047607399998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7233478199069151,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1704849265021065",
+            "extra": "mean: 1.3824607920000176 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7591045019149238,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06656274369729592",
+            "extra": "mean: 1.3173416802000133 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "459b62daab073e9d033a02a3ab762a946d20467f",
+          "message": "chore(deps): update dependency mypy to v1.12.1 (#907)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2024-11-11T20:36:19-05:00",
+          "tree_id": "d3c8ff1ed8c68395ffc249e10a5aa13d9e2bb3ad",
+          "url": "https://github.com/syrupy-project/syrupy/commit/459b62daab073e9d033a02a3ab762a946d20467f"
+        },
+        "date": 1731375454404,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7804159861413916,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09265564535192271",
+            "extra": "mean: 1.2813679085999978 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6917119400858575,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18538973248131416",
+            "extra": "mean: 1.4456885041999954 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7387479906907906,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07928006008511448",
+            "extra": "mean: 1.3536415836000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39d2bba52838468b5a03dd666cec2641942d15e4",
+          "message": "chore: Cleanup unnecessary B009 ignore (#915)\n\nCo-authored-by: Noah <noahnu@gmail.com>",
+          "timestamp": "2024-11-11T20:39:35-05:00",
+          "tree_id": "a1c40674c8b9ce142f922eed44fdd318a49eb4e3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/39d2bba52838468b5a03dd666cec2641942d15e4"
+        },
+        "date": 1731375652994,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8120877044631453,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06755618147186293",
+            "extra": "mean: 1.2313940901999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7212612990726867,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16619477923499826",
+            "extra": "mean: 1.3864600822000057 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7645314365526932,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05876909612864847",
+            "extra": "mean: 1.3079906884000025 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7b97d2a943b6c130186159722be31061b5a3fd00",
+          "message": "chore: remove unnecessary quotes in type annotations (#920)",
+          "timestamp": "2024-11-13T17:04:35-05:00",
+          "tree_id": "e180a01812460c96d65bfb55cc94f417be4bd768",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7b97d2a943b6c130186159722be31061b5a3fd00"
+        },
+        "date": 1731535553465,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8167123752733275,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06537131513379728",
+            "extra": "mean: 1.2244212653999909 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7229816450742967,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16643106210399397",
+            "extra": "mean: 1.3831609790000072 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7683456794538817,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06117241282340881",
+            "extra": "mean: 1.3014975247999985 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "46d2e4d10599678eeea03d8b6e4a2810269c5e96",
+          "message": "chore: use tuple in stdout.re_match_lines (#919)",
+          "timestamp": "2024-11-13T17:14:20-05:00",
+          "tree_id": "5e6eb5294bcdb02c71a002d2a8202a741154eff8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/46d2e4d10599678eeea03d8b6e4a2810269c5e96"
+        },
+        "date": 1731536135279,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7962174775309213,
+            "unit": "iter/sec",
+            "range": "stddev: 0.059140013602759105",
+            "extra": "mean: 1.2559382683999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7257729145361839,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15902526159859537",
+            "extra": "mean: 1.377841443199992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.770042556742259,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056028565027729",
+            "extra": "mean: 1.2986295253999969 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "05abd5addc8140cf7b3a868c80bcd6aff60ea35b",
+          "message": "ci: replace black with ruff formatter (#916)",
+          "timestamp": "2024-11-13T17:27:19-05:00",
+          "tree_id": "f23374e4fa0d50fb463159c15b877942d1ad319d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/05abd5addc8140cf7b3a868c80bcd6aff60ea35b"
+        },
+        "date": 1731536916379,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7801471922181514,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1060507738300309",
+            "extra": "mean: 1.2818093943999884 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7555143457267093,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03495297422688111",
+            "extra": "mean: 1.3236016042000187 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7512680699956586,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06523155112296061",
+            "extra": "mean: 1.3310827917999746 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "6771947+epenet@users.noreply.github.com",
+            "name": "epenet",
+            "username": "epenet"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8c1208d7dbff2c9de2a559f5e6a9783bb12a629a",
+          "message": "ci: enable pyupgrade rules in ruff (#921)",
+          "timestamp": "2024-11-17T20:56:14-05:00",
+          "tree_id": "4380fd3ef44a75aba83926f497b68bebd0215910",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8c1208d7dbff2c9de2a559f5e6a9783bb12a629a"
+        },
+        "date": 1731895045813,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8003550914304741,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057265148672985905",
+            "extra": "mean: 1.2494454158000052 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7749795092860265,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03690195509041565",
+            "extra": "mean: 1.2903566972000078 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7703735784935567,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05530831375771462",
+            "extra": "mean: 1.298071517400001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d283e87c2b8d1d5623ea3258653d579757bfa78c",
+          "message": "feat: add option to disable diffing (#924)\n\nFor extremely large snapshot files, the diff algorithm is not very efficient. Until the algorithm can be modified to work with large files, there is now a --snapshot-diff-mode=disabled flag that can be specified to disable diffing on snapshot assertion failures.",
+          "timestamp": "2024-11-23T17:40:17-05:00",
+          "tree_id": "e7c8c28a4255d9e136a7b28540af582b12d06550",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d283e87c2b8d1d5623ea3258653d579757bfa78c"
+        },
+        "date": 1732401736595,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8206510272360953,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06414211339510058",
+            "extra": "mean: 1.218544749 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7296660677418227,
+            "unit": "iter/sec",
+            "range": "stddev: 0.160353318333188",
+            "extra": "mean: 1.370489932600003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.758693423573993,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06688161104621605",
+            "extra": "mean: 1.3180554476000055 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "huon@exoflare.io",
+            "name": "Huon Wilson",
+            "username": "huonw"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0f6bb55000593e5d5198feb2bd9ccbb1376a37fb",
+          "message": "fix: check current session's pending-write queue when recalling snapshots (e.g. diffing) (#927)\n\n* fix: check current session's pending-write queue when recalling snapshots (e.g. diffing)\n\n* Make PyTestLocation hashable\n\n* Explicitly set methodname to None for doctests\n\n----------------------------------------------------------------------------------- benchmark: 3 tests -----------------------------------------------------------------------------------\nName (time in ms)          Min                 Max                Mean             StdDev              Median                IQR            Outliers     OPS            Rounds  Iterations\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\ntest_1000x_reads      666.9710 (1.0)      748.6652 (1.0)      705.2418 (1.0)      37.2862 (1.0)      703.0552 (1.0)      70.1912 (1.07)          2;0  1.4180 (1.0)           5           1\ntest_standard         669.7840 (1.00)     843.3747 (1.13)     733.8905 (1.04)     68.2257 (1.83)     705.8282 (1.00)     85.6269 (1.30)          1;0  1.3626 (0.96)          5           1\ntest_1000x_writes     793.8229 (1.19)     937.1953 (1.25)     850.9716 (1.21)     54.4067 (1.46)     847.3260 (1.21)     65.9041 (1.0)           2;0  1.1751 (0.83)          5           1\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n* Queue writes with a dict for O(1) look-ups\n\nName (time in ms)          Min                   Max                Mean              StdDev              Median                 IQR            Outliers     OPS            Rounds  Iterations\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\ntest_1000x_reads      625.5781 (1.0)        887.4346 (1.0)      694.6221 (1.0)      109.0048 (1.0)      658.3128 (1.0)       87.7517 (1.0)           1;1  1.4396 (1.0)           5           1\ntest_1000x_writes     637.3099 (1.02)     1,021.0924 (1.15)     812.9789 (1.17)     150.2342 (1.38)     757.7635 (1.15)     215.9572 (2.46)          2;0  1.2300 (0.85)          5           1\ntest_standard         694.1814 (1.11)     1,037.9224 (1.17)     845.1463 (1.22)     136.2068 (1.25)     785.6973 (1.19)     194.9636 (2.22)          2;0  1.1832 (0.82)          5           1\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n* Use type aliases\n\n* return both keys from _snapshot_write_queue_key\n\n* Use a defaultdict\n\n* Update comments",
+          "timestamp": "2025-01-13T07:02:20-05:00",
+          "tree_id": "43968258e83290f25b03b54bfd4d0575259e01e1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0f6bb55000593e5d5198feb2bd9ccbb1376a37fb"
+        },
+        "date": 1736769819708,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7674904334282274,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06067418805069874",
+            "extra": "mean: 1.3029478367999956 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6804722356354574,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16702025286049632",
+            "extra": "mean: 1.469567673199998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6920112695784654,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056538111881698015",
+            "extra": "mean: 1.4450631716000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "62230af072c980a9331ca08e70ecad5ba61836a2",
+          "message": "chore(deps): update dependency pytest to v8.3.4 (#930)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-27T01:11:33Z",
+          "tree_id": "974c97423a2bf9f9ab4ec09f5c6ad160dae337c7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/62230af072c980a9331ca08e70ecad5ba61836a2"
+        },
+        "date": 1737940364717,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7793570208280797,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0611394963970008",
+            "extra": "mean: 1.283108990200003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6924361954051459,
+            "unit": "iter/sec",
+            "range": "stddev: 0.18073534122485588",
+            "extra": "mean: 1.4441763828000034 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7064639343315917,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05105342282901861",
+            "extra": "mean: 1.4155004259999941 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5d23bd3fcfb2ec21f275f12a0a6a4a030bbd203d",
+          "message": "chore(deps): update mcr.microsoft.com/devcontainers/python docker tag to v3.13 (#933)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-27T01:23:07Z",
+          "tree_id": "4b2bd53bed6aa93b45d64dcf0370419e025c8f01",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5d23bd3fcfb2ec21f275f12a0a6a4a030bbd203d"
+        },
+        "date": 1737941060066,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7797496588269304,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07466146133541442",
+            "extra": "mean: 1.2824628888000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.70736047405934,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14396511195442666",
+            "extra": "mean: 1.4137063586000012 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.719318670700503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03397714296361935",
+            "extra": "mean: 1.3902044263999955 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b460d0b16b59b80d995a308ae9837425591b1dbf",
+          "message": "chore(deps): update codecov/codecov-action action to v5 (#934)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-27T01:34:28Z",
+          "tree_id": "37ddef5c82ca6dd8655528249135834a8c7e7b4e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b460d0b16b59b80d995a308ae9837425591b1dbf"
+        },
+        "date": 1737941742751,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7614482395432649,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06442217899341034",
+            "extra": "mean: 1.3132869026000038 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6638419845028238,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20555074771484724",
+            "extra": "mean: 1.5063825780000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6793039728621557,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06672893897075267",
+            "extra": "mean: 1.4720950265999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "01e1c7ad94ac82bca4087cd36f4d46a7f956693e",
+          "message": "chore(deps): update dependency debugpy to v1.8.11 (#929)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-31T10:10:18-05:00",
+          "tree_id": "409384f74891c8a5aaff471dfe05c9686cadb002",
+          "url": "https://github.com/syrupy-project/syrupy/commit/01e1c7ad94ac82bca4087cd36f4d46a7f956693e"
+        },
+        "date": 1738336305546,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7327735525995297,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04827350678903038",
+            "extra": "mean: 1.3646780734000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6457374822946368,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2126368065759711",
+            "extra": "mean: 1.5486169340000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6647885151062729,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06515817831881021",
+            "extra": "mean: 1.5042377798000017 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1e34cd78f1bc887774163c351ed13d83619aad2b",
+          "message": "chore(deps): update dependency mypy to v1.14.1 (#935)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-31T10:56:25-05:00",
+          "tree_id": "d0ed63f7c216201df2f6240992606d2d5d9755ca",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1e34cd78f1bc887774163c351ed13d83619aad2b"
+        },
+        "date": 1738339057686,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7467220729347186,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08949541476379082",
+            "extra": "mean: 1.3391863401999955 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6633063123142975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19282941760504038",
+            "extra": "mean: 1.5075991008000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6800424280755857,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06090215018350213",
+            "extra": "mean: 1.4704964847999917 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eab75fef20894bd64fc4c4f5ede2f068d2b457cb",
+          "message": "chore(deps): update python docker tag to v3.13.0 (#938)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-01-31T14:45:57-05:00",
+          "tree_id": "b0b17348646f7e7b302de0e973daf607dda5d0d0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/eab75fef20894bd64fc4c4f5ede2f068d2b457cb"
+        },
+        "date": 1738352832105,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8050796508297878,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05505405473346378",
+            "extra": "mean: 1.2421131237999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7050997627145411,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23316730109957248",
+            "extra": "mean: 1.418239024999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7199730256979677,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07786095659064801",
+            "extra": "mean: 1.388940924600007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b7f5a9d61c1999ec1006f0db942272851257362b",
+          "message": "chore(deps): update codecov/codecov-action action to v5.3.1 (#948)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-02-17T00:33:57Z",
+          "tree_id": "dcdf9698f5068a9612e01d1001fab834298c5d31",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b7f5a9d61c1999ec1006f0db942272851257362b"
+        },
+        "date": 1739752511505,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7985141212181278,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05282275712328596",
+            "extra": "mean: 1.2523260058000063 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.698901352248691,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24551960819132626",
+            "extra": "mean: 1.4308170914000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7294161208407376,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06718845368778603",
+            "extra": "mean: 1.3709595544000082 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "793763+sparrowt@users.noreply.github.com",
+            "name": "Tom Sparrow",
+            "username": "sparrowt"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7fdffd906dc851d8ff7aa0327b6a8bdb5d0cbed5",
+          "message": "fix: avoid unnecessary env updates to reduce chances of segfault (#956)\n\n* fix: __terminal_color shouldn't modify os.environ unless it has to\n\nSee https://github.com/syrupy-project/syrupy/issues/955 for a\ndetailed explanation of why this can cause thread safety issues\nresulting in a segfault when another thread calls `getenv`\n\n* fix: pytest_assertrepr_compare should be a no-op for other types\n\nIf neither operand is a `SnapshotAssertion` then the rest of the\ncode is not going to do anything, so bail early rather than\nunnecessarily setting up `__terminal_color` etc. which can cause\nissues c.f. https://github.com/syrupy-project/syrupy/issues/955\n\n* chore: run linter\n\n---------\n\nCo-authored-by: Noah Ulster <noah.u@roserocket.com>",
+          "timestamp": "2025-02-20T12:21:45-05:00",
+          "tree_id": "1c80b4c82110d1f883d36bf4ee652325b6a61262",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7fdffd906dc851d8ff7aa0327b6a8bdb5d0cbed5"
+        },
+        "date": 1740072180089,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.791293207258563,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07167662396936088",
+            "extra": "mean: 1.263754055800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7056598497565947,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23696319708989552",
+            "extra": "mean: 1.4171133589999954 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7288381306864072,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09187540514725986",
+            "extra": "mean: 1.3720467657999962 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "samy.laumonier@gmail.com",
+            "name": "Samy Laumonier",
+            "username": "samylaumonier"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52f3bb2089f6289ef6502486301d56d7b13fdf28",
+          "message": "fix: snapshots of deselected parametrized tests wrongly marked as unused (#965)",
+          "timestamp": "2025-03-08T13:37:33-05:00",
+          "tree_id": "14ea2bbb8a5d6c6f9eaa2b8988baf3817eef6dfc",
+          "url": "https://github.com/syrupy-project/syrupy/commit/52f3bb2089f6289ef6502486301d56d7b13fdf28"
+        },
+        "date": 1741459148761,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8142566841388693,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05545755890696258",
+            "extra": "mean: 1.228113959000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7081773961171729,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23239043210938287",
+            "extra": "mean: 1.4120755695999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7290515544232644,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06717042211880127",
+            "extra": "mean: 1.3716451105999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3330c42817cbf4488921270d5ef657ae3358d14d",
+          "message": "Merge pull request #967\n\nCherry-pick features from v5 branch",
+          "timestamp": "2025-03-08T14:07:17-05:00",
+          "tree_id": "97250280af149e78dde30c836c44da51891a88d5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3330c42817cbf4488921270d5ef657ae3358d14d"
+        },
+        "date": 1741460911713,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8073718883275189,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05376644135828316",
+            "extra": "mean: 1.238586597400007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7049215148287582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.229925468662777",
+            "extra": "mean: 1.4185976437999954 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7279717606999968,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07340842128807334",
+            "extra": "mean: 1.3736796589999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5897490e9821156327fe56bc5f7695146e2363a5",
+          "message": "fix(serializer): preserve trailing newlines in ambr serialization (#950)",
+          "timestamp": "2025-03-23T21:34:56-04:00",
+          "tree_id": "168fcd2aacb6177eadea52a141271826e912a33d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5897490e9821156327fe56bc5f7695146e2363a5"
+        },
+        "date": 1742780167484,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7649466560624555,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06888857122761126",
+            "extra": "mean: 1.3072807000000182 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6953674012500827,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23313396398284084",
+            "extra": "mean: 1.4380886969999893 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7193561409535975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06974816516731194",
+            "extra": "mean: 1.3901320126000087 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d42a4d699fe0226c5569ee9c8b305c068dc6a044",
+          "message": "Merge pull request #905 from syrupy-project/next\n\nSyrupy v5",
+          "timestamp": "2025-04-20T10:27:50-04:00",
+          "tree_id": "65d59b58e4208ee86be2d50575fea37c235baa76",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d42a4d699fe0226c5569ee9c8b305c068dc6a044"
+        },
+        "date": 1745159344381,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7605093206484581,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061787094006318065",
+            "extra": "mean: 1.3149082764000013 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6794041299503277,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2576632520327987",
+            "extra": "mean: 1.471878011800004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6930166798341111,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07805972383360625",
+            "extra": "mean: 1.4429667122000183 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "02714b3823c69b007fde8330288eeb49a9157858",
+          "message": "chore: add v5 disclaimer (#970)",
+          "timestamp": "2025-04-20T10:31:16-04:00",
+          "tree_id": "31833b03123bd8149b79a7190c181e65aae35647",
+          "url": "https://github.com/syrupy-project/syrupy/commit/02714b3823c69b007fde8330288eeb49a9157858"
+        },
+        "date": 1745159583600,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7684954897712879,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0570538174272592",
+            "extra": "mean: 1.3012438111999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7059871955613464,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22219575567494956",
+            "extra": "mean: 1.4164562846000024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7089661654242115,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0654118965602579",
+            "extra": "mean: 1.4105045469999937 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1678c3c953bf4ecd1f47a1f22e68ee53f1fa0707",
+          "message": "chore(deps): update python docker tag to v3.13.1 (#961)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T10:36:37-04:00",
+          "tree_id": "4f435dbfec124823508e2c2b746269a342cf3546",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1678c3c953bf4ecd1f47a1f22e68ee53f1fa0707"
+        },
+        "date": 1745159868312,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.784112314157753,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0557964831091945",
+            "extra": "mean: 1.2753275033999956 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7019783753924428,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2300341858266236",
+            "extra": "mean: 1.4245453066000038 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7059048193835362,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06621252084609554",
+            "extra": "mean: 1.4166215792000059 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cfb8e7e683f73578da279c054563aed898f92a1b",
+          "message": "chore: bump poetry version, misc dependencies (#972)",
+          "timestamp": "2025-04-20T10:54:03-04:00",
+          "tree_id": "3a15062b5323af552e1786977a9c7478fd8d63c9",
+          "url": "https://github.com/syrupy-project/syrupy/commit/cfb8e7e683f73578da279c054563aed898f92a1b"
+        },
+        "date": 1745160911891,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7890853212093211,
+            "unit": "iter/sec",
+            "range": "stddev: 0.048428441672739936",
+            "extra": "mean: 1.2672900801999958 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7109522035235568,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21118283296388463",
+            "extra": "mean: 1.4065643162000072 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7135771687534594,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07714542981558205",
+            "extra": "mean: 1.401390128199995 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ed6b0765cf0b6ad136d76d99e03631b8695671fc",
+          "message": "chore(deps): update actions/setup-python action to v5.5.0 (#971)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T10:54:21-04:00",
+          "tree_id": "504b2b3b8d86a5b7a696441411ae7b4d43ba2d34",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ed6b0765cf0b6ad136d76d99e03631b8695671fc"
+        },
+        "date": 1745160930869,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7805571744029478,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05479250115693897",
+            "extra": "mean: 1.281136133000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6902767875120674,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25744208307709293",
+            "extra": "mean: 1.4486942311999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7002927237871404,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08123044522498574",
+            "extra": "mean: 1.4279742827999997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6f0325b452ed9f8e4c40866f213baff153d624aa",
+          "message": "chore(deps): update codecov/codecov-action action to v5.4.0 (#973)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T10:54:55-04:00",
+          "tree_id": "626d38844a9f1e70b25a828b39c9b1910474a6a6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6f0325b452ed9f8e4c40866f213baff153d624aa"
+        },
+        "date": 1745160967959,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7953284202853377,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047681623183297946",
+            "extra": "mean: 1.2573422179999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7148155947299978,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20987716009492652",
+            "extra": "mean: 1.3989622041999836 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7119977986645711,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06470269321203517",
+            "extra": "mean: 1.4044987244000027 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "428a70213ddd2f919d4c6d222a15539ece9eb374",
+          "message": "chore(config): migrate config .github/renovate.json5 (#974)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T10:55:27-04:00",
+          "tree_id": "1a7d41c6256fabd30aa8ef7f45185ecd270c3c96",
+          "url": "https://github.com/syrupy-project/syrupy/commit/428a70213ddd2f919d4c6d222a15539ece9eb374"
+        },
+        "date": 1745161053401,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7799217687334279,
+            "unit": "iter/sec",
+            "range": "stddev: 0.050655772013473835",
+            "extra": "mean: 1.2821798802000017 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7109982369999557,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22509923914349797",
+            "extra": "mean: 1.4064732483999989 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7139006648231347,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054624173113825315",
+            "extra": "mean: 1.400755104000001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e65cbff3405c8a3ae6eaf51f6463ffa7f8ba105b",
+          "message": "chore(deps): update codecov/codecov-action action to v5.4.2 (#975)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T10:58:20-04:00",
+          "tree_id": "c6ff379a2bf1b40dcd09064358b7ff53a89d0d45",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e65cbff3405c8a3ae6eaf51f6463ffa7f8ba105b"
+        },
+        "date": 1745161181214,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7942896408088926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05510909069403441",
+            "extra": "mean: 1.2589865820000057 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7055519274680013,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22615574351579176",
+            "extra": "mean: 1.4173301228000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7093088638420428,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06164166450996118",
+            "extra": "mean: 1.4098230699999987 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "30bfed4b28abe114e0abb8d4239143e7d43fb57b",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v4.2.0 (#977)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T10:58:33-04:00",
+          "tree_id": "c623f2a51f8924563bb5ce7cca8e2ad8a0e3276b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/30bfed4b28abe114e0abb8d4239143e7d43fb57b"
+        },
+        "date": 1745161298300,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7972039885176762,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047476398576871505",
+            "extra": "mean: 1.2543840904000034 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7143821903758703,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2264779741994148",
+            "extra": "mean: 1.3998109323999983 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7201394603758645,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0586812211428903",
+            "extra": "mean: 1.3886199201999943 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "48bb1339032ae3ce6f839afdfa03fb2c365cb1b4",
+          "message": "chore(deps): update python docker tag to v3.13.3 (#976)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-04-20T15:09:21Z",
+          "tree_id": "a0f1bbd3328f77f3cbe27431e50d62ea75fb16ba",
+          "url": "https://github.com/syrupy-project/syrupy/commit/48bb1339032ae3ce6f839afdfa03fb2c365cb1b4"
+        },
+        "date": 1745161824142,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7894535762462369,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04254522706762402",
+            "extra": "mean: 1.2666989295999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.708247200876957,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21517877132696245",
+            "extra": "mean: 1.4119363956000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7145380075505711,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06618073460477333",
+            "extra": "mean: 1.3995056798000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paul@cleversheep.org",
+            "name": "Paul Ollis",
+            "username": "paul-ollis"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "33a848df7c4a33577e4057eae5792f6592ad3172",
+          "message": "fix: Block terminal summary for xdist workers. (#978)",
+          "timestamp": "2025-04-29T23:37:29-04:00",
+          "tree_id": "485b7789088bb8ae2e9aa44ed45ada1179e07fc3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/33a848df7c4a33577e4057eae5792f6592ad3172"
+        },
+        "date": 1745984314926,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7684408867153258,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06979671534773162",
+            "extra": "mean: 1.3013362735999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6816294832609967,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26789199350073234",
+            "extra": "mean: 1.4670726906000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7021734931693707,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06851876826159516",
+            "extra": "mean: 1.4241494584000065 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3f33b98b765d4af775f44cbe281722abaf427fa4",
+          "message": "chore(deps): update dependency setuptools-scm to v8.3.0 (#980)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-05-13T23:07:23-04:00",
+          "tree_id": "132ecfc29d14b002f5ca02bc3fbc568dd4fb9f96",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3f33b98b765d4af775f44cbe281722abaf427fa4"
+        },
+        "date": 1747192105452,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7741586539898941,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056220980499534313",
+            "extra": "mean: 1.2917248872000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6944786945903753,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26481749274988126",
+            "extra": "mean: 1.4399289824000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7039940424757599,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0739217579997436",
+            "extra": "mean: 1.4204665659999989 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "12d1b10c7e025209ca304fcea99b2e7e6468ecf0",
+          "message": "chore(deps): update actions/setup-python action to v5.6.0 (#981)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-05-15T06:40:45-04:00",
+          "tree_id": "131a596cec0cffa1ff9995a3dfd8c8d68f6cb565",
+          "url": "https://github.com/syrupy-project/syrupy/commit/12d1b10c7e025209ca304fcea99b2e7e6468ecf0"
+        },
+        "date": 1747305711956,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8007688621307262,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04960537010174488",
+            "extra": "mean: 1.248799806400001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7208999028205351,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22130255189491937",
+            "extra": "mean: 1.3871551322000186 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7228876669218951,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06984695745167004",
+            "extra": "mean: 1.3833407951999903 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b0ccd9ff83b76e407f6399ed308abb07eb9a4aef",
+          "message": "chore(deps): update dependency ruff to v0.11.7 (#982)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-05-21T14:06:49-04:00",
+          "tree_id": "4554b7476d19d33b7ee654f5d2d83feebeaa1845",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b0ccd9ff83b76e407f6399ed308abb07eb9a4aef"
+        },
+        "date": 1747850880624,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7829037497320547,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060895420968782525",
+            "extra": "mean: 1.2772962198000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6969120923660089,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2632699370471687",
+            "extra": "mean: 1.4349012034000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7022273997379723,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08607613303590965",
+            "extra": "mean: 1.4240401334000041 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "63cedffcf2ec130fe1cc5c08196b0fe85b2a7309",
+          "message": "chore(deps): update dependency ruff to v0.11.11 (#983)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-05-27T09:23:19-04:00",
+          "tree_id": "983f4365b0914ff5b1632694e0a168f3420a1299",
+          "url": "https://github.com/syrupy-project/syrupy/commit/63cedffcf2ec130fe1cc5c08196b0fe85b2a7309"
+        },
+        "date": 1748352263436,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7839781792631382,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06712576288111505",
+            "extra": "mean: 1.275545705800002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7032693221501797,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24115024917778433",
+            "extra": "mean: 1.421930359400001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7163077734619703,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07701684263173354",
+            "extra": "mean: 1.396047951799997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "4255590+rahuliyer95@users.noreply.github.com",
+            "name": "Rahul Iyer",
+            "username": "rahuliyer95"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eb0024d339248b7e1f76fdb65ed30ba3e19c0857",
+          "message": "fix: ensure syrupy's pytest_assertrepr_compare hook is called first. (#984)",
+          "timestamp": "2025-06-04T17:24:41-04:00",
+          "tree_id": "1638d59fd21c90572fa4a9f76476a7cbd5502ca5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/eb0024d339248b7e1f76fdb65ed30ba3e19c0857"
+        },
+        "date": 1749072346396,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7872118541429239,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0519983115616427",
+            "extra": "mean: 1.2703060741999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7035565714507186,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2441161650230161",
+            "extra": "mean: 1.4213498112000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7100285265647637,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07123563421068731",
+            "extra": "mean: 1.408394117399996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1780e4b2433df5bc6d299265795fac181cbb83c8",
+          "message": "chore: prerelease on main (#986)",
+          "timestamp": "2025-06-04T17:34:11-04:00",
+          "tree_id": "ad8e2fb4b35959dd2f94f9774e6ff9f34dbd2483",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1780e4b2433df5bc6d299265795fac181cbb83c8"
+        },
+        "date": 1749072920585,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7806864628186178,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06308612550668141",
+            "extra": "mean: 1.2809239658000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7058466257419295,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25016446601318154",
+            "extra": "mean: 1.4167383728000118 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7094500443047765,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0701173404631369",
+            "extra": "mean: 1.4095425154000054 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "26deb7fd6f1bbd4541a06db9a868e12df8bef6e7",
+          "message": "chore: fix release (#987)",
+          "timestamp": "2025-06-04T17:39:28-04:00",
+          "tree_id": "299e3b89f8eeae5ac503574ffceac33847ddffc8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/26deb7fd6f1bbd4541a06db9a868e12df8bef6e7"
+        },
+        "date": 1749073235927,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7818065361900656,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060560096943433825",
+            "extra": "mean: 1.2790888202000006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6925359469564637,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2561714941323575",
+            "extra": "mean: 1.4439683663999971 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7066206680900647,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07104281315599047",
+            "extra": "mean: 1.4151864574000002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6d0573872f1346875a406d74668d81682511566a",
+          "message": "chore: support prerelease on the next branch (#988)",
+          "timestamp": "2025-06-04T17:44:32-04:00",
+          "tree_id": "682d7b267eb024eb6800e24d0fc47c5468595787",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6d0573872f1346875a406d74668d81682511566a"
+        },
+        "date": 1749073543234,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7959098460437521,
+            "unit": "iter/sec",
+            "range": "stddev: 0.044381799444774946",
+            "extra": "mean: 1.2564237079999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7114376102060082,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23003902894987907",
+            "extra": "mean: 1.4056046315999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7308957181316529,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06502039617750799",
+            "extra": "mean: 1.3681842364000203 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2789597c2ae3099687fbda252c364758dbc5fe2e",
+          "message": "chore: remove prelease, as it's incompatibile with pypi versioning (#989)",
+          "timestamp": "2025-06-04T17:57:21-04:00",
+          "tree_id": "2c33d52b451883b1c39b40f46bc8cd905aece06c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2789597c2ae3099687fbda252c364758dbc5fe2e"
+        },
+        "date": 1749074304785,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7826530173061576,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05565087281010964",
+            "extra": "mean: 1.2777054171999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6955044267102028,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24310429343656612",
+            "extra": "mean: 1.4378053705999947 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7046319218535021,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07090957977400515",
+            "extra": "mean: 1.419180665800019 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7ca109f71853e27c7b0075eac664be7173f5cd63",
+          "message": "chore(deps): update codecov/codecov-action action to v5.4.3 (#992)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-11T18:23:10-04:00",
+          "tree_id": "3fefc4811f6988a1964dc89a0005c2db775a743d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7ca109f71853e27c7b0075eac664be7173f5cd63"
+        },
+        "date": 1749680655298,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7930371766037555,
+            "unit": "iter/sec",
+            "range": "stddev: 0.051913904463375175",
+            "extra": "mean: 1.2609749322 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7033402117305222,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24696603842400505",
+            "extra": "mean: 1.4217870431999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7167662172012503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06293023006214774",
+            "extra": "mean: 1.395155039400001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "948a8696d8923514697b9da83f5bcdae185c66b2",
+          "message": "chore(deps): update dependency ruff to v0.12.0 (#993)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-19T10:02:25-04:00",
+          "tree_id": "e83d5eb4359d8de04c9e995bb374f0cc3e0e1cd0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/948a8696d8923514697b9da83f5bcdae185c66b2"
+        },
+        "date": 1750341813592,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7607074606404286,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0698760731054543",
+            "extra": "mean: 1.3145657847999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6801746056750032,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26506724875991416",
+            "extra": "mean: 1.470210724799999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6831360560073974,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08394521499707353",
+            "extra": "mean: 1.4638372418000016 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "193521815d006963495b06c035077a4d42d9b0b9",
+          "message": "chore(deps): update dependency mypy to v1.16.0 (#995)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-20T11:26:12-04:00",
+          "tree_id": "f1cb208c8c2d13ed3f10d9627f43deb1ffb51f4e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/193521815d006963495b06c035077a4d42d9b0b9"
+        },
+        "date": 1750433237924,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7853366188600729,
+            "unit": "iter/sec",
+            "range": "stddev: 0.053432492313197674",
+            "extra": "mean: 1.2733393247999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7035203961385833,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23446188296257933",
+            "extra": "mean: 1.421422897599993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7102785239638008,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061206427292320946",
+            "extra": "mean: 1.4078984036000008 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f02fecf9bb8c1356d8c68c3a433a4a032aff232",
+          "message": "chore(deps): update dependency coverage to v7.8.2 (#994)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-20T15:33:54Z",
+          "tree_id": "887a01c67e153969d4f4d9b3df388412f44d7f3b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7f02fecf9bb8c1356d8c68c3a433a4a032aff232"
+        },
+        "date": 1750433697462,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8016285464855744,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05360679312984691",
+            "extra": "mean: 1.2474605655999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7136981327304508,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24905512852815595",
+            "extra": "mean: 1.401152607999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7190208792883783,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07761016975498183",
+            "extra": "mean: 1.3907801968000002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5eddba3865c275bbdd98531ea87fadd11510300b",
+          "message": "chore(deps): update dependency pytest-xdist to v3.7.0 (#996)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-20T15:40:22Z",
+          "tree_id": "9e0bc97398afc35ba69e40e379f8a8d4af72c422",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5eddba3865c275bbdd98531ea87fadd11510300b"
+        },
+        "date": 1750434084536,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7934942216228911,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06198576955220023",
+            "extra": "mean: 1.2602486227999918 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7119491968977928,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24024496477197818",
+            "extra": "mean: 1.404594603600009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7132056042357244,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07653985052848536",
+            "extra": "mean: 1.4021202218000042 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0e553d7c8e7e3118f78e8e6513ebbf8e0e22fd5",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v4.2.1 (#997)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-02T16:45:25-04:00",
+          "tree_id": "1e1c858269751cc7c69a0260f22a2f5bb199332b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a0e553d7c8e7e3118f78e8e6513ebbf8e0e22fd5"
+        },
+        "date": 1751489199951,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7625205784040104,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07585920886079085",
+            "extra": "mean: 1.3114400166000038 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6894950790744478,
+            "unit": "iter/sec",
+            "range": "stddev: 0.26270409279314705",
+            "extra": "mean: 1.4503366744000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7001702050333011,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07135776594355606",
+            "extra": "mean: 1.428224155800001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8fa9dd323950386f4fd09a77ca072db8e8e17eaf",
+          "message": "chore(deps): update python docker tag to v3.13.4 (#998)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-07T08:55:31-04:00",
+          "tree_id": "bea92feadacfaa656ebe1d2928b6d89bc4751b30",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8fa9dd323950386f4fd09a77ca072db8e8e17eaf"
+        },
+        "date": 1751893001083,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7891333409685679,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056892831854300004",
+            "extra": "mean: 1.267212963999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7045151508477865,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24914172544219054",
+            "extra": "mean: 1.4194158902000027 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.712316322164807,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0792513935235114",
+            "extra": "mean: 1.403870680600005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9ab56d1e713a2c336583143b863e433176153ed4",
+          "message": "chore(deps): update dependency ruff to v0.12.1 (#999)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-21T09:45:10-04:00",
+          "tree_id": "4be89408701624ef9df94f08131584b79c8e9ac7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9ab56d1e713a2c336583143b863e433176153ed4"
+        },
+        "date": 1753105588158,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.756410710648414,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0694397906439256",
+            "extra": "mean: 1.3220331044000886 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6643413647097507,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3104012470009107",
+            "extra": "mean: 1.5052502420000564 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.672624553262449,
+            "unit": "iter/sec",
+            "range": "stddev: 0.118804131307001",
+            "extra": "mean: 1.486713494399919 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9429efc55aacaa700a1a03017d009d3d36bfb433",
+          "message": "chore(deps): update dependency pytest-xdist to v3.8.0 (#1000)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-23T09:32:01-04:00",
+          "tree_id": "f246391dd9cec4dce39cc23160a678651245a5db",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9429efc55aacaa700a1a03017d009d3d36bfb433"
+        },
+        "date": 1753277601456,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7717029621731157,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07997668240189494",
+            "extra": "mean: 1.2958353783999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7000742911837055,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24676172554778023",
+            "extra": "mean: 1.4284198300000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7071151479720921,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07855576385678185",
+            "extra": "mean: 1.4141968290000022 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c02dc9cf731a500a73b5979bfd6e9b146a7b7fb2",
+          "message": "chore(deps): update dependency coverage to v7.9.2 (#1001)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-24T12:06:08-04:00",
+          "tree_id": "8008a23372e72a31aaf2b166cd2f3ac17aeea1d9",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c02dc9cf731a500a73b5979bfd6e9b146a7b7fb2"
+        },
+        "date": 1753373241207,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.789337032189399,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061040045661428",
+            "extra": "mean: 1.2668859552 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7045264338656883,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22831539911426962",
+            "extra": "mean: 1.4193931581999961 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7079522922713606,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0696131274384638",
+            "extra": "mean: 1.4125245597999936 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "750e06cef71a18276236befd22b639b47774860b",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v4.2.2 (#1002)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-28T09:34:16-04:00",
+          "tree_id": "e3315b9aa01a75b272c49920da00a0296a598daf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/750e06cef71a18276236befd22b639b47774860b"
+        },
+        "date": 1753709733468,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.759331979464865,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0661654670266284",
+            "extra": "mean: 1.3169470364000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.685437922000953,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23812212666529442",
+            "extra": "mean: 1.4589213229999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6900573932575357,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08887388229057198",
+            "extra": "mean: 1.4491548236 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d22b2b2b7553ab222f019cd86f9be8c25a47a2fa",
+          "message": "chore(deps): update dependency mypy to v1.17.0 (#1003)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-05T08:57:34-04:00",
+          "tree_id": "214a4a659ce5281415a8be0aa0bc031713c85c0d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d22b2b2b7553ab222f019cd86f9be8c25a47a2fa"
+        },
+        "date": 1754398729534,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7722400031855821,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06348884732493403",
+            "extra": "mean: 1.2949342120000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6747527299256598,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2840024824433482",
+            "extra": "mean: 1.482024385600002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6913428759726058,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10965104104483117",
+            "extra": "mean: 1.4464602655999954 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5249ed1b8506b3dfb166b8682808470dcb3ad5ef",
+          "message": "chore(deps): update dependency debugpy to v1.8.15 (#1005)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-05T13:41:29-04:00",
+          "tree_id": "04a797853654a88c88ae2ffe04a6010b62566df8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5249ed1b8506b3dfb166b8682808470dcb3ad5ef"
+        },
+        "date": 1754415762750,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7753093113632019,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060738167591971357",
+            "extra": "mean: 1.2898078036 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6859516192360645,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2656370558548259",
+            "extra": "mean: 1.4578287622000032 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6956178007639167,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08981318496999445",
+            "extra": "mean: 1.4375710323999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "47b7c1c3d8adc5238d3c69d572d92ef4495de01d",
+          "message": "Potential fix for code scanning alert no. 1: Workflow does not contain permissions (#1004)\n\nCo-authored-by: Copilot Autofix powered by AI <62310815+github-advanced-security[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-05T13:41:43-04:00",
+          "tree_id": "dc0e168604bc5735177c468abd5bcca8ca061fb7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/47b7c1c3d8adc5238d3c69d572d92ef4495de01d"
+        },
+        "date": 1754415770218,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7944773118543094,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06571153770086309",
+            "extra": "mean: 1.258689184800005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7117847318310623,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25797427294814235",
+            "extra": "mean: 1.4049191493999955 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7159261373219554,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07876031152320197",
+            "extra": "mean: 1.396792137999978 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9b4433e135fb89d16b75d190f2b49f65f8b45665",
+          "message": "chore(deps): update dependency ruff to v0.12.5 (#1007)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-18T10:00:46-04:00",
+          "tree_id": "ca04a7a76b14d50ca7e89e5bd65695359faccd8e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9b4433e135fb89d16b75d190f2b49f65f8b45665"
+        },
+        "date": 1755525717018,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7995158174423993,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06379783359306519",
+            "extra": "mean: 1.2507569934000018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7014607284145795,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25635215193285416",
+            "extra": "mean: 1.4255965580000036 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7141429245705782,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08484971725232054",
+            "extra": "mean: 1.4002799238000023 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ca9e01fdf8e6da90a1340f6ffbb562623f405990",
+          "message": "chore(deps): update dependency coverage to v7.10.1 (#1008)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-18T10:40:49-04:00",
+          "tree_id": "3b95ff1560caa632eaeeb73efb4664e97f65fdfe",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ca9e01fdf8e6da90a1340f6ffbb562623f405990"
+        },
+        "date": 1755528122315,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7969063822654743,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05216337430932956",
+            "extra": "mean: 1.2548525426000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7108205733554224,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2248668846009109",
+            "extra": "mean: 1.4068247846000133 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7160745984467307,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07858119077112924",
+            "extra": "mean: 1.3965025461999971 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "045d9a125cd32ba812ec6cce63e23bd32df92440",
+          "message": "chore(deps): update python docker tag to v3.13.5 (#1006)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-18T13:47:15-04:00",
+          "tree_id": "31a8d3cf5ed80ffe6b592bdeb7e0cfac7d744aba",
+          "url": "https://github.com/syrupy-project/syrupy/commit/045d9a125cd32ba812ec6cce63e23bd32df92440"
+        },
+        "date": 1755539306682,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7908257519227853,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054323890869329816",
+            "extra": "mean: 1.2645010579999905 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.714484514804704,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2351876344471173",
+            "extra": "mean: 1.399610459400003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7131830701934284,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08180459125137816",
+            "extra": "mean: 1.4021645238000133 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "15c897fe75837e86d1b7f619e411bea757e7d55e",
+          "message": "chore(deps): update dependency pytest to v8.4.1 (#1009)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-20T14:56:02-04:00",
+          "tree_id": "18e5d90f796f64228d609be4fc94d79f78009c4d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/15c897fe75837e86d1b7f619e411bea757e7d55e"
+        },
+        "date": 1755716290490,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6667667869449561,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16116981736164174",
+            "extra": "mean: 1.4997747632000056 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5819810605994246,
+            "unit": "iter/sec",
+            "range": "stddev: 0.508272807369254",
+            "extra": "mean: 1.718268974199998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6230276520018778,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15447644621015208",
+            "extra": "mean: 1.6050651954000046 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "841c7a1f4b079e00cb0082f68366554f82db4324",
+          "message": "chore(deps): update dependency coverage to v7.10.6 (#1011)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-03T10:52:35-04:00",
+          "tree_id": "93575e5beb7620fd1f62b4bf1349d0496deeae41",
+          "url": "https://github.com/syrupy-project/syrupy/commit/841c7a1f4b079e00cb0082f68366554f82db4324"
+        },
+        "date": 1756911225584,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.804083640403971,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04804200722494121",
+            "extra": "mean: 1.2436517169999888 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7048491697370927,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22083843011230345",
+            "extra": "mean: 1.4187432474000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7195651076629431,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07501600255393438",
+            "extra": "mean: 1.3897283086000016 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b243f01c295ebf297ca93f491f0757b49b8ee328",
+          "message": "chore(deps): update dependency debugpy to v1.8.16 (#1010)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-05T08:05:26-04:00",
+          "tree_id": "0be1b102d18f8318f702967cbb92d036c948f7e6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b243f01c295ebf297ca93f491f0757b49b8ee328"
+        },
+        "date": 1757074002163,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7605069945493041,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0623845397676373",
+            "extra": "mean: 1.3149122981999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6692194479733001,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25481807540052237",
+            "extra": "mean: 1.4942781519999955 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6872078619935202,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09071341850029915",
+            "extra": "mean: 1.4551637943999964 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8fa4fb00b52e1884be648940303dbfc48731fe54",
+          "message": "chore(deps): update dependency ruff to v0.12.9 (#1013)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-08T21:27:57-04:00",
+          "tree_id": "08b7eca62d4e74f37c70d9aef52dab86e9b72721",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8fa4fb00b52e1884be648940303dbfc48731fe54"
+        },
+        "date": 1757381347974,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.79235175407936,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05254393528963265",
+            "extra": "mean: 1.262065736400001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6926322828014613,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24110225520640743",
+            "extra": "mean: 1.4437675297999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7090765427231386,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07428759205719852",
+            "extra": "mean: 1.4102849829999997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8fe5296fccee39abeaf866dc36a76bd0442d65a8",
+          "message": "chore(deps): update actions/checkout action to v4.3.0 (#1012)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-08T21:28:11-04:00",
+          "tree_id": "d7691490c189bfd631765ba7f4434dd4bf8d186f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8fe5296fccee39abeaf866dc36a76bd0442d65a8"
+        },
+        "date": 1757381366520,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.767498906413452,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06276706563711994",
+            "extra": "mean: 1.3029334525999956 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6747952386853316,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25588136974751136",
+            "extra": "mean: 1.4819310254000129 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6988563584131529,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08100796307623936",
+            "extra": "mean: 1.430909210400023 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2fcf948cfb0ef62f8666d989434afe7eaf6437aa",
+          "message": "chore(deps): update actions/checkout action to v5 (#1015)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-09T16:11:49-04:00",
+          "tree_id": "c0ead689283a2fc1baf85c18372c682f14878240",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2fcf948cfb0ef62f8666d989434afe7eaf6437aa"
+        },
+        "date": 1757448786168,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7761277544904027,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07717026740287641",
+            "extra": "mean: 1.2884476739999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6826182045516627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25777999387709605",
+            "extra": "mean: 1.4649477457999978 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7063735427980572,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07659144804589132",
+            "extra": "mean: 1.4156815613999953 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "af008b9507d6f4b17bb87b13245ae42406e36034",
+          "message": "chore(deps): update python docker tag to v3.13.6 (#1014)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-09T16:11:57-04:00",
+          "tree_id": "8a01c080f38b588228ac0d31aa9f727814140af1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/af008b9507d6f4b17bb87b13245ae42406e36034"
+        },
+        "date": 1757448794791,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7954960679989652,
+            "unit": "iter/sec",
+            "range": "stddev: 0.058984879366951744",
+            "extra": "mean: 1.2570772380000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6955642581714556,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24418388849886896",
+            "extra": "mean: 1.4376816925999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7188903206824521,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08504781583177609",
+            "extra": "mean: 1.3910327781999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "246def167e3d1ce950e7f941fa47bd998030c304",
+          "message": "chore(deps): update dependency setuptools-scm to v9 (#1016)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-10T07:44:22-04:00",
+          "tree_id": "37dab02b9f06f179affa7914f47652fd6e0e1b55",
+          "url": "https://github.com/syrupy-project/syrupy/commit/246def167e3d1ce950e7f941fa47bd998030c304"
+        },
+        "date": 1757504735799,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8066096162784446,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05099574489589319",
+            "extra": "mean: 1.2397571015999347 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7101253970685619,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2084864384408879",
+            "extra": "mean: 1.4082019938000485 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7253020134446956,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06936807010172995",
+            "extra": "mean: 1.3787360043999797 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1e969710e47e214480570435d07951e918406d8f",
+          "message": "chore(deps): update codecov/codecov-action action to v5.5.0 (#1017)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-10T10:18:34-04:00",
+          "tree_id": "8d1c1b29e0017ee596ab1b6b3088cc98a5a586c3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1e969710e47e214480570435d07951e918406d8f"
+        },
+        "date": 1757513989739,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7993877806185367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055518618519629206",
+            "extra": "mean: 1.2509573253999917 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6949294115512691,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24880235911030396",
+            "extra": "mean: 1.4389950740000075 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7014554150344374,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0662039491607817",
+            "extra": "mean: 1.4256073565999998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a670ada234d1342f48848fa04e30e518fe9dfd0d",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v5 (#1018)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-22T10:00:25-04:00",
+          "tree_id": "23b003e7d3551ba8215fd21e8b3b0df718319ac5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a670ada234d1342f48848fa04e30e518fe9dfd0d"
+        },
+        "date": 1758549698728,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8013567406840014,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04414320812701288",
+            "extra": "mean: 1.2478836818000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7110430131881378,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21820084957195024",
+            "extra": "mean: 1.4063846791999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7273906152316838,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08887014083556406",
+            "extra": "mean: 1.374777154199998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5117ec5a1aed7995701947addf785cce84b4b0dd",
+          "message": "chore(deps): update actions/setup-python action to v6 (#1020)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-25T09:00:22-04:00",
+          "tree_id": "650d9e5f24f632d36b6dbe6f82a1dad18cdb70a2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5117ec5a1aed7995701947addf785cce84b4b0dd"
+        },
+        "date": 1758805296845,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.790977648904,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06181754102032599",
+            "extra": "mean: 1.2642582270000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6890940760891018,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2505752004150884",
+            "extra": "mean: 1.4511806656000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7040939913792367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0892044012636993",
+            "extra": "mean: 1.4202649251999986 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b2e49bad7741f06c17a0be9f4608c0db5db13cf5",
+          "message": "chore(deps): update dependency pytest to v8.4.2 (#1022)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-26T09:46:13-04:00",
+          "tree_id": "9e0cbb85441e65695325b388a9d765e325512265",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b2e49bad7741f06c17a0be9f4608c0db5db13cf5"
+        },
+        "date": 1758894447187,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7779108237449543,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05031078696230122",
+            "extra": "mean: 1.2854943902000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6790258934527423,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2394072245588128",
+            "extra": "mean: 1.4726978892000033 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7010309056391103,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08197210594413912",
+            "extra": "mean: 1.426470633400004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "434c63fdabbaaf2372ec94c8968fe025c4a306e6",
+          "message": "chore(deps): update codecov/codecov-action action to v5.5.1 (#1021)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-26T09:46:25-04:00",
+          "tree_id": "c1bc855a6f973abc9f133fdd7d943a2cd0129212",
+          "url": "https://github.com/syrupy-project/syrupy/commit/434c63fdabbaaf2372ec94c8968fe025c4a306e6"
+        },
+        "date": 1758894462452,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7660031256153941,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06653913504794083",
+            "extra": "mean: 1.3054777017999981 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.662271515704551,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25782805264480546",
+            "extra": "mean: 1.5099547183999902 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6825248090912156,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09356121893761228",
+            "extra": "mean: 1.4651482065999972 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "16b4113cd56da96e84a90ebda0919e9b8dd35954",
+          "message": "feat: update min. python version to 3.10 (#1024)\n\nBREAKING CHANGE: Min. python version is now 3.10.",
+          "timestamp": "2025-09-28T13:14:20-04:00",
+          "tree_id": "39efee0618fb0ee6fbb1af0abdd08c284553d5c4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/16b4113cd56da96e84a90ebda0919e9b8dd35954"
+        },
+        "date": 1759079732931,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.882726027824531,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054617071890552614",
+            "extra": "mean: 1.1328543268000033 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7755627569801119,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21359569953342228",
+            "extra": "mean: 1.2893863081999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8265015467594586,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07119325924467568",
+            "extra": "mean: 1.2099190908000026 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e1dbf5dc2a1148480aa9601a5e1c21928954b8cc",
+          "message": "chore(deps): update python docker tag to v3.13.7 (#1025)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-28T13:19:56-04:00",
+          "tree_id": "32237cb4fb538ab9243a0cc64398b5d0dae58a56",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e1dbf5dc2a1148480aa9601a5e1c21928954b8cc"
+        },
+        "date": 1759080062070,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.891489611801763,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0575605420318409",
+            "extra": "mean: 1.121718062399998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7611416433228781,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23367297648170424",
+            "extra": "mean: 1.3138159089999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8133451841609082,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08292549120436274",
+            "extra": "mean: 1.2294902821999927 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "95ffbcb085eb920920a7241c814a55c1e948f148",
+          "message": "Merge pull request #1026 from syrupy-project/rename_methods\n\nrefactor: remove incorrect private underscore prefix from public methods",
+          "timestamp": "2025-09-28T16:59:13-04:00",
+          "tree_id": "c6e372faa271953c1060bf178eb463b7a722a5e2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/95ffbcb085eb920920a7241c814a55c1e948f148"
+        },
+        "date": 1759093222029,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8674319182392587,
+            "unit": "iter/sec",
+            "range": "stddev: 0.059950265746358145",
+            "extra": "mean: 1.1528282265999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7336768951379443,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2582222075296822",
+            "extra": "mean: 1.3629978082000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8003397265424167,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07733390212171284",
+            "extra": "mean: 1.249469402599999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "af15385acd5bf617815aa0d19e2df907bbbd2d83",
+          "message": "Merge pull request #1027 from syrupy-project/test_py_3_14\n\nchore: test against py3.14",
+          "timestamp": "2025-09-28T17:11:52-04:00",
+          "tree_id": "fcaadb2f7560429c7cb6e05b2dd2980144fd4e82",
+          "url": "https://github.com/syrupy-project/syrupy/commit/af15385acd5bf617815aa0d19e2df907bbbd2d83"
+        },
+        "date": 1759093977062,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8890936578274107,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05878383214405986",
+            "extra": "mean: 1.1247408989999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7507677360253212,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24209257154202277",
+            "extra": "mean: 1.3319698649999965 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8139761845457668,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07351420838813884",
+            "extra": "mean: 1.228537172199998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d6e52a4723acae46f60a2642d5a1cd304efb4531",
+          "message": "Merge pull request #1028 from syrupy-project/noahnu-patch-1\n\nUpdate README to remove outdated branch note",
+          "timestamp": "2025-09-28T17:25:06-04:00",
+          "tree_id": "b706fc9e7efb921e27e119feeafcea7d455fefac",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d6e52a4723acae46f60a2642d5a1cd304efb4531"
+        },
+        "date": 1759094768464,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8902825885332559,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0497178164049958",
+            "extra": "mean: 1.1232388602 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7632680283879694,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22909029830808297",
+            "extra": "mean: 1.310155754999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8214823751619352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07051502434135297",
+            "extra": "mean: 1.217311570199999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e3fa198d4dd52f69ff315180bb6b76a4bf64b0d",
+          "message": "Merge pull request #1029 from syrupy-project/renovate/ruff-0.x-lockfile\n\nchore(deps): update dependency ruff to v0.13.3",
+          "timestamp": "2025-10-03T14:42:54-04:00",
+          "tree_id": "9c563fdb465e2e7266ac6fc9d50a8f8805719fab",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6e3fa198d4dd52f69ff315180bb6b76a4bf64b0d"
+        },
+        "date": 1759517038120,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.88614789167627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.050167491405609776",
+            "extra": "mean: 1.128479805000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7598324358488672,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2339526231862276",
+            "extra": "mean: 1.3160796418000018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8036083932660062,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09637735299977974",
+            "extra": "mean: 1.2443872019999986 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "45c49eb1b56bb485af15453e0c9872c2d1a99746",
+          "message": "Merge pull request #1030 from syrupy-project/renovate/mcr.microsoft.com-devcontainers-python-3.x\n\nchore(deps): update mcr.microsoft.com/devcontainers/python docker tag to v3.14",
+          "timestamp": "2025-10-16T11:44:49-04:00",
+          "tree_id": "e17c2f289986af1940bd44e03147a95ab03ebe8c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/45c49eb1b56bb485af15453e0c9872c2d1a99746"
+        },
+        "date": 1760629555032,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.872012074020096,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06007983669950162",
+            "extra": "mean: 1.1467731121999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7410374823390858,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2718299584946856",
+            "extra": "mean: 1.3494594049999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7981692206134433,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07689115572184928",
+            "extra": "mean: 1.252867154200004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3d92201c4c792c62146348968c188f9179aeffa",
+          "message": "Merge pull request #1031 from syrupy-project/renovate/python-3.x\n\nchore(deps): update python docker tag to v3.14.0",
+          "timestamp": "2025-10-20T09:27:11-04:00",
+          "tree_id": "3a2f2fd98caff709bfb63db93f4ee388ee5edd34",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d3d92201c4c792c62146348968c188f9179aeffa"
+        },
+        "date": 1760966911431,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5948116026438476,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03133611293217792",
+            "extra": "mean: 1.6812045958 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5347059948020544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07301867613766397",
+            "extra": "mean: 1.8701866253999924 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5447164211295771,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06657836803409749",
+            "extra": "mean: 1.8358176129999948 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1bb97e1053a5e349fcd4ea0bb2ac3b39d4c05747",
+          "message": "chore(deps): update dependency invoke to v2.2.1 (#1034)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-10-31T23:21:01-04:00",
+          "tree_id": "23a407259fd335edb2bdb178a9ce25f736ad95f7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1bb97e1053a5e349fcd4ea0bb2ac3b39d4c05747"
+        },
+        "date": 1761967336437,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6258246774961032,
+            "unit": "iter/sec",
+            "range": "stddev: 0.030859058360830426",
+            "extra": "mean: 1.5978916076000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5674118416667289,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06087353118990721",
+            "extra": "mean: 1.7623883157999956 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5706149006654752,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06887166702632767",
+            "extra": "mean: 1.7524954199999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ee4d07317ccfdcf1c40cd7fb1893cf0f495fa62",
+          "message": "chore(deps): update dependency ruff to v0.14.0 (#1033)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-01T03:27:11Z",
+          "tree_id": "f4b0cd5905c6b8e669abdb2b45b9d881ff33318b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2ee4d07317ccfdcf1c40cd7fb1893cf0f495fa62"
+        },
+        "date": 1761967716600,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6316966368936994,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03164813031988636",
+            "extra": "mean: 1.5830383471999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5727813432975367,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06490316022468734",
+            "extra": "mean: 1.7458669205999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5724814624542914,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057477439432155025",
+            "extra": "mean: 1.7467814516000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6448b9c8b2f33973489910b2175baa1e3bf9db77",
+          "message": "chore(deps): update dependency setuptools-scm to v9.2.1 (#1035)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-02T10:51:33-05:00",
+          "tree_id": "26cda44f765f4f71a1296adeff7c2af2cdfb8126",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6448b9c8b2f33973489910b2175baa1e3bf9db77"
+        },
+        "date": 1762098766720,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6522182729320214,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02724827567936771",
+            "extra": "mean: 1.5332290454000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5902472711017068,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0706788950270983",
+            "extra": "mean: 1.6942052067999953 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5883624031005824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06678859288483988",
+            "extra": "mean: 1.6996327344000037 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ac0fb60c3aa7f89c2e78959878bdaec3e52cd82e",
+          "message": "chore(deps): update dependency coverage to v7.11.3 (#1036)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-13T17:44:02-05:00",
+          "tree_id": "38b565368efe28e7245f022f6be0099f4803e470",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ac0fb60c3aa7f89c2e78959878bdaec3e52cd82e"
+        },
+        "date": 1763073923124,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6133291069331593,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0256646954772301",
+            "extra": "mean: 1.6304460178 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5403292713281399,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1003779078913337",
+            "extra": "mean: 1.8507233515999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5619875689725488,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06733437330563284",
+            "extra": "mean: 1.7793987896000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "351fc706b10335144a74e0c33d59994aaa7f49be",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v5.0.2 (#1037)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-15T16:06:57-05:00",
+          "tree_id": "dbbf4426b5acf0b0eb35f0a4b50ad43c825866ce",
+          "url": "https://github.com/syrupy-project/syrupy/commit/351fc706b10335144a74e0c33d59994aaa7f49be"
+        },
+        "date": 1763240892727,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5946840609477251,
+            "unit": "iter/sec",
+            "range": "stddev: 0.023940153755418435",
+            "extra": "mean: 1.6815651631999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5545977471909186,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11457035132340447",
+            "extra": "mean: 1.8031086586000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5537366268404528,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08161092726438736",
+            "extra": "mean: 1.8059126875999993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "me@serl.it",
+            "name": "Sergio Livi",
+            "username": "serl"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "05631331676ba751b00d7646afb8e569de9cd3bf",
+          "message": "docs: add usage examples for `unittest.TestCase` (#1038)\n\nFixes #682",
+          "timestamp": "2025-11-17T07:08:23-05:00",
+          "tree_id": "980af3e8724fc48d8743b025269bddbcca06b885",
+          "url": "https://github.com/syrupy-project/syrupy/commit/05631331676ba751b00d7646afb8e569de9cd3bf"
+        },
+        "date": 1763381381427,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.595984783287904,
+            "unit": "iter/sec",
+            "range": "stddev: 0.033727925359376625",
+            "extra": "mean: 1.677895188000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5607975668199532,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11020061127028472",
+            "extra": "mean: 1.7831746411999945 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.539932601122649,
+            "unit": "iter/sec",
+            "range": "stddev: 0.055542694543868114",
+            "extra": "mean: 1.852083015399998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e936f1dc1bd7d19951383827dea48ca6ace7b26e",
+          "message": "chore(deps): update dependency pytest-benchmark to v5.2.0 (#1040)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-20T18:27:12-05:00",
+          "tree_id": "9f8b6837dde033d752a73152a42b0134f277bc49",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e936f1dc1bd7d19951383827dea48ca6ace7b26e"
+        },
+        "date": 1763681314325,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6275890570727759,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04034059803217189",
+            "extra": "mean: 1.593399357000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5546558634400641,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0806674567213845",
+            "extra": "mean: 1.8029197307999965 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5616310886572197,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06081751627691965",
+            "extra": "mean: 1.7805282154000026 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a75f3865341ead6ec7ffaae7516d4a5521637db3",
+          "message": "chore(deps): update dependency ruff to v0.14.4 (#1041)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-28T07:38:06+01:00",
+          "tree_id": "4e0bdbe4eca7a22d2e52530a11d8f30c61618691",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a75f3865341ead6ec7ffaae7516d4a5521637db3"
+        },
+        "date": 1764311964718,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.594465667780297,
+            "unit": "iter/sec",
+            "range": "stddev: 0.027500434179559333",
+            "extra": "mean: 1.6821829320000035 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5610483929357047,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11810047580229813",
+            "extra": "mean: 1.7823774429999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5515122204329295,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0815706057423749",
+            "extra": "mean: 1.8131964495999995 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6cc7c0e2cdcf4a62f10772b7977e45bf490fec25",
+          "message": "chore(deps): update actions/checkout action to v5.0.1 (#1044)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-05T07:57:47-05:00",
+          "tree_id": "a06d9cbe2e892d2fa9301329019e31a77c575c23",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6cc7c0e2cdcf4a62f10772b7977e45bf490fec25"
+        },
+        "date": 1764939543696,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6346710099874581,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0431387298575324",
+            "extra": "mean: 1.5756194693999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5679368253373247,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060085970373644416",
+            "extra": "mean: 1.7607592171999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5630801608526456,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05883871759394143",
+            "extra": "mean: 1.7759460722 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "753ca6a7049f59b905763234c489fd68762ea6d4",
+          "message": "chore(deps): update dependency pytest to v9 (#1043)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-05T13:03:38Z",
+          "tree_id": "448bcb954425d4141017f6cb5949df383995d29c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/753ca6a7049f59b905763234c489fd68762ea6d4"
+        },
+        "date": 1764939897648,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5743219046944986,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03809400734340142",
+            "extra": "mean: 1.7411838061999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5167907032277944,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0641939572392824",
+            "extra": "mean: 1.935019329399998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5207668409008962,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04456545362805849",
+            "extra": "mean: 1.9202451489999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4d0f6f66901570154d9cec39cdd79ca4213d0503",
+          "message": "chore(deps): update cycjimmy/semantic-release-action action to v6 (#1045)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-08T07:08:05-05:00",
+          "tree_id": "7d8ab29f8ce73889ea1b631776dfc9cedd8fd3f0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4d0f6f66901570154d9cec39cdd79ca4213d0503"
+        },
+        "date": 1765195763224,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5431418659548827,
+            "unit": "iter/sec",
+            "range": "stddev: 0.034004927053994945",
+            "extra": "mean: 1.8411396040000114 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4961137632834709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.13555512588658267",
+            "extra": "mean: 2.01566671600001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5146865639106595,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04879173161894065",
+            "extra": "mean: 1.9429300667999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bec509de20e4dead8b4f1617a6d6a2d9553a7f1c",
+          "message": "chore(deps): update dependency coverage to v7.12.0 (#1046)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-09T14:54:51-05:00",
+          "tree_id": "18d1a78d986b162d2a37e6405f9015ae683b8161",
+          "url": "https://github.com/syrupy-project/syrupy/commit/bec509de20e4dead8b4f1617a6d6a2d9553a7f1c"
+        },
+        "date": 1765310169451,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5885988352635555,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029522820033146286",
+            "extra": "mean: 1.6989500149999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5307572167603589,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05825590347632369",
+            "extra": "mean: 1.8841006177999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5287959714948866,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05099173999610079",
+            "extra": "mean: 1.891088536800001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0b852aef7d4517b0d65fc20463eca25211551748",
+          "message": "chore(deps): update actions/checkout action to v6 (#1047)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-11T16:07:10-05:00",
+          "tree_id": "3c9db0dc43563c19450c03746bb1bb45850ce5ab",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0b852aef7d4517b0d65fc20463eca25211551748"
+        },
+        "date": 1765487318024,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5794287322803706,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03579573863115745",
+            "extra": "mean: 1.7258377852000024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5175839618165765,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060335159798738",
+            "extra": "mean: 1.932053683600003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5181960756166537,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07711186999843572",
+            "extra": "mean: 1.9297714649999989 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "acea556cf014542082ecd411904e533af4e20788",
+          "message": "chore(deps): update dependency mypy to v1.19.0 (#1051)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-21T09:45:49-05:00",
+          "tree_id": "c5378490a66e61088d5ff18995b02f8453c25905",
+          "url": "https://github.com/syrupy-project/syrupy/commit/acea556cf014542082ecd411904e533af4e20788"
+        },
+        "date": 1766328438476,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.580056802609972,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03805791635315891",
+            "extra": "mean: 1.7239690931999916 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5183138981815376,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08194763579640825",
+            "extra": "mean: 1.9293327913999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5232514945489073,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05299398066146117",
+            "extra": "mean: 1.9111268871999982 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ff37432ab02c9b7e7c15c0a17cde5ba5e1938170",
+          "message": "chore(deps): update actions/setup-python action to v6.1.0 (#1050)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-21T09:46:05-05:00",
+          "tree_id": "1e8f7c2ef6ae3bac0aa41df831436a132252cfd8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ff37432ab02c9b7e7c15c0a17cde5ba5e1938170"
+        },
+        "date": 1766328449522,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5711389256003911,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05985176784428291",
+            "extra": "mean: 1.7508874902000116 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5221870321205182,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07279628946805909",
+            "extra": "mean: 1.915022661399996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.527968390223291,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04840703042614606",
+            "extra": "mean: 1.8940527852000286 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ec2acfa031285084da01cdbfaa18ca6accd4c33d",
+          "message": "chore(deps): update dependency ruff to v0.14.7 (#1052)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-22T08:32:31-05:00",
+          "tree_id": "d1696db35412111ccb7b68e6e19a2a878be35215",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ec2acfa031285084da01cdbfaa18ca6accd4c33d"
+        },
+        "date": 1766410434379,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5747981851440822,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06488177063980094",
+            "extra": "mean: 1.7397410531999753 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.52383914691328,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07322540702881229",
+            "extra": "mean: 1.9089829500000064 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5207745161915184,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05209494620500263",
+            "extra": "mean: 1.9202168479999955 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0dd77b023fee34ff0968a822e0d0740c9c7fb93",
+          "message": "chore(deps): update actions/checkout action to v6.0.1 (#1053)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-23T08:26:29-05:00",
+          "tree_id": "f2091231f18d5d23c5ff906d27a7bc2bec306971",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a0dd77b023fee34ff0968a822e0d0740c9c7fb93"
+        },
+        "date": 1766496474312,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5700067605708817,
+            "unit": "iter/sec",
+            "range": "stddev: 0.038490761752172184",
+            "extra": "mean: 1.7543651570000065 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5204083389360477,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07111748052851206",
+            "extra": "mean: 1.9215679787999875 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5246047136689949,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07208015158936554",
+            "extra": "mean: 1.9061971308000125 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "263b23b768ef761c3f7e1faa0671b0709c1887b1",
+          "message": "chore(deps): update python docker tag to v3.14.1 (#1054)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-24T08:22:08-05:00",
+          "tree_id": "7e880ca006f55658c1788689c897367e06fbe57f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/263b23b768ef761c3f7e1faa0671b0709c1887b1"
+        },
+        "date": 1766582613515,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5424134868634903,
+            "unit": "iter/sec",
+            "range": "stddev: 0.034376195505920436",
+            "extra": "mean: 1.8436119753999975 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.49752348619866704,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05364360035245436",
+            "extra": "mean: 2.0099553643999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4927680936705566,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04030060884781217",
+            "extra": "mean: 2.0293521696 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eaeb6ae11f57aa3e595d4c45e7be4a3ed2d66dfc",
+          "message": "chore(deps): update dependency pytest to v9.0.2 (#1055)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-28T15:53:26-05:00",
+          "tree_id": "e03efc72ca350e3021577b876a861284ad92c5a3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/eaeb6ae11f57aa3e595d4c45e7be4a3ed2d66dfc"
+        },
+        "date": 1766955292407,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5722486556796397,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03935959727944996",
+            "extra": "mean: 1.7474920911999958 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.51970501098709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.049668281583567404",
+            "extra": "mean: 1.9241684779999957 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5099378295628756,
+            "unit": "iter/sec",
+            "range": "stddev: 0.027859037478351594",
+            "extra": "mean: 1.9610233679999993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f5f9ef77027983d3b62d8cc5bfc3a9ef058fe509",
+          "message": "chore(deps): update dependency debugpy to v1.8.18 (#1057)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-01-11T21:31:35-05:00",
+          "tree_id": "2fb5fda71de167395550c3a5e7e9c0d499ffcd1a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f5f9ef77027983d3b62d8cc5bfc3a9ef058fe509"
+        },
+        "date": 1768185179537,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5671454717145933,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04343547554187654",
+            "extra": "mean: 1.7632160528000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5230202938222419,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05860613837654281",
+            "extra": "mean: 1.9119716994000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5056984152078281,
+            "unit": "iter/sec",
+            "range": "stddev: 0.052911427242132686",
+            "extra": "mean: 1.9774631873999993 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2d8dfa7f7bb2a5f7c0210107dbb65b62a615d434",
+          "message": "chore(deps): update codecov/codecov-action action to v5.5.2 (#1056)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-01-11T21:31:46-05:00",
+          "tree_id": "d5d8af7337b97fd8911b566e136d18a93a7cfd49",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2d8dfa7f7bb2a5f7c0210107dbb65b62a615d434"
+        },
+        "date": 1768185188398,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5884368278468203,
+            "unit": "iter/sec",
+            "range": "stddev: 0.033648298531515956",
+            "extra": "mean: 1.6994177669999886 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5391772270166356,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02971154870841014",
+            "extra": "mean: 1.8546777384000053 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5273706706514822,
+            "unit": "iter/sec",
+            "range": "stddev: 0.025667286762444216",
+            "extra": "mean: 1.8961994962000062 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "841257deaf598df7c3d154b8e2d694f8bb7e5055",
+          "message": "chore(deps): update dependency coverage to v7.13.1 (#1061)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-01-18T12:41:40-08:00",
+          "tree_id": "384e693fb76e232406156a4f3697d8e8e391f07d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/841257deaf598df7c3d154b8e2d694f8bb7e5055"
+        },
+        "date": 1768768984182,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5741170721809459,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0513167350881251",
+            "extra": "mean: 1.741805022799997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.532187503608498,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05137243022565038",
+            "extra": "mean: 1.879036980799998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5201173999674708,
+            "unit": "iter/sec",
+            "range": "stddev: 0.023521784069760944",
+            "extra": "mean: 1.9226428495999983 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43605200+bwrob@users.noreply.github.com",
+            "name": "Bartosz Marcin Wróblewski",
+            "username": "bwrob"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "df9bc8f6b3a222dde82167e10a2e6bb57456305a",
+          "message": "feat: add serializer plugin system; plugins for data models (#1062)\n\n---------\n\nCo-authored-by: bwrob <bartosz.marcin.wroblewski@gmail.com>\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2026-01-25T09:35:47-05:00",
+          "tree_id": "538407eb5c0d2a6951bcca8d4d6a55c3fc7d7cf0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/df9bc8f6b3a222dde82167e10a2e6bb57456305a"
+        },
+        "date": 1769351831348,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5431109841327295,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029675112707153395",
+            "extra": "mean: 1.8412442929999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4942136969117173,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05286493154813661",
+            "extra": "mean: 2.0234161987999952 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.49451113391046503,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04837520131200983",
+            "extra": "mean: 2.0221991608000023 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "07aa00dd48d65e74814cec863b5f236e09afb464",
+          "message": "chore(deps): update dependency attrs to v25 (#1063)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-01-25T14:44:38Z",
+          "tree_id": "d33cd3e0e5dc37d54784f419b9f391fc7f903174",
+          "url": "https://github.com/syrupy-project/syrupy/commit/07aa00dd48d65e74814cec863b5f236e09afb464"
+        },
+        "date": 1769352362429,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5358738204031422,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029012348981845335",
+            "extra": "mean: 1.8661109424000073 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.4920912567035922,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04742659550438355",
+            "extra": "mean: 2.0321434009999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.4843666814941794,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03270713062935038",
+            "extra": "mean: 2.064551585000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4c615dfaa87a9d0556364f1419ff24f4231015e3",
+          "message": "chore(deps): update actions/checkout action to v6.0.2 (#1065)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-01-30T16:31:29-05:00",
+          "tree_id": "e57b7cfefbe8af7e89ea790b254cc5f43d3be616",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4c615dfaa87a9d0556364f1419ff24f4231015e3"
+        },
+        "date": 1769808778300,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5741187284121224,
+            "unit": "iter/sec",
+            "range": "stddev: 0.031935524157451094",
+            "extra": "mean: 1.7417999980000047 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5225641414326916,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05617239762612",
+            "extra": "mean: 1.9136406819999991 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5183306471258721,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03200177979955424",
+            "extra": "mean: 1.9292704484000125 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f4bde35da9dcdb872600d55af916c38dfc4662ee",
+          "message": "chore(deps): update actions/setup-python action to v6.2.0 (#1066)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-12T08:38:28-05:00",
+          "tree_id": "f11449cc7a5230ed3742f64bd9f049f6b6aa2fc1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f4bde35da9dcdb872600d55af916c38dfc4662ee"
+        },
+        "date": 1770903600060,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5418000512880302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02380713891344613",
+            "extra": "mean: 1.8456993453999928 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.48924791156593594,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04145972749427851",
+            "extra": "mean: 2.0439535383999896 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.49077396371511317,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047832114770214276",
+            "extra": "mean: 2.0375979044000077 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b1dc5f907bf30a6fd0891a61c5d8a616b6bd62ff",
+          "message": "chore(deps): update dependency ruff to v0.14.14 (#1067)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-12T21:16:55-05:00",
+          "tree_id": "cc3c0f86c3dabd08a0e5e830fb379ed306b33da5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b1dc5f907bf30a6fd0891a61c5d8a616b6bd62ff"
+        },
+        "date": 1770949103725,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5193893984520032,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09720227141062887",
+            "extra": "mean: 1.9253377196000088 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.48834760480308453,
+            "unit": "iter/sec",
+            "range": "stddev: 0.051147732237651594",
+            "extra": "mean: 2.0477217256000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.48291450602507263,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03875442327077402",
+            "extra": "mean: 2.070759911999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9e4d1516372034fcb00b969368b1ca18ead2d959",
+          "message": "chore(deps): update dependency coverage to v7.13.2 (#1068)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T13:06:01-05:00",
+          "tree_id": "cb17d4d8c9852f011817e9862e319d070b71528a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9e4d1516372034fcb00b969368b1ca18ead2d959"
+        },
+        "date": 1771265232961,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.7177842542143056,
+            "unit": "iter/sec",
+            "range": "stddev: 0.020304296054258382",
+            "extra": "mean: 1.3931762840000033 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6573938161615624,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04474953863129364",
+            "extra": "mean: 1.5211582090000035 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6399235079874827,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05316606655249846",
+            "extra": "mean: 1.5626867704000034 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "754e3e761d5c5602a7c2d4527dc6db5b03569f6b",
+          "message": "chore: migrate to uv, close #1019 (#1049)",
+          "timestamp": "2026-02-16T13:28:00-05:00",
+          "tree_id": "891a2bc73874047124eea1517c6552827cd2bc04",
+          "url": "https://github.com/syrupy-project/syrupy/commit/754e3e761d5c5602a7c2d4527dc6db5b03569f6b"
+        },
+        "date": 1771266528461,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8203577973568194,
+            "unit": "iter/sec",
+            "range": "stddev: 0.034705618326312124",
+            "extra": "mean: 1.2189803073999967 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.761073986530064,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04611375246798543",
+            "extra": "mean: 1.313932702599996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7501007471189913,
+            "unit": "iter/sec",
+            "range": "stddev: 0.028617659657331825",
+            "extra": "mean: 1.3331542514000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f1c1dae05167a54688cc4c017edd8157212125f2",
+          "message": "chore(deps): update dependency coverage to v7.13.2 (#1069)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T14:10:35-05:00",
+          "tree_id": "4761afdd26d325c5a6d52fa34de9b9a355e10248",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f1c1dae05167a54688cc4c017edd8157212125f2"
+        },
+        "date": 1771269091137,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6137001533347141,
+            "unit": "iter/sec",
+            "range": "stddev: 0.032072668145715674",
+            "extra": "mean: 1.6294602413999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5574072357610745,
+            "unit": "iter/sec",
+            "range": "stddev: 0.034162729201033824",
+            "extra": "mean: 1.7940204860000009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5573666488721651,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02913298894134328",
+            "extra": "mean: 1.7941511247999968 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "761b61c6cd49bd52af82f993fb2a8fe18516055d",
+          "message": "chore(deps): update dependency debugpy to v1.8.19 (#1070)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T19:16:11Z",
+          "tree_id": "0c9891ccf0d8eaa1413a1d95ba7f11a9878fb507",
+          "url": "https://github.com/syrupy-project/syrupy/commit/761b61c6cd49bd52af82f993fb2a8fe18516055d"
+        },
+        "date": 1771269426609,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6236985271918383,
+            "unit": "iter/sec",
+            "range": "stddev: 0.025139600498956107",
+            "extra": "mean: 1.6033387227999953 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5701612979561206,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045004090708465505",
+            "extra": "mean: 1.7538896512000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.563786040123109,
+            "unit": "iter/sec",
+            "range": "stddev: 0.032258617160983175",
+            "extra": "mean: 1.7737225274000026 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "24f5b7c3fb1c82b159a9a788639f3fae33bc39fb",
+          "message": "chore(deps): update dependency mypy to v1.19.1 (#1071)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T19:21:33Z",
+          "tree_id": "93691c955edf3964bdc712b7c6cf1937fa5df0b1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/24f5b7c3fb1c82b159a9a788639f3fae33bc39fb"
+        },
+        "date": 1771269751707,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6199779091678517,
+            "unit": "iter/sec",
+            "range": "stddev: 0.022458516774913423",
+            "extra": "mean: 1.6129606962000025 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5595139009922182,
+            "unit": "iter/sec",
+            "range": "stddev: 0.050821529464373606",
+            "extra": "mean: 1.7872656930000175 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5627132837176964,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03295962158763913",
+            "extra": "mean: 1.7771039514000222 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "33e92a4ba77d742247aed22338be20235c87dec8",
+          "message": "chore(deps): update dependency ruff to v0.14.14 (#1072)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T14:46:36-05:00",
+          "tree_id": "c0245bc276cef8d50a54a7ac6ce94af1c5d94e29",
+          "url": "https://github.com/syrupy-project/syrupy/commit/33e92a4ba77d742247aed22338be20235c87dec8"
+        },
+        "date": 1771271253386,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6227262009798151,
+            "unit": "iter/sec",
+            "range": "stddev: 0.021385982372141406",
+            "extra": "mean: 1.605842179800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5630165816694549,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05134569187233323",
+            "extra": "mean: 1.7761466226000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5596440708212453,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029533345705192865",
+            "extra": "mean: 1.7868499858000064 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52b5ee196457d82e949348b4316d09d458282746",
+          "message": "chore(deps): update python docker tag to v3.14.3 (#1073)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T14:56:39-05:00",
+          "tree_id": "95be478a681974e5e8d96eaed7803beb315a36d6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/52b5ee196457d82e949348b4316d09d458282746"
+        },
+        "date": 1771271856356,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6074591910175953,
+            "unit": "iter/sec",
+            "range": "stddev: 0.027635520271439746",
+            "extra": "mean: 1.6462011189999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5554308860074634,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05209535679269541",
+            "extra": "mean: 1.800404020000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.554519804241839,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05308794029105859",
+            "extra": "mean: 1.8033621024000013 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b368d88d8dc1d4ad45f2c42a9e484198df9afdf1",
+          "message": "chore(deps): update astral-sh/setup-uv action to v7.3.1 (#1076)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-21T10:37:57-04:00",
+          "tree_id": "9b99fee7bceee366d725d25768e26a5735b09e83",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b368d88d8dc1d4ad45f2c42a9e484198df9afdf1"
+        },
+        "date": 1774103933086,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6254201148609496,
+            "unit": "iter/sec",
+            "range": "stddev: 0.029294476404531596",
+            "extra": "mean: 1.598925228400003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5686100728673718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04519335504188863",
+            "extra": "mean: 1.7586744374000034 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5630241227803624,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03038389354530398",
+            "extra": "mean: 1.7761228330000052 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2d407747d8593e609b15c0f142cf36d3eac3d75a",
+          "message": "chore: update lock file (#1077)",
+          "timestamp": "2026-03-21T10:49:06-04:00",
+          "tree_id": "bd0e21ece4a5f7cf89d75aed2bbf98055a8b3844",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2d407747d8593e609b15c0f142cf36d3eac3d75a"
+        },
+        "date": 1774104604359,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6073594451911986,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05605014951271361",
+            "extra": "mean: 1.6464714724000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.563493425963713,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05125833193010479",
+            "extra": "mean: 1.7746435963999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5487259845257804,
+            "unit": "iter/sec",
+            "range": "stddev: 0.044531439987649496",
+            "extra": "mean: 1.8224032179999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2034d2b3633b8827e5de59334cf770996b1ecb5b",
+          "message": "chore(deps): update benchmark-action/github-action-benchmark action to v1.21.0 (#1078)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T21:39:04-04:00",
+          "tree_id": "076e07c9e9e7db1391ede42edcc38d3a987e0f07",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2034d2b3633b8827e5de59334cf770996b1ecb5b"
+        },
+        "date": 1774316401452,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6219873426513725,
+            "unit": "iter/sec",
+            "range": "stddev: 0.013612840387419715",
+            "extra": "mean: 1.6077497586000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.559816294733311,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043081966990407776",
+            "extra": "mean: 1.7863002728000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5570404436593783,
+            "unit": "iter/sec",
+            "range": "stddev: 0.033319729822604914",
+            "extra": "mean: 1.7952017872000057 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "34f9b27e699a690e7ca1644a8a64d10a0e7d789c",
+          "message": "chore(deps): update astral-sh/setup-uv action to v7.5.0 (#1080)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T13:12:40-04:00",
+          "tree_id": "5e7b026d78eb176a8b364519b4431a9b85d18f5b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/34f9b27e699a690e7ca1644a8a64d10a0e7d789c"
+        },
+        "date": 1775236417353,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6510761779428751,
+            "unit": "iter/sec",
+            "range": "stddev: 0.030666001240097083",
+            "extra": "mean: 1.5359185819999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5949820020223173,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05202372527867955",
+            "extra": "mean: 1.6807231085999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5849523790935042,
+            "unit": "iter/sec",
+            "range": "stddev: 0.038276571321269444",
+            "extra": "mean: 1.7095408715999951 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "david.maciver@gmail.com",
+            "name": "David R. MacIver",
+            "username": "DRMacIver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "04f4cc8e21ae743d4ebc95a0961f0802f57f1856",
+          "message": "fix(#1081): Handle unicode line-endings correctly when serializing (#1082)",
+          "timestamp": "2026-04-06T08:12:51-04:00",
+          "tree_id": "08bfd0b4b8e0459bb7be0ad41d7932f5fd7df48d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/04f4cc8e21ae743d4ebc95a0961f0802f57f1856"
+        },
+        "date": 1775477641413,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6018096663650282,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02820551663483773",
+            "extra": "mean: 1.6616549316000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5541931747768747,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06591848907447848",
+            "extra": "mean: 1.8044249649999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5421587785243723,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10052900469825804",
+            "extra": "mean: 1.8444781116000057 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a997e3e643b55342af2e1d89d7b24d6c1fbadc1f",
+          "message": "fix: build configuration (#1086)",
+          "timestamp": "2026-04-06T08:40:30-04:00",
+          "tree_id": "fb8703afc6d6a484cc98a81972e394b21c23c3a4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a997e3e643b55342af2e1d89d7b24d6c1fbadc1f"
+        },
+        "date": 1775479293305,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6013688572979314,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04367936627743748",
+            "extra": "mean: 1.662872940400001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5601530597801472,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05546180370012863",
+            "extra": "mean: 1.7852263457999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5489322430421758,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10086300974002586",
+            "extra": "mean: 1.8217184592000137 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f1e3f0bac92a683a7412d4e1fbaf076e82c932de",
+          "message": "chore: migrate off semantic-release to trusted publishing (#1093)",
+          "timestamp": "2026-05-16T16:41:20-04:00",
+          "tree_id": "1e2e462320ce39c84491479610ae80b0a935a66a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f1e3f0bac92a683a7412d4e1fbaf076e82c932de"
+        },
+        "date": 1778964145840,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6388006384529279,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054248445928228965",
+            "extra": "mean: 1.5654336263999966 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5944590988381231,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06547539817105456",
+            "extra": "mean: 1.682201520600006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5634699076263302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12304514930830222",
+            "extra": "mean: 1.7747176671999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6401bc28aab02447dfc698beba33df6fd6d93817",
+          "message": "chore: set name/email (#1094)",
+          "timestamp": "2026-05-16T16:46:47-04:00",
+          "tree_id": "af996eaf286e1f1589fc31d8b66fb5f7067b7311",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6401bc28aab02447dfc698beba33df6fd6d93817"
+        },
+        "date": 1778964471605,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5953379163261351,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03579779792753553",
+            "extra": "mean: 1.6797183121999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5526140748325615,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07634452036884894",
+            "extra": "mean: 1.809581126399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5310033580568472,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11253934704337845",
+            "extra": "mean: 1.8832272617999977 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah@marble.ai",
+            "name": "Noah Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah@marble.ai",
+            "name": "Noah Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "659f456bfef13df50fef5c95f84248b8fd720a60",
+          "message": "chore: add id-token write",
+          "timestamp": "2026-05-16T16:52:27-04:00",
+          "tree_id": "9b69e624d999b9fee5b5e8ff7613af61360ffa4c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/659f456bfef13df50fef5c95f84248b8fd720a60"
+        },
+        "date": 1778964815108,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6000335996974603,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03434255482901175",
+            "extra": "mean: 1.6665733394000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5573635737518648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04836594850359479",
+            "extra": "mean: 1.7941610236000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5346251053479424,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11471315020851872",
+            "extra": "mean: 1.8704695870000052 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noah@marble.ai",
+            "name": "Noah Ulster",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noah@marble.ai",
+            "name": "Noah Ulster",
+            "username": "noahnu"
+          },
+          "distinct": true,
+          "id": "c6bc988ee61ded4c1bea1e13a1d95e42c68219b0",
+          "message": "chore: push on correct branch",
+          "timestamp": "2026-05-16T17:10:02-04:00",
+          "tree_id": "43d6e922da47470c120473b5f77494751a59ded0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c6bc988ee61ded4c1bea1e13a1d95e42c68219b0"
+        },
+        "date": 1778965869073,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5952701323931615,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04423282133293802",
+            "extra": "mean: 1.6799095831999922 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5524440071887438,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04905992995262851",
+            "extra": "mean: 1.8101381986000036 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5290570494006916,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12108530066138803",
+            "extra": "mean: 1.8901553266000064 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a8b508fe564d7a9bd43cd696b1e5174764783790",
+          "message": "chore: move release marker (#1095)",
+          "timestamp": "2026-05-16T17:15:37-04:00",
+          "tree_id": "73a82c0e33473202c623bed75f78f28256debc9c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a8b508fe564d7a9bd43cd696b1e5174764783790"
+        },
+        "date": 1778966223692,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5873806010967252,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04931698708718471",
+            "extra": "mean: 1.702473657 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5493598046887805,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0513385834601368",
+            "extra": "mean: 1.8203006326000009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5248311848610409,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11480173783318934",
+            "extra": "mean: 1.9053745829999968 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "583260eafb3d357c1c38b14b38537459605a32d9",
+          "message": "chore(deps): update codecov/codecov-action action to v5.5.4 (#1089)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-16T17:32:10-04:00",
+          "tree_id": "36bf75123c39a65cf1be4a76c41f10bb841175aa",
+          "url": "https://github.com/syrupy-project/syrupy/commit/583260eafb3d357c1c38b14b38537459605a32d9"
+        },
+        "date": 1778967198374,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5820221268413559,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0314778647011676",
+            "extra": "mean: 1.718147736800003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5415412069397636,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057418276748457384",
+            "extra": "mean: 1.846581547599999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5190612351889874,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12215876308759077",
+            "extra": "mean: 1.9265549653999983 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "719a71ab83f94119072d5db79568b90b0455a7a1",
+          "message": "chore(deps): update dependency pytest to v9.0.3 (#1096)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-16T17:37:35-04:00",
+          "tree_id": "8eea94efa326da6e9b7d08da33454cf386661ba2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/719a71ab83f94119072d5db79568b90b0455a7a1"
+        },
+        "date": 1778967522890,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.580781949228256,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0395709200388119",
+            "extra": "mean: 1.7218165979999924 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5381784339107321,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0492780246880365",
+            "extra": "mean: 1.858119792599996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5176073002205653,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1205103772354684",
+            "extra": "mean: 1.9319665692 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "61972457+Lovlace777@users.noreply.github.com",
+            "name": "Lovlace",
+            "username": "Lovlace777"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a4880a798e64546118c4afc4e1b655cf1ea17cb2",
+          "message": "fix: include tests in sdist (#1099)",
+          "timestamp": "2026-05-31T12:23:54-04:00",
+          "tree_id": "db1dfc124c13c668584601edbc9d1023e38cf03f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a4880a798e64546118c4afc4e1b655cf1ea17cb2"
+        },
+        "date": 1780244696814,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6536263337894742,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03554567573462481",
+            "extra": "mean: 1.5299261187999946 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.604481256998371,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06559769383717406",
+            "extra": "mean: 1.654311011999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5902033764368447,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10345497414082938",
+            "extra": "mean: 1.6943312084000013 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "61c4e07e7a710270c4ebc3435652bc7d945fc60c",
+          "message": "chore: skip benchmark on forks (#1100)",
+          "timestamp": "2026-05-31T12:24:16-04:00",
+          "tree_id": "b3f9c26cdbc4c32020ffd8522b37c5650875efde",
+          "url": "https://github.com/syrupy-project/syrupy/commit/61c4e07e7a710270c4ebc3435652bc7d945fc60c"
+        },
+        "date": 1780244716958,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6557457196357174,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05921693312157943",
+            "extra": "mean: 1.524981360999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.6071261464466841,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05506418120633705",
+            "extra": "mean: 1.6471041576000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.599562185182975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0972026283059061",
+            "extra": "mean: 1.6678837069999985 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "say.apm35@gmail.com",
+            "name": "Sai Asish Y",
+            "username": "SAY-5"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2daa56e2b74f7ed1b3e74086d9509ac7454a41be",
+          "message": "feat: add --snapshot-update-new-only flag (#843) (#1098)",
+          "timestamp": "2026-05-31T12:28:51-04:00",
+          "tree_id": "3d3dd8a5c63d5107d5f2b18f3d2cf806be97b4b6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2daa56e2b74f7ed1b3e74086d9509ac7454a41be"
+        },
+        "date": 1780244994226,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6569794662444878,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0325341607477802",
+            "extra": "mean: 1.5221175871999946 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5934119469735499,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06653155103976145",
+            "extra": "mean: 1.6851699819999966 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5832208235724361,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12049608573010452",
+            "extra": "mean: 1.714616418999998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5887f25a02e6bb6d0b2b0cd9853d86c259345f1c",
+          "message": "chore: update dev dependencies (#1101)",
+          "timestamp": "2026-05-31T12:37:22-04:00",
+          "tree_id": "3710c7e6f6422c17ced1ee657a1ce3584dd327e0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5887f25a02e6bb6d0b2b0cd9853d86c259345f1c"
+        },
+        "date": 1780245506388,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.5925174943797196,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0286343912815581",
+            "extra": "mean: 1.6877138810000134 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5405597095475436,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06374050290891917",
+            "extra": "mean: 1.8499343964000103 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5370282129454702,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0823394440270464",
+            "extra": "mean: 1.8620995618000051 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "520f813ebf7f5c61bc45564b750cbfa836df0f2f",
+          "message": "chore(deps): update python docker tag to v3.14.4 (#1102)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-31T13:50:53-04:00",
+          "tree_id": "87ff2c9bedb772b547d387f88a0820edbc9a8560",
+          "url": "https://github.com/syrupy-project/syrupy/commit/520f813ebf7f5c61bc45564b750cbfa836df0f2f"
+        },
+        "date": 1780249903066,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0690913016503378,
+            "unit": "iter/sec",
+            "range": "stddev: 0.033630120796951594",
+            "extra": "mean: 935.3738062000104 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0459605613959873,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05716281526830121",
+            "extra": "mean: 956.0589919999984 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9776834861064078,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11274661538547716",
+            "extra": "mean: 1.022825908599998 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9ad6eb48c90cadf3f1e13705414a612eed72637f",
+          "message": "chore(deps): update astral-sh/setup-uv action to v8.1.0 (#1103)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-31T13:50:45-04:00",
+          "tree_id": "5d7ee081dc2f8c891398cac180a0566fd059df05",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9ad6eb48c90cadf3f1e13705414a612eed72637f"
+        },
+        "date": 1780249906475,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.6610926902686655,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04548298433160735",
+            "extra": "mean: 1.5126471895999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.5980851533004924,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05635863875308669",
+            "extra": "mean: 1.6720027148000043 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.5955287062989316,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09738083701683926",
+            "extra": "mean: 1.6791801796000072 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "32b9ccb6d2da49b91e3052e33b9e1e208963bf55",
+          "message": "chore(deps): update benchmark-action/github-action-benchmark action to v1.22.1 (#1105)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-31T13:54:21-04:00",
+          "tree_id": "db603a1568b4bd8b0b1a537897afb81bb2415e78",
+          "url": "https://github.com/syrupy-project/syrupy/commit/32b9ccb6d2da49b91e3052e33b9e1e208963bf55"
+        },
+        "date": 1780250113697,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9093505013785396,
+            "unit": "iter/sec",
+            "range": "stddev: 0.028071233731839743",
+            "extra": "mean: 1.0996859829999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8923056116267211,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05737976444498304",
+            "extra": "mean: 1.1206922684000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8477556196848955,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09196496691652473",
+            "extra": "mean: 1.1795852210000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c528216d5fa53517f9df34f49db55d3e455377c9",
+          "message": "fix(test): mark pydantic and attrs as dependencies for running internal tests (#1108)",
+          "timestamp": "2026-05-31T14:06:03-04:00",
+          "tree_id": "48e7187ceab4825893e7ba1d172a631d54dcf915",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c528216d5fa53517f9df34f49db55d3e455377c9"
+        },
+        "date": 1780250812592,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0732498014441214,
+            "unit": "iter/sec",
+            "range": "stddev: 0.02514601693321293",
+            "extra": "mean: 931.749531799997 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0537706309026582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06229395871240349",
+            "extra": "mean: 948.973116800002 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9899203657354091,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09601293235784886",
+            "extra": "mean: 1.010182267799999 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "873ee062afc2f453135d6ea77868cc0276edc5b6",
+          "message": "fix: issue 1079, overlapping filenames across different directories (#1104)",
+          "timestamp": "2026-06-09T10:45:09-04:00",
+          "tree_id": "bce3fa529e5ab0b66c9cfe4d078a9d40107c9c18",
+          "url": "https://github.com/syrupy-project/syrupy/commit/873ee062afc2f453135d6ea77868cc0276edc5b6"
+        },
+        "date": 1781016363410,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.072144269695381,
+            "unit": "iter/sec",
+            "range": "stddev: 0.028051866220605307",
+            "extra": "mean: 932.710296800002 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9897622802297326,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07407673065941138",
+            "extra": "mean: 1.0103436148000013 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9897593429177473,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10711689950274174",
+            "extra": "mean: 1.0103466131999965 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b8089129beaa6964f1e1de31a7b1457006229008",
+          "message": "chore(deps): update dependency hypothesis to v6.152.12 (#1106)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-16T06:17:35-04:00",
+          "tree_id": "8b5998c9488be09acd395b5385472503a478e838",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b8089129beaa6964f1e1de31a7b1457006229008"
+        },
+        "date": 1781605106712,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0608803335992771,
+            "unit": "iter/sec",
+            "range": "stddev: 0.049441740260937846",
+            "extra": "mean: 942.6133827999934 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9866471237340099,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06621815038212167",
+            "extra": "mean: 1.0135335886000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.985804143908237,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10793550050997129",
+            "extra": "mean: 1.0144002804000025 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6489e520cfaa8dcc7a9ed50e949ed9c815376457",
+          "message": "chore(deps): update codecov/codecov-action action to v6 (#1111)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-16T06:58:12-04:00",
+          "tree_id": "23413f90de4cf112c0082ee323f286479488d52d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6489e520cfaa8dcc7a9ed50e949ed9c815376457"
+        },
+        "date": 1781607551355,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9118430367285744,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04905948425551407",
+            "extra": "mean: 1.096679976400003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.857709871298404,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05453032430418601",
+            "extra": "mean: 1.1658954076000043 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8504798107297975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08662726286436385",
+            "extra": "mean: 1.1758068650000042 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8e1557d854df697a4e496d92893165e7e89b9d04",
+          "message": "chore(deps): update dependency coverage to v7.14.0 (#1109)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-16T07:52:25-04:00",
+          "tree_id": "47ac1bb8aaad9d418d1d886b7ace8271d485cfdd",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8e1557d854df697a4e496d92893165e7e89b9d04"
+        },
+        "date": 1781610804725,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0706611640267392,
+            "unit": "iter/sec",
+            "range": "stddev: 0.049365609289446506",
+            "extra": "mean: 934.002309600001 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9891035924979128,
+            "unit": "iter/sec",
+            "range": "stddev: 0.060061634711405985",
+            "extra": "mean: 1.0110164472000036 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9777095549605573,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10517032394353718",
+            "extra": "mean: 1.0227986368000075 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "40148050+TejasAmle@users.noreply.github.com",
+            "name": "Tejas Amle",
+            "username": "TejasAmle"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6fa0baf364f436d155cd3388fb7e290ffb01577c",
+          "message": "docs: fix three typos in CONTRIBUTING.md (#1113)",
+          "timestamp": "2026-06-18T08:43:31-04:00",
+          "tree_id": "950c77627c32d49f92ac8b8addb3d0c2cdcb439f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6fa0baf364f436d155cd3388fb7e290ffb01577c"
+        },
+        "date": 1781786667896,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9256013584959258,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04218376819743103",
+            "extra": "mean: 1.0803787082000071 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8634283378626213,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05223001255233619",
+            "extra": "mean: 1.1581737083999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8467751805741209,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08637934062172055",
+            "extra": "mean: 1.1809510044000007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "97c8adde447da37725c5bb78ab7a3a031bffabc6",
+          "message": "chore(deps): update dependency invoke to v3 (#1112)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-18T09:01:46-04:00",
+          "tree_id": "669ce6ddbc2074ecc0d24eeec0c96ccb4782452d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/97c8adde447da37725c5bb78ab7a3a031bffabc6"
+        },
+        "date": 1781787758981,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9206730142787994,
+            "unit": "iter/sec",
+            "range": "stddev: 0.045769777998081324",
+            "extra": "mean: 1.0861619538000042 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8632219274381305,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056565024436627566",
+            "extra": "mean: 1.1584506465999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8614203272983628,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09375588533865258",
+            "extra": "mean: 1.1608734647999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c1382335ddc1d9f2eef04f2ee0f0428a089e8b02",
+          "message": "chore(deps): update codecov/codecov-action action to v7 (#1116)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-20T13:38:42-04:00",
+          "tree_id": "6829bab4ad37d7a93c75e67ef04d0b908c626124",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c1382335ddc1d9f2eef04f2ee0f0428a089e8b02"
+        },
+        "date": 1781977171675,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.028510632755464,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06981791764521625",
+            "extra": "mean: 972.2796908000049 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9825532154226058,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0743687039443491",
+            "extra": "mean: 1.0177565797999961 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9786845241177,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10747025751984335",
+            "extra": "mean: 1.0217797209999986 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "aa41542bebacf86b531e61c893303f3b6ecd9f92",
+          "message": "chore(deps): update actions/checkout action to v7 (#1115)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-20T13:39:09-04:00",
+          "tree_id": "d72b75773d960e3c7970b1359e206ffef3b3ab8a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/aa41542bebacf86b531e61c893303f3b6ecd9f92"
+        },
+        "date": 1781977207551,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9109137935035375,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04239654713306241",
+            "extra": "mean: 1.0977987237999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.846067940450266,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06883201449207056",
+            "extra": "mean: 1.181938178 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8423274005341045,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10770111814021426",
+            "extra": "mean: 1.1871868342000014 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8c23052690b3196a014602868c415da04a415ae3",
+          "message": "chore(deps): update astral-sh/setup-uv action to v8.2.0 (#1114)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-20T14:04:01-04:00",
+          "tree_id": "a6fcf65aa9251575d9fa1a92575a72c0ced19e9e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8c23052690b3196a014602868c415da04a415ae3"
+        },
+        "date": 1781978693859,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0627487569373202,
+            "unit": "iter/sec",
+            "range": "stddev: 0.054686251863539544",
+            "extra": "mean: 940.9561699999983 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9959105724874051,
+            "unit": "iter/sec",
+            "range": "stddev: 0.057150501396673034",
+            "extra": "mean: 1.0041062196 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9885173484751169,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1078440692731835",
+            "extra": "mean: 1.0116160343999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "46d661cdbd4d69a2762131d111367b46166376ef",
+          "message": "chore(deps): update dependency debugpy to v1.8.21 (#1117)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-22T16:17:00-04:00",
+          "tree_id": "f83ff582a0bbff5fcfa4757529dd4d3cc000bceb",
+          "url": "https://github.com/syrupy-project/syrupy/commit/46d661cdbd4d69a2762131d111367b46166376ef"
+        },
+        "date": 1782159469417,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.3560862728102774,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06205651659639323",
+            "extra": "mean: 737.4162102000014 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.25526385798182,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06627869127468394",
+            "extra": "mean: 796.6452579999981 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.2586201373422718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09762745615813834",
+            "extra": "mean: 794.5208966000024 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "frenck@frenck.nl",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1940faa06caff3bfba0fb0f6c6b9cdf662af29eb",
+          "message": "perf: speed up string serialization in amber serializer (#1118)\n\nThe newline check in serialize_string ran all(c not in data for c in\n\"\\r\\n\"), building a generator and calling all() for every string node.\nReplace it with two direct membership checks, which do the same two\nscans without the iterator and function-call overhead. Also drop a\nredundant str(data) on the multiline path, since data is already a str.\n\nOutput is byte-identical, so existing snapshots are unaffected.",
+          "timestamp": "2026-06-25T07:25:29-04:00",
+          "tree_id": "bac239c7aab9d89603ff856da0594cde19503aef",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1940faa06caff3bfba0fb0f6c6b9cdf662af29eb"
+        },
+        "date": 1782386784674,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9431920792520302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03834872274504897",
+            "extra": "mean: 1.0602294294000216 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.88462531036995,
+            "unit": "iter/sec",
+            "range": "stddev: 0.053707364030087947",
+            "extra": "mean: 1.1304220987999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8685026227087381,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08534530656682965",
+            "extra": "mean: 1.1514070007999977 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "frenck@frenck.nl",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0840c9dcd1d44a9c44e76a3243eb267ce4c7449c",
+          "message": "perf: avoid copying the cycle-detection set on every serialized node (#1119)\n\n_serialize keeps a visited set of the ids of all ancestors on the\ncurrent path to detect cycles. It rebuilt that set at every node with\n{*visited, data_id}, so serializing N values did N set allocations.\n\nBacktrack a single shared set instead: add the current id before\nrecursing, discard it afterwards. The already_visited guard makes sure\na real cycle (id already present from an ancestor) is neither re-added\nnor discarded, so the ancestor stays marked for its remaining children.\n\nOutput is byte-identical, so existing snapshots are unaffected.",
+          "timestamp": "2026-06-25T07:26:09-04:00",
+          "tree_id": "bbd8fa938cf151437d705bdffe30cfc0681223c3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0840c9dcd1d44a9c44e76a3243eb267ce4c7449c"
+        },
+        "date": 1782386818963,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.946583968842881,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04675048918048806",
+            "extra": "mean: 1.0564303145999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.877386661251641,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05177443205015405",
+            "extra": "mean: 1.1397483506000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8735849509351524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09936373231591861",
+            "extra": "mean: 1.1447083640000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "54771a484905f42af7dbe3ca0e0ba7d2e65aba50",
+          "message": "perf: drop per-node kwargs dict from the amber serializer (#1122)\n\ncallgrind showed the dominant serializer cost was the **kwargs machinery\nthreading state through the recursion, not the serialization logic. Every\nbuilt-in serialize_* method was declared (cls, data, **kwargs), so each\nper-node dispatch call allocated, populated, merged and freed a dict to\ncarry depth, exclude, include, matcher, path and visited.\n\nGive those methods explicit keyword-only parameters so the calls bind\ndirectly instead of building a dict. serialize_custom_iterable keeps a\n**kwargs catch-all since it is the helper serializer plugins forward into,\nbut binds all known arguments explicitly so the hot path no longer relies\non that dict.\n\nOutput is byte-identical. On a representative nested payload this is about\n25% faster (callgrind: 9.0B to 6.7B instructions), with BUILD_MAP,\nPyDict_SetItem, insertdict and dict_dealloc all dropping to near zero.",
+          "timestamp": "2026-06-25T14:32:52-04:00",
+          "tree_id": "3d9480570b5b1c8f22854ca0f871192768d9d2d8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/54771a484905f42af7dbe3ca0e0ba7d2e65aba50"
+        },
+        "date": 1782412424950,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9268517461203873,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03961572769933141",
+            "extra": "mean: 1.0789212019999923 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8565651535296852,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0671055209270488",
+            "extra": "mean: 1.1674535158000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8591899528633495,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0894155729853391",
+            "extra": "mean: 1.163886980600023 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0d46f36fcbd4852bf3647e1171799f6447c7259",
+          "message": "perf: give the internal matcher wrapper an explicit signature (#1121)\n\nEvery snapshot assertion installs an internal matcher wrapper that the\nserializer applies to every node it serializes, so it runs once per\nvalue in the snapshot even when no matcher was configured.\n\nThe wrapper was defined as def _matcher(**kwargs), forcing a kwargs dict\nallocation on every per-node call. The PropertyMatcher contract is\nexactly (*, data, path) and the serializer only ever calls it as\nmatcher(data=data, path=path), so give the wrapper an explicit\nkeyword-only signature and drop the dict.\n\nBehavior is unchanged: nested SnapshotAssertion values are still\nreplaced, and a user matcher still receives data and path.",
+          "timestamp": "2026-06-25T20:48:57-04:00",
+          "tree_id": "612953364b5959d8782c2cc76b524e4b063b17b2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a0d46f36fcbd4852bf3647e1171799f6447c7259"
+        },
+        "date": 1782434994021,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8733336406594431,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06004428633977341",
+            "extra": "mean: 1.1450377649999979 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8115417450095196,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06654556613446157",
+            "extra": "mean: 1.2322225025999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8404102124472673,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08393716760141799",
+            "extra": "mean: 1.1898951074000024 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52da1c4ba9e0c723f052b45d2496bc7104b03dea",
+          "message": "chore: add benchmarks to README (#1124)",
+          "timestamp": "2026-06-25T22:06:16-04:00",
+          "tree_id": "207e23249304ddaa57ec1573384aa593577c8407",
+          "url": "https://github.com/syrupy-project/syrupy/commit/52da1c4ba9e0c723f052b45d2496bc7104b03dea"
+        },
+        "date": 1782439633236,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8725602059408922,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06657154814942381",
+            "extra": "mean: 1.1460527229999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8236148837461194,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06986983565201715",
+            "extra": "mean: 1.2141596997999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8222149955992196,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0948891861671291",
+            "extra": "mean: 1.2162269058000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7db49e98f7ea9d59ba9f4b88f576d61e37fc4d29",
+          "message": "fix: avoid os.environ mutation for color control (#1125)\n\nsyrupy signaled \"disable color\" by temporarily mutating os.environ via\nenv_context. Mutating the environment calls glibc setenv, which is not\nthread safe and races with getenv called from native code in other\nthreads, and could segfault unrelated code (for example a database\ndriver in a pytest-django live_server request handler) during the\npytest_assertrepr_compare and diff_snapshots paths.\n\nSignal color suppression through a contextvars.ContextVar instead.\nterminal._is_color_disabled() now consults that ContextVar in addition to\nthe external NO_COLOR and ANSI_COLORS_DISABLED variables, which are still\nread (reads are safe, only writes race). Both call sites use the new\ndisable_color() context manager, so no os.environ writes happen.\n\nThe now-unused env_context helper is removed from syrupy.utils; its only\nremaining user was the osenv test fixture, which now defines it locally.\n\nCloses #955",
+          "timestamp": "2026-06-26T06:53:36-04:00",
+          "tree_id": "1f1c99045a19c2eb12a96f3edeb5e63fec4ae184",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7db49e98f7ea9d59ba9f4b88f576d61e37fc4d29"
+        },
+        "date": 1782471267374,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.070019155037787,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04645358234112526",
+            "extra": "mean: 934.5627087999986 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0008594910905524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.053744171224583755",
+            "extra": "mean: 999.141247 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9839576832247413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1158245264517269",
+            "extra": "mean: 1.016303868600002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "90b3fd3da1258762a868c0ac62420ed58219f9b5",
+          "message": "feat: add --snapshot-no-cleanup to keep unused snapshots on update (#1126)\n\nWhen running --snapshot-update against a subset of the suite (for example\nfiltered with -k, or when resource constraints prevent running every test\nin one go), syrupy deletes the snapshots whose tests did not run. This adds\n--snapshot-no-cleanup so the update still writes and updates snapshots but\nleaves unused ones in place instead of deleting them.\n\nThe behaviour is centralised in a single should_delete_unused_snapshots\nproperty on the report (update enabled and cleanup not opted out), which the\nsession deletion gate and the report messaging both consult. With the flag\nset, unused snapshots are reported as unused rather than deleted, and the run\ndoes not fail on them.\n\nCloses #963",
+          "timestamp": "2026-06-26T07:43:00-04:00",
+          "tree_id": "88c4124ea1a58dc66ee98bc1ffbacf68144caa5c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/90b3fd3da1258762a868c0ac62420ed58219f9b5"
+        },
+        "date": 1782474232775,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9353045819436593,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04190017362751476",
+            "extra": "mean: 1.0691704277999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8652188271778785,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05559507044054024",
+            "extra": "mean: 1.1557769763999972 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8667692149645867,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08979122289773418",
+            "extra": "mean: 1.1537096412000012 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cd3c81a8b3cd8b7674fc53760943a83509cc81f8",
+          "message": "fix: honor boolean operators in -k snapshot selection (#1127)\n\nsyrupy reimplemented the pytest -k keyword expression with a hand rolled\nmatcher that flattened the expression into tokens and returned true if any\ntoken was a substring of the snapshot name. This ignored the and/or/not and\nparenthesis operators, so a negated expression like -k 'not one' treated\n'one' as a positive match and considered the deselected test_parametrized[one]\nsnapshot unused. With --snapshot-update that unused snapshot was then deleted.\n\nDelegate parsing and evaluation to pytest's own _pytest.mark.expression so\nselection matches -k exactly. syrupy already requires pytest >= 8 and\nreport.py already imports from _pytest, and compiled expressions are cached.\n\nCloses #770",
+          "timestamp": "2026-06-26T07:56:46-04:00",
+          "tree_id": "cc1b307f23c3b5cb93bcbae41399715d501d90d3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/cd3c81a8b3cd8b7674fc53760943a83509cc81f8"
+        },
+        "date": 1782475057707,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9198133868031017,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05728691642998204",
+            "extra": "mean: 1.0871770451999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8622851340075329,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04837438737219214",
+            "extra": "mean: 1.1597091966000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8605659154814836,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09742177628862038",
+            "extra": "mean: 1.162026036600001 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6a2c1b7c2a51e0bcd74446c277e17133100b0d32",
+          "message": "chore: exclude packages newer than 3 days (uv) (#1128)",
+          "timestamp": "2026-06-26T08:08:41-04:00",
+          "tree_id": "9006e1635687a1af6937260d7ece7f763ca6b55b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/6a2c1b7c2a51e0bcd74446c277e17133100b0d32"
+        },
+        "date": 1782475766754,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.6876036872354427,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04784327109102431",
+            "extra": "mean: 592.5561833999993 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.5643891548768136,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05398204451265125",
+            "extra": "mean: 639.2271366000003 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.5248278569454452,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09812649313539425",
+            "extra": "mean: 655.8117334000002 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f46908f9dd16c937d36078eeb51340f1300b90ef",
+          "message": "docs: fix inaccurate matcher signatures and typos in README (#1129)\n\n- path_type signature was missing its replacer argument\n- path_value signature was invalid Python and wrong; corrected to\n  path_value(mapping, *, types, replacer, **kwargs)\n- referenced matchers where the helper is compose_matchers\n- typos: need bypass, you filter, supporterd, should be include\n- pip uninstall snippet was tagged python; changed to shell",
+          "timestamp": "2026-06-26T08:15:47-04:00",
+          "tree_id": "ef5ca07a804096f5fb42e7f1363981918537182e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f46908f9dd16c937d36078eeb51340f1300b90ef"
+        },
+        "date": 1782476202205,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9159557205981654,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04041486977203254",
+            "extra": "mean: 1.0917558321999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8615344488980263,
+            "unit": "iter/sec",
+            "range": "stddev: 0.051247748979445014",
+            "extra": "mean: 1.1607196918 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8551897437260926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09571598234815124",
+            "extra": "mean: 1.1693311424000057 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7eec82e8b34e2e173e9689b8a64ce539affbe519",
+          "message": "chore(deps): update dependency coverage to v7.14.3 (#1130)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-26T08:16:13-04:00",
+          "tree_id": "c24ff3c38eaa33793e1ca36d05cdd49044b97e52",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7eec82e8b34e2e173e9689b8a64ce539affbe519"
+        },
+        "date": 1782476227137,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9403070804500508,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03572819287562477",
+            "extra": "mean: 1.0634823673999976 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.885823470862552,
+            "unit": "iter/sec",
+            "range": "stddev: 0.047777423690424335",
+            "extra": "mean: 1.1288930954000023 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8808265745773582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09222477602772465",
+            "extra": "mean: 1.1352972637999983 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "03347e3c6344389c381384ba5f3f19b8ed40b1bb",
+          "message": "chore(deps): update dependency ruff to v0.15.18 (#1123)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-26T12:23:47Z",
+          "tree_id": "eba8d55dd68f549823db0cc125addfb356c6849d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/03347e3c6344389c381384ba5f3f19b8ed40b1bb"
+        },
+        "date": 1782476680909,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9210773820916739,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04425281897873875",
+            "extra": "mean: 1.085685111199996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8611827378036704,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04027070188562657",
+            "extra": "mean: 1.1611937351999928 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.856582956930455,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08472319924722584",
+            "extra": "mean: 1.1674292511999966 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "71062ab84d5bbe4b9220e0c1ea70c86a1fb54dd0",
+          "message": "chore(deps): update dependency hypothesis to v6.155.7 (#1131)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-26T12:29:39Z",
+          "tree_id": "63aad89c1a4c7c94f2a8ece5da26f9e592b96a58",
+          "url": "https://github.com/syrupy-project/syrupy/commit/71062ab84d5bbe4b9220e0c1ea70c86a1fb54dd0"
+        },
+        "date": 1782477031668,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9283545002671202,
+            "unit": "iter/sec",
+            "range": "stddev: 0.039655007300563525",
+            "extra": "mean: 1.0771747211999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8659765245278226,
+            "unit": "iter/sec",
+            "range": "stddev: 0.048515111616640544",
+            "extra": "mean: 1.1547657143999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.86501569203082,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09762465036262964",
+            "extra": "mean: 1.1560483922000002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "32eaf58b36669f3f2634d3be07e3b612c274d944",
+          "message": "chore(deps): update dependency pytest to v9.1.1 (#1134)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-26T16:53:25-04:00",
+          "tree_id": "c6418e036df404cd7994f9bc169d529c2967ba14",
+          "url": "https://github.com/syrupy-project/syrupy/commit/32eaf58b36669f3f2634d3be07e3b612c274d944"
+        },
+        "date": 1782507257534,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9053838776867457,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04262538210170716",
+            "extra": "mean: 1.104503873600001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8479784347768625,
+            "unit": "iter/sec",
+            "range": "stddev: 0.04726214830402592",
+            "extra": "mean: 1.1792752727999982 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8398752617261301,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09421580046504037",
+            "extra": "mean: 1.1906529999999975 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bb989040e5ef7ce64f709552d2f05c3d53737a75",
+          "message": "chore(deps): update python docker tag to v3.14.5 (#1133)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-26T20:58:14Z",
+          "tree_id": "003a430e6e4ef6454e6915078a69cee561358916",
+          "url": "https://github.com/syrupy-project/syrupy/commit/bb989040e5ef7ce64f709552d2f05c3d53737a75"
+        },
+        "date": 1782507548460,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8850363111936679,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0684324502964998",
+            "extra": "mean: 1.1298971435999932 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7542168921856602,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2172588029123185",
+            "extra": "mean: 1.325878550799996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7780666365208476,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2972509145275575",
+            "extra": "mean: 1.2852369618000012 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39d9bcdcc6dc40d2982350a2ed5845e57d9e978a",
+          "message": "chore(deps): update dependency ruff to v0.15.19 (#1135)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-27T09:28:51-04:00",
+          "tree_id": "9163b518a2f1f150d2638ab9c633f90c942b663e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/39d9bcdcc6dc40d2982350a2ed5845e57d9e978a"
+        },
+        "date": 1782566983241,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8852076426689907,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0591111091577576",
+            "extra": "mean: 1.129678452600001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7610539175413671,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20267303563779276",
+            "extra": "mean: 1.3139673509999965 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7799898249172975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.28328134665167665",
+            "extra": "mean: 1.2820680065999965 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fd98f5dee0def3c435e587f55cb6375fff815721",
+          "message": "chore(deps): update python docker tag to v3.14.6 (#1136)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-27T17:48:49-04:00",
+          "tree_id": "ace33a4b4a15b6d06d89b9a073d2bba7581ae62d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/fd98f5dee0def3c435e587f55cb6375fff815721"
+        },
+        "date": 1782596977285,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0148311322680519,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08355079014045037",
+            "extra": "mean: 985.3856156000006 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8396031184573283,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2643086454918714",
+            "extra": "mean: 1.1910389302 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8675222724449709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3619493180677806",
+            "extra": "mean: 1.1527081572000015 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0af971edee6c4664e94cfdbcdd36aec15d69d65d",
+          "message": "chore(deps): update dependency ruff to v0.15.20 (#1137)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-28T19:02:02-04:00",
+          "tree_id": "05f29d3e92f45f7a17ab0d77669d8b9f80edd030",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0af971edee6c4664e94cfdbcdd36aec15d69d65d"
+        },
+        "date": 1782687770193,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0345236943665521,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07236558407270922",
+            "extra": "mean: 966.6284159999918 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8508005629848059,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24762705548305924",
+            "extra": "mean: 1.1753635852000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8837920033713986,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3485018622054327",
+            "extra": "mean: 1.1314879476000044 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "30706cd19712c0daa18de2bf3368854e373f0f82",
+          "message": "chore(deps): update dependency coverage to v7.15.0 (#1138)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-05T18:26:56-04:00",
+          "tree_id": "6f0278d5bac8411fe39138b999f2651b47ba63c3",
+          "url": "https://github.com/syrupy-project/syrupy/commit/30706cd19712c0daa18de2bf3368854e373f0f82"
+        },
+        "date": 1783290466303,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8855948496511321,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0659713323420713",
+            "extra": "mean: 1.1291845254000024 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.759668226989704,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20488017483916665",
+            "extra": "mean: 1.3163641237999983 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7839625727286702,
+            "unit": "iter/sec",
+            "range": "stddev: 0.30362183599978637",
+            "extra": "mean: 1.2755710984000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "727dd9c6023a0a9cf71db787ee775b4986d909af",
+          "message": "chore(deps): update dependency hypothesis to v6.156.1 (#1139)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-06T10:56:01-04:00",
+          "tree_id": "77f0b25479f95b0de7ec32fd8920a9d406ddb3fe",
+          "url": "https://github.com/syrupy-project/syrupy/commit/727dd9c6023a0a9cf71db787ee775b4986d909af"
+        },
+        "date": 1783349813663,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8560183462454581,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07279546782433713",
+            "extra": "mean: 1.168199261600003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7318405964197355,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23228669708958416",
+            "extra": "mean: 1.3664177757999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7524502117509906,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3361256258689856",
+            "extra": "mean: 1.3289915855999936 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@frenck.dev",
+            "name": "Franck Nijhof",
+            "username": "frenck"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "321632cb5b9c7a5bb4c0031b772a1139a18835bf",
+          "message": "feat: detect unused snapshots under pytest-xdist (#1132)\n\n* feat: detect unused snapshots under pytest-xdist\n\nRunning with pytest-xdist disabled unused snapshot detection: each worker\nonly sees the tests it ran, so it cannot tell whether a snapshot is unused\nor simply owned by a test that ran on another worker.\n\nWorkers now publish the snapshots they touched on config.workeroutput; the\ncontroller harvests them in pytest_testnodedown, combines them, and runs the\nexisting unused detection and removal path. Detection, the failure exit\nstatus and partial in-file removal behave the same as a single-process run.\n\nBuilds on #901 by epenet, which was reverted for being too slow. Addressed\nhere by using workeroutput instead of temp files + json, and by sending the\nidentical collected-item list from a single worker (gw0) instead of once per\nworker.\n\nCloses #535\n\n* style: apply ruff format to converted xdist tests\n\n* test: add in-process unit tests for xdist report merging\n\nThe worker/controller report code only runs in xdist subprocesses, whose\ncoverage is not captured by the parent run. Add direct unit tests for the\nserialize/publish/merge logic so it is covered and tested in isolation.",
+          "timestamp": "2026-07-06T14:44:32-04:00",
+          "tree_id": "469d338a015f0d38919f31c5981d2f8f261d770b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/321632cb5b9c7a5bb4c0031b772a1139a18835bf"
+        },
+        "date": 1783363528480,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8729146158210628,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08054864016282032",
+            "extra": "mean: 1.1455874170000016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7486523032996806,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22831099637262908",
+            "extra": "mean: 1.3357335515999964 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7745542929213998,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31190062537074387",
+            "extra": "mean: 1.2910650798000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "16805946+edgarrmondragon@users.noreply.github.com",
+            "name": "Edgar Ramírez Mondragón",
+            "username": "edgarrmondragon"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fa60dc7d9a8a4ff77d8682d531762172fd548eca",
+          "message": "fix: Defer registering `pytest-xdist` hook `pytest_testnodedown` to avoid \"unknown hook\" error (#1140)\n\n* fix: Defer `pytest-xdist` hook `pytest_testnodedown` to avoid \"unknown hook\" error\n\n---------\n\nSigned-off-by: Edgar Ramírez Mondragón <edgarrm358@gmail.com>\nCo-authored-by: Noah Ulster <noah@marble.ai>",
+          "timestamp": "2026-07-06T16:15:58-04:00",
+          "tree_id": "b4e015fd7dfb42ccc1c4b13bcca2bc2d963a0864",
+          "url": "https://github.com/syrupy-project/syrupy/commit/fa60dc7d9a8a4ff77d8682d531762172fd548eca"
+        },
+        "date": 1783369021641,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8983399543105037,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06070013327916417",
+            "extra": "mean: 1.113164337400002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.767107994118678,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20065848974984637",
+            "extra": "mean: 1.303597417399996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7883222453045188,
+            "unit": "iter/sec",
+            "range": "stddev: 0.29345691490356235",
+            "extra": "mean: 1.2685167847999934 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mgorny@gentoo.org",
+            "name": "Michał Górny",
+            "username": "mgorny"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4f83490d2ebf4ae22aeba6d9946979640151aa34",
+          "message": "fix: Fix detecting `pytest-xdist` when loaded via `PYTEST_PLUGINS` (#1142)\n\nFix the `pytest-xdist` detection code to support both `xdist` and\n`xdist.plugin` as registration names, in order to fix the detection\nwhen it is loaded via `PYTEST_PLUGINS` (which uses the latter name)\nrather than autoloading / `-p` (which uses the former).  Technically it\ncould also be explicitly loaded using any other name, but covering these\ntwo common cases should be good enough for all the common workflows.\n\nFixes #1141\n\nSigned-off-by: Michał Górny <mgorny@gentoo.org>",
+          "timestamp": "2026-07-08T03:43:11-04:00",
+          "tree_id": "f68769e87b51fde1b7b8b32ce76c97840a75d5e1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4f83490d2ebf4ae22aeba6d9946979640151aa34"
+        },
+        "date": 1783496646846,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9136615777148794,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08864956291887231",
+            "extra": "mean: 1.0944971578000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.772693915004127,
+            "unit": "iter/sec",
+            "range": "stddev: 0.28329104772636243",
+            "extra": "mean: 1.294173514999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7890277988705469,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3892436503695442",
+            "extra": "mean: 1.2673824692000069 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5c59701e411922a464497398f5df25d76f2f9dcd",
+          "message": "chore(deps): update astral-sh/setup-uv action to v8.3.0 (#1143)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-08T09:38:47-04:00",
+          "tree_id": "4d9e72f4650f31b7b816b57da2a77def84d17df6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5c59701e411922a464497398f5df25d76f2f9dcd"
+        },
+        "date": 1783517986680,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8750815024440162,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08416809791407653",
+            "extra": "mean: 1.1427507006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7452173017001968,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22529417219895673",
+            "extra": "mean: 1.3418904764000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7703754662248928,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31536177351807393",
+            "extra": "mean: 1.298068336600005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "feaa22ca4c211dfcdd8d0d048112531fd6cb344c",
+          "message": "chore(deps): update astral-sh/setup-uv action to v8.3.1 (#1145)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-10T07:02:49-04:00",
+          "tree_id": "e75f0cb59dc98b3bb80550b7b9b538e6aa7336b9",
+          "url": "https://github.com/syrupy-project/syrupy/commit/feaa22ca4c211dfcdd8d0d048112531fd6cb344c"
+        },
+        "date": 1783681421210,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8852697512824558,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0532389094496717",
+            "extra": "mean: 1.1295991968000023 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7672166584850808,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20917130305580095",
+            "extra": "mean: 1.3034127830000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7920183881857388,
+            "unit": "iter/sec",
+            "range": "stddev: 0.291021970238995",
+            "extra": "mean: 1.2625969483999995 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3af2ccf2feeadb3a0d4e3f418d22ad3395725c80",
+          "message": "chore(deps): update dependency hypothesis to v6.156.2 (#1147)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-10T22:14:12Z",
+          "tree_id": "232bf3ee1601d7d05462790c5d3957c888eb7184",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3af2ccf2feeadb3a0d4e3f418d22ad3395725c80"
+        },
+        "date": 1783721706696,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8619795633748022,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07719923140150298",
+            "extra": "mean: 1.1601203120000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7279999526334099,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24093836464046062",
+            "extra": "mean: 1.3736264630000021 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.746197813364256,
+            "unit": "iter/sec",
+            "range": "stddev: 0.34428123275499783",
+            "extra": "mean: 1.3401272183999964 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f9c725a5653677bfcafb53645c9a078f3aa79d87",
+          "message": "chore(deps): update dependency mypy to v2.2.0 (#1148)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-11T00:26:14-04:00",
+          "tree_id": "faa4c9ef9369685284b14d00c324f2861d29466e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f9c725a5653677bfcafb53645c9a078f3aa79d87"
+        },
+        "date": 1783744024371,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8939154643804338,
+            "unit": "iter/sec",
+            "range": "stddev: 0.058398072248582324",
+            "extra": "mean: 1.1186740131999984 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.758796670155696,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2106933688997342",
+            "extra": "mean: 1.3178761048000012 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7834445611565484,
+            "unit": "iter/sec",
+            "range": "stddev: 0.285730970583056",
+            "extra": "mean: 1.2764145028000002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "56bf157ce4135bde78ecc49cfa9532ffa41659e8",
+          "message": "chore(deps): update dependency hypothesis to v6.156.3 (#1150)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-11T09:48:41-04:00",
+          "tree_id": "3fbfa17a5f5e91cb2fc1d599f2103e0c5d6aaf5b",
+          "url": "https://github.com/syrupy-project/syrupy/commit/56bf157ce4135bde78ecc49cfa9532ffa41659e8"
+        },
+        "date": 1783777770424,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9836163480684331,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09163527902298689",
+            "extra": "mean: 1.0166565469999966 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8079335902413173,
+            "unit": "iter/sec",
+            "range": "stddev: 0.28005660140155464",
+            "extra": "mean: 1.237725491399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8500494903998591,
+            "unit": "iter/sec",
+            "range": "stddev: 0.37720316573626994",
+            "extra": "mean: 1.176402093400003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "443fc11bf67ce588753cd4518ef056463cfe651b",
+          "message": "chore: closes #1144 (#1146)",
+          "timestamp": "2026-07-11T11:51:47-04:00",
+          "tree_id": "03ab9ecfda1ea6711e6913e23a2b8ed2aa8e69ba",
+          "url": "https://github.com/syrupy-project/syrupy/commit/443fc11bf67ce588753cd4518ef056463cfe651b"
+        },
+        "date": 1783785207606,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0381452522337413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.043695713614593325",
+            "extra": "mean: 963.2563437999977 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8819783567192733,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20820336402302633",
+            "extra": "mean: 1.133814670600009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.903275003656856,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31698899132707115",
+            "extra": "mean: 1.107082556200004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fed7e9f69f4dd14b39360e626236c868147588d5",
+          "message": "chore(deps): update astral-sh/setup-uv action to v8.3.2 (#1149)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-11T11:52:23-04:00",
+          "tree_id": "842f57aba8da5d84ee849b5cafbca73c56841283",
+          "url": "https://github.com/syrupy-project/syrupy/commit/fed7e9f69f4dd14b39360e626236c868147588d5"
+        },
+        "date": 1783785230468,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9037083168682352,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06176366392611083",
+            "extra": "mean: 1.1065517283999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7670262404683998,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20797840606295348",
+            "extra": "mean: 1.3037363616000022 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8004985184573526,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2828708116225684",
+            "extra": "mean: 1.2492215500000028 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2b773c52f6ababbc72da05a2c8bc1a8037f4ba63",
+          "message": "chore(deps): bump pygments from 2.19.2 to 2.20.0 (#1151)\n\nBumps [pygments](https://github.com/pygments/pygments) from 2.19.2 to 2.20.0.\n- [Release notes](https://github.com/pygments/pygments/releases)\n- [Changelog](https://github.com/pygments/pygments/blob/master/CHANGES)\n- [Commits](https://github.com/pygments/pygments/compare/2.19.2...2.20.0)\n\n---\nupdated-dependencies:\n- dependency-name: pygments\n  dependency-version: 2.20.0\n  dependency-type: indirect\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-11T16:01:16Z",
+          "tree_id": "5aa07905d4addbe02c408b4c234d5a93f59ba8bf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2b773c52f6ababbc72da05a2c8bc1a8037f4ba63"
+        },
+        "date": 1783785724007,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.96534616422338,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06306319686632934",
+            "extra": "mean: 1.0358978334 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8293426699298012,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2026896284761132",
+            "extra": "mean: 1.2057742067999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8549431689780044,
+            "unit": "iter/sec",
+            "range": "stddev: 0.272582819683431",
+            "extra": "mean: 1.1696683899999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a351d79d081a69935efe64650a17604463879677",
+          "message": "chore(deps): update dependency hypothesis to v6.156.5 (#1152)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-13T18:13:15Z",
+          "tree_id": "2f13e201d2f28c0fc6ce5ffb19e51ad6e4a754ba",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a351d79d081a69935efe64650a17604463879677"
+        },
+        "date": 1783966450179,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8693772101093359,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0679960202921287",
+            "extra": "mean: 1.150248693399999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7426307163303457,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22173987978505252",
+            "extra": "mean: 1.346564285600016 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7657900017085048,
+            "unit": "iter/sec",
+            "range": "stddev: 0.30785220949848546",
+            "extra": "mean: 1.3058410240000058 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1fee3136bbf5871641a66856aaa96478136c52c2",
+          "message": "chore(deps): update dependency ruff to v0.15.21 (#1153)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-13T14:22:41-04:00",
+          "tree_id": "a4a314225eb7a95a9786efacc0b8af76f4a029b8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1fee3136bbf5871641a66856aaa96478136c52c2"
+        },
+        "date": 1783967018248,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8708840449613462,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07272477925806493",
+            "extra": "mean: 1.1482584918000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.743848411793887,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22856702079756133",
+            "extra": "mean: 1.344359931600002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7559173581574004,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3308680826227291",
+            "extra": "mean: 1.322895934600004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "baebe4cdb62796990228724c2afc81fa3f1a691a",
+          "message": "chore(deps): update dependency hypothesis to v6.156.6 (#1154)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-13T23:33:37-04:00",
+          "tree_id": "cc5bdf3426372b38ef6e0ef499d11da7e23d0fd1",
+          "url": "https://github.com/syrupy-project/syrupy/commit/baebe4cdb62796990228724c2afc81fa3f1a691a"
+        },
+        "date": 1784000071282,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8723263769011977,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06917765823398861",
+            "extra": "mean: 1.1463599250000243 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7550690066120319,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20057972608196542",
+            "extra": "mean: 1.3243822633999571 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7818037001328006,
+            "unit": "iter/sec",
+            "range": "stddev: 0.28824672864872003",
+            "extra": "mean: 1.2790934601999653 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ceb75df6dfbc0f9d85c7a207fa3cbbe255c1b6b6",
+          "message": "chore(deps): update dependency coverage to v7.15.1 (#1157)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-15T19:19:58-04:00",
+          "tree_id": "32d9c64af93b9ac5d67e7488dbbc83ec34b2a9cf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ceb75df6dfbc0f9d85c7a207fa3cbbe255c1b6b6"
+        },
+        "date": 1784157652725,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8634898432650442,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06535198483139723",
+            "extra": "mean: 1.1580912130000058 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7310177803796781,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22501407502239612",
+            "extra": "mean: 1.3679557827999986 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7558987046753588,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3194384891788252",
+            "extra": "mean: 1.3229285799999844 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0e86729b1f46a06e24223b28afab5302e5af2e99",
+          "message": "chore(deps): update dependency mypy to v2.3.0 (#1158)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-16T09:58:52-04:00",
+          "tree_id": "e6f83ce0363a91cc86532f100a408f3862eaa7bf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0e86729b1f46a06e24223b28afab5302e5af2e99"
+        },
+        "date": 1784210383597,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9926832525804559,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07862888030559717",
+            "extra": "mean: 1.0073706768000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8121830762144209,
+            "unit": "iter/sec",
+            "range": "stddev: 0.278235663875941",
+            "extra": "mean: 1.2312494919999963 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8554792649355781,
+            "unit": "iter/sec",
+            "range": "stddev: 0.37532927785703957",
+            "extra": "mean: 1.1689354038000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48723787+chuenchen309@users.noreply.github.com",
+            "name": "Andrew Chen",
+            "username": "chuenchen309"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5d02bfd143c42bc54a8a4f1fe190c4bad80210d",
+          "message": "fix: make set/dict serialization deterministic for partial-order elements (#1159)\n\n`AmberDataSerializer.sort` sorted with a plain `sorted(iterable)` and only fell\nback to the deterministic `key=cls._serialize` on `TypeError`. `frozenset`\ndefines `__lt__` (the subset relation), so `sorted()` does not raise for a\nhomogeneous set of frozensets -- but the subset order is only *partial*: two\nfrozensets where neither is a subset of the other compare as neither `<` nor\n`>`, so the stable sort leaves them in set-iteration order, which is\nhash-seeded. A set (or dict keyed) by frozensets therefore serialized in a\n`PYTHONHASHSEED`-dependent order, producing flaky snapshots that pass on record\nand fail on a later run with no data change.\n\nPre-sort by the serialized form first; because `sorted()` is stable, natural-\norder ties (partial-order incomparable elements) then keep a deterministic\norder, while totally-ordered values (numbers, strings) still come out in their\nnatural order (no snapshot drift) and mixed/unorderable types still fall\nthrough to the serialize-key order.\n\nAdds a regression test asserting `sort()` is invariant to input order for\npairwise-incomparable frozensets.",
+          "timestamp": "2026-07-17T11:37:50-04:00",
+          "tree_id": "36c3688015038ee7f11b410dcd172433af9ee672",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a5d02bfd143c42bc54a8a4f1fe190c4bad80210d"
+        },
+        "date": 1784302717626,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.299070759824129,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06292684516161101",
+            "extra": "mean: 769.7810087999997 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.053490182095484,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2282290250313504",
+            "extra": "mean: 949.2257422000009 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.0803753453334983,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3178993738302458",
+            "extra": "mean: 925.6042395999998 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0e02506ed5feb48be88c7fce43dd39db0ea21b98",
+          "message": "chore(deps): update dependency coverage to v7.15.2 (#1163)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-18T22:21:42-04:00",
+          "tree_id": "d13d265a1d9cd46fc5a8dfd2e6244f079e2cdb17",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0e02506ed5feb48be88c7fce43dd39db0ea21b98"
+        },
+        "date": 1784427758741,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.881967717858807,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06600786155332271",
+            "extra": "mean: 1.1338283473999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7451114128376523,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22930503840056407",
+            "extra": "mean: 1.3420811744000005 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7718766632760178,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2983251576572598",
+            "extra": "mean: 1.2955437669999967 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dd6140cc93de8a764bce8e24a17d2eb73db09aed",
+          "message": "chore(deps): update dependency ruff to v0.15.22 (#1164)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-19T13:29:42-04:00",
+          "tree_id": "87c6ab6f7f791cf699dee76e67713fafe13cd775",
+          "url": "https://github.com/syrupy-project/syrupy/commit/dd6140cc93de8a764bce8e24a17d2eb73db09aed"
+        },
+        "date": 1784482235363,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8724768638722804,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05576775172636771",
+            "extra": "mean: 1.1461621980000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7529537880532302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21584127325260136",
+            "extra": "mean: 1.3281027546000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7638183276488208,
+            "unit": "iter/sec",
+            "range": "stddev: 0.29398930172988924",
+            "extra": "mean: 1.3092118424000005 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "38fa6d085791bf0e22f7afb4311f093ec1e31a38",
+          "message": "chore(deps): update dependency hypothesis to v6.156.7 (#1165)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-21T10:09:53-04:00",
+          "tree_id": "28e7cf337937886c806bd9f672d9dbba56800191",
+          "url": "https://github.com/syrupy-project/syrupy/commit/38fa6d085791bf0e22f7afb4311f093ec1e31a38"
+        },
+        "date": 1784643045286,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.867460596109452,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06949593000337818",
+            "extra": "mean: 1.1527901146000006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7575704287564947,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21130450841646653",
+            "extra": "mean: 1.3200092849999947 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7759378031038567,
+            "unit": "iter/sec",
+            "range": "stddev: 0.27702792901846257",
+            "extra": "mean: 1.2887630889999997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a83756aec7f4e794beaadbd2bd8c26e2c35b3e1c",
+          "message": "chore(deps): update dependency hypothesis to v6.156.9 (#1166)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-22T08:05:18-04:00",
+          "tree_id": "174be650f8ca78a278e83f97ced5120269ab076d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a83756aec7f4e794beaadbd2bd8c26e2c35b3e1c"
+        },
+        "date": 1784721963263,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.2715874857930218,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07881986027384397",
+            "extra": "mean: 786.4185603999971 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0278017945422249,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24781325054258324",
+            "extra": "mean: 972.9502373999964 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.079972700545107,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3422663002878547",
+            "extra": "mean: 925.9493314000053 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f79e5c1eca0a93380409225118a8aaaa1e6118cc",
+          "message": "chore(deps): update dependency hypothesis to v6.157.0 (#1167)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-22T08:13:16-04:00",
+          "tree_id": "ac46d169890c23d0817470997bf8ba735e0aa055",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f79e5c1eca0a93380409225118a8aaaa1e6118cc"
+        },
+        "date": 1784722447506,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9047055486370776,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06629116599049371",
+            "extra": "mean: 1.105332007200002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7700368060868026,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2154966270636188",
+            "extra": "mean: 1.2986392236000142 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7897071902357954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.294386683440346",
+            "extra": "mean: 1.2662921299999994 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "chuenchen309@gmail.com",
+            "name": "Andrew Chen",
+            "username": "chuenchen309"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e10bd9f9be08c876c1ffeef0af05565af21586c4",
+          "message": "fix(matchers): replace values at nested paths in path_value default mode (#1162)\n\n`path_value` with the default `regex=False` never replaced a value whose path\nkey contains a regex-special char — which includes every nested path, since the\n\".\" separator is special. `path_type` matches the path with `_path_match`, which\n`re.escape`s the key when regex is off, so the `re.Match` it passes back carries\nthe escaped pattern; the value-lookup then tested that escaped pattern against the\noriginal, unescaped mapping keys, missed, and returned the value unchanged. For\nthe redaction use case this feature exists for, the value leaked into the snapshot.\n\nKey the value lookup by the same escaped form the path match used.",
+          "timestamp": "2026-07-22T08:21:12-04:00",
+          "tree_id": "6c7882f6935dbc5a221bc241793545944e3a333d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e10bd9f9be08c876c1ffeef0af05565af21586c4"
+        },
+        "date": 1784722924564,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.989750854160577,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07517282853570062",
+            "extra": "mean: 1.0103552786000023 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8150643463176643,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2664907429739499",
+            "extra": "mean: 1.2268969983999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8450280580175659,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3720253457993398",
+            "extra": "mean: 1.1833926584000038 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "konstantinos.smanis@gmail.com",
+            "name": "Konstantinos Smanis",
+            "username": "KSmanis"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "176ebaeccdbef629976814e16a8919e1eecb1e7e",
+          "message": "fix: preserve skipped single-file snapshots (#1161)\n\n* fix: preserve skipped single-file snapshots\n\n* fix: preserve skipped mixed-extension snapshots",
+          "timestamp": "2026-07-22T08:24:17-04:00",
+          "tree_id": "00d73841c9e5ce80fb6b4d9a821a445fe9cd1faa",
+          "url": "https://github.com/syrupy-project/syrupy/commit/176ebaeccdbef629976814e16a8919e1eecb1e7e"
+        },
+        "date": 1784723114170,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8791990598973456,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0680745102591164",
+            "extra": "mean: 1.137398850399998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7491267187122932,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21906616519194755",
+            "extra": "mean: 1.334887643199997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7745467221838314,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2988361151558473",
+            "extra": "mean: 1.2910776991999966 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4ce609ef58e416bec0e955d179cfa7cc832698c2",
+          "message": "chore(deps): update pypa/gh-action-pypi-publish action to v1.14.1 (#1169)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-22T17:54:40-04:00",
+          "tree_id": "8272af26d45f585d60ef3958d788a0ffe09d1b75",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4ce609ef58e416bec0e955d179cfa7cc832698c2"
+        },
+        "date": 1784757335961,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9793949413503384,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09153819470625302",
+            "extra": "mean: 1.021038559400003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8121081047377435,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2774390434457741",
+            "extra": "mean: 1.2313631574000028 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8107447004090884,
+            "unit": "iter/sec",
+            "range": "stddev: 0.5008087973644335",
+            "extra": "mean: 1.2334339028000016 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1013bbdfba8b3e1003f113c1056a4b0a07dad4bd",
+          "message": "chore(deps): update dependency hypothesis to v6.157.2 (#1171)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-23T21:54:51-04:00",
+          "tree_id": "9cef24111bf7ea86a3ed3fdc56cb70dd45ec733e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1013bbdfba8b3e1003f113c1056a4b0a07dad4bd"
+        },
+        "date": 1784858142177,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9142628352709883,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0635884755775195",
+            "extra": "mean: 1.0937773705999974 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7813780693306472,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2014309258094049",
+            "extra": "mean: 1.2797902056 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8062061448476677,
+            "unit": "iter/sec",
+            "range": "stddev: 0.27937484008926466",
+            "extra": "mean: 1.240377546600007 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "57e57b53e031f3a9e6f6e2a3feb0e8abad11f2e1",
+          "message": "chore(deps): update actions/checkout action to v7.0.1 (#1170)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-23T22:15:56-04:00",
+          "tree_id": "c2717a4e4caedf902a234fc40a5475cfcb56e31c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/57e57b53e031f3a9e6f6e2a3feb0e8abad11f2e1"
+        },
+        "date": 1784859408762,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8755916019152933,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08156360789552698",
+            "extra": "mean: 1.1420849603999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7603374978299513,
+            "unit": "iter/sec",
+            "range": "stddev: 0.219165814732193",
+            "extra": "mean: 1.3152054223999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.789185251912401,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2949295994556169",
+            "extra": "mean: 1.2671296093999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a9e4fd9beeb94359d1f924bdfd54f05da85e5898",
+          "message": "chore(deps): update dependency hypothesis to v6.158.0 (#1172)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-24T11:19:41Z",
+          "tree_id": "19beba648f03a68f286c292e9004db9472fdb886",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a9e4fd9beeb94359d1f924bdfd54f05da85e5898"
+        },
+        "date": 1784892031967,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9649077978416771,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09552393669802567",
+            "extra": "mean: 1.036368451200019 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7685428465288434,
+            "unit": "iter/sec",
+            "range": "stddev: 0.33914077254053204",
+            "extra": "mean: 1.3011636299999965 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8227384124707547,
+            "unit": "iter/sec",
+            "range": "stddev: 0.4393708639815171",
+            "extra": "mean: 1.2154531559999895 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "deccb4118e0d26ad7aeddca98efcf61b77abeaa6",
+          "message": "chore(deps): update astral-sh/setup-uv action to v9 (#1174)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-24T20:15:49-04:00",
+          "tree_id": "f456fddc4f92ae1bffa6bdce95fb9de83bb572f6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/deccb4118e0d26ad7aeddca98efcf61b77abeaa6"
+        },
+        "date": 1784938597390,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.2940870330702527,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07146474613161947",
+            "extra": "mean: 772.7455529999986 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0481809153954083,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22749646239995455",
+            "extra": "mean: 954.0337792000031 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.077942143159912,
+            "unit": "iter/sec",
+            "range": "stddev: 0.33696174962546027",
+            "extra": "mean: 927.6935745999964 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5fc0ecba49e3008dc10856307e93ea8280903ad4",
+          "message": "chore(deps): update dependency hypothesis to v6.158.1 (#1173)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-24T20:49:50-04:00",
+          "tree_id": "95efe811ffaecb64aacc7a239162dc883f1c4272",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5fc0ecba49e3008dc10856307e93ea8280903ad4"
+        },
+        "date": 1784940637085,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.2950358339860049,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07348771855083874",
+            "extra": "mean: 772.1794052000007 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0430662597104148,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22722645754078927",
+            "extra": "mean: 958.7118658000009 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.102853660977981,
+            "unit": "iter/sec",
+            "range": "stddev: 0.32285202291792536",
+            "extra": "mean: 906.7386139999996 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "653a9d43c57ffa2f448656a93697795e4f8450a4",
+          "message": "chore(deps): update dependency hypothesis to v6.160.0 (#1176)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-25T14:48:18-04:00",
+          "tree_id": "c1901ba294d3491cc9e934036fdfd508e64eb41f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/653a9d43c57ffa2f448656a93697795e4f8450a4"
+        },
+        "date": 1785005353259,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8484688869853023,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08047249553991412",
+            "extra": "mean: 1.1785935999999992 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7237793538460847,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2403216903061086",
+            "extra": "mean: 1.3816365369999972 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7463111363007392,
+            "unit": "iter/sec",
+            "range": "stddev: 0.34433698288078685",
+            "extra": "mean: 1.3399237279999965 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2022112761@stu.hit.edu.cn",
+            "name": "Yang Fan",
+            "username": "yangfan-yf-yf"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "47867f806575a9207e47dd1589f5219f76b79b19",
+          "message": "feat: support in-memory snapshot diff data (#1175)\n\n* feat: support in-memory snapshot diff data\n\n---------\n\nCo-authored-by: yangfan-yf-yf <yangfan-yf-yf@users.noreply.github.com>",
+          "timestamp": "2026-07-26T10:18:28-04:00",
+          "tree_id": "1aa5f96f9a34a0d45e8de5b6d15464db885f9830",
+          "url": "https://github.com/syrupy-project/syrupy/commit/47867f806575a9207e47dd1589f5219f76b79b19"
+        },
+        "date": 1785075558694,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9049889607347005,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061397663694553226",
+            "extra": "mean: 1.1049858543999989 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.777557396205529,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20123774259257168",
+            "extra": "mean: 1.2860786931999981 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8044689303255667,
+            "unit": "iter/sec",
+            "range": "stddev: 0.285909808655463",
+            "extra": "mean: 1.2430560862000006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0a5c5c5ff6cd58ae219a74e346194b29a5f40c65",
+          "message": "chore(deps): update dependency hypothesis to v6.161.0 (#1177)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-26T10:20:11-04:00",
+          "tree_id": "3284208afc574db958b08a32dc395a671ef241d4",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0a5c5c5ff6cd58ae219a74e346194b29a5f40c65"
+        },
+        "date": 1785075684649,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8683217496881938,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07775734365731521",
+            "extra": "mean: 1.1516468409999987 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7393125718728175,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23654291883214412",
+            "extra": "mean: 1.352607865799999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7788013230585885,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3043896588752867",
+            "extra": "mean: 1.2840245264000032 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "99421f12fc08ca64028ce9893c737339e80622be",
+          "message": "chore(deps): update dependency hypothesis to v6.161.1 (#1180)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-26T21:56:28-04:00",
+          "tree_id": "9079070527e2e686a08714f5a9eab8f9197c1433",
+          "url": "https://github.com/syrupy-project/syrupy/commit/99421f12fc08ca64028ce9893c737339e80622be"
+        },
+        "date": 1785117441004,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8826584702906969,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07093980739912326",
+            "extra": "mean: 1.1329410339999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7486106156413038,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2265433292931646",
+            "extra": "mean: 1.3358079341999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7742889840302217,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3075928337126903",
+            "extra": "mean: 1.2915074612000013 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3b04699ee05c23969a2ea448778c7aecc998d7e7",
+          "message": "chore(deps): update dependency hypothesis to v6.161.4 (#1182)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-28T08:44:40-05:00",
+          "tree_id": "b92b2500dbf13746302b6f17a97f7585cffb8f55",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3b04699ee05c23969a2ea448778c7aecc998d7e7"
+        },
+        "date": 1785246335169,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9710686764971128,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10251011656043513",
+            "extra": "mean: 1.0297932826000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7942984313067912,
+            "unit": "iter/sec",
+            "range": "stddev: 0.30298878074848795",
+            "extra": "mean: 1.2589726488000053 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8366620868732236,
+            "unit": "iter/sec",
+            "range": "stddev: 0.42231959362676014",
+            "extra": "mean: 1.1952256660000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e959a9b66f2527dc571a3bbae66f92987a788d04",
+          "message": "chore(deps): update dependency hypothesis to v6.161.6 (#1183)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-30T05:55:24-05:00",
+          "tree_id": "0c124eabfea600d019b0b88cb120c357109c6a26",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e959a9b66f2527dc571a3bbae66f92987a788d04"
+        },
+        "date": 1785408976653,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8386089518059928,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07673484284926582",
+            "extra": "mean: 1.1924509008000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7235377901544112,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24024158642348314",
+            "extra": "mean: 1.3820978165999989 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.749360802354519,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3421357219178736",
+            "extra": "mean: 1.3344706540000004 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "365b8e360b96c99a3cd644a4644fab235cfd6d03",
+          "message": "chore(deps): update dependency ruff to >=0.16,<0.17 (#1179)\n\n* chore(deps): update dependency ruff to >=0.16,<0.17\n\n* chore: apply ruff fixes\n\n---------\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: Noah Ulster <noah@marble.ai>",
+          "timestamp": "2026-07-30T09:03:09-04:00",
+          "tree_id": "d1a433fb222790ac64761ae1dfaaff0c7aad920e",
+          "url": "https://github.com/syrupy-project/syrupy/commit/365b8e360b96c99a3cd644a4644fab235cfd6d03"
+        },
+        "date": 1785416647759,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8678845533690563,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05985410749035695",
+            "extra": "mean: 1.1522269824000007 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7512373703973465,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22341143634816735",
+            "extra": "mean: 1.3311371869999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7758751997168716,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3122524942901483",
+            "extra": "mean: 1.2888670759999996 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c873c06617c578f9968299f488bc549bd622d4d8",
+          "message": "chore(deps): update dependency hypothesis to v6.161.7 (#1184)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-30T16:24:24-04:00",
+          "tree_id": "9f70718cb1a8af41a4976f436fc467b71185330d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c873c06617c578f9968299f488bc549bd622d4d8"
+        },
+        "date": 1785443122270,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8463742455621627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0803996044528052",
+            "extra": "mean: 1.1815104313999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7178193387211891,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24186233554174708",
+            "extra": "mean: 1.3931081903999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7415684835469689,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3616789513917853",
+            "extra": "mean: 1.3484931226000014 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e604b9e0789b7ce631c781cf2b3ecb368909ecdc",
+          "message": "chore(deps): update pypa/gh-action-pypi-publish action to v1.14.2 (#1186)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-03T20:13:36-04:00",
+          "tree_id": "55a1cfe6b52576ffcc0d1d7e79a3de1ec8f11d4f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/e604b9e0789b7ce631c781cf2b3ecb368909ecdc"
+        },
+        "date": 1785802466439,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8927831096149056,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06345334812080626",
+            "extra": "mean: 1.1200928750000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7719834671409251,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20674652496089194",
+            "extra": "mean: 1.2953645286000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7988251902875625,
+            "unit": "iter/sec",
+            "range": "stddev: 0.29579259918918777",
+            "extra": "mean: 1.2518383397999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "42353747+w3lld1@users.noreply.github.com",
+            "name": "w3lld1",
+            "username": "w3lld1"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8a10ebd4db690f3b35551538d1fbc1b203bf2a78",
+          "message": "perf: compress xdist snapshot reports (#1188)",
+          "timestamp": "2026-08-03T20:16:41-04:00",
+          "tree_id": "33c7d9b03d903d7ed55260c157aec5178487626d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8a10ebd4db690f3b35551538d1fbc1b203bf2a78"
+        },
+        "date": 1785802658620,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8846979922423838,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07316855250978847",
+            "extra": "mean: 1.1303292295999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7498751390029872,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22701062564182312",
+            "extra": "mean: 1.3335553453999978 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7645966296352709,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31781963876219355",
+            "extra": "mean: 1.3078791630000013 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "53e1219111169a7ef2b097c0663ac39aea410fb4",
+          "message": "chore(deps): update dependency ruff to v0.16.1 (#1189)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-04T08:17:06-04:00",
+          "tree_id": "0bc775041c429c2d387105cde69be949938e06e0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/53e1219111169a7ef2b097c0663ac39aea410fb4"
+        },
+        "date": 1785845882757,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8958652614747898,
+            "unit": "iter/sec",
+            "range": "stddev: 0.061078522454731755",
+            "extra": "mean: 1.1162392862000048 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7664391062871544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20817662663607026",
+            "extra": "mean: 1.304735094800003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.789206036738182,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2904682415659532",
+            "extra": "mean: 1.2670962378000012 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "184419e66df172c584ad2632f530d6664e01caf8",
+          "message": "chore(deps): update dependency hypothesis to v6.164.0 (#1187)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-04T08:48:22-04:00",
+          "tree_id": "a3e0d3a67320eaafb810d3f23c1b85a27935c5f0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/184419e66df172c584ad2632f530d6664e01caf8"
+        },
+        "date": 1785847756010,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9038848760100286,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07118398473696022",
+            "extra": "mean: 1.1063355816000011 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7799950599761667,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2070119900816502",
+            "extra": "mean: 1.2820594018000009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8036641857265544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2894985247449283",
+            "extra": "mean: 1.2443008133999995 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "10dc4d778ed567d6160e2eaa789837078fc84311",
+          "message": "chore(deps): update dependency hypothesis to v6.165.0 (#1191)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-05T06:53:50-04:00",
+          "tree_id": "cee631cea5f44042c8bee7c0610485aa97b63076",
+          "url": "https://github.com/syrupy-project/syrupy/commit/10dc4d778ed567d6160e2eaa789837078fc84311"
+        },
+        "date": 1785927281849,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8699931488648514,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07152017738638977",
+            "extra": "mean: 1.1494343390000012 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7463036809709411,
+            "unit": "iter/sec",
+            "range": "stddev: 0.221780597099555",
+            "extra": "mean: 1.3399371134000035 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7687888613505544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3013193156184558",
+            "extra": "mean: 1.3007472535999938 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c6edafb7710179a9c28329763d69d120ea65f470",
+          "message": "chore(deps): update dependency coverage to v7.15.3 (#1192)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-05T16:44:30-04:00",
+          "tree_id": "58ae097f0e534f4639fe732f90c0e03694621fe5",
+          "url": "https://github.com/syrupy-project/syrupy/commit/c6edafb7710179a9c28329763d69d120ea65f470"
+        },
+        "date": 1785962724867,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9760947826421805,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05638141937166549",
+            "extra": "mean: 1.0244906721999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8322596156450888,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23314920262987643",
+            "extra": "mean: 1.2015481481999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8525550907092144,
+            "unit": "iter/sec",
+            "range": "stddev: 0.33695525255904035",
+            "extra": "mean: 1.1729447291999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d5b2841b160ebdaf6b2be61bd099152fa0dc94c4",
+          "message": "chore(deps): update python docker tag to v3.14.7 (#1195)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-09T08:31:00-04:00",
+          "tree_id": "42c42a02697b8e552462fbf72c4764634ff0a64d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d5b2841b160ebdaf6b2be61bd099152fa0dc94c4"
+        },
+        "date": 1786278701715,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.3287877986688175,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0628686355888806",
+            "extra": "mean: 752.5656098000013 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.171398677541827,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14570013701392007",
+            "extra": "mean: 853.6803217999989 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.194955912328659,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2264639506485898",
+            "extra": "mean: 836.850957999998 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0a584de4db775c9f5212e7f1f4f6a6883178cf3f",
+          "message": "chore(deps): update dependency coverage to v7.15.4 (#1197)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-10T00:16:51-04:00",
+          "tree_id": "e58cda850ee0fab8960fde3de3d4d8a2928ea899",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0a584de4db775c9f5212e7f1f4f6a6883178cf3f"
+        },
+        "date": 1786335453729,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.264936057268534,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06992912790588908",
+            "extra": "mean: 790.5537945999981 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.1461775939343757,
+            "unit": "iter/sec",
+            "range": "stddev: 0.17124688383715575",
+            "extra": "mean: 872.4651444000002 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.1410737874549917,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21636799349073918",
+            "extra": "mean: 876.3675154000013 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3005178f7f7cacd5506d715a2f4b74bd788b7a77",
+          "message": "chore(deps): update dependency hypothesis to v6.165.2 (#1194)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-10T01:43:56-04:00",
+          "tree_id": "c1b7a20da3bd5344eb410b5e246447bfe74858fa",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3005178f7f7cacd5506d715a2f4b74bd788b7a77"
+        },
+        "date": 1786340689504,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8667386158988328,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0690306581346639",
+            "extra": "mean: 1.1537503713999997 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7401141742252458,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21960223737687504",
+            "extra": "mean: 1.3511428842000002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7635615781330494,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2961470616540207",
+            "extra": "mean: 1.3096520681999948 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "003c8a7a39d84525d114459c79ac2c2c0fdc9a1a",
+          "message": "chore(deps): update dependency ruff to v0.16.2 (#1198)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-10T11:17:01-04:00",
+          "tree_id": "a97b128308c4539dbb3b726474e5571659c79a35",
+          "url": "https://github.com/syrupy-project/syrupy/commit/003c8a7a39d84525d114459c79ac2c2c0fdc9a1a"
+        },
+        "date": 1786375072062,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9938916028363574,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08537254999050505",
+            "extra": "mean: 1.0061459389999983 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8316984117841401,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2567573580132749",
+            "extra": "mean: 1.2023589149999978 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8652994230620941,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3360431306624436",
+            "extra": "mean: 1.1556693248000003 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0a14685b9fb981506adc8359c0c2e8ed62aa5019",
+          "message": "chore(deps): update dependency hypothesis to v6.165.3 (#1199)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-14T09:33:58-04:00",
+          "tree_id": "af32195f19bc83e3356962576cc5f35eca66f22d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/0a14685b9fb981506adc8359c0c2e8ed62aa5019"
+        },
+        "date": 1786714490747,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8760150870373828,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06854862760400789",
+            "extra": "mean: 1.1415328512000003 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7427981577138518,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21692156879296937",
+            "extra": "mean: 1.3462607433999991 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7680639594312688,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31245474532560585",
+            "extra": "mean: 1.3019749042000015 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "45baa3fd7f2004b8e298dff53c2805845764abed",
+          "message": "chore(deps): update astral-sh/setup-uv action to v10 (#1200)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-15T10:31:25-04:00",
+          "tree_id": "f9a045dd280874939e4de37e01128bbb6ceed2b0",
+          "url": "https://github.com/syrupy-project/syrupy/commit/45baa3fd7f2004b8e298dff53c2805845764abed"
+        },
+        "date": 1786804334711,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.2040949258069817,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09472721069971346",
+            "extra": "mean: 830.4993057999994 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9571823361392489,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2636647231881204",
+            "extra": "mean: 1.0447330276000018 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.0033703613793634,
+            "unit": "iter/sec",
+            "range": "stddev: 0.42848365509185105",
+            "extra": "mean: 996.6409597999984 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b84fc1968a46c4a09893e41c8b1f66d09e00d1ab",
+          "message": "chore(deps): update dependency hypothesis to v6.165.5 (#1201)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-16T10:56:33-04:00",
+          "tree_id": "54ff6074be362913202254f4df68a7c8fc0c344f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b84fc1968a46c4a09893e41c8b1f66d09e00d1ab"
+        },
+        "date": 1786892244503,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9860021411316822,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0833404555842328",
+            "extra": "mean: 1.0141965805999689 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8112598675729975,
+            "unit": "iter/sec",
+            "range": "stddev: 0.27770576882989395",
+            "extra": "mean: 1.2326506462000224 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8443344005407919,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3921437856453022",
+            "extra": "mean: 1.1843648669999767 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "97d5b3102a895cc45a6704c30e3d4315f87abee7",
+          "message": "chore(deps): update dependency ruff to v0.16.3 (#1202)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-16T13:03:32-04:00",
+          "tree_id": "9d46a2188050bb688f6671a2c03f5398dca63da2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/97d5b3102a895cc45a6704c30e3d4315f87abee7"
+        },
+        "date": 1786899864840,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0307890009502143,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06668314987038203",
+            "extra": "mean: 970.1306466000005 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8389704742491885,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25534718075934076",
+            "extra": "mean: 1.1919370593999985 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.923346239480493,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31428095679554846",
+            "extra": "mean: 1.0830173528000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9a14d9e84e98e1bbfbe51ebf04d1d67741c4d606",
+          "message": "chore(deps): update astral-sh/setup-uv action to v10.0.1 (#1205)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-17T06:25:52-04:00",
+          "tree_id": "b7f418a0c4f44d193f3fac4bbfe796d0b3560a16",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9a14d9e84e98e1bbfbe51ebf04d1d67741c4d606"
+        },
+        "date": 1786962401489,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0969762693587353,
+            "unit": "iter/sec",
+            "range": "stddev: 0.05326533405876753",
+            "extra": "mean: 911.5967482000087 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.9599303382393148,
+            "unit": "iter/sec",
+            "range": "stddev: 0.16591932210124985",
+            "extra": "mean: 1.0417422600000124 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9598444350484134,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2694714385755362",
+            "extra": "mean: 1.0418354927999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "31ca0e4c3d99c3c5c495b0a31c0adf992bbcddc6",
+          "message": "chore(deps): update dependency hypothesis to v6.165.7 (#1204)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-17T06:41:52-04:00",
+          "tree_id": "d01e74fe63b0da993dcb5c3c9c927de856c21f6f",
+          "url": "https://github.com/syrupy-project/syrupy/commit/31ca0e4c3d99c3c5c495b0a31c0adf992bbcddc6"
+        },
+        "date": 1786963355804,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.6358382409901033,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07896249831117474",
+            "extra": "mean: 611.3073865999994 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.2489065741764138,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24979181809805642",
+            "extra": "mean: 800.7004052000013 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.330038005633844,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3533825130266909",
+            "extra": "mean: 751.8582144000006 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4702b4b02206886193018b7b492e240d629fddcb",
+          "message": "chore(deps): update dependency hypothesis to v6.165.8 (#1206)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-17T20:41:52Z",
+          "tree_id": "5299f13541e5e2b13f44f464625a15f2cc7a86ce",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4702b4b02206886193018b7b492e240d629fddcb"
+        },
+        "date": 1786999368985,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8779289097532385,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07033291076980291",
+            "extra": "mean: 1.1390443906 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7459024208543531,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20861331472033898",
+            "extra": "mean: 1.3406579359999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7679669952999293,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3026225901387049",
+            "extra": "mean: 1.3021392926000033 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8b49aec2c80e6058827b7dba729ee6a06c03a163",
+          "message": "chore(deps): update dependency hypothesis to v6.165.9 (#1208)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-18T09:40:13-04:00",
+          "tree_id": "e1ac6653c9feb413b240c44835c0e2a9101ba0ce",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8b49aec2c80e6058827b7dba729ee6a06c03a163"
+        },
+        "date": 1787060466074,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9822115726469391,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0894954011089449",
+            "extra": "mean: 1.018110586200001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7946711545667146,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3132481510646935",
+            "extra": "mean: 1.2583821549999996 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8466654131977147,
+            "unit": "iter/sec",
+            "range": "stddev: 0.399690106175615",
+            "extra": "mean: 1.1811041107999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1bb08aee91409881ff9ce0bec250c413f8e11a79",
+          "message": "chore(deps): update dependency mypy to v2.3.1 (#1209)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-18T09:40:22-04:00",
+          "tree_id": "6ba74dc6efdc56f3f4b48a6fe4c3db7b242dc29c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1bb08aee91409881ff9ce0bec250c413f8e11a79"
+        },
+        "date": 1787060473595,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8810414053196908,
+            "unit": "iter/sec",
+            "range": "stddev: 0.058153748796660513",
+            "extra": "mean: 1.1350204359999907 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7490859496309062,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2106466382435313",
+            "extra": "mean: 1.334960294600006 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7655803092949068,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3158301987476316",
+            "extra": "mean: 1.3061986937999905 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7624e8124bf8d4a65849d52548dec584c32c77e6",
+          "message": "chore(deps): update dependency hypothesis to v6.165.10 (#1210)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-20T04:50:56-04:00",
+          "tree_id": "838c225839642bf6fc8b03073bd56e0824628cd7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7624e8124bf8d4a65849d52548dec584c32c77e6"
+        },
+        "date": 1787215914271,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.854353704648895,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08785608374171658",
+            "extra": "mean: 1.1704754067999972 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7143022832414762,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2454104392867781",
+            "extra": "mean: 1.3999675256000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7435853843528396,
+            "unit": "iter/sec",
+            "range": "stddev: 0.32796929060223223",
+            "extra": "mean: 1.3448354702000018 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2022112761@stu.hit.edu.cn",
+            "name": "Yang Fan",
+            "username": "yangfan-yf-yf"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7562e2fc5c6c9a7d79cb2d1653272d870463b27d",
+          "message": "feat: mark tests that use snapshots (#1196)\n\n---------\n\nCo-authored-by: yangfan-yf-yf <yangfan-yf-yf@users.noreply.github.com>",
+          "timestamp": "2026-08-22T09:55:11-04:00",
+          "tree_id": "9f034e59105c9aeb825114a49e54ea6a17736fea",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7562e2fc5c6c9a7d79cb2d1653272d870463b27d"
+        },
+        "date": 1787406964644,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8408579822232051,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08606944415084154",
+            "extra": "mean: 1.1892614699999968 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7533558893510816,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21491911604675892",
+            "extra": "mean: 1.3273938839999915 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7670547771461667,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3026247504154062",
+            "extra": "mean: 1.3036878588000036 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8f8ef8fe6a1333c3a2ea18d70dce9433f3c78862",
+          "message": "chore: add partial selection benchmark (#1211)",
+          "timestamp": "2026-08-22T10:42:26-04:00",
+          "tree_id": "1f44c8fd4003e8ab940bd361d608f6cc941b4ef8",
+          "url": "https://github.com/syrupy-project/syrupy/commit/8f8ef8fe6a1333c3a2ea18d70dce9433f3c78862"
+        },
+        "date": 1787409810091,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8346081559784873,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08799973509587602",
+            "extra": "mean: 1.1981670593999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7427242298097357,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21629040867173574",
+            "extra": "mean: 1.3463947449999991 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.6850516530172939,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0027156642363632454",
+            "extra": "mean: 593.4536180000038 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7413966245687942,
+            "unit": "iter/sec",
+            "range": "stddev: 0.36661462563323877",
+            "extra": "mean: 1.3488057092000019 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9d24846feb6ed643bcf0696fb72f29354eaddcf1",
+          "message": "chore: add benchmark workflow for forks (#1212)",
+          "timestamp": "2026-08-22T10:54:17-04:00",
+          "tree_id": "b31ea9cb119cddfce6d47e0bc13cc9487711579c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/9d24846feb6ed643bcf0696fb72f29354eaddcf1"
+        },
+        "date": 1787410519267,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8226487873363845,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10339278016332362",
+            "extra": "mean: 1.2155855759999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7370544686241803,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2275164414527961",
+            "extra": "mean: 1.3567518312000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.675013485550318,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0029153204735037196",
+            "extra": "mean: 597.0101188000016 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.739647536093945,
+            "unit": "iter/sec",
+            "range": "stddev: 0.39967440118998765",
+            "extra": "mean: 1.3519953102000017 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ff6c56c5075687ba6bc2e365e1e565865a304687",
+          "message": "chore(deps): update actions/github-script action to v9 (#1213)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-22T10:56:23-04:00",
+          "tree_id": "8f30c68a9089675adf8ffd62de9759ec24078cce",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ff6c56c5075687ba6bc2e365e1e565865a304687"
+        },
+        "date": 1787410657284,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8261856382680876,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08264185392608862",
+            "extra": "mean: 1.2103817274000008 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7440297304471004,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21635594292609903",
+            "extra": "mean: 1.344032313599999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.678905301495893,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0029389566075363944",
+            "extra": "mean: 595.6262089999996 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7499561641997523,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3641090338357755",
+            "extra": "mean: 1.3334112682000012 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a54949cda4eea64040bd51528e87e72ece2ac92b",
+          "message": "chore: allow unsafe pr checkout on benchmarks (#1214)",
+          "timestamp": "2026-08-22T10:58:43-04:00",
+          "tree_id": "cc2230b2faf660922dd53ade8be9b5e3a2f02b9d",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a54949cda4eea64040bd51528e87e72ece2ac92b"
+        },
+        "date": 1787410797282,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8383770016903841,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0927005104514778",
+            "extra": "mean: 1.1927808109999944 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7354381519112805,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22328616307998517",
+            "extra": "mean: 1.3597336463999965 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.6723158633706092,
+            "unit": "iter/sec",
+            "range": "stddev: 0.006586506528279266",
+            "extra": "mean: 597.9731592000007 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7387645703594098,
+            "unit": "iter/sec",
+            "range": "stddev: 0.38541442403035964",
+            "extra": "mean: 1.353611204599997 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "7189039+tiagoskaneta@users.noreply.github.com",
+            "name": "Tiago Surjus Kaneta",
+            "username": "tiagoskaneta"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7235da304955a7b0dee31a5809b7fa834e23864b",
+          "message": "perf: narrow unused snapshot matching to plausible test files (#1207)\n\n* perf: narrow unused snapshot matching to plausible test files\n\n* refactor: invalidate cached properties\n\n---------\n\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2026-08-22T11:06:20-04:00",
+          "tree_id": "6a1791510b30a5f8ed71214dfd557d2cf34cbf59",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7235da304955a7b0dee31a5809b7fa834e23864b"
+        },
+        "date": 1787411236599,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9303099446958132,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11655325942595786",
+            "extra": "mean: 1.0749105775999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8101220660058891,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2667847560256061",
+            "extra": "mean: 1.2343818813999945 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.3304296135293523,
+            "unit": "iter/sec",
+            "range": "stddev: 0.006775056843869968",
+            "extra": "mean: 429.1054294000048 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8187539046834262,
+            "unit": "iter/sec",
+            "range": "stddev: 0.44432142895621674",
+            "extra": "mean: 1.221368221 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "afc1a9a4a89d94174c82e02414bf6df1ad03781d",
+          "message": "fix(#1058): add date serialization (#1216)\n\nCo-authored-by: Daniel Nehrig <daniel.nehrig@centricsoftware.com>",
+          "timestamp": "2026-08-22T11:50:48-04:00",
+          "tree_id": "2b9615ee2c06b8abe329f83bcce2ce939abdca6c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/afc1a9a4a89d94174c82e02414bf6df1ad03781d"
+        },
+        "date": 1787413903801,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.954360344088849,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10415396712591946",
+            "extra": "mean: 1.0478222468000014 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8286551371399448,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24956683719451342",
+            "extra": "mean: 1.2067746341999908 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.3526376563205824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0022282658785619702",
+            "extra": "mean: 425.0548304000006 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8378658841800142,
+            "unit": "iter/sec",
+            "range": "stddev: 0.41455661648783093",
+            "extra": "mean: 1.1935084347999918 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4d59bde91c87f6a2fb3b476ea995246a43449bc2",
+          "message": "chore: update docs for v6 release (#1218)",
+          "timestamp": "2026-08-22T11:51:15-04:00",
+          "tree_id": "c6b2d573421010494924e6f8743a3b28dbd822bb",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4d59bde91c87f6a2fb3b476ea995246a43449bc2"
+        },
+        "date": 1787413948521,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8994831993373097,
+            "unit": "iter/sec",
+            "range": "stddev: 0.14214693613949358",
+            "extra": "mean: 1.1117495031999993 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7767978595341197,
+            "unit": "iter/sec",
+            "range": "stddev: 0.31548807221961445",
+            "extra": "mean: 1.2873361939999994 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.273675642474029,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001882067380436653",
+            "extra": "mean: 439.81647220000184 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7796381674036006,
+            "unit": "iter/sec",
+            "range": "stddev: 0.5408673043177592",
+            "extra": "mean: 1.2826462861999972 sec\nrounds: 5"
+          }
+        ]
+      }
+    ]
+  }
+}
