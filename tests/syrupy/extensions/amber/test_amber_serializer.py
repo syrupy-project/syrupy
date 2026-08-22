@@ -2,6 +2,7 @@ from collections import (
     OrderedDict,
     namedtuple,
 )
+from dataclasses import dataclass
 
 import pytest
 
@@ -111,6 +112,26 @@ def test_tuple(snapshot):
 )
 def test_set(snapshot, actual):
     assert snapshot == actual
+
+
+@dataclass
+class DataclassPoint:
+    x: int
+    y: int
+
+
+@dataclass
+class DataclassWithStrSet:
+    my_str_set: set[str]
+
+
+def test_dataclass(snapshot):
+    assert DataclassPoint(x=1, y=2) == snapshot
+
+
+def test_dataclass_nested_str_set(snapshot):
+    """Nested sets inside dataclasses must serialize with sorted members (#1048)."""
+    assert DataclassWithStrSet({"1", " 2", "3", "4", "5", "6", "7"}) == snapshot
 
 
 def test_sort_partial_order_is_deterministic():
