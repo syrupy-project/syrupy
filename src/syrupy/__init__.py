@@ -192,6 +192,7 @@ def pytest_sessionstart(session: Any) -> None:
     session.config._syrupy.start()
 
 
+@pytest.hookimpl(tryfirst=True)
 def pytest_collection_modifyitems(
     session: Any, config: Any, items: list["pytest.Item"]
 ) -> None:
@@ -199,6 +200,9 @@ def pytest_collection_modifyitems(
     After tests are collected and before any modification is performed.
     https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collection_modifyitems
     """
+    for item in items:
+        if "snapshot" in getattr(item, "fixturenames", ()):
+            item.add_marker("syrupy_snapshot")
     config._syrupy.collect_items(items)
 
 
@@ -228,6 +232,10 @@ class DeferXDist:
 
 
 def pytest_configure(config: pytest.Config) -> None:
+    config.addinivalue_line(
+        "markers",
+        "syrupy_snapshot: test directly or indirectly uses the snapshot fixture",
+    )
     if config.pluginmanager.hasplugin("xdist") or config.pluginmanager.hasplugin(
         "xdist.plugin"
     ):

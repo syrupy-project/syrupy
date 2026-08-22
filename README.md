@@ -55,6 +55,14 @@ pytest --snapshot-update
 
 A snapshot file should be generated under a `__snapshots__` directory in the same directory as `test_file.py`. The `__snapshots__` directory and all its children should be committed along with your test code.
 
+Syrupy automatically marks tests that directly or indirectly use the `snapshot`
+fixture with `syrupy_snapshot`. To update snapshots without running unrelated
+tests, combine the marker with the update option:
+
+```shell
+pytest --snapshot-update -m syrupy_snapshot
+```
+
 #### Usage in `unittest.TestCase` subclasses
 
 [Due to limitations in `unittest` and `pytest`](https://docs.pytest.org/en/9.0.x/how-to/unittest.html#pytest-features-in-unittest-testcase-subclasses), the `snapshot` fixture is not directly usable in `TestCase` subclasses (including Django's `TestCase`).
