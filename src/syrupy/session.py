@@ -278,6 +278,7 @@ class SnapshotSession:
                     for item in report["collected"]
                 }
         self.report.selected_items = selected
+        self.report._invalidate_selection_caches()
 
     def finish(self) -> int:
         exitstatus = 0

@@ -92,6 +92,23 @@ class SnapshotReport:
     def _collected_items_by_nodeid(self) -> dict[str, "pytest.Item"]:
         return {item.nodeid: item for item in self.collected_items}
 
+    def _invalidate_selection_caches(self) -> None:
+        """
+        Clear cached properties derived from collected/selected items and snapshot
+        collections.
+
+        pytest-xdist merges worker reports into the controller report after
+        construction, mutating those inputs; callers must invalidate before reuse.
+        """
+        for name in (
+            "_collected_items_by_nodeid",
+            "_ran_locations",
+            "_skipped_locations",
+            "unused",
+            "num_unused",
+        ):
+            self.__dict__.pop(name, None)
+
     def _has_xfail(self, item: "pytest.Item") -> bool:
         # xfailed_key is 'private'. I'm open to a better way to do this:
         if xfailed_key in item.stash:
