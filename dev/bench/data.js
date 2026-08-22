@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787420699518,
+  "lastUpdate": 1787420730399,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -18347,6 +18347,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.4163149791930308",
             "extra": "mean: 987.784304200001 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b549b4b6329cca03f871162748b3ea8597add1a3",
+          "message": "feat: built-in support for Dataclasses (#1220)\n\nBREAKING CHANGE: Removed the DataclassPlugin as it's now natively supported.",
+          "timestamp": "2026-08-22T13:44:23-04:00",
+          "tree_id": "3f6be64f601db81765a3602b4761036d44baf040",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b549b4b6329cca03f871162748b3ea8597add1a3"
+        },
+        "date": 1787420729141,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8132060869217234,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1008404974298119",
+            "extra": "mean: 1.2297005840000026 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7113456601754116,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23977754814565327",
+            "extra": "mean: 1.405786323000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.1806847199466146,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0027436182847017875",
+            "extra": "mean: 458.57156280000027 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7174968009034707,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3964492491692517",
+            "extra": "mean: 1.3937344372000013 sec\nrounds: 5"
           }
         ]
       }
