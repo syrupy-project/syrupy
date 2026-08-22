@@ -4,6 +4,87 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v6.0.0](https://github.com/syrupy-project/syrupy/releases/tag/v6.0.0) (2026-08-22)
+
+## What's Changed
+* chore(deps): bump pygments from 2.19.2 to 2.20.0 by @dependabot[bot] in https://github.com/syrupy-project/syrupy/pull/1151
+* chore(deps): update dependency hypothesis to v6.156.5 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1152
+* chore(deps): update dependency ruff to v0.15.21 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1153
+* chore(deps): update dependency hypothesis to v6.156.6 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1154
+* chore(deps): update dependency coverage to v7.15.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1157
+* chore(deps): update dependency mypy to v2.3.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1158
+* fix: make set/dict serialization deterministic for partial-order elements by @chuenchen309 in https://github.com/syrupy-project/syrupy/pull/1159
+* docs: add chuenchen309 as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1160
+* chore(deps): update dependency coverage to v7.15.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1163
+* chore(deps): update dependency ruff to v0.15.22 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1164
+* chore(deps): update dependency hypothesis to v6.156.7 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1165
+* chore(deps): update dependency hypothesis to v6.156.9 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1166
+* chore(deps): update dependency hypothesis to v6.157.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1167
+* fix(matchers): replace values at nested paths in path_value default mode by @chuenchen309 in https://github.com/syrupy-project/syrupy/pull/1162
+* fix: preserve skipped single-file snapshots by @KSmanis in https://github.com/syrupy-project/syrupy/pull/1161
+* docs: add KSmanis as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1168
+* chore(deps): update pypa/gh-action-pypi-publish action to v1.14.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1169
+* chore(deps): update dependency hypothesis to v6.157.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1171
+* chore(deps): update actions/checkout action to v7.0.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1170
+* chore(deps): update dependency hypothesis to v6.158.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1172
+* chore(deps): update astral-sh/setup-uv action to v9 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1174
+* chore(deps): update dependency hypothesis to v6.158.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1173
+* chore(deps): update dependency hypothesis to v6.160.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1176
+* feat: support in-memory snapshot diff data by @yangfan-yf-yf in https://github.com/syrupy-project/syrupy/pull/1175
+* docs: add yangfan-yf-yf as a contributor for code by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1178
+* chore(deps): update dependency hypothesis to v6.161.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1177
+* chore(deps): update dependency hypothesis to v6.161.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1180
+* chore(deps): update dependency hypothesis to v6.161.4 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1182
+* chore(deps): update dependency hypothesis to v6.161.6 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1183
+* chore(deps): update dependency ruff to >=0.16,<0.17 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1179
+* chore(deps): update dependency hypothesis to v6.161.7 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1184
+* chore(deps): update pypa/gh-action-pypi-publish action to v1.14.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1186
+* perf: compress xdist snapshot reports by @w3lld1 in https://github.com/syrupy-project/syrupy/pull/1188
+* docs: add w3lld1 as a contributor for code by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1190
+* chore(deps): update dependency ruff to v0.16.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1189
+* chore(deps): update dependency hypothesis to v6.164.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1187
+* chore(deps): update dependency hypothesis to v6.165.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1191
+* chore(deps): update dependency coverage to v7.15.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1192
+* chore(deps): update python docker tag to v3.14.7 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1195
+* chore(deps): update dependency coverage to v7.15.4 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1197
+* chore(deps): update dependency hypothesis to v6.165.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1194
+* chore(deps): update dependency ruff to v0.16.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1198
+* chore(deps): update dependency hypothesis to v6.165.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1199
+* chore(deps): update astral-sh/setup-uv action to v10 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1200
+* chore(deps): update dependency hypothesis to v6.165.5 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1201
+* chore(deps): update dependency ruff to v0.16.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1202
+* chore(deps): update astral-sh/setup-uv action to v10.0.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1205
+* chore(deps): update dependency hypothesis to v6.165.7 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1204
+* chore(deps): update dependency hypothesis to v6.165.8 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1206
+* chore(deps): update dependency hypothesis to v6.165.9 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1208
+* chore(deps): update dependency mypy to v2.3.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1209
+* chore(deps): update dependency hypothesis to v6.165.10 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1210
+* feat: mark tests that use snapshots by @yangfan-yf-yf in https://github.com/syrupy-project/syrupy/pull/1196
+* chore: add partial selection benchmark by @noahnu in https://github.com/syrupy-project/syrupy/pull/1211
+* chore: add benchmark workflow for forks by @noahnu in https://github.com/syrupy-project/syrupy/pull/1212
+* chore(deps): update actions/github-script action to v9 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1213
+* chore: allow unsafe pr checkout on benchmarks by @noahnu in https://github.com/syrupy-project/syrupy/pull/1214
+* perf: narrow unused snapshot matching to plausible test files by @tiagoskaneta in https://github.com/syrupy-project/syrupy/pull/1207
+* docs: add tiagoskaneta as a contributor for code by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1215
+* feat(#1058): add date serialization by @noahnu in https://github.com/syrupy-project/syrupy/pull/1216
+* docs: add danielnehrig as a contributor for code by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1217
+* chore: update docs for v6 release by @noahnu in https://github.com/syrupy-project/syrupy/pull/1218
+* chore(deps): update actions/configure-pages action to v6 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1219
+* chore: use the benchmarks git branch by @noahnu in https://github.com/syrupy-project/syrupy/pull/1221
+* feat: built-in support for Dataclasses by @noahnu in https://github.com/syrupy-project/syrupy/pull/1220
+* feat: add --snapshot-declaration-order for respecting declaration order by @noahnu in https://github.com/syrupy-project/syrupy/pull/1222
+* chore: sponsorship by @noahnu in https://github.com/syrupy-project/syrupy/pull/1224
+* fix(perf): performance regression from syrupy 5.5 by @noahnu in https://github.com/syrupy-project/syrupy/pull/1223
+
+## New Contributors
+* @chuenchen309 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1159
+* @KSmanis made their first contribution in https://github.com/syrupy-project/syrupy/pull/1161
+* @yangfan-yf-yf made their first contribution in https://github.com/syrupy-project/syrupy/pull/1175
+* @w3lld1 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1188
+* @tiagoskaneta made their first contribution in https://github.com/syrupy-project/syrupy/pull/1207
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v5.5.3...v6.0.0
+
 ## [v5.5.3](https://github.com/syrupy-project/syrupy/releases/tag/v5.5.3) (2026-07-11)
 
 ## What's Changed
