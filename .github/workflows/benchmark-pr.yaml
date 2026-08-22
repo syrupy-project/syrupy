@@ -86,6 +86,7 @@ jobs:
           tool: 'pytest'
           output-file-path: benchmarks.json
           github-token: ${{ github.token }}
+          gh-pages-branch: benchmarks
           auto-push: false
           alert-threshold: '200%'
           comment-on-alert: true
