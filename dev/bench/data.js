@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787429913674,
+  "lastUpdate": 1787431695788,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -18503,6 +18503,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.449855084758083",
             "extra": "mean: 1.237203537000002 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3a9f69182366401c372dd0a1690177e70e994fec",
+          "message": "fix: single file snapshot no longer buffers in memory (#1223)\n\nfeat: add --snapshot-disable-unused to disable unused detection",
+          "timestamp": "2026-08-22T16:47:17-04:00",
+          "tree_id": "93a7fd6c7f9c98e53cb3677ac222b8fce3c728d6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3a9f69182366401c372dd0a1690177e70e994fec"
+        },
+        "date": 1787431695193,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8425340663833781,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09149654156487087",
+            "extra": "mean: 1.1868956281999998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7542752711575238,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1937713169117847",
+            "extra": "mean: 1.325775931200002 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.2499263594602708,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001677457654867808",
+            "extra": "mean: 444.4589911999998 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7581969482205559,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3172169842673899",
+            "extra": "mean: 1.3189185242000008 sec\nrounds: 5"
           }
         ]
       }
