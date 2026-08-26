@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787532115145,
+  "lastUpdate": 1787784220134,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -18607,6 +18607,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.4258128117178659",
             "extra": "mean: 1.2061164823999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "237c1f4b74c02a0da3d5cc326e182c3e86ac6232",
+          "message": "chore(deps): update dependency pytest-benchmark to v5.3.0 (#1226)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-26T18:42:56-04:00",
+          "tree_id": "a643e080ee854e4ca2db6258a02bd4c14c3bb473",
+          "url": "https://github.com/syrupy-project/syrupy/commit/237c1f4b74c02a0da3d5cc326e182c3e86ac6232"
+        },
+        "date": 1787784219344,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.3470610362214128,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06170073580337072",
+            "extra": "mean: 742.356859199981 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.2202574429501127,
+            "unit": "iter/sec",
+            "range": "stddev: 0.13289947662972595",
+            "extra": "mean: 819.4992013999808 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.378445559224402,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013329492765266151",
+            "extra": "mean: 295.994114000041 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.1462705965209945,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2577561407601241",
+            "extra": "mean: 872.3943570000529 msec\nrounds: 5"
           }
         ]
       }
