@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788190729378,
+  "lastUpdate": 1788260134749,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -18763,6 +18763,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3979187229831125",
             "extra": "mean: 1.1950201153999955 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4803456f37a784188dc130f9686e55ae06e8391f",
+          "message": "chore(deps): update dependency coverage to v7.16.0 (#1229)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-09-01T06:54:48-04:00",
+          "tree_id": "1b1172cd0587194a61e3b2e9712e472e5c1a01cf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/4803456f37a784188dc130f9686e55ae06e8391f"
+        },
+        "date": 1788260133434,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.2974000866173434,
+            "unit": "iter/sec",
+            "range": "stddev: 0.07089265464433804",
+            "extra": "mean: 770.7722623999956 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.1493865968896695,
+            "unit": "iter/sec",
+            "range": "stddev: 0.15126625866531193",
+            "extra": "mean: 870.0292857999898 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.3067627801342074,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0026501463172708853",
+            "extra": "mean: 302.41056479999884 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.1346600520881263,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2828643912129288",
+            "extra": "mean: 881.3212364000037 msec\nrounds: 5"
           }
         ]
       }
