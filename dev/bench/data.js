@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788714456605,
+  "lastUpdate": 1788813347725,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -19075,6 +19075,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.29995699173428014",
             "extra": "mean: 875.2491779999986 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "119548610+shipbyaeron@users.noreply.github.com",
+            "name": "Aeron",
+            "username": "shipbyaeron"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "16c4cb5b8785d89e49b8076a99f58d810e02fcce",
+          "message": "test: add coverage for read_snapshot_data_from_location returning None (#1236)",
+          "timestamp": "2026-09-07T16:34:58-04:00",
+          "tree_id": "366c845029a5e1078e50c41dc64d6119d148370c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/16c4cb5b8785d89e49b8076a99f58d810e02fcce"
+        },
+        "date": 1788813346819,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.179665149494523,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11651461224297181",
+            "extra": "mean: 847.6981797999983 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8838852015634854,
+            "unit": "iter/sec",
+            "range": "stddev: 0.308778979395536",
+            "extra": "mean: 1.1313686418000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.0342834640368443,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0014028865809171526",
+            "extra": "mean: 329.5670993999977 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.035119770256491,
+            "unit": "iter/sec",
+            "range": "stddev: 0.39851409481889594",
+            "extra": "mean: 966.0717810000008 msec\nrounds: 5"
           }
         ]
       }
