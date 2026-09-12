@@ -150,6 +150,17 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
             "collection/declaration order instead of alphabetical name order"
         ),
     )
+    group.addoption(
+        "--snapshot-file-lock",
+        action="store_true",
+        default=False,
+        dest="snapshot_file_lock",
+        help=(
+            "(Experimental) Use a file lock and atomic replace when writing "
+            "amber snapshot files so concurrent pytest-xdist workers do not "
+            "clobber each other during --snapshot-update"
+        ),
+    )
 
 
 def __terminal_color(
@@ -250,6 +261,9 @@ class DeferXDist:
             report = workeroutput.get("syrupy_report")
             if report is not None:
                 syrupy.add_worker_report(report)
+            sidecars = workeroutput.get("syrupy_write_sidecars")
+            if sidecars:
+                syrupy.add_written_snapshot_locations(sidecars)
 
 
 def pytest_configure(config: pytest.Config) -> None:

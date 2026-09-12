@@ -1,7 +1,10 @@
 import json
 import os
+import time
+import zlib
 from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
+from contextvars import ContextVar
 from difflib import ndiff
 from gettext import gettext
 from importlib import import_module
@@ -17,10 +20,184 @@ from .constants import (
 )
 from .exceptions import FailedToLoadModuleMember
 
+# Set from SnapshotSession via config.option.snapshot_file_lock (see session.start/finish).
+_snapshot_file_lock: ContextVar[bool] = ContextVar(
+    "syrupy_snapshot_file_lock", default=False
+)
+_FILE_LOCK_TIMEOUT_SECONDS = 30.0
+
 
 def is_xdist_worker() -> bool:
     worker_name = os.getenv("PYTEST_XDIST_WORKER")
     return bool(worker_name and worker_name != "master")
+
+
+def is_xdist_gw0() -> bool:
+    """True on the pytest-xdist worker named ``gw0`` (used for one-shot payloads)."""
+    return os.getenv("PYTEST_XDIST_WORKER") == "gw0"
+
+
+def compress_json(data: Any) -> bytes:
+    """JSON-encode ``data`` and zlib-compress for xdist workeroutput payloads."""
+    return zlib.compress(json.dumps(data, separators=(",", ":")).encode())
+
+
+def decompress_json(data: bytes) -> Any:
+    """Inverse of :func:`compress_json`."""
+    return json.loads(zlib.decompress(data))
+
+
+def set_snapshot_file_lock(enabled: bool) -> None:
+    """
+    Enable or disable amber write locking for this context.
+
+    Prefer :class:`~syrupy.session.SnapshotSession`, which sets this from
+    ``config.option.snapshot_file_lock``. Direct callers (tests, scripts) may
+    set it explicitly or pass ``file_lock=`` into
+    :meth:`~syrupy.extensions.amber.serializer.AmberDataSerializer.write_file`.
+    """
+    _snapshot_file_lock.set(enabled)
+
+
+def snapshot_file_lock_enabled() -> bool:
+    """Whether ``--snapshot-file-lock`` is active in this context."""
+    return _snapshot_file_lock.get()
+
+
+def snapshot_write_sidecar_paths(filepath: str | Path) -> tuple[Path, Path]:
+    """Return ``(lock_path, tmp_path)`` sidecars for a snapshot file write."""
+    path = Path(filepath)
+    return path.with_name(path.name + ".lock"), Path(f"{path}.tmp")
+
+
+def is_snapshot_write_sidecar(filepath: str | Path) -> bool:
+    """
+    True for write sidecars named ``{file.with.ext}.lock`` / ``.tmp``.
+
+    Single-suffix names like ``photo.tmp`` are treated as real snapshot files.
+    """
+    name = Path(filepath).name
+    for suffix in (".lock", ".tmp"):
+        if name.endswith(suffix):
+            base = name[: -len(suffix)]
+            if "." in base:
+                return True
+    return False
+
+
+def cleanup_snapshot_write_sidecars(*filepaths: str | Path) -> None:
+    """Remove lock/tmp sidecars for the given snapshot file paths."""
+    for filepath in filepaths:
+        lock_path, tmp_path = snapshot_write_sidecar_paths(filepath)
+        lock_path.unlink(missing_ok=True)
+        tmp_path.unlink(missing_ok=True)
+
+
+def replace_atomic(src: str | Path, dst: str | Path) -> None:
+    """
+    Replace ``dst`` with ``src`` (like ``os.replace``), with Windows retries.
+
+    On Windows, ``os.replace`` can raise ``PermissionError`` if another process
+    briefly has ``dst`` open; retry before surfacing a clear error.
+    """
+    src_path, dst_path = Path(src), Path(dst)
+    last_error: OSError | None = None
+    delays = (0.01, 0.02, 0.05, 0.1, 0.1, 0.2, 0.2, 0.5)
+    for delay in delays:
+        try:
+            os.replace(src_path, dst_path)
+            return
+        except PermissionError as exc:
+            last_error = exc
+            time.sleep(delay)
+        except OSError as exc:
+            raise OSError(
+                f"Failed to atomically replace '{dst_path}' with '{src_path}': {exc}"
+            ) from exc
+    raise OSError(
+        f"Failed to atomically replace '{dst_path}' with '{src_path}' "
+        f"after retries: {last_error}"
+    ) from last_error
+
+
+def _lock_timeout_error(path: Path) -> TimeoutError:
+    return TimeoutError(
+        f"Timed out after {_FILE_LOCK_TIMEOUT_SECONDS:.0f}s "
+        f"waiting for exclusive lock on '{path}'"
+    )
+
+
+def _acquire_exclusive_lock(lock_file: Any, path: Path) -> None:
+    """Block until an exclusive lock is acquired, or raise after the timeout."""
+    deadline = time.monotonic() + _FILE_LOCK_TIMEOUT_SECONDS
+    delay = 0.01
+    if os.name == "nt":
+        import msvcrt
+
+        while True:
+            try:
+                lock_file.seek(0)
+                if lock_file.read(1) != b"\0":
+                    lock_file.seek(0)
+                    lock_file.write(b"\0")
+                    lock_file.flush()
+                lock_file.seek(0)
+                msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)  # type: ignore[attr-defined]
+                return
+            except OSError:
+                if time.monotonic() >= deadline:
+                    raise _lock_timeout_error(path) from None
+                time.sleep(delay)
+                delay = min(delay * 1.5, 0.1)
+    else:
+        import fcntl
+
+        while True:
+            try:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                return
+            except BlockingIOError:
+                if time.monotonic() >= deadline:
+                    raise _lock_timeout_error(path) from None
+                time.sleep(delay)
+                delay = min(delay * 1.5, 0.1)
+
+
+def _release_exclusive_lock(lock_file: Any) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        lock_file.seek(0)
+        msvcrt.locking(lock_file.fileno(), msvcrt.LK_UNLCK, 1)  # type: ignore[attr-defined]
+    else:
+        import fcntl
+
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+
+
+@contextmanager
+def exclusive_file_lock(filepath: str | Path) -> Iterator[None]:
+    """
+    Cross-process exclusive lock for coordinating snapshot file updates.
+
+    Used so pytest-xdist workers can safely read-modify-write the same amber
+    file without silently clobbering each other's merges (see #1237).
+
+    Waits up to 30s on both Unix and Windows, then raises ``TimeoutError``.
+
+    Lockfiles are not deleted on release (unsafe with concurrent openers).
+    :class:`~syrupy.session.SnapshotSession` removes them after the run when no
+    writers remain (and on interrupt during ``finish``).
+    """
+    path = Path(filepath)
+    lock_path, _ = snapshot_write_sidecar_paths(path)
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(lock_path, "a+b") as lock_file:
+        _acquire_exclusive_lock(lock_file, path)
+        try:
+            yield
+        finally:
+            _release_exclusive_lock(lock_file)
 
 
 def walk_snapshot_dir(
@@ -30,6 +207,9 @@ def walk_snapshot_dir(
 
     for filepath in Path(root).rglob("*"):
         if not filepath.name.startswith(".") and filepath.is_file():
+            # Sidecars from concurrent amber writes (#1237), e.g. ``a.ambr.lock``.
+            if is_snapshot_write_sidecar(filepath):
+                continue
             if filepath.suffixes and filepath.suffixes[-1][1:] in ignore_exts:
                 continue
             yield str(filepath)

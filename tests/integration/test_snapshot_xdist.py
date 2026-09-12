@@ -3,6 +3,9 @@
 See https://github.com/syrupy-project/syrupy/issues/535: each worker reports
 the snapshots it used and the controller combines them, so unused snapshots are
 detected even when the tests that own them ran on a different worker.
+
+Concurrent amber updates under xdist are covered in
+``test_xdist_concurrent_amber_update_preserves_all_snapshots`` (#1237).
 """
 
 from pathlib import Path
@@ -130,3 +133,98 @@ def test_pytest_plugins_xdist(testdir, monkeypatch):
     result = testdir.runpytest("-v", "--numprocesses", "2", "--snapshot-update")
     result.stdout.re_match_lines((r"1 snapshot generated",))
     assert result.ret == 0
+
+
+def test_xdist_concurrent_amber_update_preserves_all_snapshots(testdir):
+    """
+    Regression for https://github.com/syrupy-project/syrupy/issues/1237.
+
+    When multiple xdist workers --snapshot-update the same multi-entry .ambr
+    file, unsynchronized read-modify-write used to silently drop snapshots
+    while still reporting a full successful update.
+
+    Requires ``--snapshot-file-lock``.
+    """
+    n = 200
+    file_lock = "--snapshot-file-lock"
+    testdir.makepyfile(
+        test_race=f"""
+        import pytest
+
+        VALUE = "v1"
+
+        @pytest.mark.parametrize("i", range({n}))
+        def test_many(snapshot, i):
+            assert f"{{VALUE}}-{{i}}" == snapshot
+        """
+    )
+
+    result = testdir.runpytest("-q", "--snapshot-update", file_lock)
+    result.stdout.re_match_lines((rf"{n} snapshots generated\.",))
+    assert result.ret == 0
+
+    ambr = Path(testdir.tmpdir, "__snapshots__", "test_race.ambr")
+    assert ambr.read_text().count("# name:") == n
+
+    Path(testdir.tmpdir, "test_race.py").write_text(
+        f"""
+import pytest
+
+VALUE = "v2"
+
+@pytest.mark.parametrize("i", range({n}))
+def test_many(snapshot, i):
+    assert f"{{VALUE}}-{{i}}" == snapshot
+"""
+    )
+
+    result = testdir.runpytest(
+        "-q",
+        "--snapshot-update",
+        file_lock,
+        "--numprocesses",
+        "8",
+        "--dist",
+        "load",
+    )
+    result.stdout.re_match_lines((rf"{n} snapshots updated\.",))
+    assert result.ret == 0
+    content = ambr.read_text()
+    assert content.count("# name:") == n
+    for i in range(n):
+        assert f"test_many[{i}]" in content
+
+    lock_path = Path(str(ambr) + ".lock")
+    tmp_path = Path(str(ambr) + ".tmp")
+    assert not lock_path.exists()
+    assert not tmp_path.exists()
+
+
+def test_xdist_update_without_file_lock_creates_no_sidecars(testdir):
+    """Without ``--snapshot-file-lock``, amber updates must not leave lock/tmp files."""
+    n = 20
+    testdir.makepyfile(
+        test_nlock=f"""
+        import pytest
+
+        @pytest.mark.parametrize("i", range({n}))
+        def test_many(snapshot, i):
+            assert f"v1-{{i}}" == snapshot
+        """
+    )
+
+    result = testdir.runpytest(
+        "-q",
+        "--snapshot-update",
+        "--numprocesses",
+        "4",
+        "--dist",
+        "load",
+    )
+    result.stdout.re_match_lines((rf"{n} snapshots generated\.",))
+    assert result.ret == 0
+
+    ambr = Path(testdir.tmpdir, "__snapshots__", "test_nlock.ambr")
+    assert ambr.exists()
+    assert not Path(str(ambr) + ".lock").exists()
+    assert not Path(str(ambr) + ".tmp").exists()
