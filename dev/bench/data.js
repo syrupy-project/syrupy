@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789226621276,
+  "lastUpdate": 1789330636061,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -19179,6 +19179,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3091124496613568",
             "extra": "mean: 1.2073584888000028 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5b4256eac8720075f25b0fa8491f75948001b983",
+          "message": "fix: opt-in file lock for concurrent amber writes under xdist (#1239)\n\n* fix: opt-in file lock for concurrent amber writes under xdist\n\nPrevent pytest-xdist workers from silently clobbering shared .ambr files\nduring --snapshot-update by guarding the read-modify-write with an\nexperimental file lock gated behind --snapshot-file-lock cli option (#1237).\nThe file lock is opt-in for now to provide the community an opportunity to test,\nhowever it will become the default behaviour in a future minor release whenever\nsyrupy runs with xdist.",
+          "timestamp": "2026-09-13T16:16:21-04:00",
+          "tree_id": "ccacbd02d11a7afa26fc9747436dc6d3629cf5dd",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5b4256eac8720075f25b0fa8491f75948001b983"
+        },
+        "date": 1789330635532,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8101761201958408,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09467159578342373",
+            "extra": "mean: 1.2342995246000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7298896547433368,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2094392756426657",
+            "extra": "mean: 1.370070110600001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.1653766701495556,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004242494103504173",
+            "extra": "mean: 461.8134174000005 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7458714017115229,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3527046155197847",
+            "extra": "mean: 1.3407136910000006 sec\nrounds: 5"
           }
         ]
       }
