@@ -1,6 +1,3 @@
-import json
-import os
-import zlib
 from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import (
@@ -28,8 +25,14 @@ from .types import (
     SnapshotIndex,
 )
 from .utils import (
+    cleanup_snapshot_write_sidecars,
+    compress_json,
+    decompress_json,
     import_module_member,
+    is_xdist_gw0,
     is_xdist_worker,
+    set_snapshot_file_lock,
+    warn_selected_collected_mismatch,
 )
 
 # Snapshot collections on the report that are merged across pytest-xdist workers.
@@ -46,10 +49,11 @@ class _ReconstructedObject:
 
 class _ReconstructedItem:
     """
-    Stand-in for a ``pytest.Item`` rebuilt on the controller from a worker.
+    Stand-in for a ``pytest.Item`` rebuilt from a worker's serialized payload.
 
-    The controller never collects items itself, so to reuse the regular unused
-    snapshot detection we recreate just enough of the pytest item for
+    Normally the xdist controller already has real collected items; worker
+    ``collected`` data is applied only when the controller's set is empty.
+    Reconstruction supplies enough of the pytest item for
     ``PyTestLocation`` to resolve snapshot names and locations.
     """
 
@@ -110,6 +114,9 @@ class SnapshotSession:
         dict[_QueuedWriteTestLocationKey, "SerializedData"],
     ] = field(default_factory=lambda: defaultdict(dict))
 
+    # Snapshot files written this session (for lock/tmp sidecar cleanup).
+    _written_snapshot_locations: set[str] = field(default_factory=set)
+
     def _snapshot_write_queue_keys(
         self,
         extension: "AbstractSyrupyExtension",
@@ -145,6 +152,10 @@ class SnapshotSession:
         name_order = (
             self.snapshot_name_order() if self.snapshot_declaration_order else None
         )
+        # Track before write so lock/tmp sidecars are cleaned even if acquire
+        # times out after creating the lock file.
+        if self.snapshot_file_lock:
+            self._written_snapshot_locations.add(snapshot_location)
         extension_class.write_snapshot(
             snapshot_location=snapshot_location,
             snapshots=[
@@ -201,6 +212,22 @@ class SnapshotSession:
             )
         )
 
+    @property
+    def snapshot_file_lock(self) -> bool:
+        return bool(
+            getattr(self.pytest_session.config.option, "snapshot_file_lock", False)
+        )
+
+    @property
+    def snapshot_file_lock_timeout(self) -> float:
+        return float(
+            getattr(
+                self.pytest_session.config.option,
+                "snapshot_file_lock_timeout",
+                60.0,
+            )
+        )
+
     def snapshot_name_order(self) -> dict[str, int]:
         """Map snapshot names to pytest collection index (declaration order)."""
         order: dict[str, int] = {}
@@ -227,6 +254,12 @@ class SnapshotSession:
         self._assertions = []
         self._extensions = {}
         self._locations_discovered = defaultdict(set)
+        self._written_snapshot_locations = set()
+        self._worker_reports = []
+        # Mirror config.option into the context used by amber write/delete.
+        set_snapshot_file_lock(
+            self.snapshot_file_lock, timeout=self.snapshot_file_lock_timeout
+        )
 
     def ran_item(
         self, nodeid: str, outcome: Literal["passed", "skipped", "failed"]
@@ -248,6 +281,13 @@ class SnapshotSession:
             "methodname": obj.__name__,
         }
 
+    def _publish_write_sidecars(self) -> None:
+        """Tell the controller which snapshot files this worker wrote."""
+        output = getattr(self.pytest_session.config, "workeroutput", None)
+        if output is None:
+            return
+        output["syrupy_write_sidecars"] = sorted(self._written_snapshot_locations)
+
     def _publish_worker_report(self) -> None:
         """Stash this worker's report on ``config.workeroutput`` for the controller."""
         output = getattr(self.pytest_session.config, "workeroutput", None)
@@ -257,9 +297,7 @@ class SnapshotSession:
             name: getattr(self.report, name).serialize() for name in _MERGED_COLLECTIONS
         }
         payload: dict[str, Any] = {
-            "collections": zlib.compress(
-                json.dumps(collections, separators=(",", ":")).encode()
-            ),
+            "collections": compress_json(collections),
             "num_xfails": self.report._num_xfails,
             "selected": {
                 nodeid: status.value for nodeid, status in self._selected_items.items()
@@ -272,17 +310,26 @@ class SnapshotSession:
                 for location, extension in self._extensions.items()
             },
         }
-        # Every worker collects the identical full set of items, so only one
-        # worker needs to send it to avoid transmitting it once per worker.
-        if os.getenv("PYTEST_XDIST_WORKER") == "gw0":
-            payload["collected"] = [
-                self._serialize_item(item) for item in self._collected_items.values()
-            ]
+        # Every worker collects the identical full set; only gw0 sends it.
+        # Always compress (independent of --snapshot-file-lock) to shrink the
+        # xdist workeroutput IPC payload on large suites.
+        if is_xdist_gw0():
+            payload["collected"] = compress_json(
+                [self._serialize_item(item) for item in self._collected_items.values()]
+            )
         output["syrupy_report"] = payload
 
     def add_worker_report(self, report: dict[str, Any]) -> None:
         """Called on the controller for each worker as it shuts down."""
         self._worker_reports.append(report)
+
+    def add_written_snapshot_locations(self, locations: list[str]) -> None:
+        """Record snapshot files written by a worker (for sidecar cleanup)."""
+        self._written_snapshot_locations.update(locations)
+
+    def _cleanup_write_sidecars(self) -> None:
+        cleanup_snapshot_write_sidecars(*self._written_snapshot_locations)
+        self._written_snapshot_locations.clear()
 
     def _merge_worker_reports(self) -> None:
         assert self.report is not None
@@ -291,9 +338,7 @@ class SnapshotSession:
             self.report._num_xfails += report["num_xfails"]
             serialized_collections = report["collections"]
             if isinstance(serialized_collections, bytes):
-                serialized_collections = json.loads(
-                    zlib.decompress(serialized_collections)
-                )
+                serialized_collections = decompress_json(serialized_collections)
             for name, serialized in serialized_collections.items():
                 getattr(self.report, name).merge_serialized(serialized)
             for nodeid, value in report["selected"].items():
@@ -307,49 +352,71 @@ class SnapshotSession:
                         self._extensions[location] = import_module_member(member)()
                     except FailedToLoadModuleMember:
                         pass
-            if "collected" in report:
+            if "collected" in report and not self.report.collected_items:
+                collected = report["collected"]
+                if isinstance(collected, bytes):
+                    collected = decompress_json(collected)
                 self.report.collected_items = {
                     _ReconstructedItem(item)  # type: ignore[misc]
-                    for item in report["collected"]
+                    for item in collected
                 }
         self.report.selected_items = selected
         self.report._invalidate_selection_caches()
+        warn_selected_collected_mismatch(
+            list(self.report.selected_items),
+            set(self.report._collected_items_by_nodeid),
+        )
 
     def finish(self) -> int:
         exitstatus = 0
-        self.flush_snapshot_write_queue()
-        self.report = SnapshotReport(
-            base_dir=self.pytest_session.config.rootpath,
-            collected_items=set(self._collected_items.values()),
-            selected_items=self._selected_items,
-            assertions=self._assertions,
-            options=self.pytest_session.config.option,
+        # Re-sync from config.option in case start() was skipped or option changed.
+        set_snapshot_file_lock(
+            self.snapshot_file_lock, timeout=self.snapshot_file_lock_timeout
         )
+        try:
+            self.flush_snapshot_write_queue()
+            self.report = SnapshotReport(
+                base_dir=self.pytest_session.config.rootpath,
+                collected_items=set(self._collected_items.values()),
+                selected_items=self._selected_items,
+                assertions=self._assertions,
+                options=self.pytest_session.config.option,
+            )
 
-        if is_xdist_worker():
-            # When unused detection is disabled there is nothing for the
-            # controller to merge; skip the worker report (5.4-like xdist cost).
-            if not self.disable_unused_snapshots:
-                self._publish_worker_report()
+            if is_xdist_worker():
+                # Publish write paths when file locking is on so the controller
+                # can remove lock/tmp sidecars after all workers finish.
+                if self.snapshot_file_lock:
+                    self._publish_write_sidecars()
+                # When unused detection is disabled there is nothing for the
+                # controller to merge; skip the worker report (5.4-like xdist cost).
+                if not self.disable_unused_snapshots:
+                    self._publish_worker_report()
+                return exitstatus
+
+            # On the pytest-xdist controller no tests run locally, so the report is
+            # rebuilt from the reports published by each worker.
+            if self._worker_reports:
+                self._merge_worker_reports()
+
+            if self.disable_unused_snapshots:
+                return exitstatus
+
+            if self.report.num_unused:
+                if self.report.should_delete_unused_snapshots:
+                    self.remove_unused_snapshots(
+                        unused_snapshot_collections=self.report.unused,
+                        used_snapshot_collections=self.report.used,
+                    )
+                elif not self.update_snapshots and not self.warn_unused_snapshots:
+                    exitstatus |= EXIT_STATUS_FAIL_UNUSED
             return exitstatus
-
-        # On the pytest-xdist controller no tests run locally, so the report is
-        # rebuilt from the reports published by each worker.
-        if self._worker_reports:
-            self._merge_worker_reports()
-
-        if self.disable_unused_snapshots:
-            return exitstatus
-
-        if self.report.num_unused:
-            if self.report.should_delete_unused_snapshots:
-                self.remove_unused_snapshots(
-                    unused_snapshot_collections=self.report.unused,
-                    used_snapshot_collections=self.report.used,
-                )
-            elif not self.update_snapshots and not self.warn_unused_snapshots:
-                exitstatus |= EXIT_STATUS_FAIL_UNUSED
-        return exitstatus
+        finally:
+            # Workers must leave lockfiles for siblings still flushing. The
+            # controller and single-process runs clean up once writing is done.
+            # Also runs on KeyboardInterrupt during finish.
+            if self.snapshot_file_lock and not is_xdist_worker():
+                self._cleanup_write_sidecars()
 
     def register_request(self, assertion: "SnapshotAssertion") -> None:
         self._assertions.append(assertion)
@@ -382,6 +449,9 @@ class SnapshotSession:
         """
         for unused_snapshot_collection in unused_snapshot_collections:
             snapshot_location = unused_snapshot_collection.location
+            if self.snapshot_file_lock:
+                # delete_snapshots may create lock sidecars; track for cleanup.
+                self._written_snapshot_locations.add(snapshot_location)
 
             extension = self._extensions.get(snapshot_location)
             if extension:

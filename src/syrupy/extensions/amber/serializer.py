@@ -4,6 +4,7 @@ import inspect
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from collections.abc import Callable, Generator, Iterable
+from pathlib import Path
 from types import (
     FunctionType,
     GeneratorType,
@@ -23,6 +24,11 @@ from syrupy.constants import (
 from syrupy.data import (
     Snapshot,
     SnapshotCollection,
+)
+from syrupy.utils import (
+    exclusive_file_lock,
+    replace_atomic,
+    snapshot_file_lock_enabled,
 )
 
 if TYPE_CHECKING:
@@ -160,39 +166,79 @@ class AmberDataSerializer:
         snapshot_collection: "SnapshotCollection",
         merge: bool = False,
         name_order: dict[str, int] | None = None,
+        *,
+        file_lock: bool | None = None,
+        _already_locked: bool = False,
     ) -> None:
         """
         Writes the snapshot data into the snapshot file that can be read later.
+
+        With ``merge=True`` (the amber multi-entry path), this is a
+        read-modify-write. Under pytest-xdist, multiple workers may update the
+        same file concurrently. Pass ``--snapshot-file-lock`` to guard the RMW
+        with an exclusive lock and replace the file atomically (#1237).
+        Lock wait time defaults to 60s (``--snapshot-file-lock-timeout``).
+
+        ``file_lock`` overrides the session/context setting when not ``None``.
+        Pass ``_already_locked=True`` when the caller already holds
+        :func:`~syrupy.utils.exclusive_file_lock` for this path (e.g. delete).
         """
         filepath = snapshot_collection.location
-        if merge:
+        use_file_lock = snapshot_file_lock_enabled() if file_lock is None else file_lock
+
+        def _with_merged_collection() -> "SnapshotCollection":
+            if not merge:
+                return snapshot_collection
             base_snapshot = cls.read_file(filepath)
             base_snapshot.merge(snapshot_collection)
-            snapshot_collection = base_snapshot
+            return base_snapshot
 
-        with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
-            f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
-            for snapshot in sorted(
-                snapshot_collection,
-                key=lambda s: cls.snapshot_sort_key(s, name_order),
-            ):
-                snapshot_data = str(snapshot.data)
-                if snapshot_data is not None:
-                    f.write(f"{cls._marker_prefix}{cls.Marker.Name}: {snapshot.name}\n")
-                    # Split on \n only. We avoid str.splitlines() because it
-                    # also splits on \x0b, \x0c, \x1c-\x1e, \x85, \u2028,
-                    # and \u2029, but the file reader (which iterates lines
-                    # from the file object) only splits on \n, \r, and \r\n.
-                    parts = snapshot_data.split("\n")
-                    for i, part in enumerate(parts):
-                        is_last = i == len(parts) - 1
-                        if not is_last:
-                            f.write(cls.with_indent(part + "\n", 1))
-                        elif part:
-                            f.write(cls.with_indent(part, 1))
-                    if snapshot_data.endswith("\n"):
-                        f.write(cls.with_indent("", 1))
-                    f.write(f"\n{cls._marker_prefix}{cls.Marker.Divider}\n")
+        def _write_to(path: str, collection: "SnapshotCollection") -> None:
+            with open(path, "w", encoding=TEXT_ENCODING, newline=None) as f:
+                f.write(f"{cls._marker_prefix}{cls.Marker.Version}: {cls.VERSION}\n")
+                for snapshot in sorted(
+                    collection,
+                    key=lambda s: cls.snapshot_sort_key(s, name_order),
+                ):
+                    snapshot_data = str(snapshot.data)
+                    if snapshot_data is not None:
+                        f.write(
+                            f"{cls._marker_prefix}{cls.Marker.Name}: {snapshot.name}\n"
+                        )
+                        # Split on \n only. We avoid str.splitlines() because
+                        # it also splits on \x0b, \x0c, \x1c-\x1e, \x85,
+                        # \u2028, and \u2029, but the file reader (which
+                        # iterates lines from the file object) only splits
+                        # on \n, \r, and \r\n.
+                        parts = snapshot_data.split("\n")
+                        for i, part in enumerate(parts):
+                            is_last = i == len(parts) - 1
+                            if not is_last:
+                                f.write(cls.with_indent(part + "\n", 1))
+                            elif part:
+                                f.write(cls.with_indent(part, 1))
+                        if snapshot_data.endswith("\n"):
+                            f.write(cls.with_indent("", 1))
+                        f.write(f"\n{cls._marker_prefix}{cls.Marker.Divider}\n")
+
+        if not use_file_lock:
+            _write_to(filepath, _with_merged_collection())
+            return
+
+        def _atomic_write() -> None:
+            tmp_filepath = f"{filepath}.tmp"
+            try:
+                _write_to(tmp_filepath, _with_merged_collection())
+                replace_atomic(tmp_filepath, filepath)
+            finally:
+                # Always drop the temp file, including on KeyboardInterrupt.
+                Path(tmp_filepath).unlink(missing_ok=True)
+
+        if _already_locked:
+            _atomic_write()
+        else:
+            with exclusive_file_lock(filepath):
+                _atomic_write()
 
     @classmethod
     def __read_file_with_markers(

@@ -229,18 +229,20 @@ class SnapshotReport:
 
     @property
     def skipped_items(self) -> Iterator["pytest.Item"]:
+        by_id = self._collected_items_by_nodeid
         return (
-            self._collected_items_by_nodeid[nodeid]
+            by_id[nodeid]
             for nodeid in self.selected_items
-            if self.selected_items[nodeid].value == "skipped"
+            if self.selected_items[nodeid].value == "skipped" and nodeid in by_id
         )
 
     @property
     def ran_items(self) -> Iterator["pytest.Item"]:
+        by_id = self._collected_items_by_nodeid
         return (
-            self._collected_items_by_nodeid[nodeid]
+            by_id[nodeid]
             for nodeid in self.selected_items
-            if self.selected_items[nodeid]
+            if self.selected_items[nodeid] and nodeid in by_id
         )
 
     @cached_property

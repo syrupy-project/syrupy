@@ -9,6 +9,10 @@ from typing import (
 from syrupy.data import SnapshotCollection
 from syrupy.exceptions import TaintedSnapshotError
 from syrupy.extensions.base import AbstractSyrupyExtension
+from syrupy.utils import (
+    exclusive_file_lock,
+    snapshot_file_lock_enabled,
+)
 
 from .serializer import (  # noqa: F401
     AmberDataSerializer,
@@ -39,14 +43,29 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
     def delete_snapshots(
         self, snapshot_location: str, snapshot_names: set[str]
     ) -> None:
-        snapshot_collection_to_update = AmberDataSerializer.read_file(snapshot_location)
-        for snapshot_name in snapshot_names:
-            snapshot_collection_to_update.remove(snapshot_name)
+        use_file_lock = snapshot_file_lock_enabled()
 
-        if snapshot_collection_to_update.has_snapshots:
-            self.serializer_class.write_file(snapshot_collection_to_update)
+        def _delete() -> None:
+            snapshot_collection_to_update = AmberDataSerializer.read_file(
+                snapshot_location
+            )
+            for snapshot_name in snapshot_names:
+                snapshot_collection_to_update.remove(snapshot_name)
+
+            if snapshot_collection_to_update.has_snapshots:
+                self.serializer_class.write_file(
+                    snapshot_collection_to_update,
+                    file_lock=use_file_lock,
+                    _already_locked=use_file_lock,
+                )
+            else:
+                Path(snapshot_location).unlink(missing_ok=True)
+
+        if use_file_lock:
+            with exclusive_file_lock(snapshot_location):
+                _delete()
         else:
-            Path(snapshot_location).unlink()
+            _delete()
 
     def read_snapshot_collection(self, snapshot_location: str) -> "SnapshotCollection":
         return self.serializer_class.read_file(snapshot_location)

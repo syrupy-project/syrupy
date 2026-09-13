@@ -28,6 +28,7 @@ from .terminal import (
 from .utils import (
     import_module_member,
     is_xdist_worker,
+    xdist_numprocesses,
 )
 
 # Global to have access to the session in `pytest_runtest_logfinish` hook
@@ -150,6 +151,29 @@ def pytest_addoption(parser: "pytest.Parser") -> None:
             "collection/declaration order instead of alphabetical name order"
         ),
     )
+    group.addoption(
+        "--snapshot-file-lock",
+        action="store_true",
+        default=False,
+        dest="snapshot_file_lock",
+        help=(
+            "(Experimental) Use a file lock and atomic replace when writing "
+            "amber snapshot files so concurrent pytest-xdist workers do not "
+            "clobber each other during --snapshot-update. Same-machine workers "
+            "only; not reliable across remote workers / NFS. Expected to become "
+            "the default in a future minor release."
+        ),
+    )
+    group.addoption(
+        "--snapshot-file-lock-timeout",
+        type=float,
+        default=60.0,
+        dest="snapshot_file_lock_timeout",
+        help=(
+            "Seconds to wait for an exclusive amber snapshot file lock when "
+            "using --snapshot-file-lock (default: 60)"
+        ),
+    )
 
 
 def __terminal_color(
@@ -250,6 +274,9 @@ class DeferXDist:
             report = workeroutput.get("syrupy_report")
             if report is not None:
                 syrupy.add_worker_report(report)
+            sidecars = workeroutput.get("syrupy_write_sidecars")
+            if sidecars:
+                syrupy.add_written_snapshot_locations(sidecars)
 
 
 def pytest_configure(config: pytest.Config) -> None:
@@ -261,6 +288,29 @@ def pytest_configure(config: pytest.Config) -> None:
         "xdist.plugin"
     ):
         config.pluginmanager.register(DeferXDist())
+
+    # Warn once on the controller when --snapshot-update runs under xdist
+    # without the experimental file lock (silent clobber risk; see #1237).
+    if (
+        not is_xdist_worker()
+        and bool(getattr(config.option, "update_snapshots", False))
+        and not bool(getattr(config.option, "snapshot_file_lock", False))
+    ):
+        numprocesses = xdist_numprocesses(config)
+        if numprocesses is not None and numprocesses > 1:
+            config.issue_config_time_warning(
+                pytest.PytestWarning(
+                    gettext(
+                        "syrupy: --snapshot-update under pytest-xdist without "
+                        "--snapshot-file-lock can silently corrupt shared amber "
+                        "snapshot files when workers write concurrently (#1237). "
+                        "Pass --snapshot-file-lock (experimental; same-machine "
+                        "workers only). This option is expected to become the "
+                        "default in a future minor release."
+                    )
+                ),
+                stacklevel=1,
+            )
 
 
 def pytest_runtest_logreport(report: pytest.TestReport) -> None:
