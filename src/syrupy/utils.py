@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import warnings
 import zlib
 from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
@@ -20,11 +21,14 @@ from .constants import (
 )
 from .exceptions import FailedToLoadModuleMember
 
-# Set from SnapshotSession via config.option.snapshot_file_lock (see session.start/finish).
+# Set from SnapshotSession via config.option (see session.start/finish).
 _snapshot_file_lock: ContextVar[bool] = ContextVar(
     "syrupy_snapshot_file_lock", default=False
 )
-_FILE_LOCK_TIMEOUT_SECONDS = 30.0
+_DEFAULT_FILE_LOCK_TIMEOUT_SECONDS = 60.0
+_snapshot_file_lock_timeout: ContextVar[float] = ContextVar(
+    "syrupy_snapshot_file_lock_timeout", default=_DEFAULT_FILE_LOCK_TIMEOUT_SECONDS
+)
 
 
 def is_xdist_worker() -> bool:
@@ -37,6 +41,31 @@ def is_xdist_gw0() -> bool:
     return os.getenv("PYTEST_XDIST_WORKER") == "gw0"
 
 
+def xdist_numprocesses(config: Any) -> int | None:
+    """
+    Effective xdist worker count from config, if xdist is distributing work.
+
+    Returns ``None`` when xdist is not active (or ``-n 0`` / unset).
+    ``auto`` / ``logical`` are treated as multi-worker (``> 1``).
+    """
+    if not (
+        config.pluginmanager.hasplugin("xdist")
+        or config.pluginmanager.hasplugin("xdist.plugin")
+    ):
+        return None
+    numprocesses = getattr(config.option, "numprocesses", None)
+    if numprocesses is None or numprocesses == 0:
+        return None
+    if isinstance(numprocesses, str):
+        # "auto", "logical", etc. — assume concurrent workers.
+        return 2
+    try:
+        value = int(numprocesses)
+    except (TypeError, ValueError):
+        return 2
+    return value if value > 0 else None
+
+
 def compress_json(data: Any) -> bytes:
     """JSON-encode ``data`` and zlib-compress for xdist workeroutput payloads."""
     return zlib.compress(json.dumps(data, separators=(",", ":")).encode())
@@ -47,7 +76,7 @@ def decompress_json(data: bytes) -> Any:
     return json.loads(zlib.decompress(data))
 
 
-def set_snapshot_file_lock(enabled: bool) -> None:
+def set_snapshot_file_lock(enabled: bool, *, timeout: float | None = None) -> None:
     """
     Enable or disable amber write locking for this context.
 
@@ -55,13 +84,22 @@ def set_snapshot_file_lock(enabled: bool) -> None:
     ``config.option.snapshot_file_lock``. Direct callers (tests, scripts) may
     set it explicitly or pass ``file_lock=`` into
     :meth:`~syrupy.extensions.amber.serializer.AmberDataSerializer.write_file`.
+
+    ``timeout`` overrides ``--snapshot-file-lock-timeout`` when not ``None``.
     """
     _snapshot_file_lock.set(enabled)
+    if timeout is not None:
+        _snapshot_file_lock_timeout.set(timeout)
 
 
 def snapshot_file_lock_enabled() -> bool:
     """Whether ``--snapshot-file-lock`` is active in this context."""
     return _snapshot_file_lock.get()
+
+
+def snapshot_file_lock_timeout() -> float:
+    """Seconds to wait for an exclusive amber write lock."""
+    return _snapshot_file_lock_timeout.get()
 
 
 def snapshot_write_sidecar_paths(filepath: str | Path) -> tuple[Path, Path]:
@@ -102,7 +140,8 @@ def replace_atomic(src: str | Path, dst: str | Path) -> None:
     """
     src_path, dst_path = Path(src), Path(dst)
     last_error: OSError | None = None
-    delays = (0.01, 0.02, 0.05, 0.1, 0.1, 0.2, 0.2, 0.5)
+    # ~3s total — AV / indexer holds on Windows can outlast a shorter budget.
+    delays = (0.01, 0.02, 0.05, 0.1, 0.2, 0.4, 0.5, 0.5, 1.0)
     for delay in delays:
         try:
             os.replace(src_path, dst_path)
@@ -120,16 +159,34 @@ def replace_atomic(src: str | Path, dst: str | Path) -> None:
     ) from last_error
 
 
-def _lock_timeout_error(path: Path) -> TimeoutError:
+def _lock_timeout_error(path: Path, timeout: float) -> TimeoutError:
     return TimeoutError(
-        f"Timed out after {_FILE_LOCK_TIMEOUT_SECONDS:.0f}s "
-        f"waiting for exclusive lock on '{path}'"
+        f"Timed out after {timeout:.0f}s waiting for exclusive lock on '{path}'"
     )
 
 
-def _acquire_exclusive_lock(lock_file: Any, path: Path) -> None:
+def _ensure_lock_file(lock_path: Path) -> None:
+    """
+    Create the lock file with a single ``\\0`` byte if it does not exist.
+
+    ``msvcrt.locking`` requires the locked region to exist in the file. We use
+    exclusive-create then ``r+b`` (not ``a+b``) so Windows seek/write can
+    initialize byte 0 — append mode always writes at EOF regardless of seek.
+    """
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_RDWR)
+    except FileExistsError:
+        return
+    try:
+        os.write(fd, b"\0")
+    finally:
+        os.close(fd)
+
+
+def _acquire_exclusive_lock(lock_file: Any, path: Path, *, timeout: float) -> None:
     """Block until an exclusive lock is acquired, or raise after the timeout."""
-    deadline = time.monotonic() + _FILE_LOCK_TIMEOUT_SECONDS
+    deadline = time.monotonic() + timeout
     delay = 0.01
     if os.name == "nt":
         import msvcrt
@@ -139,6 +196,7 @@ def _acquire_exclusive_lock(lock_file: Any, path: Path) -> None:
                 lock_file.seek(0)
                 if lock_file.read(1) != b"\0":
                     lock_file.seek(0)
+                    lock_file.truncate(0)
                     lock_file.write(b"\0")
                     lock_file.flush()
                 lock_file.seek(0)
@@ -146,7 +204,7 @@ def _acquire_exclusive_lock(lock_file: Any, path: Path) -> None:
                 return
             except OSError:
                 if time.monotonic() >= deadline:
-                    raise _lock_timeout_error(path) from None
+                    raise _lock_timeout_error(path, timeout) from None
                 time.sleep(delay)
                 delay = min(delay * 1.5, 0.1)
     else:
@@ -158,7 +216,7 @@ def _acquire_exclusive_lock(lock_file: Any, path: Path) -> None:
                 return
             except BlockingIOError:
                 if time.monotonic() >= deadline:
-                    raise _lock_timeout_error(path) from None
+                    raise _lock_timeout_error(path, timeout) from None
                 time.sleep(delay)
                 delay = min(delay * 1.5, 0.1)
 
@@ -176,14 +234,19 @@ def _release_exclusive_lock(lock_file: Any) -> None:
 
 
 @contextmanager
-def exclusive_file_lock(filepath: str | Path) -> Iterator[None]:
+def exclusive_file_lock(
+    filepath: str | Path, *, timeout: float | None = None
+) -> Iterator[None]:
     """
     Cross-process exclusive lock for coordinating snapshot file updates.
 
     Used so pytest-xdist workers can safely read-modify-write the same amber
     file without silently clobbering each other's merges (see #1237).
 
-    Waits up to 30s on both Unix and Windows, then raises ``TimeoutError``.
+    Waits up to ``timeout`` seconds (default:
+    :func:`snapshot_file_lock_timeout`, typically 60s from
+    ``--snapshot-file-lock-timeout``) on both Unix and Windows, then raises
+    ``TimeoutError``.
 
     Lockfiles are not deleted on release (unsafe with concurrent openers).
     :class:`~syrupy.session.SnapshotSession` removes them after the run when no
@@ -191,13 +254,33 @@ def exclusive_file_lock(filepath: str | Path) -> Iterator[None]:
     """
     path = Path(filepath)
     lock_path, _ = snapshot_write_sidecar_paths(path)
-    lock_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(lock_path, "a+b") as lock_file:
-        _acquire_exclusive_lock(lock_file, path)
+    wait = snapshot_file_lock_timeout() if timeout is None else timeout
+    _ensure_lock_file(lock_path)
+    with open(lock_path, "r+b") as lock_file:
+        _acquire_exclusive_lock(lock_file, path, timeout=wait)
         try:
             yield
         finally:
             _release_exclusive_lock(lock_file)
+
+
+def warn_selected_collected_mismatch(
+    selected_nodeids: Sequence[str], collected_nodeids: set[str]
+) -> None:
+    """Warn when selected tests are missing from collected items (unused detection)."""
+    missing = [nodeid for nodeid in selected_nodeids if nodeid not in collected_nodeids]
+    if not missing:
+        return
+    sample = missing[0]
+    extra = f" (and {len(missing) - 1} more)" if len(missing) > 1 else ""
+    warnings.warn(
+        gettext(
+            "syrupy: {count} selected test(s) missing from collected items "
+            "(e.g. {sample}{extra}); unused snapshot detection may be incomplete"
+        ).format(count=len(missing), sample=sample, extra=extra),
+        UserWarning,
+        stacklevel=2,
+    )
 
 
 def walk_snapshot_dir(

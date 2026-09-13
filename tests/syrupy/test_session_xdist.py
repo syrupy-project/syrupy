@@ -21,6 +21,7 @@ def _options(**overrides) -> SimpleNamespace:
         "file_or_dir": [],
         "pyargs": False,
         "snapshot_file_lock": False,
+        "snapshot_file_lock_timeout": 60.0,
         "update_snapshots": False,
         "warn_unused_snapshots": False,
         "no_cleanup": False,
@@ -274,6 +275,7 @@ def test_remove_unused_tracks_locations_for_sidecar_cleanup(tmp_path: Path):
     finally:
         set_snapshot_file_lock(False)
 
+
 def test_ran_items_skips_selected_missing_from_collected():
     """Regression for Windows xdist: selected without collected must not KeyError."""
     report = SnapshotReport(
@@ -285,6 +287,73 @@ def test_ran_items_skips_selected_missing_from_collected():
     )
     assert list(report.ran_items) == []
     assert list(report.skipped_items) == []
+
+
+def test_merge_warns_when_selected_missing_from_collected():
+    controller = _session()
+    empty_collections = {
+        name: {}
+        for name in (
+            "discovered",
+            "created",
+            "failed",
+            "matched",
+            "updated",
+            "used",
+        )
+    }
+    controller.add_worker_report(
+        {
+            "collections": empty_collections,
+            "num_xfails": 0,
+            "selected": {"test_race.py::test_many[0]": "passed"},
+            "extensions": {},
+        }
+    )
+    with pytest.warns(UserWarning, match="missing from collected items"):
+        controller._merge_worker_reports()
+    assert list(controller.report.ran_items) == []
+
+
+def test_flush_tracks_location_before_write_for_sidecar_cleanup(
+    tmp_path: Path, monkeypatch
+):
+    """Lock sidecars are tracked even when the write raises (e.g. lock timeout)."""
+    from syrupy.location import PyTestLocation
+    from syrupy.utils import set_snapshot_file_lock
+
+    controller = _session()
+    controller.pytest_session.config.option = _options(snapshot_file_lock=True)
+    set_snapshot_file_lock(True)
+    try:
+
+        class _Obj:
+            __module__ = "t"
+            __name__ = "t"
+
+        class _Item:
+            nodeid = "t.py::t"
+            name = "t"
+            path = tmp_path / "t.py"
+            fspath = path
+            obj = _Obj()
+
+        (tmp_path / "t.py").write_text("def t():\n    pass\n", encoding="utf-8")
+        loc = PyTestLocation(_Item())
+        ext = AmberSnapshotExtension()
+        controller.queue_snapshot_write(ext, loc, "'x'", 0)
+        ext_key = next(iter(controller._queued_snapshot_writes))
+        _, snapshot_location = ext_key
+
+        def _boom(*, snapshot_location, snapshots, name_order=None):
+            raise TimeoutError("lock timeout")
+
+        monkeypatch.setattr(AmberSnapshotExtension, "write_snapshot", _boom)
+        with pytest.raises(TimeoutError, match="lock timeout"):
+            controller.flush_snapshot_write_queue()
+        assert snapshot_location in controller._written_snapshot_locations
+    finally:
+        set_snapshot_file_lock(False)
 
 
 def test_controller_merges_worker_reports():

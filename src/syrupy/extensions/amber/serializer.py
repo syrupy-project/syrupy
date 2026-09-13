@@ -177,15 +177,14 @@ class AmberDataSerializer:
         read-modify-write. Under pytest-xdist, multiple workers may update the
         same file concurrently. Pass ``--snapshot-file-lock`` to guard the RMW
         with an exclusive lock and replace the file atomically (#1237).
+        Lock wait time defaults to 60s (``--snapshot-file-lock-timeout``).
 
         ``file_lock`` overrides the session/context setting when not ``None``.
         Pass ``_already_locked=True`` when the caller already holds
         :func:`~syrupy.utils.exclusive_file_lock` for this path (e.g. delete).
         """
         filepath = snapshot_collection.location
-        use_file_lock = (
-            snapshot_file_lock_enabled() if file_lock is None else file_lock
-        )
+        use_file_lock = snapshot_file_lock_enabled() if file_lock is None else file_lock
 
         def _with_merged_collection() -> "SnapshotCollection":
             if not merge:

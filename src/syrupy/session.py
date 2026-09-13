@@ -32,6 +32,7 @@ from .utils import (
     is_xdist_gw0,
     is_xdist_worker,
     set_snapshot_file_lock,
+    warn_selected_collected_mismatch,
 )
 
 # Snapshot collections on the report that are merged across pytest-xdist workers.
@@ -48,10 +49,11 @@ class _ReconstructedObject:
 
 class _ReconstructedItem:
     """
-    Stand-in for a ``pytest.Item`` rebuilt on the controller from a worker.
+    Stand-in for a ``pytest.Item`` rebuilt from a worker's serialized payload.
 
-    The controller never collects items itself, so to reuse the regular unused
-    snapshot detection we recreate just enough of the pytest item for
+    Normally the xdist controller already has real collected items; worker
+    ``collected`` data is applied only when the controller's set is empty.
+    Reconstruction supplies enough of the pytest item for
     ``PyTestLocation`` to resolve snapshot names and locations.
     """
 
@@ -150,6 +152,10 @@ class SnapshotSession:
         name_order = (
             self.snapshot_name_order() if self.snapshot_declaration_order else None
         )
+        # Track before write so lock/tmp sidecars are cleaned even if acquire
+        # times out after creating the lock file.
+        if self.snapshot_file_lock:
+            self._written_snapshot_locations.add(snapshot_location)
         extension_class.write_snapshot(
             snapshot_location=snapshot_location,
             snapshots=[
@@ -157,8 +163,6 @@ class SnapshotSession:
             ],
             name_order=name_order,
         )
-        if self.snapshot_file_lock:
-            self._written_snapshot_locations.add(snapshot_location)
 
     def flush_snapshot_write_queue(self) -> None:
         for ext_key in list(self._queued_snapshot_writes):
@@ -214,6 +218,16 @@ class SnapshotSession:
             getattr(self.pytest_session.config.option, "snapshot_file_lock", False)
         )
 
+    @property
+    def snapshot_file_lock_timeout(self) -> float:
+        return float(
+            getattr(
+                self.pytest_session.config.option,
+                "snapshot_file_lock_timeout",
+                60.0,
+            )
+        )
+
     def snapshot_name_order(self) -> dict[str, int]:
         """Map snapshot names to pytest collection index (declaration order)."""
         order: dict[str, int] = {}
@@ -243,7 +257,9 @@ class SnapshotSession:
         self._written_snapshot_locations = set()
         self._worker_reports = []
         # Mirror config.option into the context used by amber write/delete.
-        set_snapshot_file_lock(self.snapshot_file_lock)
+        set_snapshot_file_lock(
+            self.snapshot_file_lock, timeout=self.snapshot_file_lock_timeout
+        )
 
     def ran_item(
         self, nodeid: str, outcome: Literal["passed", "skipped", "failed"]
@@ -346,11 +362,17 @@ class SnapshotSession:
                 }
         self.report.selected_items = selected
         self.report._invalidate_selection_caches()
+        warn_selected_collected_mismatch(
+            list(self.report.selected_items),
+            set(self.report._collected_items_by_nodeid),
+        )
 
     def finish(self) -> int:
         exitstatus = 0
         # Re-sync from config.option in case start() was skipped or option changed.
-        set_snapshot_file_lock(self.snapshot_file_lock)
+        set_snapshot_file_lock(
+            self.snapshot_file_lock, timeout=self.snapshot_file_lock_timeout
+        )
         try:
             self.flush_snapshot_write_queue()
             self.report = SnapshotReport(

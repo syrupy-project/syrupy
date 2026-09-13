@@ -6,10 +6,14 @@ from syrupy.exceptions import FailedToLoadModuleMember
 from syrupy.utils import (
     compress_json,
     decompress_json,
+    exclusive_file_lock,
     import_module_member,
     is_snapshot_write_sidecar,
     replace_atomic,
+    set_snapshot_file_lock,
+    snapshot_write_sidecar_paths,
     walk_snapshot_dir,
+    warn_selected_collected_mismatch,
 )
 
 
@@ -158,6 +162,58 @@ def test_replace_atomic_raises_after_exhausted_retries(
 
     with pytest.raises(OSError, match="after retries"):
         replace_atomic(src, dst)
+
+
+def test_exclusive_file_lock_respects_timeout(tmp_path: Path, monkeypatch) -> None:
+    path = tmp_path / "snap.ambr"
+    path.write_text("data", encoding="utf-8")
+    lock_path, _ = snapshot_write_sidecar_paths(path)
+
+    # Hold the lock in this process so the nested acquire times out.
+    with exclusive_file_lock(path, timeout=5.0):
+        monkeypatch.setattr("syrupy.utils.time.sleep", lambda _seconds: None)
+        # Force the deadline check to fire immediately on the first contention.
+        monotonic_values = iter([0.0, 100.0])
+        monkeypatch.setattr(
+            "syrupy.utils.time.monotonic", lambda: next(monotonic_values, 100.0)
+        )
+        with (
+            pytest.raises(TimeoutError, match="Timed out after 0s"),
+            exclusive_file_lock(path, timeout=0.0),
+        ):
+            pass
+
+    assert lock_path.exists()
+
+
+def test_exclusive_file_lock_uses_rplus_not_append(tmp_path: Path) -> None:
+    path = tmp_path / "snap.ambr"
+    path.write_text("data", encoding="utf-8")
+    lock_path, _ = snapshot_write_sidecar_paths(path)
+
+    with exclusive_file_lock(path, timeout=5.0):
+        pass
+
+    # Lock file is a single initialized byte (not append-grown).
+    assert lock_path.read_bytes() == b"\0"
+
+
+def test_warn_selected_collected_mismatch() -> None:
+    with pytest.warns(UserWarning, match="missing from collected items"):
+        warn_selected_collected_mismatch(
+            ["a::test", "b::test"],
+            {"a::test"},
+        )
+
+
+def test_set_snapshot_file_lock_timeout_context() -> None:
+    from syrupy.utils import snapshot_file_lock_timeout
+
+    set_snapshot_file_lock(True, timeout=12.5)
+    try:
+        assert snapshot_file_lock_timeout() == 12.5
+    finally:
+        set_snapshot_file_lock(False, timeout=60.0)
 
 
 def test_compress_json_roundtrip() -> None:
