@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v6.1.0](https://github.com/syrupy-project/syrupy/releases/tag/v6.1.0) (2026-09-13)
+
+## What's Changed
+* chore(deps): update dependency ruff to v0.16.4 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1225
+* chore(deps): update dependency pytest-benchmark to v5.3.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1226
+* chore(deps): update dependency ruff to v0.16.5 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1227
+* chore(deps): update dependency pydantic to v2.13.5 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1228
+* chore(deps): update dependency coverage to v7.16.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1229
+* chore(deps): update dependency hypothesis to v6.166.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1230
+* chore(deps): update dependency hypothesis to v6.167.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1231
+* chore(deps): update dependency hypothesis to v6.167.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1232
+* chore(deps): update actions/deploy-pages action to v5.0.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1234
+* chore(deps): update dependency ruff to v0.16.6 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1235
+* test: add coverage for read_snapshot_data_from_location returning None by @shipbyaeron in https://github.com/syrupy-project/syrupy/pull/1236
+* chore(deps): update dependency hypothesis to v6.168.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1238
+* fix: opt-in file lock for concurrent amber writes under xdist by @noahnu in https://github.com/syrupy-project/syrupy/pull/1239
+
+## New Contributors
+* @shipbyaeron made their first contribution in https://github.com/syrupy-project/syrupy/pull/1236
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v6.0.0...v6.1.0
+
 ## [v6.0.0](https://github.com/syrupy-project/syrupy/releases/tag/v6.0.0) (2026-08-22)
 
 ## What's Changed
