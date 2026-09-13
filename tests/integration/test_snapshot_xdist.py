@@ -50,8 +50,6 @@ def test_xdist_removes_unused(generated):
 
     result.stdout.re_match_lines((r".*4 unused snapshots deleted\.",))
     assert result.ret == 0
-    # Concurrent update without --snapshot-file-lock warns (#1237).
-    assert "snapshot-file-lock" in result.stderr.str() + result.stdout.str()
 
     # Partial removal within each shared file: used snapshots are kept.
     content = Path(testdir.tmpdir, "__snapshots__", "test_a.ambr").read_text()
@@ -143,12 +141,10 @@ def test_xdist_concurrent_amber_update_preserves_all_snapshots(testdir):
 
     When multiple xdist workers --snapshot-update the same multi-entry .ambr
     file, unsynchronized read-modify-write used to silently drop snapshots
-    while still reporting a full successful update.
-
-    Requires ``--snapshot-file-lock``.
+    while still reporting a full successful update. File locking is enabled
+    automatically under xdist.
     """
     n = 200
-    file_lock = "--snapshot-file-lock"
     testdir.makepyfile(
         test_race=f"""
         import pytest
@@ -161,7 +157,7 @@ def test_xdist_concurrent_amber_update_preserves_all_snapshots(testdir):
         """
     )
 
-    result = testdir.runpytest("-q", "--snapshot-update", file_lock)
+    result = testdir.runpytest("-q", "--snapshot-update")
     result.stdout.re_match_lines((rf"{n} snapshots generated\.",))
     assert result.ret == 0
 
@@ -183,7 +179,6 @@ def test_many(snapshot, i):
     result = testdir.runpytest(
         "-q",
         "--snapshot-update",
-        file_lock,
         "--numprocesses",
         "8",
         "--dist",
@@ -202,11 +197,11 @@ def test_many(snapshot, i):
     assert not tmp_path.exists()
 
 
-def test_xdist_update_without_file_lock_creates_no_sidecars(testdir):
-    """Without ``--snapshot-file-lock``, amber updates must not leave lock/tmp files."""
+def test_xdist_update_cleans_up_write_sidecars(testdir):
+    """Under xdist, amber updates must not leave lock/tmp files after the run."""
     n = 20
     testdir.makepyfile(
-        test_nlock=f"""
+        test_sidecars=f"""
         import pytest
 
         @pytest.mark.parametrize("i", range({n}))
@@ -225,30 +220,24 @@ def test_xdist_update_without_file_lock_creates_no_sidecars(testdir):
     )
     result.stdout.re_match_lines((rf"{n} snapshots generated\.",))
     assert result.ret == 0
-    combined = result.stderr.str() + result.stdout.str()
-    assert "snapshot-file-lock" in combined
-    assert "future minor release" in combined
 
-    ambr = Path(testdir.tmpdir, "__snapshots__", "test_nlock.ambr")
+    ambr = Path(testdir.tmpdir, "__snapshots__", "test_sidecars.ambr")
     assert ambr.exists()
     assert not Path(str(ambr) + ".lock").exists()
     assert not Path(str(ambr) + ".tmp").exists()
 
 
-def test_xdist_update_with_file_lock_does_not_warn(testdir):
+def test_without_xdist_update_does_not_create_sidecars(testdir):
+    """Single-process updates must not create lock/tmp sidecars."""
     testdir.makepyfile(
-        """
+        test_nlock="""
         def test_a(snapshot):
             assert 1 == snapshot
         """
     )
-    result = testdir.runpytest(
-        "-q",
-        "--snapshot-update",
-        "--snapshot-file-lock",
-        "--numprocesses",
-        "2",
-    )
+    result = testdir.runpytest("-q", "--snapshot-update", "-p", "no:xdist")
     assert result.ret == 0
-    combined = result.stderr.str() + result.stdout.str()
-    assert "silently corrupt" not in combined
+    ambr = Path(testdir.tmpdir, "__snapshots__", "test_nlock.ambr")
+    assert ambr.exists()
+    assert not Path(str(ambr) + ".lock").exists()
+    assert not Path(str(ambr) + ".tmp").exists()
