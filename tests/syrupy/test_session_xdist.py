@@ -20,7 +20,7 @@ def _options(**overrides) -> SimpleNamespace:
         "keyword": "",
         "file_or_dir": [],
         "pyargs": False,
-        "snapshot_file_lock": False,
+        "numprocesses": None,
         "snapshot_file_lock_timeout": 60.0,
         "update_snapshots": False,
         "warn_unused_snapshots": False,
@@ -32,8 +32,25 @@ def _options(**overrides) -> SimpleNamespace:
     return SimpleNamespace(**defaults)
 
 
-def _session(workeroutput: dict | None = None) -> SnapshotSession:
-    config = SimpleNamespace(option=_options(), rootpath=Path("/tmp"))
+def _pluginmanager(*, xdist: bool = False) -> SimpleNamespace:
+    plugins = {"xdist", "xdist.plugin"} if xdist else set()
+    return SimpleNamespace(hasplugin=lambda name: name in plugins)
+
+
+def _session(
+    workeroutput: dict | None = None,
+    *,
+    xdist: bool = False,
+    numprocesses: int | None = None,
+) -> SnapshotSession:
+    if xdist and numprocesses is None:
+        numprocesses = 2
+    option = _options(numprocesses=numprocesses)
+    config = SimpleNamespace(
+        option=option,
+        rootpath=Path("/tmp"),
+        pluginmanager=_pluginmanager(xdist=xdist),
+    )
     if workeroutput is not None:
         config.workeroutput = workeroutput
     session = SnapshotSession(pytest_session=SimpleNamespace(config=config))
@@ -240,7 +257,7 @@ def test_controller_cleans_write_sidecars(tmp_path: Path):
 
 
 def test_remove_unused_tracks_locations_for_sidecar_cleanup(tmp_path: Path):
-    """Unused deletion under --snapshot-file-lock must be included in cleanup."""
+    """Unused deletion under xdist file locking must be included in cleanup."""
     from syrupy.data import SnapshotCollections
     from syrupy.extensions.amber.serializer import AmberDataSerializer
     from syrupy.utils import set_snapshot_file_lock
@@ -250,8 +267,7 @@ def test_remove_unused_tracks_locations_for_sidecar_cleanup(tmp_path: Path):
     seed.add(Snapshot(name="gone", data="'x'"))
     AmberDataSerializer.write_file(seed, merge=False, file_lock=False)
 
-    controller = _session()
-    controller.pytest_session.config.option = _options(snapshot_file_lock=True)
+    controller = _session(xdist=True)
     set_snapshot_file_lock(True)
     try:
         controller._extensions[str(location)] = AmberSnapshotExtension()
@@ -322,8 +338,7 @@ def test_flush_tracks_location_before_write_for_sidecar_cleanup(
     from syrupy.location import PyTestLocation
     from syrupy.utils import set_snapshot_file_lock
 
-    controller = _session()
-    controller.pytest_session.config.option = _options(snapshot_file_lock=True)
+    controller = _session(xdist=True)
     set_snapshot_file_lock(True)
     try:
 

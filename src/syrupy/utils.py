@@ -76,12 +76,25 @@ def decompress_json(data: bytes) -> Any:
     return json.loads(zlib.decompress(data))
 
 
+def should_use_snapshot_file_lock(config: Any) -> bool:
+    """
+    Whether amber writes should use an exclusive file lock.
+
+    Enabled automatically when pytest-xdist is distributing work (workers or
+    a controller with ``numprocesses > 0``). Same-machine workers only; not
+    reliable across remote workers / NFS.
+    """
+    if is_xdist_worker():
+        return True
+    return xdist_numprocesses(config) is not None
+
+
 def set_snapshot_file_lock(enabled: bool, *, timeout: float | None = None) -> None:
     """
     Enable or disable amber write locking for this context.
 
     Prefer :class:`~syrupy.session.SnapshotSession`, which sets this from
-    ``config.option.snapshot_file_lock``. Direct callers (tests, scripts) may
+    :func:`should_use_snapshot_file_lock`. Direct callers (tests, scripts) may
     set it explicitly or pass ``file_lock=`` into
     :meth:`~syrupy.extensions.amber.serializer.AmberDataSerializer.write_file`.
 
@@ -93,7 +106,7 @@ def set_snapshot_file_lock(enabled: bool, *, timeout: float | None = None) -> No
 
 
 def snapshot_file_lock_enabled() -> bool:
-    """Whether ``--snapshot-file-lock`` is active in this context."""
+    """Whether amber write locking is active in this context."""
     return _snapshot_file_lock.get()
 
 

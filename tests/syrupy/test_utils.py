@@ -11,6 +11,7 @@ from syrupy.utils import (
     is_snapshot_write_sidecar,
     replace_atomic,
     set_snapshot_file_lock,
+    should_use_snapshot_file_lock,
     snapshot_write_sidecar_paths,
     walk_snapshot_dir,
     warn_selected_collected_mismatch,
@@ -214,6 +215,23 @@ def test_set_snapshot_file_lock_timeout_context() -> None:
         assert snapshot_file_lock_timeout() == 12.5
     finally:
         set_snapshot_file_lock(False, timeout=60.0)
+
+
+def test_should_use_snapshot_file_lock_under_xdist() -> None:
+    from types import SimpleNamespace
+
+    def _config(*, xdist: bool, numprocesses) -> SimpleNamespace:
+        plugins = {"xdist", "xdist.plugin"} if xdist else set()
+        return SimpleNamespace(
+            option=SimpleNamespace(numprocesses=numprocesses),
+            pluginmanager=SimpleNamespace(hasplugin=lambda name: name in plugins),
+        )
+
+    assert not should_use_snapshot_file_lock(_config(xdist=False, numprocesses=None))
+    assert not should_use_snapshot_file_lock(_config(xdist=True, numprocesses=0))
+    assert not should_use_snapshot_file_lock(_config(xdist=True, numprocesses=None))
+    assert should_use_snapshot_file_lock(_config(xdist=True, numprocesses=2))
+    assert should_use_snapshot_file_lock(_config(xdist=True, numprocesses="auto"))
 
 
 def test_compress_json_roundtrip() -> None:

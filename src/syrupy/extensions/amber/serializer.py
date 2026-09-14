@@ -174,10 +174,10 @@ class AmberDataSerializer:
         Writes the snapshot data into the snapshot file that can be read later.
 
         With ``merge=True`` (the amber multi-entry path), this is a
-        read-modify-write. Under pytest-xdist, multiple workers may update the
-        same file concurrently. Pass ``--snapshot-file-lock`` to guard the RMW
-        with an exclusive lock and replace the file atomically (#1237).
-        Lock wait time defaults to 60s (``--snapshot-file-lock-timeout``).
+        read-modify-write. Under pytest-xdist, locking is enabled automatically
+        so concurrent workers guard the RMW with an exclusive lock and replace
+        the file atomically (#1237). Lock wait time defaults to 60s
+        (``--snapshot-file-lock-timeout``).
 
         ``file_lock`` overrides the session/context setting when not ``None``.
         Pass ``_already_locked=True`` when the caller already holds

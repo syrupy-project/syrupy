@@ -32,6 +32,7 @@ from .utils import (
     is_xdist_gw0,
     is_xdist_worker,
     set_snapshot_file_lock,
+    should_use_snapshot_file_lock,
     warn_selected_collected_mismatch,
 )
 
@@ -214,9 +215,8 @@ class SnapshotSession:
 
     @property
     def snapshot_file_lock(self) -> bool:
-        return bool(
-            getattr(self.pytest_session.config.option, "snapshot_file_lock", False)
-        )
+        """True under pytest-xdist so concurrent amber writes do not clobber."""
+        return should_use_snapshot_file_lock(self.pytest_session.config)
 
     @property
     def snapshot_file_lock_timeout(self) -> float:
@@ -311,8 +311,7 @@ class SnapshotSession:
             },
         }
         # Every worker collects the identical full set; only gw0 sends it.
-        # Always compress (independent of --snapshot-file-lock) to shrink the
-        # xdist workeroutput IPC payload on large suites.
+        # Compress to shrink the xdist workeroutput IPC payload on large suites.
         if is_xdist_gw0():
             payload["collected"] = compress_json(
                 [self._serialize_item(item) for item in self._collected_items.values()]
