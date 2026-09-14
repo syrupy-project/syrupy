@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789331521693,
+  "lastUpdate": 1789400758337,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -19283,6 +19283,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.2919243009426119",
             "extra": "mean: 869.533497000009 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a26846e5b7ae1aed95897de114a09aba0c96cd16",
+          "message": "feat: enable amber file lock automatically under xdist (#1242)\n\nDrop the experimental --snapshot-file-lock opt-in and turn on locking\nwhenever pytest-xdist is distributing work, keeping the timeout knob.",
+          "timestamp": "2026-09-14T11:45:03-04:00",
+          "tree_id": "5b56dc40ff9cb3893f4199f1db94069295890dd6",
+          "url": "https://github.com/syrupy-project/syrupy/commit/a26846e5b7ae1aed95897de114a09aba0c96cd16"
+        },
+        "date": 1789400756898,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.1352443143667992,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11674313208678236",
+            "extra": "mean: 880.8676575999996 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0035697528070728,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25715940622648314",
+            "extra": "mean: 996.4429449999983 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.946166194705765,
+            "unit": "iter/sec",
+            "range": "stddev: 0.007251785173387106",
+            "extra": "mean: 339.4241648000005 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.0247032096964719,
+            "unit": "iter/sec",
+            "range": "stddev: 0.4105186406958983",
+            "extra": "mean: 975.8923272000004 msec\nrounds: 5"
           }
         ]
       }
