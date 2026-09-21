@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789957146927,
+  "lastUpdate": 1789957498629,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -19543,6 +19543,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.33452973933082947",
             "extra": "mean: 1.329106421800006 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d7bd36ee4fd0523773b7a5bcda150d8292a5702a",
+          "message": "chore(deps): update benchmark-action/github-action-benchmark action to v1.22.2 (#1245)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-09-21T02:24:14Z",
+          "tree_id": "bf6c7427ddbdb671825a7bd8ba5261ded87801b7",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d7bd36ee4fd0523773b7a5bcda150d8292a5702a"
+        },
+        "date": 1789957497817,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.3995236094968333,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12114279806253721",
+            "extra": "mean: 714.5288533999989 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.2594126708355224,
+            "unit": "iter/sec",
+            "range": "stddev: 0.22616407639784142",
+            "extra": "mean: 794.0209139999979 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.2995925250701017,
+            "unit": "iter/sec",
+            "range": "stddev: 0.056054145931717966",
+            "extra": "mean: 303.06772499999965 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.2728513730978783,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3622089043508627",
+            "extra": "mean: 785.6376801999986 msec\nrounds: 5"
           }
         ]
       }
