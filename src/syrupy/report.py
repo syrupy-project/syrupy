@@ -225,6 +225,10 @@ class SnapshotReport:
 
     @property
     def selected_all_collected_items(self) -> bool:
+        if getattr(self.options, "lf", False):
+            # --lf drops collectors for files without failures before syrupy sees
+            # their items, so "collected == selected" does not mean "ran everything".
+            return False
         return self._collected_items_by_nodeid.keys() == self.selected_items.keys()
 
     @property
