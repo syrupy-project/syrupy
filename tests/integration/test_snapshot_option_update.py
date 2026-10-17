@@ -490,3 +490,161 @@ def test_update_removes_hanging_snapshot_collection_file(run_testcases, plugin_a
     assert result.ret == 0
     assert snapfile_used.exists()
     assert not snapfile_hanging.exists()
+
+
+@pytest.mark.parametrize(
+    "selection",
+    [
+        "full",
+        "partial",
+        "no_snapshots",
+        "unknown_extension",
+        "mixed_amber",
+        "directory",
+    ],
+)
+def test_update_removes_single_file_collection_of_deleted_test_file(
+    testdir, plugin_args, selection
+):
+    extension = (
+        "syrupy.extensions.single_file.SingleFileAmberSnapshotExtension"
+        if selection == "mixed_amber"
+        else "syrupy.extensions.json.JSONSnapshotExtension"
+    )
+    suffix = "ambr" if selection == "mixed_amber" else "json"
+    testdir.makepyfile(
+        test_foo=(
+            """
+            def test_foo(snapshot):
+                assert snapshot == "foo"
+            """
+        ),
+        test_bar=(
+            """
+            def test_bar(snapshot):
+                assert snapshot == "bar"
+            """
+        ),
+    )
+    testdir.runpytest(
+        "-v",
+        "--snapshot-update",
+        f"--snapshot-default-extension={extension}",
+    )
+    snapshot_dir = Path(testdir.tmpdir, "__snapshots__", "test_bar")
+    snapshot_file = Path(snapshot_dir, f"test_bar.{suffix}")
+    assert snapshot_file.exists()
+
+    # Deleting the test file leaves no assertion to reveal the snapshot site;
+    # the orphaned collection is still found through the remaining test file.
+    Path(testdir.tmpdir, "test_bar.py").unlink()
+    if selection in {"no_snapshots", "unknown_extension"}:
+        testdir.makepyfile(test_foo="def test_foo():\n    assert True")
+    elif selection == "mixed_amber":
+        testdir.makepyfile(
+            test_foo=(
+                "from syrupy.extensions.amber import AmberSnapshotExtension\n"
+                "def test_foo(snapshot):\n"
+                '    assert snapshot.use_extension(AmberSnapshotExtension) == "foo"'
+            )
+        )
+    result = testdir.runpytest(
+        "-v",
+        *({"partial": ["test_foo.py"], "directory": ["."]}.get(selection, [])),
+        "--snapshot-update",
+        *(
+            [f"--snapshot-default-extension={extension}"]
+            if selection != "unknown_extension"
+            else []
+        ),
+        *plugin_args,
+    )
+    assert result.ret == 0
+    if selection == "partial":
+        assert snapshot_dir.exists()
+        assert "unused" not in result.stdout.str()
+    else:
+        assert not snapshot_dir.exists(), (
+            "orphaned single-file collection directory remains"
+        )
+    assert Path(
+        testdir.tmpdir, "__snapshots__", "test_foo", f"test_foo.{suffix}"
+    ).exists() == (selection in {"full", "partial", "directory"})
+    if selection == "mixed_amber":
+        assert Path(testdir.tmpdir, "__snapshots__", "test_foo.ambr").exists()
+
+
+def test_update_removes_collection_dir_without_snapshot_tests(testdir, plugin_args):
+    testdir.makepyfile(
+        **{
+            "foo/test_foo": (
+                """
+                def test_foo(snapshot):
+                    assert snapshot == "foo"
+                """
+            ),
+            "bar/test_bar": (
+                """
+                def test_bar(snapshot):
+                    assert snapshot == "bar"
+                """
+            ),
+        }
+    )
+    testdir.runpytest("-v", "--snapshot-update")
+    snapshot_file = Path(testdir.tmpdir, "bar", "__snapshots__", "test_bar.ambr")
+    assert snapshot_file.exists()
+
+    # The test file survives but no longer uses the fixture; its collection
+    # is still found through the other tests collected in its directory.
+    testdir.makepyfile(
+        **{
+            "bar/test_bar": (
+                """
+                def test_bar():
+                    assert True
+                """
+            ),
+        }
+    )
+    result = testdir.runpytest("-v", "--snapshot-update", *plugin_args)
+    result.stdout.re_match_lines(
+        (
+            r"1 snapshot passed\. 1 unused snapshot deleted\.",
+            r"Deleted test_bar \(bar[\\/]__snapshots__[\\/]test_bar\.ambr\)",
+        )
+    )
+    assert result.ret == 0
+    assert not snapshot_file.exists()
+    assert Path(testdir.tmpdir, "foo", "__snapshots__", "test_foo.ambr").exists()
+
+
+def test_update_preserves_deselected_snapshots_in_discovered_collection(
+    testdir, plugin_args
+):
+    testdir.makepyfile(
+        **{
+            "foo/test_foo": 'def test_foo(snapshot):\n    assert snapshot == "foo"',
+            "bar/test_bar": (
+                'def test_removed(snapshot):\n    assert snapshot == "bar"\n'
+                'def test_valid(snapshot):\n    assert snapshot == "valid"'
+            ),
+        }
+    )
+    assert testdir.runpytest("--snapshot-update").ret == 0
+    testdir.makepyfile(
+        **{
+            "bar/test_bar": (
+                "def test_removed():\n    assert True\n"
+                'def test_valid(snapshot):\n    assert snapshot == "valid"'
+            ),
+        }
+    )
+    result = testdir.runpytest(
+        "--snapshot-update", "-k", "test_foo or test_removed", *plugin_args
+    )
+    assert result.ret == 0
+    collection = Path(testdir.tmpdir, "bar", "__snapshots__", "test_bar.ambr")
+    assert collection.exists(), "deselected snapshot collection was deleted"
+    assert "# name: test_valid" in collection.read_text()
+    assert "# name: test_removed" not in collection.read_text()
