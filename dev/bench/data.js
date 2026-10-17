@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792260777380,
+  "lastUpdate": 1792263000398,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20219,6 +20219,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.35553775946363275",
             "extra": "mean: 946.499148399998 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "169568318+wolfgang-aura@users.noreply.github.com",
+            "name": "WolfGanG",
+            "username": "wolfgang-aura"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "61bc2f229bd0c7bc86ca7b3bfc1fcffca7abf3bd",
+          "message": "fix: keep unrun snapshots with --lf --snapshot-update (#1257)\n\n* fix: delete unused snapshots when --lf reruns the full suite\n\n--lf only drops tests when the last-failed cache has entries. Treating every --lf run as partial kept obsolete snapshots after a green run.",
+          "timestamp": "2026-10-17T14:49:14-04:00",
+          "tree_id": "5760d2efbee0d212f4437706f52ad09f7122fa88",
+          "url": "https://github.com/syrupy-project/syrupy/commit/61bc2f229bd0c7bc86ca7b3bfc1fcffca7abf3bd"
+        },
+        "date": 1792263000010,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.208030291485194,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10464988979922013",
+            "extra": "mean: 827.7938120000001 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.0295313288725554,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2360796657493415",
+            "extra": "mean: 971.3157550000005 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.0138682333010958,
+            "unit": "iter/sec",
+            "range": "stddev: 0.011747502899721535",
+            "extra": "mean: 331.79950899999966 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.0490149338871648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3657000403400272",
+            "extra": "mean: 953.2752754 msec\nrounds: 5"
           }
         ]
       }
