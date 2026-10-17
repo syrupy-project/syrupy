@@ -490,3 +490,63 @@ def test_update_removes_hanging_snapshot_collection_file(run_testcases, plugin_a
     assert result.ret == 0
     assert snapfile_used.exists()
     assert not snapfile_hanging.exists()
+
+
+def test_json_update_preserves_neighboring_amber_collection(testdir, plugin_args):
+    testdir.makepyfile(
+        test_json=(
+            """
+            def test_json(snapshot):
+                assert snapshot == {"a": 1}
+            """
+        ),
+    )
+    amber = Path(testdir.tmpdir, "__snapshots__", "test_amber.ambr")
+    amber.parent.mkdir()
+    amber.write_text("# serializer version: 1\n# name: test_amber\n  'amber'\n# ---\n")
+
+    result = testdir.runpytest(
+        "-v",
+        "--snapshot-update",
+        "--snapshot-default-extension=syrupy.extensions.json.JSONSnapshotExtension",
+        *plugin_args,
+    )
+    assert result.ret == 0
+    assert amber.exists()
+    assert "test_amber" not in result.stdout.str()
+    assert Path(testdir.tmpdir, "__snapshots__", "test_json", "test_json.json").exists()
+
+
+def test_directory_update_preserves_ignored_test_snapshots(testdir, plugin_args):
+    testdir.makepyfile(
+        test_foo=(
+            """
+            def test_foo(snapshot):
+                assert snapshot == "foo"
+            """
+        ),
+        test_bar=(
+            """
+            def test_bar(snapshot):
+                assert snapshot == "bar"
+            """
+        ),
+    )
+    assert testdir.runpytest("-v", "--snapshot-update").ret == 0
+    bar = Path(testdir.tmpdir, "__snapshots__", "test_bar.ambr")
+    foo = Path(testdir.tmpdir, "__snapshots__", "test_foo.ambr")
+    assert bar.exists()
+    assert foo.exists()
+
+    result = testdir.runpytest(
+        "-v",
+        ".",
+        "--ignore=test_bar.py",
+        "--snapshot-update",
+        *plugin_args,
+    )
+    assert result.ret == 0
+    assert "test_bar.py" not in result.stdout.str()
+    assert bar.exists()
+    assert "# name: test_bar" in bar.read_text()
+    assert foo.exists()
