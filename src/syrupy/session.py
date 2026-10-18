@@ -95,6 +95,8 @@ class SnapshotSession:
     _collected_items: dict[str, "pytest.Item"] = field(default_factory=dict)
     # All the selected test items. Will be set to False until the test item is run.
     _selected_items: dict[str, ItemStatus] = field(default_factory=dict)
+    # True when --lf dropped tests during collection, before they could be recorded.
+    _lf_filtered: bool = False
     _assertions: list["SnapshotAssertion"] = field(default_factory=list)
     _extensions: dict[str, "AbstractSyrupyExtension"] = field(default_factory=dict)
     # Reports published by pytest-xdist workers, collected on the controller.
@@ -252,6 +254,7 @@ class SnapshotSession:
         self.report = None
         self._collected_items = {}
         self._selected_items = {}
+        self._lf_filtered = False
         self._assertions = []
         self._extensions = {}
         self._locations_discovered = defaultdict(set)
@@ -381,6 +384,7 @@ class SnapshotSession:
                 selected_items=self._selected_items,
                 assertions=self._assertions,
                 options=self.pytest_session.config.option,
+                lf_filtered=self._lf_filtered,
                 _extensions=self._extensions,
             )
 

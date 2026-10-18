@@ -62,6 +62,8 @@ class SnapshotReport:
     selected_items: dict[str, "ItemStatus"]
     options: "argparse.Namespace"
     assertions: list["SnapshotAssertion"]
+    # True when --lf removed tests during collection. See SnapshotSession._lf_filtered.
+    lf_filtered: bool = False
 
     # All of these are derived from the initial arguments and via walking the filesystem
     discovered: "SnapshotCollections" = field(default_factory=SnapshotCollections)
@@ -274,6 +276,10 @@ class SnapshotReport:
 
     @property
     def selected_all_collected_items(self) -> bool:
+        # --lf with no cached failures reruns the whole suite, so the option
+        # alone must not suppress unused-snapshot removal.
+        if self.lf_filtered:
+            return False
         return self._collected_items_by_nodeid.keys() == self.selected_items.keys()
 
     @property

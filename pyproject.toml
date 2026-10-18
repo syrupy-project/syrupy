@@ -3,7 +3,7 @@ name = "syrupy"
 version = "6.1.1"
 description = "Pytest Snapshot Test Utility"
 authors = [{ name = "Noah Ulster" }]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 readme = "README.md"
 license = "MIT"
 classifiers = [
@@ -12,11 +12,11 @@ classifiers = [
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Testing",
     "Topic :: Utilities",
@@ -36,14 +36,14 @@ test = [
     "hypothesis>=6.0.0,<7",
     "pytest-benchmark>=5.1.0,<6",
     "pytest-xdist>=3.6.1,<4",
-    "pydantic>=2.13.4,<3",
+    "pydantic>=2.14.1,<3",
     "attrs>=26.1.0,<27",
 ]
 dev = [
     "mypy>=2.1.0,<3",
     "py-githooks>=1.1.1,<2",
     "debugpy>=1.8.20,<2",
-    "ruff>=0.16,<0.17",
+    "ruff>=0.17.1,<0.18",
     "attrs>=26.1.0,<27",
 ]
 
@@ -52,7 +52,7 @@ default-groups = [
     "test",
     "dev",
 ]
-exclude-newer = "3 days"
+exclude-newer = "2 days"
 
 [tool.hatch.build.targets.sdist]
 include = [
