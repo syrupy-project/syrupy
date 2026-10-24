@@ -26,6 +26,8 @@ from .data import (
     SnapshotCollections,
     SnapshotUnknownCollection,
 )
+from .exceptions import FailedToLoadModuleMember
+from .extensions import DEFAULT_EXTENSION
 from .location import PyTestLocation
 from .terminal import (
     bold,
@@ -34,6 +36,7 @@ from .terminal import (
     success_style,
     warning_style,
 )
+from .utils import import_module_member
 
 if TYPE_CHECKING:
     import argparse
@@ -41,6 +44,7 @@ if TYPE_CHECKING:
     import pytest
 
     from .assertion import SnapshotAssertion
+    from .extensions.base import AbstractSyrupyExtension
     from .session import ItemStatus
 
 
@@ -71,6 +75,7 @@ class SnapshotReport:
     _provided_test_paths: dict[str, list[str]] = field(default_factory=dict)
     _keyword_expressions: set["Expression"] = field(default_factory=set)
     _num_xfails: int = field(default=0)
+    _extensions: dict[str, "AbstractSyrupyExtension"] = field(default_factory=dict)
 
     @property
     def update_snapshots(self) -> bool:
@@ -131,23 +136,27 @@ class SnapshotReport:
     def __post_init__(self) -> None:
         self.__parse_invocation_args()
 
-        # We only need to discover snapshots once per test file, not once per assertion.
-        # Discovery exists to find unused snapshots; skip it when unused detection is off.
-        locations_discovered: defaultdict[str, set[Any]] = defaultdict(set)
+        # We only need to discover snapshots once per test site directory, not
+        # once per assertion. Discovery exists to find unused snapshots; skip
+        # it when unused detection is off.
+        extensions: dict[type[AbstractSyrupyExtension], AbstractSyrupyExtension] = {}
+        dirs_discovered: defaultdict[str, set[Any]] = defaultdict(set)
         for assertion in self.assertions:
-            test_location = assertion.test_location.filepath
-            extension_class = assertion.extension.__class__
-            if (
-                not self.disable_unused_snapshots
-                and extension_class not in locations_discovered[test_location]
-            ):
-                locations_discovered[test_location].add(extension_class)
-                self.discovered.merge(
-                    assertion.extension.discover_snapshots(
-                        test_location=assertion.test_location,
-                        ignore_extensions=assertion.session.ignore_file_extensions,
-                    )
+            extension = assertion.extension
+            extension_class = extension.__class__
+            extensions.setdefault(extension_class, extension)
+            if not self.disable_unused_snapshots:
+                discovery_dir = extension.discovery_dirname(
+                    test_location=assertion.test_location
                 )
+                if extension_class not in dirs_discovered[discovery_dir]:
+                    dirs_discovered[discovery_dir].add(extension_class)
+                    self.discovered.merge(
+                        extension.discover_snapshots(
+                            test_location=assertion.test_location,
+                            ignore_extensions=assertion.session.ignore_file_extensions,
+                        )
+                    )
 
             for result in assertion.executions.values():
                 snapshot_collection = SnapshotCollection(
@@ -169,6 +178,46 @@ class SnapshotReport:
                     if has_xfail:
                         self._num_xfails += 1
                     self.failed.update(snapshot_collection)
+
+        if self.disable_unused_snapshots:
+            return
+
+        if not extensions and self.collected_items:
+            extension_path = getattr(self.options, "default_extension", None)
+            try:
+                extension_class = (
+                    import_module_member(extension_path)
+                    if extension_path
+                    else DEFAULT_EXTENSION
+                )
+            except FailedToLoadModuleMember:
+                return
+            extensions[extension_class] = extension_class()
+
+        # Asserting tests only reveal the snapshot sites of files that used the
+        # fixture. Scan the site of every collected test file as well, so that
+        # collections orphaned by deleted test files or tests that dropped the
+        # fixture are still discovered (see #1250).
+        for item in {item.path: item for item in self.collected_items}.values():
+            location = PyTestLocation(item)
+            for extension in extensions.values():
+                extension_class = extension.__class__
+                discovery_dir = extension.discovery_dirname(test_location=location)
+                if extension_class in dirs_discovered[discovery_dir]:
+                    continue
+                dirs_discovered[discovery_dir].add(extension_class)
+                collections = extension.discover_snapshots(
+                    test_location=location,
+                    ignore_extensions=self.options.ignore_file_extensions,
+                )
+                self.discovered.merge(collections)
+                self._extensions.update(
+                    {
+                        collection.location: extension
+                        for collection in collections
+                        if collection.has_snapshots
+                    }
+                )
 
     def __parse_invocation_args(self) -> None:
         """
@@ -266,8 +315,13 @@ class SnapshotReport:
             self.discovered, self.used
         ):
             snapshot_location = unused_snapshot_collection.location
-            if self._provided_test_paths and not self._ran_items_match_location(
-                snapshot_location
+            if (
+                self._provided_test_paths
+                and not self._ran_items_match_location(snapshot_location)
+                and not any(
+                    Path(path).is_dir() and Path(snapshot_location).is_relative_to(path)
+                    for path in self._provided_test_paths
+                )
             ):
                 # Paths/Packages were provided to pytest and the snapshot location does
                 # not match any of ran tests therefore ignore this unused snapshot file
