@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792974600420,
+  "lastUpdate": 1793278772940,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20375,6 +20375,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.4366524678078385",
             "extra": "mean: 812.1395985999997 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b70054f1ba71e65ae2308ae10c5c6615dd635494",
+          "message": "chore(deps): update dependency hypothesis to v6.170.11 (#1267)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-10-29T08:58:38-04:00",
+          "tree_id": "d4836b9b3958906649e3e48d50f186a2d992a2cf",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b70054f1ba71e65ae2308ae10c5c6615dd635494"
+        },
+        "date": 1793278771952,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8720251032991818,
+            "unit": "iter/sec",
+            "range": "stddev: 0.08537037228604955",
+            "extra": "mean: 1.146755977800001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7770064914699634,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19295308071604322",
+            "extra": "mean: 1.2869905348000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.27734366675775,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0036199867371801866",
+            "extra": "mean: 439.1080778000003 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7071693003002562,
+            "unit": "iter/sec",
+            "range": "stddev: 0.35100228424808155",
+            "extra": "mean: 1.4140885352000025 sec\nrounds: 5"
           }
         ]
       }
