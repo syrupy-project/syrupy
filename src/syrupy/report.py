@@ -39,8 +39,6 @@ from .terminal import (
 if TYPE_CHECKING:
     import argparse
 
-    import pytest
-
     from .assertion import SnapshotAssertion
     from .session import ItemStatus
 
