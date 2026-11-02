@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793279906077,
+  "lastUpdate": 1793628258994,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20531,6 +20531,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3633879273430991",
             "extra": "mean: 1.4607437221999988 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sean0407@gmail.com",
+            "name": "sean0407",
+            "username": "sean0407"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3b7558ba2111aec717dc46ecb2f801b946dbe16a",
+          "message": "fix: preserve module skips with pyargs (#1271)\n\nCo-authored-by: Sean Li <22557931+sean0407@users.noreply.github.com>",
+          "timestamp": "2026-11-02T09:03:22-05:00",
+          "tree_id": "529e339c5acbbbf60cc4a81c34c370ab52d82e33",
+          "url": "https://github.com/syrupy-project/syrupy/commit/3b7558ba2111aec717dc46ecb2f801b946dbe16a"
+        },
+        "date": 1793628258060,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.934577289025821,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11106914693749266",
+            "extra": "mean: 1.0700024618000015 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8301188402132836,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2530982544477344",
+            "extra": "mean: 1.204646794599998 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.3759339084601967,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0033602202975073713",
+            "extra": "mean: 420.8871283999997 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7448851502860873,
+            "unit": "iter/sec",
+            "range": "stddev: 0.46129554343344836",
+            "extra": "mean: 1.3424888381999978 sec\nrounds: 5"
           }
         ]
       }
