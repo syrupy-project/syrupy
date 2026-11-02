@@ -178,48 +178,101 @@ def _lock_timeout_error(path: Path, timeout: float) -> TimeoutError:
     )
 
 
-def _ensure_lock_file(lock_path: Path) -> None:
-    """
-    Create the lock file with a single ``\\0`` byte if it does not exist.
+# Windows ERROR_LOCK_VIOLATION — write into an ``msvcrt``-locked region.
+_WINERROR_LOCK_VIOLATION = 33
 
-    ``msvcrt.locking`` requires the locked region to exist in the file. We use
-    exclusive-create then ``r+b`` (not ``a+b``) so Windows seek/write can
-    initialize byte 0 — append mode always writes at EOF regardless of seek.
+
+def _is_lock_denied_write(exc: BaseException) -> bool:
+    """True when Windows mandatory locking blocked the sentinel write."""
+    return getattr(exc, "winerror", None) == _WINERROR_LOCK_VIOLATION
+
+
+def _lock_region_ready(lock_path: Path) -> bool:
+    """True once byte 0 is the ``\\0`` sentinel ``msvcrt.locking`` will claim."""
+    try:
+        with open(lock_path, "rb") as lock_file:
+            return lock_file.read(1) == b"\0"
+    except OSError:
+        return False
+
+
+def _initialize_lock_file(lock_path: Path) -> None:
     """
-    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    Write the ``\\0`` lock sentinel if missing or not at byte 0.
+
+    Exclusive-create publishes the path before this write. Callers must not
+    lock the file until :func:`_lock_region_ready` — on Windows ``msvcrt``
+    locks are mandatory and fail this write with ``PermissionError``
+    (``winerror`` ``ERROR_LOCK_VIOLATION``).
+    """
     try:
         fd = os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_RDWR)
     except FileExistsError:
-        return
+        try:
+            fd = os.open(str(lock_path), os.O_RDWR)
+        except FileNotFoundError:
+            return
     try:
+        if os.fstat(fd).st_size >= 1:
+            if os.read(fd, 1) == b"\0":
+                return
+            os.lseek(fd, 0, os.SEEK_SET)
+            os.ftruncate(fd, 0)
+        # Offset is 0. Do not append: ``a+b`` writes at EOF and leaves byte 0 missing.
         os.write(fd, b"\0")
     finally:
         os.close(fd)
 
 
-def _acquire_exclusive_lock(lock_file: Any, path: Path, *, timeout: float) -> None:
+def _ensure_lock_file(
+    lock_path: Path, path: Path, *, timeout: float, deadline: float
+) -> None:
+    """Create the lock file, waiting until its sentinel byte is visible."""
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    delay = 0.01
+    while True:
+        if _lock_region_ready(lock_path):
+            return
+        try:
+            _initialize_lock_file(lock_path)
+        except PermissionError as exc:
+            # Retry only mandatory-lock conflicts; other access errors fail fast.
+            if not _is_lock_denied_write(exc):
+                raise
+        if _lock_region_ready(lock_path):
+            return
+        if time.monotonic() >= deadline:
+            raise _lock_timeout_error(path, timeout)
+        time.sleep(delay)
+        delay = min(delay * 1.5, 0.1)
+
+
+def _acquire_exclusive_lock(
+    lock_file: Any, path: Path, *, timeout: float, deadline: float
+) -> None:
     """Block until an exclusive lock is acquired, or raise after the timeout."""
-    deadline = time.monotonic() + timeout
     delay = 0.01
     if os.name == "nt":
         import msvcrt
 
         while True:
+            acquired = False
             try:
                 lock_file.seek(0)
-                if lock_file.read(1) != b"\0":
+                # An empty file has no region to lock. Locking it anyway denies
+                # the initializer's write on Windows.
+                if lock_file.read(1) == b"\0":
                     lock_file.seek(0)
-                    lock_file.truncate(0)
-                    lock_file.write(b"\0")
-                    lock_file.flush()
-                lock_file.seek(0)
-                msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)  # type: ignore[attr-defined]
-                return
+                    msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)  # type: ignore[attr-defined]
+                    acquired = True
             except OSError:
-                if time.monotonic() >= deadline:
-                    raise _lock_timeout_error(path, timeout) from None
-                time.sleep(delay)
-                delay = min(delay * 1.5, 0.1)
+                acquired = False
+            if acquired:
+                return
+            if time.monotonic() >= deadline:
+                raise _lock_timeout_error(path, timeout) from None
+            time.sleep(delay)
+            delay = min(delay * 1.5, 0.1)
     else:
         import fcntl
 
@@ -268,9 +321,10 @@ def exclusive_file_lock(
     path = Path(filepath)
     lock_path, _ = snapshot_write_sidecar_paths(path)
     wait = snapshot_file_lock_timeout() if timeout is None else timeout
-    _ensure_lock_file(lock_path)
+    deadline = time.monotonic() + wait
+    _ensure_lock_file(lock_path, path, timeout=wait, deadline=deadline)
     with open(lock_path, "r+b") as lock_file:
-        _acquire_exclusive_lock(lock_file, path, timeout=wait)
+        _acquire_exclusive_lock(lock_file, path, timeout=wait, deadline=deadline)
         try:
             yield
         finally:
