@@ -16,6 +16,7 @@ from typing import (
     Any,
 )
 
+import pytest
 from _pytest.mark.expression import Expression as PytestExpression
 from _pytest.skipping import xfailed_key
 
@@ -40,8 +41,6 @@ from .utils import import_module_member
 
 if TYPE_CHECKING:
     import argparse
-
-    import pytest
 
     from .assertion import SnapshotAssertion
     from .extensions.base import AbstractSyrupyExtension
@@ -247,6 +246,8 @@ class SnapshotReport:
                     mod = importlib.import_module(package_or_filepath)
                     if mod.__file__ is not None:
                         filepath = Path(mod.__file__)
+                except pytest.skip.Exception:
+                    pass
                 except Exception:
                     pass
             filepath_abs = str(

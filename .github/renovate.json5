@@ -1,6 +1,10 @@
 {
     $schema: "https://docs.renovatebot.com/renovate-schema.json",
-    extends: ["helpers:pinGitHubActionDigests"],
+    extends: [
+        "helpers:pinGitHubActionDigests",
+        "security:minimumReleaseAgeNpm",
+        "security:minimumReleaseAgePypi",
+    ],
     prConcurrentLimit: 2,
     semanticCommits: "enabled",
     semanticCommitType: "chore",
