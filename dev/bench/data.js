@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794003080293,
+  "lastUpdate": 1794005084528,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20687,6 +20687,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.41962137681819617",
             "extra": "mean: 1.0847191724000027 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ec5ae8cb06233906a327c4020a9a8bce10ddb59e",
+          "message": "chore(deps): update dependency mypy to v2.4.1 (#1282)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-11-06T17:43:52-05:00",
+          "tree_id": "c2f1fd7a8b4f9f56c726cb3aa056832c3f8a8b66",
+          "url": "https://github.com/syrupy-project/syrupy/commit/ec5ae8cb06233906a327c4020a9a8bce10ddb59e"
+        },
+        "date": 1794005083971,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9557807334480941,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11480265159463277",
+            "extra": "mean: 1.0462650741999995 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.837880209969954,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24220447643227516",
+            "extra": "mean: 1.1934880286000067 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.3457761054666917,
+            "unit": "iter/sec",
+            "range": "stddev: 0.006056909408918525",
+            "extra": "mean: 426.29814400000043 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.7472091701256188,
+            "unit": "iter/sec",
+            "range": "stddev: 0.4565232291916088",
+            "extra": "mean: 1.3383133397999956 sec\nrounds: 5"
           }
         ]
       }
