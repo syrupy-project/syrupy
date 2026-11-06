@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794008102146,
+  "lastUpdate": 1794008973071,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20895,6 +20895,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.32817574812526173",
             "extra": "mean: 1.1103640316000054 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f64caa9863682f9ac9e4f425febe0af326701f79",
+          "message": "chore(deps): update dependency pydantic to v2.14.2 (#1284)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-11-06T18:48:36-05:00",
+          "tree_id": "e1d30f02a1194027f8d7b9c5e4dddad552cbcd91",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f64caa9863682f9ac9e4f425febe0af326701f79"
+        },
+        "date": 1794008972249,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.8225608385968018,
+            "unit": "iter/sec",
+            "range": "stddev: 0.10971279475109323",
+            "extra": "mean: 1.2157155471999979 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.7386493584930783,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20961189629698151",
+            "extra": "mean: 1.353822335999999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.2093819688174174,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0027714955539406023",
+            "extra": "mean: 452.6152625999998 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.6874160903830739,
+            "unit": "iter/sec",
+            "range": "stddev: 0.38919186320387156",
+            "extra": "mean: 1.4547230039999988 sec\nrounds: 5"
           }
         ]
       }
