@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793994416512,
+  "lastUpdate": 1794003080293,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20635,6 +20635,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.45685201298610534",
             "extra": "mean: 946.1980983999979 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2e6550008d7c88d54a39d8e790d3652ac0e52c68",
+          "message": "chore(deps): update astral-sh/setup-uv action to v10.3.3 (#1281)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-11-06T17:10:32-05:00",
+          "tree_id": "fd6437d155fe78c753cc2a9e4d05f4a2306f06df",
+          "url": "https://github.com/syrupy-project/syrupy/commit/2e6550008d7c88d54a39d8e790d3652ac0e52c68"
+        },
+        "date": 1794003079280,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.1985044507275364,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11156448934751687",
+            "extra": "mean: 834.3732052 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.054284732476732,
+            "unit": "iter/sec",
+            "range": "stddev: 0.21868393523858273",
+            "extra": "mean: 948.5103683999995 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.0498036262553,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0021262908122200615",
+            "extra": "mean: 327.88996360000056 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.9218975984239711,
+            "unit": "iter/sec",
+            "range": "stddev: 0.41962137681819617",
+            "extra": "mean: 1.0847191724000027 sec\nrounds: 5"
           }
         ]
       }
