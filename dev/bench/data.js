@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794238368476,
+  "lastUpdate": 1794243215818,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -21051,6 +21051,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.4616785940901127",
             "extra": "mean: 960.5819659999995 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5fe49805e4b32da9c43a1aa704afda77efb210b1",
+          "message": "chore(deps): update dependency pytest to v9.2.0 (#1286)\n\n* chore(deps): update dependency pytest to v9.2.0\n\n* chore: fix tests\n\n---------\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: noahnu <noahnu@gmail.com>",
+          "timestamp": "2026-11-09T11:52:43-05:00",
+          "tree_id": "7814911f90f873d14784e2fee872eabd96274ab2",
+          "url": "https://github.com/syrupy-project/syrupy/commit/5fe49805e4b32da9c43a1aa704afda77efb210b1"
+        },
+        "date": 1794243215075,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0015307361719612,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11294574182780412",
+            "extra": "mean: 998.4716033999994 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8750929946230029,
+            "unit": "iter/sec",
+            "range": "stddev: 0.23648004778821918",
+            "extra": "mean: 1.1427356934000001 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.3238440041835364,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002795126473194799",
+            "extra": "mean: 430.3214838000031 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8866473550013927,
+            "unit": "iter/sec",
+            "range": "stddev: 0.410117405572416",
+            "extra": "mean: 1.127844113399999 sec\nrounds: 5"
           }
         ]
       }
