@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794236699297,
+  "lastUpdate": 1794238368476,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -20999,6 +20999,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.44648075883305366",
             "extra": "mean: 917.1776664000006 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d351f9804ba4e29414dc0c3162f06a726061a498",
+          "message": "fix: retry amber lock creation when Windows denies the sentinel write (#1280)\n\n* fix: retry amber lock creation when Windows denies the sentinel write\n\nThe lock file is visible before its NUL byte exists, so another process can\nlock the empty region and fail the creator's write. Retry only\nERROR_LOCK_VIOLATION, treat readiness as a leading NUL, and repair bad\nsentinel content.",
+          "timestamp": "2026-11-09T10:32:05-05:00",
+          "tree_id": "b8008e838a781a46ee54fb793e8264461f0fa08c",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d351f9804ba4e29414dc0c3162f06a726061a498"
+        },
+        "date": 1794238367735,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.4551711557063138,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12009999683045629",
+            "extra": "mean: 687.2043856000005 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.1520797060132593,
+            "unit": "iter/sec",
+            "range": "stddev: 0.27754661383011486",
+            "extra": "mean: 867.9954995999999 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.6559476037778573,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0024919091205984818",
+            "extra": "mean: 273.52689600000133 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.0410355757188976,
+            "unit": "iter/sec",
+            "range": "stddev: 0.4616785940901127",
+            "extra": "mean: 960.5819659999995 msec\nrounds: 5"
           }
         ]
       }
