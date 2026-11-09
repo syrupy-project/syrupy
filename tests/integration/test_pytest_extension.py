@@ -3,9 +3,11 @@ def test_ignores_non_function_nodes(testdir, plugin_args):
         import pytest
 
         class CustomItem(pytest.Item):
-            def __init__(self, name, **kwargs):
-                super().__init__(name, **kwargs)
-                self._nodeid += "::CUSTOM"
+            def __init__(self, name, parent=None, **kwargs):
+                if "nodeid" not in kwargs and parent is not None:
+                    base = f"{parent.nodeid}::{name}" if parent.nodeid else name
+                    kwargs["nodeid"] = f"{base}::CUSTOM"
+                super().__init__(name, parent=parent, **kwargs)
 
             def runtest(self):
                 pass
