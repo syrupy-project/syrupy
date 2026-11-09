@@ -188,12 +188,21 @@ def _is_lock_denied_write(exc: BaseException) -> bool:
 
 
 def _lock_region_ready(lock_path: Path) -> bool:
-    """True once byte 0 is the ``\\0`` sentinel ``msvcrt.locking`` will claim."""
+    """
+    True once byte 0 is the ``\\0`` sentinel, or a held mandatory lock makes
+    that byte unreadable (Windows) — either way ``msvcrt.locking`` can proceed.
+    """
+    try:
+        if lock_path.stat().st_size < 1:
+            return False
+    except OSError:
+        return False
     try:
         with open(lock_path, "rb") as lock_file:
             return lock_file.read(1) == b"\0"
     except OSError:
-        return False
+        # Locked region on Windows — size already confirmed a lockable byte.
+        return True
 
 
 def _initialize_lock_file(lock_path: Path) -> None:
@@ -203,7 +212,8 @@ def _initialize_lock_file(lock_path: Path) -> None:
     Exclusive-create publishes the path before this write. Callers must not
     lock the file until :func:`_lock_region_ready` — on Windows ``msvcrt``
     locks are mandatory and fail this write with ``PermissionError``
-    (``winerror`` ``ERROR_LOCK_VIOLATION``).
+    (``winerror`` ``ERROR_LOCK_VIOLATION``). Reading a held region is treated
+    as success (the sentinel already exists).
     """
     try:
         fd = os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_RDWR)
@@ -214,7 +224,12 @@ def _initialize_lock_file(lock_path: Path) -> None:
             return
     try:
         if os.fstat(fd).st_size >= 1:
-            if os.read(fd, 1) == b"\0":
+            try:
+                first = os.read(fd, 1)
+            except PermissionError:
+                # Another process holds the mandatory lock on byte 0.
+                return
+            if first == b"\0":
                 return
             os.lseek(fd, 0, os.SEEK_SET)
             os.ftruncate(fd, 0)
