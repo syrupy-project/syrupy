@@ -36,11 +36,6 @@ def is_xdist_worker() -> bool:
     return bool(worker_name and worker_name != "master")
 
 
-def is_xdist_gw0() -> bool:
-    """True on the pytest-xdist worker named ``gw0`` (used for one-shot payloads)."""
-    return os.getenv("PYTEST_XDIST_WORKER") == "gw0"
-
-
 def xdist_numprocesses(config: Any) -> int | None:
     """
     Effective xdist worker count from config, if xdist is distributing work.
@@ -67,8 +62,16 @@ def xdist_numprocesses(config: Any) -> int | None:
 
 
 def compress_json(data: Any) -> bytes:
-    """JSON-encode ``data`` and zlib-compress for xdist workeroutput payloads."""
-    return zlib.compress(json.dumps(data, separators=(",", ":")).encode())
+    """JSON-encode ``data`` and zlib-compress for xdist workeroutput payloads.
+
+    Level 1 favors speed over ratio; for syrupy's repetitive snapshot-name JSON
+    it is typically as small as (or smaller than) the zlib default while much
+    faster — see #1156 / #1188.
+    """
+    return zlib.compress(
+        json.dumps(data, separators=(",", ":")).encode(),
+        level=1,
+    )
 
 
 def decompress_json(data: bytes) -> Any:
@@ -360,6 +363,18 @@ def warn_selected_collected_mismatch(
             "syrupy: {count} selected test(s) missing from collected items "
             "(e.g. {sample}{extra}); unused snapshot detection may be incomplete"
         ).format(count=len(missing), sample=sample, extra=extra),
+        UserWarning,
+        stacklevel=2,
+    )
+
+
+def warn_incomplete_worker_reports(*, received: int, expected: int) -> None:
+    """Warn when xdist worker syrupy reports are missing (unused detection unsafe)."""
+    warnings.warn(
+        gettext(
+            "syrupy: received {received} of {expected} xdist worker snapshot "
+            "reports; unused snapshot detection skipped to avoid false removals"
+        ).format(received=received, expected=expected),
         UserWarning,
         stacklevel=2,
     )

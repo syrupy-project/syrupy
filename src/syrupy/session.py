@@ -30,11 +30,12 @@ from .utils import (
     compress_json,
     decompress_json,
     import_module_member,
-    is_xdist_gw0,
     is_xdist_worker,
     set_snapshot_file_lock,
     should_use_snapshot_file_lock,
+    warn_incomplete_worker_reports,
     warn_selected_collected_mismatch,
+    xdist_numprocesses,
 )
 
 # Snapshot collections on the report that are merged across pytest-xdist workers.
@@ -53,8 +54,8 @@ class _ReconstructedItem:
     """
     Stand-in for a ``pytest.Item`` rebuilt from a worker's serialized payload.
 
-    Normally the xdist controller already has real collected items; worker
-    ``collected`` data is applied only when the controller's set is empty.
+    The xdist controller does not collect tests; workers each send compressed
+    ``collected`` data and the controller keeps the first non-empty set.
     Reconstruction supplies enough of the pytest item for
     ``PyTestLocation`` to resolve snapshot names and locations.
     """
@@ -314,12 +315,12 @@ class SnapshotSession:
                 for location, extension in self._extensions.items()
             },
         }
-        # Every worker collects the identical full set; only gw0 sends it.
-        # Compress to shrink the xdist workeroutput IPC payload on large suites.
-        if is_xdist_gw0():
-            payload["collected"] = compress_json(
-                [self._serialize_item(item) for item in self._collected_items.values()]
-            )
+        # Every worker sends the identical collected set (compressed). The
+        # controller keeps the first non-empty copy so unused detection still
+        # works if any one worker's report is dropped (e.g. Windows IPC flake).
+        payload["collected"] = compress_json(
+            [self._serialize_item(item) for item in self._collected_items.values()]
+        )
         output["syrupy_report"] = payload
 
     def add_worker_report(self, report: dict[str, Any]) -> None:
@@ -405,6 +406,20 @@ class SnapshotSession:
                 self._merge_worker_reports()
 
             if self.disable_unused_snapshots:
+                return exitstatus
+
+            # If fewer worker reports arrived than expected, unused accounting is
+            # incomplete — skip delete/fail so we do not remove live snapshots.
+            expected_workers = xdist_numprocesses(self.pytest_session.config)
+            if (
+                expected_workers is not None
+                and expected_workers > 1
+                and len(self._worker_reports) < expected_workers
+            ):
+                warn_incomplete_worker_reports(
+                    received=len(self._worker_reports),
+                    expected=expected_workers,
+                )
                 return exitstatus
 
             if self.report.num_unused:
