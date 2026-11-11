@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794358480731,
+  "lastUpdate": 1794359752182,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -21467,6 +21467,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.34083699877515894",
             "extra": "mean: 1.2421795021999968 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1c9ffff28b66be6bd2fe85d485026e627db63356",
+          "message": "fix: remove xdist collected SPOF and speed up report compression (#1294)\n\n* fix: remove xdist collected SPOF and speed up report compression\n\nSend compressed collected items from every worker and skip unused\ndelete/fail when worker reports are incomplete, so a dropped gw0\nreport no longer breaks unused detection. Use zlib level 1 for faster\nxdist IPC on repetitive snapshot-name payloads.\n\n* test: relax xdist compression ratio assert for zlib level 1\n\nWindows CI with level-1 zlib lands ~4.4x on the large-collection\nfixture, which missed the old 5x threshold.",
+          "timestamp": "2026-11-10T20:15:07-05:00",
+          "tree_id": "2d6347661b836e2b097a3db489edb89d0640d252",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1c9ffff28b66be6bd2fe85d485026e627db63356"
+        },
+        "date": 1794359751360,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.513913590302536,
+            "unit": "iter/sec",
+            "range": "stddev: 0.12362231816841496",
+            "extra": "mean: 660.5396809999988 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.2544231358047822,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25900975977424967",
+            "extra": "mean: 797.1791746000001 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.485599602516146,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004000418675456433",
+            "extra": "mean: 286.89468500000146 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.2645306134782441,
+            "unit": "iter/sec",
+            "range": "stddev: 0.41932310948743895",
+            "extra": "mean: 790.8072681999997 msec\nrounds: 5"
           }
         ]
       }
