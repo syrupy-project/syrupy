@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794359752182,
+  "lastUpdate": 1794364913336,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -21519,6 +21519,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.41932310948743895",
             "extra": "mean: 790.8072681999997 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b51038077effc31166a06b50c3156dcf3f9036f1",
+          "message": "refactor: clean up pre-3.11 Python patterns (#1295)\n\nDrop the removesuffix polyfill, switch string enums to StrEnum, and normalize Optional annotations to | None now that Python 3.11 is the minimum.",
+          "timestamp": "2026-11-10T21:41:13-05:00",
+          "tree_id": "291e5dc26281faf5e5faac8e5952804383d19846",
+          "url": "https://github.com/syrupy-project/syrupy/commit/b51038077effc31166a06b50c3156dcf3f9036f1"
+        },
+        "date": 1794364912533,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.5901171112538544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.11864420841807888",
+            "extra": "mean: 628.8844972000021 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.3167037702597197,
+            "unit": "iter/sec",
+            "range": "stddev: 0.25465520060986524",
+            "extra": "mean: 759.4722689999969 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 3.8802128592580534,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0022535025516136004",
+            "extra": "mean: 257.7178202000013 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.375000289781306,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3731049824403693",
+            "extra": "mean: 727.2725740000027 msec\nrounds: 5"
           }
         ]
       }
