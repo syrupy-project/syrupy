@@ -4,6 +4,65 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v7.0.0](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.0) (2026-11-11)
+
+## What's Changed
+* chore(deps): update astral-sh/setup-uv action to v10.1.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1241
+* feat: enable amber file lock automatically under xdist by @noahnu in https://github.com/syrupy-project/syrupy/pull/1242
+* chore(deps): update dependency coverage to v7.16.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1243
+* chore(deps): update dependency ruff to v0.16.8 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1240
+* chore(deps): update codecov/codecov-action action to v7.1.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1244
+* chore(deps): update dependency debugpy to v1.8.22 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1246
+* chore(deps): update benchmark-action/github-action-benchmark action to v1.22.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1245
+* chore(deps): update astral-sh/setup-uv action to v10.2.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1247
+* chore(deps): update dependency hypothesis to v6.168.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1248
+* chore(deps): update dependency ruff to v0.16.9 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1249
+* chore(deps): update dependency hypothesis to v6.168.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1253
+* chore(deps): update dependency coverage to v7.16.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1252
+* chore(deps): update dependency hypothesis to v6.168.5 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1259
+* chore: add tests for py3.15 by @noahnu in https://github.com/syrupy-project/syrupy/pull/1261
+* chore(deps): update astral-sh/setup-uv action to v10.3.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1260
+* chore(deps): update dependency hypothesis to v6.169.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1262
+* chore(deps): update dependency mypy to v2.4.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1256
+* chore: update python to 3.15 by @noahnu in https://github.com/syrupy-project/syrupy/pull/1266
+* chore: drop support of end-of-life python 3.10 by @noahnu in https://github.com/syrupy-project/syrupy/pull/1269
+* fix: keep unrun snapshots with --lf --snapshot-update by @wolfgang-aura in https://github.com/syrupy-project/syrupy/pull/1257
+* docs: add wolfgang-aura as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1270
+* chore(deps): update pypa/gh-action-pypi-publish action to v1.14.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1273
+* chore(deps): update astral-sh/setup-uv action to v10.3.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1274
+* chore(deps): update dependency hypothesis to v6.170.11 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1267
+* chore: set min age for pypi renovate by @noahnu in https://github.com/syrupy-project/syrupy/pull/1276
+* chore(deps): update python docker tag to v3.15.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1277
+* fix: preserve module skips with --pyargs by @sean0407 in https://github.com/syrupy-project/syrupy/pull/1271
+* docs: add sean0407 as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1279
+* chore(deps): update dependency coverage to v7.17.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1278
+* chore(deps): update astral-sh/setup-uv action to v10.3.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1281
+* chore(deps): update dependency mypy to v2.4.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1282
+* chore(deps): update dependency ruff to v0.17.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1275
+* chore(deps): update dependency hypothesis to v6.170.14 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1283
+* chore(deps): update dependency pytest-benchmark to v5.3.1 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1285
+* chore(deps): update dependency pydantic to v2.14.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1284
+* chore(deps): update dependency coverage to v7.17.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1287
+* fix: retry amber lock creation when Windows denies the sentinel write by @noahnu in https://github.com/syrupy-project/syrupy/pull/1280
+* chore(deps): update dependency pytest to v9.2.0 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1286
+* chore(deps): update dependency hypothesis to v6.170.15 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1288
+* chore: change exclude-newer to 3d by @noahnu in https://github.com/syrupy-project/syrupy/pull/1268
+* chore(deps): update dependency pydantic to v2.14.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1289
+* chore(deps): update dependency ruff to v0.17.4 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1290
+* chore(deps): update python docker tag to v3.15.2 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1291
+* test: keep unrelated snapshots during update by @noahnu in https://github.com/syrupy-project/syrupy/pull/1272
+* fix: remove unused snapshots orphaned by deleted test files by @noahnu in https://github.com/syrupy-project/syrupy/pull/1292
+* fix: remove unused snapshots orphaned by deleted test files by @cpruijsen in https://github.com/syrupy-project/syrupy/pull/1258
+* docs: add cpruijsen as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1293
+* fix: remove xdist collected SPOF and speed up report compression by @noahnu in https://github.com/syrupy-project/syrupy/pull/1294
+
+## New Contributors
+* @wolfgang-aura made their first contribution in https://github.com/syrupy-project/syrupy/pull/1257
+* @sean0407 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1271
+* @cpruijsen made their first contribution in https://github.com/syrupy-project/syrupy/pull/1258
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v6.1.1...v7.0.0
+
 ## [v6.1.1](https://github.com/syrupy-project/syrupy/releases/tag/v6.1.1) (2026-09-13)
 
 ## What's Changed
