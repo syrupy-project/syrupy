@@ -128,8 +128,15 @@ class SnapshotCollectionStorage(ABC):
         Returns all snapshot collections in test site
         """
         discovered = SnapshotCollections()
+        discovery_dir = self.discovery_dirname(test_location=test_location)
+        # Directory-scoped discovery (e.g. single-file) scans a shared parent that
+        # may contain other extensions' collections. Only claim owned files there;
+        # do not record foreign paths as empty/unknown or they get deleted.
+        directory_scoped = Path(discovery_dir) != Path(
+            self.dirname(test_location=test_location)
+        )
         for filepath in walk_snapshot_dir(
-            self.discovery_dirname(test_location=test_location),
+            discovery_dir,
             ignore_extensions=ignore_extensions,
         ):
             if self.owns_snapshot_collection(
@@ -140,10 +147,11 @@ class SnapshotCollectionStorage(ABC):
                 )
                 if not snapshot_collection.has_snapshots:
                     snapshot_collection = SnapshotEmptyCollection(location=filepath)
-            else:
-                snapshot_collection = SnapshotCollection(location=filepath)
-
-            discovered.add(snapshot_collection)
+                discovered.add(snapshot_collection)
+            elif not directory_scoped:
+                # File-scoped discovery: unowned files in this extension's
+                # directory are hanging/unknown and eligible for cleanup.
+                discovered.add(SnapshotCollection(location=filepath))
 
         return discovered
 

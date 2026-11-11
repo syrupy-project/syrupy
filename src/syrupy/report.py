@@ -319,10 +319,7 @@ class SnapshotReport:
             if (
                 self._provided_test_paths
                 and not self._ran_items_match_location(snapshot_location)
-                and not any(
-                    Path(path).is_dir() and Path(snapshot_location).is_relative_to(path)
-                    for path in self._provided_test_paths
-                )
+                and not self._directory_selection_allows_cleanup(snapshot_location)
             ):
                 # Paths/Packages were provided to pytest and the snapshot location does
                 # not match any of ran tests therefore ignore this unused snapshot file
@@ -682,6 +679,23 @@ class SnapshotReport:
             location.matches_snapshot_location(snapshot_location)
             for location in self._candidates(self._ran_locations, snapshot_location)
         )
+
+    def _directory_selection_allows_cleanup(self, snapshot_location: str) -> bool:
+        """
+        True when a directory path argument covers this snapshot and the owning
+        test module is gone.
+
+        Directory args (e.g. ``pytest . --snapshot-update``) must still clean
+        orphans left by deleted test files. They must not delete snapshots for
+        tests excluded from collection with ``--ignore`` / similar, where the
+        module still exists on disk.
+        """
+        if not any(
+            Path(path).is_dir() and Path(snapshot_location).is_relative_to(path)
+            for path in self._provided_test_paths
+        ):
+            return False
+        return not PyTestLocation.owning_test_module_exists(snapshot_location)
 
 
 @cache
