@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794245008211,
+  "lastUpdate": 1794356770682,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -21363,6 +21363,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3459609070640463",
             "extra": "mean: 1.2521192253999984 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f834c94811c9fff3a4ac54bf7ed27d2832974dcf",
+          "message": "test: keep unrelated snapshots during update (#1272)\n\nA JSON update should leave a neighboring Amber collection in place, and a directory update with --ignore should leave the ignored test's snapshots in place.",
+          "timestamp": "2026-11-10T19:25:18-05:00",
+          "tree_id": "7d7664910bad8132349eed02fc1ba146f0c4810a",
+          "url": "https://github.com/syrupy-project/syrupy/commit/f834c94811c9fff3a4ac54bf7ed27d2832974dcf"
+        },
+        "date": 1794356769978,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0021109394788141,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1135525542823575",
+            "extra": "mean: 997.8935071999991 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8722173054489564,
+            "unit": "iter/sec",
+            "range": "stddev: 0.24635976568081247",
+            "extra": "mean: 1.1465032782000009 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.351955053183099,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0034594432714477484",
+            "extra": "mean: 425.1781932 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.868865154905373,
+            "unit": "iter/sec",
+            "range": "stddev: 0.46043135866042517",
+            "extra": "mean: 1.1509265786 sec\nrounds: 5"
           }
         ]
       }
