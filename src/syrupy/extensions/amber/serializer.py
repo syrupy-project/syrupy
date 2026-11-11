@@ -14,7 +14,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     NamedTuple,
-    Optional,
 )
 
 from syrupy.constants import (
@@ -77,16 +76,6 @@ class MissingVersionError(Exception):
     """
     Missing Amber version marker.
     """
-
-
-def removesuffix(string: str, suffix: str) -> str:
-    """
-    Can be replaced with str.removesuffix once Py3.8 support is dropped.
-    """
-
-    if string.endswith(suffix):
-        return string[: -len(suffix)]
-    return string
 
 
 class AmberDataSerializerPlugin(ABC):
@@ -282,9 +271,9 @@ class AmberDataSerializer:
                             if test_name and snapshot_data:
                                 yield Snapshot(
                                     name=test_name,
-                                    data=removesuffix(snapshot_data, "\r\n")
+                                    data=snapshot_data.removesuffix("\r\n")
                                     if snapshot_data.endswith("\r\n")
-                                    else removesuffix(snapshot_data, "\n"),
+                                    else snapshot_data.removesuffix("\n"),
                                     tainted=tainted,
                                 )
                             test_name = None
@@ -320,9 +309,9 @@ class AmberDataSerializer:
         cls,
         data: "SerializableData",
         *,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
     ) -> str:
         """
         After serializing, new line control characters are normalised. This is needed
@@ -341,9 +330,9 @@ class AmberDataSerializer:
         data: "SerializableData",
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -404,9 +393,9 @@ class AmberDataSerializer:
         data: float,
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -418,9 +407,9 @@ class AmberDataSerializer:
         data: str,
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -446,9 +435,9 @@ class AmberDataSerializer:
         data: Iterable["SerializableData"],
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -476,9 +465,9 @@ class AmberDataSerializer:
         data: set["SerializableData"],
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -501,9 +490,9 @@ class AmberDataSerializer:
         data: NamedTuple,
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -525,9 +514,9 @@ class AmberDataSerializer:
         data: Any,
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -550,9 +539,9 @@ class AmberDataSerializer:
         data: dict["PropertyName", "SerializableData"],
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -581,9 +570,9 @@ class AmberDataSerializer:
         data: FunctionType,
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -597,9 +586,9 @@ class AmberDataSerializer:
         data: Any,
         *,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         visited: set[Any] | None = None,
     ) -> str:
@@ -679,9 +668,9 @@ class AmberDataSerializer:
         open_paren: str | None = None,
         close_paren: str | None = None,
         depth: int = 0,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         path: "PropertyPath" = (),
         separator: str | None = None,
         serialize_key: bool = False,

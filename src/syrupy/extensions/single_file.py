@@ -1,9 +1,8 @@
-from enum import Enum
+from enum import StrEnum
 from gettext import gettext
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Optional,
 )
 from unicodedata import category
 
@@ -21,20 +20,14 @@ from .base import AbstractSyrupyExtension
 
 if TYPE_CHECKING:
     from syrupy.types import (
-        PropertyFilter,
-        PropertyMatcher,
-        SerializableData,
         SerializedData,
         SnapshotIndex,
     )
 
 
-class WriteMode(Enum):
+class WriteMode(StrEnum):
     BINARY = "b"
     TEXT = "t"
-
-    def __str__(self) -> str:
-        return self.value
 
 
 class SingleFileSnapshotExtension(AbstractSyrupyExtension):
@@ -47,9 +40,9 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self,
         data: "SerializableData",
         *,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: PropertyFilter | None = None,
+        include: PropertyFilter | None = None,
+        matcher: PropertyMatcher | None = None,
     ) -> "SerializedData":
         supported_dataclass = self.get_supported_dataclass()
         if supported_dataclass is bytes:
@@ -128,7 +121,7 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
     def read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str, session_id: str
-    ) -> Optional["SerializableData"]:
+    ) -> SerializableData | None:
         try:
             with open(
                 snapshot_location,
@@ -198,9 +191,9 @@ class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
         self,
         data: "SerializableData",
         *,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: PropertyFilter | None = None,
+        include: PropertyFilter | None = None,
+        matcher: PropertyMatcher | None = None,
     ) -> "SerializedData":
         return AmberDataSerializer.serialize(
             data, exclude=exclude, include=include, matcher=matcher
@@ -208,7 +201,7 @@ class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):
 
     def read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str, session_id: str
-    ) -> Optional["SerializableData"]:
+    ) -> SerializableData | None:
         snapshot_collection = AmberDataSerializer.read_file(snapshot_location)
         if not snapshot_collection or not snapshot_collection.has_snapshots:
             return None

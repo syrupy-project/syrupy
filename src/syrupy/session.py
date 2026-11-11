@@ -10,7 +10,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Literal,
-    Optional,
 )
 
 import pytest
@@ -91,7 +90,7 @@ class SnapshotSession:
     ignore_file_extensions: list[str] | None = None
 
     # Snapshot report generated on finish
-    report: Optional["SnapshotReport"] = None
+    report: SnapshotReport | None = None
     # All the collected test items, keyed by nodeid to preserve collection order
     _collected_items: dict[str, "pytest.Item"] = field(default_factory=dict)
     # All the selected test items. Will be set to False until the test item is run.
@@ -178,7 +177,7 @@ class SnapshotSession:
         extension: "AbstractSyrupyExtension",
         test_location: "PyTestLocation",
         index: "SnapshotIndex",
-    ) -> Optional["SerializedData"]:
+    ) -> SerializedData | None:
         """Find the current value of the snapshot, for this session, either a pending write or the actual snapshot."""
 
         ext_key, loc_key = self._snapshot_write_queue_keys(

@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
-    Optional,
 )
 
 from syrupy.data import SnapshotCollection
@@ -79,7 +78,7 @@ class AmberSnapshotExtension(AbstractSyrupyExtension):
 
     def read_snapshot_data_from_location(
         self, snapshot_location: str, snapshot_name: str, session_id: str
-    ) -> Optional["SerializableData"]:
+    ) -> "SerializableData | None":
         snapshots = self.__cacheable_read_snapshot(
             snapshot_location=snapshot_location, cache_key=session_id
         )

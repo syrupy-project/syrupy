@@ -9,7 +9,6 @@ from itertools import zip_longest
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
-    Optional,
 )
 
 from syrupy.constants import (
@@ -57,9 +56,9 @@ class SnapshotSerializer(ABC):
         self,
         data: "SerializableData",
         *,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
     ) -> "SerializedData":
         """
         Serializes a python object / data structure into a string
@@ -256,7 +255,7 @@ class SnapshotCollectionStorage(ABC):
     @abstractmethod
     def read_snapshot_data_from_location(
         self, *, snapshot_location: str, snapshot_name: str, session_id: str
-    ) -> Optional["SerializedData"]:
+    ) -> "SerializedData | None":
         """
         Get only the snapshot data from location for assertion
         """

@@ -4,10 +4,7 @@ import sys
 from collections.abc import Iterator
 from functools import lru_cache
 from gettext import gettext
-from typing import (
-    Any,
-    Optional,
-)
+from typing import Any
 
 import pytest
 
@@ -31,7 +28,7 @@ from .utils import (
 )
 
 # Global to have access to the session in `pytest_runtest_logfinish` hook
-_syrupy: Optional["SnapshotSession"] = None
+_syrupy: SnapshotSession | None = None
 
 
 @lru_cache(maxsize=1)
