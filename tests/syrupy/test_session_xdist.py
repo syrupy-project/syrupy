@@ -154,7 +154,9 @@ def test_worker_compresses_large_collection_report(monkeypatch):
         separators=(",", ":"),
     ).encode()
     assert isinstance(compressed, bytes)
-    assert len(compressed) < len(uncompressed) // 5
+    # Level-1 zlib is typically >>4x on this payload; keep headroom for
+    # platform zlib variance (Windows CI has landed ~4.4x).
+    assert len(compressed) < len(uncompressed) // 4
 
     controller = _session()
     controller.add_worker_report(
