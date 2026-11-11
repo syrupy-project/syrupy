@@ -106,6 +106,18 @@ class SnapshotCollectionStorage(ABC):
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self.file_extension)
 
+    def owns_snapshot_collection(
+        self, *, filepath: str, test_location: "PyTestLocation"
+    ) -> bool:
+        """
+        Checks if this extension owns the collection file found at ``filepath``
+        while scanning ``discovery_dirname``. Defaults to
+        ``is_snapshot_location``. Extensions whose collections nest inside a
+        shared snapshot directory should override this so foreign files in the
+        shared directory are not misattributed to them.
+        """
+        return self.is_snapshot_location(location=filepath)
+
     def discover_snapshots(
         self,
         *,
@@ -116,20 +128,30 @@ class SnapshotCollectionStorage(ABC):
         Returns all snapshot collections in test site
         """
         discovered = SnapshotCollections()
+        discovery_dir = self.discovery_dirname(test_location=test_location)
+        # Directory-scoped discovery (e.g. single-file) scans a shared parent that
+        # may contain other extensions' collections. Only claim owned files there;
+        # do not record foreign paths as empty/unknown or they get deleted.
+        directory_scoped = Path(discovery_dir) != Path(
+            self.dirname(test_location=test_location)
+        )
         for filepath in walk_snapshot_dir(
-            self.dirname(test_location=test_location),
+            discovery_dir,
             ignore_extensions=ignore_extensions,
         ):
-            if self.is_snapshot_location(location=filepath):
+            if self.owns_snapshot_collection(
+                filepath=filepath, test_location=test_location
+            ):
                 snapshot_collection = self.read_snapshot_collection(
                     snapshot_location=filepath
                 )
                 if not snapshot_collection.has_snapshots:
                     snapshot_collection = SnapshotEmptyCollection(location=filepath)
-            else:
-                snapshot_collection = SnapshotCollection(location=filepath)
-
-            discovered.add(snapshot_collection)
+                discovered.add(snapshot_collection)
+            elif not directory_scoped:
+                # File-scoped discovery: unowned files in this extension's
+                # directory are hanging/unknown and eligible for cleanup.
+                discovered.add(SnapshotCollection(location=filepath))
 
         return discovered
 
@@ -260,6 +282,17 @@ class SnapshotCollectionStorage(ABC):
     def dirname(cls, *, test_location: "PyTestLocation") -> str:
         test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath(cls.snapshot_dirname))
+
+    @classmethod
+    def discovery_dirname(cls, *, test_location: "PyTestLocation") -> str:
+        """
+        The directory scanned for snapshot collections at a test site.
+
+        Defaults to ``dirname``. Extensions that store collections inside
+        per-test-file directories should scan the shared parent directory so
+        that collections orphaned by deleted test files are still discovered.
+        """
+        return cls.dirname(test_location=test_location)
 
     @classmethod
     def get_file_basename(
