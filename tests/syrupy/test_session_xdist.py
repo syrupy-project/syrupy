@@ -119,7 +119,7 @@ def test_worker_publishes_minimal_report(monkeypatch):
     assert payload["extensions"] == {
         LOCATION: "syrupy.extensions.amber.AmberSnapshotExtension"
     }
-    # gw0 is the only worker that ships the collected items.
+    # Every worker ships compressed collected items (controller keeps first).
     assert isinstance(payload["collected"], bytes)
     collected = decompress_json(payload["collected"])
     assert collected[0]["nodeid"] == "test_a.py::test_a"
@@ -154,7 +154,9 @@ def test_worker_compresses_large_collection_report(monkeypatch):
         separators=(",", ":"),
     ).encode()
     assert isinstance(compressed, bytes)
-    assert len(compressed) < len(uncompressed) // 5
+    # Level-1 zlib is typically >>4x on this payload; keep headroom for
+    # platform zlib variance (Windows CI has landed ~4.4x).
+    assert len(compressed) < len(uncompressed) // 4
 
     controller = _session()
     controller.add_worker_report(
@@ -171,11 +173,26 @@ def test_worker_without_workeroutput_is_noop():
     worker._publish_worker_report()  # should not raise
 
 
-def test_non_gw0_worker_omits_collected(monkeypatch):
+def test_non_gw0_worker_publishes_collected(monkeypatch):
     monkeypatch.setenv("PYTEST_XDIST_WORKER", "gw1")
     worker = _session(workeroutput={})
+
+    class _Obj:
+        __module__ = "test_b"
+        __name__ = "test_b"
+
+    class _Item:
+        nodeid = "test_b.py::test_b"
+        name = "test_b"
+        path = Path("/tmp/test_b.py")
+        obj = _Obj()
+
+    worker._collected_items = {"test_b.py::test_b": _Item()}
     worker._publish_worker_report()
-    assert "collected" not in worker.pytest_session.config.workeroutput["syrupy_report"]
+    payload = worker.pytest_session.config.workeroutput["syrupy_report"]
+    assert isinstance(payload["collected"], bytes)
+    collected = decompress_json(payload["collected"])
+    assert collected[0]["nodeid"] == "test_b.py::test_b"
 
 
 def test_controller_uses_first_collected_only():
@@ -329,6 +346,51 @@ def test_merge_warns_when_selected_missing_from_collected():
     with pytest.warns(UserWarning, match="missing from collected items"):
         controller._merge_worker_reports()
     assert list(controller.report.ran_items) == []
+
+
+def test_finish_skips_unused_when_worker_reports_incomplete():
+    """Missing worker syrupy_report must not delete/fail on unused snapshots."""
+    from syrupy.constants import EXIT_STATUS_FAIL_UNUSED
+    from syrupy.utils import set_snapshot_file_lock
+
+    controller = _session(xdist=True, numprocesses=2)
+    empty_collections = {
+        name: {}
+        for name in (
+            "discovered",
+            "created",
+            "failed",
+            "matched",
+            "updated",
+            "used",
+        )
+    }
+    # Only one of two workers reported — unused accounting is incomplete.
+    controller.add_worker_report(
+        {
+            "collections": empty_collections,
+            "num_xfails": 0,
+            "selected": {"test_a.py::test_a": "passed"},
+            "extensions": {},
+            "collected": compress_json(
+                [
+                    {
+                        "nodeid": "test_a.py::test_a",
+                        "name": "test_a",
+                        "path": "/tmp/test_a.py",
+                        "modulename": "test_a",
+                        "methodname": "test_a",
+                    }
+                ]
+            ),
+        }
+    )
+    try:
+        with pytest.warns(UserWarning, match="received 1 of 2 xdist worker"):
+            exitstatus = controller.finish()
+        assert exitstatus & EXIT_STATUS_FAIL_UNUSED == 0
+    finally:
+        set_snapshot_file_lock(False)
 
 
 def test_flush_tracks_location_before_write_for_sidecar_cleanup(

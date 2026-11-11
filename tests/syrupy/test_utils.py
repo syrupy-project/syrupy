@@ -15,6 +15,7 @@ from syrupy.utils import (
     should_use_snapshot_file_lock,
     snapshot_write_sidecar_paths,
     walk_snapshot_dir,
+    warn_incomplete_worker_reports,
     warn_selected_collected_mismatch,
 )
 
@@ -312,6 +313,11 @@ def test_warn_selected_collected_mismatch() -> None:
             ["a::test", "b::test"],
             {"a::test"},
         )
+
+
+def test_warn_incomplete_worker_reports() -> None:
+    with pytest.warns(UserWarning, match="received 1 of 2 xdist worker"):
+        warn_incomplete_worker_reports(received=1, expected=2)
 
 
 def test_set_snapshot_file_lock_timeout_context() -> None:
