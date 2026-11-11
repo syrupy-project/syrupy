@@ -10,7 +10,6 @@ from types import (
 from typing import (
     TYPE_CHECKING,
     Any,
-    Optional,
 )
 
 from syrupy.constants import SYMBOL_ELLIPSIS
@@ -55,9 +54,9 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         *,
         depth: int = 0,
         path: "PropertyPath",
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         visited: set[Any] | None = None,
     ) -> "SerializableData":
         data_id = id(data)
@@ -152,9 +151,9 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         self,
         data: "SerializableData",
         *,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
     ) -> "SerializedData":
         data = self._filter(
             data=data,

@@ -5,7 +5,6 @@ from dataclasses import (
 )
 from typing import (
     TYPE_CHECKING,
-    Optional,
 )
 
 from .constants import (
@@ -20,7 +19,7 @@ if TYPE_CHECKING:
 @dataclass(frozen=True)
 class Snapshot:
     name: str
-    data: Optional["SerializedData"] = None
+    data: "SerializedData | None" = None
     # A tainted snapshot needs to be regenerated
     tainted: bool | None = field(default=None)
 
@@ -49,7 +48,7 @@ class SnapshotCollection:
     def has_snapshots(self) -> bool:
         return bool(self._snapshots)
 
-    def get(self, snapshot_name: str) -> Optional["Snapshot"]:
+    def get(self, snapshot_name: str) -> Snapshot | None:
         return self._snapshots.get(snapshot_name)
 
     def add(self, snapshot: "Snapshot") -> None:
@@ -97,7 +96,7 @@ class SnapshotUnknownCollection(SnapshotCollection):
 class SnapshotCollections:
     _snapshot_collections: dict[str, "SnapshotCollection"] = field(default_factory=dict)
 
-    def get(self, location: str) -> Optional["SnapshotCollection"]:
+    def get(self, location: str) -> SnapshotCollection | None:
         return self._snapshot_collections.get(location)
 
     def add(self, snapshot_collection: "SnapshotCollection") -> None:

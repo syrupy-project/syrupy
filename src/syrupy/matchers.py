@@ -4,7 +4,6 @@ from gettext import gettext
 from typing import (
     TYPE_CHECKING,
     Any,
-    Optional,
 )
 
 from syrupy.extensions.amber.serializer import (
@@ -55,7 +54,7 @@ def path_type(
 
     def path_type_matcher(
         *, data: "SerializableData", path: "PropertyPath"
-    ) -> Optional["SerializableData"]:
+    ) -> "SerializableData | None":
         path_str = ".".join(str(p) for p, _ in path)
         if mapping:
             for pattern in mapping:
@@ -123,7 +122,7 @@ def compose_matchers(*matchers: "PropertyMatcher") -> "PropertyMatcher":
 
     def _matcher(
         *, data: "SerializableData", path: "PropertyPath"
-    ) -> Optional["SerializableData"]:
+    ) -> "SerializableData | None":
         for matcher in matchers:
             try:
                 data = matcher(data=data, path=path)

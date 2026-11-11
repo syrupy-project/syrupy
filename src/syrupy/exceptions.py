@@ -1,5 +1,3 @@
-from typing import Optional
-
 from syrupy.types import SerializedData
 
 
@@ -14,8 +12,8 @@ class FailedToLoadModuleMember(Exception):
 class TaintedSnapshotError(Exception):
     """The snapshot needs to be regenerated."""
 
-    snapshot_data: Optional["SerializedData"]
+    snapshot_data: SerializedData | None
 
-    def __init__(self, snapshot_data: Optional["SerializedData"] = None) -> None:
+    def __init__(self, snapshot_data: SerializedData | None = None) -> None:
         super().__init__()
         self.snapshot_data = snapshot_data

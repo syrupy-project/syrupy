@@ -5,12 +5,11 @@ from dataclasses import (
     dataclass,
     field,
 )
-from enum import Enum
+from enum import StrEnum
 from gettext import gettext
 from typing import (
     TYPE_CHECKING,
     Any,
-    Optional,
 )
 
 from .exceptions import (
@@ -33,20 +32,17 @@ if TYPE_CHECKING:
     )
 
 
-class DiffMode(Enum):
+class DiffMode(StrEnum):
     DETAILED = "detailed"
     DISABLED = "disabled"
-
-    def __str__(self) -> str:
-        return self.value
 
 
 @dataclass
 class AssertionResult:
     snapshot_location: str
     snapshot_name: str
-    asserted_data: Optional["SerializedData"]
-    recalled_data: Optional["SerializedData"]
+    asserted_data: "SerializedData | None"
+    recalled_data: "SerializedData | None"
     created: bool
     updated: bool
     success: bool
@@ -54,7 +50,7 @@ class AssertionResult:
     test_location: "PyTestLocation"
 
     @property
-    def final_data(self) -> Optional["SerializedData"]:
+    def final_data(self) -> "SerializedData | None":
         if self.created or self.updated:
             return self.asserted_data
         return self.recalled_data
@@ -67,15 +63,15 @@ class SnapshotAssertion:
     test_location: "PyTestLocation"
     update_snapshots: bool
     update_new_snapshots_only: bool = False
-    include: Optional["PropertyFilter"] = None
-    exclude: Optional["PropertyFilter"] = None
-    matcher: Optional["PropertyMatcher"] = None
+    include: "PropertyFilter | None" = None
+    exclude: "PropertyFilter | None" = None
+    matcher: "PropertyMatcher | None" = None
 
-    _exclude: Optional["PropertyFilter"] = field(
+    _exclude: "PropertyFilter | None" = field(
         init=False,
         default=None,
     )
-    _include: Optional["PropertyFilter"] = field(
+    _include: "PropertyFilter | None" = field(
         init=False,
         default=None,
     )
@@ -83,7 +79,7 @@ class SnapshotAssertion:
         init=False,
         default=None,
     )
-    _extension: Optional["AbstractSyrupyExtension"] = field(
+    _extension: "AbstractSyrupyExtension | None" = field(
         init=False,
         default=None,
     )
@@ -98,7 +94,7 @@ class SnapshotAssertion:
     _execution_name_index: dict["SnapshotIndex", int] = field(
         init=False, default_factory=dict
     )
-    _matcher: Optional["PropertyMatcher"] = field(
+    _matcher: "PropertyMatcher | None" = field(
         init=False,
         default=None,
     )
@@ -170,7 +166,7 @@ class SnapshotAssertion:
 
         def _matcher(
             *, data: "SerializableData", path: "PropertyPath"
-        ) -> Optional["SerializableData"]:
+        ) -> "SerializableData | None":
             if isinstance(data, SnapshotAssertion):
                 return data.__repr
             if self._matcher:
@@ -182,9 +178,9 @@ class SnapshotAssertion:
     def with_defaults(
         self,
         *,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
-        matcher: Optional["PropertyMatcher"] = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
+        matcher: "PropertyMatcher | None" = None,
         extension_class: type["AbstractSyrupyExtension"] | None = None,
     ) -> "SnapshotAssertion":
         """
@@ -270,13 +266,13 @@ class SnapshotAssertion:
     def __call__(
         self,
         *,
-        diff: Optional["SnapshotIndex"] = None,
-        diff_data: Optional["SerializableData"] = None,
-        exclude: Optional["PropertyFilter"] = None,
-        include: Optional["PropertyFilter"] = None,
+        diff: "SnapshotIndex | None" = None,
+        diff_data: "SerializableData | None" = None,
+        exclude: "PropertyFilter | None" = None,
+        include: "PropertyFilter | None" = None,
         extension_class: type["AbstractSyrupyExtension"] | None = None,
-        matcher: Optional["PropertyMatcher"] = None,
-        name: Optional["SnapshotIndex"] = None,
+        matcher: "PropertyMatcher | None" = None,
+        name: "SnapshotIndex | None" = None,
     ) -> "SnapshotAssertion":
         """
         Modifies assertion instance options
@@ -384,7 +380,7 @@ class SnapshotAssertion:
 
     def _recall_data(
         self, index: "SnapshotIndex"
-    ) -> tuple[Optional["SerializableData"], bool]:
+    ) -> tuple["SerializableData | None", bool]:
         try:
             return (
                 self.session.recall_snapshot(self.extension, self.test_location, index),
