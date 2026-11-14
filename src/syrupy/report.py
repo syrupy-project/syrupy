@@ -636,8 +636,8 @@ class SnapshotReport:
         Check that a snapshot name would match a test node using the Pytest location
         """
         for location in self._candidates(self._ran_locations, snapshot_location):
-            if location.matches_snapshot_location(
-                snapshot_location
+            if self._matches_location(
+                location, snapshot_location
             ) and location.matches_snapshot_name(snapshot_name):
                 return True
         return False
@@ -650,8 +650,8 @@ class SnapshotReport:
         This being true means that it will not be deleted even if the it is unused
         """
         for location in self._candidates(self._skipped_locations, snapshot_location):
-            if location.matches_snapshot_location(
-                snapshot_location
+            if self._matches_location(
+                location, snapshot_location
             ) and location.matches_snapshot_name(snapshot_name):
                 return True
         return False
@@ -676,8 +676,25 @@ class SnapshotReport:
         should be discarded as obsolete
         """
         return any(
-            location.matches_snapshot_location(snapshot_location)
+            self._matches_location(location, snapshot_location)
             for location in self._candidates(self._ran_locations, snapshot_location)
+        )
+
+    def _matches_location(
+        self, location: "PyTestLocation", snapshot_location: str
+    ) -> bool:
+        """
+        Associate a snapshot path with a test.
+
+        Prefer the extension that discovered the file. Single-file snapshots
+        truncate long parametrized names, and only that extension knows the
+        resulting filename.
+        """
+        extension = self._extensions.get(snapshot_location)
+        if extension is None:
+            return location.matches_snapshot_location(snapshot_location)
+        return extension.matches_test_location(
+            test_location=location, snapshot_location=snapshot_location
         )
 
     def _directory_selection_allows_cleanup(self, snapshot_location: str) -> bool:

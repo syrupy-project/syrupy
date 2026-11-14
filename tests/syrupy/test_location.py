@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from syrupy.constants import PYTEST_NODE_SEP
+from syrupy.extensions.single_file import SingleFileSnapshotExtension
 from syrupy.location import PyTestLocation
 
 
@@ -194,4 +195,94 @@ def test_location_parametrized_single_file_snapshot_in_test_site():
 
     assert location.matches_snapshot_location(
         "/tests/module/test_file/TestClass.method_name[1].snap"
+    )
+
+
+class _MultiDotExtension(SingleFileSnapshotExtension):
+    file_extension = "custom.raw"
+
+
+def _parametrized_location(node_id: str) -> PyTestLocation:
+    return PyTestLocation(mock_pytest_item(node_id, "test_long"))
+
+
+def _single_file_path(basename: str, extension: str = "raw") -> str:
+    suffix = f".{extension}" if extension else ""
+    return f"/tests/module/__snapshots__/test_file/{basename}{suffix}"
+
+
+def test_truncated_parametrized_single_file_snapshot_matches_its_test():
+    """A 255-character single-file snapshot belongs to the id that produced it."""
+    long_id = "a" * 300
+    long_location = _parametrized_location(
+        f"/tests/module/test_file.py::test_long[{long_id}]"
+    )
+    short_location = _parametrized_location("/tests/module/test_file.py::test_long[a]")
+    other_location = _parametrized_location(
+        f"/tests/module/test_file.py::test_long[{'b' * 300}]"
+    )
+
+    basename = SingleFileSnapshotExtension.get_snapshot_name(
+        test_location=long_location
+    )
+    assert len(basename) + len(".raw") == 255
+    snapshot = _single_file_path(basename)
+
+    assert SingleFileSnapshotExtension.matches_test_location(
+        test_location=long_location, snapshot_location=snapshot
+    )
+    assert not SingleFileSnapshotExtension.matches_test_location(
+        test_location=short_location, snapshot_location=snapshot
+    )
+    assert not SingleFileSnapshotExtension.matches_test_location(
+        test_location=other_location, snapshot_location=snapshot
+    )
+    assert not SingleFileSnapshotExtension.matches_test_location(
+        test_location=long_location,
+        snapshot_location=f"/tests/other/__snapshots__/test_file/{basename}.raw",
+    )
+
+
+def test_truncated_multipart_extension_does_not_match_as_raw():
+    long_location = _parametrized_location(
+        f"/tests/module/test_file.py::test_long[{'a' * 300}]"
+    )
+    basename = _MultiDotExtension.get_snapshot_name(test_location=long_location)
+    assert len(basename) + len(".custom.raw") == 255
+    snapshot = _single_file_path(basename, "custom.raw")
+
+    assert _MultiDotExtension.matches_test_location(
+        test_location=long_location, snapshot_location=snapshot
+    )
+    assert not SingleFileSnapshotExtension.matches_test_location(
+        test_location=long_location, snapshot_location=snapshot
+    )
+
+
+def test_sanitized_truncated_name_matches_stored_stem():
+    dirty_location = _parametrized_location(
+        f"/tests/module/test_file.py::test_long[a?{'b' * 300}]"
+    )
+    basename = SingleFileSnapshotExtension.get_snapshot_name(
+        test_location=dirty_location
+    )
+    assert "?" not in basename
+    assert SingleFileSnapshotExtension.matches_test_location(
+        test_location=dirty_location,
+        snapshot_location=_single_file_path(basename),
+    )
+
+
+def test_untruncated_parametrized_single_file_snapshot_still_matches():
+    short_location = _parametrized_location("/tests/module/test_file.py::test_long[a]")
+    basename = SingleFileSnapshotExtension.get_snapshot_name(
+        test_location=short_location
+    )
+    assert SingleFileSnapshotExtension.matches_test_location(
+        test_location=short_location,
+        snapshot_location=_single_file_path(basename),
+    )
+    assert SingleFileSnapshotExtension.matches_test_location(
+        test_location=short_location,
+        snapshot_location=_single_file_path(f"{basename}.1"),
     )
