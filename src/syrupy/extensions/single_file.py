@@ -171,7 +171,8 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
 
     @classmethod
     def __clean_filename(cls, filename: str) -> str:
-        max_filename_length = 255 - len(cls.file_extension or "")
+        file_ext_len = len(cls.file_extension) + 1 if cls.file_extension else 0
+        max_filename_length = 255 - file_ext_len
         exclude_chars = '\\/?*:|"<>'
         exclude_categ = ("C",)
         cleaned_filename = "".join(
