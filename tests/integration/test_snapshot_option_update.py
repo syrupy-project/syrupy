@@ -552,6 +552,67 @@ def test_directory_update_preserves_ignored_test_snapshots(testdir, plugin_args)
     assert foo.exists()
 
 
+def _foo_and_bar(testdir):
+    testdir.makepyfile(
+        test_foo=(
+            """
+            def test_foo(snapshot):
+                assert snapshot == "foo"
+            """
+        ),
+        test_bar=(
+            """
+            def test_bar(snapshot):
+                assert snapshot == "bar"
+            """
+        ),
+    )
+    assert testdir.runpytest("-v", "--snapshot-update").ret == 0
+    bar = Path(testdir.tmpdir, "__snapshots__", "test_bar.ambr")
+    assert bar.exists()
+    return bar
+
+
+@pytest.mark.parametrize(
+    "testpaths", [False, True], ids=["invocation_dir", "testpaths"]
+)
+def test_update_without_path_args_preserves_ignored_test_snapshots(
+    testdir, plugin_args, testpaths
+):
+    """Same as `test_directory_update_preserves_ignored_test_snapshots`, but with no
+    path on the command line: pytest collects from `testpaths` or the invocation
+    directory, and the snapshots of an ignored module must survive all the same."""
+    if testpaths:
+        testdir.makeini("[pytest]\ntestpaths = .\n")
+    bar = _foo_and_bar(testdir)
+
+    result = testdir.runpytest(
+        "-v", "--ignore=test_bar.py", "--snapshot-update", *plugin_args
+    )
+
+    assert result.ret == 0
+    assert "test_bar" not in result.stdout.str()
+    assert "# name: test_bar" in bar.read_text()
+
+
+@pytest.mark.parametrize(
+    "testpaths", [False, True], ids=["invocation_dir", "testpaths"]
+)
+def test_run_without_path_args_does_not_report_ignored_test_snapshots(
+    testdir, plugin_args, testpaths
+):
+    """Without `--snapshot-update`: the ignored module's snapshots are not unused,
+    so the session does not fail."""
+    if testpaths:
+        testdir.makeini("[pytest]\ntestpaths = .\n")
+    _foo_and_bar(testdir)
+
+    result = testdir.runpytest("-v", "--ignore=test_bar.py", *plugin_args)
+
+    assert result.ret == 0
+    assert "unused" not in result.stdout.str()
+
+
 @pytest.mark.parametrize(
     "selection",
     [
