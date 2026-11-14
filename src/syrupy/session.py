@@ -419,6 +419,9 @@ class SnapshotSession:
                     received=len(self._worker_reports),
                     expected=expected_workers,
                 )
+                # Partial merges make unused counts wrong; suppress them in the
+                # printed summary the same way --snapshot-disable-unused does.
+                self.report.unused_detection_incomplete = True
                 return exitstatus
 
             if self.report.num_unused:

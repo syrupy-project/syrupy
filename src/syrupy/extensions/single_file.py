@@ -91,6 +91,44 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             return dirname
         return str(Path(dirname).parent)
 
+    def is_snapshot_location(self, *, location: str) -> bool:
+        """
+        Match this extension's snapshot files.
+
+        ``str.endswith("")`` is true for every path, so an empty
+        ``file_extension`` would otherwise claim every nested single-file
+        snapshot during directory-scoped discovery (including ``.json``,
+        ``.raw``, images, etc.) and treat them as unused.
+        """
+        if self.file_extension:
+            return super().is_snapshot_location(location=location)
+        name = Path(location).name
+        return not any(
+            name.endswith(f".{ext}") for ext in self._concrete_file_extensions()
+        )
+
+    @classmethod
+    def _concrete_file_extensions(cls) -> frozenset[str]:
+        # Import built-ins so they count even when this session never used them.
+        from syrupy.extensions.image import (  # noqa: F401
+            PNGImageSnapshotExtension,
+            SVGImageSnapshotExtension,
+        )
+        from syrupy.extensions.json import JSONSnapshotExtension  # noqa: F401
+
+        extensions: set[str] = set()
+        if SingleFileSnapshotExtension.file_extension:
+            extensions.add(SingleFileSnapshotExtension.file_extension)
+        stack: list[type[SingleFileSnapshotExtension]] = list(
+            SingleFileSnapshotExtension.__subclasses__()
+        )
+        while stack:
+            sub = stack.pop()
+            stack.extend(sub.__subclasses__())
+            if sub.file_extension:
+                extensions.add(sub.file_extension)
+        return frozenset(extensions)
+
     def owns_snapshot_collection(
         self, *, filepath: str, test_location: "PyTestLocation"
     ) -> bool:
@@ -112,7 +150,9 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
         self, *, snapshot_location: str
     ) -> "SnapshotCollection":
         file_ext_len = len(self.file_extension) + 1 if self.file_extension else 0
-        filename_wo_ext = snapshot_location[:-file_ext_len]
+        filename_wo_ext = (
+            snapshot_location[:-file_ext_len] if file_ext_len else snapshot_location
+        )
         basename = Path(filename_wo_ext).parts[-1]
 
         snapshot_collection = SnapshotCollection(location=snapshot_location)
