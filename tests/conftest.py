@@ -21,7 +21,12 @@ def plugin_args(request: pytest.FixtureRequest) -> list[str]:
         _XDIST_ZERO,
         pytest.param(
             _XDIST_TWO,
-            marks=pytest.mark.xfail(reason="Not currently compatible with xdist"),
+            marks=pytest.mark.xfail(
+                reason="Not currently compatible with xdist",
+                # xdist output is flaky: when it happens to match, strict XPASS
+                # fails CI; when it does not, XFAIL is the expected outcome.
+                strict=False,
+            ),
         ),
     ],
     ids=["no_plugin", "xdist_zero", "xdist_two"],

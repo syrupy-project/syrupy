@@ -389,6 +389,9 @@ def test_finish_skips_unused_when_worker_reports_incomplete():
         with pytest.warns(UserWarning, match="received 1 of 2 xdist worker"):
             exitstatus = controller.finish()
         assert exitstatus & EXIT_STATUS_FAIL_UNUSED == 0
+        assert controller.report is not None
+        assert controller.report.unused_detection_incomplete
+        assert controller.report.disable_unused_snapshots
     finally:
         set_snapshot_file_lock(False)
 

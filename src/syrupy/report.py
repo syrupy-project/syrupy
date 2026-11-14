@@ -63,6 +63,9 @@ class SnapshotReport:
     assertions: list["SnapshotAssertion"]
     # True when --lf removed tests during collection. See SnapshotSession._lf_filtered.
     lf_filtered: bool = False
+    # True when pytest-xdist worker syrupy reports are incomplete; unused
+    # accounting from a partial merge must not be printed or acted on.
+    unused_detection_incomplete: bool = False
 
     # All of these are derived from the initial arguments and via walking the filesystem
     discovered: "SnapshotCollections" = field(default_factory=SnapshotCollections)
@@ -86,7 +89,10 @@ class SnapshotReport:
 
     @property
     def disable_unused_snapshots(self) -> bool:
-        return bool(getattr(self.options, "disable_unused_snapshots", False))
+        return bool(
+            getattr(self.options, "disable_unused_snapshots", False)
+            or self.unused_detection_incomplete
+        )
 
     @property
     def should_delete_unused_snapshots(self) -> bool:
