@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v7.0.1](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.1) (2026-11-14)
+
+## What's Changed
+* refactor: clean up pre-3.11 Python patterns by @noahnu in https://github.com/syrupy-project/syrupy/pull/1295
+* fix: reserve the extension separator in snapshot filenames by @anticipate218 in https://github.com/syrupy-project/syrupy/pull/1298
+* docs: add anticipate218 as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1300
+* fix: keep truncated single-file snapshots tied to their tests by @noahnu in https://github.com/syrupy-project/syrupy/pull/1301
+* fix: extensionless single-file snapshots follow-up by @noahnu in https://github.com/syrupy-project/syrupy/pull/1304
+* fix: read extensionless single-file snapshots by @anticipate218 in https://github.com/syrupy-project/syrupy/pull/1299
+* fix: keep snapshots of ignored test files when no path argument is given by @noahnu in https://github.com/syrupy-project/syrupy/pull/1305
+* fix: keep snapshots of ignored test files when no path argument is given by @Culaii in https://github.com/syrupy-project/syrupy/pull/1303
+* docs: add Culaii as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1306
+
+## New Contributors
+* @anticipate218 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1298
+* @Culaii made their first contribution in https://github.com/syrupy-project/syrupy/pull/1303
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v7.0.0...v7.0.1
+
 ## [v7.0.0](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.0) (2026-11-11)
 
 ## What's Changed

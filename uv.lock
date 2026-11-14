@@ -856,7 +856,7 @@ wheels = [
 
 [[package]]
 name = "syrupy"
-version = "7.0.0"
+version = "7.0.1"
 source = { editable = "." }
 default-groups = ["dev", "test"]
 dependencies = [
