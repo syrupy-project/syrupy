@@ -557,6 +557,132 @@ def test_directory_update_preserves_ignored_test_snapshots(testdir, plugin_args)
     assert foo.exists()
 
 
+def _foo_and_bar(testdir):
+    testdir.makepyfile(
+        test_foo=(
+            """
+            def test_foo(snapshot):
+                assert snapshot == "foo"
+            """
+        ),
+        test_bar=(
+            """
+            def test_bar(snapshot):
+                assert snapshot == "bar"
+            """
+        ),
+    )
+    assert testdir.runpytest("-v", "--snapshot-update").ret == 0
+    bar = Path(testdir.tmpdir, "__snapshots__", "test_bar.ambr")
+    assert bar.exists()
+    return bar
+
+
+@pytest.mark.parametrize(
+    "testpaths", [False, True], ids=["invocation_dir", "testpaths"]
+)
+def test_update_without_path_args_preserves_ignored_test_snapshots(
+    testdir, plugin_args, testpaths
+):
+    """Same as `test_directory_update_preserves_ignored_test_snapshots`, but with no
+    path on the command line: pytest collects from `testpaths` or the invocation
+    directory, and the snapshots of an ignored module must survive all the same."""
+    if testpaths:
+        testdir.makeini("[pytest]\ntestpaths = .\n")
+    bar = _foo_and_bar(testdir)
+
+    result = testdir.runpytest(
+        "-v", "--ignore=test_bar.py", "--snapshot-update", *plugin_args
+    )
+
+    assert result.ret == 0
+    assert "test_bar" not in result.stdout.str()
+    assert "# name: test_bar" in bar.read_text()
+
+
+@pytest.mark.parametrize(
+    "testpaths", [False, True], ids=["invocation_dir", "testpaths"]
+)
+def test_run_without_path_args_does_not_report_ignored_test_snapshots(
+    testdir, plugin_args, testpaths
+):
+    """Without `--snapshot-update`: the ignored module's snapshots are not unused,
+    so the session does not fail."""
+    if testpaths:
+        testdir.makeini("[pytest]\ntestpaths = .\n")
+    _foo_and_bar(testdir)
+
+    result = testdir.runpytest("-v", "--ignore=test_bar.py", *plugin_args)
+
+    assert result.ret == 0
+    assert "unused" not in result.stdout.str()
+
+
+def _tests_behind_symlink(testdir) -> Path:
+    """Test modules reached only through a directory symlink.
+
+    Pytest collects them via ``os.path.abspath`` (the link is kept). Snapshot
+    ownership resolves that link. The returned path is the ignored/removed
+    module's amber file, which lives on the real directory.
+    """
+    real = Path(testdir.tmpdir).parent / f"{Path(testdir.tmpdir).name}-real"
+    real.mkdir()
+    (real / "test_foo.py").write_text(
+        'def test_foo(snapshot):\n    assert snapshot == "foo"\n',
+        encoding="utf-8",
+    )
+    (real / "test_bar.py").write_text(
+        'def test_bar(snapshot):\n    assert snapshot == "bar"\n',
+        encoding="utf-8",
+    )
+    link = Path(testdir.tmpdir, "tests")
+    try:
+        link.symlink_to(real, target_is_directory=True)
+    except OSError:
+        pytest.skip("directory symlinks are not available")
+    assert testdir.runpytest("-v", "--snapshot-update").ret == 0
+    bar = real / "__snapshots__" / "test_bar.ambr"
+    assert bar.exists()
+    return bar
+
+
+def test_update_without_path_args_preserves_ignored_snapshots_behind_symlink(
+    testdir, plugin_args
+):
+    """``--ignore`` still keeps snapshots when the test dir is a symlink."""
+    bar = _tests_behind_symlink(testdir)
+
+    result = testdir.runpytest(
+        "-v",
+        "--ignore=tests/test_bar.py",
+        "--snapshot-update",
+        *plugin_args,
+    )
+
+    assert result.ret == 0
+    assert "unused" not in result.stdout.str()
+    assert "# name: test_bar" in bar.read_text()
+
+
+def test_run_without_path_args_reports_removed_tests_behind_symlink(
+    testdir, plugin_args
+):
+    """A collected module whose tests were removed is still unused.
+
+    The symlink spelling of the collected path must not look like a module that
+    pytest never collected, or ``pytest`` with no path argument keeps those
+    snapshots.
+    """
+    bar = _tests_behind_symlink(testdir)
+    (bar.parent.parent / "test_bar.py").write_text("", encoding="utf-8")
+
+    result = testdir.runpytest("-v", "--snapshot-details", *plugin_args)
+
+    assert result.ret == 1
+    result.stdout.re_match_lines((r"1 snapshot passed\. 1 snapshot unused\.",))
+    assert "# name: test_bar" in bar.read_text()
+
+
 @pytest.mark.parametrize(
     "selection",
     [

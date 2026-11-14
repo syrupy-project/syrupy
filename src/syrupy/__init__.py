@@ -222,6 +222,19 @@ def pytest_sessionstart(session: Any) -> None:
 
 
 @pytest.hookimpl(tryfirst=True)
+def pytest_collectstart(collector: Any) -> None:
+    """
+    Record every test module pytest collects, including those that yield no test:
+    a module kept out of collection (`--ignore`, `pytest_ignore_collect`) never gets
+    here, which is what tells its snapshots apart from those of a module whose tests
+    were removed.
+    https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_collectstart
+    """
+    if isinstance(collector, pytest.Module):
+        config: Any = collector.config
+        config._syrupy.collect_module(collector.path)
+
+
 def pytest_collection_modifyitems(
     session: Any, config: Any, items: list["pytest.Item"]
 ) -> None:
