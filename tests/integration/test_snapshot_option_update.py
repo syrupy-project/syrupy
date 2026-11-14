@@ -618,6 +618,71 @@ def test_run_without_path_args_does_not_report_ignored_test_snapshots(
     assert "unused" not in result.stdout.str()
 
 
+def _tests_behind_symlink(testdir) -> Path:
+    """Test modules reached only through a directory symlink.
+
+    Pytest collects them via ``os.path.abspath`` (the link is kept). Snapshot
+    ownership resolves that link. The returned path is the ignored/removed
+    module's amber file, which lives on the real directory.
+    """
+    real = Path(testdir.tmpdir).parent / f"{Path(testdir.tmpdir).name}-real"
+    real.mkdir()
+    (real / "test_foo.py").write_text(
+        'def test_foo(snapshot):\n    assert snapshot == "foo"\n',
+        encoding="utf-8",
+    )
+    (real / "test_bar.py").write_text(
+        'def test_bar(snapshot):\n    assert snapshot == "bar"\n',
+        encoding="utf-8",
+    )
+    link = Path(testdir.tmpdir, "tests")
+    try:
+        link.symlink_to(real, target_is_directory=True)
+    except OSError:
+        pytest.skip("directory symlinks are not available")
+    assert testdir.runpytest("-v", "--snapshot-update").ret == 0
+    bar = real / "__snapshots__" / "test_bar.ambr"
+    assert bar.exists()
+    return bar
+
+
+def test_update_without_path_args_preserves_ignored_snapshots_behind_symlink(
+    testdir, plugin_args
+):
+    """``--ignore`` still keeps snapshots when the test dir is a symlink."""
+    bar = _tests_behind_symlink(testdir)
+
+    result = testdir.runpytest(
+        "-v",
+        "--ignore=tests/test_bar.py",
+        "--snapshot-update",
+        *plugin_args,
+    )
+
+    assert result.ret == 0
+    assert "unused" not in result.stdout.str()
+    assert "# name: test_bar" in bar.read_text()
+
+
+def test_run_without_path_args_reports_removed_tests_behind_symlink(
+    testdir, plugin_args
+):
+    """A collected module whose tests were removed is still unused.
+
+    The symlink spelling of the collected path must not look like a module that
+    pytest never collected, or ``pytest`` with no path argument keeps those
+    snapshots.
+    """
+    bar = _tests_behind_symlink(testdir)
+    (bar.parent.parent / "test_bar.py").write_text("", encoding="utf-8")
+
+    result = testdir.runpytest("-v", "--snapshot-details", *plugin_args)
+
+    assert result.ret == 1
+    result.stdout.re_match_lines((r"1 snapshot passed\. 1 snapshot unused\.",))
+    assert "# name: test_bar" in bar.read_text()
+
+
 @pytest.mark.parametrize(
     "selection",
     [

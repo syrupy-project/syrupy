@@ -247,7 +247,7 @@ class SnapshotSession:
             self._collected_items[item.nodeid] = item
 
     def collect_module(self, path: Path) -> None:
-        self._collected_modules.add(str(path))
+        self._collected_modules.add(PyTestLocation.module_path_key(path))
 
     def select_items(self, items: list["pytest.Item"]) -> None:
         for item in self.filter_valid_items(items):

@@ -224,6 +224,19 @@ class PyTestLocation:
         return None
 
     @staticmethod
+    def module_path_key(path: Path) -> str:
+        """
+        Canonical identity of a test module path.
+
+        Pytest records collector paths with ``os.path.abspath``, which keeps
+        directory symlinks. Snapshot ownership resolves the snapshot directory's
+        parent. Resolve the parent here too so those spellings compare equal.
+        The filename itself is not resolved: a symlinked module stays the path
+        pytest collected.
+        """
+        return str(path.parent.resolve() / path.name)
+
+    @staticmethod
     def owning_test_modules(snapshot_location: str) -> list[Path]:
         """
         The test modules on disk that could own this snapshot collection.

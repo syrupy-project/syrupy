@@ -722,7 +722,8 @@ class SnapshotReport:
         """
         modules = PyTestLocation.owning_test_modules(snapshot_location)
         return bool(modules) and not any(
-            str(module) in self.collected_modules for module in modules
+            PyTestLocation.module_path_key(module) in self.collected_modules
+            for module in modules
         )
 
     def _directory_selection_allows_cleanup(self, snapshot_location: str) -> bool:
