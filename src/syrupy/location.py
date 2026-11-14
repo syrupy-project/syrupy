@@ -137,6 +137,10 @@ class PyTestLocation:
     def matches_snapshot_name(self, snapshot_name: str) -> bool:
         return self.__parse(self.snapshot_name) == self.__parse(snapshot_name)
 
+    def matches_snapshot_site(self, snapshot_location: str) -> bool:
+        """Whether ``snapshot_location`` belongs to this test file's snapshot site."""
+        return self._matches_test_site(Path(snapshot_location))
+
     def matches_snapshot_location(self, snapshot_location: str) -> bool:
         loc = Path(snapshot_location)
         if not self._matches_snapshot_basename(loc):
@@ -152,7 +156,9 @@ class PyTestLocation:
             return False
         if not self.is_item_parametrized:
             return True
-        # Parametrized single-file snapshots (see PR #965).
+        # Parametrized single-file snapshots (see PR #965). Truncation stores a
+        # prefix of this id; SingleFileSnapshotExtension.matches_test_location
+        # accepts that prefix because it knows the extension length.
         return (
             loc.stem == self.snapshot_name_parametrized
             or loc.stem.startswith(f"{self.snapshot_name_parametrized}.")

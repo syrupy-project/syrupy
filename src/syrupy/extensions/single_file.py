@@ -170,18 +170,70 @@ class SingleFileSnapshotExtension(AbstractSyrupyExtension):
             f.write(data)
 
     @classmethod
-    def __clean_filename(cls, filename: str) -> str:
-        file_ext_len = len(cls.file_extension) + 1 if cls.file_extension else 0
-        max_filename_length = 255 - file_ext_len
+    def matches_test_location(
+        cls, *, test_location: "PyTestLocation", snapshot_location: str
+    ) -> bool:
+        """
+        Match a single-file snapshot, including one truncated to 255 characters.
+
+        ``PyTestLocation`` requires the filename to start with the full
+        parametrized id. A long id is stored as a prefix of that id, so the
+        generic check never claims the file and unused-snapshot cleanup can
+        delete it.
+        """
+        if test_location.matches_snapshot_location(snapshot_location):
+            return True
+        loc = Path(snapshot_location)
+        if not test_location.is_item_parametrized:
+            return False
+        if test_location.basename != loc.parent.name:
+            return False
+        if not test_location.matches_snapshot_site(snapshot_location):
+            return False
+        stem = cls._snapshot_stem(loc.name)
+        if stem is None:
+            return False
+        sanitized = cls._sanitize_filename(test_location.snapshot_name_parametrized)
+        max_stem = cls._max_stem_length()
+        # Exact budget-length prefix only. ``test[a]`` must not claim the
+        # snapshot for ``test[aaa...]`` just because one id starts the other.
+        if max_stem <= 0 or len(sanitized) <= max_stem:
+            return False
+        return stem == sanitized[:max_stem]
+
+    @classmethod
+    def _snapshot_suffix(cls) -> str:
+        if not cls.file_extension:
+            return ""
+        return f".{cls.file_extension}"
+
+    @classmethod
+    def _max_stem_length(cls) -> int:
+        return 255 - len(cls._snapshot_suffix())
+
+    @classmethod
+    def _snapshot_stem(cls, filename: str) -> str | None:
+        suffix = cls._snapshot_suffix()
+        if not suffix:
+            return filename
+        if not filename.endswith(suffix):
+            return None
+        return filename[: -len(suffix)]
+
+    @classmethod
+    def _sanitize_filename(cls, filename: str) -> str:
         exclude_chars = '\\/?*:|"<>'
         exclude_categ = ("C",)
-        cleaned_filename = "".join(
+        return "".join(
             c
             for c in filename
             if c not in exclude_chars
             and not any(categ in category(c) for categ in exclude_categ)
         )
-        return cleaned_filename[:max_filename_length]
+
+    @classmethod
+    def __clean_filename(cls, filename: str) -> str:
+        return cls._sanitize_filename(filename)[: cls._max_stem_length()]
 
 
 class SingleFileAmberSnapshotExtension(SingleFileSnapshotExtension):

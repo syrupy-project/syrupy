@@ -101,6 +101,13 @@ class SnapshotCollectionStorage(ABC):
             )
         )
 
+    @classmethod
+    def matches_test_location(
+        cls, *, test_location: "PyTestLocation", snapshot_location: str
+    ) -> bool:
+        """Whether this extension stores ``test_location`` at ``snapshot_location``."""
+        return test_location.matches_snapshot_location(snapshot_location)
+
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
         return location.endswith(self.file_extension)
@@ -202,7 +209,9 @@ class SnapshotCollectionStorage(ABC):
             snapshot = Snapshot(name=snapshot_name, data=data)
             snapshot_collection.add(snapshot)
 
-            if not test_location.matches_snapshot_location(snapshot_location):
+            if not cls.matches_test_location(
+                test_location=test_location, snapshot_location=snapshot_location
+            ):
                 warning_msg = gettext(
                     "{line_end}Can not relate snapshot location '{}' "
                     "to the test location.{line_end}"
