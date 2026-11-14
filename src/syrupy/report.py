@@ -66,6 +66,8 @@ class SnapshotReport:
     # True when pytest-xdist worker syrupy reports are incomplete; unused
     # accounting from a partial merge must not be printed or acted on.
     unused_detection_incomplete: bool = False
+    # The test modules pytest collected (whether or not they yielded any test item).
+    collected_modules: set[str] = field(default_factory=set)
 
     # All of these are derived from the initial arguments and via walking the filesystem
     discovered: "SnapshotCollections" = field(default_factory=SnapshotCollections)
@@ -329,6 +331,15 @@ class SnapshotReport:
             ):
                 # Paths/Packages were provided to pytest and the snapshot location does
                 # not match any of ran tests therefore ignore this unused snapshot file
+                continue
+
+            if not self._provided_test_paths and self._owning_module_not_collected(
+                snapshot_location
+            ):
+                # No path was provided, so pytest collected from `testpaths` or the
+                # invocation directory. A test module that exists on disk but was kept
+                # out of collection (`--ignore`, `pytest_ignore_collect`) still owns
+                # these snapshots: they are not unused.
                 continue
 
             provided_nodes = self._get_matching_path_nodes(snapshot_location)
@@ -701,6 +712,17 @@ class SnapshotReport:
             return location.matches_snapshot_location(snapshot_location)
         return extension.matches_test_location(
             test_location=location, snapshot_location=snapshot_location
+        )
+
+    def _owning_module_not_collected(self, snapshot_location: str) -> bool:
+        """
+        True when the test module that owns this snapshot collection exists on disk
+        but was not collected. A module that was collected and yields no test (its
+        tests were removed) is not this case: its snapshots are unused.
+        """
+        modules = PyTestLocation.owning_test_modules(snapshot_location)
+        return bool(modules) and not any(
+            str(module) in self.collected_modules for module in modules
         )
 
     def _directory_selection_allows_cleanup(self, snapshot_location: str) -> bool:

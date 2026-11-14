@@ -93,6 +93,8 @@ class SnapshotSession:
     report: SnapshotReport | None = None
     # All the collected test items, keyed by nodeid to preserve collection order
     _collected_items: dict[str, "pytest.Item"] = field(default_factory=dict)
+    # The paths of the test modules pytest collected, test items or not.
+    _collected_modules: set[str] = field(default_factory=set)
     # All the selected test items. Will be set to False until the test item is run.
     _selected_items: dict[str, ItemStatus] = field(default_factory=dict)
     # True when --lf dropped tests during collection, before they could be recorded.
@@ -244,6 +246,9 @@ class SnapshotSession:
         for item in self.filter_valid_items(items):
             self._collected_items[item.nodeid] = item
 
+    def collect_module(self, path: Path) -> None:
+        self._collected_modules.add(str(path))
+
     def select_items(self, items: list["pytest.Item"]) -> None:
         for item in self.filter_valid_items(items):
             self._selected_items[getattr(item, "nodeid")] = (  # noqa: B009
@@ -253,6 +258,7 @@ class SnapshotSession:
     def start(self) -> None:
         self.report = None
         self._collected_items = {}
+        self._collected_modules = set()
         self._selected_items = {}
         self._lf_filtered = False
         self._assertions = []
@@ -320,6 +326,7 @@ class SnapshotSession:
         payload["collected"] = compress_json(
             [self._serialize_item(item) for item in self._collected_items.values()]
         )
+        payload["collected_modules"] = sorted(self._collected_modules)
         output["syrupy_report"] = payload
 
     def add_worker_report(self, report: dict[str, Any]) -> None:
@@ -363,6 +370,7 @@ class SnapshotSession:
                     _ReconstructedItem(item)  # type: ignore[misc]
                     for item in collected
                 }
+            self.report.collected_modules.update(report.get("collected_modules", ()))
         self.report.selected_items = selected
         self.report._invalidate_selection_caches()
         warn_selected_collected_mismatch(
@@ -385,6 +393,7 @@ class SnapshotSession:
                 assertions=self._assertions,
                 options=self.pytest_session.config.option,
                 lf_filtered=self._lf_filtered,
+                collected_modules=set(self._collected_modules),
                 _extensions=self._extensions,
             )
 

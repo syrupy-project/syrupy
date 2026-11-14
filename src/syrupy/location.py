@@ -224,6 +224,22 @@ class PyTestLocation:
         return None
 
     @staticmethod
+    def owning_test_modules(snapshot_location: str) -> list[Path]:
+        """
+        The test modules on disk that could own this snapshot collection.
+        """
+        path = Path(snapshot_location)
+        test_dir = PyTestLocation._snapshot_collection_test_dir(path)
+        basename = PyTestLocation._owning_test_basename(path)
+        if test_dir is None or basename is None:
+            return []
+        return [
+            module
+            for suffix in (".py", ".pyi")
+            if (module := test_dir / f"{basename}{suffix}").is_file()
+        ]
+
+    @staticmethod
     def owning_test_module_exists(snapshot_location: str) -> bool:
         """
         True when a test module that could own this snapshot collection still
@@ -232,14 +248,7 @@ class PyTestLocation:
         Used to distinguish deleted-test orphans (safe to clean under a directory
         selection) from ignored-but-present tests (must keep their snapshots).
         """
-        path = Path(snapshot_location)
-        test_dir = PyTestLocation._snapshot_collection_test_dir(path)
-        basename = PyTestLocation._owning_test_basename(path)
-        if test_dir is None or basename is None:
-            return False
-        return any(
-            (test_dir / f"{basename}{suffix}").is_file() for suffix in (".py", ".pyi")
-        )
+        return bool(PyTestLocation.owning_test_modules(snapshot_location))
 
     @staticmethod
     def _is_snapshot_dir(path: Path) -> bool:
