@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794680394454,
+  "lastUpdate": 1794685736774,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -21623,6 +21623,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3314846249333372",
             "extra": "mean: 1.2648749826000056 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "db51bd662bf7a6a65ffdd3bee58bba3b05e5dd23",
+          "message": "fix: keep truncated single-file snapshots tied to their tests (#1301)\n\nA long parametrized id is stored as a 255-character prefix. Unused-snapshot\nchecks required the filename to start with the full id, so a skipped test\nlooked orphaned and --snapshot-update could delete the file.",
+          "timestamp": "2026-11-14T14:48:09-05:00",
+          "tree_id": "c319103d89128f4bb5343fec9bd35b790cc83974",
+          "url": "https://github.com/syrupy-project/syrupy/commit/db51bd662bf7a6a65ffdd3bee58bba3b05e5dd23"
+        },
+        "date": 1794685736382,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.278335837617102,
+            "unit": "iter/sec",
+            "range": "stddev: 0.06871045656267251",
+            "extra": "mean: 782.2670463999998 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.1661806633630558,
+            "unit": "iter/sec",
+            "range": "stddev: 0.13307555051967496",
+            "extra": "mean: 857.5000696000046 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.917036759047959,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005218455246700386",
+            "extra": "mean: 521.638406400001 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.1359633840542156,
+            "unit": "iter/sec",
+            "range": "stddev: 0.2605506565755325",
+            "extra": "mean: 880.310064599999 msec\nrounds: 5"
           }
         ]
       }
