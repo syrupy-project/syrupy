@@ -1,7 +1,32 @@
 import pytest
 
 from syrupy.constants import DIFF_LINE_COUNT_LIMIT
+from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.extensions.base import SnapshotReporter
+
+
+@pytest.mark.parametrize(
+    "file_extension, location, expected",
+    [
+        ("json", "test.json", True),
+        ("json", "test.custom.json", True),
+        ("json", "test.ndjson", False),
+        ("json", "testjson", False),
+        ("json", "json", False),
+        ("json", "test.json.bak", False),
+        ("custom.raw", "test.custom.raw", True),
+        ("custom.raw", "test.notcustom.raw", False),
+        ("custom.raw", "testcustom.raw", False),
+        ("custom.raw", "test.raw", False),
+        ("", "test", True),
+        ("", "TestClass.test_example", True),
+        ("", "test.json", True),
+    ],
+)
+def test_is_snapshot_location(file_extension, location, expected):
+    extension = AmberSnapshotExtension()
+    extension.file_extension = file_extension
+    assert extension.is_snapshot_location(location=location) is expected
 
 
 class SnapshotReporterNoContext(SnapshotReporter):
