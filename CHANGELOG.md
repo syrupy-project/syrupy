@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v7.0.2](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.2) (2026-11-16)
+
+## What's Changed
+* chore: update Syrupy version compatibility information by @noahnu in https://github.com/syrupy-project/syrupy/pull/1307
+* chore(deps): update dependency coverage to v7.17.3 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1308
+* fix: require complete snapshot file extensions by @yqia03 in https://github.com/syrupy-project/syrupy/pull/1311
+
+## New Contributors
+* @yqia03 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1311
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v7.0.1...v7.0.2
+
 ## [v7.0.1](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.1) (2026-11-14)
 
 ## What's Changed
