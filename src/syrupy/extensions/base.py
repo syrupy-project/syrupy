@@ -110,7 +110,8 @@ class SnapshotCollectionStorage(ABC):
 
     def is_snapshot_location(self, *, location: str) -> bool:
         """Checks if supplied location is valid for this snapshot extension"""
-        return location.endswith(self.file_extension)
+        fileext = f".{self.file_extension}" if self.file_extension else ""
+        return location.endswith(fileext)
 
     def owns_snapshot_collection(
         self, *, filepath: str, test_location: "PyTestLocation"

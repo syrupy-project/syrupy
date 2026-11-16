@@ -522,6 +522,42 @@ def test_json_update_preserves_neighboring_amber_collection(testdir, plugin_args
     assert Path(testdir.tmpdir, "__snapshots__", "test_json", "test_json.json").exists()
 
 
+def test_json_update_preserves_longer_file_extensions(testdir, plugin_args):
+    test_file = testdir.makepyfile(
+        test_json="""
+        def test_json(snapshot):
+            assert {"value": 1} == snapshot
+        """
+    )
+    snapshot_dir = Path(test_file).parent / "__snapshots__" / "test_json"
+    snapshot_dir.mkdir(parents=True)
+    foreign = snapshot_dir / "test_removed.ndjson"
+    foreign_data = b'{"foreign": true}\n'
+    foreign.write_bytes(foreign_data)
+    unrelated = snapshot_dir / "notes.txt"
+    unrelated.write_text("keep this file\n", encoding="utf-8")
+    stale = snapshot_dir / "test_removed.json"
+    stale.write_text('{"stale": true}\n', encoding="utf-8")
+
+    extension_arg = (
+        "--snapshot-default-extension=syrupy.extensions.json.JSONSnapshotExtension"
+    )
+    result = testdir.runpytest("--snapshot-update", extension_arg, *plugin_args)
+    assert result.ret == 0
+    assert (snapshot_dir / "test_json.json").exists()
+    assert not stale.exists()
+    assert foreign.read_bytes() == foreign_data
+    assert unrelated.read_text(encoding="utf-8") == "keep this file\n"
+    result.stdout.re_match_lines(
+        (r"1 snapshot generated\. 1 unused snapshot deleted\.",)
+    )
+
+    result = testdir.runpytest(extension_arg, *plugin_args)
+    assert result.ret == 0
+    assert "unused" not in result.stdout.str()
+    assert foreign.read_bytes() == foreign_data
+
+
 def test_directory_update_preserves_ignored_test_snapshots(testdir, plugin_args):
     testdir.makepyfile(
         test_foo=(
