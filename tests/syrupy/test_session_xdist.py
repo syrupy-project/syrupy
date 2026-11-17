@@ -348,12 +348,14 @@ def test_merge_warns_when_selected_missing_from_collected():
     assert list(controller.report.ran_items) == []
 
 
-def test_finish_skips_unused_when_worker_reports_incomplete():
+@pytest.mark.parametrize(("limit", "received"), [(2, 1), (1, 0)])
+def test_finish_skips_unused_when_worker_reports_incomplete(limit, received):
     """Missing worker syrupy_report must not delete/fail on unused snapshots."""
     from syrupy.constants import EXIT_STATUS_FAIL_UNUSED
     from syrupy.utils import set_snapshot_file_lock
 
-    controller = _session(xdist=True, numprocesses=2)
+    controller = _session(xdist=True, numprocesses=4)
+    controller.pytest_session.config.option.maxprocesses = limit
     empty_collections = {
         name: {}
         for name in (
@@ -365,28 +367,30 @@ def test_finish_skips_unused_when_worker_reports_incomplete():
             "used",
         )
     }
-    # Only one of two workers reported — unused accounting is incomplete.
-    controller.add_worker_report(
-        {
-            "collections": empty_collections,
-            "num_xfails": 0,
-            "selected": {"test_a.py::test_a": "passed"},
-            "extensions": {},
-            "collected": compress_json(
-                [
-                    {
-                        "nodeid": "test_a.py::test_a",
-                        "name": "test_a",
-                        "path": "/tmp/test_a.py",
-                        "modulename": "test_a",
-                        "methodname": "test_a",
-                    }
-                ]
-            ),
-        }
-    )
+    # Fewer workers reported than the effective limit permits.
+    report = {
+        "collections": empty_collections,
+        "num_xfails": 0,
+        "selected": {"test_a.py::test_a": "passed"},
+        "extensions": {},
+        "collected": compress_json(
+            [
+                {
+                    "nodeid": "test_a.py::test_a",
+                    "name": "test_a",
+                    "path": "/tmp/test_a.py",
+                    "modulename": "test_a",
+                    "methodname": "test_a",
+                }
+            ]
+        ),
+    }
+    if received:
+        controller.add_worker_report(report)
     try:
-        with pytest.warns(UserWarning, match="received 1 of 2 xdist worker"):
+        with pytest.warns(
+            UserWarning, match=f"received {received} of {limit} xdist worker"
+        ):
             exitstatus = controller.finish()
         assert exitstatus & EXIT_STATUS_FAIL_UNUSED == 0
         assert controller.report is not None

@@ -59,6 +59,23 @@ def test_xdist_removes_unused(generated):
     assert "test_a[3]" not in content
 
 
+def test_xdist_maxprocesses_removes_unused(generated):
+    testdir = generated
+    _write(testdir, "[0, 1]")
+    testdir.makeconftest("def pytest_xdist_auto_num_workers(config):\n    return 4\n")
+
+    result = testdir.runpytest_subprocess(
+        "-q", "-n", "auto", "--maxprocesses=2", "--snapshot-update"
+    )
+
+    assert result.ret == 0
+    result.stdout.re_match_lines((r".*4 unused snapshots deleted\.",))
+    result.stdout.no_fnmatch_line("*worker snapshot reports*")
+    content = Path(testdir.tmpdir, "__snapshots__", "test_a.ambr").read_text()
+    assert "test_a[0]" in content
+    assert "test_a[2]" not in content
+
+
 def test_xdist_disable_unused(generated):
     testdir = generated
     _write(testdir, "[0, 1]")
