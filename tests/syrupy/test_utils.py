@@ -17,6 +17,7 @@ from syrupy.utils import (
     walk_snapshot_dir,
     warn_incomplete_worker_reports,
     warn_selected_collected_mismatch,
+    xdist_numprocesses,
 )
 
 
@@ -345,6 +346,28 @@ def test_should_use_snapshot_file_lock_under_xdist() -> None:
     assert not should_use_snapshot_file_lock(_config(xdist=True, numprocesses=None))
     assert should_use_snapshot_file_lock(_config(xdist=True, numprocesses=2))
     assert should_use_snapshot_file_lock(_config(xdist=True, numprocesses="auto"))
+
+
+def test_xdist_numprocesses_honors_maxprocesses() -> None:
+    from types import SimpleNamespace
+
+    def _config(*, numprocesses, maxprocesses=None) -> SimpleNamespace:
+        return SimpleNamespace(
+            option=SimpleNamespace(
+                numprocesses=numprocesses, maxprocesses=maxprocesses
+            ),
+            pluginmanager=SimpleNamespace(
+                hasplugin=lambda name: name in {"xdist", "xdist.plugin"}
+            ),
+        )
+
+    # xdist leaves the uncapped auto count on numprocesses; cap matches workers.
+    assert xdist_numprocesses(_config(numprocesses=12, maxprocesses=4)) == 4
+    assert xdist_numprocesses(_config(numprocesses=4, maxprocesses=2)) == 2
+    assert xdist_numprocesses(_config(numprocesses=4, maxprocesses=1)) == 1
+    assert xdist_numprocesses(_config(numprocesses=4)) == 4
+    assert xdist_numprocesses(_config(numprocesses="auto", maxprocesses=1)) == 1
+    assert xdist_numprocesses(_config(numprocesses=0, maxprocesses=2)) is None
 
 
 def test_compress_json_roundtrip() -> None:

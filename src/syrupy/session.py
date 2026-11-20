@@ -419,11 +419,6 @@ class SnapshotSession:
             # If fewer worker reports arrived than expected, unused accounting is
             # incomplete — skip delete/fail so we do not remove live snapshots.
             expected_workers = xdist_numprocesses(self.pytest_session.config)
-            max_processes = getattr(
-                self.pytest_session.config.option, "maxprocesses", None
-            )
-            if expected_workers is not None and max_processes:
-                expected_workers = min(expected_workers, max_processes)
             if (
                 expected_workers is not None
                 and expected_workers > 0
