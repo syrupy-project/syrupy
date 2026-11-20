@@ -1,10 +1,12 @@
 import datetime
+from collections import namedtuple
 
 import pytest
 
 from syrupy.extensions.json import JSONSnapshotExtension
 from syrupy.filters import (
     paths,
+    paths_include,
     props,
 )
 
@@ -84,3 +86,19 @@ def test_exclude_in_json_with_empty_values(snapshot_json):
         "empty_list": [],
     }
     assert snapshot_json(exclude=props("foo")) == content
+
+
+def test_exclude_namedtuple_field(snapshot_json):
+    Event = namedtuple("Event", "name created_at")
+    content = Event("signup", "__SHOULD_BE_REMOVED_FROM_JSON__")
+    assert snapshot_json(exclude=paths("created_at")) == content
+
+
+def test_exclude_list_item(snapshot_json):
+    content = {"rows": ["header", "__SHOULD_BE_REMOVED_FROM_JSON__"]}
+    assert snapshot_json(exclude=paths("rows.1")) == content
+
+
+def test_include_list_item(snapshot_json):
+    content = {"a": [{"v": 2}, {"v": "__SHOULD_BE_REMOVED_FROM_JSON__"}]}
+    assert snapshot_json(include=paths_include(["a", "0", "v"])) == content
