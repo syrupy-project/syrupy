@@ -27,9 +27,9 @@ Steps to reproduce the behavior:
 
 **Environment (please complete the following information):**
 
-- OS: [e.g. Ubuntu 20.04, Mac OSX 10.14]
-- Syrupy Version: [e.g. 1.0]
-- Python Version: [e.g. 3.9]
+- OS: [e.g. Ubuntu 24.04, macOS, Windows 11]
+- Syrupy Version: [e.g. the latest release]
+- Python Version: [e.g. 3.13]
 
 **Additional context**
 

@@ -22,6 +22,11 @@ source .venv/bin/activate
 
 uv run -m python_githooks
 
-if ! complete -p invoke &>/dev/null; then
-    source <(inv --print-completion-script bash)
+# Install tab completion for the shell that sourced this script.
+if command -v inv &>/dev/null; then
+    if [ -n "${ZSH_VERSION:-}" ]; then
+        source <(inv --print-completion-script zsh)
+    elif [ -n "${BASH_VERSION:-}" ] && ! complete -p invoke &>/dev/null; then
+        source <(inv --print-completion-script bash)
+    fi
 fi

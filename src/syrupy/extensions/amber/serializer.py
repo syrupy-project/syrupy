@@ -314,8 +314,8 @@ class AmberDataSerializer:
         matcher: "PropertyMatcher | None" = None,
     ) -> str:
         """
-        After serializing, new line control characters are normalised. This is needed
-        for interoperablity of snapshot matching between systems that do not use the
+        After serializing, new line control characters are normalized. This is needed
+        for interoperability of snapshot matching between systems that do not use the
         same new line control characters. Example snapshots generated on windows os
         should not break when running the tests on a unix based system and vice versa.
         """

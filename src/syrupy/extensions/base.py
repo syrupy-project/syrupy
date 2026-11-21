@@ -171,7 +171,7 @@ class SnapshotCollectionStorage(ABC):
     ) -> "SerializedData":
         """
         This method is _final_, do not override. You can override
-        `read_snapshot_data_from_location` in a subclass to change behaviour.
+        `read_snapshot_data_from_location` in a subclass to change behavior.
         """
         snapshot_location = self.get_location(test_location=test_location, index=index)
         snapshot_name = self.get_snapshot_name(test_location=test_location, index=index)
@@ -194,7 +194,7 @@ class SnapshotCollectionStorage(ABC):
     ) -> None:
         """
         This method is _final_, do not override. You can override
-        `write_snapshot_collection` in a subclass to change behaviour.
+        `write_snapshot_collection` in a subclass to change behavior.
         """
         if not snapshots:
             return
