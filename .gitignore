@@ -56,6 +56,7 @@ venv.bak/
 .DS_Store
 
 # IDE
-.vscode
+.vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
 !.vscode/settings.json

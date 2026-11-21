@@ -42,6 +42,8 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ### Python 3
 
+- Development requires Python 3.11 or newer. See the compatibility table in the [README](README.md#pytest-and-python-compatibility).
+- [uv](https://docs.astral.sh/uv/) creates the local `.venv` and installs dependencies. `script/bootstrap` does this, and tasks run inside that environment.
 - Python typing and hints: [typing](https://docs.python.org/3/library/typing.html)
 
 ### Snapshot Testing
@@ -52,7 +54,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 - Semantic versioning: [semver](https://semver.org/spec/v2.0.0.html)
 - Releases are cut via the [Release](https://github.com/syrupy-project/syrupy/actions/workflows/release.yaml) workflow (`workflow_dispatch`). Choose a `strategy` of `patch`, `minor`, or `major`; do not create the GitHub release or tag by hand. Release notes are auto-generated from commits/PRs since the previous tag.
-- Stable releases must be dispatched from `main`. Enable `prerelease` to bump an alpha version (e.g. `5.5.3a1`), publish to TestPyPI, and create a GitHub prerelease; prereleases must be dispatched from `next`.
+- Stable releases must be dispatched from `main`. Enable `prerelease` to bump an alpha version (e.g. `X.Y.Za1`), publish to TestPyPI, and create a GitHub prerelease; prereleases must be dispatched from `next`.
 
 ## How Can I Contribute
 
@@ -77,8 +79,8 @@ Have an issue to submit code changes for? See below.
 #### Local development
 
 - Clone the repository
-- Run `. script/bootstrap` to ensure you're working from the correct environment
-- Run `inv test` to verify environment is correctly setup
+- Run `. script/bootstrap` to create a `.venv` with uv and install development dependencies. Tasks run inside that environment
+- `inv` is the short form of `invoke`. Run `inv --list` to see available commands, then `inv test` to verify the environment is set up
 - Checkout a new branch and add code changes
 - Add tests to verify code changes and rerun `inv test`
 - See submitting [pull requests](#pull-requests)
@@ -91,7 +93,7 @@ Fill in the relevant sections, clearly linking the issue the change is attemptin
 
 ### Debugging
 
-`debugpy` is installed in local development. A VSCode launch config is provided. Run `inv test -v -d` to enable the debugger (`-d` for debug). It'll then wait for you to attach your VSCode debugging client.
+`debugpy` is installed in local development. Run `inv test -v -d` to enable the debugger (`-d` for debug). It listens on port 5678 and waits for a client. The VS Code launch config in [`.vscode/launch.json`](.vscode/launch.json) attaches to that port.
 
 #### Debugging Performance Issues
 
@@ -139,6 +141,8 @@ A linter is available to catch most of our styling concerns.
 This is provided in a pre-commit hook when setting up [local development](#local-development).
 
 You can also run `inv lint --fix` to see and solve what issues it can.
+
+Write US English in docs, comments, and docstrings. Do not rename identifiers, flags, or environment variables to match.
 
 ### Usage of Pathlib
 

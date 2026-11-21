@@ -8,7 +8,7 @@
 
 ## Overview
 
-Syrupy is a zero-dependency [pytest](https://docs.pytest.org/en/latest/) snapshot plugin that enables developers to write tests which assert immutability of computed results. It is open source and MIT licensed, with over 43 members of the open source community having contributed code, reported issues, or provided other feedback.
+Syrupy is a zero-dependency [pytest](https://docs.pytest.org/en/latest/) snapshot plugin that enables developers to write tests which assert immutability of computed results. It is open source and MIT licensed, with contributions from the community listed under [Contributors](#contributors).
 
 Day-to-day maintenance, issue triage, and development are led by me, Noah. Contributions are always welcome and greatly appreciated. If you find Syrupy (or any of my other projects) useful, consider supporting my work through [GitHub Sponsors](https://github.com/sponsors/noahnu).
 
@@ -32,14 +32,14 @@ python -m pip install syrupy
 
 Syrupy will always be compatible with the latest version of Python and Pytest. If you're running an old version of Python or Pytest, you will need to use an older major version of Syrupy:
 
-| Syrupy Version     | Python Support | Pytest Support |
-| ------------------ | -------------- | -------------- |
-| 7.x.x (latest)     | >=3.11         | >=8            |
-| 6.x.x              | >=3.10         | >=8
-| 5.x.x              | >=3.10         | >=8,   <9      |
-| 4.x.x              | >=3.8.1,       | >=7,   <9      |
-| 3.x.x              | >=3.7, <4      | >=5.1, <8      |
-| 2.x.x              | >=3.6, <4      | >=5.1, <8      |
+| Syrupy Version | Python Support | Pytest Support |
+| -------------- | -------------- | -------------- |
+| 7.x.x (latest) | >=3.11         | >=8            |
+| 6.x.x          | >=3.10         | >=8            |
+| 5.x.x          | >=3.10         | >=8, <9        |
+| 4.x.x          | >=3.8.1        | >=7, <9        |
+| 3.x.x          | >=3.7, <4      | >=5.1, <8      |
+| 2.x.x          | >=3.6, <4      | >=5.1, <8      |
 
 ## Usage
 
@@ -71,7 +71,7 @@ pytest --snapshot-update -m syrupy_snapshot
 
 #### Usage in `unittest.TestCase` subclasses
 
-[Due to limitations in `unittest` and `pytest`](https://docs.pytest.org/en/9.0.x/how-to/unittest.html#pytest-features-in-unittest-testcase-subclasses), the `snapshot` fixture is not directly usable in `TestCase` subclasses (including Django's `TestCase`).
+[Due to limitations in `unittest` and `pytest`](https://docs.pytest.org/en/stable/how-to/unittest.html#pytest-features-in-unittest-testcase-subclasses), the `snapshot` fixture is not directly usable in `TestCase` subclasses (including Django's `TestCase`).
 
 Possible workarounds include using marks:
 
@@ -119,7 +119,7 @@ The default serializer supports all python built-in types and provides a sensibl
 
 #### Representation
 
-If you need to customise your object snapshot, it is as easy as overriding the default `__repr__` implementation.
+If you need to customize your object snapshot, it is as easy as overriding the default `__repr__` implementation.
 
 ```python
 def __repr__(self) -> str:
@@ -129,6 +129,9 @@ def __repr__(self) -> str:
 If you need to bypass a custom object representation to use the amber standard, it is easy using the following helpers.
 
 ```python
+from syrupy.extensions.amber import AmberDataSerializer
+
+
 def test_object_as_named_tuple(snapshot):
     assert snapshot == AmberDataSerializer.object_as_named_tuple(obj_with_custom_repr)
 ```
@@ -382,7 +385,7 @@ It should return `true` if the property should be included, or `false` if the pr
 | Argument | Description                                                                                                                                   |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `prop`   | Current property on the object, could be any hashable value that can be used to retrieve a value e.g. `1`, `"prop_str"`, `SomeHashableObject` |
-| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }`}
+| `path`   | Ordered path traversed to the current value e.g. `(("a", dict), ("b", dict))` from `{ "a": { "b": { "c": 1 } } }` |
 
 Note that `include` has some caveats which make it a bit more difficult to use than `exclude`. Both `include` and `exclude` are evaluated for each key of an object before traversing down nested paths. This means if you want to include a nested path, you must include all parents of the nested path, otherwise the nested child will never be reached to be evaluated against the include predicate. For example:
 
@@ -440,19 +443,19 @@ Syrupy comes with a few built-in preset configurations for you to choose from. Y
 **Amber Extensions**
 
 - **`AmberSnapshotExtension`**: This is the default extension which generates `.ambr` files. Serialization of most data types are supported, including stdlib dataclasses. For attrs and Pydantic models, see the [serializer plugins example](https://github.com/syrupy-project/syrupy/blob/main/tests/syrupy/extensions/amber/test_amber_serializer_plugins.py).
-  - Line control characters are normalised when snapshots are generated i.e. `\r` and `\n` characters are all written as `\n`. This is to allow interoperability of snapshots between operating systems that use disparate line control characters.
+  - Line control characters are normalized when snapshots are generated i.e. `\r` and `\n` characters are all written as `\n`. This is to allow interoperability of snapshots between operating systems that use disparate line control characters.
 - **`SingleFileAmberSnapshotExtension`**: A variant of the `AmberSnapshotExtension` which writes 1 snapshot per file.
 
 **Other Formats**
 
-- **`SingleFileSnapshotExtension`**: This extension creates one `.raw` file per test case. Note that the default behaviour of the SingleFileSnapshotExtension is to write raw bytes to disk. There is no further "serialization" that happens. The `SingleFileSnapshotExtension` is mostly used as a building block for other extensions such as the image extensions, the JSON extension, as well as the `SingleFileAmberSnapshotExtension` extension. In the default "binary" mode, attempting to serialize a non-byte-like object will throw a TypeError.
+- **`SingleFileSnapshotExtension`**: This extension creates one `.raw` file per test case. Note that the default behavior of the SingleFileSnapshotExtension is to write raw bytes to disk. There is no further "serialization" that happens. The `SingleFileSnapshotExtension` is mostly used as a building block for other extensions such as the image extensions, the JSON extension, as well as the `SingleFileAmberSnapshotExtension` extension. In the default "binary" mode, attempting to serialize a non-byte-like object will throw a TypeError.
 - **`PNGImageSnapshotExtension`**: An extension of single file, this should be used to produce `.png` files from a byte string.
 - **`SVGImageSnapshotExtension`**: Another extension of single file. This produces `.svg` files from an svg string.
 - **`JSONSnapshotExtension`**: Another extension of single file. This produces `.json` files from dictionaries and lists.
 
 #### `name`
 
-By default, if you make multiple snapshot assertions within a single test case, an auto-increment identifier will be used to index the snapshots. You can override this behaviour by specifying a custom snapshot name to use in place of the auto-increment number.
+By default, if you make multiple snapshot assertions within a single test case, an auto-increment identifier will be used to index the snapshots. You can override this behavior by specifying a custom snapshot name to use in place of the auto-increment number.
 
 ```py
 def test_case(snapshot):
@@ -464,7 +467,7 @@ def test_case(snapshot):
 
 ### Advanced Usage
 
-By overriding the provided [`AbstractSyrupyExtension`](https://github.com/syrupy-project/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviours.
+By overriding the provided [`AbstractSyrupyExtension`](https://github.com/syrupy-project/syrupy/tree/main/src/syrupy/extensions/base.py) you can implement varied custom behaviors.
 
 See examples of how syrupy can be used and extended in the [test examples](https://github.com/syrupy-project/syrupy/tree/main/tests/examples).
 
@@ -530,19 +533,17 @@ The generated snapshot:
 Or a case where the value needs to be replaced using a condition e.g. file path string
 
 ```py
-import re
-
-from syrupy.matchers import path_type
+from syrupy.matchers import path_value
 
 
-def test_matches_generated_string_value(snapshot, tmp_file):
+def test_matches_generated_string_value(snapshot_json, tmp_file):
     matcher = path_value(
         mapping={"file_path": r"\w+://(.*/)+dir/filename.txt"},
         replacer=lambda _, match: match[0].replace(match[1], "<tmp-file-path>/"),
         types=(str,),
     )
 
-    assert snapshot(matcher=matcher) == tmp_file
+    assert snapshot_json(matcher=matcher) == tmp_file
 ```
 
 The generated snapshot:
@@ -632,9 +633,9 @@ If you have decided not to use Syrupy for your project after giving us a try, we
 
 Feel free to open a PR or GitHub issue. Contributions welcome!
 
-To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `invoke --list` to see available commands.
+To develop locally, clone this repository and run `. script/bootstrap` to install test dependencies. You can then use `inv --list` to see available commands. `inv` is the short form of `invoke`.
 
-### See contributing [guide](https://github.com/syrupy-project/syrupy/tree/main/CONTRIBUTING.md)
+See the [contributing guide](CONTRIBUTING.md), the [code of conduct](CODE_OF_CONDUCT.md), and the [security policy](SECURITY.md).
 
 ## Contributors
 
@@ -705,6 +706,8 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/anticipate218"><img src="https://avatars.githubusercontent.com/u/185322635?v=4&size=100" width="100px" height="100px" alt="anticipate218"/><br /><sub><b>anticipate218</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Aanticipate218" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Culaii"><img src="https://avatars.githubusercontent.com/u/121720916?v=4&size=100" width="100px" height="100px" alt="Furca Nicolae"/><br /><sub><b>Furca Nicolae</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3ACulaii" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/yqia03"><img src="https://avatars.githubusercontent.com/u/176992144?v=4&size=100" width="100px" height="100px" alt="UWay"/><br /><sub><b>UWay</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Ayqia03" title="Bug reports">🐛</a></td>
+    </tr>
+    <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/agustin18"><img src="https://avatars.githubusercontent.com/u/23065192?v=4&size=100" width="100px" height="100px" alt="agustin18"/><br /><sub><b>agustin18</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Aagustin18" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>

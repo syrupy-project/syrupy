@@ -3,7 +3,7 @@
 Here we modify snapshot defaults globally, instead of per assert.
 This gives the ability to modify the snapshot functionality to your hearts content
 and then simply re-use them, without having to pass those defaults to every assert.
-Especially useful if there's a lot of tests that need to modify the default behaviour.
+Especially useful if there's a lot of tests that need to modify the default behavior.
 """
 
 import pytest

@@ -38,7 +38,7 @@ def _write_collection(
     snapshot_collection: SnapshotCollection,
     name_order: dict[str, int] | None = None,
 ) -> None:
-    """Write amber bytes without locking (pre-#1237 behaviour)."""
+    """Write amber bytes without locking (pre-#1237 behavior)."""
     with open(filepath, "w", encoding=TEXT_ENCODING, newline=None) as f:
         f.write(
             f"{AmberDataSerializer._marker_prefix}"
