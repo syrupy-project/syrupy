@@ -705,6 +705,7 @@ To develop locally, clone this repository and run `. script/bootstrap` to instal
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/anticipate218"><img src="https://avatars.githubusercontent.com/u/185322635?v=4&size=100" width="100px" height="100px" alt="anticipate218"/><br /><sub><b>anticipate218</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Aanticipate218" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Culaii"><img src="https://avatars.githubusercontent.com/u/121720916?v=4&size=100" width="100px" height="100px" alt="Furca Nicolae"/><br /><sub><b>Furca Nicolae</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3ACulaii" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/yqia03"><img src="https://avatars.githubusercontent.com/u/176992144?v=4&size=100" width="100px" height="100px" alt="UWay"/><br /><sub><b>UWay</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Ayqia03" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/agustin18"><img src="https://avatars.githubusercontent.com/u/23065192?v=4&size=100" width="100px" height="100px" alt="agustin18"/><br /><sub><b>agustin18</b></sub></a><br /><a href="https://github.com/syrupy-project/syrupy/issues?q=author%3Aagustin18" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
