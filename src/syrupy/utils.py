@@ -42,6 +42,10 @@ def xdist_numprocesses(config: Any) -> int | None:
 
     Returns ``None`` when xdist is not active (or ``-n 0`` / unset).
     ``auto`` / ``logical`` are treated as multi-worker (``> 1``).
+
+    Honors ``--maxprocesses`` when set. xdist leaves the uncapped auto count on
+    ``option.numprocesses`` and only applies the cap when spawning workers, so
+    callers that need the real worker count must apply it here.
     """
     if not (
         config.pluginmanager.hasplugin("xdist")
@@ -53,11 +57,18 @@ def xdist_numprocesses(config: Any) -> int | None:
         return None
     if isinstance(numprocesses, str):
         # "auto", "logical", etc. — assume concurrent workers.
-        return 2
-    try:
-        value = int(numprocesses)
-    except (TypeError, ValueError):
-        return 2
+        value = 2
+    else:
+        try:
+            value = int(numprocesses)
+        except (TypeError, ValueError):
+            value = 2
+        if value <= 0:
+            return None
+
+    max_processes = getattr(config.option, "maxprocesses", None)
+    if max_processes:
+        value = min(value, max_processes)
     return value if value > 0 else None
 
 
