@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795186370488,
+  "lastUpdate": 1795277040820,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -22091,6 +22091,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.2816651966560711",
             "extra": "mean: 802.8845968000041 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f60c399c88621c21b31877c70c704fceebca94c",
+          "message": "refactor: apply xdist maxprocesses in xdist_numprocesses (#1318)\n\nKeep the effective worker count in one place so finish() and other\ncallers match the workers xdist actually spawns.",
+          "timestamp": "2026-11-21T11:03:09-05:00",
+          "tree_id": "234b6375d9188b62af3a9d629ddc1c636b479f62",
+          "url": "https://github.com/syrupy-project/syrupy/commit/7f60c399c88621c21b31877c70c704fceebca94c"
+        },
+        "date": 1795277040301,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.0082213352007399,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0983866227524568",
+            "extra": "mean: 991.8457040000021 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8786383207590512,
+            "unit": "iter/sec",
+            "range": "stddev: 0.19695529804457984",
+            "extra": "mean: 1.1381247282000004 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.4785314808622785,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003228189680411755",
+            "extra": "mean: 676.346775799999 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8906487316137801,
+            "unit": "iter/sec",
+            "range": "stddev: 0.34217900386098565",
+            "extra": "mean: 1.1227771000000017 sec\nrounds: 5"
           }
         ]
       }
