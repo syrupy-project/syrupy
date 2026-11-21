@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 <!-- MARKER -->
 
+## [v7.0.3](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.3) (2026-11-21)
+
+## What's Changed
+* chore(deps): update dependency ruff to v0.17.5 by @renovate[bot] in https://github.com/syrupy-project/syrupy/pull/1309
+* fix: honor xdist maxprocesses when checking worker reports by @agustin18 in https://github.com/syrupy-project/syrupy/pull/1313
+* docs: add agustin18 as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1316
+* refactor: apply xdist maxprocesses in xdist_numprocesses by @noahnu in https://github.com/syrupy-project/syrupy/pull/1318
+* docs: add yqia03 as a contributor for bug by @allcontributors[bot] in https://github.com/syrupy-project/syrupy/pull/1317
+
+## New Contributors
+* @agustin18 made their first contribution in https://github.com/syrupy-project/syrupy/pull/1313
+
+**Full Changelog**: https://github.com/syrupy-project/syrupy/compare/v7.0.2...v7.0.3
+
 ## [v7.0.2](https://github.com/syrupy-project/syrupy/releases/tag/v7.0.2) (2026-11-16)
 
 ## What's Changed
