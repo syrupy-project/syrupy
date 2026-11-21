@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795277040820,
+  "lastUpdate": 1795279844635,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -22143,6 +22143,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.34217900386098565",
             "extra": "mean: 1.1227771000000017 sec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "noahnu@gmail.com",
+            "name": "Noah",
+            "username": "noahnu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d3a6f887ac9bf17f5fa46d42457db363cedc410a",
+          "message": "docs: refresh contributor docs and adopt Contributor Covenant 3.0 (#1319)\n\nKeep the public docs accurate and consistent: update the code of conduct, fix stale setup guidance, and correct the contributors table layout.",
+          "timestamp": "2026-11-21T11:50:02-05:00",
+          "tree_id": "277d8d7d9f19d26312f7a3930ad86643091dcfab",
+          "url": "https://github.com/syrupy-project/syrupy/commit/d3a6f887ac9bf17f5fa46d42457db363cedc410a"
+        },
+        "date": 1795279843966,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 1.4948078091413513,
+            "unit": "iter/sec",
+            "range": "stddev: 0.09976639302462739",
+            "extra": "mean: 668.9823226000009 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 1.19710250111971,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1922729168388906",
+            "extra": "mean: 835.3503556000007 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 2.0521137673091765,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0024847081921853657",
+            "extra": "mean: 487.3024175999973 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 1.2644376532217407,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3714050132144303",
+            "extra": "mean: 790.8654076000005 msec\nrounds: 5"
           }
         ]
       }
