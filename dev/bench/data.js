@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795378314349,
+  "lastUpdate": 1795379845510,
   "repoUrl": "https://github.com/syrupy-project/syrupy",
   "entries": {
     "Benchmark": [
@@ -22247,6 +22247,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.3912795148263774",
             "extra": "mean: 815.6543080000006 msec\nrounds: 5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1d622a6af4e5baa87aca655d5b0c89e104369005",
+          "message": "chore(deps): update dependency ruff to v0.17.6 (#1321)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-11-22T15:36:32-05:00",
+          "tree_id": "b1d0d2d6d7f578f2fa339d6ce43dfc2f4e8bd299",
+          "url": "https://github.com/syrupy-project/syrupy/commit/1d622a6af4e5baa87aca655d5b0c89e104369005"
+        },
+        "date": 1795379844802,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_reads",
+            "value": 0.9580648924365254,
+            "unit": "iter/sec",
+            "range": "stddev: 0.1105759089617334",
+            "extra": "mean: 1.043770633799999 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_1000x.py::test_1000x_writes",
+            "value": 0.8455482604830912,
+            "unit": "iter/sec",
+            "range": "stddev: 0.20914420139247472",
+            "extra": "mean: 1.1826646055999988 sec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_partial_selection.py::test_partial_selection_teardown",
+            "value": 1.4318561327224053,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0038927893592194678",
+            "extra": "mean: 698.3941872000003 msec\nrounds: 5"
+          },
+          {
+            "name": "benchmarks/test_standard.py::test_standard",
+            "value": 0.8466267979462594,
+            "unit": "iter/sec",
+            "range": "stddev: 0.3867748222327971",
+            "extra": "mean: 1.1811579817999998 sec\nrounds: 5"
           }
         ]
       }
