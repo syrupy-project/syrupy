@@ -47,6 +47,17 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
             isinstance(n, (str,)) for n in getattr(obj, "_fields", [None])
         )
 
+    @staticmethod
+    def _is_filtered_out(
+        key: Any,
+        path: "PropertyPath",
+        exclude: "PropertyFilter | None",
+        include: "PropertyFilter | None",
+    ) -> bool:
+        if exclude and exclude(prop=key, path=path):
+            return True
+        return bool(include and not include(prop=key, path=path))
+
     @classmethod
     def _filter(
         cls,
@@ -79,9 +90,7 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
             )
             for key in keys:
                 value = data[key]
-                if exclude and exclude(prop=key, path=path):
-                    continue
-                if include and not include(prop=key, path=path):
+                if cls._is_filtered_out(key, path, exclude, include):
                     continue
                 if not isinstance(key, (str,)):
                     continue
@@ -99,6 +108,8 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
         if cls.__is_namedtuple(data):
             filtered_dct = OrderedDict()
             for key in cls.sort(data._fields):
+                if cls._is_filtered_out(key, path, exclude, include):
+                    continue
                 value = getattr(data, key)
                 filtered_dct[key] = cls._filter(
                     data=value,
@@ -117,6 +128,8 @@ class JSONSnapshotExtension(SingleFileSnapshotExtension):
                 cls.sort(data) if isinstance(data, (set, frozenset)) else list(data)
             )
             for key, value in enumerate(iterable):
+                if cls._is_filtered_out(key, path, exclude, include):
+                    continue
                 filtered_lst.append(
                     cls._filter(
                         data=value,
